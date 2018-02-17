@@ -60,3 +60,28 @@ def html_table(tbl):
                         .join('<td>{}</td>'
                               .format('</td><td>'
                                       .join(str(_) for _ in row)) for row in tbl)))
+
+
+def plot2d(i, j, df, label='', f=15):   # 80216
+    import matplotlib.pyplot as plt
+    if type(label) == str and label != '':
+        if label == 'cluster_words':
+            header = 'Cluster words'
+        else: header = 'Words'
+        print(header, 'in vector space, axes', i, 'and', j)
+    font = {'size': f}
+    plt.rc('font', **font)
+    plt.figure(figsize=(9,6))
+    plt.scatter(df[i].values, df[j].values)
+    #plt.axis('off')
+    plt.xlim(round(df[i].min()-0.2,1), round(df[i].max()+0.1,1))
+    plt.ylim(round(df[j].min()-0.1,1), round(df[j].max()+0.2,1))
+    k = df.index.min()  # ~ 1st row index (usually 0 or 1)
+    for n, wlst in enumerate(df[label]):
+        x, y = df[i][n+k], df[j][n+k]
+        plt.scatter(x, y)
+        annot = {'has': (1, 50), 'is': (1, 5)}
+        plt.annotate(wlst, xy=(x, y),
+            xytext=annot.get(' '.join(w for w in wlst),(1+n*2, 6*n)),
+            textcoords='offset points', ha='right', va='bottom', )
+    #plt.show()

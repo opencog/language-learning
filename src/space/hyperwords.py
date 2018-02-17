@@ -314,6 +314,7 @@ def epmisvd(links,path,tmpath,dim=100,cds=1.0,eig=0.5,neg=1,verbose='none'):
     if verbose == 'max':
         print('SVD started: dim', dim, ', output:', svd_path+'...')
     explicit = PositiveExplicit(pmi_path, normalize=False, neg=neg)
+    #print('explicit.m:', explicit.m)
     ut, s, vt = sparsesvd(explicit.m.tocsc(), dim)
     np.save(svd_path + '.ut.npy', ut)
     np.save(svd_path + '.s.npy', s)
@@ -326,6 +327,7 @@ def epmisvd(links,path,tmpath,dim=100,cds=1.0,eig=0.5,neg=1,verbose='none'):
 
     '''SVD => vectors.txt'''
     svd = SVDEmbedding(svd_path, True, eig)   # TODO: move code here, RAM2RAM
+    if len(svd.m[0]) < dim: dim = len(svd.m[0])   # 80216
     vectors_df = pd.DataFrame(columns=['word'] + list(range(1,dim+1)))
     for i, w in enumerate(svd.iw):
         vectors_df.loc[i] = [w] + svd.m[i].tolist()

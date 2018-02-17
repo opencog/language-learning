@@ -41,3 +41,32 @@ def parses2vec(parses,path,tmpath,dim=100,cds=1.0,eig=0.5,neg=1,verbose='none'):
     vectors, res2 = epmisvd(links, path, tmpath, dim, cds, eig, neg, verbose)
     response.update(res2)
     return vectors, response
+
+def dumb_disjuncter(input_file, lw='#LW#', dot=True, verbose='none'):    # 80216 POC-Turtle-3
+    djs = pd.DataFrame(columns=['word','disjunct','count'])
+    djs['count'] = djs['count'].astype(int)
+    i = 0
+    with open(input_file, 'r') as f: sentences = f.readlines()
+    for j,sentence in enumerate(sentences):
+        if len(sentence) > 1:
+            #?if sentence[-1] != '.': sentence = sentence + '.'
+            if dot == True:
+                sentence = sentence.replace('.', ' .').replace('  ', ' ')
+            else: sentence = sentence.replace('.', '')
+            if type(lw) == str and lw != 'none':
+                sentence = '#LW# ' + sentence
+            #-print(sentence)
+            words = sentence.split()
+            #-print(words)
+            for k,word in enumerate(words):
+                #-print(k, word)
+                if k == 0: disjunct = ''
+                else: disjunct = words[k-1] + '-'
+                if k < len(words)-1:
+                    disjunct = disjunct + words[k+1] + '+'
+                #-print(disjunct)
+                djs.loc[i] = [word, disjunct, 1]
+                i += 1
+        elif verbose == 'max': print('Empty line - EOF?', input_file)
+    djs['count'] = djs['count'].astype(int)
+    return djs

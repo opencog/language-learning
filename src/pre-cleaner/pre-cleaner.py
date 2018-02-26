@@ -2,7 +2,6 @@
 # coding=utf-8
 
 # ASuMa, Feb 2018
-# TODO: need to implement invalidating tokens correctly (it's commented now)
 
 import sys, getopt
 import re
@@ -10,6 +9,9 @@ import re
 def main(argv):
 	"""
 		PreCleaner takes two mandatory arguments and several optional ones:
+
+		"Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] 
+		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q]"
 
 		inputfile 			Name of inputfile
 		outputfile			Name of ouputfile
@@ -66,7 +68,7 @@ def main(argv):
 		elif opt in ("-x", "--sentence_symbols"):
 			sentence_invalid_symbols = arg
 		elif opt in ("-y", "--sentence_tokens"):
-			sentence_invalid_tokens = arg
+			sentence_invalid_tokens = arg.split()
 		elif opt in ("-z", "--token_symbols"):
 			token_invalid_symbols = arg
 		elif opt in ("-U", "--Uppercase"):
@@ -160,11 +162,10 @@ def Ignore_Invalid_Sentence(tokenized_sentence, invalidating_symbols, invalidati
 		Determines if tokenized_sentence should be ignored, 
 		if it contains invalidating_tokens or invalidating_symbols 
 	"""
-	#for token in tokenized_sentence:
-	#	print(token)
-	#	if token in invalidating_tokens:
-	#		print("ignora")
-	#		return True
+	for token in tokenized_sentence:
+		if token in invalidating_tokens:
+			print("ignora")
+			return True
 	dummy = Remove_Invalid_Tokens(tokenized_sentence, invalidating_symbols)	
 	if len(dummy) < len(tokenized_sentence):
 		return True
@@ -184,10 +185,10 @@ def Normalize_Sentence(sentence, convert_quotes_to_spaces):
 
 	# Normalize apostrophes, dashes and quotes obtained from Wikipedia Apostrophe page
 	sentence = re.sub(r"[\`]|’", "'", sentence)
-	sentence = re.sub(r"-{2,}|‒|–|—|―|‐|-|−", "-", sentence)
-	sentence = re.sub(r"\'\'|“|”", '"', sentence)
+	sentence = re.sub(r"-{2,}|‒|–|—|―|‐|-|−", "-", sentence) # some dashes look the same, but they are apparently different
+	sentence = re.sub(r"\'\'|“|”", '\\"', sentence)
 	if convert_quotes_to_spaces == True:
-		sentence = re.sub(r'"', " ", sentence)
+		sentence = re.sub(r'\\"|"', " ", sentence) # sentence splitter escapes double quotes, as apparently needed by guile
 	return sentence
 
 def Prepare_Suffix_List(suffix_list):

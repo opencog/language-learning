@@ -11,7 +11,7 @@ def main(argv):
 		PreCleaner takes two mandatory arguments and several optional ones:
 
 		"Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] 
-		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q]"
+		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-N]"
 
 		inputfile 			Name of inputfile
 		outputfile			Name of ouputfile
@@ -27,6 +27,7 @@ def main(argv):
 		token_symbols 		symbols invalidating tokens
 		-U 					flag to keep uppercase letters (default is to convert to lowercase)
 		-q 					flag to keep quotes (default is to convert them to spaces)
+		-n 					keep numbers (default converts them to number_was_here token)
 		]
 	"""
 	inputfile = ''
@@ -40,13 +41,14 @@ def main(argv):
 	token_invalid_symbols = []
 	convert_lowercase = True
 	convert_quotes_to_spaces = True
+	convert_numbers_to_tokens = True
 	try:
-		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:Uq",["ifile=",
+		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:Uqn",["ifile=",
 			"ofile=", "chars_invalid=" "suffixes=", "sen_length=", 
 			"token_length=", "sentence_symbols=", "sentence_tokens=", 
-			"token_symbols=" "Uppercase", "quotes"])
+			"token_symbols=" "Uppercase", "quotes", "numbers"])
 	except getopt.GetoptError:
-		print("Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q]")
+		print("Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n]")
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
@@ -75,6 +77,8 @@ def main(argv):
 			convert_lowercase = False
 		elif opt in ("-q", "--quotes"):
 			convert_quotes_to_spaces = False
+		elif opt in ("-n", "--numbers"):
+			convert_numbers_to_tokens = False
 
 	sentences = Load_Files(inputfile)
 
@@ -82,6 +86,8 @@ def main(argv):
 	for sentence in sentences:
 		temp_sentence = Normalize_Sentence(sentence, convert_quotes_to_spaces)
 		temp_sentence = Remove_Suffixes(temp_sentence, new_suffix_list)
+		if convert_numbers_to_tokens == True:
+			temp_sentence = Substitute_Numbers(temp_sentence)
 		tokenized_sentence = Naive_Tokenizer(temp_sentence)
 		if Ignore_Long_Sentence(tokenized_sentence, max_tokens) == True:
 			continue
@@ -189,6 +195,20 @@ def Normalize_Sentence(sentence, convert_quotes_to_spaces):
 	sentence = re.sub(r"\'\'|“|”", '\\"', sentence)
 	if convert_quotes_to_spaces == True:
 		sentence = re.sub(r'\\"|"', " ", sentence) # sentence splitter escapes double quotes, as apparently needed by guile
+	return sentence
+
+def Substitute_Dates(sentence):
+	"""
+		Substitutes all dates with special token
+	"""
+	sentence = re.sub(r"(\d+[.,';]?)+|[.,]\d*", 'number_was_here', sentence) # two cases handle trailing/leading decimal mark
+	return sentence
+
+def Substitute_Numbers(sentence):
+	"""
+		Substitutes all numbers with special token
+	"""
+	sentence = re.sub(r"(\d+[.,';]?)+|[.,]\d*", 'number_was_here', sentence) # two cases handle trailing/leading decimal mark
 	return sentence
 
 def Prepare_Suffix_List(suffix_list):

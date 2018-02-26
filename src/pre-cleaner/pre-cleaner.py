@@ -42,13 +42,14 @@ def main(argv):
 	convert_lowercase = True
 	convert_quotes_to_spaces = True
 	convert_numbers_to_tokens = True
+	convert_dates_to_tokens = True
 	try:
-		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:Uqn",["ifile=",
+		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:Uqnd",["ifile=",
 			"ofile=", "chars_invalid=" "suffixes=", "sen_length=", 
 			"token_length=", "sentence_symbols=", "sentence_tokens=", 
-			"token_symbols=" "Uppercase", "quotes", "numbers"])
+			"token_symbols=" "Uppercase", "quotes", "numbers", "dates"])
 	except getopt.GetoptError:
-		print("Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n]")
+		print("Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d]")
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
@@ -79,6 +80,8 @@ def main(argv):
 			convert_quotes_to_spaces = False
 		elif opt in ("-n", "--numbers"):
 			convert_numbers_to_tokens = False
+		elif opt in ("-d", "--dates"):
+			convert_dates_to_tokens = False
 
 	sentences = Load_Files(inputfile)
 
@@ -86,6 +89,8 @@ def main(argv):
 	for sentence in sentences:
 		temp_sentence = Normalize_Sentence(sentence, convert_quotes_to_spaces)
 		temp_sentence = Remove_Suffixes(temp_sentence, new_suffix_list)
+		if convert_dates_to_tokens == True:
+			temp_sentence = Substitute_Dates(temp_sentence)
 		if convert_numbers_to_tokens == True:
 			temp_sentence = Substitute_Numbers(temp_sentence)
 		tokenized_sentence = Naive_Tokenizer(temp_sentence)
@@ -199,9 +204,31 @@ def Normalize_Sentence(sentence, convert_quotes_to_spaces):
 
 def Substitute_Dates(sentence):
 	"""
-		Substitutes all dates with special token
+		Substitutes all dates with special token. Formats taken from http://php.net/manual/en/datetime.formats.date.php
 	"""
-	sentence = re.sub(r"(\d+[.,';]?)+|[.,]\d*", 'number_was_here', sentence) # two cases handle trailing/leading decimal mark
+	print(sentence)
+	daysuf = r"(st|nd|rd|th)"
+	dd = r"([0-2]?[0-9]|3[01])" + daysuf + r"?"
+	DD = r"(0[1-9]|[1-2][0-9]|3[01])"
+	m = r"(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII)"
+	mm = r"(0?[0-9]|1[0-2])"
+	y = r"(\d{1,4})"
+	yy = r"(\d{2})"
+	YY = r"(\d{4})"
+	form1 = r"(" + mm + r"/" + dd + r"(/" + y + r")?)"
+	form2 = r"(" + YY + r"/" + mm + r"/" + dd + r")"
+	form3 = r"(" + YY + r"-" + mm + r"(-" + dd + r")?)"
+	form4 = r"(" + dd + r"[\.-]" + mm + "[\.-](" + YY + r"|" + yy + r"))"
+	form5 = r"(" + dd + r"[ \.-]?" + m + r"[ \.-]?" + y + r")"
+	form6 = r"(" + m + r"[ \.-]?" + YY + r")"
+	form7 = r"(" + YY + r"[ \.-]?" + m + r")"
+	form8 = r"(" + m + r"[ \.-]?" + dd + "[,\. " + daysuf + "]+(" + y + r")?)"
+	form9 = r"(" + dd + r"[ \.-]?" + m + r")"
+	form10 = r"(" + m + r"-" + DD + r"-" + y + r")"
+	form11 = r"(" + y + r"-" + m + r"-" + DD + r")"
+	date_pattern = form11 + r"|" + form10 + r"|" + form9 + r"|" + form8 + r"|" + form7 + r"|" + form6 + r"|" + form5 + r"|" + form4 + r"|" + form3 + r"|" + form2 + r"|" + form1
+	sentence = re.sub(date_pattern, 'date_was_here', sentence, flags=re.IGNORECASE) 
+	print(sentence)
 	return sentence
 
 def Substitute_Numbers(sentence):

@@ -11,7 +11,7 @@ def main(argv):
 		PreCleaner takes two mandatory arguments and several optional ones:
 
 		"Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] 
-		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-N]"
+		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H]"
 
 		inputfile 			Name of inputfile
 		outputfile			Name of ouputfile
@@ -28,6 +28,9 @@ def main(argv):
 		-U 					flag to keep uppercase letters (default is to convert to lowercase)
 		-q 					flag to keep quotes (default is to convert them to spaces)
 		-n 					keep numbers (default converts them to number_was_here token)
+		-d 					keep dates (default converts them to date_was_here token)
+		-T 					keep times (default converts them to time_was_here token)
+		-H 					keep hyperlinks (default converts them to link_was_here token)
 		]
 	"""
 	inputfile = ''
@@ -44,16 +47,17 @@ def main(argv):
 	convert_numbers_to_tokens = True
 	convert_dates_to_tokens = True
 	convert_times_to_tokens = True
+	convert_links_to_tokens = True
 	try:
-		opts, args = getopt.getopt(argv,"i:o:c:s:l:t:x:y:z:hUqndT",["ifile=",
+		opts, args = getopt.getopt(argv,"i:o:c:s:l:t:x:y:z:hUqndTH",["ifile=",
 			"ofile=", "chars_invalid=" "suffixes=", "sen_length=", 
 			"token_length=", "sentence_symbols=", "sentence_tokens=", 
-			"token_symbols=" "Uppercase", "quotes", "numbers", "dates", "Times"])
+			"token_symbols=" "Uppercase", "quotes", "numbers", "dates", "Times", "Hyperlinks"])
 	except getopt.GetoptError:
 		print '''Usage: test.py -i <inputfile> -o <outputfile> 
 		    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
 		    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
-		    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T]'''
+		    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H]'''
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
@@ -88,6 +92,8 @@ def main(argv):
 			convert_dates_to_tokens = False
 		elif opt in ("-T", "--Times"):
 			convert_times_to_tokens = False
+		elif opt in ("-T", "--Hyperlinks"):
+			convert_links_to_tokens = False
 
 	sentences = Load_Files(inputfile)
 
@@ -101,6 +107,8 @@ def main(argv):
 			temp_sentence = Substitute_Times(temp_sentence)
 		if convert_numbers_to_tokens == True:
 			temp_sentence = Substitute_Numbers(temp_sentence)
+		if convert_links_to_tokens == True:
+			temp_sentence = Substitute_Links(temp_sentence)
 		tokenized_sentence = Naive_Tokenizer(temp_sentence)
 		if Ignore_Long_Sentence(tokenized_sentence, max_tokens) == True:
 			continue
@@ -207,6 +215,14 @@ def Normalize_Sentence(sentence, convert_quotes_to_spaces):
 	sentence = re.sub(r"\'\'|“|”", '\\"', sentence)
 	if convert_quotes_to_spaces == True:
 		sentence = re.sub(r'\\"|"', " ", sentence) # sentence splitter escapes double quotes, as apparently needed by guile
+	return sentence
+
+def Substitute_Links(sentence):
+	"""
+		Substitutes url addresses (http://, https://, ftp://) with special token.
+	"""
+	link_pattern = r"(\b(https?|ftp)://[^,\s]+)"
+	sentence = re.sub(link_pattern, 'url_was_here', sentence) 
 	return sentence
 
 def Substitute_Times(sentence):

@@ -5,10 +5,13 @@ Directory for pre-cleaner tools
 TODO: Implement tokenizer that works the same as Link-Grammar "any" language tokenizer
 
 Sentence splitting is done by Multi-language sentence splitter from language learning pipeline: split-sentences.pl
-TODO: include arbitrary symbols to do tokenization. At least optionally colon and semi-colon.
+TODO: include arbitrary symbols to do sentence splitting. At least optionally colon and semi-colon.
 
-Text-cleaning is done by pre-cleaner.py. It takes a file previously processed by sentences splitting. Main function documents all posibilities. Those are copied here:
+Text-cleaning is done by pre-cleaner.py. It takes a file previously processed by sentences splitting. Main function documents all posibilities; they're copied here:
 PreCleaner takes two mandatory arguments and several optional ones:
+
+        "Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] 
+        [-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q]"
 
         inputfile           Name of inputfile
         outputfile          Name of ouputfile

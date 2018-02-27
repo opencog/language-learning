@@ -2,7 +2,6 @@
 # coding=utf-8
 
 # ASuMa, Feb 2018
-# TODO: need to implement invalidating tokens correctly (it's commented now)
 
 import sys, getopt
 import re
@@ -10,6 +9,9 @@ import re
 def main(argv):
 	"""
 		PreCleaner takes two mandatory arguments and several optional ones:
+
+		"Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] 
+		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-N]"
 
 		inputfile 			Name of inputfile
 		outputfile			Name of ouputfile
@@ -25,6 +27,7 @@ def main(argv):
 		token_symbols 		symbols invalidating tokens
 		-U 					flag to keep uppercase letters (default is to convert to lowercase)
 		-q 					flag to keep quotes (default is to convert them to spaces)
+		-n 					keep numbers (default converts them to number_was_here token)
 		]
 	"""
 	inputfile = ''
@@ -38,13 +41,15 @@ def main(argv):
 	token_invalid_symbols = []
 	convert_lowercase = True
 	convert_quotes_to_spaces = True
+	convert_numbers_to_tokens = True
+	convert_dates_to_tokens = True
 	try:
-		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:Uq",["ifile=",
+		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:Uqnd",["ifile=",
 			"ofile=", "chars_invalid=" "suffixes=", "sen_length=", 
 			"token_length=", "sentence_symbols=", "sentence_tokens=", 
-			"token_symbols=" "Uppercase", "quotes"])
+			"token_symbols=" "Uppercase", "quotes", "numbers", "dates"])
 	except getopt.GetoptError:
-		print("Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q]")
+		print("Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d]")
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
@@ -66,13 +71,17 @@ def main(argv):
 		elif opt in ("-x", "--sentence_symbols"):
 			sentence_invalid_symbols = arg
 		elif opt in ("-y", "--sentence_tokens"):
-			sentence_invalid_tokens = arg
+			sentence_invalid_tokens = arg.split()
 		elif opt in ("-z", "--token_symbols"):
 			token_invalid_symbols = arg
 		elif opt in ("-U", "--Uppercase"):
 			convert_lowercase = False
 		elif opt in ("-q", "--quotes"):
 			convert_quotes_to_spaces = False
+		elif opt in ("-n", "--numbers"):
+			convert_numbers_to_tokens = False
+		elif opt in ("-d", "--dates"):
+			convert_dates_to_tokens = False
 
 	sentences = Load_Files(inputfile)
 
@@ -80,6 +89,10 @@ def main(argv):
 	for sentence in sentences:
 		temp_sentence = Normalize_Sentence(sentence, convert_quotes_to_spaces)
 		temp_sentence = Remove_Suffixes(temp_sentence, new_suffix_list)
+		if convert_dates_to_tokens == True:
+			temp_sentence = Substitute_Dates(temp_sentence)
+		if convert_numbers_to_tokens == True:
+			temp_sentence = Substitute_Numbers(temp_sentence)
 		tokenized_sentence = Naive_Tokenizer(temp_sentence)
 		if Ignore_Long_Sentence(tokenized_sentence, max_tokens) == True:
 			continue
@@ -160,11 +173,10 @@ def Ignore_Invalid_Sentence(tokenized_sentence, invalidating_symbols, invalidati
 		Determines if tokenized_sentence should be ignored, 
 		if it contains invalidating_tokens or invalidating_symbols 
 	"""
-	#for token in tokenized_sentence:
-	#	print(token)
-	#	if token in invalidating_tokens:
-	#		print("ignora")
-	#		return True
+	for token in tokenized_sentence:
+		if token in invalidating_tokens:
+			print("ignora")
+			return True
 	dummy = Remove_Invalid_Tokens(tokenized_sentence, invalidating_symbols)	
 	if len(dummy) < len(tokenized_sentence):
 		return True
@@ -184,10 +196,46 @@ def Normalize_Sentence(sentence, convert_quotes_to_spaces):
 
 	# Normalize apostrophes, dashes and quotes obtained from Wikipedia Apostrophe page
 	sentence = re.sub(r"[\`]|’", "'", sentence)
-	sentence = re.sub(r"-{2,}|‒|–|—|―|‐|-|−", "-", sentence)
-	sentence = re.sub(r"\'\'|“|”", '"', sentence)
+	sentence = re.sub(r"-{2,}|‒|–|—|―|‐|-|−", "-", sentence) # some dashes look the same, but they are apparently different
+	sentence = re.sub(r"\'\'|“|”", '\\"', sentence)
 	if convert_quotes_to_spaces == True:
-		sentence = re.sub(r'"', " ", sentence)
+		sentence = re.sub(r'\\"|"', " ", sentence) # sentence splitter escapes double quotes, as apparently needed by guile
+	return sentence
+
+def Substitute_Dates(sentence):
+	"""
+		Substitutes all dates with special token. Formats taken from http://php.net/manual/en/datetime.formats.date.php
+	"""
+	print(sentence)
+	daysuf = r"(st|nd|rd|th)"
+	dd = r"([0-2]?[0-9]|3[01])" + daysuf + r"?"
+	DD = r"(0[1-9]|[1-2][0-9]|3[01])"
+	m = r"(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII)"
+	mm = r"(0?[0-9]|1[0-2])"
+	y = r"(\d{1,4})"
+	yy = r"(\d{2})"
+	YY = r"(\d{4})"
+	form1 = r"(" + mm + r"/" + dd + r"(/" + y + r")?)"
+	form2 = r"(" + YY + r"/" + mm + r"/" + dd + r")"
+	form3 = r"(" + YY + r"-" + mm + r"(-" + dd + r")?)"
+	form4 = r"(" + dd + r"[\.-]" + mm + "[\.-](" + YY + r"|" + yy + r"))"
+	form5 = r"(" + dd + r"[ \.-]?" + m + r"[ \.-]?" + y + r")"
+	form6 = r"(" + m + r"[ \.-]?" + YY + r")"
+	form7 = r"(" + YY + r"[ \.-]?" + m + r")"
+	form8 = r"(" + m + r"[ \.-]?" + dd + "[,\. " + daysuf + "]+(" + y + r")?)"
+	form9 = r"(" + dd + r"[ \.-]?" + m + r")"
+	form10 = r"(" + m + r"-" + DD + r"-" + y + r")"
+	form11 = r"(" + y + r"-" + m + r"-" + DD + r")"
+	date_pattern = form11 + r"|" + form10 + r"|" + form9 + r"|" + form8 + r"|" + form7 + r"|" + form6 + r"|" + form5 + r"|" + form4 + r"|" + form3 + r"|" + form2 + r"|" + form1
+	sentence = re.sub(date_pattern, 'date_was_here', sentence, flags=re.IGNORECASE) 
+	print(sentence)
+	return sentence
+
+def Substitute_Numbers(sentence):
+	"""
+		Substitutes all numbers with special token
+	"""
+	sentence = re.sub(r"(\d+[.,';]?)+|[.,]\d*", 'number_was_here', sentence) # two cases handle trailing/leading decimal mark
 	return sentence
 
 def Prepare_Suffix_List(suffix_list):

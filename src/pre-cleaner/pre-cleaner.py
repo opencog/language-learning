@@ -43,13 +43,17 @@ def main(argv):
 	convert_quotes_to_spaces = True
 	convert_numbers_to_tokens = True
 	convert_dates_to_tokens = True
+	convert_times_to_tokens = True
 	try:
-		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:Uqnd",["ifile=",
+		opts, args = getopt.getopt(argv,"i:o:c:s:l:t:x:y:z:hUqndT",["ifile=",
 			"ofile=", "chars_invalid=" "suffixes=", "sen_length=", 
 			"token_length=", "sentence_symbols=", "sentence_tokens=", 
-			"token_symbols=" "Uppercase", "quotes", "numbers", "dates"])
+			"token_symbols=" "Uppercase", "quotes", "numbers", "dates", "Times"])
 	except getopt.GetoptError:
-		print("Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d]")
+		print '''Usage: test.py -i <inputfile> -o <outputfile> 
+		    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
+		    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
+		    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T]'''
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
@@ -82,6 +86,8 @@ def main(argv):
 			convert_numbers_to_tokens = False
 		elif opt in ("-d", "--dates"):
 			convert_dates_to_tokens = False
+		elif opt in ("-T", "--Times"):
+			convert_times_to_tokens = False
 
 	sentences = Load_Files(inputfile)
 
@@ -91,6 +97,8 @@ def main(argv):
 		temp_sentence = Remove_Suffixes(temp_sentence, new_suffix_list)
 		if convert_dates_to_tokens == True:
 			temp_sentence = Substitute_Dates(temp_sentence)
+		if convert_times_to_tokens == True:
+			temp_sentence = Substitute_Times(temp_sentence)
 		if convert_numbers_to_tokens == True:
 			temp_sentence = Substitute_Numbers(temp_sentence)
 		tokenized_sentence = Naive_Tokenizer(temp_sentence)
@@ -175,7 +183,6 @@ def Ignore_Invalid_Sentence(tokenized_sentence, invalidating_symbols, invalidati
 	"""
 	for token in tokenized_sentence:
 		if token in invalidating_tokens:
-			print("ignora")
 			return True
 	dummy = Remove_Invalid_Tokens(tokenized_sentence, invalidating_symbols)	
 	if len(dummy) < len(tokenized_sentence):
@@ -202,11 +209,31 @@ def Normalize_Sentence(sentence, convert_quotes_to_spaces):
 		sentence = re.sub(r'\\"|"', " ", sentence) # sentence splitter escapes double quotes, as apparently needed by guile
 	return sentence
 
+def Substitute_Times(sentence):
+	"""
+		Substitutes all times with special token. Formats taken from http://php.net/manual/en/datetime.formats.time.php
+	"""
+	#frac = r"(.[0-9]+)"
+	hh = r"(0?[1-9]|1[0-2])"
+	HH = r"([01][0-9]|2[0-4])"
+	meridian = r"([AaPp]\.?[Mm]\.?)"
+	MM = r"([0-5][0-9])"
+	tz = r"(\(?[A-Za-z]{1,6}\)?|[A-Z][a-z]+([_/][A-Z][a-z]+)+)"
+	tzcorrection = r"((GMT)?[+-]" + hh + ":?" + MM + "?)"
+
+	# Accepted time formats
+	form1 = r"(\b" + hh + r"([.:]" + MM + r"){0,2}" + r" ?" + meridian + r"\b)"
+	form2 = r"(\b" + HH + r"([.:]" + MM + r"){1,2}" + r" ?(" + tz + r"|" + tzcorrection + r")?\b)"
+	form3 = r"(\b" + tzcorrection + r"\b)"
+
+	time_pattern = form3 + r"|" + form2 + r"|" + form1 
+	sentence = re.sub(time_pattern, 'time_was_here', sentence) 
+	return sentence
+
 def Substitute_Dates(sentence):
 	"""
 		Substitutes all dates with special token. Formats taken from http://php.net/manual/en/datetime.formats.date.php
 	"""
-	print(sentence)
 	daysuf = r"(st|nd|rd|th)"
 	dd = r"([0-2]?[0-9]|3[01])" + daysuf + r"?"
 	DD = r"(0[1-9]|[1-2][0-9]|3[01])"
@@ -215,20 +242,22 @@ def Substitute_Dates(sentence):
 	y = r"(\d{1,4})"
 	yy = r"(\d{2})"
 	YY = r"(\d{4})"
-	form1 = r"(" + mm + r"/" + dd + r"(/" + y + r")?)"
-	form2 = r"(" + YY + r"/" + mm + r"/" + dd + r")"
-	form3 = r"(" + YY + r"-" + mm + r"(-" + dd + r")?)"
-	form4 = r"(" + dd + r"[\.-]" + mm + "[\.-](" + YY + r"|" + yy + r"))"
-	form5 = r"(" + dd + r"[ \.-]?" + m + r"[ \.-]?" + y + r")"
-	form6 = r"(" + m + r"[ \.-]?" + YY + r")"
-	form7 = r"(" + YY + r"[ \.-]?" + m + r")"
-	form8 = r"(" + m + r"[ \.-]?" + dd + "[,\. " + daysuf + "]+(" + y + r")?)"
-	form9 = r"(" + dd + r"[ \.-]?" + m + r")"
-	form10 = r"(" + m + r"-" + DD + r"-" + y + r")"
-	form11 = r"(" + y + r"-" + m + r"-" + DD + r")"
-	date_pattern = form11 + r"|" + form10 + r"|" + form9 + r"|" + form8 + r"|" + form7 + r"|" + form6 + r"|" + form5 + r"|" + form4 + r"|" + form3 + r"|" + form2 + r"|" + form1
+
+	# Accepted date formats
+	form1 = r"(\b" + mm + r"/" + dd + r"(/" + y + r")?\b)"
+	form2 = r"(\b" + YY + r"/" + mm + r"/" + dd + r"\b)"
+	form3 = r"(\b" + YY + r"-" + mm + r"(-" + dd + r")?\b)"
+	form4 = r"(\b" + dd + r"[\.-]" + mm + "[\.-](" + YY + r"|" + yy + r")\b)"
+	form5 = r"(\b" + dd + r"[ \.-]?" + m + r"([ \.-]?" + y + r")?\b)"
+	#form9 = r"(\b" + dd + r"[ \.-]?" + m + r"\b)"
+	form6 = r"(\b" + m + r"[ \.-]?" + YY + r"\b)"
+	form7 = r"(\b" + YY + r"[ \.-]?" + m + r"\b)"
+	form8 = r"(\b" + m + r"[ \.-]?" + dd + "[,\. " + daysuf + "]+(" + y + r")?\b)"
+	form10 = r"(\b" + m + r"-" + DD + r"-" + y + r"\b)"
+	form11 = r"(\b" + y + r"-" + m + r"-" + DD + r"\b)"
+
+	date_pattern = form11 + r"|" + form10 + r"|" + form8 + r"|" + form7 + r"|" + form6 + r"|" + form5 + r"|" + form4 + r"|" + form3 + r"|" + form2 + r"|" + form1
 	sentence = re.sub(date_pattern, 'date_was_here', sentence, flags=re.IGNORECASE) 
-	print(sentence)
 	return sentence
 
 def Substitute_Numbers(sentence):

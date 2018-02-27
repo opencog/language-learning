@@ -5,13 +5,14 @@
 
 import sys, getopt
 import re
+from HTMLParser import HTMLParser
 
 def main(argv):
 	"""
 		PreCleaner takes two mandatory arguments and several optional ones:
 
 		"Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] 
-		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H]"
+		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]"
 
 		inputfile 			Name of inputfile
 		outputfile			Name of ouputfile
@@ -31,6 +32,7 @@ def main(argv):
 		-d 					keep dates (default converts them to date_was_here token)
 		-T 					keep times (default converts them to time_was_here token)
 		-H 					keep hyperlinks (default converts them to link_was_here token)
+		-e 					keep escaped HTML and UniCode symbols (default decodes them)
 		]
 	"""
 	inputfile = ''
@@ -48,16 +50,18 @@ def main(argv):
 	convert_dates_to_tokens = True
 	convert_times_to_tokens = True
 	convert_links_to_tokens = True
+	decode_escaped = True
 	try:
-		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:UqndTH",["ifile=",
+		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:UqndTHe",["ifile=",
 			"ofile=", "chars_invalid=" "suffixes=", "sen_length=", 
 			"token_length=", "sentence_symbols=", "sentence_tokens=", 
-			"token_symbols=" "Uppercase", "quotes", "numbers", "dates", "Times", "Hyperlinks"])
+			"token_symbols=" "Uppercase", "quotes", "numbers", "dates", 
+			"Times", "Hyperlinks", "escaped"])
 	except getopt.GetoptError:
 		print '''Usage: test.py -i <inputfile> -o <outputfile> 
 		    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
 		    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
-		    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H]'''
+		    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]'''
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
@@ -94,19 +98,25 @@ def main(argv):
 			convert_times_to_tokens = False
 		elif opt in ("-T", "--Hyperlinks"):
 			convert_links_to_tokens = False
+		elif opt in ("-e", "--escaped"):
+			decode_escaped = False
 
+	translate_table = dict((ord(char), None) for char in unicode(invalid_chars))
 	sentences = Load_Files(inputfile)
 
 	fo = open(outputfile, "w")
 	for sentence in sentences:
-		temp_sentence = Normalize_Sentence(sentence, convert_quotes_to_spaces)
+		temp_sentence = sentence.decode('utf-8')
+		temp_sentence = Normalize_Sentence(temp_sentence, convert_quotes_to_spaces)
 		temp_sentence = Remove_Suffixes(temp_sentence, new_suffix_list)
+		if convert_links_to_tokens == True:
+			temp_sentence = Substitute_Links(temp_sentence)
+		if decode_escaped == True:
+			temp_sentence = Decode_Escaped(temp_sentence)
 		if convert_dates_to_tokens == True:
 			temp_sentence = Substitute_Dates(temp_sentence)
 		if convert_times_to_tokens == True:
 			temp_sentence = Substitute_Times(temp_sentence)
-		if convert_links_to_tokens == True:
-			temp_sentence = Substitute_Links(temp_sentence)
 		if convert_numbers_to_tokens == True:
 			temp_sentence = Substitute_Numbers(temp_sentence)
 		tokenized_sentence = Naive_Tokenizer(temp_sentence)
@@ -117,7 +127,7 @@ def main(argv):
 			continue
 		tokenized_sentence = Remove_Invalid_Tokens(tokenized_sentence, token_invalid_symbols)
 		final_sentence = " ".join(tokenized_sentence) + "\n"
-		final_sentence = Clean_Sentence(final_sentence, invalid_chars)
+		final_sentence = Clean_Sentence(final_sentence, translate_table)
 		if convert_lowercase == True:
 			final_sentence = final_sentence.lower()
 		Write_Output_Sentence(fo, final_sentence)
@@ -136,7 +146,17 @@ def Write_Output_Sentence(fo, sentence):
 	"""
 		writes sentence to the output file
 	"""
-	fo.write(sentence)
+	fo.write(sentence.encode('utf-8'))
+
+def Decode_Escaped(sentence):
+	"""
+		Converts found escaped HTML and unicode symbols to
+		their printable version
+	""" 
+	h = HTMLParser()
+	sentence = h.unescape(sentence)
+
+	return sentence
 
 def Remove_Caps(sentence):
     """
@@ -174,7 +194,8 @@ def Ignore_Long_Sentence(tokenized_sentence, max_tokens):
 
 def Remove_Invalid_Tokens(tokenized_sentence, invalidating_symbols):
 	"""
-		Returns a tokenized sentence without tokens that include invalidating_symbols
+		Returns a tokenized sentence without tokens that include 
+		invalidating_symbols
 	"""
 	valid_tokens_sentence = [] + tokenized_sentence # forcing a copy, avoid pass by reference
 	for token in tokenized_sentence:
@@ -198,11 +219,12 @@ def Ignore_Invalid_Sentence(tokenized_sentence, invalidating_symbols, invalidati
 
 	return False
 
-def Clean_Sentence(sentence, invalid_chars):
+def Clean_Sentence(sentence, translate_table):
 	"""
 		Cleans sentence from invalid chars
 	"""
-	return sentence.translate(None, invalid_chars)#translate_table)
+	sentence = unicode(sentence)
+	return sentence.translate(translate_table)
 
 def Normalize_Sentence(sentence, convert_quotes_to_spaces):
 	"""
@@ -227,7 +249,8 @@ def Substitute_Links(sentence):
 
 def Substitute_Times(sentence):
 	"""
-		Substitutes all times with special token. Formats taken from http://php.net/manual/en/datetime.formats.time.php
+		Substitutes time expressions with special token. 
+		Formats taken from http://php.net/manual/en/datetime.formats.time.php
 	"""
 	#frac = r"(.[0-9]+)"
 	hh = r"(0?[1-9]|1[0-2])"

@@ -49,7 +49,7 @@ def main(argv):
 	convert_times_to_tokens = True
 	convert_links_to_tokens = True
 	try:
-		opts, args = getopt.getopt(argv,"i:o:c:s:l:t:x:y:z:hUqndTH",["ifile=",
+		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:UqndTH",["ifile=",
 			"ofile=", "chars_invalid=" "suffixes=", "sen_length=", 
 			"token_length=", "sentence_symbols=", "sentence_tokens=", 
 			"token_symbols=" "Uppercase", "quotes", "numbers", "dates", "Times", "Hyperlinks"])
@@ -105,10 +105,10 @@ def main(argv):
 			temp_sentence = Substitute_Dates(temp_sentence)
 		if convert_times_to_tokens == True:
 			temp_sentence = Substitute_Times(temp_sentence)
-		if convert_numbers_to_tokens == True:
-			temp_sentence = Substitute_Numbers(temp_sentence)
 		if convert_links_to_tokens == True:
 			temp_sentence = Substitute_Links(temp_sentence)
+		if convert_numbers_to_tokens == True:
+			temp_sentence = Substitute_Numbers(temp_sentence)
 		tokenized_sentence = Naive_Tokenizer(temp_sentence)
 		if Ignore_Long_Sentence(tokenized_sentence, max_tokens) == True:
 			continue
@@ -222,7 +222,7 @@ def Substitute_Links(sentence):
 		Substitutes url addresses (http://, https://, ftp://) with special token.
 	"""
 	link_pattern = r"(\b(https?|ftp)://[^,\s]+)"
-	sentence = re.sub(link_pattern, 'url_was_here', sentence) 
+	sentence = re.sub(link_pattern, ' url_was_here ', sentence, flags=re.IGNORECASE) 
 	return sentence
 
 def Substitute_Times(sentence):
@@ -243,7 +243,7 @@ def Substitute_Times(sentence):
 	form3 = r"(\b" + tzcorrection + r"\b)"
 
 	time_pattern = form3 + r"|" + form2 + r"|" + form1 
-	sentence = re.sub(time_pattern, 'time_was_here', sentence) 
+	sentence = re.sub(time_pattern, ' time_was_here ', sentence) 
 	return sentence
 
 def Substitute_Dates(sentence):
@@ -273,14 +273,15 @@ def Substitute_Dates(sentence):
 	form11 = r"(\b" + y + r"-" + m + r"-" + DD + r"\b)"
 
 	date_pattern = form11 + r"|" + form10 + r"|" + form8 + r"|" + form7 + r"|" + form6 + r"|" + form5 + r"|" + form4 + r"|" + form3 + r"|" + form2 + r"|" + form1
-	sentence = re.sub(date_pattern, 'date_was_here', sentence, flags=re.IGNORECASE) 
+	sentence = re.sub(date_pattern, ' date_was_here ', sentence, flags=re.IGNORECASE) 
 	return sentence
 
 def Substitute_Numbers(sentence):
 	"""
 		Substitutes all numbers with special token
 	"""
-	sentence = re.sub(r"(\d+[.,';]?)+|[.,]\d*", 'number_was_here', sentence) # two cases handle trailing/leading decimal mark
+	# two cases handle trailing/leading decimal mark
+	sentence = re.sub(r"\b(\d+[.,';]?)+\b|\b[.,]\d+\b", ' number_was_here ', sentence) 
 	return sentence
 
 def Prepare_Suffix_List(suffix_list):

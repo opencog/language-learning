@@ -120,7 +120,7 @@ def wps2vec(parses,path,tmpath,dim=100,cds=1.0,eig=0.5,neg=1,verbose='none'):
     return vectors, sv, response
 
 
-def wps2links(parses, clusters):  # 80223 Turtle-4 parses2links 80224 renamed
+def wps2links(parses, clusters):  # 80224 Turtle-4 [x] 80228 replaced
     # parses - from dmb_parser
     word_clusters = dict()
     for row in clusters.itertuples():
@@ -129,3 +129,15 @@ def wps2links(parses, clusters):  # 80223 Turtle-4 parses2links 80224 renamed
     parses['c2'] = parses['word2'].apply(lambda x: word_clusters[x])
     parses['link'] = parses['c1'] + parses['c2']
     return parses  # word_links » link_grammar single_disjuncts
+
+
+def wps2connectors(parses, clusters):  # 80228 Turtle-4 wps2links replacement
+    # parses - from dmb_parser
+    word_clusters = dict()
+    for row in clusters.itertuples():
+        for word in row[2]: word_clusters[word] = row[1]
+    connectors = parses.copy()
+    connectors['c1'] = connectors['word1'].apply(lambda x: word_clusters[x])
+    connectors['c2'] = connectors['word2'].apply(lambda x: word_clusters[x])
+    connectors['connector'] = connectors['c1'] + connectors['c2']
+    return connectors  # connectors » link_grammar single_disjuncts

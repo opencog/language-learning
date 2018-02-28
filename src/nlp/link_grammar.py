@@ -4,6 +4,9 @@ import pandas as pd
 
 def single_disjuncts(word_links):  # 80223 Turtle-4
     # word_links - from space/turtle.py/parses2links
+    # TODO? update: word_links = connectors from wps2connectors - 80228 update
+    if 'connector' in word_links.columns:  # 80228 update compatibility
+        word_links = word_links.rename(columns={'connector': 'link'})
     lefts = word_links.loc[:,['word2']]
     lefts['disjunct'] = word_links['link'].apply(lambda x: x + '-')
     rights = word_links.loc[:,['word1']]
@@ -72,7 +75,7 @@ def save_link_grammar(rule_list, path, file='', header='', footer=''):
             line += ' or '.join('('+str(x)+')' for x in rule[4])
 
         cluster_number = '% ' + rule[0] + '\n'  # comment line: cluster
-        cluster_and_words = ' '.join('"'+word+'"' for word in rule[1]) + ': '
+        cluster_and_words = ' '.join('"'+word+'"' for word in rule[1]) + ':\n'
         line_list.append(cluster_number + cluster_and_words + line + ';')
         clusters.add(rule[0])
     line_list.sort()  # overkill? :)
@@ -113,7 +116,7 @@ def merged_clusters_grammar(threshold, n, clusters, sim_df, prs, path):  # 80224
     # 80224 Turtle-4, threshold (0.0-1.0) not used
     from IPython.display import display
     from ..utl.turtle import html_table
-    from ..space.turtle import wps2links
+    from ..space.turtle import wps2links, wps2connectors
     categories = merge_clusters(threshold, n, clusters, sim_df)
     print(str(len(categories))+' word categories (merged word clusters):')
     display(html_table([['Category', 'Category words']] + categories.values.tolist()))

@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf8 -*-
 
-# ASuMa, Feb 2018
+# ASuMa, Mar 2018
 # Tokenizer that uses LG functionality
 
 import getopt, sys

@@ -28,10 +28,10 @@ def main(argv):
 		token_symbols 		symbols invalidating tokens
 		-U 					flag to keep uppercase letters (default is to convert to lowercase)
 		-q 					flag to keep quotes (default is to convert them to spaces)
-		-n 					keep numbers (default converts them to number_was_here token)
-		-d 					keep dates (default converts them to date_was_here token)
-		-T 					keep times (default converts them to time_was_here token)
-		-H 					keep hyperlinks (default converts them to link_was_here token)
+		-n 					keep numbers (default converts them to @number@ token)
+		-d 					keep dates (default converts them to @date@ token)
+		-T 					keep times (default converts them to @time@ token)
+		-H 					keep hyperlinks (default converts them to @url@ token)
 		-e 					keep escaped HTML and UniCode symbols (default decodes them)
 		]
 	"""
@@ -244,7 +244,7 @@ def Substitute_Links(sentence):
 		Substitutes url addresses (http://, https://, ftp://) with special token.
 	"""
 	link_pattern = r"(\b(https?|ftp)://[^,\s]+)"
-	sentence = re.sub(link_pattern, ' url_was_here ', sentence, flags=re.IGNORECASE) 
+	sentence = re.sub(link_pattern, ' @url@ ', sentence, flags=re.IGNORECASE) 
 	return sentence
 
 def Substitute_Times(sentence):
@@ -266,7 +266,7 @@ def Substitute_Times(sentence):
 	form3 = r"(\b" + tzcorrection + r"\b)"
 
 	time_pattern = form3 + r"|" + form2 + r"|" + form1 
-	sentence = re.sub(time_pattern, ' time_was_here ', sentence) 
+	sentence = re.sub(time_pattern, ' @time@ ', sentence) 
 	return sentence
 
 def Substitute_Dates(sentence):
@@ -288,7 +288,6 @@ def Substitute_Dates(sentence):
 	form3 = r"(\b" + YY + r"-" + mm + r"(-" + dd + r")?\b)"
 	form4 = r"(\b" + dd + r"[\.-]" + mm + "[\.-](" + YY + r"|" + yy + r")\b)"
 	form5 = r"(\b" + dd + r"[ \.-]?" + m + r"([ \.-]?" + y + r")?\b)"
-	#form9 = r"(\b" + dd + r"[ \.-]?" + m + r"\b)"
 	form6 = r"(\b" + m + r"[ \.-]?" + YY + r"\b)"
 	form7 = r"(\b" + YY + r"[ \.-]?" + m + r"\b)"
 	form8 = r"(\b" + m + r"[ \.-]?" + dd + "[,\. " + daysuf + "]+(" + y + r")?\b)"
@@ -296,7 +295,7 @@ def Substitute_Dates(sentence):
 	form11 = r"(\b" + y + r"-" + m + r"-" + DD + r"\b)"
 
 	date_pattern = form11 + r"|" + form10 + r"|" + form8 + r"|" + form7 + r"|" + form6 + r"|" + form5 + r"|" + form4 + r"|" + form3 + r"|" + form2 + r"|" + form1
-	sentence = re.sub(date_pattern, ' date_was_here ', sentence, flags=re.IGNORECASE) 
+	sentence = re.sub(date_pattern, ' @date@ ', sentence, flags=re.IGNORECASE) 
 	return sentence
 
 def Substitute_Numbers(sentence):
@@ -304,7 +303,7 @@ def Substitute_Numbers(sentence):
 		Substitutes all numbers with special token
 	"""
 	# two cases handle trailing/leading decimal mark
-	sentence = re.sub(r"\b(\d+[.,';]?)+\b|\b[.,]\d+\b", ' number_was_here ', sentence) 
+	sentence = re.sub(r"\b(\d+[.,';]?)+\b|\b[.,]\d+\b", ' @number@ ', sentence) 
 	return sentence
 
 def Prepare_Suffix_List(suffix_list):

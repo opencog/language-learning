@@ -11,33 +11,42 @@ def main(argv):
 	"""
 		PreCleaner takes two mandatory arguments and several optional ones:
 
-		"Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] 
+		"Usage: pre-cleaner.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length>] [-t <token_length>] 
 		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]"
 
 		inputfile 			Name of inputfile
 		outputfile			Name of ouputfile
 		[
-		chars_invalid		characters to delete from text
-		suffixes 			Suffixes to eliminate in text, need to come in a string, separated by spaces.
+		chars_invalid		Characters to delete from text (default = none). They need to be given as a
+							string without spaces between the characters, e.g. "$%^&" would eliminate
+							only those 4 characters from appearances in the text.
+		suffixes 			Suffixes to eliminate in text (default = none). They need to come in a string
+							separated by spaces.
 							For example, -s "'s 'd n't" would eliminate all suffixes 's, 'd, n't
 							Of course, as suffixes, they need to come at the end of a word to be eliminated
-		sentence_length		maximum sentence length accepted (sentences with more are deleted)
-		token_length 		maximum token lenght accepted (tokens with more are deleted)
-		sentences_symbols	symbols invalidating sentences
-		sentence_tokens 	tokens invalidating sentences
-		token_symbols 		symbols invalidating tokens
-		-U 					flag to keep uppercase letters (default is to convert to lowercase)
-		-q 					flag to keep quotes (default is to convert them to spaces)
-		-n 					keep numbers (default converts them to @number@ token)
-		-d 					keep dates (default converts them to @date@ token)
-		-T 					keep times (default converts them to @time@ token)
-		-H 					keep hyperlinks (default converts them to @url@ token)
-		-e 					keep escaped HTML and UniCode symbols (default decodes them)
+		sentence_length		Maximum sentence length accepted (default = 16. Sentences with more are deleted)
+		token_length 		Maximum token lenght accepted (default = 25. Tokens with more are deleted)
+		sentences_symbols	Symbols invalidating sentences (default = none). They need to be given as a
+							string without spaces between the characters, e.g. "$%^&" would eliminate
+							all sentences that have those 4 characters.
+		sentence_tokens 	Tokens invalidating sentences (default = none). They need to be given as a 
+							string separated by spaces, e.g. "three invalid tokens" would eliminate all
+							sentences including either "three", "invalid" or "tokens"
+		token_symbols 		Symbols invalidating tokens (default = none). They need to be given as a
+							string without spaces between the characters, e.g. "$%^&" would eliminate
+							all tokens that have those 4 characters.
+		-U 					Flag to keep uppercase letters (default is to convert to lowercase)
+		-q 					Flag to keep quotes (default is to convert them to spaces)
+		-n 					Keep numbers (default converts them to @number@ token)
+		-d 					Keep dates (default converts them to @date@ token)
+		-T 					Keep times (default converts them to @time@ token)
+		-H 					Keep hyperlinks (default converts them to @url@ token)
+		-e 					Keep escaped HTML and UniCode symbols (default decodes them)
 		]
 	"""
 	inputfile = ''
 	outputfile = ''
-	invalid_chars = ""
+	invalid_chars = u""
 	new_suffix_list = []
 	max_tokens = 16
 	max_chars = 25
@@ -58,34 +67,37 @@ def main(argv):
 			"token_symbols=" "Uppercase", "quotes", "numbers", "dates", 
 			"Times", "Hyperlinks", "escaped"])
 	except getopt.GetoptError:
-		print '''Usage: test.py -i <inputfile> -o <outputfile> 
+		print '''Usage: pre-cleaner.py -i <inputfile> -o <outputfile> 
 		    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
 		    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
 		    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]'''
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
-			print 'Usage: test.py -i <inputfile> -o <outputfile>'
+			print '''Usage: pre-cleaner.py -i <inputfile> -o <outputfile> 
+			    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
+			    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
+			    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]'''
 			sys.exit()
 		elif opt in ("-i", "--ifile"):
 			inputfile = arg
 		elif opt in ("-o", "--ofile"):
 			outputfile = arg
 		elif opt in ("-c", "--chars_invalid"):
-			invalid_chars = arg
+			invalid_chars = arg.decode('utf-8')
 		elif opt in ("-s", "--suffixes"):
-			suffix_list = arg.split()
+			suffix_list = arg.decode('utf-8').split()
 			new_suffix_list = Prepare_Suffix_List(suffix_list)
 		elif opt in ("-l", "--sen_length"):
 			max_tokens = int(arg)
 		elif opt in ("-t", "--token_length"):
 			max_chars = int(arg)
 		elif opt in ("-x", "--sentence_symbols"):
-			sentence_invalid_symbols = arg
+			sentence_invalid_symbols = arg.decode('utf-8')
 		elif opt in ("-y", "--sentence_tokens"):
-			sentence_invalid_tokens = arg.split()
+			sentence_invalid_tokens = arg.decode('utf-8').split()
 		elif opt in ("-z", "--token_symbols"):
-			token_invalid_symbols = arg
+			token_invalid_symbols = arg.decode('utf-8')
 		elif opt in ("-U", "--Uppercase"):
 			convert_lowercase = False
 		elif opt in ("-q", "--quotes"):
@@ -101,13 +113,13 @@ def main(argv):
 		elif opt in ("-e", "--escaped"):
 			decode_escaped = False
 
-	translate_table = dict((ord(char), None) for char in unicode(invalid_chars))
+	translate_table = dict((ord(char), None) for char in invalid_chars)
 	sentences = Load_Files(inputfile)
 
 	fo = open(outputfile, "w")
 	for sentence in sentences:
-		temp_sentence = sentence.decode('utf-8')
-		temp_sentence = Normalize_Sentence(temp_sentence, convert_quotes_to_spaces)
+		sentence = sentence.decode('utf-8')
+		temp_sentence = Normalize_Sentence(sentence, convert_quotes_to_spaces)
 		temp_sentence = Remove_Suffixes(temp_sentence, new_suffix_list)
 		if convert_links_to_tokens == True:
 			temp_sentence = Substitute_Links(temp_sentence)
@@ -153,6 +165,9 @@ def Decode_Escaped(sentence):
 		Converts found escaped HTML and unicode symbols to
 		their printable version
 	""" 
+	sentence = sentence.decode('unicode-escape') # unicode escaped sequences
+	
+	# html escaped sequencues
 	h = HTMLParser()
 	sentence = h.unescape(sentence)
 

@@ -345,3 +345,91 @@ def epmisvd(links,path,tmpath,dim=100,cds=1.0,eig=0.5,neg=1,verbose='none'):
 
     response = {'vectors_file': out_file}
     return vectors_df, response
+
+
+def pmisvd(links,path,tmpath, dim=100, cds=1.0, eig=0.5, neg=1, verbose='none'):
+    '''80223 epmisvd enhanced: return +singular values'''
+    # cds = 1.0 # context distribution smoothing [default: 1.0]
+    # eig = 0.5 # weighted exponent of the eigenvalue matrix [default: 0.5]
+    # neg = 1   # Number of negative samples; [default: 1] subtracts its log from PMI
+                # PMI => SVD PositiveExplicit parameter
+    '''links => PMI'''
+    pmi_path = tmpath + 'pmi'
+    start = time.time()
+    #-linkz = links.loc[(links['count'] > 2)]
+    linkz = links
+    words = linkz.groupby('word').sum().reset_index()\
+        .sort_values(by=['count','word'], ascending=[False,True])
+    contexts = linkz.groupby('link').sum().reset_index()\
+        .sort_values(by=['count','link'], ascending=[False,True])
+    if verbose == 'max':
+        print('Linkz:', len(linkz), 'items')
+        with pd.option_context('display.max_rows', 6): print(linkz)
+        print('words:', len(words), 'items')
+        with pd.option_context('display.max_rows', 6): print(words,'\n')
+        print('contexts:', len(contexts), 'items')
+        with pd.option_context('display.max_rows', 6): print(contexts)
+    iw = sorted(words['word'].drop_duplicates().values.tolist())
+    ic = sorted(contexts['link'].drop_duplicates().values.tolist())
+    wi = dict([(w, i) for i, w in enumerate(iw)])
+    ci = dict([(c, i) for i, c in enumerate(ic)])
+    counts = csr_matrix((len(wi), len(ci)), dtype=np.float32)
+    tmp_counts = dok_matrix((len(wi), len(ci)), dtype=np.float32)
+    update_threshold = 100000   # ~ batch size
+    i = 0
+    for row in linkz.itertuples():
+        if row.word in wi and row.link in ci:
+            tmp_counts[wi[row.word], ci[row.link]] = int(row.count)
+        i += 1
+        if i == update_threshold:
+            counts = counts + tmp_counts.tocsr()
+            tmp_counts = dok_matrix((len(wi), len(ci)), dtype=np.float32)
+            i = 0
+    counts = counts + tmp_counts.tocsr()
+    list2tsv(iw, pmi_path + '.words.vocab')  # any need to save?
+    list2tsv(ic, pmi_path + '.contexts.vocab')
+    if verbose == 'max': print('PMI data saved to', pmi_path)
+
+    '''counts + vocab => pmi'''
+    pmi = calc_pmi(counts, cds)
+    np.savez_compressed(pmi_path, \
+        data=pmi.data, indices=pmi.indices, indptr=pmi.indptr, shape=pmi.shape)
+    if verbose == 'max':
+      print('PMI matrix', type(pmi), pmi.shape, '\nsaved to', pmi_path)
+
+    '''PMI => SVD'''
+    svd_path = pmi_path[:-3] + 'svd'
+    if verbose == 'max':
+        print('SVD started: dim', dim, ', output:', svd_path+'...')
+    explicit = PositiveExplicit(pmi_path, normalize=False, neg=neg)
+    #print('explicit.m:', explicit.m)
+    ut, s, vt = sparsesvd(explicit.m.tocsc(), dim)
+    np.save(svd_path + '.ut.npy', ut)
+    np.save(svd_path + '.s.npy', s)
+    np.save(svd_path + '.vt.npy', vt)
+    list2tsv(explicit.iw, svd_path + '.words.vocab')  # any need to save?
+    list2tsv(explicit.ic, svd_path + '.contexts.vocab')
+    if verbose == 'max':
+        print('SVD matrix (3 files .npy) saved:', len(ut[0]), 'vectors, ', \
+              'ut:', len(ut), 's:', len(s), 'vt:', len(vt))
+
+    '''SVD => vectors.txt'''
+    svd = SVDEmbedding(svd_path, True, eig)   # TODO: move code here, RAM2RAM
+    if len(svd.m[0]) < dim: dim = len(svd.m[0])   # 80216
+    vectors_df = pd.DataFrame(columns=['word'] + list(range(1,dim+1)))
+    for i, w in enumerate(svd.iw):
+        vectors_df.loc[i] = [w] + svd.m[i].tolist()
+    out_file = path + 'vectors.txt'
+    with open(out_file, 'w') as file:
+        for i, w in enumerate(svd.iw):
+            file.write(w+' '+(' '.join([str(x) for x in svd.m[i]]))+'\n')
+    readme_path = path + 'vectors_readme.txt'
+    readme = 'Word vectors: dimension '+str(dim)+', '+str(len(svd.iw))+' vectors'
+    with open(readme_path, 'w') as f: f.write(readme)
+    if verbose == 'max':
+        print('vectors saved to\n', out_file, \
+            '- elapsed', int(round(time.time() - start, 0)), 's ~', \
+          round((time.time() - start)/len(ut[0])*1000, 3), 'ms/vector')
+
+    singular_values = s.tolist()  # type(s): numpy.ndarray
+    return vectors_df, singular_values, {'vectors_file': out_file}

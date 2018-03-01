@@ -166,7 +166,7 @@ def Decode_Escaped(sentence):
 		their printable version
 	""" 
 	sentence = sentence.decode('unicode-escape') # unicode escaped sequences
-	
+
 	# html escaped sequencues
 	h = HTMLParser()
 	sentence = h.unescape(sentence)
@@ -318,7 +318,7 @@ def Substitute_Numbers(sentence):
 		Substitutes all numbers with special token
 	"""
 	# two cases handle trailing/leading decimal mark
-	sentence = re.sub(r"\b(\d+[.,';]?)+\b|\b[.,]\d+\b", ' @number@ ', sentence) 
+	sentence = re.sub(r"(\s|\b)[.,;]?(\d+[.,;']?)+\b", ' @number@ ', sentence) 
 	return sentence
 
 def Prepare_Suffix_List(suffix_list):

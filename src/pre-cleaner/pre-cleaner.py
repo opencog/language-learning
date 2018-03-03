@@ -1,38 +1,52 @@
 #!/usr/bin/python
-# coding=utf-8
+# encoding: utf-8
 
 # ASuMa, Feb 2018
 
 import sys, getopt
 import re
+from HTMLParser import HTMLParser
 
 def main(argv):
 	"""
 		PreCleaner takes two mandatory arguments and several optional ones:
 
-		"Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] 
-		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-N]"
+		"Usage: pre-cleaner.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length>] [-t <token_length>] 
+		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]"
 
 		inputfile 			Name of inputfile
 		outputfile			Name of ouputfile
 		[
-		chars_invalid		characters to delete from text
-		suffixes 			Suffixes to eliminate in text, need to come in a string, separated by spaces.
+		chars_invalid		Characters to delete from text (default = none). They need to be given as a
+							string without spaces between the characters, e.g. "$%^&" would eliminate
+							only those 4 characters from appearances in the text.
+		suffixes 			Suffixes to eliminate in text (default = none). They need to come in a string
+							separated by spaces.
 							For example, -s "'s 'd n't" would eliminate all suffixes 's, 'd, n't
 							Of course, as suffixes, they need to come at the end of a word to be eliminated
-		sentence_length		maximum sentence length accepted (sentences with more are deleted)
-		token_length 		maximum token lenght accepted (tokens with more are deleted)
-		sentences_symbols	symbols invalidating sentences
-		sentence_tokens 	tokens invalidating sentences
-		token_symbols 		symbols invalidating tokens
-		-U 					flag to keep uppercase letters (default is to convert to lowercase)
-		-q 					flag to keep quotes (default is to convert them to spaces)
-		-n 					keep numbers (default converts them to number_was_here token)
+		sentence_length		Maximum sentence length accepted (default = 16. Sentences with more are deleted)
+		token_length 		Maximum token lenght accepted (default = 25. Tokens with more are deleted)
+		sentences_symbols	Symbols invalidating sentences (default = none). They need to be given as a
+							string without spaces between the characters, e.g. "$%^&" would eliminate
+							all sentences that have those 4 characters.
+		sentence_tokens 	Tokens invalidating sentences (default = none). They need to be given as a 
+							string separated by spaces, e.g. "three invalid tokens" would eliminate all
+							sentences including either "three", "invalid" or "tokens"
+		token_symbols 		Symbols invalidating tokens (default = none). They need to be given as a
+							string without spaces between the characters, e.g. "$%^&" would eliminate
+							all tokens that have those 4 characters.
+		-U 					Flag to keep uppercase letters (default is to convert to lowercase)
+		-q 					Flag to keep quotes (default is to convert them to spaces)
+		-n 					Keep numbers (default converts them to @number@ token)
+		-d 					Keep dates (default converts them to @date@ token)
+		-T 					Keep times (default converts them to @time@ token)
+		-H 					Keep hyperlinks (default converts them to @url@ token)
+		-e 					Keep escaped HTML and UniCode symbols (default decodes them)
 		]
 	"""
 	inputfile = ''
 	outputfile = ''
-	invalid_chars = ""
+	invalid_chars = u""
 	new_suffix_list = []
 	max_tokens = 16
 	max_chars = 25
@@ -43,37 +57,47 @@ def main(argv):
 	convert_quotes_to_spaces = True
 	convert_numbers_to_tokens = True
 	convert_dates_to_tokens = True
+	convert_times_to_tokens = True
+	convert_links_to_tokens = True
+	decode_escaped = True
 	try:
-		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:Uqnd",["ifile=",
+		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:UqndTHe",["ifile=",
 			"ofile=", "chars_invalid=" "suffixes=", "sen_length=", 
 			"token_length=", "sentence_symbols=", "sentence_tokens=", 
-			"token_symbols=" "Uppercase", "quotes", "numbers", "dates"])
+			"token_symbols=" "Uppercase", "quotes", "numbers", "dates", 
+			"Times", "Hyperlinks", "escaped"])
 	except getopt.GetoptError:
-		print("Usage: test.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d]")
+		print '''Usage: pre-cleaner.py -i <inputfile> -o <outputfile> 
+		    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
+		    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
+		    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]'''
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
-			print 'Usage: test.py -i <inputfile> -o <outputfile>'
+			print '''Usage: pre-cleaner.py -i <inputfile> -o <outputfile> 
+			    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
+			    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
+			    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]'''
 			sys.exit()
 		elif opt in ("-i", "--ifile"):
 			inputfile = arg
 		elif opt in ("-o", "--ofile"):
 			outputfile = arg
 		elif opt in ("-c", "--chars_invalid"):
-			invalid_chars = arg
+			invalid_chars = arg.decode('utf-8')
 		elif opt in ("-s", "--suffixes"):
-			suffix_list = arg.split()
+			suffix_list = arg.decode('utf-8').split()
 			new_suffix_list = Prepare_Suffix_List(suffix_list)
 		elif opt in ("-l", "--sen_length"):
 			max_tokens = int(arg)
 		elif opt in ("-t", "--token_length"):
 			max_chars = int(arg)
 		elif opt in ("-x", "--sentence_symbols"):
-			sentence_invalid_symbols = arg
+			sentence_invalid_symbols = arg.decode('utf-8')
 		elif opt in ("-y", "--sentence_tokens"):
-			sentence_invalid_tokens = arg.split()
+			sentence_invalid_tokens = arg.decode('utf-8').split()
 		elif opt in ("-z", "--token_symbols"):
-			token_invalid_symbols = arg
+			token_invalid_symbols = arg.decode('utf-8')
 		elif opt in ("-U", "--Uppercase"):
 			convert_lowercase = False
 		elif opt in ("-q", "--quotes"):
@@ -82,15 +106,29 @@ def main(argv):
 			convert_numbers_to_tokens = False
 		elif opt in ("-d", "--dates"):
 			convert_dates_to_tokens = False
+		elif opt in ("-T", "--Times"):
+			convert_times_to_tokens = False
+		elif opt in ("-T", "--Hyperlinks"):
+			convert_links_to_tokens = False
+		elif opt in ("-e", "--escaped"):
+			decode_escaped = False
 
+	translate_table = dict((ord(char), None) for char in invalid_chars)
 	sentences = Load_Files(inputfile)
 
 	fo = open(outputfile, "w")
 	for sentence in sentences:
+		sentence = sentence.decode('utf-8')
 		temp_sentence = Normalize_Sentence(sentence, convert_quotes_to_spaces)
 		temp_sentence = Remove_Suffixes(temp_sentence, new_suffix_list)
+		if convert_links_to_tokens == True:
+			temp_sentence = Substitute_Links(temp_sentence)
+		if decode_escaped == True:
+			temp_sentence = Decode_Escaped(temp_sentence)
 		if convert_dates_to_tokens == True:
 			temp_sentence = Substitute_Dates(temp_sentence)
+		if convert_times_to_tokens == True:
+			temp_sentence = Substitute_Times(temp_sentence)
 		if convert_numbers_to_tokens == True:
 			temp_sentence = Substitute_Numbers(temp_sentence)
 		tokenized_sentence = Naive_Tokenizer(temp_sentence)
@@ -101,7 +139,7 @@ def main(argv):
 			continue
 		tokenized_sentence = Remove_Invalid_Tokens(tokenized_sentence, token_invalid_symbols)
 		final_sentence = " ".join(tokenized_sentence) + "\n"
-		final_sentence = Clean_Sentence(final_sentence, invalid_chars)
+		final_sentence = Clean_Sentence(final_sentence, translate_table)
 		if convert_lowercase == True:
 			final_sentence = final_sentence.lower()
 		Write_Output_Sentence(fo, final_sentence)
@@ -120,7 +158,20 @@ def Write_Output_Sentence(fo, sentence):
 	"""
 		writes sentence to the output file
 	"""
-	fo.write(sentence)
+	fo.write(sentence.encode('utf-8'))
+
+def Decode_Escaped(sentence):
+	"""
+		Converts found escaped HTML and unicode symbols to
+		their printable version
+	""" 
+	sentence = sentence.decode('unicode-escape') # unicode escaped sequences
+
+	# html escaped sequencues
+	h = HTMLParser()
+	sentence = h.unescape(sentence)
+
+	return sentence
 
 def Remove_Caps(sentence):
     """
@@ -158,7 +209,8 @@ def Ignore_Long_Sentence(tokenized_sentence, max_tokens):
 
 def Remove_Invalid_Tokens(tokenized_sentence, invalidating_symbols):
 	"""
-		Returns a tokenized sentence without tokens that include invalidating_symbols
+		Returns a tokenized sentence without tokens that include 
+		invalidating_symbols
 	"""
 	valid_tokens_sentence = [] + tokenized_sentence # forcing a copy, avoid pass by reference
 	for token in tokenized_sentence:
@@ -175,7 +227,6 @@ def Ignore_Invalid_Sentence(tokenized_sentence, invalidating_symbols, invalidati
 	"""
 	for token in tokenized_sentence:
 		if token in invalidating_tokens:
-			print("ignora")
 			return True
 	dummy = Remove_Invalid_Tokens(tokenized_sentence, invalidating_symbols)	
 	if len(dummy) < len(tokenized_sentence):
@@ -183,11 +234,12 @@ def Ignore_Invalid_Sentence(tokenized_sentence, invalidating_symbols, invalidati
 
 	return False
 
-def Clean_Sentence(sentence, invalid_chars):
+def Clean_Sentence(sentence, translate_table):
 	"""
 		Cleans sentence from invalid chars
 	"""
-	return sentence.translate(None, invalid_chars)#translate_table)
+	sentence = unicode(sentence)
+	return sentence.translate(translate_table)
 
 def Normalize_Sentence(sentence, convert_quotes_to_spaces):
 	"""
@@ -202,11 +254,40 @@ def Normalize_Sentence(sentence, convert_quotes_to_spaces):
 		sentence = re.sub(r'\\"|"', " ", sentence) # sentence splitter escapes double quotes, as apparently needed by guile
 	return sentence
 
+def Substitute_Links(sentence):
+	"""
+		Substitutes url addresses (http://, https://, ftp://) with special token.
+	"""
+	link_pattern = r"(\b(https?|ftp)://[^,\s]+)"
+	sentence = re.sub(link_pattern, ' @url@ ', sentence, flags=re.IGNORECASE) 
+	return sentence
+
+def Substitute_Times(sentence):
+	"""
+		Substitutes time expressions with special token. 
+		Formats taken from http://php.net/manual/en/datetime.formats.time.php
+	"""
+	#frac = r"(.[0-9]+)"
+	hh = r"(0?[1-9]|1[0-2])"
+	HH = r"([01][0-9]|2[0-4])"
+	meridian = r"([AaPp]\.?[Mm]\.?)"
+	MM = r"([0-5][0-9])"
+	tz = r"(\(?[A-Za-z]{1,6}\)?|[A-Z][a-z]+([_/][A-Z][a-z]+)+)"
+	tzcorrection = r"((GMT)?[+-]" + hh + ":?" + MM + "?)"
+
+	# Accepted time formats
+	form1 = r"(\b" + hh + r"([.:]" + MM + r"){0,2}" + r" ?" + meridian + r"\b)"
+	form2 = r"(\b" + HH + r"([.:]" + MM + r"){1,2}" + r" ?(" + tz + r"|" + tzcorrection + r")?\b)"
+	form3 = r"(\b" + tzcorrection + r"\b)"
+
+	time_pattern = form3 + r"|" + form2 + r"|" + form1 
+	sentence = re.sub(time_pattern, ' @time@ ', sentence) 
+	return sentence
+
 def Substitute_Dates(sentence):
 	"""
 		Substitutes all dates with special token. Formats taken from http://php.net/manual/en/datetime.formats.date.php
 	"""
-	print(sentence)
 	daysuf = r"(st|nd|rd|th)"
 	dd = r"([0-2]?[0-9]|3[01])" + daysuf + r"?"
 	DD = r"(0[1-9]|[1-2][0-9]|3[01])"
@@ -215,27 +296,29 @@ def Substitute_Dates(sentence):
 	y = r"(\d{1,4})"
 	yy = r"(\d{2})"
 	YY = r"(\d{4})"
-	form1 = r"(" + mm + r"/" + dd + r"(/" + y + r")?)"
-	form2 = r"(" + YY + r"/" + mm + r"/" + dd + r")"
-	form3 = r"(" + YY + r"-" + mm + r"(-" + dd + r")?)"
-	form4 = r"(" + dd + r"[\.-]" + mm + "[\.-](" + YY + r"|" + yy + r"))"
-	form5 = r"(" + dd + r"[ \.-]?" + m + r"[ \.-]?" + y + r")"
-	form6 = r"(" + m + r"[ \.-]?" + YY + r")"
-	form7 = r"(" + YY + r"[ \.-]?" + m + r")"
-	form8 = r"(" + m + r"[ \.-]?" + dd + "[,\. " + daysuf + "]+(" + y + r")?)"
-	form9 = r"(" + dd + r"[ \.-]?" + m + r")"
-	form10 = r"(" + m + r"-" + DD + r"-" + y + r")"
-	form11 = r"(" + y + r"-" + m + r"-" + DD + r")"
-	date_pattern = form11 + r"|" + form10 + r"|" + form9 + r"|" + form8 + r"|" + form7 + r"|" + form6 + r"|" + form5 + r"|" + form4 + r"|" + form3 + r"|" + form2 + r"|" + form1
-	sentence = re.sub(date_pattern, 'date_was_here', sentence, flags=re.IGNORECASE) 
-	print(sentence)
+
+	# Accepted date formats
+	form1 = r"(\b" + mm + r"/" + dd + r"(/" + y + r")?\b)"
+	form2 = r"(\b" + YY + r"/" + mm + r"/" + dd + r"\b)"
+	form3 = r"(\b" + YY + r"-" + mm + r"(-" + dd + r")?\b)"
+	form4 = r"(\b" + dd + r"[\.-]" + mm + "[\.-](" + YY + r"|" + yy + r")\b)"
+	form5 = r"(\b" + dd + r"[ \.-]?" + m + r"([ \.-]?" + y + r")?\b)"
+	form6 = r"(\b" + m + r"[ \.-]?" + YY + r"\b)"
+	form7 = r"(\b" + YY + r"[ \.-]?" + m + r"\b)"
+	form8 = r"(\b" + m + r"[ \.-]?" + dd + "[,\. " + daysuf + "]+(" + y + r")?\b)"
+	form10 = r"(\b" + m + r"-" + DD + r"-" + y + r"\b)"
+	form11 = r"(\b" + y + r"-" + m + r"-" + DD + r"\b)"
+
+	date_pattern = form11 + r"|" + form10 + r"|" + form8 + r"|" + form7 + r"|" + form6 + r"|" + form5 + r"|" + form4 + r"|" + form3 + r"|" + form2 + r"|" + form1
+	sentence = re.sub(date_pattern, ' @date@ ', sentence, flags=re.IGNORECASE) 
 	return sentence
 
 def Substitute_Numbers(sentence):
 	"""
 		Substitutes all numbers with special token
 	"""
-	sentence = re.sub(r"(\d+[.,';]?)+|[.,]\d*", 'number_was_here', sentence) # two cases handle trailing/leading decimal mark
+	# two cases handle trailing/leading decimal mark
+	sentence = re.sub(r"(\s|\b)[.,;]?(\d+[.,;']?)+\b", ' @number@ ', sentence) 
 	return sentence
 
 def Prepare_Suffix_List(suffix_list):

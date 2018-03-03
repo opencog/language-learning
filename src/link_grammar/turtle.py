@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def single_disjuncts(word_links):  # 80223 Turtle-4
+def single_disjuncts(word_links):  # 80228 Turtle-4+
     # word_links - from space/turtle.py/parses2links
     # TODO? update: word_links = connectors from wps2connectors - 80228 update
     if 'connector' in word_links.columns:  # 80228 update compatibility
@@ -25,7 +25,7 @@ def single_disjuncts(word_links):  # 80223 Turtle-4
     return word_djs  # stalks »
 
 
-def link_grammar_rules(stalks):
+def link_grammar_rules(stalks):  # 80224 Turtle-4
     disjuncts = dict()
     for word,connectors in stalks.items():
         lefts = [x for x in connectors if (('-' in x) and ('+' not in x))]
@@ -54,7 +54,7 @@ def link_grammar_rules(stalks):
     return rule_list
 
 
-def save_link_grammar(rule_list, path, file='', header='', footer=''):
+def save_link_grammar(rule_list, path, file='', header='', footer=''):  # 80224
     from ..utl.utl import UTC
     # lg_rule_list: ['cluster', [words], [left djs], [right djs], [stalks]]
     link_grammar = ''
@@ -95,8 +95,8 @@ def save_link_grammar(rule_list, path, file='', header='', footer=''):
     return link_grammar
 
 
-def merge_clusters(threshold, n, clusters, sim_df):  # Turtle-4 80224 stub
-    # 80224 Turtle 4 stub
+def merge_clusters(threshold, n, clusters, sim_df):  # 80224 Turtle-4 FIXME!
+    # 80224 Turtle 4 stub TODO: update clustering with threshold and n_cls
     categories = pd.DataFrame(columns=['cluster', 'cluster_words'])
     if n == 5: alist = [['C06', 'C08'], ['C07'], ['C01'], ['C02'], ['C05']]
     elif n == 4: alist = [['C06', 'C08', 'C07'], ['C01'], ['C02'], ['C05']]

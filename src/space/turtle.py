@@ -22,6 +22,7 @@ def dumb_parser(input_file, verbose='none'):    # 80206 POC-Turtle-1
 
 
 def dumb_disjuncter(input_file, lw='#LW#', dot=True, verbose='none'):    # 80216 POC-Turtle-3
+    #-print('dumb_disjuncter: lw =', lw, 'dot =', dot)
     djs = pd.DataFrame(columns=['word','disjunct','count'])
     djs['count'] = djs['count'].astype(int)
     i = 0
@@ -33,16 +34,17 @@ def dumb_disjuncter(input_file, lw='#LW#', dot=True, verbose='none'):    # 80216
                 sentence = sentence.replace('.', ' .').replace('  ', ' ')
             else: sentence = sentence.replace('.', '')
             if type(lw) == str and lw != 'none':
-                sentence = '#LW# ' + sentence
+                sentence = lw + ' ' + sentence
             #-print(sentence)
             words = sentence.split()
             #-print(words)
             for k,word in enumerate(words):
                 #-print(k, word)
-                if k == 0: disjunct = ''
-                else: disjunct = words[k-1] + '-'
-                if k < len(words)-1:
-                    disjunct = disjunct + words[k+1] + '+'
+                if k == 0: disjunct = words[k+1] + '+'
+                else:
+                  disjunct = words[k-1] + '-'
+                  if k < len(words)-1:
+                      disjunct = disjunct + ' & ' + words[k+1] + '+'
                 #-print(disjunct)
                 djs.loc[i] = [word, disjunct, 1]
                 i += 1

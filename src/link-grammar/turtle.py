@@ -50,7 +50,7 @@ def link_grammar_rules(stalks):
         rule.append(list(key[1]))
         rule.append(list(key[2]))
         rule_list.append(rule)
-        rule_list.sort()
+    rule_list.sort()
     return rule_list
 
 
@@ -74,9 +74,9 @@ def save_link_grammar(rule_list, path, file='', header='', footer=''):
             if line != '': line += ' or '
             line += ' or '.join('('+str(x)+')' for x in rule[4])
 
-        cluster_number = '% ' + rule[0] + '\n'  # comment line: cluster
+        cluster_number = '% ' + str(rule[0]) + '\n'  # comment line: cluster
         cluster_and_words = ' '.join('"'+word+'"' for word in rule[1]) + ':\n'
-        line_list.append(cluster_number + cluster_and_words + line + ';')
+        line_list.append(cluster_number + cluster_and_words + line + ';\n')
         clusters.add(rule[0])
     line_list.sort()  # overkill? :)
     nc = str(len(clusters))
@@ -85,7 +85,7 @@ def save_link_grammar(rule_list, path, file='', header='', footer=''):
             + str(len(clusters)) + '_clusters_' + str(UTC())[:10] + '.4.0.dict'
     else: out_file = path + file
     if header == '':
-        header = '% POC Turtle Link Grammar v.0.4 ' + str(UTC())
+        header = '% POC Turtle Link Grammar v.0.5 ' + str(UTC())
     if footer == '':
         footer = '% '+ str(len(clusters)) + ' word clusters, ' \
             + str(len(rule_list)) + ' Link Grammar rules.\n' \

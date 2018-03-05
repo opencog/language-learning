@@ -9,7 +9,8 @@ Sentence splitting is done by Multi-language sentence splitter from language lea
 
 **ISSUES**
 - Doesn't split sentence if beginning is not capitalized (can add empty line or <P> line as a workaround)
-- Sentences beginning with numbers don't get split (can add empty line or <P> line as a workaround)
+- If sentence doesn't end with end-of-sentence mark, it doesn't split (dot, question mark, etc), even if
+  separate line
 - Escapes backslash, so pre-cleaner doesn't recognize unicode escape codes
 
 #########################################################################################

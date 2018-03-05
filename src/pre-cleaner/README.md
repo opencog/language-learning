@@ -1,12 +1,19 @@
 #ASuMa, Feb 2018
 
-Directory for pre-cleaner tools
+Directory for pre-cleaner tools: split-sentences.pl, pre-cleaner.py, and tokenizer.py
 
-TODO: Implement tokenizer that works the same as Link-Grammar "any" language tokenizer
-
+#########################################################################################
 Sentence splitting is done by Multi-language sentence splitter from language learning pipeline: split-sentences.pl
-TODO: include arbitrary symbols to do sentence splitting. At least optionally colon and semi-colon.
+**TODO***
+- include arbitrary symbols to do sentence splitting. At least optionally colon and semi-colon.
 
+**ISSUES**
+- Doesn't split sentence if beginning is not capitalized (can add empty line or <P> line as a workaround)
+- If sentence doesn't end with end-of-sentence mark, it doesn't split (dot, question mark, etc), even if
+  separate line
+- Escapes backslash, so pre-cleaner doesn't recognize unicode escape codes
+
+#########################################################################################
 Text-cleaning is done by pre-cleaner.py. It takes a file previously processed by sentences splitting. Main function documents all posibilities; they're copied here:
 PreCleaner takes two mandatory arguments and several optional ones:
 
@@ -44,3 +51,17 @@ PreCleaner takes two mandatory arguments and several optional ones:
         -H                  Keep hyperlinks (default converts them to @url@ token)
         -e                  Keep escaped HTML and UniCode symbols (default decodes them)
         ]
+        
+#########################################################################################
+Tokenization is done by tokenizer.py, using LG 'any' language dictionary. 
+tokenizer.py takes a file previously processed by sentences splitting, and optionally pre-cleaning. 
+Main function documents arguments; they're copied here:
+
+Tokenizer procedure that uses LG tokenizer with python bindings
+
+        Usage: tokenizer.py -i <inputfile> -o <outputfile> [-S]
+
+        inputfile           Name of inputfile
+        outputfile          Name of ouputfile
+        -S                  Don't remove sentence splitters added by 
+                            pre-cleaner.py (default removes them)

@@ -18,29 +18,38 @@ def main(argv):
 
         inputfile           Name of inputfile
         outputfile          Name of ouputfile
+        -S                  Don't remove sentence splitters added by 
+                            pre-cleaner.py (default removes them)
     """
 
     inputfile = ''
     outputfile = ''
+    remove_splitter = True
 
     try:
-        opts, args = getopt.getopt(argv, "hi:o:", ["ifile=", "ofile="])
+        opts, args = getopt.getopt(argv, "hi:o:S", ["ifile=", "ofile=", 
+            "Splits"])
     except getopt.GetoptError:
-        print("Usage: tokenizer.py -i <inputfile> -o <outputfile>")
+        print("Usage: tokenizer.py -i <inputfile> -o <outputfile> [-S]")
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print 'Usage: tokenizer.py -i <inputfile> -o <outputfile>'
+            print 'Usage: tokenizer.py -i <inputfile> -o <outputfile> [-S]'
             sys.exit()
         elif opt in ("-i", "--ifile"):
             inputfile = arg
         elif opt in ("-o", "--ofile"):
             outputfile = arg
+        elif opt in ("-S", "--Splits"):
+            remove_splitter = False
 
     sentences = Load_Files(inputfile)
 
     fo = open(outputfile, "w")
     for sentence in sentences:
+        if sentence == "<P>\n":
+            if remove_splitter == True:
+                continue
         tokenized_sentence = Tokenize_Sentence(sentence, po)
         Write_Output_Sentence(fo, tokenized_sentence)
     fo.close()

@@ -42,6 +42,8 @@ def main(argv):
 		-T 					Keep times (default converts them to @time@ token)
 		-H 					Keep hyperlinks (default converts them to @url@ token)
 		-e 					Keep escaped HTML and UniCode symbols (default decodes them)
+		-S 					Don't add sentence splitter mark to be recognized by
+							split_sentences.pl, even if text is lowercased (they're added by default)
 		]
 	"""
 	inputfile = ''
@@ -60,24 +62,25 @@ def main(argv):
 	convert_times_to_tokens = True
 	convert_links_to_tokens = True
 	decode_escaped = True
+	add_splitters = True
 	try:
-		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:UqndTHe",["ifile=",
+		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:UqndTHeS",["ifile=",
 			"ofile=", "chars_invalid=" "suffixes=", "sen_length=", 
 			"token_length=", "sentence_symbols=", "sentence_tokens=", 
 			"token_symbols=" "Uppercase", "quotes", "numbers", "dates", 
-			"Times", "Hyperlinks", "escaped"])
+			"Times", "Hyperlinks", "escaped", "Splits"])
 	except getopt.GetoptError:
 		print '''Usage: pre-cleaner.py -i <inputfile> -o <outputfile> 
 		    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
 		    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
-		    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]'''
+		    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e] [-S]'''
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
 			print '''Usage: pre-cleaner.py -i <inputfile> -o <outputfile> 
 			    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
 			    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
-			    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]'''
+			    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e] [-S]'''
 			sys.exit()
 		elif opt in ("-i", "--ifile"):
 			inputfile = arg
@@ -112,6 +115,8 @@ def main(argv):
 			convert_links_to_tokens = False
 		elif opt in ("-e", "--escaped"):
 			decode_escaped = False
+		elif opt in ("-S", "--Splits"):
+			add_splitters = False
 
 	translate_table = dict((ord(char), None) for char in invalid_chars)
 	sentences = Load_Files(inputfile)
@@ -142,6 +147,8 @@ def main(argv):
 		final_sentence = Clean_Sentence(final_sentence, translate_table)
 		if convert_lowercase == True:
 			final_sentence = final_sentence.lower()
+		if add_splitters == True:
+			final_sentence = Add_Splitter(final_sentence)
 		Write_Output_Sentence(fo, final_sentence)
 	fo.close()
 
@@ -153,6 +160,13 @@ def Load_Files(filename):
 	sentences = file.readlines()
 	file.close()
 	return sentences
+
+def Add_Splitter(sentence):
+	"""
+		Add sentence splitter mark to be recognized by split_sentences.pl,
+		even if text is lowercased
+	"""
+	return sentence + "<P>\n"
 
 def Write_Output_Sentence(fo, sentence):
 	"""

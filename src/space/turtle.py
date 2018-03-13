@@ -143,3 +143,43 @@ def wps2connectors(parses, clusters):  # 80228 Turtle-4 wps2links replacement
     connectors['c2'] = connectors['word2'].apply(lambda x: word_clusters[x])
     connectors['connector'] = connectors['c1'] + connectors['c2']
     return connectors  # connectors » link_grammar single_disjuncts
+
+
+def mst2disjuncts(input_file, lw='#LW#', dot=True, verbose='none'):  # 80311
+    # 80309 started from dumb_disjuncter POC-Turtle-3 for POC-Turtle-6
+    djs = pd.DataFrame(columns=['word','disjunct','count'])
+    djs['count'] = djs['count'].astype(int)
+    i = 0
+    disjuncts = dict()
+    words = dict()
+    with open(input_file, 'r') as f: lines = f.readlines()
+    for line in lines:
+        if len(line) > 1:
+            if line[0].isdigit():
+                x = line.split()
+                if x[1] == '###LEFT-WALL###': x[1] = 'LEFT-WALL'
+                words[x[0]] = x[1]
+                words[x[2]] = x[3]
+                if x[0] not in disjuncts:
+                    disjuncts[x[0]] = set([str(x[3])+'+'])
+                else:
+                    disjuncts[x[0]].add(str(x[3])+'+')
+                if x[2] not in disjuncts:
+                    disjuncts[x[2]] = set([str(x[1])+'-'])
+                else:
+                    disjuncts[x[2]].add(str(x[1])+'-')
+            else:
+                if len(disjuncts) > 0:
+                    for k,v in disjuncts.items():
+                        if len(v) == 1: disjunct = str(list(v)[0])
+                        else:
+                            l = sorted([str(x) for x in v if str(x)[-1] == '-'])
+                            r = sorted([str(x) for x in v if str(x)[-1] == '+'])
+                            disjunct = ' & '.join([x for x in (l+r)])
+                        djs.loc[i] = [words[k], disjunct, 1]
+                        i += 1
+                disjuncts = dict()
+                words = dict()
+        #-else: print('len(line) == 0')
+    djs['count'] = djs['count'].astype(int)
+    return djs

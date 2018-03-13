@@ -54,7 +54,8 @@ def link_grammar_rules(stalks):  # 80224 Turtle-4
     return rule_list
 
 
-def save_link_grammar(rule_list, path, file='', header='', footer=''):  # 80224
+def save_link_grammar(rule_list, path, file='', header='', footer=''):  # 80307
+    # 80307 v.0.6 = updated 80224 version 0.5
     from ..utl.utl import UTC
     # lg_rule_list: ['cluster', [words], [left djs], [right djs], [stalks]]
     link_grammar = ''
@@ -80,12 +81,14 @@ def save_link_grammar(rule_list, path, file='', header='', footer=''):  # 80224
         clusters.add(rule[0])
     line_list.sort()  # overkill? :)
     nc = str(len(clusters))
-    if file == '':
-        out_file = path + 'turtle_link_grammar_' \
-            + str(len(clusters)) + '_clusters_' + str(UTC())[:10] + '.4.0.dict'
-    else: out_file = path + file
+    if file != '': out_file = path + file
+    else: out_file = path + 'poc-turtle_'
+    out_file = out_file + str(len(clusters)) + 'C_' \
+        + str(UTC())[:10] + '_0006.4.0.dict'
     if header == '':
-        header = '% POC Turtle Link Grammar v.0.5 ' + str(UTC())
+        header = '% POC Turtle Link Grammar v.0.6 ' + str(UTC())
+    header = header + '\n' + '<dictionary-version-number>: V0v0v6+;\n' + \
+        '<dictionary-locale>: EN4us+;'  # 80307
     if footer == '':
         footer = '% '+ str(len(clusters)) + ' word clusters, ' \
             + str(len(rule_list)) + ' Link Grammar rules.\n' \
@@ -156,12 +159,10 @@ def dedupe_entries(dfg):  # 80302 Turtle-5.1 used in 80303 5.2
     df = dfg.copy()
     words = set([y for x in df['germs'] for y in x])
     for word in words:
-        #-print(word)
         ids = []
         for row in df.itertuples():
             if word in row[1]:
                 ids.append(row[0])
-                #-print(word, ids)
         if len(ids) > 1:
             word_djs = []
             word_counts = 0
@@ -172,7 +173,6 @@ def dedupe_entries(dfg):  # 80302 Turtle-5.1 used in 80303 5.2
                 word_counts += word_count
                 df.loc[x]['germs'].remove(word)
                 word_djs.extend(df.loc[x]['disjuncts'])
-                #print(df.loc[x]['germs'], word_djs)
             df.loc[len(df)] = [[word], word_djs, word_counts]
             print(df.loc[len(df)-1])
     return df
@@ -193,12 +193,13 @@ def lexical_entries(disjuncts):  # 80303 Turtle-5
     return dfm
 
 
-def entries2clusters(lexical_entries):  # 80303 Turtle-5
+def entries2clusters(lexical_entries):  # 80303 Turtle-5 +80307
     df = lexical_entries.copy()
     df['germs'] = df['germs'].apply(lambda x: sorted(list(x)))
     df['disjuncts'] = df['disjuncts'].apply(lambda x: sorted(list(x)))
     df = df[['germs','disjuncts','counts']].sort_values(by='germs', ascending=True)
     df.index = ('C' + str(x).zfill(2) for x in range(1, len(df)+1))
+    df['cluster'] = df.index  # added 80307 for disjuncts2clusters
     return df
 
 
@@ -216,20 +217,32 @@ def entries2rules(lexical_entries):  # 80303 Turtle-5
     return rule_list
 
 
-def disjuncts2clusters(lexical_entries):  # 80303 Turtle-5
+def disjuncts2clusters(lexical_entries):  # 80307 Turtle-5+ v.0.3
     df = lexical_entries.copy()
     wcs = dict()  # word-clusters
     for row in df.itertuples():
         for word in row[1]: wcs[word] = row[0]
-    def f(djs):
+
+    def connector(cluster, x, wcs):
+        sign = str(x[-1])
+        if sign == '-':
+            return str(wcs[x[:-1]]) + cluster + '-'
+        else:
+            return cluster + str(wcs[x[:-1]]) + '+'
+    def f(row):
+        djs = row['disjuncts']
         cdjs = set()
         for x in djs:
             if '&' not in x:
-                cdjs.add(str(wcs[x[:-1]]) + str(x[-1]))
+                cdjs.add(connector(str(row['cluster']), x, wcs))
             else:
-                cdjs.add(' & '.join(str(wcs[y[:-1]]) + str(y[-1]) for y in x.split() if (y != '&')))
-        z = list(cdjs)
-        z.sort()
-        return z
-    df['disjuncts'] = df['disjuncts'].apply(f)
+                z = []
+                for y in x.split():
+                    if (y != '&'):
+                         z.append(connector(str(row['cluster']), y, wcs))
+                cdjs.add(' & '.join(z))
+        tmp = sorted(list(cdjs))
+        return tmp
+
+    df['disjuncts'] = df.apply(lambda row: f(row), axis=1)
     return df

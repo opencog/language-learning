@@ -122,19 +122,21 @@ def wps2vec(parses,path,tmpath,dim=100,cds=1.0,eig=0.5,neg=1,verbose='none'):
     return vectors, sv, response
 
 
-def wps2links(parses, clusters):  # 80224 Turtle-4 [x] 80228 replaced
+def wps2links(parses, clusters):  # 80224 POC-Turtle-4, 80313 update
+    # 80228 replaced by wps2connectors, 80313 - returned
     # parses - from dmb_parser
     word_clusters = dict()
     for row in clusters.itertuples():
         for word in row[2]: word_clusters[word] = row[1]
-    parses['c1'] = parses['word1'].apply(lambda x: word_clusters[x])
-    parses['c2'] = parses['word2'].apply(lambda x: word_clusters[x])
-    parses['link'] = parses['c1'] + parses['c2']
-    return parses  # word_links » link_grammar single_disjuncts
+    links = parses.copy()
+    links['c1'] = links['word1'].apply(lambda x: word_clusters[x])
+    links['c2'] = links['word2'].apply(lambda x: word_clusters[x])
+    links['link'] = links['c1'] + links['c2']
+    return links  # word_links » link_grammar single_disjuncts
 
 
-def wps2connectors(parses, clusters):  # 80228 Turtle-4 wps2links replacement
-    # parses - from dmb_parser
+def wps2connectors(parses, clusters):  # 80228 wps2links replacement FIXME:DEL
+    ## 80228 replaced wps2links - 80313 back to wps2links
     word_clusters = dict()
     for row in clusters.itertuples():
         for word in row[2]: word_clusters[word] = row[1]

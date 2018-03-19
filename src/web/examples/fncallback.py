@@ -3,7 +3,8 @@
 *       callbacks, it is strongly recommended to use later.
 """
 
-from ..lgclient import LGClientError, LGClientLib, LGClientREST
+from web.lgclient import LGClientError, LGClientLib, LGClientREST
+
 
 def main():
 
@@ -50,7 +51,7 @@ def main():
         client.language = "poc-turtle"
         client.parse_cbf("Tuna isa fish.", onLinkages, onLinkage, printAll)
 
-        rest_client = LGClientREST("http://127.0.0.1:8000/linkparser")
+        rest_client = LGClientREST("http://127.0.0.1:9070/linkparser")
         rest_client.linkage_limit = 20
         rest_client.parse_cbf("I'm here, not there.", onRestLinkages)
 

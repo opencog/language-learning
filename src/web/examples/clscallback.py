@@ -4,7 +4,7 @@
 """
 
 from linkgrammar import Linkage
-from ..lgclient import LGClientCallback, LGClientLib, LGClientREST, LGClientError
+from web.lgclient import LGClientCallback, LGClientLib, LGClientREST, LGClientError
 
 """
     ParseCallback is defined to process link parser's output. Multiple callback classes can be defined when it
@@ -45,7 +45,7 @@ def main():
 
         # REST API usage sample, Change address and port to appropriate values
         #   if your server settings are different
-        rest_client = LGClientREST("http://127.0.0.1:8000/linkparser")
+        rest_client = LGClientREST("http://127.0.0.1:9070/linkparser")
         rest_client.language = "en"
 
         # Set linkage limit to 20, default is 1

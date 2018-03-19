@@ -54,8 +54,8 @@ def link_grammar_rules(stalks):  # 80224 Turtle-4
     return rule_list
 
 
-def save_link_grammar(rule_list, path, file='', header='', footer=''):  # 80307
-    # 80307 v.0.6 = updated 80224 version 0.5
+def save_link_grammar(rule_list, path, file='', header='', footer=''):  # 80313
+    # 80313 v.0.7 = updated 80307 v.0.6 = updated 80224 version 0.5
     from ..utl.utl import UTC
     # lg_rule_list: ['cluster', [words], [left djs], [right djs], [stalks]]
     link_grammar = ''
@@ -64,8 +64,9 @@ def save_link_grammar(rule_list, path, file='', header='', footer=''):  # 80307
     for rule in rule_list:
         line = ''
         if len(rule[2]) > 0 and len(rule[3]) > 0:
-            line += '(' + ' or '.join(str(x) for x in rule[2]) \
-                + ') & (' +  ' or '.join(str(y) for y in rule[3]) + ')'
+            line += '{' + ' or '.join(str(x) for x in rule[2]) \
+                + '} & {' +  ' or '.join(str(y) for y in rule[3]) + '}'
+                    # 80313 & » or with () - #F ~> & with {}
         else:
             if len(rule[2]) > 0:
                 line += ' or '.join('('+str(x)+')' for x in rule[2])
@@ -84,18 +85,19 @@ def save_link_grammar(rule_list, path, file='', header='', footer=''):  # 80307
     if file != '': out_file = path + file
     else: out_file = path + 'poc-turtle_'
     out_file = out_file + str(len(clusters)) + 'C_' \
-        + str(UTC())[:10] + '_0006.4.0.dict'
+        + str(UTC())[:10] + '_0007.4.0.dict'
     if header == '':
-        header = '% POC Turtle Link Grammar v.0.6 ' + str(UTC())
-    header = header + '\n' + '<dictionary-version-number>: V0v0v6+;\n' + \
-        '<dictionary-locale>: EN4us+;'  # 80307
+        header = '% POC Turtle Link Grammar v.0.7 ' + str(UTC())
+    header = header + '\n' + '<dictionary-version-number>: V0v0v7+;\n' \
+        + '<dictionary-locale>: EN4us+;'  # 80313
+    add_rules = 'UNKNOWN-WORD: XXX+;'     # 80313
     if footer == '':
         footer = '% '+ str(len(clusters)) + ' word clusters, ' \
             + str(len(rule_list)) + ' Link Grammar rules.\n' \
             + '% Link Grammar file saved to: ' + out_file
-    link_grammar = header +'\n\n'+ '\n'.join(line_list) +'\n'+ footer
-    with open (out_file, 'w') as f: f.write(link_grammar)
-    return link_grammar
+    lg = header +'\n\n'+ '\n'.join(line_list) +'\n'+ add_rules +'\n\n'+ footer
+    with open (out_file, 'w') as f: f.write(lg)
+    return lg
 
 
 def merge_clusters(threshold, n, clusters, sim_df):  # 80224 Turtle-4 FIXME!

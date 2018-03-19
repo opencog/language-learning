@@ -262,7 +262,8 @@ def Normalize_Sentence(sentence, convert_quotes_to_spaces):
 
 	# Normalize apostrophes, dashes and quotes obtained from Wikipedia Apostrophe page
 	sentence = re.sub(r"[\`]|’", "'", sentence)
-	sentence = re.sub(r"-{2,}|‒|–|—|―|‐|-|−", "-", sentence) # some dashes look the same, but they are apparently different
+	sentence = re.sub(r"‑|‐", "-", sentence)
+	sentence = re.sub(r"-{2,}|―|—|–|‒", "—", sentence) # some dashes look the same, but they are apparently different
 	sentence = re.sub(r"\'\'|“|”", '\\"', sentence)
 	if convert_quotes_to_spaces == True:
 		sentence = re.sub(r'\\"|"', " ", sentence) # sentence splitter escapes double quotes, as apparently needed by guile

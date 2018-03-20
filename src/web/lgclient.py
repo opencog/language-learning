@@ -7,6 +7,12 @@
 
 """
 
+from linkgrammar import LG_DictionaryError, Sentence, ParseOptions, Dictionary
+from abc import ABCMeta, abstractmethod
+import urllib.request
+import urllib.parse
+import json
+
 __all__     = [
                 'LGClientError', 'LGClient', 'LGClientCallback', 'LGClientLib', 'LGClientREST', 'LGClientCallback',
                 'get_lg_client'
@@ -14,19 +20,12 @@ __all__     = [
 
 __version__ = '0.1'
 
-import sys
-# import re, os, shutil, locale, getopt
-from linkgrammar import LG_Error, LG_DictionaryError, Linkage, Sentence, ParseOptions, Dictionary, Clinkgrammar as clg
-from abc import ABCMeta, abstractmethod
-import urllib.request
-import urllib.parse
-import json
 
-"""
-    Exception class for all Link Grammar clients
-
-"""
 class LGClientError(Exception):
+    """
+        Exception class for all Link Grammar clients
+
+    """
 
     def __init__(self, err_msg, err_code=1):
         self._err_msg = err_msg
@@ -35,66 +34,74 @@ class LGClientError(Exception):
     def __str__(self):
         return self._err_msg
 
-"""
-    Abstract class defines callback interface
-"""
-class LGClientCallback(metaclass=ABCMeta):
 
-    """ Linkages processig callback method """
+class LGClientCallback(metaclass=ABCMeta):
+    """
+        Abstract class defines callback interface
+    """
+
     @abstractmethod
     def on_linkages(self, linkages):
+        """ Linkages processig callback method """
         pass
 
-    """ Linkage processig callback method """
     @abstractmethod
     def on_linkage(self, linkage):
+        """ Linkage processig callback method """
         pass
 
-    """ Link processig callback method """
     @abstractmethod
     def on_link(self, link):
+        """ Link processig callback method """
         pass
 
-"""
-    Base class for all Link Grammar clients
-"""
-class LGClient(metaclass=ABCMeta):
 
-    """ Gets/sets dictionary for further parsing operations """
+class LGClient(metaclass=ABCMeta):
+    """
+        Base class for all Link Grammar clients
+    """
+    def __init__(self):
+        self._dict = "en"
+        self._linkage_limit = 10000
+
     @property
     def language(self):
+        """ Get/set dictionary for further parsing operations """
         return self._dict
 
     @language.setter
     def language(self, value):
         self._dict = value
 
-    """ Gets/Sets linkage limit for LG parser """
     @property
     def linkage_limit(self):
+        """ Get/set linkage limit for LG parser """
         return self._linkage_limit
 
     @linkage_limit.setter
     def linkage_limit(self, limit):
         self._linkage_limit = limit
 
-    """ Parse sentense using specified callback function for processing linkages """
     @abstractmethod
     def parse_cbf(self, line, callback, param1=None, param2=None):
+        """ Parse sentense using specified callback function for processing linkages """
         pass
 
-    """ Parse sentense using specified class callback instance for processing linkages """
     @abstractmethod
     def parse(self, line, callback):
+        """ Parse sentense using specified class callback instance for processing linkages """
         pass
 
-"""
-    LGClientLib handles all Link Grammar operations, using local library
-"""
-class LGClientLib(LGClient):
 
-    """ Constructor for local LG use """
-    def __init__(self, lang, limit = None):
+class LGClientLib(LGClient):
+    """
+        LGClientLib handles all Link Grammar operations, using local library
+    """
+
+    def __init__(self, lang, limit=None):
+        """ Constructor for local LG use """
+        super().__init__()
+
         try:
             self._obj_dict  = Dictionary(lang)
             self._dict      = lang
@@ -110,9 +117,9 @@ class LGClientLib(LGClient):
     def __del__(self):
         self._parse_options = ParseOptions(verbosity=0)
 
-    """ Property to switch dictionaries between parses """
     @property
     def language(self):
+        """ Property to switch dictionaries between parses """
         return self._dict
 
     @language.setter
@@ -120,7 +127,7 @@ class LGClientLib(LGClient):
         self._dict = None
 
         if hasattr(self, '_obj_dict') and self._obj_dict is not None:
-            del (self._obj_dict)
+            del self._obj_dict
 
         try:
             self._obj_dict = Dictionary(value)
@@ -129,9 +136,9 @@ class LGClientLib(LGClient):
         except LG_DictionaryError as err:
             print(str(err))
 
-    """ Get/Set linkage limit for LG parser """
     @property
     def linkage_limit(self):
+        """ Get/set linkage limit for LG parser """
         return self._linkage_limit
 
     @linkage_limit.setter
@@ -140,11 +147,11 @@ class LGClientLib(LGClient):
         if limit is not None:
             self._parse_options.linkage_limit = limit
 
-    """ Parse sentence, using user defined callback function for processing linkages """
     def parse_cbf(self, line, callback, param1=None, param2=None):
+        """ Parse sentence, using user defined callback function for processing linkages """
 
         if hasattr(self, '_obj_dict') and self._obj_dict is not None and \
-                hasattr(self, '_parse_options') and self._parse_options is not None:        # need it to avoid AttributeError
+                hasattr(self, '_parse_options') and self._parse_options is not None:
 
             linkages = Sentence(line, self._obj_dict, self._parse_options).parse()
 
@@ -154,8 +161,12 @@ class LGClientLib(LGClient):
             raise LGClientError("Sentence can not be parsed because Dictionary object was not created.")
 
     def parse(self, line, callback):
+        """
+            Parse sentence, using user defined callback class
+            for processing linkages
+        """
         if hasattr(self, '_obj_dict') and self._obj_dict is not None and \
-                hasattr(self, '_parse_options') and self._parse_options is not None:        # need it to avoid AttributeError
+                hasattr(self, '_parse_options') and self._parse_options is not None:
 
             linkages = Sentence(line, self._obj_dict, self._parse_options).parse()
 
@@ -164,41 +175,42 @@ class LGClientLib(LGClient):
             else:
                 raise LGClientError("Error: 'callback' is not an instance of LGClientCallback")
 
-"""
-    LGClientREST handles all Link Grammar operations remotely, using REST API service
-"""
+
 class LGClientREST(LGClient):
+    """
+        LGClientREST handles all Link Grammar operations remotely, using REST API service
+    """
 
-    """ Constructor for use with REST API server """
     def __init__(self, server_url, dict="en", limit=None):
+        """ Constructor for use with REST API server """
 
+        super().__init__()
         self._server_url    = server_url
         self._dict          = dict
         self._linkage_limit = limit
 
-    """ Property to switch dictionaries between parses """
     @property
     def language(self):
+        """ Property to switch dictionaries between parses """
         return self._dict
 
     @language.setter
     def language(self, value):
         self._dict = value
 
-    """ Get/Set linkage limit for LG parser """
     @property
     def linkage_limit(self):
+        """ Get/set linkage limit for LG parser """
         return self._linkage_limit
 
     @linkage_limit.setter
     def linkage_limit(self, limit):
         self._linkage_limit = limit if limit is not None else 1
 
-    """
-        Parse sentence using callback function for result processing
-    """
     def parse_cbf(self, line, callback, param1=None, param2=None):
-
+        """
+            Parse sentence using callback function for result processing
+        """
         if callback is None:
             raise LGClientError("Error: Callback function argument has type 'None'.")
 
@@ -218,10 +230,10 @@ class LGClientREST(LGClient):
         except Exception as err:
             print(err)
 
-    """
-        Parse sentence using class callback instance for result processig
-    """
     def parse(self, line, callback):
+        """
+            Parse sentence using class callback instance for result processig
+        """
 
         try:
             # Make up a request string
@@ -242,11 +254,12 @@ class LGClientREST(LGClient):
         except Exception as err:
             print(err)
 
-"""
-    get_lg_client is the universal method of creating LGClient instance. Local library is used if server URL
-            is not set, REST API client is used otherwise. 
-"""
+
 def get_lg_client(lang, url=None):
+    """
+        get_lg_client is the universal method of creating LGClient instance. Local library is used if server URL
+                is not set, REST API client is used otherwise.
+    """
     if lang is None:
         raise LGClientError("Error: 'lang' argument is not properly set.")
 

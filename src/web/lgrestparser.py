@@ -1,23 +1,28 @@
-#
-#   REST-API wrapper for Link Grammar parser. Uses Falcon framework along with Gunicorn WSGI server (can be any WSGI server).
-#
-#   Request:    http://<server ip>:<server port>/linkparser?lang=<language>&text=<sentence>&mode=<mode>&limit=<limit>
-#
-#               <language>   - short name of the dictionary supported by Link Grammar such as en, ru, tu etc.
-#
-#               <sentence>   - can be any sentence to be parsed by Link Grammar parser
-#
-#               <mode>       - numeric output mode. There three modes currently available:
-#
-#                              0 - graphics (default mode)
-#                              1 - postscript
-#                              2 - constituent tree
-#
-#               <limit>     - maximum number of linkages to return
-#
+"""
 
-import falcon, json, os, logging
-from linkgrammar import Linkage, LG_Error, Sentence, ParseOptions, Dictionary, Clinkgrammar as clg
+  REST-API wrapper for Link Grammar parser. Uses Falcon framework along with Gunicorn WSGI server
+          (can be any WSGI server).
+
+  Request:
+    http://<server ip>:<server port>/linkparser?lang=<language>&text=<sentence>&mode=<mode>&limit=<limit>
+
+              <language>   - short name of the dictionary supported by Link Grammar such as en, ru, tu etc.
+
+              <sentence>   - can be any sentence to be parsed by Link Grammar parser
+
+              <mode>       - numeric output mode. There three modes currently available:
+
+                             0 - graphics (default mode)
+                             1 - postscript
+                             2 - constituent tree
+
+              <limit>     - maximum number of linkages to return
+"""
+import falcon
+import json
+import os
+import logging
+from linkgrammar import LG_Error, Sentence, ParseOptions, Dictionary
 
 # Link Grammar dictionaries root path
 LG_DICT_DEFAULT_PATH = "/usr/local/share/link-grammar"
@@ -37,9 +42,11 @@ DEFAULT_LIMIT       = 1                 # default number of linkages
 
 DEFAULT_LANGUAGE = "poc-turtle"
 
+
 class LinkParserResource:
 
     def on_get(self, req, resp):
+        """ Handle HTTP GET request """
         link_list               = {}                # output dictionary
         link_list['errors']     = []                # list of errors if any
         link_list['linkages']   = []                # list of linkages in requested format
@@ -56,7 +63,8 @@ class LinkParserResource:
 
             # If no sentence is specified, then nothing to do...
             if text == None:
-                raise Exception("No sentence to parse...")
+                logging.debug("Parameter 'text' is not specified. Nothing to parse.")
+                raise falcon.HTTPBadRequest("Parameter 'text' is not specified. Nothing to parse.")
 
             # Use default language if no language is specified
             if lang is None:

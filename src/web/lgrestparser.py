@@ -24,6 +24,9 @@ import os
 import logging
 from linkgrammar import LG_Error, Sentence, ParseOptions, Dictionary
 
+
+__version__ = "1.1"
+
 # Link Grammar dictionaries root path
 LG_DICT_DEFAULT_PATH = "/usr/local/share/link-grammar"
 

@@ -3,7 +3,7 @@
 import sys, re, os, shutil, locale, getopt
 from linkgrammar import LG_Error, Linkage, Sentence, ParseOptions, Dictionary, Clinkgrammar as clg
 
-SCRIPT_VERSION          = "1.2"
+__version__             = "1.3"
 DEFAULT_LG_DICT_PATH    = "/usr/local/share/link-grammar"
 OUTPUT_DIAGRAM          = 0
 OUTPUT_POSTSCRIPT       = 1
@@ -11,7 +11,8 @@ OUTPUT_CONSTITUENT      = 2
 
 def main(argv):
     """
-        Usage: grammar-test.py -f <dict_file_path> -g <grammar_dir> -c <corpus_file_path> [-t <template_dict_path> -o <output_format> -r]
+        Usage: grammar-test.py [-f <dict_file_path> | -d <dir_with_dict_files>] -g <grammar_dir> -c <corpus_file_path>
+                                [-t <template_dict_path> -o <output_format> -r]
 
                 dict_file_path    - grammar file path. Grammar file name should be: 'grammar-name_cluster-info_yyyy-MM-dd_hhhh.4.0.dict'
                                                                                     (e.g. poc-turtle_8C_2018-03-03_0A10.4.0.dict)
@@ -22,6 +23,8 @@ def main(argv):
                                           MM              - month
                                           dd              - day of the month
                                           hhhh            - hexadecimal sequential number
+
+                dir_with_dict_files - path to directory with .dict files
 
                 grammar_dir_path    - grammar root directory, where each language grammar is stored in a separate subdirectory
 
@@ -90,10 +93,6 @@ def main(argv):
         print_help()
         exit(1)
 
-    if template_dict_path is None:
-        template_dict_path = DEFAULT_LG_DICT_PATH
-        print("Warning: Template dictionary path is not specified. Default path '{}' is used instead.".format(DEFAULT_LG_DICT_PATH))
-
     # Extract grammar name and a name of the new grammar directory from the file name
     (template_dict_name, dict_path) = get_dir_name(file_path)
 
@@ -101,10 +100,15 @@ def main(argv):
         print("Error: Unable to parse file name.")
         exit(2)
 
-    dict_path = lg_dict_path + "/" + dict_path
-    template_dict_path = template_dict_path + "/" + template_dict_name
+    # If template dictionary path is not specified use default LG dictionary path and language name
+    #   extracted from dictionary file name
+    if template_dict_path is None:
+        template_dict_path = DEFAULT_LG_DICT_PATH + "/" + template_dict_name
+        print("Warning: Template dictionary path is not specified. Default path '{}' is used instead.".format(DEFAULT_LG_DICT_PATH))
 
-    # print(template_dict_path, dict_path, sep="\n")
+    dict_path = lg_dict_path + "/" + dict_path
+
+    print(template_dict_path, dict_path, sep="\n")
 
     try:
         # If the dictionary directory does not exist
@@ -143,9 +147,8 @@ def main(argv):
 # Print usage info
 #
 def print_help():
-    print("Grammar test script v." + SCRIPT_VERSION)
-    print('''Usage: grammar-test.py -f <dict_file_path> -g <grammar_dir_path> -t <template_dict_path> -o <output_format>''')
-
+    print("Grammar test script v." + __version__)
+    print(main.__doc__)
 #
 # Extract the first part of the file name to use it as a name for grammar directory
 #

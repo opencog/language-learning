@@ -23,6 +23,7 @@ Usage: lgparser.py -i <input_path> [-o <output_path>] [OPTIONS]
         -n  --no-strip          Do not strip token suffixes.
         -l  --linkage-limit     Maximum number of linkages Link Grammar may return when parsing a sentence.
                                 Default is one linkage.
+        -g  --grammar-dir       Language short name (e.g. 'ru' for Russian) or path to grammar dictionary directory.
     """
 
     input_path      = None
@@ -31,6 +32,7 @@ Usage: lgparser.py -i <input_path> [-o <output_path>] [OPTIONS]
     is_rwall        = False
     is_strip        = True
     linkage_limit   = None
+    grammar_path    = None
 
     # parse_postscript("[(LEFT-WALL)(Dad[!])(was.v-d)(not.e)(a)(parent.n)(before)(.)(RIGHT-WALL)][[0 7 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (Osm)][2 3 0 (EBm)][4 5 0 (Ds**c)][5 6 0 (Mp)][7 8 0 (RW)]][0]")
     # exit(0)
@@ -38,8 +40,8 @@ Usage: lgparser.py -i <input_path> [-o <output_path>] [OPTIONS]
     print("lgparser.py v." + __version__)
 
     try:
-        opts, args = getopt.getopt(argv, "hcrni:o:l:", ["help", "caps", "right-wall", "no-strip",
-                                                        "input=", "output=", "linkage-limit="])
+        opts, args = getopt.getopt(argv, "hcrni:o:l:g:", ["help", "caps", "right-wall", "no-strip",
+                                                        "input=", "output=", "linkage-limit=", "grammar-dir="])
 
         for opt, arg in opts:
             if opt in ("-h", "--help"):
@@ -57,6 +59,8 @@ Usage: lgparser.py -i <input_path> [-o <output_path>] [OPTIONS]
                 output_path = arg.replace("~", os.environ['HOME'])
             elif opt in ("-l", "--linkage-limit"):
                 linkage_limit = int(arg)
+            elif opt in ("-g", "--grammar-dir"):
+                grammar_path = arg
 
     except getopt.GetoptError:
         print(main.__doc__)
@@ -70,8 +74,11 @@ Usage: lgparser.py -i <input_path> [-o <output_path>] [OPTIONS]
     if linkage_limit is None:
         linkage_limit = 1
 
+    if grammar_path is None:
+        grammar_path = "en"
+
     try:
-        parse_text("en", input_path, output_path, is_caps, is_rwall, is_strip, linkage_limit)
+        parse_text(grammar_path, input_path, output_path, is_caps, is_rwall, is_strip, linkage_limit)
 
     except OSError as err:
         print(str(err))

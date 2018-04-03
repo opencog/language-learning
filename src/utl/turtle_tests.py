@@ -1,4 +1,4 @@
-# POC-Turtle-6-Tests.ipynb 3029-03-09
+# POC-Turtle-6-Tests.ipynb 2018-03-09
 
 def test_turtle_rules(lg_rule_list, test_data_path, create='False'):
     import pickle

@@ -1,4 +1,4 @@
-# Unstructured mess of files from 2017 - TODO: restore the file structure?
+## Unstructured mess of files from 2017 - TODO: restore the file structure?
 from __future__ import division
 import time
 import numpy as np
@@ -33,9 +33,9 @@ def calc_pmi(counts, cds):  # Calculates e^PMI; PMI without the log().
     pmi = pmi * sum_total
     return pmi
 
-def save_matrix(f, m):  # replaced by np.savez... in links2vec
+def save_matrix(f, m):  #_replaced by np.savez... in links2vec
     np.savez_compressed(f, data=m.data, indices=m.indices, indptr=m.indptr, shape=m.shape)
-    # from representations.matrix_serializer import save_matrix:
+    #-from representations.matrix_serializer import save_matrix:
 
 '''PMI => SVD'''
 
@@ -181,7 +181,7 @@ def list2tsv(lst, path):
     return {'saved_items': len(lst)}
 
 def links2vec(links,out_path,tmp_path,dim=100,cds=1.0,eig=0.5,verbose='none'):
-    # 80204: Language Learning - Clustering pipeline January 2018.ipynb
+    #80204: Language Learning - Clustering pipeline January 2018.ipynb
     '''links => PMI'''
     #-cds = 1.0  # cds = float(args['--cds']) # Context distribution smoothing [default: 1.0]
     pmi_path = tmp_path + 'pmi'
@@ -402,7 +402,7 @@ def pmisvd(links,path,tmpath, dim=100, cds=1.0, eig=0.5, neg=1, verbose='none'):
     if verbose == 'max':
         print('SVD started: dim', dim, ', output:', svd_path+'...')
     explicit = PositiveExplicit(pmi_path, normalize=False, neg=neg)
-    #print('explicit.m:', explicit.m)
+    #-print('explicit.m:', explicit.m)
     ut, s, vt = sparsesvd(explicit.m.tocsc(), dim)
     np.save(svd_path + '.ut.npy', ut)
     np.save(svd_path + '.s.npy', s)
@@ -433,3 +433,33 @@ def pmisvd(links,path,tmpath, dim=100, cds=1.0, eig=0.5, neg=1, verbose='none'):
 
     singular_values = s.tolist()  # type(s): numpy.ndarray
     return vectors_df, singular_values, {'vectors_file': out_file}
+
+
+def vector_space_dim(links, path, tmpath, dim_max=100, sv_min=0.9, \
+                     verbose='none', cds=1.0, eig=0.5, neg=1):  #80329
+    import matplotlib.pyplot as plt
+    #-%matplotlib inline
+    #-from src.space.hyperwords import pmisvd
+    vdf, sv, response = pmisvd(links, path, tmpath, dim_max)
+    if verbose == 'max':
+        print('Singular values ('+str(len(sv))+'):', \
+              ', '.join(str(round(x,1)) for x in sv))
+    if verbose in ['max', 'mid']:
+        plt.plot(range(1,len(sv)+1), sv)
+        plt.xlabel('Vector space dimension')
+        plt.ylabel('Singular value')
+        plt.show()
+    dim = max([i for i,x in enumerate(sv) if x > max(sv)*sv_min])
+    if verbose in ['max', 'mid']:
+        print('Vector space dimensionality =', dim+1)
+        print('Singular value ('+str(dim+1)+') =', round(sv[dim],1))
+        print('Max singular value ('+str(1)+') =', round(sv[0],1))
+        if dim+1 < len(sv):
+            print('Singular value ('+str(dim+1)+') =', sv[dim+1])
+        else:
+            print('All singular values within relevance interval - more than', sv_min, 'of max singular value')
+            #+str(round((max(sv)*sv_min), 2))+')'
+    return dim+1
+
+
+#80329 added vector_space_dim

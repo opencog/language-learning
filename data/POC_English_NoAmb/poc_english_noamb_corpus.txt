@@ -1,0 +1,38 @@
+A mom is a human.
+A dad is a human.
+A mom is a parent.
+A dad is a parent.
+A son is a child.
+A daughter is a child.
+A son is a human.
+A daughter is a human.
+A mom likes cake.
+A daughter likes cake.
+A son likes sausage.
+A dad likes sausage.
+Cake is a food.
+Sausage is a food.
+
+Mom is a human now.
+Dad is a human now.
+Mom is a parent now.
+Dad is a parent now.
+Son is a child now.
+Daughter is a child now.
+Son is a human now.
+Daughter is a human now.
+Mom likes cake now.
+Daughter likes cake now.
+Son likes sausage now.
+Dad likes sausage now.
+Cake is a food now.
+Sausage is a food now.
+Mom was a daughter before.
+Dad was a son before.
+Mom was not a parent before.
+Dad was not a parent before.
+Mom liked cake before.
+Dad liked sausage before.
+Cake was a food before.
+Sausage was a food before.
+

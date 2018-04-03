@@ -1,10 +1,11 @@
+#80323
 import numpy as np
 import pandas as pd
 
 
-def single_disjuncts(word_links):  # 80228 Turtle-4+
+def single_disjuncts(word_links):   #80228 Turtle-4+
     # word_links - from space/turtle.py/parses2links
-    # TODO? update: word_links = connectors from wps2connectors - 80228 update
+    #TODO? update: word_links = connectors from wps2connectors - 80228 update
     if 'connector' in word_links.columns:  # 80228 update compatibility
         word_links = word_links.rename(columns={'connector': 'link'})
     lefts = word_links.loc[:,['word2']]
@@ -25,7 +26,7 @@ def single_disjuncts(word_links):  # 80228 Turtle-4+
     return word_djs  # stalks »
 
 
-def link_grammar_rules(stalks):  # 80224 Turtle-4
+def link_grammar_rules(stalks):     #80224 Turtle-4
     disjuncts = dict()
     for word,connectors in stalks.items():
         lefts = [x for x in connectors if (('-' in x) and ('+' not in x))]
@@ -43,7 +44,7 @@ def link_grammar_rules(stalks):  # 80224 Turtle-4
         if len(list(key[0])) > 0: cluster_id = list(key[0])[0][3:6]
         elif len(list(key[1])) > 0: cluster_id = list(key[1])[0][0:3]
         else: cluster_id = ''
-        # TODO: rules for stalks - 3rd list [A- & B+]
+        #TODO: rules for stalks - 3rd list [A- & B+]
         rule.append(cluster_id)
         rule.append(list(words))
         rule.append(list(key[0]))
@@ -54,8 +55,8 @@ def link_grammar_rules(stalks):  # 80224 Turtle-4
     return rule_list
 
 
-def save_link_grammar(rule_list, path, file='', header='', footer=''):  # 80313
-    # 80313 v.0.7 = updated 80307 v.0.6 = updated 80224 version 0.5
+def save_link_grammar(rule_list, path, file='', header='', footer=''):  #80313
+    #80313 v.0.7 = updated 80307 v.0.6 = updated 80224 version 0.5
     from ..utl.utl import UTC
     # lg_rule_list: ['cluster', [words], [left djs], [right djs], [stalks]]
     link_grammar = ''
@@ -66,7 +67,6 @@ def save_link_grammar(rule_list, path, file='', header='', footer=''):  # 80313
         if len(rule[2]) > 0 and len(rule[3]) > 0:
             line += '{' + ' or '.join(str(x) for x in rule[2]) \
                 + '} & {' +  ' or '.join(str(y) for y in rule[3]) + '}'
-                    # 80313 & » or with () - #F ~> & with {}
         else:
             if len(rule[2]) > 0:
                 line += ' or '.join('('+str(x)+')' for x in rule[2])
@@ -76,11 +76,11 @@ def save_link_grammar(rule_list, path, file='', header='', footer=''):  # 80313
             if line != '': line += ' or '
             line += ' or '.join('('+str(x)+')' for x in rule[4])
 
-        cluster_number = '% ' + str(rule[0]) + '\n'  # comment line: cluster
+        cluster_number = '% ' + str(rule[0]) + '\n'  # comment line: cluster ID
         cluster_and_words = ' '.join('"'+word+'"' for word in rule[1]) + ':\n'
         line_list.append(cluster_number + cluster_and_words + line + ';\n')
         clusters.add(rule[0])
-    line_list.sort()  # overkill? :)
+    line_list.sort()  #FIXME: overkill? :)
     nc = str(len(clusters))
     if file != '': out_file = path + file
     else: out_file = path + 'poc-turtle_'
@@ -101,7 +101,7 @@ def save_link_grammar(rule_list, path, file='', header='', footer=''):  # 80313
 
 
 def merge_clusters(threshold, n, clusters, sim_df):  # 80224 Turtle-4 FIXME!
-    # 80224 Turtle 4 stub TODO: update clustering with threshold and n_cls
+    #80224 Turtle 4 stub TODO: update clustering with threshold and n_cls
     categories = pd.DataFrame(columns=['cluster', 'cluster_words'])
     if n == 5: alist = [['C06', 'C08'], ['C07'], ['C01'], ['C02'], ['C05']]
     elif n == 4: alist = [['C06', 'C08', 'C07'], ['C01'], ['C02'], ['C05']]
@@ -118,7 +118,7 @@ def merge_clusters(threshold, n, clusters, sim_df):  # 80224 Turtle-4 FIXME!
 
 
 def merged_clusters_grammar(threshold, n, clusters, sim_df, prs, path):  # 80224
-    # 80224 Turtle-4, threshold (0.0-1.0) not used
+    #80224 Turtle-4, threshold (0.0-1.0) not used
     from IPython.display import display
     from ..utl.turtle import html_table
     from ..space.turtle import wps2links, wps2connectors
@@ -154,7 +154,7 @@ def merge_disjunct_germs(df):  # 80303 Turtle-5
     return df4
 
 
-def dedupe_entries(dfg):  # 80302 Turtle-5.1 used in 80303 5.2
+def dedupe_entries(dfg):  #80302 Turtle-5.1 used in 80303 5.2
     # dfg - grouped DataFrame 'germs':[], 'disjuncts':[], 'counts':int
     # Check each germ (word) belongs to only one rule (cluster, germ set)
     # If not: form a new single-germ-multi-disjunct entry ... then merge similar
@@ -180,7 +180,7 @@ def dedupe_entries(dfg):  # 80302 Turtle-5.1 used in 80303 5.2
     return df
 
 
-def lexical_entries(disjuncts):  # 80303 Turtle-5
+def lexical_entries(disjuncts):  #80303 Turtle-5
     # build multi-germ-multi-disjunct lexical entries ~ LG rules (ALT 5.2 80303)
     df = disjuncts.copy()
     # merge_germ_disjuncts ~ build single-germ-multi-disjunct lexical entries
@@ -189,9 +189,9 @@ def lexical_entries(disjuncts):  # 80303 Turtle-5
     # TODO: check multi-index in dfg, fix?
     dfg['germs'] = [[x] for x in dfg['word']]
     dfm = merge_disjunct_germs(dfg)[['germs', 'disjuncts','counts']]
-    # TODO: loop dedupe-merge checking len(dfd) = len(dfg) ?
-    dfd = dedupe_entries(dfg)  # overkill?
-    dfm = merge_disjunct_germs(dfd)[['germs', 'disjuncts','counts']]
+    #TODO: loop dedupe-merge checking len(dfd) = len(dfg) ?
+    #-dfd = dedupe_entries(dfg)  # overkill?
+    #-dfm = merge_disjunct_germs(dfd)[['germs', 'disjuncts','counts']]
     return dfm
 
 
@@ -205,7 +205,7 @@ def entries2clusters(lexical_entries):  # 80303 Turtle-5 +80307
     return df
 
 
-def entries2rules(lexical_entries):  # 80303 Turtle-5
+def entries2rules(lexical_entries):  #80303 Turtle-5
     rule_list = list()
     for row in lexical_entries.itertuples():
         rule = []
@@ -219,9 +219,9 @@ def entries2rules(lexical_entries):  # 80303 Turtle-5
     return rule_list
 
 
-def disjuncts2clusters(lexical_entries):  # 80307 Turtle-5+ v.0.3
+def disjuncts2clusters(lexical_entries):  #80307 Turtle-5+ v.0.3
     df = lexical_entries.copy()
-    wcs = dict()  # word-clusters
+    wcs = dict()    # word clusters
     for row in df.itertuples():
         for word in row[1]: wcs[word] = row[0]
 
@@ -248,3 +248,42 @@ def disjuncts2clusters(lexical_entries):  # 80307 Turtle-5+ v.0.3
 
     df['disjuncts'] = df.apply(lambda row: f(row), axis=1)
     return df
+
+
+def files2disjuncts(files, left_wall='', period=False, verbose='none'):  #80321 Turtle-8
+    from src.space.turtle import mst2disjuncts
+    for i,f in enumerate(files):
+        if verbose == 'max':
+            print('File # '+str(i)+':', f)
+        #-parses = mst2disjuncts(file, lw=left_wall, dot=period)
+        if i == 0:
+            djs = pd.DataFrame(columns=['word','disjunct','count'])
+        djs = pd.concat([djs, mst2disjuncts(f, lw=left_wall, dot=period)])
+    disjuncts = djs.groupby(['word','disjunct'], as_index=False).sum() \
+        .sort_values(by=['count','word','disjunct'], ascending=[False,True,True]) \
+        .reset_index(drop=True)
+    dj_number = len(set(disjuncts['disjunct'].tolist()))
+    if verbose != 'none':
+        print(dj_number, 'unique disjuncts form', \
+            len(disjuncts),'unique word-disjunct pairs from', \
+            len(disjuncts), 'parsed items')
+    return disjuncts
+
+
+def entries2categories(entries):  #80323 stub
+    categories = []
+    df = entries2clusters(entries)
+    for index, row in df.iterrows():
+        #-print(index, row['disjuncts'])
+        category = []
+        category.append('C00')  # TODO: agglomeration
+        category.append(index)
+        category.append(1.0)    # TODO: category quality metric
+        category.append(row['germs'])
+        category.append([1.0 for x in row['germs']])  # TODO: words relevance to category
+        categories.append(category)
+    return categories
+
+
+#80224 Turtle 4
+#80323 Turtle 8 - snoozed...

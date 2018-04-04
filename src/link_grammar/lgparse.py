@@ -7,7 +7,7 @@ import re
 import os
 from linkgrammar import LG_Error, Sentence, ParseOptions, Dictionary
 
-__all__ = ['parse_text', 'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT', 'BIT_REMOVE',
+__all__ = ['parse_text', 'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT', 'BIT_ULL_IN', 'BIT_RM_DIR',
            'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE']
 
 __version__ = "1.0.0"
@@ -16,9 +16,11 @@ BIT_CAPS  = 0x01        # Keep capitalized letters in tokens
 BIT_RWALL = 0x02        # Keep RIGHT-WALL tokens and the links
 BIT_STRIP = 0x04        # Strip off token suffixes
 BIT_OUTPUT= 0x18        # Output format
-BIT_REMOVE= 0x20        # Remove grammar dictionary if it already exists. Then recreate it from scratch.
+BIT_ULL_IN= 0x20        # If set parse_text() is informed that ULL parses are used as input, so only
+                        #   sentences should be parsed, links should be filtered out.
+BIT_RM_DIR= 0x40        # Remove grammar dictionary if it already exists. Then recreate it from scratch.
 
-# Output format constants. If no bits set ULL defacto format is used
+# Output format constants. If no bits set ULL defacto format is used.
 BIT_OUTPUT_DIAGRAM = 0x08
 BIT_OUTPUT_POSTSCRIPT = 0x10
 BIT_OUTPUT_CONST_TREE = 0x18
@@ -214,6 +216,8 @@ def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
     line_count = 0                  # number of sentences in the corpus
 
     try:
+        link_line = re.compile(r"[ ]*[0-9]+.+", re.S)
+
         po = ParseOptions(min_null_count=0, max_null_count=999)
         po.linkage_limit = linkage_limit
 
@@ -223,6 +227,11 @@ def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
         output_file_handle = sys.stdout if output_path is None else open(output_path, "w")
 
         for line in input_file_handle:
+
+            # Filter out links when ULL parses are used as input
+            if options & BIT_ULL_IN > 0 and link_line.match(line):
+                continue
+
             sent = Sentence(line, di, po)
             linkages = sent.parse()
 

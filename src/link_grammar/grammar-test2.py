@@ -30,15 +30,17 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path>] [OPTIONS]
 
     input_path      = None
     output_path     = None
-    options         = 0 | BIT_STRIP
+    options         = 0 | BIT_STRIP | BIT_ULL_IN
     linkage_limit   = None
     grammar_path    = None
+    template_path   = None
 
     print("lgparser.py v." + __version__)
 
     try:
-        opts, args = getopt.getopt(argv, "hcrni:o:l:g:", ["help", "caps", "right-wall", "no-strip",
-                                                        "input=", "output=", "linkage-limit=", "grammar-dir="])
+        opts, args = getopt.getopt(argv, "hcwrnui:o:l:g:t:", ["help", "caps", "right-wall", "rm-dir", "no-strip",
+                                                            "ull-input", "input=", "output=", "linkage-limit=",
+                                                            "grammar-dir=", "template-dir="])
 
         for opt, arg in opts:
             if opt in ("-h", "--help"):
@@ -46,10 +48,14 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path>] [OPTIONS]
                 exit(0)
             elif opt in ("-c", "--caps"):
                 options |= BIT_CAPS
-            elif opt in ("-r", "--right-wall"):
+            elif opt in ("-w", "--right-wall"):
                 options |= BIT_RWALL
+            elif opt in ("-r", "--rm-dir"):
+                options |= BIT_RM_DIR
             elif opt in ("-n", "--no-strip"):
                 options &= (~BIT_STRIP)
+            elif opt in ("-u", "--ull-input"):
+                options &= (~BIT_ULL_IN)
             elif opt in ("-i", "--input"):
                 input_path = arg.replace("~", os.environ['HOME'])
             elif opt in ("-o", "--output"):
@@ -58,6 +64,8 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path>] [OPTIONS]
                 linkage_limit = int(arg)
             elif opt in ("-g", "--grammar-dir"):
                 grammar_path = arg
+            elif opt in ("-t", "--template-dir"):
+                template_path = arg
 
     except getopt.GetoptError:
         print(main.__doc__)

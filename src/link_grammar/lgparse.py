@@ -7,8 +7,8 @@ import re
 import os
 from linkgrammar import LG_Error, Sentence, ParseOptions, Dictionary
 
-__all__ = ['parse_text', 'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT', 'BIT_OUTPUT_DIAGRAM',
-           'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE']
+__all__ = ['parse_text', 'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT', 'BIT_REMOVE',
+           'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE']
 
 __version__ = "1.0.0"
 
@@ -16,6 +16,7 @@ BIT_CAPS  = 0x01        # Keep capitalized letters in tokens
 BIT_RWALL = 0x02        # Keep RIGHT-WALL tokens and the links
 BIT_STRIP = 0x04        # Strip off token suffixes
 BIT_OUTPUT= 0x18        # Output format
+BIT_REMOVE= 0x20        # Remove grammar dictionary if it already exists. Then recreate it from scratch.
 
 # Output format constants. If no bits set ULL defacto format is used
 BIT_OUTPUT_DIAGRAM = 0x08

@@ -75,7 +75,7 @@ def Evaluate_Parses(test_parses, ref_parses, verbose):
         if ref_sent != test_sent:
             print(ref_sent)
             print(test_sent)
-            sys.exit("Error: files don't contain same parses in same order")
+            sys.exit("Error: files don't contain same parses")
 
         ref_sets = MakeSets(ref_parse)  # using sets to ignore link directions
         test_sets = MakeSets(test_parse)

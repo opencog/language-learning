@@ -10,13 +10,14 @@ __version__ = "2.0.2"
 
 def main(argv):
     """
-Usage: grammar-test2.py -d <dict_path> -i <input_path> [-o <output_path>] [OPTIONS]
+Usage: grammar-test2.py -d <dict_path> -i <input_path> [-o <output_path>] [-s <stat_path>] [OPTIONS]
 
     dict_path           Path to grammar definition file (or directory with multiple such files) to be tested.
                         The files should be in proper Link Grammar format.
     input_path          Input corpus file or directory path. In case of directory the script will traverse all
                         subdirectories, parse each file in there and calculate overal statistics.
-    output_path         Output directory path to store parse text files in. sys.stdout is used if not specidied.
+    output_path         Output directory path to store parse text files in. sys.stdout is used if not specified.
+    stat_path           Statistics output file path. sys.stdout is used if not specified.
 
     OPTIONS:
         -h  --help              Print usage info.
@@ -41,14 +42,15 @@ Usage: grammar-test2.py -d <dict_path> -i <input_path> [-o <output_path>] [OPTIO
     linkage_limit   = None
     grammar_path    = None
     template_path   = None
+    stat_path       = None
 
     print("grammar-test2.py ver." + __version__)
 
     try:
-        opts, args = getopt.getopt(argv, "hcwrnud:i:o:l:g:t:f:", ["help", "caps", "right-wall", "rm-dir", "no-strip",
+        opts, args = getopt.getopt(argv, "hcwrnud:i:o:l:g:t:f:s:", ["help", "caps", "right-wall", "rm-dir", "no-strip",
                                                             "ull-input", "dictionary=", "input=", "output=",
                                                             "linkage-limit=", "grammar-dir=", "template-dir=",
-                                                            "output-format"])
+                                                            "output-format", "stat-path="])
 
         for opt, arg in opts:
             if opt in ("-h", "--help"):
@@ -83,6 +85,8 @@ Usage: grammar-test2.py -d <dict_path> -i <input_path> [-o <output_path>] [OPTIO
                     options |= BIT_OUTPUT_POSTSCRIPT
                 elif arg == "constituent":
                     options |= BIT_OUTPUT_CONST_TREE
+            elif opt in ("-s", "--stat-path"):
+                stat_path = arg.replace("~", os.environ['HOME'])
 
     except getopt.GetoptError:
         print(main.__doc__)
@@ -106,13 +110,14 @@ Usage: grammar-test2.py -d <dict_path> -i <input_path> [-o <output_path>] [OPTIO
         output_path = os.environ['PWD']
 
     if dict_path is None:
-        # dict_path = "en"
-        print("Error: Dictionary file/directory path is not specified.")
-        print(main.__doc__)
-        exit(1)
+        dict_path = "en"
+        # print("Error: Dictionary file/directory path is not specified.")
+        # print(main.__doc__)
+        # exit(1)
 
     try:
-        parse_corpus_files(input_path, output_path, dict_path, grammar_path, template_path, linkage_limit, options)
+        parse_corpus_files(input_path, output_path, dict_path, grammar_path, template_path,
+                           linkage_limit, options)
 
     except OSError as err:
         print(str(err))

@@ -13,7 +13,7 @@ from linkgrammar import LG_Error, Sentence, ParseOptions, Dictionary
 __all__ = ['parse_corpus_files', 'parse_text', 'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT',
            'BIT_ULL_IN', 'BIT_RM_DIR', 'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE']
 
-__version__ = "2.0.1"
+__version__ = "2.0.2"
 
 LG_DICT_PATH = "/usr/local/share/link-grammar"
 
@@ -30,6 +30,9 @@ BIT_OUTPUT_DIAGRAM = 0x08
 BIT_OUTPUT_POSTSCRIPT = 0x10
 BIT_OUTPUT_CONST_TREE = 0x18
 
+
+class LGParseError(Exception):
+    pass
 
 def strip_token(token) -> str:
     """
@@ -340,14 +343,28 @@ def traverse_dir(root, file_ext, on_file, on_dir=None, is_recursive=False):
 
         elif entry.is_file() and (len(file_ext) < 1 or (len(file_ext) and entry.path.endswith(file_ext))):
             if on_file is not None:
-                on_file(entry.path)
+                try:
+                    on_file(entry.path)
+                except LGParseError as err:
+                    print("LGParseError: " + str(err))
 
 
 def get_dir_name(file_name) -> (str, str):
     """
-    get_dir_name - extract template grammar directory name and a name for a new grammar directory
+    Extract template grammar directory name and a name for new grammar directory
 
-    :param file_name: grammar file name having well defined name notation
+    :param file_name: Grammar file name. It should have the following notation:
+
+                '<grammar-name>_<N>C_<yyyy-MM-dd>_<hhhh>.4.0.dict' (e.g. poc-turtle_8C_2018-03-03_0A10.4.0.dict)
+
+                          grammar-name      Name of the language the grammar file was created for
+                          N                 Number of clusters used while creating the grammar followed by literal 'C'.
+                          yyyy-MM-dd        Dash delimited date, where yyyy - year (e.g. 2018), MM - month,
+                                            dd - day of month.
+                          hhhh              Hexadecimal sequential number.
+
+                          4.0.dict suffix is mandatory for any grammar definition file and should not be ommited.
+
     :return: tuple (template_grammar_directory_name, grammar_directory_name)
     """
     p = re.compile(
@@ -368,18 +385,33 @@ def create_grammar_dir(dict_file_path, grammar_path, template_path, options) -> 
     :return: Path to newly created grammar directory.
     """
 
+    if len(dict_file_path) == 0:
+        raise LGParseError("Dictionary file name should not be empty.")
+
+    if not os.path.isfile(dict_file_path):
+        # The path is not specified correctly.
+        if dict_file_path.find("/") >= 0:
+            raise LGParseError("Dictionary path does not exist.")
+
+        # If 'dict_file_path' is LG language short name such as 'en' then there must be a dictionary folder with the
+        #   same name. If that's the case there is no need to create grammar folder, simply return the same name.
+        #   Let LG handle it.
+        elif os.path.isdir(LG_DICT_PATH + "/" + dict_file_path):
+            return dict_file_path
+        else:
+            raise LGParseError("Dictionary path does not exist.")
+
     # Extract grammar name and a name of the new grammar directory from the file name
     (template_dict_name, dict_path) = get_dir_name(dict_file_path)
 
     # print(template_dict_name, dict_path, sep='\n')
 
     if dict_path is None:
-        print("Error: Dictionary file name is expected to have proper notation.")
-        return ""
+        raise LGParseError("Dictionary file name is expected to have proper notation.")
 
-    dict_path = grammar_path + "/" + dict_path
+    dict_path = grammar_path + "/" + dict_path if dict_path is not None else dict_file_path
 
-    print(dict_path)
+    # print(dict_path)
 
     # If template_dir is not specified
     if template_path is None:
@@ -443,7 +475,7 @@ def create_dir(new_path) -> bool:
     return True
 
 
-def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, linkage_limit, options):
+def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, linkage_limit, options) -> int:
     """
     Traverse corpus folder parsing each file in that folder and subfolders. The function recreates source directory
         structure within the destination one and stores parsing results in newly created directory structure.
@@ -515,14 +547,13 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
         full_ratio = 0.0
         none_ratio = 0.0
         avrg_ratio = 0.0
+        stat_path = None
 
         print(path)
-        print("=======================================================================")
-        new_grammar_path = create_grammar_dir(path, grammar_dir, template_dir, options)
 
-        if len(new_grammar_path) == 0:
-            print("Error: Unable to create grammar folder.")
-            return
+        print("=======================================================================")
+
+        new_grammar_path = create_grammar_dir(path, grammar_dir, template_dir, options)
 
         # Create subdirectory in dst_dir for newly created grammar
         gpath, gname = os.path.split(new_grammar_path)
@@ -535,34 +566,65 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
 
         # If src_dir is a directory then on_corpus_file() is invoked for every corpus file of the directory tree
         if os.path.isdir(src_dir):
+            dpath, dname = os.path.split(src_dir)
+            stat_path = new_dst_dir + "/" + dname + ".stat"
             traverse_dir(src_dir, "", on_corpus_file, recreate_struct, True)
 
         # If src_dir is a file then simply call on_corpus_file() for it
         elif os.path.isfile(src_dir):
+            fpath, fname = os.path.split(src_dir)
+            stat_path = new_dst_dir + "/" + fname + ".stat"
             on_corpus_file(src_dir)
 
-        if file_count:
+        print(stat_path)
+
+        if file_count > 1:
             full_ratio /= float(file_count)
             none_ratio /= float(file_count)
             avrg_ratio /= float(file_count)
 
-        print("\nTotal statistics\n-----------------\nCompletely parsed ratio: {0[0]}\n"
-              "Completely unparsed ratio: {0[1]}\nAverage parsed ratio: {0[2]}\n".format(
-            (full_ratio, none_ratio, avrg_ratio)))
+        stat_file_handle = None
 
-    # ======================================================================================================
-    # def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, linkage_limit, options):
-    # ======================================================================================================
+        try:
+            stat_file_handle = sys.stdout if stat_path is None else open(stat_path, "w")
 
-    # If dic_dir is the name of a single .dict file
-    if os.path.isfile(dict_dir) and dict_dir.endswith("4.0.dict"):
-        on_dict_file(dict_dir)
+            print("\nTotal statistics\n-----------------\nCompletely parsed ratio: {0[0]}\n"
+                  "Completely unparsed ratio: {0[1]}\nAverage parsed ratio: {0[2]}\n".format(
+                (full_ratio, none_ratio, avrg_ratio)), file=stat_file_handle)
 
-    # If dict_dir is the name of directory with multiple .dict files to test
-    elif os.path.isdir(dict_dir):
-        traverse_dir(dict_dir, "", on_dict_file, None, False)
+        except IOError as err:
+            print("IOError: " + str(err))
 
-    # Assume dict_dir is a short text name of one of the languages, installed with LG,
-    #   if neither of the above is true
-    # else:
-    #     on_dict_file(dict_dir)
+        except FileNotFoundError as err:
+            print("FileNotFoundError: " + str(err))
+
+        except OSError as err:
+            print("OSError: " + str(err))
+
+        finally:
+            if stat_file_handle is not None and stat_file_handle != sys.stdout:
+                stat_file_handle.close()
+
+    # =============================================================================================================
+    # def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, linkage_limit, options) -> int:
+    # =============================================================================================================
+
+    try:
+        # If dict_dir is the name of directory, hopefully with multiple .dict files to test
+        #   then traverse the specified directory handling every .dict file in there.
+        if os.path.isdir(dict_dir):
+            traverse_dir(dict_dir, "", on_dict_file, None, False)
+
+        # Otherwise dic_dir might be either .dict file name, or LG shiped language name.
+        else:
+            on_dict_file(dict_dir)
+
+    except LGParseError as err:
+        print("LGParseError: " + str(err))
+        return 1
+
+    except Exception as err:
+        print("Exception: " + str(err))
+        return 2
+
+    return 0

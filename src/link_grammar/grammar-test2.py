@@ -50,7 +50,12 @@ Usage: grammar-test2.py -d <dict_path> -i <input_path> [-o <output_path>] [-s <s
         opts, args = getopt.getopt(argv, "hcwrnud:i:o:l:g:t:f:s:", ["help", "caps", "right-wall", "rm-dir", "no-strip",
                                                             "ull-input", "dictionary=", "input=", "output=",
                                                             "linkage-limit=", "grammar-dir=", "template-dir=",
-                                                            "output-format", "stat-path="])
+                                                            "output-format"])
+
+        # opts, args = getopt.getopt(argv, "hcwrnud:i:o:l:g:t:f:s:", ["help", "caps", "right-wall", "rm-dir", "no-strip",
+        #                                                     "ull-input", "dictionary=", "input=", "output=",
+        #                                                     "linkage-limit=", "grammar-dir=", "template-dir=",
+        #                                                     "output-format", "stat-path="])
 
         for opt, arg in opts:
             if opt in ("-h", "--help"):
@@ -85,8 +90,8 @@ Usage: grammar-test2.py -d <dict_path> -i <input_path> [-o <output_path>] [-s <s
                     options |= BIT_OUTPUT_POSTSCRIPT
                 elif arg == "constituent":
                     options |= BIT_OUTPUT_CONST_TREE
-            elif opt in ("-s", "--stat-path"):
-                stat_path = arg.replace("~", os.environ['HOME'])
+            # elif opt in ("-s", "--stat-path"):
+            #     stat_path = arg.replace("~", os.environ['HOME'])
 
     except getopt.GetoptError:
         print(main.__doc__)
@@ -111,9 +116,6 @@ Usage: grammar-test2.py -d <dict_path> -i <input_path> [-o <output_path>] [-s <s
 
     if dict_path is None:
         dict_path = "en"
-        # print("Error: Dictionary file/directory path is not specified.")
-        # print(main.__doc__)
-        # exit(1)
 
     try:
         parse_corpus_files(input_path, output_path, dict_path, grammar_path, template_path,

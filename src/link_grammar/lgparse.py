@@ -13,9 +13,9 @@ from linkgrammar import LG_Error, Sentence, ParseOptions, Dictionary
 __all__ = ['parse_corpus_files', 'parse_text', 'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT',
            'BIT_ULL_IN', 'BIT_RM_DIR', 'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE']
 
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 
-LG_DICT_PATH = "/usr/local/share"
+LG_DICT_PATH = "/usr/local/share/link-grammar"
 
 BIT_CAPS  = 0x01        # Keep capitalized letters in tokens
 BIT_RWALL = 0x02        # Keep RIGHT-WALL tokens and the links
@@ -29,6 +29,181 @@ BIT_RM_DIR= 0x40        # Remove grammar dictionary if it already exists. Then r
 BIT_OUTPUT_DIAGRAM = 0x08
 BIT_OUTPUT_POSTSCRIPT = 0x10
 BIT_OUTPUT_CONST_TREE = 0x18
+
+
+def strip_token(token) -> str:
+    """
+    Strip off suffix substring
+    :param token: token string
+    :return: stripped token if a suffix found, the same token otherwise
+    """
+    if token.startswith(".") or token.startswith("["):
+        return token
+
+    pos = token.find("[")
+
+    # If "." is not found
+    if pos < 0:
+        pos = token.find(".")
+
+        # If "[" is not found or token starts with "[" return token as is.
+        if pos <= 0:
+            return token
+
+    return token[:pos:]
+
+
+def parse_tokens(txt, opt) -> list:
+    """
+    Parse string of tokens
+    :param txt: string token line extracted from postfix notation output string returned by Linkage.postfix()
+            method.
+    :param opt: bit mask option value (see parse_test() description for more details)
+    :return: list of tokes
+    """
+    toks = []
+    start_pos = 1
+    end_pos = txt.find(")")
+
+    while end_pos - start_pos > 0:
+        token = txt[start_pos:end_pos:]
+
+        if opt & BIT_STRIP == BIT_STRIP:
+            token = strip_token(token)
+
+        if token.find("-WALL") > 0:
+            token = "###" + token + "###"
+        else:
+            if opt & BIT_CAPS == 0:
+                token = token.lower()
+
+        if token.find("RIGHT-WALL") < 0:
+            toks.append(token)
+        elif opt & BIT_RWALL == BIT_RWALL:
+            toks.append(token)
+
+        start_pos = end_pos + 2
+        end_pos = txt.find(")", start_pos)
+
+    return toks
+
+
+def calc_stat(toks) -> (int, int, float):
+    """
+    Calculate percentage of successfully linked tokens. Token in square brackets considered to be unlinked.
+
+    :param toks: List of tokens.
+    :return: Tuple (int, int, float):
+                - 1 if all tokens are linked, 0 otherwise;
+                - 1 if all tokens are unlinked, 1 otherwise;
+                - Percentage of successfully parsed tokens.
+    """
+    # Nothing to calculate if no tokens found
+    if len(toks) == 0:
+        return 0.0
+
+    total = 0
+
+    # Initialize number of unlinked tokens
+    unlinked = 0
+
+    # We assume that all tokens included in square brackets are unlinked
+    for token in toks:
+        if token.find("WALL") < 0:
+            if token.startswith("["):
+                unlinked += 1
+            total += 1
+
+    # print(toks)
+    # print("Total: {0}, unlinked: {1}".format(total, unlinked))
+
+    return unlinked == 0, total == unlinked, 1.0 if unlinked == 0 else 1.0 - float(unlinked) / float(total)
+
+
+def parse_links(txt, toks) -> list:
+    """
+    Parse links represented in postfix notation and prints them in OpenCog notation.
+
+    :param txt: link list in postfix notation
+    :param toks: list of tokens previously extracted from postfix notated output
+    :return: List of links in ULL format
+    """
+    links = []
+    token_count = len(toks)
+    start_pos = 1
+    end_pos = txt.find("]")
+
+    q = re.compile('(\d+)\s(\d+)\s\d+\s\(.+\)')
+
+    while end_pos - start_pos > 0:
+        mm = q.match(txt[start_pos:end_pos:])
+
+        if mm is not None:
+            index1 = int(mm.group(1))
+            index2 = int(mm.group(2))
+
+            if index2 < token_count:
+                links.append((index1, toks[index1], index2, toks[index2]))
+
+        start_pos = end_pos + 2
+        end_pos = txt.find("]", start_pos)
+
+    return links
+
+
+def print_output(tokens, links, ofl):
+    """
+    Print links in ULL format to the output specified by 'ofl' variable.
+
+    :param tokens: List of tokens.
+    :param links: List of links.
+    :param ofl: Output file handle.
+    :return:
+    """
+    for token in tokens[1:]:
+        ofl.write(token + ' ')
+
+    ofl.write('\n')
+
+    # print("Result: " + str(calc_stat(tokens)), file=ofl)
+
+    for link in links:
+        print(link[0], link[1], link[2], link[3], file=ofl)
+
+    print('', file=ofl)
+
+
+def parse_postscript(text, options, ofile) -> (int, int, float):
+    """
+    Parse postscript notation of the linkage.
+
+    :param text: text string returned by Linkage.postscript() method.
+    :param ofile: output file object refference
+    :return: Tuple (int, int, float):
+                - Number of successfully parsed linkages;
+                - Number of completely unparsed linkages;
+                - Average value of successfully linked tokens.
+    """
+
+    # def parse_postscript(text, ofile):
+    p = re.compile('\[(\(LEFT-WALL\).+)\]\[(\[.+\])\]\[0\]')
+    # p = re.compile('\[(\(LEFT-WALL\).+\(RIGHT-WALL\))\]\[(.+)\]\[0\]')
+    m = p.match(text)
+
+    if m is not None:
+        # print(m.group(1))
+        tokens = parse_tokens(m.group(1), options)
+        links = parse_links(m.group(2), tokens)
+        # print(tokens)
+        # print(links)
+        sorted_links = sorted(links, key=lambda x: (x[0], x[2]))
+
+        if not (options & BIT_OUTPUT):
+            print_output(tokens, sorted_links, ofile)
+
+        return calc_stat(tokens)
+
+    return 0, 0, 0.0
 
 
 def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
@@ -51,166 +226,6 @@ def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
                 - percentage of parsed sentences;
     """
 
-    def parse_postscript(text, ofile) -> (int, int, float):
-        """
-        Parse postscript notation of the linkage.
-
-        :param text: text string returned by Linkage.postscript() method.
-        :param ofile: output file object refference
-        :return: Tuple (int, int, float):
-                    - Number of successfully parsed linkages;
-                    - Number of completely unparsed linkages;
-                    - Average value of successfully linked tokens.
-        """
-
-        def strip_token(token) -> str:
-            """
-            Strip off suffix substring
-            :param token: token string
-            :return: stripped token if a suffix found, the same token otherwise
-            """
-            if token.startswith(".") or token.startswith("["):
-                return token
-
-            pos = token.find("[")
-
-            # If "." is not found
-            if pos < 0:
-                pos = token.find(".")
-
-                # If "[" is not found or token starts with "[" return token as is.
-                if pos <= 0:
-                    return token
-
-            return token[:pos:]
-
-        def parse_tokens(txt, opt) -> list:
-            """
-            Parse string of tokens
-            :param txt: string token line extracted from postfix notation output string returned by Linkage.postfix()
-                    method.
-            :param opt: bit mask option value (see parse_test() description for more details)
-            :return: list of tokes
-            """
-            toks = []
-            start_pos = 1
-            end_pos = txt.find(")")
-
-            while end_pos - start_pos > 0:
-                token = txt[start_pos:end_pos:]
-
-                if opt & BIT_STRIP == BIT_STRIP:
-                    token = strip_token(token)
-
-                if token.find("-WALL") > 0:
-                    token = "###" + token + "###"
-                else:
-                    if opt & BIT_CAPS == 0:
-                        token = token.lower()
-
-                if token.find("RIGHT-WALL") < 0:
-                    toks.append(token)
-                elif opt & BIT_RWALL == BIT_RWALL:
-                    toks.append(token)
-
-                start_pos = end_pos + 2
-                end_pos = txt.find(")", start_pos)
-
-            return toks
-
-        def calc_stat(toks) -> (int, int, float):
-            """
-            Calculate percentage of successfully linked tokens. Token in square brackets considered to be unlinked.
-
-            :param toks: List of tokens.
-            :return: Tuple (int, int, float):
-                        - 1 if all tokens are linked, 0 otherwise;
-                        - 1 if all tokens are unlinked, 1 otherwise;
-                        - Percentage of successfully parsed tokens.
-            """
-            total = len(toks)
-
-            # Nothing to calculate if no tokens found
-            if total == 0:
-                return 0.0
-
-            # LEFT-WALL is not taken into account
-            total -= 1
-
-            # Initialize number of unlinked tokens
-            unlinked = 0
-
-            # We assume that all tokens included in square brackets are unlinked
-            for token in toks:
-                if token.startswith("["):
-                    unlinked += 1
-
-            return unlinked == 0, total == unlinked, 1.0 if unlinked == 0 else 1.0 - float(unlinked) / float(total)
-
-        def parse_links(txt, toks) -> list:
-            """
-            Parse links represented in postfix notation and prints them in OpenCog notation.
-
-            :param txt: link list in postfix notation
-            :param toks: list of tokens previously extracted from postfix notated output
-            :return: List of links in ULL format
-            """
-            links = []
-            token_count = len(toks)
-            start_pos = 1
-            end_pos = txt.find("]")
-
-            q = re.compile('(\d+)\s(\d+)\s\d+\s\(.+\)')
-
-            while end_pos - start_pos > 0:
-                mm = q.match(txt[start_pos:end_pos:])
-
-                if mm is not None:
-                    index1 = int(mm.group(1))
-                    index2 = int(mm.group(2))
-
-                    if index2 < token_count:
-                        links.append((index1, toks[index1], index2, toks[index2]))
-
-                start_pos = end_pos + 2
-                end_pos = txt.find("]", start_pos)
-
-            return links
-
-        def print_output(toks, links, ofl):
-            """
-            Print links in ULL format to the output specified by 'ofl' variable.
-
-            :param toks: List of tokens.
-            :param links: List of links.
-            :param ofl: Output file handle.
-            :return:
-            """
-            for token in tokens[1:]:
-                ofl.write(token + ' ')
-
-            ofl.write('\n')
-
-            print("Result: " + str(calc_stat(toks)), file=ofl)
-
-            for link in links:
-                print(link[0], link[1], link[2], link[3], file=ofl)
-
-            print('', file=ofl)
-
-        # def parse_postscript(text, ofile):
-        p = re.compile('\[(\(LEFT-WALL\).+\(RIGHT-WALL\))\]\[(.+)\]\[0\]')
-        m = p.match(text)
-
-        if m is not None:
-            tokens = parse_tokens(m.group(1), options)
-            sorted_links = sorted(parse_links(m.group(2), tokens), key=lambda x: (x[0], x[2]))
-            print_output(tokens, sorted_links, ofile)
-
-            return calc_stat(tokens)
-
-        return 0, 0, 0.0
-
     input_file_handle = None
     output_file_handle = None
 
@@ -222,7 +237,7 @@ def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
     line_count = 0                  # number of sentences in the corpus
 
     try:
-        link_line = re.compile(r"[ ]*[0-9]+.+", re.S)
+        link_line = re.compile(r"\A[0-9].+")
 
         po = ParseOptions(min_null_count=0, max_null_count=999)
         po.linkage_limit = linkage_limit
@@ -249,9 +264,19 @@ def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
             temp_stat = 0.0
 
             for linkage in linkages:
-                # print(linkage.diagram())
 
-                (f, n, s) = parse_postscript(linkage.postscript().replace("\n", ""), output_file_handle)
+                if (options & BIT_OUTPUT) == BIT_OUTPUT_DIAGRAM:
+                    print(linkage.diagram(), file=output_file_handle)
+
+                elif (options & BIT_OUTPUT) == BIT_OUTPUT_POSTSCRIPT:
+                    print(linkage.postscript(), file=output_file_handle)
+
+                elif (options & BIT_OUTPUT) == BIT_OUTPUT_CONST_TREE:
+                    print(linkage.constituent_tree(), file=output_file_handle)
+
+                # It's not only parses postscript notated linkage output,
+                #   but calculates statistics as well.
+                (f, n, s) = parse_postscript(linkage.postscript().replace("\n", ""), options, output_file_handle)
 
                 if linkage_countdown:
                     temp_full += f
@@ -305,10 +330,12 @@ def traverse_dir(root, file_ext, on_file, on_dir=None, is_recursive=False):
     for entry in os.scandir(root):
 
         if entry.is_dir():
-            if on_dir is not None:
-                on_dir(entry.path)
+            is_traversing = is_recursive
 
-            if is_recursive:
+            if on_dir is not None:
+                is_traversing = (is_traversing and on_dir(entry.path))
+
+            if is_traversing:
                 traverse_dir(entry.path, file_ext, on_file, on_dir, True)
 
         elif entry.is_file() and (len(file_ext) < 1 or (len(file_ext) and entry.path.endswith(file_ext))):
@@ -387,15 +414,33 @@ def create_grammar_dir(dict_file_path, grammar_path, template_path, options) -> 
 
     except IOError as err:
         print("IOError: " + str(err))
+        return ""
 
     except FileNotFoundError as err:
         print("FileNotFoundError: " + str(err))
+        return ""
 
     except OSError as err:
         print("OSError: " + str(err))
+        return ""
 
-    finally:
+    else:
         return dict_path
+
+
+def create_dir(new_path) -> bool:
+    """ Create directory specified by <new_path> """
+    try:
+        # If the subdirectory does not exist in destination root create it.
+        if not os.path.isdir(new_path):
+            print(new_path)
+            os.mkdir(new_path)
+
+    except OSError as err:
+        print("Error: " + str(err))
+        return False
+
+    return True
 
 
 def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, linkage_limit, options):
@@ -413,48 +458,47 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
     """
     def on_dict_file(path):
         """
-        Callback function envoked for every .dict file specified
+        Callback function envoked for every .dict file specified.
 
         :param path: Path to .dict file
         :return:
         """
-        new_grammar_path = ""
-
         file_count = 0
         full_ratio = 0.0
         none_ratio = 0.0
         avrg_ratio = 0.0
 
-        def recreate_struct(dir_path):
+        new_grammar_path = ""
+        new_dst_dir = dst_dir
+
+        def recreate_struct(dir_path) -> bool:
             """
             Callback function that recreates directory structure of the source folder
-            within the destination one
+            within the destination root directory.
             """
-            new_path = dst_dir + "/" + dir_path[len(src_dir) + 1:]
-
-            try:
-                # If the subdirectory does not exist in destination root create it.
-                if not os.path.isdir(new_path):
-                    print(new_path)
-                    os.mkdir(new_path)
-
-            except OSError as err:
-                print("Error: " + str(err))
+            return create_dir(new_dst_dir + "/" + dir_path[len(src_dir) + 1:])
 
         def on_corpus_file(file_path):
-            # print(file_path)
+            print('\n'+file_path)
 
             p, f = os.path.split(file_path)
-            # print(os.path.join(dst_dir, f))
-            # print(new_grammar_path)
 
-            f_ratio = 0.0
-            n_ratio = 0.0
-            a_ratio = 0.0
+            print(os.path.join(new_dst_dir, f))
+            print(new_grammar_path)
+            print('')
 
             try:
-                f_ratio, n_ratio, a_ratio = parse_text(new_grammar_path, file_path, os.path.join(dst_dir, f),
+                nonlocal file_count
+                nonlocal full_ratio
+                nonlocal none_ratio
+                nonlocal avrg_ratio
+
+                f_ratio, n_ratio, a_ratio = parse_text(new_grammar_path, file_path, os.path.join(new_dst_dir, f),
                                                     linkage_limit, options)
+
+                print("\nStatistics\n-----------------\nCompletely parsed ratio: {0[0]}\n"
+                      "Completely unparsed ratio: {0[1]}\nAverage parsed ratio: {0[2]}\n".format(
+                    (f_ratio, n_ratio, a_ratio)))
 
                 file_count += 1
                 full_ratio += f_ratio
@@ -467,16 +511,27 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
         # =============================================================================
         # def on_dict_file(path):
         # =============================================================================
+        file_count = 0
+        full_ratio = 0.0
+        none_ratio = 0.0
+        avrg_ratio = 0.0
+
+        print(path)
+        print("=======================================================================")
         new_grammar_path = create_grammar_dir(path, grammar_dir, template_dir, options)
 
         if len(new_grammar_path) == 0:
             print("Error: Unable to create grammar folder.")
             return
 
-        file_count = 0
-        full_ratio = 0.0
-        none_ratio = 0.0
-        avrg_ratio = 0.0
+        # Create subdirectory in dst_dir for newly created grammar
+        gpath, gname = os.path.split(new_grammar_path)
+
+        new_dst_dir = dst_dir + "/" + gname
+
+        if not create_dir(new_dst_dir):
+            print("Error: Unable to create grammar subfolder: '{}'".format(gname))
+            return
 
         # If src_dir is a directory then on_corpus_file() is invoked for every corpus file of the directory tree
         if os.path.isdir(src_dir):
@@ -491,17 +546,23 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
             none_ratio /= float(file_count)
             avrg_ratio /= float(file_count)
 
-        print("Total statistics\n-----------------\nCompletely parsed ratio: {0[0]}\n"
-              "Completely unparsed ratio: {0[1]}\nAverage parsed ratio: {0[2]}".format(
-                full_ratio,
-                none_ratio,
-                avrg_ratio))
+        print("\nTotal statistics\n-----------------\nCompletely parsed ratio: {0[0]}\n"
+              "Completely unparsed ratio: {0[1]}\nAverage parsed ratio: {0[2]}\n".format(
+            (full_ratio, none_ratio, avrg_ratio)))
 
     # ======================================================================================================
     # def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, linkage_limit, options):
     # ======================================================================================================
+
+    # If dic_dir is the name of a single .dict file
     if os.path.isfile(dict_dir) and dict_dir.endswith("4.0.dict"):
         on_dict_file(dict_dir)
 
+    # If dict_dir is the name of directory with multiple .dict files to test
     elif os.path.isdir(dict_dir):
         traverse_dir(dict_dir, "", on_dict_file, None, False)
+
+    # Assume dict_dir is a short text name of one of the languages, installed with LG,
+    #   if neither of the above is true
+    # else:
+    #     on_dict_file(dict_dir)

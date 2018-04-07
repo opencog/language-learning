@@ -5,29 +5,36 @@ import os
 import getopt
 from link_grammar.lgparse import *
 
-__version__ = "2.0.1"
+__version__ = "2.0.2"
 
 
 def main(argv):
     """
-Usage: grammar-test2.py -i <input_path> [-o <output_path>] [OPTIONS]
+Usage: grammar-test2.py -d <dict_path> -i <input_path> [-o <output_path>] [OPTIONS]
 
-    input_path          input corpus file path
-    output_path         output file path (default is stdout)
+    dict_path           Path to grammar definition file (or directory with multiple such files) to be tested.
+                        The files should be in proper Link Grammar format.
+    input_path          Input corpus file or directory path. In case of directory the script will traverse all
+                        subdirectories, parse each file in there and calculate overal statistics.
+    output_path         Output directory path to store parse text files in. sys.stdout is used if not specidied.
 
     OPTIONS:
         -h  --help              Print usage info.
         -c  --caps              Leave CAPS untouched.
-        -r  --right-wall        Keep RIGHT-WALL tokens.
+        -w  --right-wall        Keep RIGHT-WALL tokens.
+        -r  --rm-dir            Remove grammar directory if it already exists.
         -n  --no-strip          Do not strip token suffixes.
+        -u  --ull-input         ULL links are used as input. This option should be specified to use only sentences
+                                    and filter out link lines.
         -l  --linkage-limit     Maximum number of linkages Link Grammar may return when parsing a sentence.
                                 Default is one linkage.
-        -g  --grammar-dir       Language short name (e.g. 'ru' for Russian) or path to grammar dictionary directory.
+        -g  --grammar-dir       Directory path where newly created grammar should be stored.
         -t  --template-dir      LG grammar directory to be used as template when creating new grammars directories.
                                 If short name such as 'ru' is used, default route LG path for specified grammar is used.
         -f  --output-format     Parse output format, can be "ull" (default), "diagram", "postscript", "constituent"
     """
 
+    dict_path       = None
     input_path      = None
     output_path     = None
     options         = 0 | BIT_STRIP | BIT_ULL_IN
@@ -35,12 +42,13 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path>] [OPTIONS]
     grammar_path    = None
     template_path   = None
 
-    print("lgparser.py v." + __version__)
+    print("grammar-test2.py ver." + __version__)
 
     try:
-        opts, args = getopt.getopt(argv, "hcwrnui:o:l:g:t:", ["help", "caps", "right-wall", "rm-dir", "no-strip",
-                                                            "ull-input", "input=", "output=", "linkage-limit=",
-                                                            "grammar-dir=", "template-dir="])
+        opts, args = getopt.getopt(argv, "hcwrnud:i:o:l:g:t:f:", ["help", "caps", "right-wall", "rm-dir", "no-strip",
+                                                            "ull-input", "dictionary=", "input=", "output=",
+                                                            "linkage-limit=", "grammar-dir=", "template-dir=",
+                                                            "output-format"])
 
         for opt, arg in opts:
             if opt in ("-h", "--help"):
@@ -56,6 +64,8 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path>] [OPTIONS]
                 options &= (~BIT_STRIP)
             elif opt in ("-u", "--ull-input"):
                 options &= (~BIT_ULL_IN)
+            elif opt in ("-d", "--dictionary"):
+                dict_path = arg.replace("~", os.environ['HOME'])
             elif opt in ("-i", "--input"):
                 input_path = arg.replace("~", os.environ['HOME'])
             elif opt in ("-o", "--output"):
@@ -63,9 +73,16 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path>] [OPTIONS]
             elif opt in ("-l", "--linkage-limit"):
                 linkage_limit = int(arg)
             elif opt in ("-g", "--grammar-dir"):
-                grammar_path = arg
+                grammar_path = arg.replace("~", os.environ['HOME'])
             elif opt in ("-t", "--template-dir"):
-                template_path = arg
+                template_path = arg.replace("~", os.environ['HOME'])
+            elif opt in ("-f", "--output-format"):
+                if arg == "diagram":
+                    options |= BIT_OUTPUT_DIAGRAM
+                elif arg == "postscript":
+                    options |= BIT_OUTPUT_POSTSCRIPT
+                elif arg == "constituent":
+                    options |= BIT_OUTPUT_CONST_TREE
 
     except getopt.GetoptError:
         print(main.__doc__)
@@ -79,13 +96,23 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path>] [OPTIONS]
     if linkage_limit is None:
         linkage_limit = 1
 
+    if template_path is None:
+        template_path = "en"
+
     if grammar_path is None:
-        grammar_path = "en"
+        grammar_path = "/usr/local/share/link-grammar"
+
+    if output_path is None:
+        output_path = os.environ['PWD']
+
+    if dict_path is None:
+        # dict_path = "en"
+        print("Error: Dictionary file/directory path is not specified.")
+        print(main.__doc__)
+        exit(1)
 
     try:
-        print("Total statistics\n-----------------\nCompletely parsed ratio: {0[0]}\n"
-              "Completely unparsed ratio: {0[1]}\nAverage parsed ratio: {0[2]}".format(
-              parse_text(grammar_path, input_path, output_path, linkage_limit, options)))
+        parse_corpus_files(input_path, output_path, dict_path, grammar_path, template_path, linkage_limit, options)
 
     except OSError as err:
         print(str(err))

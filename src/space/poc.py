@@ -1,11 +1,10 @@
-#80331 POC: Proof of Concepf: Grammar Learner 0.1, POC-English-NoAmb
+#80406 POC: Proof of Concepf: Grammar Learner 0.1, POC-English-NoAmb
 import numpy as np
 import pandas as pd
 
-
+#80329 dmb_parser replacement:
 def mst2words(input_file, parse_mode='given', context=0, \
-              lw='LEFT-WALL', dot=True, verbose='none'):  # 80329
-    #80329 dmb_parser replacement
+              lw='LEFT-WALL', dot=True, verbose='none'):
     df = pd.DataFrame(columns=['word','link','count'])
     #?df['count'] = df['count'].astype(float)  # muda?
     i = 0
@@ -22,10 +21,9 @@ def mst2words(input_file, parse_mode='given', context=0, \
                 i += 1
     return df
 
-
+#80329 singular_word_space replacement:
 def mst2connectors(input_file, parse_mode='given', context=1, \
-                   lw='LEFT-WALL', dot=True, verbose='none'):  # 80329
-    #80329 singular_word_space replacement
+                   lw='LEFT-WALL', dot=True, verbose='none'):
     df = mst2words(input_file, parse_mode=parse_mode, context=0, \
                     lw=lw, dot=dot, verbose=verbose)
     #_test with singular_word_space - 80329 OK
@@ -51,9 +49,9 @@ def mst2connectors(input_file, parse_mode='given', context=1, \
             print('Merged links:\n', links, '\n')
     return links
 
-
+# 80327
 def mst2disjuncts(input_file, parse_mode='given', context=2, \
-                  lw='LEFT-WALL', dot=True, verbose='none'):  # 80327
+                  lw='LEFT-WALL', dot=True, verbose='none'):
     df = pd.DataFrame(columns=['word','link','count'])
     i = 0
     links = dict()  #-disjuncts = dict()
@@ -94,16 +92,16 @@ def mst2disjuncts(input_file, parse_mode='given', context=2, \
         #-else: print('len(line) == 0')
     return df
 
-
-def files2links(files, parse_mode='given', context=0, group = True, \
-                left_wall='', period=False, verbose='none'):  # 80322
+#80406 +TODO: control & limit number of links in disjuncts
+def files2links(files, parse_mode='given', context=0, group=True, \
+                left_wall='', period=False, verbose='none'):
     # from src.space.poc import mst2words, mst2connectors, mst2disjuncts
     # parse_mode: 'given'~ as parsed; 'explode' - TODO
     # level =   0: word pairs: ab » a:b
     #           1: connectors: ab » a:b+, b:a-
     #           2: disjuncts: abc » a:b+, b:a-, b:a-&c+ ...
-    #           3.. disjuncts up to 3 connectors per germ
-    # group = False - don't group - 80323 level=0 case
+    #           n>1 disjuncts up to n connectors per germ
+    # group = False - don't group - 80323 level=0 case #TODO: DEL group?
     for i,f in enumerate(files):
         if verbose == 'max':
             print('File # '+str(i)+':', f)
@@ -115,21 +113,24 @@ def files2links(files, parse_mode='given', context=0, group = True, \
             df = pd.concat([df, mst2connectors(f, lw=left_wall, dot=period)])
         else:
             df = pd.concat([df, mst2words(f, lw=left_wall, dot=period)])
-    items_number = len(df)
+    parsed_links = len(df)
     if group:
         df = df.groupby(['word','link'], as_index=False).sum() \
             .sort_values(by=['count','word','link'], ascending=[False,True,True]) \
             .reset_index(drop=True)
-    word_number = len(set(df['word'].tolist()))
-    link_number = len(set(df['link'].tolist()))
+    words_number = len(set(df['word'].tolist()))
+    links_number = len(set(df['link'].tolist()))
     if verbose != 'none':
-        print(word_number, 'unique words and', \
-              link_number, 'unique links form', \
+        print(words_number, 'unique words and', \
+              links_number, 'unique links form', \
               len(df),'unique word-link pairs from', \
-              items_number, 'parsed items')
-    return df
+              parsed_links, 'parsed items')
+    response = {'parsed_links': parsed_links, 'unique_links': links_number, \
+                'unique_words': words_number, 'word-link_pairs': len(df)}
+    return df, response
 
 
 #80322 turtle files2disjuncts ⇒ files2links
 #80327 mst2disjuncts = updated src.space.turtle.py
 #80331 cleanup
+#80406 minor updates

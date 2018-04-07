@@ -1,4 +1,4 @@
-#80331 POC: Proof of Concepf: Grammar Learner 0.1, POC-English-NoAmb
+#80405 POC: Proof of Concepf: Grammar Learner 0.1, POC-English-NoAmb
 import numpy as np
 import pandas as pd
 
@@ -98,8 +98,9 @@ def link_grammar_rules(clusters, links, rules='relaxed', verbose='none'):
     return rules  #-dict -- 80330 propotype ⇒ ALT 80331
 
 
-def save_link_grammar(rules, path, file='', header='', footer=''):  # 80331
+def save_link_grammar(rules, path, file='', header='', footer=''):  # 80405
     from ..utl.utl import UTC
+    if path[-1] != '/': path += '/'
     link_grammar = ''
     line_list = list()
     clusters = set()

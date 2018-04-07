@@ -1,4 +1,4 @@
-# 80331 POC: Proof of Concepf: Grammar Learner 0.1, POC-English-NoAmb
+#80331 POC: Proof of Concepf: Grammar Learner 0.1, POC-English-NoAmb
 
 
 def number_of_clusters(vdf, cluster_range, algorithm='kmeans', \

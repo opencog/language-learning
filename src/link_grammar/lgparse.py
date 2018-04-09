@@ -10,7 +10,7 @@ import os
 import shutil
 from linkgrammar import LG_Error, Sentence, ParseOptions, Dictionary
 
-__all__ = ['parse_corpus_files', 'parse_text', 'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT',
+__all__ = ['parse_corpus_files', 'parse_text', 'LG_DICT_PATH', 'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT',
            'BIT_ULL_IN', 'BIT_RM_DIR', 'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE']
 
 __version__ = "2.0.2"
@@ -245,7 +245,9 @@ def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
         po = ParseOptions(min_null_count=0, max_null_count=999)
         po.linkage_limit = linkage_limit
 
+        print("parse_text:dict_path: " + dict_path)
         di = Dictionary(dict_path)
+        print("dictionary open normaly...")
 
         input_file_handle = open(corpus_path)
         output_file_handle = sys.stdout if output_path is None else open(output_path, "w")
@@ -256,8 +258,14 @@ def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
             if options & BIT_ULL_IN > 0 and link_line.match(line):
                 continue
 
+            # Skip empty lines to get proper statistics estimation and skip commented lines
+            if len(line.strip()) < 1 or line.startswith("#"):
+                continue
+
             sent = Sentence(line, di, po)
+            print("after Sentence...")
             linkages = sent.parse()
+            print("after sent.parse...")
 
             # Number of linkages taken in statistics estimation
             linkage_countdown = 1
@@ -528,9 +536,9 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
                 f_ratio, n_ratio, a_ratio = parse_text(new_grammar_path, file_path, os.path.join(new_dst_dir, f),
                                                     linkage_limit, options)
 
-                print("\nStatistics\n-----------------\nCompletely parsed ratio: {0[0]}\n"
-                      "Completely unparsed ratio: {0[1]}\nAverage parsed ratio: {0[2]}\n".format(
-                    (f_ratio, n_ratio, a_ratio)))
+                # print("\nStatistics\n-----------------\nCompletely parsed ratio: {0[0]:2.2f}\n"
+                #       "Completely unparsed ratio: {0[1]:2.2f}\nAverage parsed ratio: {0[2]:2.2f}\n".format(
+                #     (f_ratio, n_ratio, a_ratio)))
 
                 file_count += 1
                 full_ratio += f_ratio
@@ -554,6 +562,8 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
         print("=======================================================================")
 
         new_grammar_path = create_grammar_dir(path, grammar_dir, template_dir, options)
+
+        print(new_grammar_path)
 
         # Create subdirectory in dst_dir for newly created grammar
         gpath, gname = os.path.split(new_grammar_path)
@@ -588,9 +598,13 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
         try:
             stat_file_handle = sys.stdout if stat_path is None else open(stat_path, "w")
 
-            print("\nTotal statistics\n-----------------\nCompletely parsed ratio: {0[0]}\n"
-                  "Completely unparsed ratio: {0[1]}\nAverage parsed ratio: {0[2]}\n".format(
-                (full_ratio, none_ratio, avrg_ratio)), file=stat_file_handle)
+            # print("\nTotal statistics\n-----------------\nCompletely parsed ratio: {0[0]:2.2f}\n"
+            #       "Completely unparsed ratio: {0[1]:2.2f}\nAverage parsed ratio: {0[2]:2.2f}\n".format(
+            #     (full_ratio*100.0, none_ratio*100.0, avrg_ratio*100.0)), file=stat_file_handle)
+
+            print("Total sentences parsed in full:\t{0[0]:2.2f}%\n"
+                  "Total sentences not parsed at all:\t{0[1]:2.2f}%\nAverage sentence parse:\t{0[2]:2.2f}%\n".format(
+                (full_ratio*100.0, none_ratio*100.0, avrg_ratio*100.0)), file=stat_file_handle)
 
         except IOError as err:
             print("IOError: " + str(err))

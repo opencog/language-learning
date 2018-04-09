@@ -10,13 +10,20 @@ __version__ = "2.0.2"
 
 def main(argv):
     """
-Usage: grammar-test2.py -d <dict_path> -i <input_path> [-o <output_path>] [-s <stat_path>] [OPTIONS]
+Usage: grammar-test2.py -i <input_path> [-o <output_path> -d <dict_path>]  [OPTIONS]
 
     dict_path           Path to grammar definition file (or directory with multiple such files) to be tested.
-                        The files should be in proper Link Grammar format.
+                        The files should be in proper Link Grammar .dict format. Language short name such as 'en' or
+                        'ru' may also be specified. If no '-d' option is specified English dictionary ('en') is used
+                        by default.
     input_path          Input corpus file or directory path. In case of directory the script will traverse all
-                        subdirectories, parse each file in there and calculate overal statistics.
+                        subdirectories, parsing each file in there and calculating statistics for the whole corpus.
     output_path         Output directory path to store parse text files in. sys.stdout is used if not specified.
+                        The program stores parses as text files one output file per one input file in
+                        <output_path>/<dict_name> directory keeping the same file name for the output file.
+                        The output file format depends on '-f' option specified. ULL format used if ommited.
+                        If directory path is specified as <input_path>, the whole subdirectory tree is recreated
+                        inside <output_path>/<dict_name>/ where each output file corresponds to the same input one.
     stat_path           Statistics output file path. sys.stdout is used if not specified.
 
     OPTIONS:
@@ -42,7 +49,7 @@ Usage: grammar-test2.py -d <dict_path> -i <input_path> [-o <output_path>] [-s <s
     linkage_limit   = None
     grammar_path    = None
     template_path   = None
-    stat_path       = None
+    # stat_path       = None
 
     print("grammar-test2.py ver." + __version__)
 
@@ -109,7 +116,7 @@ Usage: grammar-test2.py -d <dict_path> -i <input_path> [-o <output_path>] [-s <s
         template_path = "en"
 
     if grammar_path is None:
-        grammar_path = "/usr/local/share/link-grammar"
+        grammar_path = LG_DICT_PATH
 
     if output_path is None:
         output_path = os.environ['PWD']

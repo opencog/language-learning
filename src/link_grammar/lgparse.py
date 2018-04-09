@@ -168,8 +168,6 @@ def print_output(tokens, links, ofl):
 
     ofl.write('\n')
 
-    # print("Result: " + str(calc_stat(tokens)), file=ofl)
-
     for link in links:
         print(link[0], link[1], link[2], link[3], file=ofl)
 
@@ -190,7 +188,6 @@ def parse_postscript(text, options, ofile) -> (int, int, float):
 
     # def parse_postscript(text, ofile):
     p = re.compile('\[(\(LEFT-WALL\).+)\]\[(\[.+\])\]\[0\]')
-    # p = re.compile('\[(\(LEFT-WALL\).+\(RIGHT-WALL\))\]\[(.+)\]\[0\]')
     m = p.match(text)
 
     if m is not None:
@@ -232,6 +229,18 @@ def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
     input_file_handle = None
     output_file_handle = None
 
+    def get_output_suffix():
+        out_format = options & BIT_OUTPUT
+
+        if (out_format & BIT_OUTPUT_CONST_TREE) == BIT_OUTPUT_CONST_TREE:
+            return ".tree"
+        elif (out_format & BIT_OUTPUT_DIAGRAM) == BIT_OUTPUT_DIAGRAM:
+            return ".diag"
+        elif (out_format & BIT_OUTPUT_POSTSCRIPT) == BIT_OUTPUT_POSTSCRIPT:
+            return ".post"
+        else:
+            return ".ull"
+
     # Sentence statistics variables
     sent_full = 0                   # number of fully parsed sentences
     sent_none = 0                   # number of completely unparsed sentences
@@ -245,12 +254,10 @@ def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
         po = ParseOptions(min_null_count=0, max_null_count=999)
         po.linkage_limit = linkage_limit
 
-        print("parse_text:dict_path: " + dict_path)
         di = Dictionary(dict_path)
-        print("dictionary open normaly...")
 
         input_file_handle = open(corpus_path)
-        output_file_handle = sys.stdout if output_path is None else open(output_path, "w")
+        output_file_handle = sys.stdout if output_path is None else open(output_path+get_output_suffix(), "w")
 
         for line in input_file_handle:
 
@@ -263,9 +270,7 @@ def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
                 continue
 
             sent = Sentence(line, di, po)
-            print("after Sentence...")
             linkages = sent.parse()
-            print("after sent.parse...")
 
             # Number of linkages taken in statistics estimation
             linkage_countdown = 1
@@ -412,14 +417,10 @@ def create_grammar_dir(dict_file_path, grammar_path, template_path, options) -> 
     # Extract grammar name and a name of the new grammar directory from the file name
     (template_dict_name, dict_path) = get_dir_name(dict_file_path)
 
-    # print(template_dict_name, dict_path, sep='\n')
-
     if dict_path is None:
         raise LGParseError("Dictionary file name is expected to have proper notation.")
 
     dict_path = grammar_path + "/" + dict_path if dict_path is not None else dict_file_path
-
-    # print(dict_path)
 
     # If template_dir is not specified
     if template_path is None:
@@ -432,8 +433,6 @@ def create_grammar_dir(dict_file_path, grammar_path, template_path, options) -> 
     # Raise exception if template_path does not exist
     if not os.path.isdir(template_path):
         raise FileNotFoundError("Directory '{0}' does not exist.".format(template_path))
-
-    # print(template_path)
 
     try:
         if os.path.isdir(dict_path):
@@ -519,13 +518,12 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
             return create_dir(new_dst_dir + "/" + dir_path[len(src_dir) + 1:])
 
         def on_corpus_file(file_path):
-            print('\n'+file_path)
+            # print("\nInfo: Processing corpus file: '"+file_path+"'")
 
             p, f = os.path.split(file_path)
 
-            print(os.path.join(new_dst_dir, f))
-            print(new_grammar_path)
-            print('')
+            # print(os.path.join(new_dst_dir, f))
+            # print("Info: Grammar used: '" + new_grammar_path + "'")
 
             try:
                 nonlocal file_count
@@ -557,13 +555,9 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
         avrg_ratio = 0.0
         stat_path = None
 
-        print(path)
-
-        print("=======================================================================")
+        print("\nInfo: Testing grammar: '" + path + "'")
 
         new_grammar_path = create_grammar_dir(path, grammar_dir, template_dir, options)
-
-        print(new_grammar_path)
 
         # Create subdirectory in dst_dir for newly created grammar
         gpath, gname = os.path.split(new_grammar_path)
@@ -586,8 +580,6 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
             stat_path = new_dst_dir + "/" + fname + ".stat"
             on_corpus_file(src_dir)
 
-        print(stat_path)
-
         if file_count > 1:
             full_ratio /= float(file_count)
             none_ratio /= float(file_count)
@@ -597,10 +589,6 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
 
         try:
             stat_file_handle = sys.stdout if stat_path is None else open(stat_path, "w")
-
-            # print("\nTotal statistics\n-----------------\nCompletely parsed ratio: {0[0]:2.2f}\n"
-            #       "Completely unparsed ratio: {0[1]:2.2f}\nAverage parsed ratio: {0[2]:2.2f}\n".format(
-            #     (full_ratio*100.0, none_ratio*100.0, avrg_ratio*100.0)), file=stat_file_handle)
 
             print("Total sentences parsed in full:\t{0[0]:2.2f}%\n"
                   "Total sentences not parsed at all:\t{0[1]:2.2f}%\nAverage sentence parse:\t{0[2]:2.2f}%\n".format(
@@ -622,12 +610,11 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
     # =============================================================================================================
     # def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, linkage_limit, options) -> int:
     # =============================================================================================================
-
     try:
         # If dict_dir is the name of directory, hopefully with multiple .dict files to test
         #   then traverse the specified directory handling every .dict file in there.
         if os.path.isdir(dict_dir):
-            traverse_dir(dict_dir, "", on_dict_file, None, False)
+            traverse_dir(dict_dir, "", on_dict_file, None, True)
 
         # Otherwise dic_dir might be either .dict file name, or LG shiped language name.
         else:

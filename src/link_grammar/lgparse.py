@@ -112,13 +112,11 @@ def calc_stat(toks) -> (int, int, float):
 
     # We assume that all tokens included in square brackets are unlinked
     for token in toks:
+        # Exclude walls from statistics estimation
         if token.find("WALL") < 0:
             if token.startswith("["):
                 unlinked += 1
             total += 1
-
-    # print(toks)
-    # print("Total: {0}, unlinked: {1}".format(total, unlinked))
 
     return unlinked == 0, total == unlinked, 1.0 if unlinked == 0 else 1.0 - float(unlinked) / float(total)
 
@@ -186,9 +184,10 @@ def parse_postscript(text, options, ofile) -> (int, int, float):
                 - Average value of successfully linked tokens.
     """
 
-    # def parse_postscript(text, ofile):
-    p = re.compile('\[(\(LEFT-WALL\).+)\]\[(\[.+\])\]\[0\]')
+    p = re.compile('\[(\(LEFT-WALL\).+?)\]\[(.*)\]\[0\]',re.S)
     m = p.match(text)
+
+    # print(text)
 
     if m is not None:
         # print(m.group(1))
@@ -504,7 +503,7 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
         """
         file_count = 0
         full_ratio = 0.0
-        none_ratio = 0.0
+        none_ratio = 0.0            # probably should be 1.0
         avrg_ratio = 0.0
 
         new_grammar_path = ""

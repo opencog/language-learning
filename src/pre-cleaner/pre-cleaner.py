@@ -50,7 +50,7 @@ def main(argv):
 	outputfile = ''
 	invalid_chars = u""
 	new_suffix_list = []
-	max_tokens = 16
+	max_tokens = 25
 	max_chars = 25
 	sentence_invalid_symbols = []
 	sentence_invalid_tokens = []

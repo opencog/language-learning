@@ -154,7 +154,7 @@ def main(argv):
 
 		if filename_suffix == '':
 			filename_suffix = 'default'
-		outputfile = outputdir + "/" + inputfile + '_' + filename_suffix
+		outputfile = "../" + outputdir + "/" + inputfile + '_' + filename_suffix
 
 		# make sure directory doesnt change with os.listdir()
 		fo = open(outputfile, "w")
@@ -296,16 +296,23 @@ def Clean_Sentence(sentence, translate_table):
 
 def Normalize_Sentence(sentence, convert_quotes_to_spaces):
 	"""
-		Converts all different apostrophes, double quotes and dashes to standard symbols
+		Converts all different apostrophes, double quotes and dashes to 
+		standard symbols.
+		Also removes underscores at beginning or end of words (commonlt used 
+		as underline markup).
 	"""
 
-	# Normalize apostrophes, dashes and quotes obtained from Wikipedia Apostrophe page
+	sentence = re.sub(r"\b_+|_+\b", "", sentence)
+	# Normalize apostrophes, dashes and quotes obtained from Wikipedia 
+	# Apostrophe page
 	sentence = re.sub(r"[\`]|’", "'", sentence)
 	sentence = re.sub(r"‑|‐", "-", sentence)
-	sentence = re.sub(r"-{2,}|―|—|–|‒", "—", sentence) # some dashes look the same, but they are apparently different
+	# some dashes look the same, but they are different
+	sentence = re.sub(r"-{2,}|―|—|–|‒", "—", sentence) 
 	sentence = re.sub(r"\'\'|“|”", '\\"', sentence)
 	if convert_quotes_to_spaces == True:
-		sentence = re.sub(r'\\"|"', " ", sentence) # sentence splitter escapes double quotes, as apparently needed by guile
+		# sentence splitter escapes double quotes, as needed by guile
+		sentence = re.sub(r'\\"|"', " ", sentence)
 	return sentence
 
 def Substitute_Links(sentence):
@@ -385,7 +392,6 @@ def Prepare_Suffix_List(suffix_list):
 		regex_suffix = r"(?<=\w)" + suffix + r"(?=\s)"
 		new_suffix_list = new_suffix_list + [regex_suffix]
 	return new_suffix_list
-
 
 def Remove_Suffixes(sentence, suffix_list):
 	"""

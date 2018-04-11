@@ -51,7 +51,7 @@ def main(argv):
 	outputdir = ''
 	invalid_chars = u""
 	new_suffix_list = []
-	max_tokens = 20
+	max_tokens = 25
 	max_chars = 25
 	sentence_invalid_symbols = []
 	sentence_invalid_tokens = []

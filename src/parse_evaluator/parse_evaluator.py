@@ -56,22 +56,23 @@ def MakeSets(parse):
         Gets a list with links (without full sentence) and
         and makes sets for each link's ids
     """
-    link_sets = [{link[0], link[2]} for link in parse]
+    link_sets = [{(link[0], link[1]), (link[2], link[3])} for link in parse]
     return link_sets
 
-def Evaluate_Parses(test_parses, ref_parses, verbose):
+def Evaluate_Parses(test_parses, ref_parses, verbose, ignore):
     """
         Compares test_parses against ref_parses link by link
         counting errors
     """
     total_links = 0     # in gold standard
-    extra_links = 0     # links present in test, but not in ref
+    #extra_links = 0     # links present in test, but not in ref
     missing_links = 0   # links present in ref, but not in test
+    ignored_links = 0   # ignored links, if ignore is active
 
     for ref_parse, test_parse in zip(ref_parses, test_parses):
         current_missing = 0
-        ref_sent = ref_parse.pop(0)
-        test_sent = test_parse.pop(0)
+        ref_sent = ref_parse.pop(0)[0].split()
+        test_sent = test_parse.pop(0)[0].split()
         if ref_sent != test_sent:
             print(ref_sent)
             print(test_sent)
@@ -79,9 +80,14 @@ def Evaluate_Parses(test_parses, ref_parses, verbose):
 
         ref_sets = MakeSets(ref_parse)  # using sets to ignore link directions
         test_sets = MakeSets(test_parse)
+        sent_length = str(len(ref_sent))
 
         # loop over every ref link and try to find it in test
         for ref_link in ref_sets:
+            if ignore:
+                if (('0', '###LEFT-WALL###') in ref_link) or ((sent_length, ".") in ref_link):
+                    ignored_links += 1
+                    continue
             total_links += 1
             if ref_link in test_sets:
                 test_sets.remove(ref_link) 
@@ -89,18 +95,19 @@ def Evaluate_Parses(test_parses, ref_parses, verbose):
                 current_missing += 1 # count links not contained in test
 
         if verbose:
-            print("Sentence: {}".format(ref_sent))
+            print("Sentence: {}".format(" ".join(ref_sent)))
             print("Missing links: {}".format(current_missing))
             print("Extra links: {}".format(len(test_sets)))
 
-        extra_links += len(test_sets) # count links not contained in reference
+        #extra_links += len(test_sets) # count links not contained in reference
         missing_links += current_missing
 
     score = 1 - missing_links / total_links
     print("\nParses score: {}".format(score))
     print("A total of {} links".format(total_links))
+    print("A total of {} ignored links".format(ignored_links))
     print("A total of {} missing links".format(missing_links))
-    print("A total of {} extra links".format(extra_links))
+    #print("A total of {} extra links".format(extra_links))
 
 
 def Plot_Scatter(dictio, savefile):
@@ -137,13 +144,27 @@ def Plot_Scatter(dictio, savefile):
 
 def main(argv):
     """
-        Scatter-plots data in files and calculates Pearson's correlation
-        coefficient between them.
+        Evaluates parses compared to given gold standard (GS).
+        For each parse, loops through all links in GS and checks if those
+        2 word-instances are also connected in parse to evaluate.
 
-        Usage: ./parse_evaluator.py -t <testfile> -r <reffile>
+        Parses must be in format:
+        Sentence to evaluate
+        # word1 # word2
+        # word2 # word3
+        ...
+
+        Another sentence to evaluate
+        # word1 # word2
+        ...
+
+        Usage: ./parse_evaluator.py -t <testfile> -r <reffile> [-v] [-i]
 
         testfile        file with parses to evaluate
         goldfile        file with reference (gold standard) parses
+        -v              verbose
+        -i              don't ignore LEFT-WALL and end-of-sentence dot, if any
+
     """
 
     version()
@@ -151,11 +172,12 @@ def main(argv):
     test_file = ''
     ref_file = ''
     verbose = False
+    ignore_WALL = True
 
     try:
-        opts, args = getopt.getopt(argv, "ht:r:v", ["test=", "reference=", "verbose"])
+        opts, args = getopt.getopt(argv, "ht:r:vi", ["test=", "reference=", "verbose", "ignore"])
     except getopt.GetoptError:
-        print("Usage: ./parse_evaluator.py -t <testfile> -r <reffile> [-v]")
+        print("Usage: ./parse_evaluator.py -t <testfile> -r <reffile> [-v] [-i]")
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
@@ -167,12 +189,14 @@ def main(argv):
             ref_file = arg
         elif opt in ("-v", "--verbose"):
             verbose = True
+        elif opt in ("-i", "--ignore"):
+            ignore_WALL = False
 
     test_data = Load_File(test_file)
     test_parses = Get_Parses(test_data) 
     ref_data = Load_File(ref_file)
     ref_parses = Get_Parses(ref_data) 
-    Evaluate_Parses(test_parses, ref_parses, verbose)
+    Evaluate_Parses(test_parses, ref_parses, verbose, ignore_WALL)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

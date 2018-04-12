@@ -305,7 +305,7 @@ def Normalize_Sentence(sentence, convert_quotes_to_spaces):
 	sentence = re.sub(r"\b_+|_+\b", "", sentence)
 	# Normalize apostrophes, dashes and quotes obtained from Wikipedia 
 	# Apostrophe page
-	sentence = re.sub(r"[\`]|’", "'", sentence)
+	sentence = re.sub(r"[\`]|’|‘", "'", sentence)
 	sentence = re.sub(r"‑|‐", "-", sentence)
 	# some dashes look the same, but they are different
 	sentence = re.sub(r"-{2,}|―|—|–|‒", "—", sentence) 

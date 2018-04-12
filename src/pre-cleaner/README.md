@@ -22,15 +22,14 @@ Sentence splitting is done by Multi-language sentence splitter from language lea
 
 #########################################################################################
 Text-cleaning is done by pre-cleaner.py. It takes a directory with files pre-processed with sentence splitter. Main function documents all posibilities; they're copied here:
-Pre-cleaner takes two mandatory arguments and several optional ones:
-
-        PreCleaner takes two mandatory arguments and several optional ones:
+        Pre-cleaner takes two mandatory arguments and several optional ones:
 
         "Usage: pre-cleaner.py -i <inputdir> -o <outputdir> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length>] [-t <token_length>] 
         [-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]"
 
-        inputdir           Name of inputdir
-        outputdir          Name of ouputdir
+        inputdir            Directory with files to be processed.
+                            Can contain subdirectories.
+        outputdir           Directory to output processed files
         [
         chars_invalid       Characters to delete from text (default = none). They need to be given as a
                             string without spaces between the characters, e.g. "$%^&" would eliminate
@@ -50,8 +49,9 @@ Pre-cleaner takes two mandatory arguments and several optional ones:
         token_symbols       Symbols invalidating tokens (default = none). They need to be given as a
                             string without spaces between the characters, e.g. "$%^&" would eliminate
                             all tokens that have those 4 characters.
-        -U                  Flag to keep uppercase letters (default is to convert to lowercase)
-        -q                  Flag to keep quotes (default is to convert them to spaces)
+        -U                  Keep uppercase letters (default is to convert to lowercase)
+        -q                  Keep quotes (default is to convert them to spaces)
+        -j                  Keep contractions together (default is separate them)
         -n                  Keep numbers (default converts them to @number@ token)
         -d                  Keep dates (default converts them to @date@ token)
         -T                  Keep times (default converts them to @time@ token)

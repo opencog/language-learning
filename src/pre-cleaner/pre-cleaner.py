@@ -9,7 +9,7 @@ from html.parser import HTMLParser
 
 def main(argv):
 	"""
-		PreCleaner takes two mandatory arguments and several optional ones:
+		Pre-cleaner takes two mandatory arguments and several optional ones:
 
 		"Usage: pre-cleaner.py -i <inputdir> -o <outputdir> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length>] [-t <token_length>] 
 		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]"
@@ -386,9 +386,9 @@ def Substitute_Dates(sentence):
 
 def Substitute_Numbers(sentence):
 	"""
-		Substitutes all numbers with special token
+		Substitutes numbers with special token
 	"""
-	# two cases handle trailing/leading decimal mark
+	# handles trailing/leading decimal mark
 	sentence = re.sub(r"(\s|\b)[.,;]?(\d+[.,;']?)+\b", ' @number@ ', sentence) 
 	return sentence
 

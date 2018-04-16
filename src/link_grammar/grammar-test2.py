@@ -3,9 +3,14 @@
 import sys
 import os
 import getopt
-from link_grammar.lgparse import *
+import platform
 
-__version__ = "2.0.2"
+try:
+    from link_grammar.lgparse import *
+except ImportError:
+    from lgparse import *
+
+__version__ = "2.3.1"
 
 
 def main(argv):
@@ -40,29 +45,29 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path> -d <dict_path>]  [OPTI
         -t  --template-dir      LG grammar directory to be used as template when creating new grammars directories.
                                 If short name such as 'ru' is used, default route LG path for specified grammar is used.
         -f  --output-format     Parse output format, can be "ull" (default), "diagram", "postscript", "constituent"
+        -e  --link-parser-exe   Use link-parser executable called in a separate process instead of API calls.
+                                It could be handy when LG API crashes while parsing some specific dictionary rules or
+                                test corpus sentences.
     """
 
     dict_path       = None
     input_path      = None
     output_path     = None
-    options         = 0 | BIT_STRIP | BIT_ULL_IN
+    options         = 0x00000000 | BIT_STRIP | BIT_ULL_IN
     linkage_limit   = None
     grammar_path    = None
     template_path   = None
-    # stat_path       = None
 
     print("grammar-test2.py ver." + __version__)
+    print("Python v." + platform.python_version())
 
     try:
-        opts, args = getopt.getopt(argv, "hcwrnud:i:o:l:g:t:f:s:", ["help", "caps", "right-wall", "rm-dir", "no-strip",
-                                                            "ull-input", "dictionary=", "input=", "output=",
-                                                            "linkage-limit=", "grammar-dir=", "template-dir=",
-                                                            "output-format"])
-
-        # opts, args = getopt.getopt(argv, "hcwrnud:i:o:l:g:t:f:s:", ["help", "caps", "right-wall", "rm-dir", "no-strip",
-        #                                                     "ull-input", "dictionary=", "input=", "output=",
-        #                                                     "linkage-limit=", "grammar-dir=", "template-dir=",
-        #                                                     "output-format", "stat-path="])
+        opts, args = getopt.getopt(argv, "hcwrnubqed:i:o:l:g:t:f:", ["help", "caps", "right-wall", "rm-dir",
+                                                                     "no-strip", "ull-input", "best-linkage",
+                                                                     "dict-path-recreate", "link-parser-exe",
+                                                                     "dictionary=", "input=", "output=",
+                                                                     "linkage-limit=", "grammar-dir=", "template-dir=",
+                                                                     "output-format"])
 
         for opt, arg in opts:
             if opt in ("-h", "--help"):
@@ -76,8 +81,14 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path> -d <dict_path>]  [OPTI
                 options |= BIT_RM_DIR
             elif opt in ("-n", "--no-strip"):
                 options &= (~BIT_STRIP)
+            elif opt in ("-b", "--best-linkage"):
+                options |= BIT_BEST_LINKAGE
+            elif opt in ("-q", "--dict-path-recreate"):
+                options |= BIT_DPATH_CREATE
             elif opt in ("-u", "--ull-input"):
                 options &= (~BIT_ULL_IN)
+            elif opt in ("-u", "--ull-input"):
+                options |= BIT_LG_EXE
             elif opt in ("-d", "--dictionary"):
                 dict_path = arg.replace("~", os.environ['HOME'])
             elif opt in ("-i", "--input"):
@@ -97,8 +108,8 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path> -d <dict_path>]  [OPTI
                     options |= BIT_OUTPUT_POSTSCRIPT
                 elif arg == "constituent":
                     options |= BIT_OUTPUT_CONST_TREE
-            # elif opt in ("-s", "--stat-path"):
-            #     stat_path = arg.replace("~", os.environ['HOME'])
+
+        # print("options=" + bin(options) + " (" + hex(options) + ")")
 
     except getopt.GetoptError:
         print(main.__doc__)

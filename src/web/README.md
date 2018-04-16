@@ -28,7 +28,7 @@ where:
 * `limit`- maximum number of linkages that can be returned
 
 ## Client Library 
-The client library can be used either with Web service or with localy installed Link Grammar library exactly the 
+The client library can be used either with Web service or with locally installed Link Grammar library exactly the
 same way. It uses callbacks to process parsing results. There are two types of callbacks in current version of the
 library: function callback and class callback. Although class callback is the prefered way, any type can be used.
 See examples for more detailed info. 

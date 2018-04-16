@@ -1,7 +1,7 @@
 """
     This module is common for multiple Link Grammar parse scripts. 
         It exports:
-            parse_text()            - function capable of parsing text files and calculating parse statistics.
+            parse_file_with_api()   - function capable of parsing text files and calculating parse statistics.
             parse_corpus_files()    - function capable of traversing directory tree parsing each file.
 """
 import sys
@@ -9,26 +9,34 @@ import re
 import os
 import shutil
 from linkgrammar import LG_Error, Sentence, ParseOptions, Dictionary
+from subprocess import Popen, PIPE
 
-__all__ = ['parse_corpus_files', 'parse_text', 'LG_DICT_PATH', 'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT',
-           'BIT_ULL_IN', 'BIT_RM_DIR', 'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE']
+__all__ = ['parse_corpus_files', 'parse_file_with_api', 'parse_file_with_lgp', 'parse_batch_ps_output',
+           'LG_DICT_PATH', 'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT', 'BIT_ULL_IN', 'BIT_RM_DIR',
+           'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE', 'BIT_OUTPUT_ALL',
+           'BIT_BEST_LINKAGE', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'traverse_dir', 'create_dir',
+           ]
 
-__version__ = "2.0.2"
+__version__ = "2.1.0"
 
 LG_DICT_PATH = "/usr/local/share/link-grammar"
 
-BIT_CAPS  = 0x01        # Keep capitalized letters in tokens
-BIT_RWALL = 0x02        # Keep RIGHT-WALL tokens and the links
-BIT_STRIP = 0x04        # Strip off token suffixes
-BIT_OUTPUT= 0x18        # Output format
-BIT_ULL_IN= 0x20        # If set parse_text() is informed that ULL parses are used as input, so only
-                        #   sentences should be parsed, links should be filtered out.
-BIT_RM_DIR= 0x40        # Remove grammar dictionary if it already exists. Then recreate it from scratch.
+BIT_CAPS  = 0x001           # Keep capitalized letters in tokens
+BIT_RWALL = 0x002           # Keep RIGHT-WALL tokens and the links
+BIT_STRIP = 0x004           # Strip off token suffixes
+BIT_OUTPUT= 0x038           # Output format
+BIT_ULL_IN= 0x040           # If set parse_file_with_api() is informed that ULL parses are used as input, so only
+                            #   sentences should be parsed, links should be filtered out.
+BIT_RM_DIR= 0x080           # Remove grammar dictionary if it already exists. Then recreate it from scratch.
+BIT_BEST_LINKAGE = 0x0100   # Take most probable linkage.
+BIT_DPATH_CREATE = 0x0200   # Recreate dictionary path instead of source path
+BIT_LG_EXE= 0x300           # Use link-parser executable in a separate process for parsing
 
 # Output format constants. If no bits set ULL defacto format is used.
 BIT_OUTPUT_DIAGRAM = 0x08
 BIT_OUTPUT_POSTSCRIPT = 0x10
-BIT_OUTPUT_CONST_TREE = 0x18
+BIT_OUTPUT_CONST_TREE = 0x20
+BIT_OUTPUT_ALL = BIT_OUTPUT_DIAGRAM | BIT_OUTPUT_POSTSCRIPT | BIT_OUTPUT_CONST_TREE
 
 
 class LGParseError(Exception):
@@ -184,7 +192,7 @@ def parse_postscript(text, options, ofile) -> (int, int, float):
                 - Average value of successfully linked tokens.
     """
 
-    p = re.compile('\[(\(LEFT-WALL\).+?)\]\[(.*)\]\[0\]',re.S)
+    p = re.compile('\[(\(LEFT-WALL\).+?)\]\[(.*?)\]\[0\]', re.S)
     m = p.match(text)
 
     # print(text)
@@ -204,8 +212,23 @@ def parse_postscript(text, options, ofile) -> (int, int, float):
 
     return 0, 0, 0.0
 
+def get_output_suffix(options) -> str:
+    """ Return output file name suffix depending on set options """
 
-def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
+    out_format = options & BIT_OUTPUT
+
+    suff = "2" if (options & BIT_LG_EXE) else ""
+
+    if (out_format & BIT_OUTPUT_CONST_TREE) == BIT_OUTPUT_CONST_TREE:
+        return ".tree" + suff
+    elif (out_format & BIT_OUTPUT_DIAGRAM) == BIT_OUTPUT_DIAGRAM:
+        return ".diag" + suff
+    elif (out_format & BIT_OUTPUT_POSTSCRIPT) == BIT_OUTPUT_POSTSCRIPT:
+        return ".post" + suff
+    else:
+        return ".ull" + suff
+
+def parse_file_with_api(dict_path, corpus_path, output_path, linkage_limit, options) \
         -> (float, float, float):
     """
     Link parser invocation routine.
@@ -228,24 +251,20 @@ def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
     input_file_handle = None
     output_file_handle = None
 
-    def get_output_suffix():
-        out_format = options & BIT_OUTPUT
-
-        if (out_format & BIT_OUTPUT_CONST_TREE) == BIT_OUTPUT_CONST_TREE:
-            return ".tree"
-        elif (out_format & BIT_OUTPUT_DIAGRAM) == BIT_OUTPUT_DIAGRAM:
-            return ".diag"
-        elif (out_format & BIT_OUTPUT_POSTSCRIPT) == BIT_OUTPUT_POSTSCRIPT:
-            return ".post"
-        else:
-            return ".ull"
-
     # Sentence statistics variables
     sent_full = 0                   # number of fully parsed sentences
     sent_none = 0                   # number of completely unparsed sentences
     sent_stat = 0.0                 # average value of parsed sentences (linkages)
 
     line_count = 0                  # number of sentences in the corpus
+
+    print("Info: Parsing a corpus file: '" + corpus_path + "'")
+    print("Info: Using dictionary: '" + dict_path + "'")
+
+    if output_path is not None:
+        print("Info: Parses are saved in: '" + output_path+get_output_suffix(options) + "'")
+    else:
+        print("Info: Output file name is not specified. Parses are redirected to 'stdout'.")
 
     try:
         link_line = re.compile(r"\A[0-9].+")
@@ -256,7 +275,7 @@ def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
         di = Dictionary(dict_path)
 
         input_file_handle = open(corpus_path)
-        output_file_handle = sys.stdout if output_path is None else open(output_path+get_output_suffix(), "w")
+        output_file_handle = sys.stdout if output_path is None else open(output_path+get_output_suffix(options), "w")
 
         for line in input_file_handle:
 
@@ -280,13 +299,13 @@ def parse_text(dict_path, corpus_path, output_path, linkage_limit, options) \
 
             for linkage in linkages:
 
-                if (options & BIT_OUTPUT) == BIT_OUTPUT_DIAGRAM:
+                if (options & BIT_OUTPUT_DIAGRAM) == BIT_OUTPUT_DIAGRAM:
                     print(linkage.diagram(), file=output_file_handle)
 
-                elif (options & BIT_OUTPUT) == BIT_OUTPUT_POSTSCRIPT:
+                elif (options & BIT_OUTPUT_POSTSCRIPT) == BIT_OUTPUT_POSTSCRIPT:
                     print(linkage.postscript(), file=output_file_handle)
 
-                elif (options & BIT_OUTPUT) == BIT_OUTPUT_CONST_TREE:
+                elif (options & BIT_OUTPUT_CONST_TREE) == BIT_OUTPUT_CONST_TREE:
                     print(linkage.constituent_tree(), file=output_file_handle)
 
                 # It's not only parses postscript notated linkage output,
@@ -380,7 +399,7 @@ def get_dir_name(file_name) -> (str, str):
     :return: tuple (template_grammar_directory_name, grammar_directory_name)
     """
     p = re.compile(
-        '(/?([._\w\d~-]*/)*)(([a-zA-Z-]+)_[0-9]{1,3}C_[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9A-F]{4})\.(4\.0\.dict)')
+        '(/?([._:\w\d=~-]*/)*)(([a-zA-Z-]+)_[0-9]{1,3}C_[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9A-F]{4})\.(4\.0\.dict)')
     m = p.match(file_name)
 
     return (None, None) if m is None else (m.group(4), m.group(3))
@@ -448,7 +467,7 @@ def create_grammar_dir(dict_file_path, grammar_path, template_path, options) -> 
 
             # Replace dictionary file '4.0.dict' with a new one
             shutil.copy(dict_file_path, dict_path + "/4.0.dict")
-            print("Info: Dictionary file has been replaced with '" + dict_path + "'.")
+            print("Info: Dictionary file has been replaced with '" + dict_file_path + "'.")
 
     except IOError as err:
         print("IOError: " + str(err))
@@ -517,12 +536,10 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
             return create_dir(new_dst_dir + "/" + dir_path[len(src_dir) + 1:])
 
         def on_corpus_file(file_path):
-            # print("\nInfo: Processing corpus file: '"+file_path+"'")
+
+            ptr_parse = parse_file_with_lgp if (options & BIT_LG_EXE) else parse_file_with_api
 
             p, f = os.path.split(file_path)
-
-            # print(os.path.join(new_dst_dir, f))
-            # print("Info: Grammar used: '" + new_grammar_path + "'")
 
             try:
                 nonlocal file_count
@@ -530,12 +547,8 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
                 nonlocal none_ratio
                 nonlocal avrg_ratio
 
-                f_ratio, n_ratio, a_ratio = parse_text(new_grammar_path, file_path, os.path.join(new_dst_dir, f),
+                f_ratio, n_ratio, a_ratio = ptr_parse(new_grammar_path, file_path, os.path.join(new_dst_dir, f),
                                                     linkage_limit, options)
-
-                # print("\nStatistics\n-----------------\nCompletely parsed ratio: {0[0]:2.2f}\n"
-                #       "Completely unparsed ratio: {0[1]:2.2f}\nAverage parsed ratio: {0[2]:2.2f}\n".format(
-                #     (f_ratio, n_ratio, a_ratio)))
 
                 file_count += 1
                 full_ratio += f_ratio
@@ -544,6 +557,7 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
 
             except OSError as err:
                 print(str(err))
+
 
         # =============================================================================
         # def on_dict_file(path):
@@ -561,11 +575,20 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
         # Create subdirectory in dst_dir for newly created grammar
         gpath, gname = os.path.split(new_grammar_path)
 
-        new_dst_dir = dst_dir + "/" + gname
+        new_dst_dir = dst_dir
 
-        if not create_dir(new_dst_dir):
-            print("Error: Unable to create grammar subfolder: '{}'".format(gname))
-            return
+        # Create subdirectory in dst_dir for newly created grammar
+        if not (options & BIT_DPATH_CREATE):
+            new_dst_dir = dst_dir + "/" + gname
+
+            if not create_dir(new_dst_dir):
+                print("Error: Unable to create grammar subfolder: '{}'".format(gname))
+                return
+        else:
+            end_pos = path.rfind("/")
+            new_dst_dir = dst_dir + path[len(dict_dir):end_pos] if end_pos > 0 else path[len(dict_dir)-1:]
+
+        # print("new_dst_dir='" + new_dst_dir + "'")
 
         # If src_dir is a directory then on_corpus_file() is invoked for every corpus file of the directory tree
         if os.path.isdir(src_dir):
@@ -606,14 +629,24 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
             if stat_file_handle is not None and stat_file_handle != sys.stdout:
                 stat_file_handle.close()
 
+
+    def recreate_dict_struct(dir_path) -> bool:
+        """
+        Callback function that recreates directory structure of the source folder
+        within the destination root directory.
+        """
+        return create_dir(dst_dir + "/" + dir_path[len(dict_dir) + 1:])
+
     # =============================================================================================================
     # def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, linkage_limit, options) -> int:
     # =============================================================================================================
     try:
+        f_ptr = recreate_dict_struct if (options & BIT_DPATH_CREATE) == BIT_DPATH_CREATE else None
+
         # If dict_dir is the name of directory, hopefully with multiple .dict files to test
         #   then traverse the specified directory handling every .dict file in there.
         if os.path.isdir(dict_dir):
-            traverse_dir(dict_dir, "", on_dict_file, None, True)
+            traverse_dir(dict_dir, ".dict", on_dict_file, f_ptr, True)
 
         # Otherwise dic_dir might be either .dict file name, or LG shiped language name.
         else:
@@ -628,3 +661,193 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
         return 2
 
     return 0
+
+
+class PSSentence:
+    def __init__(self, sent_text):
+        self.text = sent_text
+        self.linkages = []
+
+def parse_batch_ps_output(text, lines_to_skip=3) -> []:
+    """
+    Parse postscript returned by link-parser executable in a form where each sentence is followed by zero
+        or many postscript notated linkages. Postscript linkages are usually represented by three lines
+        enclosed in brackets.
+    :param text: String variable with postscript output returned by link-parser.
+    :param lines_to_skip: Number of lines to skip before start parsing the text. It is necessary when additional
+                parameters specified, when link-parser is invoked. In that case link-parser writes those parameter
+                values on startup.
+    """
+    sentences = []
+
+    line_count = 0      # line counter
+    cur_sent = None     # current sentence
+    cur_lnkg = ""       # current linkage
+
+    # Parse output to get sentences and linkages in postscript notation
+    for line in text.split("\n"):
+
+        # Skip first 'lines_to_skip' lines and empty lines. Skip "Bye" line too.
+        if line_count > lines_to_skip and len(line) and not line.startswith("Bye"):
+
+            # If sentence line found, create line object and append it to the
+            #   sentence list.
+            if not line.startswith("["):
+                cur_sent = PSSentence(line)
+                sentences.append(cur_sent)
+
+            # If postscript line found...
+            else:
+                # If that's the last line in postscript linkage sequence,
+                #   complete the sequence and add linkage to the linkage list.
+                if line == "[0]":
+                    cur_lnkg += line
+                    cur_sent.linkages.append(cur_lnkg)
+                    cur_lnkg = ""
+
+                # Otherwise add line to the linkage string
+                else:
+                    cur_lnkg += line
+
+        # Increment line counter
+        line_count += 1
+
+    return sentences
+
+
+def handle_stream_output(text, linkage_limit, options, out_stream):
+    """
+    Handle link-parser output stream text depending on options' BIT_OUTPUT field.
+
+    :param text: Stream output text.
+    :param linkage_limit: Number of linkages taken into account when statistics estimation is made.
+    :param options: Integer variable with multiple bit fields
+    :param out_stream: Output file stream handle.
+    :return:
+    """
+    total_full_ratio, total_none_ratio, total_avrg_ratio = (0.0, 0.0, 0.0)
+
+    # Parse only if 'ull' output format is specified.
+    if not (options & BIT_OUTPUT):
+        # Parse output into sentences and assotiate a list of linkages for each one of them.
+        sentences = parse_batch_ps_output(text)
+
+        sentence_count = 0
+
+        # Parse linkages and make statistics estimation
+        for sent in sentences:
+            linkage_count = 0
+
+            sent_full_ratio, sent_none_ratio, sent_avrg_ratio = (0.0, 0.0, 0.0)
+
+            # Parse and calculate statistics for each linkage
+            for lnkg in sent.linkages:
+                if linkage_count == linkage_limit:
+                    break
+
+                f, n, a = parse_postscript(lnkg, options, out_stream)
+
+                sent_full_ratio += f
+                sent_none_ratio += n
+                sent_avrg_ratio += a
+
+                linkage_count += 1
+
+            if linkage_count > 1:
+                sent_full_ratio /= float(linkage_count)
+                sent_none_ratio /= float(linkage_count)
+                sent_avrg_ratio /= float(linkage_count)
+
+            total_full_ratio += sent_avrg_ratio
+            total_none_ratio += sent_none_ratio
+            total_avrg_ratio += sent_avrg_ratio
+
+            sentence_count += 1
+
+        if sentence_count > 1:
+            total_full_ratio /= float(sentence_count)
+            total_none_ratio /= float(sentence_count)
+            total_avrg_ratio /= float(sentence_count)
+
+    # If output format is other than ull then simply write text to the output stream.
+    else:
+        print(text, file=out_stream)
+
+    return (total_full_ratio, total_none_ratio, total_avrg_ratio)
+
+
+def parse_file_with_lgp(dict_path, corpus_path, output_path, linkage_limit, options) \
+        -> (float, float, float):
+    """
+    Link parser invocation routine. Runs link-parser executable in a separate process.
+
+    :param dict_path: name or path to the dictionary
+    :param corpus_path: path to the test text file
+    :param output_path: output file path
+    :param linkage_limit: maximum number of linkages LG may return when parsing a sentence
+    :param options: bit field. Use bit mask constants to set or reset one or multiple bits:
+                BIT_CAPS  = 0x01    Keep capitalized letters in tokens untouched if set,
+                                    make all lowercase otherwise.
+                BIT_RWALL = 0x02    Keep all links with RIGHT-WALL if set, ignore them otherwise.
+                BIT_STRIP = 0x04    Strip off token suffixes if set, remove them otherwise.
+    :return: tuple (float, float, float):
+                - percentage of totally parsed sentences;
+                - percentage of completely unparsed sentences;
+                - percentage of parsed sentences;
+    """
+
+    print("Info: Parsing a corpus file: '" + corpus_path + "'")
+    print("Info: Using dictionary: '" + dict_path + "'")
+
+    if output_path is not None:
+        print("Info: Parses are saved in: '" + output_path+get_output_suffix(options) + "'")
+    else:
+        print("Info: Output file name is not specified. Parses are redirected to 'stdout'.")
+
+    # Statistics return value initialization
+    ret_tup = (0.0, 0.0, 0.0)
+
+    reg_exp = "^\D.+$" if (options & BIT_ULL_IN) == BIT_ULL_IN else "^[^#].+$"
+
+    # Make command option list depending on the output format specified.
+    if not (options & BIT_OUTPUT) or (options & BIT_OUTPUT_POSTSCRIPT):
+        cmd = ["link-parser", dict_path, "-echo=1", "-postscript=1", "-graphics=0", "-verbosity=0"]
+    elif (options & BIT_OUTPUT_CONST_TREE):
+        cmd = ["link-parser", dict_path, "-echo=1", "-constituents=1", "-graphics=0", "-verbosity=0"]
+    else:
+        cmd = ["link-parser", dict_path, "-echo=1", "-graphics=1", "-verbosity=0"]
+
+    out_stream = None
+
+    try:
+        out_stream = sys.stdout if output_path is None else open(output_path+get_output_suffix(options), "w")
+
+        with Popen(["grep", "-P", reg_exp, corpus_path], stdout=PIPE) as proc_grep, \
+             Popen(cmd, stdin=proc_grep.stdout, stdout=PIPE) as proc_pars:
+
+            # Closing grep output stream will terminate it's process.
+            proc_grep.stdout.close()
+
+            # Read pipe to get complete output returned by link-parser
+            text = proc_pars.communicate()[0].decode()
+
+            # Take an action depending on the output format specified by 'options'
+            ret_tup = handle_stream_output(text, linkage_limit, options, out_stream)
+
+    except IOError as err:
+        print(str(err))
+
+    except FileNotFoundError as err:
+        print(str(err))
+
+    except OSError as err:
+        print("OSError: " + str(err))
+
+    except Exception as err:
+        print("Exception: " + str(err))
+
+    finally:
+        if out_stream is not None and out_stream != sys.stdout:
+            out_stream.close()
+
+        return ret_tup

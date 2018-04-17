@@ -1,8 +1,10 @@
+
 tuna isa fish .
 0 ###LEFT-WALL### 1 tuna
 1 tuna 3 fish
 2 isa 3 fish
 3 fish 4 .
+
 
 herring isa fish .
 0 ###LEFT-WALL### 1 herring
@@ -10,11 +12,13 @@ herring isa fish .
 2 isa 3 fish
 3 fish 4 .
 
+
 tuna has fin .
 0 ###LEFT-WALL### 1 tuna
 1 tuna 3 fin
 2 has 3 fin
 3 fin 4 .
+
 
 herring has fin .
 0 ###LEFT-WALL### 1 herring
@@ -22,11 +26,13 @@ herring has fin .
 2 has 3 fin
 3 fin 4 .
 
+
 parrot isa bird .
 0 ###LEFT-WALL### 1 parrot
 1 parrot 3 bird
 2 isa 3 bird
 3 bird 4 .
+
 
 eagle isa bird .
 0 ###LEFT-WALL### 1 eagle
@@ -34,11 +40,13 @@ eagle isa bird .
 2 isa 3 bird
 3 bird 4 .
 
+
 parrot has wing .
 0 ###LEFT-WALL### 1 parrot
 1 parrot 3 wing
 2 has 3 wing
 3 wing 4 .
+
 
 eagle has wing .
 0 ###LEFT-WALL### 1 eagle
@@ -46,11 +54,13 @@ eagle has wing .
 2 has 3 wing
 3 wing 4 .
 
+
 fin isa extremity .
 0 ###LEFT-WALL### 1 fin
 1 fin 3 extremity
 2 isa 3 extremity
 3 extremity 4 .
+
 
 wing isa extremity .
 0 ###LEFT-WALL### 1 wing
@@ -58,11 +68,13 @@ wing isa extremity .
 2 isa 3 extremity
 3 extremity 4 .
 
+
 fin has scale .
 0 ###LEFT-WALL### 1 fin
 1 fin 3 scale
 2 has 3 scale
 3 scale 4 .
+
 
 wing has feather .
 0 ###LEFT-WALL### 1 wing

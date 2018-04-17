@@ -71,7 +71,7 @@ def plot2d(i, j, df, label='', f=15):   # 80216
         print(header, 'in vector space, axes', i, 'and', j)
     font = {'size': f}
     plt.rc('font', **font)
-    plt.figure(figsize=(9,6))
+    plt.figure(figsize=(9,6))     #80413 (9,6) ⇒ (6,4)
     plt.scatter(df[i].values, df[j].values)
     #plt.axis('off')
     plt.xlim(round(df[i].min()-0.2,1), round(df[i].max()+0.1,1))

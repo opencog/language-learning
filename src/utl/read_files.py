@@ -5,13 +5,13 @@ import os
 def check_dir(dir_path, create = False, verbose='none'):  # 80321 Turtle-8
     # import os
     if os.path.exists(dir_path):
-        if verbose == 'max':
+        if verbose in ['max', 'debug']:
             print('Directory', dir_path, 'exists.')
         return True
     else:
         if create:
             os.makedirs(dir_path)
-            if verbose == 'max':
+            if verbose in ['max', 'debug']:
                 print('Directory', dir_path, 'created.')
             return True
         else:
@@ -27,11 +27,11 @@ def check_dir_files(dir_path, verbose='none'):  # 80321 Turtle-8
         path = dir_path + '/'
     else: path = dir_path
     if os.path.exists(dir_path):
-        if verbose == 'max':
-            print('Directory', dir_path, 'exists.')
+        if verbose in ['max', 'debug']:
+            print('Directory', path, 'exists.')
         for filename in os.listdir(dir_path):
             files.append(path+filename)
-            if verbose == 'max':
+            if verbose in ['max', 'debug']:
                 print(filename)
     else:
         if verbose != 'none':
@@ -42,10 +42,10 @@ def check_dir_files(dir_path, verbose='none'):  # 80321 Turtle-8
 def check_corpus(input_file, verbose='none'):  # 80321 Turtle-8
     # import os
     if os.path.isfile(input_file):
-        if verbose not in ['none', 'min']:
+        if verbose in ['max','debug']:
             print('Input file:', input_file)
         if verbose == 'debug':
-            print('- Input corpus:\n')
+            print('Input corpus:\n')
             with open(input_file, 'r') as f:
                 lines = f.read().splitlines()
             for line in lines: print(line)
@@ -61,12 +61,12 @@ def check_mst_files(input_dir, verbose='none'):
     if check_dir(input_dir, create=False, verbose=verbose):
         files = check_dir_files(input_dir, verbose=verbose)
         if len(files) > 0:
-            if verbose == 'max':
+            if verbose in ['max', 'debug']:
                 print(files)
             response = {'input files': files}
             for i,file in enumerate(files):
                 if check_corpus(file, verbose=verbose):
-                    if verbose in ['mid','max']:
+                    if verbose in ['max', 'debug']:
                         print('File #'+str(i), file, 'checked')
                 else:
                     if verbose != 'none':

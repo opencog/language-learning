@@ -1,21 +1,22 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # encoding: utf-8
 
 # ASuMa, Feb 2018
 
-import sys, getopt
+import sys, getopt, os
 import re
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 def main(argv):
 	"""
 		PreCleaner takes two mandatory arguments and several optional ones:
 
-		"Usage: pre-cleaner.py -i <inputfile> -o <outputfile> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length>] [-t <token_length>] 
+		"Usage: pre-cleaner.py -i <inputdir> -o <outputdir> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length>] [-t <token_length>] 
 		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]"
 
-		inputfile 			Name of inputfile
-		outputfile			Name of ouputfile
+		inputdir 			Directory with files to be processed.
+							Can contain subdirectories.
+		outputdir			Directory to output processed files
 		[
 		chars_invalid		Characters to delete from text (default = none). They need to be given as a
 							string without spaces between the characters, e.g. "$%^&" would eliminate
@@ -46,11 +47,11 @@ def main(argv):
 							split_sentences.pl, even if text is lowercased (they're added by default)
 		]
 	"""
-	inputfile = ''
-	outputfile = ''
+	inputdir = ''
+	outputdir = ''
 	invalid_chars = u""
 	new_suffix_list = []
-	max_tokens = 16
+	max_tokens = 25
 	max_chars = 25
 	sentence_invalid_symbols = []
 	sentence_invalid_tokens = []
@@ -63,94 +64,129 @@ def main(argv):
 	convert_links_to_tokens = True
 	decode_escaped = True
 	add_splitters = True
+	filename_suffix = ''
 	try:
-		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:UqndTHeS",["ifile=",
-			"ofile=", "chars_invalid=" "suffixes=", "sen_length=", 
+		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:UqndTHeS",["idir=",
+			"odir=", "chars_invalid=" "suffixes=", "sen_length=", 
 			"token_length=", "sentence_symbols=", "sentence_tokens=", 
 			"token_symbols=" "Uppercase", "quotes", "numbers", "dates", 
 			"Times", "Hyperlinks", "escaped", "Splits"])
 	except getopt.GetoptError:
-		print '''Usage: pre-cleaner.py -i <inputfile> -o <outputfile> 
+		print('''Usage: pre-cleaner.py -i <inputdir> -o <outputdir> 
 		    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
 		    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
-		    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e] [-S]'''
+		    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e] [-S]''')
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
-			print '''Usage: pre-cleaner.py -i <inputfile> -o <outputfile> 
+			print('''Usage: pre-cleaner.py -i <inputdir> -o <outputdir> 
 			    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
 			    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
-			    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e] [-S]'''
+			    [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e] [-S]''')
 			sys.exit()
-		elif opt in ("-i", "--ifile"):
-			inputfile = arg
-		elif opt in ("-o", "--ofile"):
-			outputfile = arg
+		elif opt in ("-i", "--idir"):
+			inputdir = arg
+		elif opt in ("-o", "--odir"):
+			outputdir = arg
 		elif opt in ("-c", "--chars_invalid"):
-			invalid_chars = arg.decode('utf-8')
+			#python3 doesn't need decode
+			#invalid_chars = arg.decode('utf-8')
+			invalid_chars = arg
+			filename_suffix += 'c'
 		elif opt in ("-s", "--suffixes"):
-			suffix_list = arg.decode('utf-8').split()
+			#python3 doesn't need decode
+			#suffix_list = arg.decode('utf-8').split()
+			suffix_list = arg.split()
 			new_suffix_list = Prepare_Suffix_List(suffix_list)
+			filename_suffix += 's'
 		elif opt in ("-l", "--sen_length"):
 			max_tokens = int(arg)
+			filename_suffix += 'l'
 		elif opt in ("-t", "--token_length"):
 			max_chars = int(arg)
+			filename_suffix += 't'
 		elif opt in ("-x", "--sentence_symbols"):
-			sentence_invalid_symbols = arg.decode('utf-8')
+			#python3 doesn't need decode
+			#sentence_invalid_symbols = arg.decode('utf-8')
+			sentence_invalid_symbols = arg
+			filename_suffix += 'x'
 		elif opt in ("-y", "--sentence_tokens"):
-			sentence_invalid_tokens = arg.decode('utf-8').split()
+			#sentence_invalid_tokens = arg.decode('utf-8').split()
+			#python3 doesn't need decode
+			sentence_invalid_tokens = arg
+			filename_suffix += 'y'
 		elif opt in ("-z", "--token_symbols"):
-			token_invalid_symbols = arg.decode('utf-8')
+			#token_invalid_symbols = arg.decode('utf-8')
+			#python3 doesn't need decode
+			token_invalid_symbols = arg
+			filename_suffix += 'z'
 		elif opt in ("-U", "--Uppercase"):
 			convert_lowercase = False
+			filename_suffix += 'U'
 		elif opt in ("-q", "--quotes"):
 			convert_quotes_to_spaces = False
+			filename_suffix += 'q'
 		elif opt in ("-n", "--numbers"):
 			convert_numbers_to_tokens = False
+			filename_suffix += 'n'
 		elif opt in ("-d", "--dates"):
 			convert_dates_to_tokens = False
+			filename_suffix += 'd'
 		elif opt in ("-T", "--Times"):
 			convert_times_to_tokens = False
-		elif opt in ("-T", "--Hyperlinks"):
+			filename_suffix += 'T'
+		elif opt in ("-H", "--Hyperlinks"):
 			convert_links_to_tokens = False
+			filename_suffix += 'H'
 		elif opt in ("-e", "--escaped"):
 			decode_escaped = False
+			filename_suffix += 'e'
 		elif opt in ("-S", "--Splits"):
 			add_splitters = False
+			filename_suffix += 'S'
 
 	translate_table = dict((ord(char), None) for char in invalid_chars)
-	sentences = Load_Files(inputfile)
 
-	fo = open(outputfile, "w")
-	for sentence in sentences:
-		sentence = sentence.decode('utf-8')
-		temp_sentence = Normalize_Sentence(sentence, convert_quotes_to_spaces)
-		temp_sentence = Remove_Suffixes(temp_sentence, new_suffix_list)
-		if convert_links_to_tokens == True:
-			temp_sentence = Substitute_Links(temp_sentence)
-		if decode_escaped == True:
-			temp_sentence = Decode_Escaped(temp_sentence)
-		if convert_dates_to_tokens == True:
-			temp_sentence = Substitute_Dates(temp_sentence)
-		if convert_times_to_tokens == True:
-			temp_sentence = Substitute_Times(temp_sentence)
-		if convert_numbers_to_tokens == True:
-			temp_sentence = Substitute_Numbers(temp_sentence)
-		tokenized_sentence = Naive_Tokenizer(temp_sentence)
-		if Ignore_Long_Sentence(tokenized_sentence, max_tokens) == True:
-			continue
-		tokenized_sentence = Remove_Long_Tokens(tokenized_sentence, max_chars)
-		if Ignore_Invalid_Sentence(tokenized_sentence, sentence_invalid_symbols, sentence_invalid_tokens) == True:
-			continue
-		tokenized_sentence = Remove_Invalid_Tokens(tokenized_sentence, token_invalid_symbols)
-		final_sentence = " ".join(tokenized_sentence) + "\n"
-		final_sentence = Clean_Sentence(final_sentence, translate_table)
-		if convert_lowercase == True:
-			final_sentence = final_sentence.lower()
-		if add_splitters == True:
-			final_sentence = Add_Splitter(final_sentence)
-		Write_Output_Sentence(fo, final_sentence)
-	fo.close()
+	os.chdir(inputdir)
+	for inputfile in os.listdir("."):
+		print("Processing: ", os.path.basename(inputfile))
+		sentences = Load_Files(inputfile)
+
+		if filename_suffix == '':
+			filename_suffix = 'default'
+		outputfile = outputdir + "/" + inputfile + '_' + filename_suffix
+
+		# make sure directory doesnt change with os.listdir()
+		fo = open(outputfile, "w")
+		for sentence in sentences:
+			#sentence = sentence.decode('utf-8')
+			temp_sentence = Normalize_Sentence(sentence, convert_quotes_to_spaces)
+			temp_sentence = Remove_Suffixes(temp_sentence, new_suffix_list)
+			if convert_links_to_tokens == True:
+				temp_sentence = Substitute_Links(temp_sentence)
+			if decode_escaped == True:
+				temp_sentence = Decode_Escaped(temp_sentence)
+			if convert_dates_to_tokens == True:
+				temp_sentence = Substitute_Dates(temp_sentence)
+			if convert_times_to_tokens == True:
+				temp_sentence = Substitute_Times(temp_sentence)
+			if convert_numbers_to_tokens == True:
+				temp_sentence = Substitute_Numbers(temp_sentence)
+			tokenized_sentence = Naive_Tokenizer(temp_sentence)
+			if Ignore_Long_Sentence(tokenized_sentence, max_tokens) == True:
+				continue
+			tokenized_sentence = Remove_Long_Tokens(tokenized_sentence, max_chars)
+			if Ignore_Invalid_Sentence(tokenized_sentence, sentence_invalid_symbols, sentence_invalid_tokens) == True:
+				continue
+			tokenized_sentence = Remove_Invalid_Tokens(tokenized_sentence, token_invalid_symbols)
+			final_sentence = " ".join(tokenized_sentence) + "\n"
+			final_sentence = Clean_Sentence(final_sentence, translate_table)
+			if convert_lowercase == True:
+				final_sentence = final_sentence.lower()
+			if add_splitters == True:
+				final_sentence = Add_Splitter(final_sentence)
+			Write_Output_Sentence(fo, final_sentence)
+		fo.close()
 
 def Load_Files(filename):
 	"""
@@ -163,23 +199,25 @@ def Load_Files(filename):
 
 def Add_Splitter(sentence):
 	"""
-		Add sentence splitter mark to be recognized by split_sentences.pl,
-		even if text is lowercased
+		Add sentence splitter mark (newline) to be recognized by split_sentences.pl,
+		even if text is lowercased.
 	"""
-	return sentence + "<P>\n"
+	return sentence + "\n"
 
 def Write_Output_Sentence(fo, sentence):
 	"""
 		writes sentence to the output file
 	"""
-	fo.write(sentence.encode('utf-8'))
+	#python3 doesn't need encode
+	fo.write(sentence)
 
 def Decode_Escaped(sentence):
 	"""
 		Converts found escaped HTML and unicode symbols to
 		their printable version
 	""" 
-	sentence = sentence.decode('unicode-escape') # unicode escaped sequences
+	#python3 doesn't need decode
+	#sentence = sentence.decode('unicode-escape') # unicode escaped sequences
 
 	# html escaped sequencues
 	h = HTMLParser()
@@ -252,7 +290,8 @@ def Clean_Sentence(sentence, translate_table):
 	"""
 		Cleans sentence from invalid chars
 	"""
-	sentence = unicode(sentence)
+	#python3 doesn't need decode
+	#sentence = unicode(sentence)
 	return sentence.translate(translate_table)
 
 def Normalize_Sentence(sentence, convert_quotes_to_spaces):
@@ -320,11 +359,12 @@ def Substitute_Dates(sentence):
 	form5 = r"(\b" + dd + r"[ \.-]?" + m + r"([ \.-]?" + y + r")?\b)"
 	form6 = r"(\b" + m + r"[ \.-]?" + YY + r"\b)"
 	form7 = r"(\b" + YY + r"[ \.-]?" + m + r"\b)"
-	form8 = r"(\b" + m + r"[ \.-]?" + dd + "[,\. " + daysuf + "]+(" + y + r")?\b)"
+	form8 = r"(\b" + m + r"[,\. ]+" + y + r"\b)"
+	form9 = r"(\b" + m + r"[ \.-]?" + dd + r"[,\. " + daysuf + r"]+(" + y + r")?\b)"
 	form10 = r"(\b" + m + r"-" + DD + r"-" + y + r"\b)"
 	form11 = r"(\b" + y + r"-" + m + r"-" + DD + r"\b)"
 
-	date_pattern = form11 + r"|" + form10 + r"|" + form8 + r"|" + form7 + r"|" + form6 + r"|" + form5 + r"|" + form4 + r"|" + form3 + r"|" + form2 + r"|" + form1
+	date_pattern = form11 + r"|" + form10 + r"|" + form9 + r"|" + form8 + r"|" + form7 + r"|" + form6 + r"|" + form5 + r"|" + form4 + r"|" + form3 + r"|" + form2 + r"|" + form1
 	sentence = re.sub(date_pattern, ' @date@ ', sentence, flags=re.IGNORECASE) 
 	return sentence
 

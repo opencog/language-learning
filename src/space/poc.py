@@ -57,6 +57,7 @@ def mst2disjuncts(input_file, parse_mode='given', context=2, \
     links = dict()  #-disjuncts = dict()
     words = dict()
     with open(input_file, 'r') as f: lines = f.readlines()
+    #-print(type(lines), len(lines), 'lines[-1]:', lines[-1], 'len(lines[-1]):', len(lines[-1]))
     for line in lines:
         if len(line) > 1:
             if line[0].isdigit():
@@ -75,13 +76,12 @@ def mst2disjuncts(input_file, parse_mode='given', context=2, \
                     links[x[2]] = set([str(x[1])+'-'])
                 else:
                     links[x[2]].add(str(x[1])+'-')
-            else:
+            else:  # sentence starting with letter
                 if len(links) > 0:
                     for k,v in links.items():
-                        if len(v) == 1: disjunct = str(list(v)[0])
+                        if len(v) == 1:
+                            disjunct = str(list(v)[0])
                         else:
-                            #-l = sorted([str(x) for x in v if str(x)[-1] == '-'])
-                            #-r = sorted([str(x) for x in v if str(x)[-1] == '+'])
                             l = [str(x) for x in v if str(x)[-1] == '-']
                             r = [str(x) for x in v if str(x)[-1] == '+']
                             disjunct = ' & '.join([x for x in (l+r)])
@@ -89,7 +89,19 @@ def mst2disjuncts(input_file, parse_mode='given', context=2, \
                         i += 1
                 links = dict()
                 words = dict()
-        #-else: print('len(line) == 0')
+        else:  # empty line or last LR = same as rpevious else #80411
+            if len(links) > 0:
+                for k,v in links.items():
+                    if len(v) == 1:
+                        disjunct = str(list(v)[0])
+                    else:
+                        l = [str(x) for x in v if str(x)[-1] == '-']
+                        r = [str(x) for x in v if str(x)[-1] == '+']
+                        disjunct = ' & '.join([x for x in (l+r)])
+                    df.loc[i] = [words[k], disjunct, 1]
+                    i += 1
+            links = dict()
+            words = dict()
     return df
 
 #80406 +TODO: control & limit number of links in disjuncts
@@ -103,7 +115,7 @@ def files2links(files, parse_mode='given', context=0, group=True, \
     #           n>1 disjuncts up to n connectors per germ
     # group = False - don't group - 80323 level=0 case #TODO: DEL group?
     for i,f in enumerate(files):
-        if verbose == 'max':
+        if verbose in ['max','debug']:
             print('File # '+str(i)+':', f)
         if i == 0:
             df = pd.DataFrame(columns=['word','link','count'])
@@ -120,7 +132,7 @@ def files2links(files, parse_mode='given', context=0, group=True, \
             .reset_index(drop=True)
     words_number = len(set(df['word'].tolist()))
     links_number = len(set(df['link'].tolist()))
-    if verbose != 'none':
+    if verbose not in ['none','min']:
         print(words_number, 'unique words and', \
               links_number, 'unique links form', \
               len(df),'unique word-link pairs from', \
@@ -133,4 +145,4 @@ def files2links(files, parse_mode='given', context=0, group=True, \
 #80322 turtle files2disjuncts ⇒ files2links
 #80327 mst2disjuncts = updated src.space.turtle.py
 #80331 cleanup
-#80406 minor updates
+#80406,11 minor updates

@@ -4,12 +4,17 @@ import  os
 from link_grammar.lgparse import strip_token, parse_tokens, parse_links, calc_stat, parse_postscript, \
     parse_file_with_api, parse_file_with_lgp, \
     create_grammar_dir, LGParseError, BIT_STRIP, BIT_RWALL, BIT_CAPS, BIT_ULL_IN, BIT_OUTPUT_DIAGRAM, \
-    BIT_OUTPUT_POSTSCRIPT, BIT_OUTPUT_CONST_TREE
+    BIT_OUTPUT_POSTSCRIPT, BIT_OUTPUT_CONST_TREE, BIT_NO_LWALL
 
 class TestStringMethods(unittest.TestCase):
     """ TestStringMethods """
-    postscript_str = "[(LEFT-WALL)(Dad[!])(was.v-d)(not.e)(a)(parent.n)(before)(.)(RIGHT-WALL)][[0 7 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (Osm)][2 3 0 (EBm)][4 5 0 (Ds**c)][5 6 0 (Mp)][7 8 0 (RW)]][0]"
-    token_str = "(LEFT-WALL)(Dad[!])(was.v-d)(not.e)(a)(parent.n)(before)(.)(RIGHT-WALL)"
+    post_all_walls = "[(LEFT-WALL)(Dad[!])(was.v-d)(not.e)(a)(parent.n)(before)(.)(RIGHT-WALL)][[0 7 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (Osm)][2 3 0 (EBm)][4 5 0 (Ds**c)][5 6 0 (Mp)][7 8 0 (RW)]][0]"
+    post_no_walls = "[(eagle)(has)(wing)(.)][[0 2 1 (C04C01)][1 2 0 (C01C01)][2 3 0 (C01C05)]][0]"
+    post_no_links = "[([herring])([isa])([fish])([.])][][0]"
+
+    tokens_all_walls = "(LEFT-WALL)(Dad[!])(was.v-d)(not.e)(a)(parent.n)(before)(.)(RIGHT-WALL)"
+    tokens_no_walls = "(eagle)(has)(wing)(.)"
+
     link_str = "[0 7 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (Osm)][2 3 0 (EBm)][4 5 0 (Ds**c)][5 6 0 (Mp)][7 8 0 (RW)]"
 
     @staticmethod
@@ -39,16 +44,31 @@ class TestStringMethods(unittest.TestCase):
 
         # No RIGHT-WALL, no CAPS
         options |= BIT_STRIP
-        tokens = parse_tokens(self.token_str, options)
+        tokens = parse_tokens(self.tokens_all_walls, options)
         self.assertTrue(TestStringMethods.cmp_lists(tokens, ['###LEFT-WALL###', 'dad', 'was', 'not', 'a',
                                                              'parent', 'before', '.']))
+
+        # Tokens without walls
+        tokens = parse_tokens(self.tokens_no_walls, options)
+        self.assertTrue(TestStringMethods.cmp_lists(tokens, ['eagle', 'has', 'wing', '.']))
 
         # RIGHT-WALL and CAPS, no STRIP
         options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
-        tokens = parse_tokens(self.token_str, options)
+        tokens = parse_tokens(self.tokens_all_walls, options)
         self.assertTrue(TestStringMethods.cmp_lists(tokens, ['###LEFT-WALL###', 'Dad[!]', 'was.v-d', 'not.e', 'a',
                                                              'parent.n', 'before', '.', '###RIGHT-WALL###']))
+
+        # Tokens without walls
+        tokens = parse_tokens(self.tokens_no_walls, options)
+        self.assertTrue(TestStringMethods.cmp_lists(tokens, ['eagle', 'has', 'wing', '.']))
+
+        # NO_LWALL and CAPS, no STRIP
+        options |= (BIT_NO_LWALL | BIT_CAPS)
+        options &= (~(BIT_STRIP | BIT_RWALL))
+        tokens = parse_tokens(self.tokens_all_walls, options)
+        self.assertTrue(TestStringMethods.cmp_lists(tokens, ['Dad[!]', 'was.v-d', 'not.e', 'a',
+                                                             'parent.n', 'before', '.']))
 
     def test_parse_links(self):
         """ test_parse_links """
@@ -88,10 +108,19 @@ class TestStringMethods(unittest.TestCase):
         options = 0
         options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
-        f, n, s = parse_postscript(TestStringMethods.postscript_str, options, sys.stdout)
+        f, n, s = parse_postscript(TestStringMethods.post_all_walls, options, sys.stdout)
         print("Completely: {}, Unparsed: {}, Average: {}".format(f, n, s))
         self.assertTrue(f==1 and n==0 and s-1.0 < 0.01)
 
+        f, n, s = parse_postscript(TestStringMethods.post_no_walls, options, sys.stdout)
+        print("Completely: {}, Unparsed: {}, Average: {}".format(f, n, s))
+        self.assertTrue(f==1 and n==0 and s-1.0 < 0.01)
+
+        f, n, s = parse_postscript(TestStringMethods.post_no_links, options, sys.stdout)
+        print("Completely: {}, Unparsed: {}, Average: {}".format(f, n, s))
+        self.assertTrue(f==0 and n==1 and s < 0.01)
+
+    # @unittest.skip
     def test_parse_file_with_api(self):
         """ Test parse with default dictionary """
         print(__doc__)
@@ -122,6 +151,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertFalse(f+n+s < 0.001)
         self.assertTrue(f-1.0<0.01 and n<0.01 and s-1.0 < 0.01)
 
+    # @unittest.skip
     def test_parse_file_with_lgp(self):
         """ Test 'parse_file_with_lgp' with default dictionary """
         print(__doc__)
@@ -153,6 +183,7 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertEqual(tup_api, tup_lgp)
 
+    # @unittest.skip
     def test_create_grammar_dir(self):
         self.assertTrue("en" == create_grammar_dir("en", "", "", 0))
 

@@ -62,11 +62,12 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path> -d <dict_path>]  [OPTI
     print("Python v." + platform.python_version())
 
     try:
-        opts, args = getopt.getopt(argv, "hcwrnubqed:i:o:l:g:t:f:", ["help", "caps", "right-wall", "rm-dir",
+        opts, args = getopt.getopt(argv, "hcwrnubqexd:i:o:l:g:t:f:", ["help", "caps", "right-wall", "rm-dir",
                                                                      "no-strip", "ull-input", "best-linkage",
                                                                      "dict-path-recreate", "link-parser-exe",
-                                                                     "dictionary=", "input=", "output=",
-                                                                     "linkage-limit=", "grammar-dir=", "template-dir=",
+                                                                     "no-left-wall", "dictionary=",
+                                                                      "input=", "output=", "linkage-limit=",
+                                                                      "grammar-dir=", "template-dir=",
                                                                      "output-format"])
 
         for opt, arg in opts:
@@ -86,9 +87,11 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path> -d <dict_path>]  [OPTI
             elif opt in ("-q", "--dict-path-recreate"):
                 options |= BIT_DPATH_CREATE
             elif opt in ("-u", "--ull-input"):
-                options &= (~BIT_ULL_IN)
-            elif opt in ("-u", "--ull-input"):
+                options |= BIT_ULL_IN
+            elif opt in ("-e", "--link-parser-exe"):
                 options |= BIT_LG_EXE
+            elif opt in ("-x", "--no-left-wall"):
+                options |= BIT_NO_LWALL
             elif opt in ("-d", "--dictionary"):
                 dict_path = arg.replace("~", os.environ['HOME'])
             elif opt in ("-i", "--input"):

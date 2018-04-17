@@ -14,7 +14,7 @@ from subprocess import Popen, PIPE
 __all__ = ['parse_corpus_files', 'parse_file_with_api', 'parse_file_with_lgp', 'parse_batch_ps_output',
            'LG_DICT_PATH', 'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT', 'BIT_ULL_IN', 'BIT_RM_DIR',
            'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE', 'BIT_OUTPUT_ALL',
-           'BIT_BEST_LINKAGE', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'traverse_dir', 'create_dir',
+           'BIT_BEST_LINKAGE', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'BIT_NO_LWALL', 'traverse_dir', 'create_dir',
            ]
 
 __version__ = "2.1.0"
@@ -31,6 +31,7 @@ BIT_RM_DIR= 0x080           # Remove grammar dictionary if it already exists. Th
 BIT_BEST_LINKAGE = 0x0100   # Take most probable linkage.
 BIT_DPATH_CREATE = 0x0200   # Recreate dictionary path instead of source path
 BIT_LG_EXE= 0x300           # Use link-parser executable in a separate process for parsing
+BIT_NO_LWALL = 0x400        # Exclude left-wall from statistics estimation and ULL output
 
 # Output format constants. If no bits set ULL defacto format is used.
 BIT_OUTPUT_DIAGRAM = 0x08
@@ -83,14 +84,16 @@ def parse_tokens(txt, opt) -> list:
             token = strip_token(token)
 
         if token.find("-WALL") > 0:
-            token = "###" + token + "###"
+
+            if (token == "RIGHT-WALL" and (opt & BIT_RWALL) == BIT_RWALL) or \
+                (token == "LEFT-WALL" and not (opt & BIT_NO_LWALL)):
+
+                token = "###" + token + "###"
+                toks.append(token)
         else:
             if opt & BIT_CAPS == 0:
                 token = token.lower()
 
-        if token.find("RIGHT-WALL") < 0:
-            toks.append(token)
-        elif opt & BIT_RWALL == BIT_RWALL:
             toks.append(token)
 
         start_pos = end_pos + 2
@@ -169,8 +172,9 @@ def print_output(tokens, links, ofl):
     :param ofl: Output file handle.
     :return:
     """
-    for token in tokens[1:]:
-        ofl.write(token + ' ')
+    for token in tokens:
+        if not token.startswith("###"):
+            ofl.write(token + ' ')
 
     ofl.write('\n')
 
@@ -192,9 +196,14 @@ def parse_postscript(text, options, ofile) -> (int, int, float):
                 - Average value of successfully linked tokens.
     """
 
-    p = re.compile('\[(\(LEFT-WALL\).+?)\]\[(.*?)\]\[0\]', re.S)
+    p = re.compile('\[(\(.+?\)+?)\]\[(.*?)\]\[0\]', re.S)
+
+    # p = re.compile('\[(\(.+?\).+?)\]\[(.*?)\]\[0\]', re.S)
+    # p = re.compile('\[(\(LEFT-WALL\).+?)\]\[(.*?)\]\[0\]', re.S)
     m = p.match(text)
 
+    # toks = p.findall(text)
+    # print("Tokens:", toks)
     # print(text)
 
     if m is not None:
@@ -590,17 +599,23 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
 
         # print("new_dst_dir='" + new_dst_dir + "'")
 
+        stat_suffix = "2" if (options & BIT_LG_EXE) == BIT_LG_EXE else ""
+
         # If src_dir is a directory then on_corpus_file() is invoked for every corpus file of the directory tree
         if os.path.isdir(src_dir):
             dpath, dname = os.path.split(src_dir)
-            stat_path = new_dst_dir + "/" + dname + ".stat"
+            stat_path = new_dst_dir + "/" + dname + ".stat" + stat_suffix
             traverse_dir(src_dir, "", on_corpus_file, recreate_struct, True)
 
         # If src_dir is a file then simply call on_corpus_file() for it
         elif os.path.isfile(src_dir):
             fpath, fname = os.path.split(src_dir)
-            stat_path = new_dst_dir + "/" + fname + ".stat"
+            stat_path = new_dst_dir + "/" + fname + ".stat" + stat_suffix
             on_corpus_file(src_dir)
+
+        # Update statistics only if 'ull' output format is specified.
+        if (options & BIT_OUTPUT):
+            return
 
         if file_count > 1:
             full_ratio /= float(file_count)

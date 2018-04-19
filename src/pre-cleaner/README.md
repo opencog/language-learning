@@ -7,6 +7,8 @@ The pre-cleaner pipeline can be run with script run_cleaner.sh, which will
 call split-sentences.pl and pre-cleaner.py to process all files in the given
 directory.
 Usage: ./run_cleaner.sh <inptudir> <outputdir>
+ Run from directory where executable is, provide full path to inputdir
+ and only name of outputdir, no full path.
 
 The rest of the files in the folder are described below:
 

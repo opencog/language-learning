@@ -14,34 +14,93 @@ from subprocess import Popen, PIPE
 __all__ = ['parse_corpus_files', 'parse_file_with_api', 'parse_file_with_lgp', 'parse_batch_ps_output',
            'LG_DICT_PATH', 'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT', 'BIT_ULL_IN', 'BIT_RM_DIR',
            'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE', 'BIT_OUTPUT_ALL',
-           'BIT_BEST_LINKAGE', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'BIT_NO_LWALL', 'traverse_dir', 'create_dir',
+           'BIT_BEST_LINKAGE', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'BIT_NO_LWALL', 'BIT_SEP_STAT',
+           'traverse_dir', 'create_dir',
+           'strip_quotes', 'strip_trailing_slash', 'handle_path_string'
            ]
 
-__version__ = "2.1.0"
+__version__ = "2.1.1"
 
 LG_DICT_PATH = "/usr/local/share/link-grammar"
 
-BIT_CAPS  = 0x001           # Keep capitalized letters in tokens
-BIT_RWALL = 0x002           # Keep RIGHT-WALL tokens and the links
-BIT_STRIP = 0x004           # Strip off token suffixes
-BIT_OUTPUT= 0x038           # Output format
-BIT_ULL_IN= 0x040           # If set parse_file_with_api() is informed that ULL parses are used as input, so only
-                            #   sentences should be parsed, links should be filtered out.
-BIT_RM_DIR= 0x080           # Remove grammar dictionary if it already exists. Then recreate it from scratch.
-BIT_BEST_LINKAGE = 0x0100   # Take most probable linkage.
-BIT_DPATH_CREATE = 0x0200   # Recreate dictionary path instead of source path
-BIT_LG_EXE= 0x300           # Use link-parser executable in a separate process for parsing
-BIT_NO_LWALL = 0x400        # Exclude left-wall from statistics estimation and ULL output
 
-# Output format constants. If no bits set ULL defacto format is used.
-BIT_OUTPUT_DIAGRAM = 0x08
-BIT_OUTPUT_POSTSCRIPT = 0x10
-BIT_OUTPUT_CONST_TREE = 0x20
+# Output format constants. If no bits set, ULL defacto format is used.
+BIT_OUTPUT_DIAGRAM      = 0b0001
+BIT_OUTPUT_POSTSCRIPT   = 0b0010
+BIT_OUTPUT_CONST_TREE   = 0b0100
 BIT_OUTPUT_ALL = BIT_OUTPUT_DIAGRAM | BIT_OUTPUT_POSTSCRIPT | BIT_OUTPUT_CONST_TREE
+BIT_OUTPUT = BIT_OUTPUT_ALL
 
+BIT_CAPS                = (1<<3)            # Keep capitalized letters in tokens
+BIT_RWALL               = (1<<4)            # Keep RIGHT-WALL tokens and the links
+BIT_STRIP               = (1<<5)            # Strip off token suffixes
+BIT_ULL_IN              = (1<<6)            # If set, parse_file_with_api() is informed that ULL parses are used as input, so only
+                                            #   sentences should be parsed, links should be filtered out.
+BIT_RM_DIR              = (1<<7)            # Remove grammar dictionary if it already exists. Then recreate it from scratch.
+BIT_BEST_LINKAGE        = (1<<8)            # Take most probable linkage.
+BIT_DPATH_CREATE        = (1<<9)            # Recreate dictionary path instead of source path
+BIT_LG_EXE              = (1<<10)           # Use link-parser executable in a separate process for parsing
+BIT_NO_LWALL            = (1<<11)           # Exclude left-wall from statistics estimation and ULL output
+BIT_SEP_STAT            = (1<<12)           # Generate separate statistics for each corpus file
+
+# BIT_CAPS  = 0x001           # Keep capitalized letters in tokens
+# BIT_RWALL = 0x002           # Keep RIGHT-WALL tokens and the links
+# BIT_STRIP = 0x004           # Strip off token suffixes
+# BIT_OUTPUT= 0x038           # Output format
+# BIT_ULL_IN= 0x040           # If set parse_file_with_api() is informed that ULL parses are used as input, so only
+#                             #   sentences should be parsed, links should be filtered out.
+# BIT_RM_DIR= 0x080           # Remove grammar dictionary if it already exists. Then recreate it from scratch.
+# BIT_BEST_LINKAGE = 0x0100   # Take most probable linkage.
+# BIT_DPATH_CREATE = 0x0200   # Recreate dictionary path instead of source path
+# BIT_LG_EXE= 0x400           # Use link-parser executable in a separate process for parsing
+# BIT_NO_LWALL = 0x800        # Exclude left-wall from statistics estimation and ULL output
+# BIT_SEP_STAT = 0x500        # Generate separate statistics for each corpus file
+#
+# # Output format constants. If no bits set ULL defacto format is used.
+# BIT_OUTPUT_DIAGRAM = 0x08
+# BIT_OUTPUT_POSTSCRIPT = 0x10
+# BIT_OUTPUT_CONST_TREE = 0x20
+# BIT_OUTPUT_ALL = BIT_OUTPUT_DIAGRAM | BIT_OUTPUT_POSTSCRIPT | BIT_OUTPUT_CONST_TREE
 
 class LGParseError(Exception):
     pass
+
+
+def strip_quotes(text) -> str:
+    """
+    Strips starting and trailing quotes from input string
+
+    :param text: Text string to strip the quotes from.
+    :return: Text string without quotes.
+    """
+
+    if text is None:
+        return ""
+
+    l = len(text)
+
+    if l == 0:
+        return text
+
+    start = 0 if text[0] != "'" and text[0] != '"' else 1
+    end = l if text[l-1] != "'" and text[l-1] != '"' else l-1
+
+    return(text[start:end])
+
+def strip_trailing_slash(text) -> str:
+    if text is None:
+        return ""
+
+    l = len(text)
+
+    if not l:
+        return ""
+
+    end = l-1 if text[l-1] == "/" else l
+    return text[:end]
+
+def handle_path_string(text) -> str:
+    return strip_trailing_slash(strip_quotes(text)).replace("~", os.environ['HOME'])
 
 def strip_token(token) -> str:
     """
@@ -509,6 +568,33 @@ def create_dir(new_path) -> bool:
     return True
 
 
+def save_stat(stat_path, full_ratio, none_ratio, avrg_ratio):
+
+    stat_file_handle = None
+
+    try:
+        stat_file_handle = sys.stdout if stat_path is None else open(stat_path, "w")
+
+        assert avrg_ratio <= 1, "Average ratio > 1"
+
+        print("Total sentences parsed in full:\t{0[0]:2.2f}%\n"
+              "Total sentences not parsed at all:\t{0[1]:2.2f}%\nAverage sentence parse:\t{0[2]:2.2f}%\n".format(
+            (full_ratio * 100.0, none_ratio * 100.0, avrg_ratio * 100.0)), file=stat_file_handle)
+
+    except IOError as err:
+        print("IOError: " + str(err))
+
+    except FileNotFoundError as err:
+        print("FileNotFoundError: " + str(err))
+
+    except OSError as err:
+        print("OSError: " + str(err))
+
+    finally:
+        if stat_file_handle is not None and stat_file_handle != sys.stdout:
+            stat_file_handle.close()
+
+
 def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, linkage_limit, options) -> int:
     """
     Traverse corpus folder parsing each file in that folder and subfolders. The function recreates source directory
@@ -549,6 +635,7 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
             ptr_parse = parse_file_with_lgp if (options & BIT_LG_EXE) else parse_file_with_api
 
             p, f = os.path.split(file_path)
+            dst_file = os.path.join(new_dst_dir, f)
 
             try:
                 nonlocal file_count
@@ -556,8 +643,16 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
                 nonlocal none_ratio
                 nonlocal avrg_ratio
 
-                f_ratio, n_ratio, a_ratio = ptr_parse(new_grammar_path, file_path, os.path.join(new_dst_dir, f),
-                                                    linkage_limit, options)
+                f_ratio, n_ratio, a_ratio = ptr_parse(new_grammar_path, file_path, dst_file, linkage_limit, options)
+
+                # If output format is ULL and separate statistics option is specified
+                if options & (BIT_SEP_STAT | BIT_OUTPUT) == BIT_SEP_STAT:
+                    stat_name = dst_file + ".stat"
+                    stat_name += "2" if (options & BIT_LG_EXE) else ""
+
+                    assert a_ratio <= 1.0, "on_corpus_file(): a_ratio <= 1.0"
+
+                    save_stat(stat_name, f_ratio, n_ratio, a_ratio)
 
                 file_count += 1
                 full_ratio += f_ratio
@@ -622,27 +717,7 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
             none_ratio /= float(file_count)
             avrg_ratio /= float(file_count)
 
-        stat_file_handle = None
-
-        try:
-            stat_file_handle = sys.stdout if stat_path is None else open(stat_path, "w")
-
-            print("Total sentences parsed in full:\t{0[0]:2.2f}%\n"
-                  "Total sentences not parsed at all:\t{0[1]:2.2f}%\nAverage sentence parse:\t{0[2]:2.2f}%\n".format(
-                (full_ratio*100.0, none_ratio*100.0, avrg_ratio*100.0)), file=stat_file_handle)
-
-        except IOError as err:
-            print("IOError: " + str(err))
-
-        except FileNotFoundError as err:
-            print("FileNotFoundError: " + str(err))
-
-        except OSError as err:
-            print("OSError: " + str(err))
-
-        finally:
-            if stat_file_handle is not None and stat_file_handle != sys.stdout:
-                stat_file_handle.close()
+        save_stat(stat_path, full_ratio, none_ratio, avrg_ratio)
 
 
     def recreate_dict_struct(dir_path) -> bool:
@@ -682,6 +757,7 @@ class PSSentence:
     def __init__(self, sent_text):
         self.text = sent_text
         self.linkages = []
+
 
 def parse_batch_ps_output(text, lines_to_skip=3) -> []:
     """
@@ -744,6 +820,7 @@ def handle_stream_output(text, linkage_limit, options, out_stream):
 
     # Parse only if 'ull' output format is specified.
     if not (options & BIT_OUTPUT):
+
         # Parse output into sentences and assotiate a list of linkages for each one of them.
         sentences = parse_batch_ps_output(text)
 
@@ -757,10 +834,12 @@ def handle_stream_output(text, linkage_limit, options, out_stream):
 
             # Parse and calculate statistics for each linkage
             for lnkg in sent.linkages:
-                if linkage_count == linkage_limit:
+                if linkage_count == 1: #linkage_limit:
                     break
 
                 f, n, a = parse_postscript(lnkg, options, out_stream)
+
+                assert(a <= 1.0)
 
                 sent_full_ratio += f
                 sent_none_ratio += n
@@ -773,7 +852,7 @@ def handle_stream_output(text, linkage_limit, options, out_stream):
                 sent_none_ratio /= float(linkage_count)
                 sent_avrg_ratio /= float(linkage_count)
 
-            total_full_ratio += sent_avrg_ratio
+            total_full_ratio += sent_full_ratio
             total_none_ratio += sent_none_ratio
             total_avrg_ratio += sent_avrg_ratio
 
@@ -783,6 +862,8 @@ def handle_stream_output(text, linkage_limit, options, out_stream):
             total_full_ratio /= float(sentence_count)
             total_none_ratio /= float(sentence_count)
             total_avrg_ratio /= float(sentence_count)
+
+            assert total_avrg_ratio <= 1.0
 
     # If output format is other than ull then simply write text to the output stream.
     else:

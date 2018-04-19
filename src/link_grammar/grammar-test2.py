@@ -10,7 +10,7 @@ try:
 except ImportError:
     from lgparse import *
 
-__version__ = "2.3.1"
+__version__ = "2.3.2"
 
 
 def main(argv):
@@ -62,12 +62,12 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path> -d <dict_path>]  [OPTI
     print("Python v." + platform.python_version())
 
     try:
-        opts, args = getopt.getopt(argv, "hcwrnubqexd:i:o:l:g:t:f:", ["help", "caps", "right-wall", "rm-dir",
+        opts, args = getopt.getopt(argv, "hcwrnubqexsd:i:o:l:g:t:f:", ["help", "caps", "right-wall", "rm-dir",
                                                                      "no-strip", "ull-input", "best-linkage",
                                                                      "dict-path-recreate", "link-parser-exe",
-                                                                     "no-left-wall", "dictionary=",
-                                                                      "input=", "output=", "linkage-limit=",
-                                                                      "grammar-dir=", "template-dir=",
+                                                                     "no-left-wall", "separate-stat", "dictionary=",
+                                                                     "input=", "output=", "linkage-limit=",
+                                                                     "grammar-dir=", "template-dir=",
                                                                      "output-format"])
 
         for opt, arg in opts:
@@ -92,24 +92,28 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path> -d <dict_path>]  [OPTI
                 options |= BIT_LG_EXE
             elif opt in ("-x", "--no-left-wall"):
                 options |= BIT_NO_LWALL
+                print("BIT_NO_LWALL is set")
+            elif opt in ("-s", "--separate-stat"):
+                options |= BIT_SEP_STAT
             elif opt in ("-d", "--dictionary"):
-                dict_path = arg.replace("~", os.environ['HOME'])
+                dict_path = handle_path_string(arg)
             elif opt in ("-i", "--input"):
-                input_path = arg.replace("~", os.environ['HOME'])
+                input_path = handle_path_string(arg)
             elif opt in ("-o", "--output"):
-                output_path = arg.replace("~", os.environ['HOME'])
+                output_path = handle_path_string(arg)
             elif opt in ("-l", "--linkage-limit"):
                 linkage_limit = int(arg)
             elif opt in ("-g", "--grammar-dir"):
-                grammar_path = arg.replace("~", os.environ['HOME'])
+                grammar_path = handle_path_string(arg)
             elif opt in ("-t", "--template-dir"):
-                template_path = arg.replace("~", os.environ['HOME'])
+                template_path = handle_path_string(arg)
             elif opt in ("-f", "--output-format"):
-                if arg == "diagram":
+                form = strip_quotes(arg).lower()
+                if form == "diagram":
                     options |= BIT_OUTPUT_DIAGRAM
-                elif arg == "postscript":
+                elif form == "postscript":
                     options |= BIT_OUTPUT_POSTSCRIPT
-                elif arg == "constituent":
+                elif form == "constituent":
                     options |= BIT_OUTPUT_CONST_TREE
 
         # print("options=" + bin(options) + " (" + hex(options) + ")")

@@ -1,5 +1,5 @@
+#!/usr/bin/env python3
 #80331 POC: Proof of Concepf: Grammar Learner 0.1, POC-English-NoAmb
-
 
 def learn_lexical_entries(input_dir, cat_path, dict_path, verbose='none', \
         parse_mode='given'):
@@ -146,7 +146,7 @@ def learn_connectors(input_dir, cat_path, dict_path, verbose='none', \
     if tmpath == '': tmpath = dict_path
     dim = vector_space_dim(links, dict_path, tmpath, dim_max, sv_min, verbose)
     log.update({'vector_space_dim': dim})
-    if verbose == 'min': print('Optimal vector space dimensionality:', dim)
+    if verbose not in ['none','min']: print('Optimal vector space dimensionality:', dim)
 
     vdf, sv, res2 = pmisvd(links, dict_path, tmpath, dim)
     log.update(res2)
@@ -154,18 +154,17 @@ def learn_connectors(input_dir, cat_path, dict_path, verbose='none', \
 
     n_clusters = number_of_clusters(vdf, cluster_range ,clustering,  \
         criteria=cluster_criteria, level=cluster_level, verbose=verbose)
-    print('Optimal number of clusters:', n_clusters)
+    if verbose not in ['none','min']: print('Optimal number of clusters:', n_clusters)
 
     clusters, silhouette, inertia = cluster_words_kmeans(vdf, n_clusters)
-    if verbose == 'max':
-        plot2d(1, 2, clusters, 'cluster_words', 10)
+    if verbose in ['max','debug']: plot2d(1, 2, clusters, 'cluster_words', 10)
 
     # Generalisation - just histogram? - Grammar-Learner-Clustering-Words 2.6
     import numpy as np
     from src.clustering.similarity import cluster_similarity
     sim_df, res3 = cluster_similarity(clusters, 'max')
     log.update(res3)
-    if verbose == 'max':
+    if verbose in ['max','debug']:
       count, division = np.histogram(sim_df['similarity'])
       sim_df['similarity'].hist(bins=division)
       print('Cluster similarities: absolute values > 0.1:')
@@ -176,7 +175,7 @@ def learn_connectors(input_dir, cat_path, dict_path, verbose='none', \
     if cat_path[-1] != '/': cat_path += '/'
     cat_file = cat_path + 'categories.txt'
     categories = list2file(category_list, cat_file)
-    if verbose == 'max':
+    if verbose in ['max','debug']:
       for line in categories.splitlines(): print(line)
       print('<...>\nTotal', len(categories.splitlines()), \
             'lines, saved to', cat_file)

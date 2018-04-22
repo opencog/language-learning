@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 ## Unstructured mess of files from 2017 - TODO: restore the file structure?
 from __future__ import division
 import time
@@ -192,7 +193,7 @@ def links2vec(links,out_path,tmp_path,dim=100,cds=1.0,eig=0.5,verbose='none'):
         .sort_values(by=['count','word'], ascending=[False,True])
     contexts = linkz.groupby('link').sum().reset_index()\
         .sort_values(by=['count','link'], ascending=[False,True])
-    if verbose == 'max':
+    if verbose in ['max','debug']:
         print('Linkz:', len(linkz), 'items')
         with pd.option_context('display.max_rows', 6): print(linkz)
         print('words:', len(words), 'items')
@@ -218,19 +219,19 @@ def links2vec(links,out_path,tmp_path,dim=100,cds=1.0,eig=0.5,verbose='none'):
     counts = counts + tmp_counts.tocsr()
     list2tsv(iw, pmi_path + '.words.vocab')     # any need to save?
     list2tsv(ic, pmi_path + '.contexts.vocab')
-    if verbose == 'max': print('PMI data saved to', pmi_path)
+    if verbose in ['max','debug']: print('PMI data saved to', pmi_path)
 
     pmi = calc_pmi(counts, cds)
     np.savez_compressed(pmi_path, \
         data=pmi.data, indices=pmi.indices, indptr=pmi.indptr, shape=pmi.shape)
-    if verbose == 'max':
+    if verbose in ['max','debug']:
       print('PMI matrix', type(pmi), pmi.shape, '\nsaved to', pmi_path)
 
     '''PMI => SVD'''
     svd_path = pmi_path[:-3] + 'svd'
     neg = 1     # int(args['--neg'])  Number of negative samples;
                 # [default: 1]        subtracts its log from PMI
-    if verbose == 'max':
+    if verbose in ['max','debug']:
       print('SVD started: dim', dim, ', output:', svd_path+'...')
     explicit = PositiveExplicit(pmi_path, normalize=False, neg=neg)
     ut, s, vt = sparsesvd(explicit.m.tocsc(), dim)
@@ -239,7 +240,7 @@ def links2vec(links,out_path,tmp_path,dim=100,cds=1.0,eig=0.5,verbose='none'):
     np.save(svd_path + '.vt.npy', vt)
     list2tsv(explicit.iw, svd_path + '.words.vocab')  # any need to save?
     list2tsv(explicit.ic, svd_path + '.contexts.vocab')
-    if verbose == 'max':
+    if verbose in ['max','debug']:
         print('SVD matrix (3 files .npy) saved:', len(ut[0]), 'vectors, ', \
             'ut:', len(ut), 's:', len(s), 'vt:', len(vt))
 
@@ -274,7 +275,7 @@ def epmisvd(links,path,tmpath,dim=100,cds=1.0,eig=0.5,neg=1,verbose='none'):
         .sort_values(by=['count','word'], ascending=[False,True])
     contexts = linkz.groupby('link').sum().reset_index()\
         .sort_values(by=['count','link'], ascending=[False,True])
-    if verbose == 'max':
+    if verbose in ['max','debug']:
         print('Linkz:', len(linkz), 'items')
         with pd.option_context('display.max_rows', 6): print(linkz)
         print('words:', len(words), 'items')
@@ -300,18 +301,18 @@ def epmisvd(links,path,tmpath,dim=100,cds=1.0,eig=0.5,neg=1,verbose='none'):
     counts = counts + tmp_counts.tocsr()
     list2tsv(iw, pmi_path + '.words.vocab')  # any need to save?
     list2tsv(ic, pmi_path + '.contexts.vocab')
-    if verbose == 'max': print('PMI data saved to', pmi_path)
+    if verbose in ['max','debug']: print('PMI data saved to', pmi_path)
 
     '''counts + vocab => pmi'''
     pmi = calc_pmi(counts, cds)
     np.savez_compressed(pmi_path, \
         data=pmi.data, indices=pmi.indices, indptr=pmi.indptr, shape=pmi.shape)
-    if verbose == 'max':
+    if verbose in ['max','debug']:
       print('PMI matrix', type(pmi), pmi.shape, '\nsaved to', pmi_path)
 
     '''PMI => SVD'''
     svd_path = pmi_path[:-3] + 'svd'
-    if verbose == 'max':
+    if verbose in ['max','debug']:
         print('SVD started: dim', dim, ', output:', svd_path+'...')
     explicit = PositiveExplicit(pmi_path, normalize=False, neg=neg)
     #print('explicit.m:', explicit.m)
@@ -321,7 +322,7 @@ def epmisvd(links,path,tmpath,dim=100,cds=1.0,eig=0.5,neg=1,verbose='none'):
     np.save(svd_path + '.vt.npy', vt)
     list2tsv(explicit.iw, svd_path + '.words.vocab')  # any need to save?
     list2tsv(explicit.ic, svd_path + '.contexts.vocab')
-    if verbose == 'max':
+    if verbose in ['max','debug']:
         print('SVD matrix (3 files .npy) saved:', len(ut[0]), 'vectors, ', \
               'ut:', len(ut), 's:', len(s), 'vt:', len(vt))
 
@@ -338,7 +339,7 @@ def epmisvd(links,path,tmpath,dim=100,cds=1.0,eig=0.5,neg=1,verbose='none'):
     readme_path = path + 'vectors_readme.txt'
     readme = 'Word vectors: dimension '+str(dim)+', '+str(len(svd.iw))+' vectors'
     with open(readme_path, 'w') as f: f.write(readme)
-    if verbose == 'max':
+    if verbose in ['max','debug']:
         print('vectors saved to\n', out_file, \
             '- elapsed', int(round(time.time() - start, 0)), 's ~', \
           round((time.time() - start)/len(ut[0])*1000, 3), 'ms/vector')
@@ -349,6 +350,8 @@ def epmisvd(links,path,tmpath,dim=100,cds=1.0,eig=0.5,neg=1,verbose='none'):
 
 def pmisvd(links,path,tmpath, dim=100, cds=1.0, eig=0.5, neg=1, verbose='none'):
     '''80223 epmisvd enhanced: return +singular values'''
+    # path - dir to save vectors.txt and readme
+    # path - dir to save temporary files
     # cds = 1.0 # context distribution smoothing [default: 1.0]
     # eig = 0.5 # weighted exponent of the eigenvalue matrix [default: 0.5]
     # neg = 1   # Number of negative samples; [default: 1] subtracts its log from PMI
@@ -362,7 +365,7 @@ def pmisvd(links,path,tmpath, dim=100, cds=1.0, eig=0.5, neg=1, verbose='none'):
         .sort_values(by=['count','word'], ascending=[False,True])
     contexts = linkz.groupby('link').sum().reset_index()\
         .sort_values(by=['count','link'], ascending=[False,True])
-    if verbose == 'max':
+    if verbose in ['max','debug']:
         print('Linkz:', len(linkz), 'items')
         with pd.option_context('display.max_rows', 6): print(linkz)
         print('words:', len(words), 'items')
@@ -388,18 +391,18 @@ def pmisvd(links,path,tmpath, dim=100, cds=1.0, eig=0.5, neg=1, verbose='none'):
     counts = counts + tmp_counts.tocsr()
     list2tsv(iw, pmi_path + '.words.vocab')  # any need to save?
     list2tsv(ic, pmi_path + '.contexts.vocab')
-    if verbose == 'max': print('PMI data saved to', pmi_path)
+    if verbose in ['max','debug']: print('PMI data saved to', pmi_path)
 
     '''counts + vocab => pmi'''
     pmi = calc_pmi(counts, cds)
     np.savez_compressed(pmi_path, \
         data=pmi.data, indices=pmi.indices, indptr=pmi.indptr, shape=pmi.shape)
-    if verbose == 'max':
+    if verbose in ['max','debug']:
       print('PMI matrix', type(pmi), pmi.shape, '\nsaved to', pmi_path)
 
     '''PMI => SVD'''
     svd_path = pmi_path[:-3] + 'svd'
-    if verbose == 'max':
+    if verbose in ['max','debug']:
         print('SVD started: dim', dim, ', output:', svd_path+'...')
     explicit = PositiveExplicit(pmi_path, normalize=False, neg=neg)
     #-print('explicit.m:', explicit.m)
@@ -409,7 +412,7 @@ def pmisvd(links,path,tmpath, dim=100, cds=1.0, eig=0.5, neg=1, verbose='none'):
     np.save(svd_path + '.vt.npy', vt)
     list2tsv(explicit.iw, svd_path + '.words.vocab')  # any need to save?
     list2tsv(explicit.ic, svd_path + '.contexts.vocab')
-    if verbose == 'max':
+    if verbose in ['max','debug']:
         print('SVD matrix (3 files .npy) saved:', len(ut[0]), 'vectors, ', \
               'ut:', len(ut), 's:', len(s), 'vt:', len(vt))
 
@@ -426,7 +429,7 @@ def pmisvd(links,path,tmpath, dim=100, cds=1.0, eig=0.5, neg=1, verbose='none'):
     readme_path = path + 'vectors_readme.txt'
     readme = 'Word vectors: dimension '+str(dim)+', '+str(len(svd.iw))+' vectors'
     with open(readme_path, 'w') as f: f.write(readme)
-    if verbose == 'max':
+    if verbose in ['max','debug']:
         print('vectors saved to\n', out_file, \
             '- elapsed', int(round(time.time() - start, 0)), 's ~', \
           round((time.time() - start)/len(ut[0])*1000, 3), 'ms/vector')
@@ -441,7 +444,7 @@ def vector_space_dim(links, path, tmpath, dim_max=100, sv_min=0.9, \
     #-%matplotlib inline
     #-from src.space.hyperwords import pmisvd
     vdf, sv, response = pmisvd(links, path, tmpath, dim_max)
-    if verbose == 'max':
+    if verbose in ['max','debug']:
         print('Singular values ('+str(len(sv))+'):', \
               ', '.join(str(round(x,1)) for x in sv))
     if verbose in ['max', 'mid']:

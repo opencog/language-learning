@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #80405 POC: Proof of Concepf: Grammar Learner 0.1, POC-English-NoAmb
 import numpy as np
 import pandas as pd
@@ -127,14 +128,16 @@ def save_link_grammar(rules, path, file='', header='', footer=''):  # 80405
         clusters.add(rule[0])
 
     line_list.sort()    #FIXME: overkill?
-    nc = str(len(clusters))
+    #TODO: file naming - corpus name?
     if file != '': out_file = path + file
+    elif 'isa' in '\t'.join(line_list):   #-else: out_file = path+'poc-turtle_'
+        out_file = path + 'poc-turtle_'   #80420 AGI-2018 data FIXME:DEL
     else: out_file = path + 'poc-english_'
     out_file = out_file + str(len(clusters)) + 'C_' \
-        + str(UTC())[:10] + '_0007.4.0.dict'
+        + str(UTC())[:10] + '_0008.4.0.dict'    #80420 0007 ⇒ 0008
     if header == '':
-        header = '% POC English Link Grammar v.0.7 ' + str(UTC())
-    header = header + '\n' + '<dictionary-version-number>: V0v0v7+;\n' \
+        header = '% Grammar Learner v.0.8 ' + str(UTC())
+    header = header + '\n' + '<dictionary-version-number>: V0v0v8+;\n' \
         + '<dictionary-locale>: EN4us+;'
     add_rules = 'UNKNOWN-WORD: XXX+;'
     if footer == '':
@@ -146,4 +149,4 @@ def save_link_grammar(rules, path, file='', header='', footer=''):  # 80405
     return lg
 
 
-#80331 cloned from .turtle.py ~ 80224 Turtle-4
+#80420 v.0.8

@@ -35,6 +35,7 @@ def Get_Parses(data):
         Each list is splitted into tokens using space.
     """
     parses = []
+    sentences = {}
     parse_num = -1
     new_flag = True
     for line in data:
@@ -43,13 +44,13 @@ def Get_Parses(data):
             continue
         if new_flag:
             parse_num += 1
+            sentences[parse_num] = line
             new_flag = False
-            parses.append([[line]])
+            parses.append([])
             continue
         parses[parse_num].append(line.split())
-    parses.sort()
 
-    return parses
+    return parses, sentences
 
 def MakeSets(parse):
     """
@@ -59,27 +60,30 @@ def MakeSets(parse):
     link_sets = [{(link[0], link[1]), (link[2], link[3])} for link in parse]
     return link_sets
 
-def Evaluate_Parses(test_parses, ref_parses, verbose, ignore):
+def Evaluate_Parses(test_parses, test_sentences, ref_parses, ref_sentences, verbose, ignore):
     """
         Compares test_parses against ref_parses link by link
         counting errors
     """
+    skipped_parses = 0  # reference parses not found in test
     total_links = 0     # in gold standard
     #extra_links = 0     # links present in test, but not in ref
     missing_links = 0   # links present in ref, but not in test
     ignored_links = 0   # ignored links, if ignore is active
 
-    for ref_parse, test_parse in zip(ref_parses, test_parses):
-        current_missing = 0
-        ref_sent = ref_parse.pop(0)[0].split()
-        test_sent = test_parse.pop(0)[0].split()
-        if ref_sent != test_sent:
-            print(ref_sent)
-            print(test_sent)
-            sys.exit("Error: files don't contain same parses")
+    for ref_key, ref_sentence in ref_sentences.items():
+        test_key = [key for key, sentence in test_sentences.items() if value == ref_sentence]
+        if len(test_key) == 0
+            if verbose:
+                print("Skipping sentence not found in test parses:")
+                print(ref_sentence)
+            skipped_parses += 1
+            continue
+        test_sentences.pop(test_key[0]) # reduce the size of dict to search
 
-        ref_sets = MakeSets(ref_parse)  # using sets to ignore link directions
-        test_sets = MakeSets(test_parse)
+        current_missing = 0
+        ref_sets = MakeSets(ref_parses[ref_key])  # using sets to ignore link directions
+        test_sets = MakeSets(test_parses[test_key[0]])
         sent_length = str(len(ref_sent))
 
         # loop over every ref link and try to find it in test
@@ -193,10 +197,10 @@ def main(argv):
             ignore_WALL = False
 
     test_data = Load_File(test_file)
-    test_parses = Get_Parses(test_data) 
+    test_parses, test_sentences = Get_Parses(test_data) 
     ref_data = Load_File(ref_file)
-    ref_parses = Get_Parses(ref_data) 
-    Evaluate_Parses(test_parses, ref_parses, verbose, ignore_WALL)
+    ref_parses, ref_sentences = Get_Parses(ref_data) 
+    Evaluate_Parses(test_parses, test_sentences, ref_parses, ref_sentences, verbose, ignore_WALL)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

@@ -2,6 +2,8 @@
 
 # ASuMa, Apr 2018
 # Usage ./run_cleaner <inputdir> <outputdir>
+# Run from directory where executable is, provide full path to inputdir
+# and only name of outputdir, no full path.
 
 for file in $1/*.txt
 do

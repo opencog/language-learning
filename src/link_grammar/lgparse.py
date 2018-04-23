@@ -16,7 +16,7 @@ __all__ = ['parse_corpus_files', 'parse_file_with_api', 'parse_file_with_lgp', '
            'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE', 'BIT_OUTPUT_ALL',
            'BIT_BEST_LINKAGE', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'BIT_NO_LWALL', 'BIT_SEP_STAT',
            'traverse_dir', 'create_dir',
-           'strip_quotes', 'strip_trailing_slash', 'handle_path_string'
+           'strip_quotes', 'strip_trailing_slash', 'handle_path_string', 'strip_brackets'
            ]
 
 __version__ = "2.1.1"
@@ -43,27 +43,25 @@ BIT_LG_EXE              = (1<<10)           # Use link-parser executable in a se
 BIT_NO_LWALL            = (1<<11)           # Exclude left-wall from statistics estimation and ULL output
 BIT_SEP_STAT            = (1<<12)           # Generate separate statistics for each corpus file
 
-# BIT_CAPS  = 0x001           # Keep capitalized letters in tokens
-# BIT_RWALL = 0x002           # Keep RIGHT-WALL tokens and the links
-# BIT_STRIP = 0x004           # Strip off token suffixes
-# BIT_OUTPUT= 0x038           # Output format
-# BIT_ULL_IN= 0x040           # If set parse_file_with_api() is informed that ULL parses are used as input, so only
-#                             #   sentences should be parsed, links should be filtered out.
-# BIT_RM_DIR= 0x080           # Remove grammar dictionary if it already exists. Then recreate it from scratch.
-# BIT_BEST_LINKAGE = 0x0100   # Take most probable linkage.
-# BIT_DPATH_CREATE = 0x0200   # Recreate dictionary path instead of source path
-# BIT_LG_EXE= 0x400           # Use link-parser executable in a separate process for parsing
-# BIT_NO_LWALL = 0x800        # Exclude left-wall from statistics estimation and ULL output
-# BIT_SEP_STAT = 0x500        # Generate separate statistics for each corpus file
-#
-# # Output format constants. If no bits set ULL defacto format is used.
-# BIT_OUTPUT_DIAGRAM = 0x08
-# BIT_OUTPUT_POSTSCRIPT = 0x10
-# BIT_OUTPUT_CONST_TREE = 0x20
-# BIT_OUTPUT_ALL = BIT_OUTPUT_DIAGRAM | BIT_OUTPUT_POSTSCRIPT | BIT_OUTPUT_CONST_TREE
 
 class LGParseError(Exception):
     pass
+
+
+def strip_brackets(text) -> str:
+    """
+    Strips starting and trailing brackets from input string
+
+    :param text: Text string to strip the brackets from.
+    :return: Text string without brackets.
+    """
+    if text is None:
+        return ""
+
+    if text.startswith("[") and text.endswith("]"):
+        return text[1:len(text) - 1]
+
+    return text
 
 
 def strip_quotes(text) -> str:
@@ -257,26 +255,21 @@ def parse_postscript(text, options, ofile) -> (int, int, float):
 
     p = re.compile('\[(\(.+?\)+?)\]\[(.*?)\]\[0\]', re.S)
 
-    # p = re.compile('\[(\(.+?\).+?)\]\[(.*?)\]\[0\]', re.S)
-    # p = re.compile('\[(\(LEFT-WALL\).+?)\]\[(.*?)\]\[0\]', re.S)
     m = p.match(text)
 
-    # toks = p.findall(text)
-    # print("Tokens:", toks)
-    # print(text)
-
     if m is not None:
-        # print(m.group(1))
         tokens = parse_tokens(m.group(1), options)
         links = parse_links(m.group(2), tokens)
-        # print(tokens)
-        # print(links)
         sorted_links = sorted(links, key=lambda x: (x[0], x[2]))
 
         if not (options & BIT_OUTPUT):
             print_output(tokens, sorted_links, ofile)
 
         return calc_stat(tokens)
+
+    else:
+        print("parse_postscript(): regex does not match!", file=sys.stderr)
+        print(text, file=sys.stderr)
 
     return 0, 0, 0.0
 
@@ -467,7 +460,7 @@ def get_dir_name(file_name) -> (str, str):
     :return: tuple (template_grammar_directory_name, grammar_directory_name)
     """
     p = re.compile(
-        '(/?([._:\w\d=~-]*/)*)(([a-zA-Z-]+)_[0-9]{1,3}C_[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9A-F]{4})\.(4\.0\.dict)')
+        '(/?([+._:\w\d=~-]*/)*)(([a-zA-Z-]+)_[0-9]{1,3}C_[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9A-F]{4})\.(4\.0\.dict)')
     m = p.match(file_name)
 
     return (None, None) if m is None else (m.group(4), m.group(3))
@@ -758,8 +751,39 @@ class PSSentence:
         self.text = sent_text
         self.linkages = []
 
+    def __str__(self):
+        ret = self.text + "\n"
 
-def parse_batch_ps_output(text, lines_to_skip=3) -> []:
+        for linkage in self.linkages:
+            ret += linkage + "\n"
+
+        return ret
+
+
+def skip_lines(text, lines_to_skip) -> int:
+    l = len(text)
+
+    pos = 0
+    cnt = lines_to_skip
+
+    while l and cnt:
+        if text[pos] == "\n":
+            cnt -= 1
+        pos += 1
+    return pos
+
+def trim_garbage(text) -> int:
+    l = len(text)-1
+
+    while l:
+        if text[l] == "]":
+            return l+1
+        l -= 1
+
+    return 0
+
+
+def parse_batch_ps_output(text:str, lines_to_skip:int=5) -> []:
     """
     Parse postscript returned by link-parser executable in a form where each sentence is followed by zero
         or many postscript notated linkages. Postscript linkages are usually represented by three lines
@@ -771,37 +795,22 @@ def parse_batch_ps_output(text, lines_to_skip=3) -> []:
     """
     sentences = []
 
-    line_count = 0      # line counter
-    cur_sent = None     # current sentence
-    cur_lnkg = ""       # current linkage
+    pos = skip_lines(text, lines_to_skip)
+    end = trim_garbage(text)
 
     # Parse output to get sentences and linkages in postscript notation
-    for line in text.split("\n"):
+    for sent in text[pos:end].split("\n\n"):
 
-        # Skip first 'lines_to_skip' lines and empty lines. Skip "Bye" line too.
-        if line_count > lines_to_skip and len(line) and not line.startswith("Bye"):
+        sent = sent.replace("\n", "")
 
-            # If sentence line found, create line object and append it to the
-            #   sentence list.
-            if not line.startswith("["):
-                cur_sent = PSSentence(line)
-                sentences.append(cur_sent)
+        post_start = sent.find("[")
 
-            # If postscript line found...
-            else:
-                # If that's the last line in postscript linkage sequence,
-                #   complete the sequence and add linkage to the linkage list.
-                if line == "[0]":
-                    cur_lnkg += line
-                    cur_sent.linkages.append(cur_lnkg)
-                    cur_lnkg = ""
+        sentence = sent[:post_start]
+        cur_sent = PSSentence(sentence)
+        postscript = sent[post_start:]
+        cur_sent.linkages.append(postscript)
 
-                # Otherwise add line to the linkage string
-                else:
-                    cur_lnkg += line
-
-        # Increment line counter
-        line_count += 1
+        sentences.append(cur_sent)
 
     return sentences
 
@@ -826,6 +835,8 @@ def handle_stream_output(text, linkage_limit, options, out_stream):
 
         sentence_count = 0
 
+        print(len(sentences))
+
         # Parse linkages and make statistics estimation
         for sent in sentences:
             linkage_count = 0
@@ -834,6 +845,7 @@ def handle_stream_output(text, linkage_limit, options, out_stream):
 
             # Parse and calculate statistics for each linkage
             for lnkg in sent.linkages:
+
                 if linkage_count == 1: #linkage_limit:
                     break
 
@@ -870,6 +882,131 @@ def handle_stream_output(text, linkage_limit, options, out_stream):
         print(text, file=out_stream)
 
     return (total_full_ratio, total_none_ratio, total_avrg_ratio)
+
+
+
+
+
+
+
+
+# def parse_batch_ps_output(text, lines_to_skip=3) -> []:
+#     """
+#     Parse postscript returned by link-parser executable in a form where each sentence is followed by zero
+#         or many postscript notated linkages. Postscript linkages are usually represented by three lines
+#         enclosed in brackets.
+#     :param text: String variable with postscript output returned by link-parser.
+#     :param lines_to_skip: Number of lines to skip before start parsing the text. It is necessary when additional
+#                 parameters specified, when link-parser is invoked. In that case link-parser writes those parameter
+#                 values on startup.
+#     """
+#     sentences = []
+#
+#     line_count = 0      # line counter
+#     cur_sent = None     # current sentence
+#     cur_lnkg = ""       # current linkage
+#
+#     # Parse output to get sentences and linkages in postscript notation
+#     for line in text.split("\n"):
+#
+#         # Skip first 'lines_to_skip' lines and empty lines. Skip "Bye" line too.
+#         if line_count > lines_to_skip and len(line) and not line.startswith("Bye"):
+#
+#             # If sentence line found, create line object and append it to the
+#             #   sentence list.
+#             if not line.startswith("["):
+#                 cur_sent = PSSentence(line)
+#                 sentences.append(cur_sent)
+#
+#                 print(line)
+#
+#             # If postscript line found...
+#             else:
+#                 # If that's the last line in postscript linkage sequence,
+#                 #   complete the sequence and add linkage to the linkage list.
+#                 if line == "[0]":
+#                     cur_lnkg += line
+#                     cur_sent.linkages.append(cur_lnkg)
+#
+#                     print(cur_lnkg)
+#
+#                     cur_lnkg = ""
+#
+#                 # Otherwise add line to the linkage string
+#                 else:
+#                     cur_lnkg += line
+#
+#         # Increment line counter
+#         line_count += 1
+#
+#     return sentences
+
+
+
+# def handle_stream_output(text, linkage_limit, options, out_stream):
+#     """
+#     Handle link-parser output stream text depending on options' BIT_OUTPUT field.
+#
+#     :param text: Stream output text.
+#     :param linkage_limit: Number of linkages taken into account when statistics estimation is made.
+#     :param options: Integer variable with multiple bit fields
+#     :param out_stream: Output file stream handle.
+#     :return:
+#     """
+#     total_full_ratio, total_none_ratio, total_avrg_ratio = (0.0, 0.0, 0.0)
+#
+#     # Parse only if 'ull' output format is specified.
+#     if not (options & BIT_OUTPUT):
+#
+#         # Parse output into sentences and assotiate a list of linkages for each one of them.
+#         sentences = parse_batch_ps_output(text)
+#
+#         sentence_count = 0
+#
+#         # Parse linkages and make statistics estimation
+#         for sent in sentences:
+#             linkage_count = 0
+#
+#             sent_full_ratio, sent_none_ratio, sent_avrg_ratio = (0.0, 0.0, 0.0)
+#
+#             # Parse and calculate statistics for each linkage
+#             for lnkg in sent.linkages:
+#                 if linkage_count == 1: #linkage_limit:
+#                     break
+#
+#                 f, n, a = parse_postscript(lnkg, options, out_stream)
+#
+#                 assert(a <= 1.0)
+#
+#                 sent_full_ratio += f
+#                 sent_none_ratio += n
+#                 sent_avrg_ratio += a
+#
+#                 linkage_count += 1
+#
+#             if linkage_count > 1:
+#                 sent_full_ratio /= float(linkage_count)
+#                 sent_none_ratio /= float(linkage_count)
+#                 sent_avrg_ratio /= float(linkage_count)
+#
+#             total_full_ratio += sent_full_ratio
+#             total_none_ratio += sent_none_ratio
+#             total_avrg_ratio += sent_avrg_ratio
+#
+#             sentence_count += 1
+#
+#         if sentence_count > 1:
+#             total_full_ratio /= float(sentence_count)
+#             total_none_ratio /= float(sentence_count)
+#             total_avrg_ratio /= float(sentence_count)
+#
+#             assert total_avrg_ratio <= 1.0
+#
+#     # If output format is other than ull then simply write text to the output stream.
+#     else:
+#         print(text, file=out_stream)
+#
+#     return (total_full_ratio, total_none_ratio, total_avrg_ratio)
 
 
 def parse_file_with_lgp(dict_path, corpus_path, output_path, linkage_limit, options) \

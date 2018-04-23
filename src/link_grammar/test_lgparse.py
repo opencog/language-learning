@@ -2,9 +2,80 @@ import unittest
 import sys
 import  os
 from link_grammar.lgparse import strip_token, parse_tokens, parse_links, calc_stat, parse_postscript, \
-    parse_file_with_api, parse_file_with_lgp, \
+    parse_file_with_api, parse_file_with_lgp, parse_batch_ps_output, \
     create_grammar_dir, LGParseError, BIT_STRIP, BIT_RWALL, BIT_CAPS, BIT_ULL_IN, BIT_OUTPUT_DIAGRAM, \
-    BIT_OUTPUT_POSTSCRIPT, BIT_OUTPUT_CONST_TREE, BIT_NO_LWALL
+    BIT_OUTPUT_POSTSCRIPT, BIT_OUTPUT_CONST_TREE, BIT_NO_LWALL, strip_brackets
+
+lg_post_output = """
+echo set to 1
+postscript set to 1
+graphics set to 0
+verbosity set to 0
+tuna has fin .
+[(LEFT-WALL)(tuna)(has)(fin)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+eagle isa bird .
+[(LEFT-WALL)(eagle)(isa)(bird)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+fin isa extremity .
+[(LEFT-WALL)(fin)(isa)(extremity)(.)]
+[[0 1 0 (C05C04)][1 2 0 (C04C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+tuna isa fish .
+[(LEFT-WALL)(tuna)(isa)(fish)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+fin has scale .
+[(LEFT-WALL)(fin)([has])(scale)(.)]
+[[0 1 0 (C05C04)][1 3 0 (C04C04)][3 4 0 (C04C03)]]
+[0]
+
+eagle has wing .
+[(LEFT-WALL)(eagle)(has)(wing)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+wing has feather .
+[(LEFT-WALL)(wing)([has])(feather)(.)]
+[[0 1 0 (C05C04)][1 3 0 (C04C04)][3 4 0 (C04C03)]]
+[0]
+
+wing isa extremity .
+[(LEFT-WALL)(wing)(isa)(extremity)(.)]
+[[0 1 0 (C05C04)][1 2 0 (C04C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+herring isa fish .
+[(LEFT-WALL)(herring)(isa)(fish)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+herring has fin .
+[(LEFT-WALL)(herring)(has)(fin)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+parrot isa bird .
+[(LEFT-WALL)(parrot)(isa)(bird)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+parrot has wing .
+[(LEFT-WALL)(parrot)(has)(wing)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+Bye.
+"""
+
+
+
 
 class TestStringMethods(unittest.TestCase):
     """ TestStringMethods """
@@ -191,6 +262,18 @@ class TestStringMethods(unittest.TestCase):
             create_grammar_dir("/home/alex/en", "", "", 0)
         self.assertEqual("Dictionary path does not exist.", str(ctx.exception))
 
+    def test_strip_brackets(self):
+        test_list = ['[a]', 'dad', 'is', 'a', 'human', '.']
+
+        self.assertEqual(strip_brackets('[a]'), 'a')
+        self.assertEqual(strip_brackets('[human]'), 'human')
+        self.assertEqual(strip_brackets('[]'), '')
+        self.assertEqual(strip_brackets(None), '')
+
+    # @unittest.skip
+    def test_parse_batch_ps_output(self):
+        num_sent = len(parse_batch_ps_output(lg_post_output))
+        self.assertEqual(num_sent, 12, "'parse_batch_ps_output()' returns '{}' instead of '{}'".format(num_sent, 12))
 
 if __name__ == '__main__':
     unittest.main()

@@ -44,7 +44,7 @@ def Get_Parses(data):
             continue
         if new_flag:
             parse_num += 1
-            sentences[parse_num] = line
+            sentences[parse_num] = line.split() # split ignores diff spacing between words
             new_flag = False
             parses.append([])
             continue
@@ -71,12 +71,12 @@ def Evaluate_Parses(test_parses, test_sentences, ref_parses, ref_sentences, verb
     missing_links = 0   # links present in ref, but not in test
     ignored_links = 0   # ignored links, if ignore is active
 
-    for ref_key, ref_sentence in ref_sentences.items():
-        test_key = [key for key, sentence in test_sentences.items() if value == ref_sentence]
-        if len(test_key) == 0
+    for ref_key, ref_sent in ref_sentences.items():
+        test_key = [key for key, sentence in test_sentences.items() if sentence == ref_sent]
+        if len(test_key) == 0:
             if verbose:
                 print("Skipping sentence not found in test parses:")
-                print(ref_sentence)
+                print(ref_sent)
             skipped_parses += 1
             continue
         test_sentences.pop(test_key[0]) # reduce the size of dict to search
@@ -108,6 +108,7 @@ def Evaluate_Parses(test_parses, test_sentences, ref_parses, ref_sentences, verb
 
     score = 1 - missing_links / total_links
     print("\nParses score: {}".format(score))
+    print("A total of {} parses were not found in test".format(skipped_parses))
     print("A total of {} links".format(total_links))
     print("A total of {} ignored links".format(ignored_links))
     print("A total of {} missing links".format(missing_links))

@@ -62,12 +62,12 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path> -d <dict_path>]  [OPTI
     print("Python v." + platform.python_version())
 
     try:
-        opts, args = getopt.getopt(argv, "hcwrnubqexsd:i:o:l:g:t:f:", ["help", "caps", "right-wall", "rm-dir",
+        opts, args = getopt.getopt(argv, "hcwrnubqexsLd:i:o:l:g:t:f:", ["help", "caps", "right-wall", "rm-dir",
                                                                      "no-strip", "ull-input", "best-linkage",
                                                                      "dict-path-recreate", "link-parser-exe",
-                                                                     "no-left-wall", "separate-stat", "dictionary=",
-                                                                     "input=", "output=", "linkage-limit=",
-                                                                     "grammar-dir=", "template-dir=",
+                                                                     "no-left-wall", "separate-stat", "local-lang-dir",
+                                                                     "dictionary=", "input=", "output=",
+                                                                     "linkage-limit=", "grammar-dir=", "template-dir=",
                                                                      "output-format"])
 
         for opt, arg in opts:
@@ -95,6 +95,8 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path> -d <dict_path>]  [OPTI
                 print("BIT_NO_LWALL is set")
             elif opt in ("-s", "--separate-stat"):
                 options |= BIT_SEP_STAT
+            elif opt in ("-L", "--local-lang-dir"):
+                options |= BIT_LOC_LANG
             elif opt in ("-d", "--dictionary"):
                 dict_path = handle_path_string(arg)
             elif opt in ("-i", "--input"):

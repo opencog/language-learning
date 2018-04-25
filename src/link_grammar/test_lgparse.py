@@ -101,7 +101,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_strip_token(self):
         """ test_strip_token """
-        print(__doc__)
+        print(__doc__, sys.stderr)
 
         self.assertEqual(strip_token("strange[!]"), "strange")
         self.assertEqual(strip_token("strange.a"), "strange")
@@ -109,7 +109,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_parse_tokens(self):
         """ test_parse_tokens """
-        print(__doc__)
+        print(__doc__, sys.stderr)
 
         options = 0
 
@@ -143,7 +143,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_parse_links(self):
         """ test_parse_links """
-        print(__doc__)
+        print(__doc__, sys.stderr)
 
         links = parse_links(self.link_str, ['###LEFT-WALL###', 'dad', 'was', 'not', 'a', 'parent', 'before', '.'])
 
@@ -158,7 +158,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_calc_stat(self):
         """ test_calc_stat """
-        print(__doc__)
+        print(__doc__, sys.stderr)
 
         f, n, s = calc_stat(['###LEFT-WALL###', 'dad', 'was', 'not', 'a', 'parent', 'before', '.'])
         # print(f, n, s)
@@ -174,7 +174,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_parse_postscript(self):
         """ test_parse_postscript """
-        print(__doc__)
+        print(__doc__, sys.stderr)
 
         options = 0
         options |= (BIT_RWALL | BIT_CAPS)
@@ -194,7 +194,7 @@ class TestStringMethods(unittest.TestCase):
     # @unittest.skip
     def test_parse_file_with_api(self):
         """ Test parse with default dictionary """
-        print(__doc__)
+        print(__doc__, sys.stderr)
 
         # Testing over poc-turtle corpus... 100% success is expected.
         options = 0 | BIT_STRIP
@@ -225,7 +225,7 @@ class TestStringMethods(unittest.TestCase):
     # @unittest.skip
     def test_parse_file_with_lgp(self):
         """ Test 'parse_file_with_lgp' with default dictionary """
-        print(__doc__)
+        print(__doc__, sys.stderr)
 
         # Testing over poc-turtle corpus... 100% success is expected.
         options = 0 | BIT_STRIP
@@ -249,8 +249,8 @@ class TestStringMethods(unittest.TestCase):
                                       '../../tests/test-data/corpora/poc-turtle/poc-turtle.txt',
                                       None, 1, options)
 
-        print(tup_api)
-        print(tup_lgp)
+        print(tup_api, sys.stderr)
+        print(tup_lgp, sys.stderr)
 
         self.assertEqual(tup_api, tup_lgp)
 

@@ -14,12 +14,12 @@ from subprocess import Popen, PIPE
 __all__ = ['parse_corpus_files', 'parse_file_with_api', 'parse_file_with_lgp', 'parse_batch_ps_output',
            'LG_DICT_PATH', 'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT', 'BIT_ULL_IN', 'BIT_RM_DIR',
            'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE', 'BIT_OUTPUT_ALL',
-           'BIT_BEST_LINKAGE', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'BIT_NO_LWALL', 'BIT_SEP_STAT',
+           'BIT_BEST_LINKAGE', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'BIT_NO_LWALL', 'BIT_SEP_STAT', 'BIT_LOC_LANG',
            'traverse_dir', 'create_dir',
            'strip_quotes', 'strip_trailing_slash', 'handle_path_string', 'strip_brackets'
            ]
 
-__version__ = "2.1.1"
+__version__ = "2.1.2"
 
 LG_DICT_PATH = "/usr/local/share/link-grammar"
 
@@ -34,15 +34,17 @@ BIT_OUTPUT = BIT_OUTPUT_ALL
 BIT_CAPS                = (1<<3)            # Keep capitalized letters in tokens
 BIT_RWALL               = (1<<4)            # Keep RIGHT-WALL tokens and the links
 BIT_STRIP               = (1<<5)            # Strip off token suffixes
-BIT_ULL_IN              = (1<<6)            # If set, parse_file_with_api() is informed that ULL parses are used as input, so only
-                                            #   sentences should be parsed, links should be filtered out.
-BIT_RM_DIR              = (1<<7)            # Remove grammar dictionary if it already exists. Then recreate it from scratch.
+BIT_ULL_IN              = (1<<6)            # If set, parse_file_with_api() is informed that ULL parses are used
+                                            # as input, so only sentences should be parsed, links should be
+                                            # filtered out.
+BIT_RM_DIR              = (1<<7)            # Remove grammar dictionary if it already exists. Then recreate it
+                                            # from scratch.
 BIT_BEST_LINKAGE        = (1<<8)            # Take most probable linkage.
 BIT_DPATH_CREATE        = (1<<9)            # Recreate dictionary path instead of source path
 BIT_LG_EXE              = (1<<10)           # Use link-parser executable in a separate process for parsing
 BIT_NO_LWALL            = (1<<11)           # Exclude left-wall from statistics estimation and ULL output
 BIT_SEP_STAT            = (1<<12)           # Generate separate statistics for each corpus file
-
+BIT_LOC_LANG            = (1<<13)           # Keep language grammar directory localy in output directory
 
 class LGParseError(Exception):
     pass
@@ -133,6 +135,7 @@ def parse_tokens(txt, opt) -> list:
     toks = []
     start_pos = 1
     end_pos = txt.find(")")
+    token_count = 0
 
     while end_pos - start_pos > 0:
         token = txt[start_pos:end_pos:]
@@ -151,11 +154,15 @@ def parse_tokens(txt, opt) -> list:
             if opt & BIT_CAPS == 0:
                 token = token.lower()
 
+            # Add LEFT-WALL even if it was not returned by LG parser to make word token count start from one
+            if token_count == 0:
+                toks.append(r"###LEFT-WALL###")
+
             toks.append(token)
 
         start_pos = end_pos + 2
         end_pos = txt.find(")", start_pos)
-
+        token_count += 1
     return toks
 
 
@@ -220,7 +227,7 @@ def parse_links(txt, toks) -> list:
     return links
 
 
-def print_output(tokens, links, ofl):
+def print_output(tokens, links, options, ofl):
     """
     Print links in ULL format to the output specified by 'ofl' variable.
 
@@ -229,13 +236,34 @@ def print_output(tokens, links, ofl):
     :param ofl: Output file handle.
     :return:
     """
+
+    rwall_index = -1
+
+    # print(tokens)
+
+    i = 0
+
     for token in tokens:
         if not token.startswith("###"):
             ofl.write(token + ' ')
+            sys.stdout.write(token + ' ')
+        else:
+            if token.find("RIGHT-WALL") >= 0:
+                rwall_index = i
+        i += 1
 
     ofl.write('\n')
 
     for link in links:
+        # Filter out all links with LEFT-WALL if 'BIT_NO_LWALL' is set
+        if (options & BIT_NO_LWALL) and (link[0] == 0 or link[2] == 0):
+            continue
+
+        # Filter out all links with RIGHT-WALL if 'BIT_RWALL' is not set
+        if (options & BIT_RWALL) != BIT_RWALL and rwall_index >= 0 \
+                and (link[0] == rwall_index or link[2] == rwall_index):
+            continue
+
         print(link[0], link[1], link[2], link[3], file=ofl)
 
     print('', file=ofl)
@@ -263,7 +291,7 @@ def parse_postscript(text, options, ofile) -> (int, int, float):
         sorted_links = sorted(links, key=lambda x: (x[0], x[2]))
 
         if not (options & BIT_OUTPUT):
-            print_output(tokens, sorted_links, ofile)
+            print_output(tokens, sorted_links, options, ofile)
 
         return calc_stat(tokens)
 
@@ -666,6 +694,8 @@ def parse_corpus_files(src_dir, dst_dir, dict_dir, grammar_dir, template_dir, li
         stat_path = None
 
         print("\nInfo: Testing grammar: '" + path + "'")
+
+        # grammar_folder = output_dir if (options & BIT_LOC_LANG) == BIT_LOC_LANG else grammar_dir
 
         new_grammar_path = create_grammar_dir(path, grammar_dir, template_dir, options)
 

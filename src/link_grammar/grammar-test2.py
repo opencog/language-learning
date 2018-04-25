@@ -7,8 +7,10 @@ import platform
 
 try:
     from link_grammar.lgparse import *
+    from link_grammar.cliutils import *
 except ImportError:
     from lgparse import *
+    from cliutils import *
 
 __version__ = "2.3.2"
 

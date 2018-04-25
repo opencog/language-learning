@@ -13,10 +13,13 @@ import os
 
 try:
     from link_grammar.lgparse import *
+    from link_grammar.cliutils import *
+    from link_grammar.evaluate import *
+
 except ImportError:
     from lgparse import *
-
-from evaluate import *
+    from cliutils import *
+    from evaluate import *
 
 class EvalError(Exception):
     pass
@@ -27,7 +30,6 @@ def version():
         Prints Python version used
     """
     print("Code writen for Python3.6.4. Using: %s"%platform.python_version())
-
 
 
 def compare_ull_files(test_path, ref_file, verbose, ignore_WALL):

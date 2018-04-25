@@ -262,14 +262,6 @@ class TestStringMethods(unittest.TestCase):
             create_grammar_dir("/home/alex/en", "", "", 0)
         self.assertEqual("Dictionary path does not exist.", str(ctx.exception))
 
-    def test_strip_brackets(self):
-        test_list = ['[a]', 'dad', 'is', 'a', 'human', '.']
-
-        self.assertEqual(strip_brackets('[a]'), 'a')
-        self.assertEqual(strip_brackets('[human]'), 'human')
-        self.assertEqual(strip_brackets('[]'), '')
-        self.assertEqual(strip_brackets(None), '')
-
     # @unittest.skip
     def test_parse_batch_ps_output(self):
         num_sent = len(parse_batch_ps_output(lg_post_output))

@@ -16,7 +16,6 @@ __all__ = ['parse_corpus_files', 'parse_file_with_api', 'parse_file_with_lgp', '
            'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE', 'BIT_OUTPUT_ALL',
            'BIT_BEST_LINKAGE', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'BIT_NO_LWALL', 'BIT_SEP_STAT', 'BIT_LOC_LANG',
            'traverse_dir', 'create_dir',
-           'strip_quotes', 'strip_trailing_slash', 'handle_path_string', 'strip_brackets'
            ]
 
 __version__ = "2.1.2"
@@ -46,61 +45,10 @@ BIT_NO_LWALL            = (1<<11)           # Exclude left-wall from statistics 
 BIT_SEP_STAT            = (1<<12)           # Generate separate statistics for each corpus file
 BIT_LOC_LANG            = (1<<13)           # Keep language grammar directory localy in output directory
 
+
 class LGParseError(Exception):
     pass
 
-
-def strip_brackets(text) -> str:
-    """
-    Strips starting and trailing brackets from input string
-
-    :param text: Text string to strip the brackets from.
-    :return: Text string without brackets.
-    """
-    if text is None:
-        return ""
-
-    if text.startswith("[") and text.endswith("]"):
-        return text[1:len(text) - 1]
-
-    return text
-
-
-def strip_quotes(text) -> str:
-    """
-    Strips starting and trailing quotes from input string
-
-    :param text: Text string to strip the quotes from.
-    :return: Text string without quotes.
-    """
-
-    if text is None:
-        return ""
-
-    l = len(text)
-
-    if l == 0:
-        return text
-
-    start = 0 if text[0] != "'" and text[0] != '"' else 1
-    end = l if text[l-1] != "'" and text[l-1] != '"' else l-1
-
-    return(text[start:end])
-
-def strip_trailing_slash(text) -> str:
-    if text is None:
-        return ""
-
-    l = len(text)
-
-    if not l:
-        return ""
-
-    end = l-1 if text[l-1] == "/" else l
-    return text[:end]
-
-def handle_path_string(text) -> str:
-    return strip_trailing_slash(strip_quotes(text)).replace("~", os.environ['HOME'])
 
 def strip_token(token) -> str:
     """

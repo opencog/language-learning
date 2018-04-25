@@ -114,11 +114,14 @@ def files2links(files, parse_mode='given', context=0, group=True, \
     #           2: disjuncts: abc » a:b+, b:a-, b:a-&c+ ...
     #           n>1 disjuncts up to n connectors per germ
     # group = False - don't group - 80323 level=0 case #TODO: DEL group?
+    df = pd.DataFrame(columns=['word','link','count'])
+    if len(files) == 0:
+        return df, {'parsed_links': 0, 'error': 'files2links: files = []'}
     for i,f in enumerate(files):
         if verbose in ['max','debug']:
             print('File # '+str(i)+':', f)
-        if i == 0:
-            df = pd.DataFrame(columns=['word','link','count'])
+        #-if i == 0:  #80425 moved up
+        #-    df = pd.DataFrame(columns=['word','link','count'])
         if context > 1:
             df = pd.concat([df, mst2disjuncts(f, lw=left_wall, dot=period)])
         elif context == 1:

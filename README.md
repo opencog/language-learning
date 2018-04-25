@@ -1,2 +1,30 @@
 # OpenCog Unsupervised Language Learning project
-Please see the [OpenCog wiki page](https://wiki.opencog.org/w/Language_learning) for more information.
+
+## Dependencies
+* Anaconda 3
+* Numpy
+* Pandas
+* Scikit-Learn
+* Jupyter notebook
+* Matplotlib
+* Cython
+* SparseSVD
+* PyTest
+
+## Create virtual environment
+```
+conda env create -f environment.yml
+```
+## Run tests
+```
+cd ~/language-learning
+source activate ull3
+pytest
+```
+## Run Jupyter
+```
+cd ~/language-learning/notebooks
+source activate ull3
+jupyter notebook
+```
+---

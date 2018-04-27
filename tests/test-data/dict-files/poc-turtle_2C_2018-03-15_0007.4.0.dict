@@ -1,0 +1,24 @@
+% POC Turtle Link Grammar v.0.7 2018-03-15 08:42:32 UTC
+<dictionary-version-number>: V0v0v7+;
+<dictionary-locale>: EN4us+;
+
+% C21
+"bird" "extremity" "scale" "fish" "feather":
+(C22C21-);
+
+% C21
+"tuna" "herring" "parrot" "eagle":
+(C21C22+);
+
+% C21
+"wing" "fin":
+{C22C21-} & {C21C22+};
+
+% C22
+"has" "isa":
+{C21C22-} & {C22C21+};
+
+UNKNOWN-WORD: XXX+;
+
+% 2 word clusters, 4 Link Grammar rules.
+% Link Grammar file saved to: /home/obaskov/language-learning/output/Turtle-4-2018-03-14/poc-turtle_2C_2018-03-15_0007.4.0.dict

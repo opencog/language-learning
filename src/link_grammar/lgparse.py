@@ -664,7 +664,7 @@ def handle_stream_output(text:str, linkage_limit:int, options:int, out_stream):
 
         sentence_count = 0
 
-        print(len(sentences))
+        # print(len(sentences))
 
         # Parse linkages and make statistics estimation
         for sent in sentences:

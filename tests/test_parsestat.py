@@ -52,5 +52,21 @@ class TestStat(unittest.TestCase):
 
         self.assertEqual((3, 3, 0.5), (m, e, q))
 
+    def test_calc_stat(self):
+        """ test_calc_stat """
+        # print(__doc__, sys.stderr)
+
+        f, n, s = calc_stat(['###LEFT-WALL###', 'dad', 'was', 'not', 'a', 'parent', 'before', '.'])
+        # print(f, n, s)
+        self.assertTrue(f and (not n) and (s > 0.99))
+
+        f, n, s = calc_stat(['[qqq]', '[www]', '[eee]', '[rrr]', '[ttt]', '[yyy]', '[uuu]', '[.]'])
+        # print(f, n, s)
+        self.assertTrue(n and (not f) and (s < 0.1))
+
+        f, n, s = calc_stat(['###LEFT-WALL###', 'dad', 'was', 'not', '[a]', '[parent]', '[before]'])
+        # print(f, n, s)
+        self.assertTrue((not f) and (not n) and (s - 0.5 < 0.01))
+
 if __name__ == '__main__':
     unittest.main()

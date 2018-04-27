@@ -8,61 +8,62 @@ from web.lgclient import LGClientError, LGClientLib, LGClientREST
 
 def main():
 
-    """ Print linkages returned from the server """
-    def onRestLinkages(linkages, linkageCallback, param):
+    def on_rest_linkages(linkages, linkage_callback, param):
+        """ Print linkages returned from the server """
         print(linkages)
 
-    """ Print diagram for a linkage. Called for each linkage returned by local library parser call. """
-    def printDiagram(linkage):
+    def print_diagram(linkage):
+        """ Print diagram for a linkage. Called for each linkage returned by local library parser call. """
         print(linkage.diagram())
 
-    """ Print postscript for a linkage. Called for each linkage returned by local library parser call. """
-    def printPostscript(linkage):
+    def print_postscript(linkage):
+        """ Print postscript for a linkage. Called for each linkage returned by local library parser call. """
         print(linkage.postscript())
 
-    """ Print constituent tree for a linkage. Called for each linkage returned by local library parser call. """
-    def printConstituent(linkage):
+    def print_constituent(linkage):
+        """ Print constituent tree for a linkage. Called for each linkage returned by local library parser call. """
         print(linkage.constituent_tree())
 
-    """ Print all three possible outputs for eack linkage. Call for each linkage returned by local library parser call. """
-    def printAll(linkage):
-        printDiagram(linkage)
-        printPostscript(linkage)
-        printConstituent(linkage)
+    def print_all(linkage):
+        """ Print all three possible outputs for eack linkage. Call for each linkage returned by local library parser call. """
+        print_diagram(linkage)
+        print_postscript(linkage)
+        print_constituent(linkage)
 
-    """ Process a linkage """
-    def onLinkage(linkage, actionCallback):
-        if actionCallback is not None:
-            actionCallback(linkage)
+    def on_linkage(linkage, action_callback):
+        """ Process a linkage """
+        if action_callback is not None:
+            action_callback(linkage)
 
-    """ Process all linkages """
-    def onLinkages(linkages, linkageCallback, param):
-        if linkageCallback is not None:
+    def on_linkages(linkages, linkage_callback, param):
+        """ Process all linkages """
+        if linkage_callback is not None:
             for linkage in linkages:
-                linkageCallback(linkage, param)
+                linkage_callback(linkage, param)
 
     try:
         client = LGClientLib("en")
-        client.parse_cbf("Hello World!", onLinkages, onLinkage, printDiagram)
+        client.parse_cbf("Hello World!", on_linkages, on_linkage, print_diagram)
 
         client.language = "ru"
-        client.parse_cbf("Привет Мир!", onLinkages, onLinkage, printPostscript)
+        client.parse_cbf("Привет Мир!", on_linkages, on_linkage, print_postscript)
 
         client.language = "poc-turtle"
-        client.parse_cbf("Tuna isa fish.", onLinkages, onLinkage, printAll)
+        client.parse_cbf("Tuna isa fish.", on_linkages, on_linkage, print_all)
 
         rest_client = LGClientREST("http://127.0.0.1:9070/linkparser")
         rest_client.linkage_limit = 20
-        rest_client.parse_cbf("I'm here, not there.", onRestLinkages)
+        rest_client.parse_cbf("I'm here, not there.", on_rest_linkages)
 
         rest_client.language = "ru"
-        rest_client.parse_cbf("Привет Мир!", onRestLinkages)
+        rest_client.parse_cbf("Привет Мир!", on_rest_linkages)
 
     except LGClientError as err:
         print(str(err))
 
     except Exception as err:
         print(str(err))
+
 
 if __name__ == "__main__":
     main()

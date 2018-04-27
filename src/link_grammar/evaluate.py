@@ -1,4 +1,12 @@
-__all__ = ['Load_File', 'Get_Parses', 'MakeSets', 'Evaluate_Parses']
+import sys
+
+try:
+    from link_grammar.parsestat import calc_parse_quality
+except:
+    from parsestat import calc_parse_quality
+
+
+__all__ = ['Load_File', 'Get_Parses', 'MakeSets', 'Evaluate_Parses', 'get_parses', 'eval_parses']
 
 
 def Load_File(filename):
@@ -8,6 +16,166 @@ def Load_File(filename):
     with open(filename) as file:
         data = file.readlines()
     return data
+
+
+def get_parses(data, ignore_wall:bool=True):
+    """
+        Separates parses from data into format:
+        [
+          [[sentence-parse1][link1-parse1][link2-parse1] ... ]
+          [[sentence-parse2][link1-parse2][link2-parse2] ... ]
+          ...
+        ]
+        Each list is splitted into tokens using space.
+    """
+    parses = []              # list of parses where each parse consists of two elements: sentence and the set of links
+    parse = []
+    
+    for line in data:
+
+        # Suppose that sentence line always starts with a letter
+        if line[0].isalpha() or line[0] == "[":
+            
+            if len(parse) > 0:
+                parses.append(parse)
+                parse = []
+                
+            parse.append((((line.replace("[", "")).replace("]", "")).replace("\n", "")).strip())
+            parse.append(set())
+            parse.append(int(0))
+
+        # Parses are always start with a digit
+        elif line[0].isdigit():
+            link = line.split()
+    
+            assert len(link) == 4
+
+            # Do not add LW and period links to the set if 'ignore_wall' is specified
+            if ignore_wall and (link[1] == "." or link[3] == "."
+                                or link[1].startswith(r"###") or link[3].startswith(r"###")):
+
+                parse[2] += 1   # count ignored links
+                continue
+
+            # Only token indexes are added to the set
+            parse[1].add((link[0], link[2]))
+            
+    # Last parse should always be added to the list
+    if len(parse) > 0:
+        parses.append(parse)
+
+    parses.sort()
+
+    # print(parses, file=sys.stdout)
+
+    return parses
+
+
+def eval_parses(test_parses:list, ref_parses:list, verbose:bool, ignore=bool, ofile=sys.stdout):
+    """
+        Compares test_parses against ref_parses link by link
+        counting errors
+    """
+    total_linkages = len(ref_parses)        # in gold standard
+    extra_links = 0.0                       # links present in test, but not in ref
+    missing_links = 0.0                     # links present in ref, but not in test
+    ignored_links = 0.0                     # ignored links, if ignore is active
+    quality_ratio = 0.0                     # quality ratio
+
+    if len(ref_parses) != len(test_parses):
+        print("Error: files don't contain same parses. "
+              "Number of sentences missmatch. Ref={}, Test={}".format(len(ref_parses), len(test_parses)))
+        return
+
+    for ref_parse, test_parse in zip(ref_parses, test_parses):
+
+        if ref_parse[0] != test_parse[0]:
+            print(ref_parse[0], file=ofile)
+            print(test_parse[0], file=ofile)
+            print("Error: Something went wrong. Sentences missmatch.", file=ofile)
+            return
+
+        # if verbose:
+        #     print("Sentence: {}".format(" ".join(ref_sent)), file=ofile)
+        #     print("Missing links: {}".format(current_missing), file=ofile)
+        #     print("Extra links: {}".format(len(test_sets)), file=ofile)
+
+        (m, e, q) = calc_parse_quality(test_parse[1], ref_parse[1])
+
+        missing_links += m
+        extra_links += e
+        quality_ratio += q
+        ignored_links += test_parse[2]
+
+    if total_linkages > 1:
+        missing_links /= float(total_linkages)
+        extra_links   /= float(total_linkages)
+        quality_ratio /= float(total_linkages)
+        ignored_links /= float(total_linkages)
+
+    print("\nParses score: {0:2.2f}".format(quality_ratio*100.0), file=ofile)
+    print("A total of {} links".format(total_linkages), file=ofile)
+    print("A total of {} ignored links".format(ignored_links), file=ofile)
+    print("A total of {} missing links".format(missing_links), file=ofile)
+    print("A total of {} extra links".format(extra_links), file=ofile)
+
+
+
+# def Evaluate_Parses(test_parses, ref_parses, verbose, ignore, ofile):
+#     def Get_Parses(data, ignore_wall=True):
+#         """
+#             Separates parses from data into format:
+#             [
+#               [[sentence-parse1][link1-parse1][link2-parse1] ... ]
+#               [[sentence-parse2][link1-parse2][link2-parse2] ... ]
+#               ...
+#             ]
+#             Each list is splitted into tokens using space.
+# 
+#             Token renumeration added. Works only when ignore_wall=True.
+#         """
+#         parses = []
+#         parse_num = -1
+#         new_flag = True
+# 
+#         links_skipped = 0
+# 
+#         for line in data:
+# 
+#             if line == "\n":
+#                 new_flag = True
+#                 continue
+# 
+#             if new_flag:
+#                 parse_num += 1
+#                 new_flag = False
+#                 parses.append([[(((line.replace("[", "")).replace("]", "")).replace("\n", "")).strip()]])
+#                 links_skipped = 0
+#                 continue
+# 
+#             parse = line.split()
+# 
+#             assert len(parse) == 4
+# 
+#             if ignore_wall and (parse[1] == "." or parse[3] == "."
+#                                 or parse[1].startswith(r"###") or parse[3].startswith(r"###")):
+#                 links_skipped += 1
+#                 continue
+# 
+#             new_parse = []
+# 
+#             for i, element in zip(range(len(parse)), parse):
+#                 new_element = element if (i & 1) else int(element)  # - links_skipped
+#                 new_parse.append(new_element)
+# 
+#             # print(new_parse)
+#             parses[parse_num].append(new_parse)
+# 
+#         parses.sort()
+# 
+#         # print(parses)
+# 
+#         return parses
 
 
 def Get_Parses(data, ignore_wall=True):
@@ -53,7 +221,7 @@ def Get_Parses(data, ignore_wall=True):
         new_parse = []
 
         for i, element in zip(range(len(parse)), parse):
-            new_element = element if (i & 1) else int(element)  # - links_skipped
+            new_element = element if (i & 1) else int(element) # - links_skipped
             new_parse.append(new_element)
 
         # print(new_parse)
@@ -66,62 +234,6 @@ def Get_Parses(data, ignore_wall=True):
     return parses
 
 
-# def Get_Parses(data, ignore_wall=True):
-#     """
-#         Separates parses from data into format:
-#         [
-#           [[sentence-parse1][link1-parse1][link2-parse1] ... ]
-#           [[sentence-parse2][link1-parse2][link2-parse2] ... ]
-#           ...
-#         ]
-#         Each list is splitted into tokens using space.
-#
-#         Token renumeration added. Works only when ignore_wall=True.
-#     """
-#     parses = []
-#     parse_num = -1
-#     new_flag = True
-#
-#     links_skipped = 0
-#
-#     for line in data:
-#
-#         if line == "\n":
-#             new_flag = True
-#             continue
-#
-#         if new_flag:
-#             parse_num += 1
-#             new_flag = False
-#             parses.append([[(((line.replace("[", "")).replace("]", "")).replace("\n", "")).strip()]])
-#             links_skipped = 0
-#             continue
-#
-#         parse = line.split()
-#
-#         assert len(parse) == 4
-#
-#         if ignore_wall and (parse[1] == "." or parse[3] == "."
-#                             or parse[1].startswith(r"###") or parse[3].startswith(r"###")):
-#             links_skipped += 1
-#             continue
-#
-#         new_parse = []
-#
-#         for i, element in zip(range(len(parse)), parse):
-#             new_element = element if (i & 1) else int(element) - links_skipped
-#             new_parse.append(new_element)
-#
-#         # print(new_parse)
-#         parses[parse_num].append(new_parse)
-#
-#     parses.sort()
-#
-#     # print(parses)
-#
-#     return parses
-
-
 def MakeSets(parse):
     """
         Gets a list with links (without full sentence) and
@@ -129,6 +241,7 @@ def MakeSets(parse):
     """
     link_sets = [{(link[0], link[1]), (link[2], link[3])} for link in parse]
     return link_sets
+
 
 def Evaluate_Parses(test_parses, ref_parses, verbose, ignore, ofile):
     """

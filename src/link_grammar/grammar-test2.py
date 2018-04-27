@@ -8,11 +8,13 @@ import platform
 try:
     from link_grammar.lgparse import *
     from link_grammar.cliutils import *
+    from link_grammar.optconst import *
 except ImportError:
     from lgparse import *
     from cliutils import *
+    from optconst import *
 
-__version__ = "2.3.2"
+__version__ = "2.3.3"
 
 
 def main(argv):

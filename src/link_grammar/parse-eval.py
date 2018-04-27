@@ -47,13 +47,20 @@ def compare_ull_files(test_path, ref_file, verbose, ignore_WALL):
 
         try:
             test_data = Load_File(test_file)
-            test_parses = Get_Parses(test_data)
+            # test_parses = Get_Parses(test_data)
+
+            test_parses = get_parses(test_data)
+
             ref_data = Load_File(ref_file)
-            ref_parses = Get_Parses(ref_data)
+            # ref_parses = Get_Parses(ref_data)
+
+            ref_parses = get_parses(ref_data, ignore_WALL)
 
             with open(out_file, "w") as ofile:
                 print("Reference file   : '" + ref_file + "'", file=ofile)
-                Evaluate_Parses(test_parses, ref_parses, verbose, ignore_WALL, ofile)
+                # Evaluate_Parses(test_parses, ref_parses, verbose, ignore_WALL, ofile)
+
+                eval_parses(test_parses, ref_parses, verbose, ignore_WALL, ofile)
 
         except IOError as err:
             print("IOError: " + str(err))
@@ -96,7 +103,7 @@ def main(argv):
         testfile        file with parses to evaluate
         goldfile        file with reference (gold standard) parses
         -v              verbose
-        -i              don't ignore LEFT-WALL and end-of-sentence dot, if any
+        -i              ignore LEFT-WALL and end-of-sentence dot, if any
 
     """
 

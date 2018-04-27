@@ -11,168 +11,28 @@ import shutil
 from linkgrammar import LG_Error, Sentence, ParseOptions, Dictionary
 from subprocess import Popen, PIPE
 
+try:
+    from link_grammar.psparse import parse_postscript
+    from link_grammar.optconst import *
+    from link_grammar.parsestat import calc_stat
+
+except ImportError:
+    from psparse import parse_postscript
+    from optconst import *
+    from parsestat import calc_stat
+
+
 __all__ = ['parse_corpus_files', 'parse_file_with_api', 'parse_file_with_lgp', 'parse_batch_ps_output',
-           'LG_DICT_PATH', 'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT', 'BIT_ULL_IN', 'BIT_RM_DIR',
-           'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE', 'BIT_OUTPUT_ALL',
-           'BIT_BEST_LINKAGE', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'BIT_NO_LWALL', 'BIT_SEP_STAT', 'BIT_LOC_LANG',
-           'traverse_dir', 'create_dir',
+           'LG_DICT_PATH', 'traverse_dir', 'create_dir',
            ]
 
-__version__ = "2.1.2"
+__version__ = "2.1.3"
 
 LG_DICT_PATH = "/usr/local/share/link-grammar"
 
 
-# Output format constants. If no bits set, ULL defacto format is used.
-BIT_OUTPUT_DIAGRAM      = 0b0001
-BIT_OUTPUT_POSTSCRIPT   = 0b0010
-BIT_OUTPUT_CONST_TREE   = 0b0100
-BIT_OUTPUT_ALL = BIT_OUTPUT_DIAGRAM | BIT_OUTPUT_POSTSCRIPT | BIT_OUTPUT_CONST_TREE
-BIT_OUTPUT = BIT_OUTPUT_ALL
-
-BIT_CAPS                = (1<<3)            # Keep capitalized letters in tokens
-BIT_RWALL               = (1<<4)            # Keep RIGHT-WALL tokens and the links
-BIT_STRIP               = (1<<5)            # Strip off token suffixes
-BIT_ULL_IN              = (1<<6)            # If set, parse_file_with_api() is informed that ULL parses are used
-                                            # as input, so only sentences should be parsed, links should be
-                                            # filtered out.
-BIT_RM_DIR              = (1<<7)            # Remove grammar dictionary if it already exists. Then recreate it
-                                            # from scratch.
-BIT_BEST_LINKAGE        = (1<<8)            # Take most probable linkage.
-BIT_DPATH_CREATE        = (1<<9)            # Recreate dictionary path instead of source path
-BIT_LG_EXE              = (1<<10)           # Use link-parser executable in a separate process for parsing
-BIT_NO_LWALL            = (1<<11)           # Exclude left-wall from statistics estimation and ULL output
-BIT_SEP_STAT            = (1<<12)           # Generate separate statistics for each corpus file
-BIT_LOC_LANG            = (1<<13)           # Keep language grammar directory localy in output directory
-
-
 class LGParseError(Exception):
     pass
-
-
-def strip_token(token) -> str:
-    """
-    Strip off suffix substring
-    :param token: token string
-    :return: stripped token if a suffix found, the same token otherwise
-    """
-    if token.startswith(".") or token.startswith("["):
-        return token
-
-    pos = token.find("[")
-
-    # If "." is not found
-    if pos < 0:
-        pos = token.find(".")
-
-        # If "[" is not found or token starts with "[" return token as is.
-        if pos <= 0:
-            return token
-
-    return token[:pos:]
-
-
-def parse_tokens(txt, opt) -> list:
-    """
-    Parse string of tokens
-    :param txt: string token line extracted from postfix notation output string returned by Linkage.postfix()
-            method.
-    :param opt: bit mask option value (see parse_test() description for more details)
-    :return: list of tokes
-    """
-    toks = []
-    start_pos = 1
-    end_pos = txt.find(")")
-    token_count = 0
-
-    while end_pos - start_pos > 0:
-        token = txt[start_pos:end_pos:]
-
-        if opt & BIT_STRIP == BIT_STRIP:
-            token = strip_token(token)
-
-        if token.find("-WALL") > 0:
-
-            if (token == "RIGHT-WALL" and (opt & BIT_RWALL) == BIT_RWALL) or \
-                (token == "LEFT-WALL" and not (opt & BIT_NO_LWALL)):
-
-                token = "###" + token + "###"
-                toks.append(token)
-        else:
-            if opt & BIT_CAPS == 0:
-                token = token.lower()
-
-            # Add LEFT-WALL even if it was not returned by LG parser to make word token count start from one
-            if token_count == 0:
-                toks.append(r"###LEFT-WALL###")
-
-            toks.append(token)
-
-        start_pos = end_pos + 2
-        end_pos = txt.find(")", start_pos)
-        token_count += 1
-    return toks
-
-
-def calc_stat(toks) -> (int, int, float):
-    """
-    Calculate percentage of successfully linked tokens. Token in square brackets considered to be unlinked.
-
-    :param toks: List of tokens.
-    :return: Tuple (int, int, float):
-                - 1 if all tokens are linked, 0 otherwise;
-                - 1 if all tokens are unlinked, 1 otherwise;
-                - Percentage of successfully parsed tokens.
-    """
-    # Nothing to calculate if no tokens found
-    if len(toks) == 0:
-        return 0.0
-
-    total = 0
-
-    # Initialize number of unlinked tokens
-    unlinked = 0
-
-    # We assume that all tokens included in square brackets are unlinked
-    for token in toks:
-        # Exclude walls from statistics estimation
-        if token.find("WALL") < 0:
-            if token.startswith("["):
-                unlinked += 1
-            total += 1
-
-    return unlinked == 0, total == unlinked, 1.0 if unlinked == 0 else 1.0 - float(unlinked) / float(total)
-
-
-def parse_links(txt, toks) -> list:
-    """
-    Parse links represented in postfix notation and prints them in OpenCog notation.
-
-    :param txt: link list in postfix notation
-    :param toks: list of tokens previously extracted from postfix notated output
-    :return: List of links in ULL format
-    """
-    links = []
-    token_count = len(toks)
-    start_pos = 1
-    end_pos = txt.find("]")
-
-    q = re.compile('(\d+)\s(\d+)\s\d+\s\(.+\)')
-
-    while end_pos - start_pos > 0:
-        mm = q.match(txt[start_pos:end_pos:])
-
-        if mm is not None:
-            index1 = int(mm.group(1))
-            index2 = int(mm.group(2))
-
-            if index2 < token_count:
-                links.append((index1, toks[index1], index2, toks[index2]))
-
-        start_pos = end_pos + 2
-        end_pos = txt.find("]", start_pos)
-
-    return links
 
 
 def print_output(tokens, links, options, ofl):
@@ -184,10 +44,7 @@ def print_output(tokens, links, options, ofl):
     :param ofl: Output file handle.
     :return:
     """
-
     rwall_index = -1
-
-    # print(tokens)
 
     i = 0
 
@@ -217,39 +74,7 @@ def print_output(tokens, links, options, ofl):
     print('', file=ofl)
 
 
-def parse_postscript(text, options, ofile) -> (int, int, float):
-    """
-    Parse postscript notation of the linkage.
-
-    :param text: text string returned by Linkage.postscript() method.
-    :param ofile: output file object refference
-    :return: Tuple (int, int, float):
-                - Number of successfully parsed linkages;
-                - Number of completely unparsed linkages;
-                - Average value of successfully linked tokens.
-    """
-
-    p = re.compile('\[(\(.+?\)+?)\]\[(.*?)\]\[0\]', re.S)
-
-    m = p.match(text)
-
-    if m is not None:
-        tokens = parse_tokens(m.group(1), options)
-        links = parse_links(m.group(2), tokens)
-        sorted_links = sorted(links, key=lambda x: (x[0], x[2]))
-
-        if not (options & BIT_OUTPUT):
-            print_output(tokens, sorted_links, options, ofile)
-
-        return calc_stat(tokens)
-
-    else:
-        print("parse_postscript(): regex does not match!", file=sys.stderr)
-        print(text, file=sys.stderr)
-
-    return 0, 0, 0.0
-
-def get_output_suffix(options) -> str:
+def get_output_suffix(options:int) -> str:
     """ Return output file name suffix depending on set options """
 
     out_format = options & BIT_OUTPUT
@@ -264,6 +89,7 @@ def get_output_suffix(options) -> str:
         return ".post" + suff
     else:
         return ".ull" + suff
+
 
 def parse_file_with_api(dict_path, corpus_path, output_path, linkage_limit, options) \
         -> (float, float, float):
@@ -335,7 +161,7 @@ def parse_file_with_api(dict_path, corpus_path, output_path, linkage_limit, opti
             temp_stat = 0.0
 
             for linkage in linkages:
-
+#=============================================================================================================
                 if (options & BIT_OUTPUT_DIAGRAM) == BIT_OUTPUT_DIAGRAM:
                     print(linkage.diagram(), file=output_file_handle)
 
@@ -345,9 +171,12 @@ def parse_file_with_api(dict_path, corpus_path, output_path, linkage_limit, opti
                 elif (options & BIT_OUTPUT_CONST_TREE) == BIT_OUTPUT_CONST_TREE:
                     print(linkage.constituent_tree(), file=output_file_handle)
 
-                # It's not only parses postscript notated linkage output,
-                #   but calculates statistics as well.
-                (f, n, s) = parse_postscript(linkage.postscript().replace("\n", ""), options, output_file_handle)
+                tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options, output_file_handle)
+
+                if not (options & BIT_OUTPUT):
+                    print_output(tokens, links, options, output_file_handle)
+
+                (f, n, s) = calc_stat(tokens)
 
                 if linkage_countdown:
                     temp_full += f
@@ -391,11 +220,12 @@ def parse_file_with_api(dict_path, corpus_path, output_path, linkage_limit, opti
 def traverse_dir(root, file_ext, on_file, on_dir=None, is_recursive=False):
     """
     Traverse directory tree and call callback functions for each file and subdirectory.
+
     :param root: Root directory to start traversing from.
     :param file_ext: File extention to filter files by type.
-    :param on_file: callback function pointer to be called each time the file is found.
-    :param on_dir: callback function pointer to be called each time the folder is found.
-    :param is_recursive: Tells the function to recursively traverse directory tree if set to True, otherwise False.
+    :param on_file: Callback function pointer to be called each time the file is found.
+    :param on_dir: Callback function pointer to be called each time the folder is found.
+    :param is_recursive: Tells the function to recursively traverse directory tree if set to True, otherwise if False.
     :return:
     """
     for entry in os.scandir(root):
@@ -417,7 +247,7 @@ def traverse_dir(root, file_ext, on_file, on_dir=None, is_recursive=False):
                     print("LGParseError: " + str(err))
 
 
-def get_dir_name(file_name) -> (str, str):
+def get_dir_name(file_name:str) -> (str, str):
     """
     Extract template grammar directory name and a name for new grammar directory
 
@@ -537,8 +367,16 @@ def create_dir(new_path) -> bool:
     return True
 
 
-def save_stat(stat_path, full_ratio, none_ratio, avrg_ratio):
+def save_stat(stat_path:str, full_ratio:float, none_ratio:float, avrg_ratio:float):
+    """
+    Save statistic estimation results into a file.
 
+    :param stat_path: Path to file.
+    :param full_ratio: Fully parsed sentences quantity to total number of sentences ratio.
+    :param none_ratio: Completely unparsed sentences quantity to total number of sentences ratio.
+    :param avrg_ratio: Average parse ratio.
+    :return:
+    """
     stat_file_handle = None
 
     try:
@@ -738,7 +576,14 @@ class PSSentence:
         return ret
 
 
-def skip_lines(text, lines_to_skip) -> int:
+def skip_lines(text:str, lines_to_skip:int) -> int:
+    """
+     Skip specified number of lines from the beginning of a text string.
+
+    :param text: Text string with zero or many '\n' in.
+    :param lines_to_skip: Number of lines to skip.
+    :return: Return position of the first character after the specified number of lines is skipped.
+    """
     l = len(text)
 
     pos = 0
@@ -750,7 +595,13 @@ def skip_lines(text, lines_to_skip) -> int:
         pos += 1
     return pos
 
-def trim_garbage(text) -> int:
+def trim_garbage(text:str) -> int:
+    """
+    Strip all characters from the end of string until ']' is reached.
+
+    :param text: Text string.
+    :return: Return position of a character following ']' or zero in case of a null string.
+    """
     l = len(text)-1
 
     while l:
@@ -793,7 +644,7 @@ def parse_batch_ps_output(text:str, lines_to_skip:int=5) -> []:
     return sentences
 
 
-def handle_stream_output(text, linkage_limit, options, out_stream):
+def handle_stream_output(text:str, linkage_limit:int, options:int, out_stream):
     """
     Handle link-parser output stream text depending on options' BIT_OUTPUT field.
 
@@ -827,7 +678,12 @@ def handle_stream_output(text, linkage_limit, options, out_stream):
                 if linkage_count == 1: #linkage_limit:
                     break
 
-                f, n, a = parse_postscript(lnkg, options, out_stream)
+                tokens, links = parse_postscript(lnkg, options, out_stream)
+
+                if not (options & BIT_OUTPUT):
+                    print_output(tokens, links, options, out_stream)
+
+                (f, n, a) = calc_stat(tokens)
 
                 assert(a <= 1.0)
 
@@ -860,131 +716,6 @@ def handle_stream_output(text, linkage_limit, options, out_stream):
         print(text, file=out_stream)
 
     return (total_full_ratio, total_none_ratio, total_avrg_ratio)
-
-
-
-
-
-
-
-
-# def parse_batch_ps_output(text, lines_to_skip=3) -> []:
-#     """
-#     Parse postscript returned by link-parser executable in a form where each sentence is followed by zero
-#         or many postscript notated linkages. Postscript linkages are usually represented by three lines
-#         enclosed in brackets.
-#     :param text: String variable with postscript output returned by link-parser.
-#     :param lines_to_skip: Number of lines to skip before start parsing the text. It is necessary when additional
-#                 parameters specified, when link-parser is invoked. In that case link-parser writes those parameter
-#                 values on startup.
-#     """
-#     sentences = []
-#
-#     line_count = 0      # line counter
-#     cur_sent = None     # current sentence
-#     cur_lnkg = ""       # current linkage
-#
-#     # Parse output to get sentences and linkages in postscript notation
-#     for line in text.split("\n"):
-#
-#         # Skip first 'lines_to_skip' lines and empty lines. Skip "Bye" line too.
-#         if line_count > lines_to_skip and len(line) and not line.startswith("Bye"):
-#
-#             # If sentence line found, create line object and append it to the
-#             #   sentence list.
-#             if not line.startswith("["):
-#                 cur_sent = PSSentence(line)
-#                 sentences.append(cur_sent)
-#
-#                 print(line)
-#
-#             # If postscript line found...
-#             else:
-#                 # If that's the last line in postscript linkage sequence,
-#                 #   complete the sequence and add linkage to the linkage list.
-#                 if line == "[0]":
-#                     cur_lnkg += line
-#                     cur_sent.linkages.append(cur_lnkg)
-#
-#                     print(cur_lnkg)
-#
-#                     cur_lnkg = ""
-#
-#                 # Otherwise add line to the linkage string
-#                 else:
-#                     cur_lnkg += line
-#
-#         # Increment line counter
-#         line_count += 1
-#
-#     return sentences
-
-
-
-# def handle_stream_output(text, linkage_limit, options, out_stream):
-#     """
-#     Handle link-parser output stream text depending on options' BIT_OUTPUT field.
-#
-#     :param text: Stream output text.
-#     :param linkage_limit: Number of linkages taken into account when statistics estimation is made.
-#     :param options: Integer variable with multiple bit fields
-#     :param out_stream: Output file stream handle.
-#     :return:
-#     """
-#     total_full_ratio, total_none_ratio, total_avrg_ratio = (0.0, 0.0, 0.0)
-#
-#     # Parse only if 'ull' output format is specified.
-#     if not (options & BIT_OUTPUT):
-#
-#         # Parse output into sentences and assotiate a list of linkages for each one of them.
-#         sentences = parse_batch_ps_output(text)
-#
-#         sentence_count = 0
-#
-#         # Parse linkages and make statistics estimation
-#         for sent in sentences:
-#             linkage_count = 0
-#
-#             sent_full_ratio, sent_none_ratio, sent_avrg_ratio = (0.0, 0.0, 0.0)
-#
-#             # Parse and calculate statistics for each linkage
-#             for lnkg in sent.linkages:
-#                 if linkage_count == 1: #linkage_limit:
-#                     break
-#
-#                 f, n, a = parse_postscript(lnkg, options, out_stream)
-#
-#                 assert(a <= 1.0)
-#
-#                 sent_full_ratio += f
-#                 sent_none_ratio += n
-#                 sent_avrg_ratio += a
-#
-#                 linkage_count += 1
-#
-#             if linkage_count > 1:
-#                 sent_full_ratio /= float(linkage_count)
-#                 sent_none_ratio /= float(linkage_count)
-#                 sent_avrg_ratio /= float(linkage_count)
-#
-#             total_full_ratio += sent_full_ratio
-#             total_none_ratio += sent_none_ratio
-#             total_avrg_ratio += sent_avrg_ratio
-#
-#             sentence_count += 1
-#
-#         if sentence_count > 1:
-#             total_full_ratio /= float(sentence_count)
-#             total_none_ratio /= float(sentence_count)
-#             total_avrg_ratio /= float(sentence_count)
-#
-#             assert total_avrg_ratio <= 1.0
-#
-#     # If output format is other than ull then simply write text to the output stream.
-#     else:
-#         print(text, file=out_stream)
-#
-#     return (total_full_ratio, total_none_ratio, total_avrg_ratio)
 
 
 def parse_file_with_lgp(dict_path, corpus_path, output_path, linkage_limit, options) \

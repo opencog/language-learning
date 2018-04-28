@@ -33,7 +33,6 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path> -d <dict_path>]  [OPTI
                         The output file format depends on '-f' option specified. ULL format used if ommited.
                         If directory path is specified as <input_path>, the whole subdirectory tree is recreated
                         inside <output_path>/<dict_name>/ where each output file corresponds to the same input one.
-    stat_path           Statistics output file path. sys.stdout is used if not specified.
 
     OPTIONS:
         -h  --help              Print usage info.
@@ -52,6 +51,8 @@ Usage: grammar-test2.py -i <input_path> [-o <output_path> -d <dict_path>]  [OPTI
         -e  --link-parser-exe   Use link-parser executable called in a separate process instead of API calls.
                                 It could be handy when LG API crashes while parsing some specific dictionary rules or
                                 test corpus sentences.
+        -x  --no-left-wall      Exclude LEFT-WALL and period from statistics estimation.
+        -s  --separate-stat     Generate separate statistics for each input file.
     """
 
     dict_path       = None

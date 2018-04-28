@@ -1,0 +1,40 @@
+% POC Turtle Link Grammar v.0.7 2018-03-15 08:42:32 UTC
+<dictionary-version-number>: V0v0v7+;
+<dictionary-locale>: EN4us+;
+
+% C01
+"has":
+{C07C01- or C08C01-} & {C01C06+ or C01C08+};
+
+% C02
+"isa":
+{C07C02- or C08C02-} & {C02C05+};
+
+% C03
+".":
+(C05C03-) or (C06C03-) or (C08C03-);
+
+% C04
+"LEFT-WALL":
+(C04C07+) or (C04C08+);
+
+% C05
+"fish" "bird" "extremity":
+{C02C05-} & {C05C03+};
+
+% C06
+"scale" "feather":
+{C01C06-} & {C06C03+};
+
+% C07
+"tuna" "herring" "parrot" "eagle":
+{C04C07-} & {C07C01+ or C07C02+};
+
+% C08
+"wing" "fin":
+{C01C08- or C04C08-} & {C08C01+ or C08C02+ or C08C03+};
+
+UNKNOWN-WORD: XXX+;
+
+% 8 word clusters, 8 Link Grammar rules.
+% Link Grammar file saved to: /home/obaskov/language-learning/output/Turtle-4-2018-03-14/poc-turtle_8C_2018-03-15_0007.4.0.dict

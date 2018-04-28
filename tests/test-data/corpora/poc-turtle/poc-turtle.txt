@@ -1,0 +1,12 @@
+tuna isa fish.
+herring isa fish.
+tuna has fin.
+herring has fin.
+parrot isa bird.
+eagle isa bird.
+parrot has wing.
+eagle has wing.
+fin isa extremity.
+wing isa extremity.
+fin has scale.
+wing has feather.

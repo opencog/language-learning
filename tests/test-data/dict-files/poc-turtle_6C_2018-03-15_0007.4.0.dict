@@ -1,0 +1,32 @@
+% POC Turtle Link Grammar v.0.7 2018-03-15 08:42:32 UTC
+<dictionary-version-number>: V0v0v7+;
+<dictionary-locale>: EN4us+;
+
+% C61
+"has":
+{C65C61- or C66C61-} & {C61C64+ or C61C65+};
+
+% C62
+"isa":
+{C65C62- or C66C62-} & {C62C63+};
+
+% C63
+"fish" "bird" "extremity":
+(C62C63-);
+
+% C64
+"scale" "feather":
+(C61C64-);
+
+% C65
+"wing" "fin":
+{C61C65-} & {C65C61+ or C65C62+};
+
+% C66
+"tuna" "herring" "parrot" "eagle":
+(C66C61+) or (C66C62+);
+
+UNKNOWN-WORD: XXX+;
+
+% 6 word clusters, 6 Link Grammar rules.
+% Link Grammar file saved to: /home/obaskov/language-learning/output/Turtle-4-2018-03-14/poc-turtle_6C_2018-03-15_0007.4.0.dict

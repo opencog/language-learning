@@ -113,11 +113,11 @@ def eval_parses(test_parses:list, ref_parses:list, verbose:bool, ignore=bool, of
         quality_ratio /= float(total_linkages)
         ignored_links /= float(total_linkages)
 
-    print("\nParses score: {0:2.2f}".format(quality_ratio*100.0), file=ofile)
+    print("\nParse quality: {0:2.2f}%".format(quality_ratio*100.0), file=ofile)
     print("A total of {} links".format(total_linkages), file=ofile)
-    print("A total of {} ignored links".format(ignored_links), file=ofile)
-    print("A total of {} missing links".format(missing_links), file=ofile)
-    print("A total of {} extra links".format(extra_links), file=ofile)
+    print("Average ignored links: {0:2.2f}".format(ignored_links), file=ofile)
+    print("Average missing links: {0:2.2f}".format(missing_links), file=ofile)
+    print("Average extra links:  {0:2.2f}".format(extra_links), file=ofile)
 
 
 

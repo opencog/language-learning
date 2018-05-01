@@ -20,28 +20,41 @@ def Load_File(filename):
     """
     with open(filename) as file:
         data = file.readlines()
+
+    # remove initial newlines, if any
+    while data[0] == "\n":
+        data.pop(0)
+
     return data
 
 def Get_Parses(data):
     """
-        Separates parses from data into format:
+        Reads parses from data into two structures:
+        - sentences: a dictionary of indexed split sentence strings
+        - parses: a list of lists containing the split links of each parse
         [
-          [[sentence-parse1][link1-parse1][link2-parse1] ... ]
-          [[sentence-parse2][link1-parse2][link2-parse2] ... ]
+          [[link1-parse1][link2-parse1] ... ]
+          [[link1-parse2][link2-parse2] ... ]
           ...
         ]
         Each list is splitted into tokens using space.
     """
     parses = []
     sentences = {}
-    parse_num = -1
+    parse_num = 0
     new_flag = True
     for line in data:
         if line == "\n":
-            new_flag = True
+            # get rid of sentences with no links
+            if (not new_flag):
+                if (len(sentences[parse_num]) == 0):
+                    sentences.pop(parse_num)
+                    parse_num -= 1
+                    #dictionary.pop(parse_num) # not needed, it will be re-written
+                parse_num += 1
+                new_flag = True
             continue
         if new_flag:
-            parse_num += 1
             sentences[parse_num] = line.split() # split ignores diff spacing between words
             new_flag = False
             parses.append([])
@@ -78,7 +91,6 @@ def Evaluate_Parses(test_parses, test_sentences, ref_parses, ref_sentences, verb
                 print("Skipping sentence not found in test parses:")
                 print(ref_sent)
             continue
-        evaluated_parses += 1
         test_sentences.pop(test_key[0]) # reduce the size of dict to search
 
         current_missing = 0
@@ -87,14 +99,6 @@ def Evaluate_Parses(test_parses, test_sentences, ref_parses, ref_sentences, verb
         ref_sets = MakeSets(ref_parses[ref_key])  # using sets to ignore link directions
         test_sets = MakeSets(test_parses[test_key[0]])
         sent_length = str(len(ref_sent))
-
-        # print(test_sets)
-        # # remove unnecessary links from test_sets if ignore
-        # if ignore:
-        #     for test_link in test_sets:
-        #         if(('0', '###LEFT-WALL###') in test_link) or ((sent_length, ".") in test_link):
-        #             test_sets.remove(test_link)
-        # print(test_sets)
 
         # loop over every ref link and try to find it in test
         for ref_link in ref_sets:
@@ -109,19 +113,25 @@ def Evaluate_Parses(test_parses, test_sentences, ref_parses, ref_sentences, verb
             else:
                 current_missing += 1 # count links not contained in test
 
+        # skip parse if there are no links left after ignore
+        if current_ignored == len(ref_sets):
+            continue
+
+        evaluated_parses += 1
+
         if verbose:
             print("Sentence: {}".format(" ".join(ref_sent)))
             print("Missing links: {}".format(current_missing))
             print("Extra links: {}".format(len(test_sets)))
 
         ignored_links += current_ignored
-        score += 1 - current_missing / current_evaluated # adds this parse's relative score
+        score += 1 - float(current_missing) / float(current_evaluated) # adds this parse's relative score
         #extra_links += len(test_sets) # count links not contained in reference
         missing_links += current_missing
 
     score /= evaluated_parses # averages the score
     print("\nParse quality: {:.2%}".format(score))
-    print("A total of {} parses evaluated, {:.2%} of reference file".format(evaluated_parses, evaluated_parses / len(ref_sentences)))
+    print("A total of {} parses evaluated, {:.2%} of reference file".format(evaluated_parses, float(evaluated_parses) / len(ref_sentences)))
     print("A total of {} links".format(total_links))
     print("{:.2f} ignored links per sentence".format(ignored_links / evaluated_parses))
     print("{:.2f} missing links per sentence".format(missing_links / evaluated_parses))

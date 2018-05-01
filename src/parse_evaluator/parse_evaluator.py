@@ -20,6 +20,7 @@ def Load_File(filename):
     """
     with open(filename) as file:
         data = file.readlines()
+    print("Finished loading")
 
     # remove initial newlines, if any
     while data[0] == "\n":

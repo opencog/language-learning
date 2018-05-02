@@ -6,30 +6,32 @@
 from linkgrammar import Linkage
 from web.lgclient import LGClientCallback, LGClientLib, LGClientREST, LGClientError
 
-"""
-    ParseCallback is defined to process link parser's output. Multiple callback classes can be defined when it
-        is necessary to handle parsing results differently. 
-"""
-class ParseCallback(LGClientCallback):
 
-    """ on_linkages is ment to be called whenever the link parser has successfully returned linkages """
+class ParseCallback(LGClientCallback):
+    """
+        ParseCallback is defined to process link parser's output. Multiple callback classes can be defined when it
+            is necessary to handle parsing results differently.
+    """
+
     def on_linkages(self, linkages):
+        """ on_linkages is ment to be called whenever the link parser has successfully returned linkages """
         for linkage in linkages:
             self.on_linkage(linkage)
 
-    """ on_linkage is ment to be called for each linkage while processing linkages """
     def on_linkage(self, linkage):
+        """ on_linkage is ment to be called for each linkage while processing linkages """
         if type(linkage) == Linkage:
             print(linkage.diagram())
 
         elif type(linkage) == str:
             print(linkage)
         else:
-            print("Error: type missmatch")
+            raise TypeError("Error: type missmatch")
 
-    """ on_link is ment to be called for each link when processing links """
     def on_link(self, link):
+        """ on_link is ment to be called for each link when processing links """
         pass
+
 
 def main():
     try:
@@ -60,6 +62,7 @@ def main():
 
     except Exception as err:
         print(str(err))
+
 
 if __name__ == "__main__":
     main()

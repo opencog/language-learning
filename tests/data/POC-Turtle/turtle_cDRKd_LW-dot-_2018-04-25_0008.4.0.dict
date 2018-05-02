@@ -1,0 +1,24 @@
+% Grammar Learner v.0.8 2018-04-25 15:49:28 UTC
+<dictionary-version-number>: V0v0v8+;
+<dictionary-locale>: EN4us+;
+
+% C01
+"has" "isa":
+(C03C01- & C01C02+) or (C03C01- & C01C03+) or (C04C01- & C01C02+) or (C04C01- & C01C03+);
+
+% C02
+"bird" "extremity" "fish":
+(C01C02-);
+
+% C03
+"feather" "fin" "scale" "wing":
+(C01C03-) or (C03C01+);
+
+% C04
+"eagle" "herring" "parrot" "tuna":
+(C04C01+);
+
+UNKNOWN-WORD: XXX+;
+
+% 4 word clusters, 4 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/POC-Turtle-6-Tests-2018-04-25/MST_fixed_manually/connectors-DRK-disjuncts_LW-dot-/poc-turtle_4C_2018-04-25_0008.4.0.dict

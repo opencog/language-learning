@@ -106,3 +106,4 @@ ENV/
 # Output and temporary files
 /output
 /tmp
+/pytest_cache

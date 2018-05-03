@@ -49,7 +49,7 @@ def compare_ull_files(test_path, ref_file, verbose, ignore_WALL):
             test_data = Load_File(test_file)
             # test_parses = Get_Parses(test_data)
 
-            test_parses = get_parses(test_data)
+            test_parses = get_parses(test_data, ignore_WALL)
 
             ref_data = Load_File(ref_file)
             # ref_parses = Get_Parses(ref_data)

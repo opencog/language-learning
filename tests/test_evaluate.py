@@ -53,6 +53,16 @@ class TestEvalMethods(unittest.TestCase):
         eval_parses(test_parses, ref_parses, False, False)
         self.assertEqual(ref_parses, test_parses)
 
+    def test_get_parses_bug(self):
+        test_data = Load_File("test-data/corpora/poc-english/poc_english_noamb_parses_1s_2.txt")
+        test_parses = get_parses(test_data, True)
+        # print(test_parses, file=sys.stderr)
+        self.assertEqual(2, len(test_parses[0][1]))
+
+        ref_data = Load_File("test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt")
+        ref_parses = get_parses(ref_data, True)
+        # print(ref_parses, file=sys.stderr)
+        self.assertEqual(4, len(ref_parses[0][1]))
 
 if __name__ == '__main__':
     unittest.main()

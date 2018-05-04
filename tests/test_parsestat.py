@@ -1,4 +1,5 @@
 import unittest
+import sys
 
 try:
     from link_grammar.parsestat import calc_parse_quality, calc_stat
@@ -24,6 +25,17 @@ test_set3 = {(LWALL, DOT), (LWALL, isa), (LWALL, tuna), (tuna, isa), (isa, fish)
 
 # Three different links (3, 3, 0.5)
 test_set4 = {(LWALL, DOT), (LWALL, fish), (LWALL, tuna), (tuna, DOT), (isa, fish), (isa, DOT)}
+
+
+# Token indexes
+a1 = 1; dad = 2; is2 = 3; a2 = 4; human = 5; DOT2 = 6
+
+ref_set5 = {(a1, dad), (dad, is2), (is2, human), (a2, human)}
+# ref_set5 = {(LWALL, dad), (LWALL, is2), (LWALL, DOT2), (a1, dad), (dad, is2), (is2, human), (a2, human)}
+
+# Three different links (3, 0, 0.55)
+test_set5 = {(dad, is2), (a2, human)}
+# test_set5 = {(LWALL, dad), (dad, a2), (a2, human)}
 
 
 class TestStat(unittest.TestCase):
@@ -52,6 +64,14 @@ class TestStat(unittest.TestCase):
 
         self.assertEqual((3, 3, 0.5), (m, e, q))
 
+    # @unittest.skip
+    def test_calc_parse_quality_bug_found(self):
+        """ Three different links test """
+        (m, e, q) = calc_parse_quality(test_set5, ref_set5)
+
+        self.assertEqual((2, 0, 0.5), (m, e, q))
+
+    @unittest.skip
     def test_calc_stat(self):
         """ test_calc_stat """
         # print(__doc__, sys.stderr)
@@ -67,6 +87,11 @@ class TestStat(unittest.TestCase):
         f, n, s = calc_stat(['###LEFT-WALL###', 'dad', 'was', 'not', '[a]', '[parent]', '[before]'])
         # print(f, n, s)
         self.assertTrue((not f) and (not n) and (s - 0.5 < 0.01))
+
+    def test_calc_stat_4(self):
+        f, n, s = calc_stat(["###LEFT-WALL###", "[a]", "dad", "is", "[a]", "human", "[.]"])
+        print(f, n, s, file=sys.stderr)
+        self.assertTrue((not f) and (not n) and (s == 0.6))
 
 if __name__ == '__main__':
     unittest.main()

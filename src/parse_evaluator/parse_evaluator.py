@@ -7,8 +7,6 @@
 
 import platform
 import getopt, sys
-import matplotlib.pyplot as plt
-import numpy as np
 
 def version():
     """
@@ -22,28 +20,42 @@ def Load_File(filename):
     """
     with open(filename) as file:
         data = file.readlines()
+    print("Finished loading")
+
+    # remove initial newlines, if any
+    while data[0] == "\n":
+        data.pop(0)
+
     return data
 
 def Get_Parses(data):
     """
-        Separates parses from data into format:
+        Reads parses from data into two structures:
+        - sentences: a dictionary of indexed split sentence strings
+        - parses: a list of lists containing the split links of each parse
         [
-          [[sentence-parse1][link1-parse1][link2-parse1] ... ]
-          [[sentence-parse2][link1-parse2][link2-parse2] ... ]
+          [[link1-parse1][link2-parse1] ... ]
+          [[link1-parse2][link2-parse2] ... ]
           ...
         ]
         Each list is splitted into tokens using space.
     """
     parses = []
     sentences = {}
-    parse_num = -1
+    parse_num = 0
     new_flag = True
     for line in data:
         if line == "\n":
-            new_flag = True
+            # get rid of sentences with no links
+            if (not new_flag):
+                if (len(sentences[parse_num]) == 0):
+                    sentences.pop(parse_num)
+                    parse_num -= 1
+                    #dictionary.pop(parse_num) # not needed, it will be re-written
+                parse_num += 1
+                new_flag = True
             continue
         if new_flag:
-            parse_num += 1
             sentences[parse_num] = line.split() # split ignores diff spacing between words
             new_flag = False
             parses.append([])
@@ -65,87 +77,67 @@ def Evaluate_Parses(test_parses, test_sentences, ref_parses, ref_sentences, verb
         Compares test_parses against ref_parses link by link
         counting errors
     """
-    skipped_parses = 0  # reference parses not found in test
+    evaluated_parses = 0  # reference parses not found in test
     total_links = 0     # in gold standard
     #extra_links = 0     # links present in test, but not in ref
     missing_links = 0   # links present in ref, but not in test
     ignored_links = 0   # ignored links, if ignore is active
+    score = 0           # parse quality counter
 
     for ref_key, ref_sent in ref_sentences.items():
+        # search if the current ref_sentence was wholly parsed in test_sentences
         test_key = [key for key, sentence in test_sentences.items() if sentence == ref_sent]
         if len(test_key) == 0:
             if verbose:
                 print("Skipping sentence not found in test parses:")
                 print(ref_sent)
-            skipped_parses += 1
             continue
         test_sentences.pop(test_key[0]) # reduce the size of dict to search
 
         current_missing = 0
+        current_evaluated = 0
+        current_ignored = 0
         ref_sets = MakeSets(ref_parses[ref_key])  # using sets to ignore link directions
         test_sets = MakeSets(test_parses[test_key[0]])
         sent_length = str(len(ref_sent))
 
         # loop over every ref link and try to find it in test
         for ref_link in ref_sets:
+            total_links += 1
             if ignore:
                 if (('0', '###LEFT-WALL###') in ref_link) or ((sent_length, ".") in ref_link):
-                    ignored_links += 1
+                    current_ignored += 1
                     continue
-            total_links += 1
+            current_evaluated += 1
             if ref_link in test_sets:
                 test_sets.remove(ref_link) 
             else:
                 current_missing += 1 # count links not contained in test
+
+        # skip parse if there are no links left after ignore
+        if current_ignored == len(ref_sets):
+            continue
+
+        evaluated_parses += 1
 
         if verbose:
             print("Sentence: {}".format(" ".join(ref_sent)))
             print("Missing links: {}".format(current_missing))
             print("Extra links: {}".format(len(test_sets)))
 
+        ignored_links += current_ignored
+        score += 1 - float(current_missing) / float(current_evaluated) # adds this parse's relative score
         #extra_links += len(test_sets) # count links not contained in reference
         missing_links += current_missing
 
-    score = 1 - missing_links / total_links
-    print("\nParses score: {}".format(score))
-    print("A total of {} parses were not found in test".format(skipped_parses))
+    score /= evaluated_parses # averages the score
+    print("\nParse quality: {:.2%}".format(score))
+    print("A total of {} parses evaluated, {:.2%} of reference file".format(evaluated_parses, float(evaluated_parses) / len(ref_sentences)))
     print("A total of {} links".format(total_links))
-    print("A total of {} ignored links".format(ignored_links))
-    print("A total of {} missing links".format(missing_links))
+    print("{:.2f} ignored links per sentence".format(ignored_links / evaluated_parses))
+    print("{:.2f} missing links per sentence".format(missing_links / evaluated_parses))
+    #print("{:.2f} extra links per sentence\n".format(extra_links / evaluated_parses))
     #print("A total of {} extra links".format(extra_links))
-
-
-def Plot_Scatter(dictio, savefile):
-    """
-        Calculates Pearson's coefficients and plots data in dictio
-        in 2 scatter plots, into savefile.png
-    """
-    LG_data = []
-    dist_data = []
-    no_dist_data = []
-    for k, value in dictio.items():
-        LG_data.append(value[0])
-        dist_data.append(value[1])
-        no_dist_data.append(value[2])
-
-    # calculate Pearson's coefficient for each pair
-    pearR_dist = np.corrcoef(LG_data, dist_data)[1,0]
-    pearR_no_dist = np.corrcoef(LG_data, no_dist_data)[1,0]
-
-    # scatter plots
-    fig, (ax1, ax2) = plt.subplots(1, 2)
-    fig.suptitle("FMI scatter-data")
-    ax1.scatter(LG_data, dist_data, c = 'b', marker = '.', label = "R = %.4f"%(pearR_dist))
-    ax1.set_title('LG vs Distance')
-    ax1.set(xlabel = 'LG data', ylabel = 'window data')
-    ax1.legend()
-    ax1.axis('scaled')
-    ax2.scatter(LG_data, no_dist_data, c = 'r', marker = '.', label = "R = %.4f"%(pearR_no_dist))
-    ax2.set(xlabel = 'LG data')
-    ax2.set_title('LG vs No-Distance')
-    ax2.legend()
-    ax2.axis('scaled')
-    plt.savefig(savefile + ".png")
 
 def main(argv):
     """

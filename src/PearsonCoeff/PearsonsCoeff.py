@@ -24,7 +24,7 @@ def Load_File(filename):
         data = file.readlines()
     return data
 
-def Increase_Dictionary(dictio, data):
+def Increase_Dictionary(dictio, data, index):
     """
         Add the fmi value in correct word-pair data to the given dictionary
     """
@@ -32,7 +32,7 @@ def Increase_Dictionary(dictio, data):
         split = line.split()
         name = split[0] + " " + split[1]
         fmi = float(split[2])
-        dictio.setdefault(name, []).append(fmi)
+        dictio.setdefault(name, [0, 0, 0])[index] = fmi
     return dictio
 
 def Plot_Scatter(dictio, savefile):
@@ -111,9 +111,9 @@ def main(argv):
     dist_data = Load_File(dist_file)
     no_dist_data = Load_File(no_dist_file)
     word_pair_dict = {}
-    word_pair_dict = Increase_Dictionary(word_pair_dict, LG_data)
-    word_pair_dict = Increase_Dictionary(word_pair_dict, dist_data)
-    word_pair_dict = Increase_Dictionary(word_pair_dict, no_dist_data)
+    word_pair_dict = Increase_Dictionary(word_pair_dict, LG_data, 0)
+    word_pair_dict = Increase_Dictionary(word_pair_dict, dist_data, 1)
+    word_pair_dict = Increase_Dictionary(word_pair_dict, no_dist_data, 2)
     Plot_Scatter(word_pair_dict, plot_file)
 
 if __name__ == '__main__':

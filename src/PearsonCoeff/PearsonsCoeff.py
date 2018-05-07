@@ -32,7 +32,7 @@ def Increase_Dictionary(dictio, data, index):
         split = line.split()
         name = split[0] + " " + split[1]
         fmi = float(split[2])
-        dictio.setdefault(name, [np.Inf, 0, 0])[index] = fmi
+        dictio.setdefault(name, [np.Inf, np.Inf, np.Inf])[index] = fmi
     return dictio
 
 def Plot_Scatter(dictio, savefile):
@@ -40,6 +40,20 @@ def Plot_Scatter(dictio, savefile):
         Calculates Pearson's coefficients and plots data in dictio
         in 2 scatter plots, into savefile.png
     """
+    def eliminate_Inf(data_struc):
+        """
+            Eliminates datapoints where at least one coord is Inf
+        """
+        clean_struct = [[],[]]
+        count_eliminated = 0
+        for x, y in zip(data_struc[0], data_struc[1]):
+            if x == np.Inf or y == np.Inf:
+                count_eliminated += 1
+                continue
+            clean_struct[0].append(x)
+            clean_struct[1].append(y)
+        return clean_struct, count_eliminated
+
     LG_dist_data = [[],[]]
     LG_no_dist_data = [[],[]]
     pairs_missing_LG = 0
@@ -54,6 +68,10 @@ def Plot_Scatter(dictio, savefile):
         LG_no_dist_data[1].append(value[2])
 
     print("Pairs missing in LG file: {}".format(pairs_missing_LG))
+    LG_dist_data, dist_missing = eliminate_Inf(LG_dist_data)
+    print("Pairs missing in dist file: {}".format(dist_missing))
+    LG_no_dist_data, no_dist_missing = eliminate_Inf(LG_no_dist_data)
+    print("Pairs missing in no-dist file: {}".format(no_dist_missing))
 
     # calculate Pearson's coefficient for each pair
     pearR_dist = np.corrcoef(LG_dist_data[0], LG_dist_data[1])[1,0]

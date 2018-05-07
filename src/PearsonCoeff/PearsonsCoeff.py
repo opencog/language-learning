@@ -32,7 +32,7 @@ def Increase_Dictionary(dictio, data, index):
         split = line.split()
         name = split[0] + " " + split[1]
         fmi = float(split[2])
-        dictio.setdefault(name, [0, 0, 0])[index] = fmi
+        dictio.setdefault(name, [np.Inf, 0, 0])[index] = fmi
     return dictio
 
 def Plot_Scatter(dictio, savefile):
@@ -40,27 +40,34 @@ def Plot_Scatter(dictio, savefile):
         Calculates Pearson's coefficients and plots data in dictio
         in 2 scatter plots, into savefile.png
     """
-    LG_data = []
-    dist_data = []
-    no_dist_data = []
+    LG_dist_data = [[],[]]
+    LG_no_dist_data = [[],[]]
+    pairs_missing_LG = 0
     for k, value in dictio.items():
-        LG_data.append(value[0])
-        dist_data.append(value[1])
-        no_dist_data.append(value[2])
+        if value[0] == np.Inf:
+            pairs_missing_LG += 1
+            #print("Pair missing in LG file: {}".format(k))
+            continue
+        LG_dist_data[0].append(value[0])
+        LG_dist_data[1].append(value[1])
+        LG_no_dist_data[0].append(value[0])
+        LG_no_dist_data[1].append(value[2])
+
+    print("Pairs missing in LG file: {}".format(pairs_missing_LG))
 
     # calculate Pearson's coefficient for each pair
-    pearR_dist = np.corrcoef(LG_data, dist_data)[1,0]
-    pearR_no_dist = np.corrcoef(LG_data, no_dist_data)[1,0]
+    pearR_dist = np.corrcoef(LG_dist_data[0], LG_dist_data[1])[1,0]
+    pearR_no_dist = np.corrcoef(LG_no_dist_data[0], LG_no_dist_data[1])[1,0]
 
     # scatter plots
     fig, (ax1, ax2) = plt.subplots(1, 2)
     fig.suptitle("FMI scatter-data")
-    ax1.scatter(LG_data, dist_data, c = 'b', marker = '.', label = "R = %.4f"%(pearR_dist))
+    ax1.scatter(LG_dist_data[0], LG_dist_data[1], c = 'b', marker = '.', label = "R = %.4f"%(pearR_dist))
     ax1.set_title('LG vs Distance')
     ax1.set(xlabel = 'LG data', ylabel = 'window data')
     ax1.legend()
     ax1.axis('scaled')
-    ax2.scatter(LG_data, no_dist_data, c = 'r', marker = '.', label = "R = %.4f"%(pearR_no_dist))
+    ax2.scatter(LG_no_dist_data[0], LG_no_dist_data[1], c = 'r', marker = '.', label = "R = %.4f"%(pearR_no_dist))
     ax2.set(xlabel = 'LG data')
     ax2.set_title('LG vs No-Distance')
     ax2.legend()

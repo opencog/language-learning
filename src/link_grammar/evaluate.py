@@ -114,68 +114,10 @@ def eval_parses(test_parses:list, ref_parses:list, verbose:bool, ignore=bool, of
         ignored_links /= float(total_linkages)
 
     print("\nParse quality: {0:2.2f}%".format(quality_ratio*100.0), file=ofile)
-    print("A total of {} links".format(total_linkages), file=ofile)
+    print("A total of {} parses".format(total_linkages), file=ofile)
     print("Average ignored links: {0:2.2f}".format(ignored_links), file=ofile)
     print("Average missing links: {0:2.2f}".format(missing_links), file=ofile)
     print("Average extra links:  {0:2.2f}".format(extra_links), file=ofile)
-
-
-
-# def Evaluate_Parses(test_parses, ref_parses, verbose, ignore, ofile):
-#     def Get_Parses(data, ignore_wall=True):
-#         """
-#             Separates parses from data into format:
-#             [
-#               [[sentence-parse1][link1-parse1][link2-parse1] ... ]
-#               [[sentence-parse2][link1-parse2][link2-parse2] ... ]
-#               ...
-#             ]
-#             Each list is splitted into tokens using space.
-# 
-#             Token renumeration added. Works only when ignore_wall=True.
-#         """
-#         parses = []
-#         parse_num = -1
-#         new_flag = True
-# 
-#         links_skipped = 0
-# 
-#         for line in data:
-# 
-#             if line == "\n":
-#                 new_flag = True
-#                 continue
-# 
-#             if new_flag:
-#                 parse_num += 1
-#                 new_flag = False
-#                 parses.append([[(((line.replace("[", "")).replace("]", "")).replace("\n", "")).strip()]])
-#                 links_skipped = 0
-#                 continue
-# 
-#             parse = line.split()
-# 
-#             assert len(parse) == 4
-# 
-#             if ignore_wall and (parse[1] == "." or parse[3] == "."
-#                                 or parse[1].startswith(r"###") or parse[3].startswith(r"###")):
-#                 links_skipped += 1
-#                 continue
-# 
-#             new_parse = []
-# 
-#             for i, element in zip(range(len(parse)), parse):
-#                 new_element = element if (i & 1) else int(element)  # - links_skipped
-#                 new_parse.append(new_element)
-# 
-#             # print(new_parse)
-#             parses[parse_num].append(new_parse)
-# 
-#         parses.sort()
-# 
-#         # print(parses)
-# 
-#         return parses
 
 
 def Get_Parses(data, ignore_wall=True):

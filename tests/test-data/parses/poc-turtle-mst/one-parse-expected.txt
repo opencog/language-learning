@@ -1,0 +1,6 @@
+tuna isa fish .
+0 ###LEFT-WALL### 1 tuna
+1 tuna 2 isa
+2 isa 3 fish
+3 fish 4 .
+

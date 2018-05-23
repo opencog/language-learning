@@ -21,7 +21,7 @@ s = ArgParseSettings()
   "--neighbors"
     help = "Number or nearest neighbors to print"
     arg_type = Int64
-    default = 10
+    default = 5
   "--min_prob"
     help = "minimum probability value to print a word sense"
     arg_type = Float64
@@ -46,11 +46,11 @@ for v in 1:numWords
     for s in 1:T(vm)
         if probs[s] > args["min_prob"]
             nn = nearest_neighbors(vm, dict, vec(vm, v, s), args["neighbors"]; exclude=[(Int32(v), s)])
-            @printf(fo, "%s\t", dict.id2word[v])
-	    for neighbor in nn
-		@printf(fo, "%s ", neighbor[1])
-	    end
-	    @printf(fo, "\n")
+            @printf(fo, "%s@%s@%.3f\t\t", dict.id2word[v], s, probs[s])
+    	    for neighbor in nn
+        		@printf(fo, "%s@%s@%.3f ", neighbor[1], neighbor[2], neighbor[3])
+    	    end
+    	    @printf(fo, "\n\n")
         end
     end
 end

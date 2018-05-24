@@ -30,7 +30,6 @@ s = ArgParseSettings()
     help = "fraction of the vocabulary to print out"
     arg_type = Float64
     default = 1.0
-    
 end
 
 args = parse_args(ARGS, s)

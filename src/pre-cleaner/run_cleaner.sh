@@ -1,15 +1,18 @@
 #!/bin/bash
 
 # ASuMa, Apr 2018
-# Usage ./run_cleaner <inputdir> <outputdir>
-# Run from directory where executable is, provide full path to inputdir
-# and only name of outputdir, no full path.
+# Usage FULL_PATH/run_cleaner <inputdir> <outputdir>
+# Run from directory above your inputdir
 
-for file in $1/*.txt
+CLEANER_PATH="`dirname \"$0\"`"
+
+for file in $PWD/$1/*
 do
 	echo $file
-    ./split-sentences.pl < $file > "${file}_split"
+    $CLEANER_PATH/split-sentences.pl < $file > "${file}_split"
     rm $file
 done
 
-./pre-cleaner.py -i $1 -o $2
+mkdir -p $2
+
+$CLEANER_PATH/pre-cleaner.py -i $1 -o $2

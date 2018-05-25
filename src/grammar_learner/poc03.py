@@ -169,20 +169,21 @@ def clusters2dict(clusters, verbose='none'):
 def links2stalks(links, clusters, grammar_rules = 1, verbose='none'):
     # grammar_rules: 'connectors', 'disjuncts'
     if verbose == 'debug': print('\nlinks2stalks\n')
+    import pandas as pd
+    #^from src.grammar_learner.poc3 import clusters2dict
     if isinstance(clusters, dict): word_clusters = clusters
     else: word_clusters = clusters2dict(clusters, verbose)
+    #-print('word_clusters:', word_clusters)
 
-    import pandas as pd
-    #TODO: from ? import
-
-    def link2links(link):
+    def link2links(link):   #80507 FIXED
         if '&' not in link:
-            if link[-1] in ['-','+']:
+            if link[-1] in ['-','+'] and link[:-1] in word_clusters:  #80507
                 return word_clusters[link[:-1]] + link[-1]
             else: return link
         else:
             return ' & '.join([word_clusters[x[:-1]] + x[-1] \
-                               for x in link.split()if x != '&'])
+                for x in link.split() if x != '&' and x[:-1] in word_clusters])
+                #for x in link.split()if x != '&']) #FIXED 80507
 
     def relaxed_rules(x):   # (c) Anton: ({a- or b-} & {c+ or d+}) or ({a-} & {c+})
         #TODO: split disjuncts? OR just ignore?
@@ -225,7 +226,8 @@ def links2stalks(links, clusters, grammar_rules = 1, verbose='none'):
     stalks = df.groupby('word').agg({'links': 'sum', 'count': 'sum'}).reset_index()
     #-stalks['links'] = stalks['links'].apply(dedupe)
     stalks['links'] = stalks['links'].apply(lambda x: sorted(set(x)))
-    stalks['cluster'] = stalks['word'].apply(lambda x: word_clusters[x])
+    stalks['cluster'] = stalks['word'].apply( \
+        lambda x: word_clusters[x] if x in word_clusters else x) #80507
     stalks['[clstr]'] = [[x] for x in stalks['cluster']]
     stalks['cluster_links'] = stalks['[clstr]'] + stalks['links']
     del stalks['[clstr]']

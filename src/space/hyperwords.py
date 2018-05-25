@@ -189,9 +189,9 @@ def links2vec(links,out_path,tmp_path,dim=100,cds=1.0,eig=0.5,verbose='none'):
     start = time.time()
     #-linkz = links.loc[(links['count'] > 2)]
     linkz = links
-    words = linkz.groupby('word').sum().reset_index()\
+    words = linkz.groupby('word').sum().reset_index() \
         .sort_values(by=['count','word'], ascending=[False,True])
-    contexts = linkz.groupby('link').sum().reset_index()\
+    contexts = linkz.groupby('link').sum().reset_index() \
         .sort_values(by=['count','link'], ascending=[False,True])
     if verbose in ['max','debug']:
         print('Linkz:', len(linkz), 'items')
@@ -357,7 +357,9 @@ def pmisvd(links,path,tmpath, dim=100, cds=1.0, eig=0.5, neg=1, verbose='none'):
     # neg = 1   # Number of negative samples; [default: 1] subtracts its log from PMI
                 # PMI => SVD PositiveExplicit parameter
     '''links => PMI'''
-    pmi_path = tmpath + 'pmi'
+    #if tmpath[-1] != '/': tmpath += '/'
+    if tmpath[-1] == '/': tmpath = tmpath[:-1]
+    pmi_path = tmpath + '/pmi'
     start = time.time()
     #-linkz = links.loc[(links['count'] > 2)]
     linkz = links

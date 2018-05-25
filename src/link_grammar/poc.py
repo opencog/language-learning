@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 #80405 POC: Proof of Concepf: Grammar Learner 0.1, POC-English-NoAmb
+#80511 link_grammar_rules not used, save_link_grammar moved to utl FIXME:DEL poc.py
 import numpy as np
 import pandas as pd
 

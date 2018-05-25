@@ -43,6 +43,8 @@ def cluster_similarity(clusters_df, verbose='none'):    # 80219,21
                 sim_df.loc[k] = [c1, c2, sim, c1_words, c2_words]
                 k += 1
     #-sim_df[['c1','c2']] = sim_df[['c1','c2']].astype(int)
+    if verbose in ['debug']:
+        print('cluster_similarity: sim_df:\n', sim_df[['c1','c2', 'similarity']])
     return sim_df.sort_values(by=['similarity','c1','c2'], \
                               ascending=[False,True,True]), \
         {'clusters_similarity_file': 'none'}

@@ -19,7 +19,7 @@ Here is the description of all parameters:
   E.g. saw@tool
 * `model` — path to AdaGram model to use for disambiguation.
 * `corpus` — path to folder with corpus to annotate. Corpus files are expected 
-  to contain only one sentence per line.
+  to contain only one sentence per line and be fully tokenized.
 * `output` — path to folder for saving the annotated corpus.
 
 - Given a trained AdaGram model, `output_AdaGram_text.sh` returns all word

@@ -39,7 +39,14 @@ function annotate_file(corpus, outfile, vm, dict, separator, min_prob, win)
                     ulim = min(length(split_line), i[1] + win)
                     context = split_line[llim:ulim]
                     deleteat!(context, i[1] + 1 - llim)
-                    #println(context)
+                    rm_index = []
+                    for word in enumerate(context)
+                        if get(dict.word2id, word[2], -1) == -1
+                            push!(rm_index, word[1])
+                        end
+                    end
+                    deleteat!(context, rm_index)
+                    println(context)
                     annotate_word(fo, separator, min_prob, vm, dict, i[2], context)
                 end
                 seek(fo, position(fo)-1)

@@ -133,8 +133,8 @@ dad is a human now .
 0 ###LEFT-WALL### 6 .
 1 dad 2 is
 2 is 4 human
-2 is 5 now
 3 a 4 human
+2 is 5 now
 
 mom is a parent now . 
 0 ###LEFT-WALL### 1 mom
@@ -142,8 +142,8 @@ mom is a parent now .
 0 ###LEFT-WALL### 6 .
 1 mom 2 is
 2 is 4 parent
-2 is 5 now
 3 a 4 parent
+2 is 5 now
 
 dad is a parent now . 
 0 ###LEFT-WALL### 1 dad
@@ -151,8 +151,8 @@ dad is a parent now .
 0 ###LEFT-WALL### 6 .
 1 dad 2 is
 2 is 4 parent
-2 is 5 now
 3 a 4 parent
+2 is 5 now
 
 son is a child now . 
 0 ###LEFT-WALL### 1 son
@@ -160,8 +160,8 @@ son is a child now .
 0 ###LEFT-WALL### 6 .
 1 son 2 is
 2 is 4 child
-2 is 5 now
 3 a 4 child
+2 is 5 now
 
 daughter is a child now . 
 0 ###LEFT-WALL### 1 daughter
@@ -169,8 +169,8 @@ daughter is a child now .
 0 ###LEFT-WALL### 6 .
 1 daughter 2 is
 2 is 4 child
-2 is 5 now
 3 a 4 child
+2 is 5 now
 
 son is a human now . 
 0 ###LEFT-WALL### 1 son
@@ -178,8 +178,8 @@ son is a human now .
 0 ###LEFT-WALL### 6 .
 1 son 2 is
 2 is 4 human
-2 is 5 now
 3 a 4 human
+2 is 5 now
 
 daughter is a human now . 
 0 ###LEFT-WALL### 1 daughter
@@ -187,8 +187,8 @@ daughter is a human now .
 0 ###LEFT-WALL### 6 .
 1 daughter 2 is
 2 is 4 human
-2 is 5 now
 3 a 4 human
+2 is 5 now
 
 mom likes cake now . 
 0 ###LEFT-WALL### 1 mom
@@ -228,8 +228,8 @@ cake is a food now .
 0 ###LEFT-WALL### 6 .
 1 cake 2 is
 2 is 4 food
-2 is 5 now
 3 a 4 food
+2 is 5 now
 
 sausage is a food now . 
 0 ###LEFT-WALL### 1 sausage
@@ -237,8 +237,8 @@ sausage is a food now .
 0 ###LEFT-WALL### 6 .
 1 sausage 2 is
 2 is 4 food
-2 is 5 now
 3 a 4 food
+2 is 5 now
 
 mom was a daughter before . 
 0 ###LEFT-WALL### 1 mom
@@ -246,8 +246,8 @@ mom was a daughter before .
 0 ###LEFT-WALL### 6 .
 1 mom 2 was
 2 was 4 daughter
-2 was 5 before
 3 a 4 daughter
+2 was 5 before
 
 dad was a son before . 
 0 ###LEFT-WALL### 1 dad
@@ -255,8 +255,8 @@ dad was a son before .
 0 ###LEFT-WALL### 6 .
 1 dad 2 was
 2 was 4 son
-2 was 5 before
 3 a 4 son
+2 was 5 before
 
 mom was not a parent before . 
 0 ###LEFT-WALL### 1 mom
@@ -265,8 +265,8 @@ mom was not a parent before .
 1 mom 2 was
 2 was 3 not
 2 was 5 parent
-2 was 6 before
 4 a 5 parent
+2 was 6 before
 
 dad was not a parent before . 
 0 ###LEFT-WALL### 1 dad
@@ -275,8 +275,8 @@ dad was not a parent before .
 1 dad 2 was
 2 was 3 not
 2 was 5 parent
-2 was 6 before
 4 a 5 parent
+2 was 6 before
 
 mom liked cake before . 
 0 ###LEFT-WALL### 1 mom
@@ -300,8 +300,8 @@ cake was a food before .
 0 ###LEFT-WALL### 6 .
 1 cake 2 was
 2 was 4 food
-2 was 5 before
 3 a 4 food
+2 was 5 before
 
 sausage was a food before . 
 0 ###LEFT-WALL### 1 sausage
@@ -309,6 +309,6 @@ sausage was a food before .
 0 ###LEFT-WALL### 6 .
 1 sausage 2 was
 2 was 4 food
-2 was 5 before
 3 a 4 food
+2 was 5 before
 

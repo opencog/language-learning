@@ -3,7 +3,7 @@
 # ASuMa, May 2018
 # Modified from AdaGram's test-all.py to evaluate WSD in annotated
 # corpus produced with annotate_corpus.jl.
-# Similarl to AdaGram (http://proceedings.mlr.press/v51/bartunov16.pdf), 
+# Similarly to AdaGram (http://proceedings.mlr.press/v51/bartunov16.pdf), 
 # three metrics are used: V-Measure, F-score and ARI.
 
 import numpy as np
@@ -22,12 +22,12 @@ def get_pairs(labels):
     return result
 
 def compute_fscore(true, pred):
-    print(true)
     true_pairs = get_pairs(true)
     pred_pairs = get_pairs(pred)
-    print(true_pairs)
-    print(pred_pairs)
     int_size = len(set(true_pairs).intersection(pred_pairs))
+    # if there are just not enough pairs to compare
+    if len(pred_pairs) == 0 or len(true_pairs) == 0:
+        return 0
     p = int_size / float(len(pred_pairs))
     r = int_size / float(len(true_pairs))
     return 2*p*r/float(p+r)
@@ -64,14 +64,10 @@ def compute_metrics(answers, predictions):
     for k in answers.keys():
         true = np.array(answers[k])
         pred = np.array(predictions[k])
-        # skip if only one occurrence of a word in corpus
-        if len(true) == 1:
-            continue
         weights.append(pred.shape[0])
         if len(np.unique(true)) > 1:
             aris.append(adjusted_rand_score(true, pred))
         vscores.append(v_measure_score(true, pred))
-        print(k)
         fscores.append(compute_fscore(true, pred))
 #        print '%s: ari=%f, vscore=%f, fscore=%f' % (k, aris[-1], vscores[-1], fscores[-1])
     aris = np.array(aris)

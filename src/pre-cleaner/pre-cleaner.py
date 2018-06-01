@@ -60,6 +60,7 @@ def main(argv):
 	convert_lowercase = True
 	convert_quotes_to_spaces = True
 	separate_contractions = True
+	convert_percent_to_tokens = True
 	convert_numbers_to_tokens = True
 	convert_dates_to_tokens = True
 	convert_times_to_tokens = True
@@ -68,24 +69,24 @@ def main(argv):
 	add_splitters = True
 	filename_suffix = ''
 	try:
-		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:UqjndTHeS",["idir=",
+		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:UqjpndTHeS",["idir=",
 			"odir=", "chars_invalid=" "suffixes=", "sen_length=", 
 			"token_length=", "sentence_symbols=", "sentence_tokens=", 
-			"token_symbols=" "Uppercase", "quotes", "contractions",
+			"token_symbols=" "Uppercase", "quotes", "contractions", "percents",
 			"numbers", "dates", 
 			"Times", "Hyperlinks", "escaped", "Splits"])
 	except getopt.GetoptError:
 		print('''Usage: pre-cleaner.py -i <inputdir> -o <outputdir> 
 		    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
 		    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
-		    [-z <token_symbols>] [-U] [-q] [-j] [-n] [-d] [-T] [-H] [-e] [-S]''')
+		    [-z <token_symbols>] [-U] [-q] [-j] [-p] [-n] [-d] [-T] [-H] [-e] [-S]''')
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
 			print('''Usage: pre-cleaner.py -i <inputdir> -o <outputdir> 
 			    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
 			    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
-			    [-z <token_symbols>] [-U] [-q] [-j] [-n] [-d] [-T] [-H] [-e] [-S]''')
+			    [-z <token_symbols>] [-U] [-q] [-j] [-p] [-n] [-d] [-T] [-H] [-e] [-S]''')
 			sys.exit()
 		elif opt in ("-i", "--idir"):
 			inputdir = arg
@@ -132,6 +133,9 @@ def main(argv):
 		elif opt in ("-j", "--contractions"):
 			separate_contractions = False
 			filename_suffix += 'j'
+		elif opt in ("-p", "--percents"):
+			convert_numbers_to_tokens = False
+			filename_suffix += 'p'
 		elif opt in ("-n", "--numbers"):
 			convert_numbers_to_tokens = False
 			filename_suffix += 'n'
@@ -176,6 +180,8 @@ def main(argv):
 				temp_sentence = Substitute_Dates(temp_sentence)
 			if convert_times_to_tokens == True:
 				temp_sentence = Substitute_Times(temp_sentence)
+			if convert_numbers_to_tokens == True:
+				temp_sentence = Substitute_Percents(temp_sentence)
 			if convert_numbers_to_tokens == True:
 				temp_sentence = Substitute_Numbers(temp_sentence)
 			tokenized_sentence = Naive_Tokenizer(temp_sentence)
@@ -383,6 +389,15 @@ def Substitute_Dates(sentence):
 	date_pattern = form11 + r"|" + form10 + r"|" + form9 + r"|" + form8 + r"|" + form7 + r"|" + form6 + r"|" + form5 + r"|" + form4 + r"|" + form3 + r"|" + form2 + r"|" + form1
 	sentence = re.sub(date_pattern, ' @date@ ', sentence, flags=re.IGNORECASE) 
 	return sentence
+
+def Substitute_Percents(sentence):
+	"""
+		Substitutes percents with special token
+	"""
+	# handles up to two integers and as many decimal marks
+	sentence = re.sub(r"(\s|\b)(\d{1-2}[.,]?\d*\%)\b", ' @percent@ ', sentence) 
+	return sentence
+
 
 def Substitute_Numbers(sentence):
 	"""

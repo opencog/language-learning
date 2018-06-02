@@ -314,10 +314,13 @@ def Normalize_Sentence(sentence, separate_contractions):
 		standard symbols.
 		Also removes underscores at beginning or end of words (commonly used 
 		as underline markup).
+		Also converts asterisks to space
 	"""
 
 	# remove underscores for text underlining
 	sentence = re.sub(r"\b_+|_+\b", "", sentence)
+	# remove asterisk
+	sentence = re.sub(r"\*", " ", sentence)
 	# Normalize apostrophes, dashes and quotes obtained from Wikipedia 
 	# Apostrophe page
 	sentence = re.sub(r"[\`]|’|‘", "'", sentence)

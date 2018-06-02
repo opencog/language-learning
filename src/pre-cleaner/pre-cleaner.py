@@ -72,7 +72,7 @@ def main(argv):
 		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:UqjpndTHeS",["idir=",
 			"odir=", "chars_invalid=" "suffixes=", "sen_length=", 
 			"token_length=", "sentence_symbols=", "sentence_tokens=", 
-			"token_symbols=" "Uppercase", "quotes", "contractions", "percents",
+			"token_symbols=" "Uppercase", "quotes", "contractions", "percent",
 			"numbers", "dates", 
 			"Times", "Hyperlinks", "escaped", "Splits"])
 	except getopt.GetoptError:
@@ -133,8 +133,8 @@ def main(argv):
 		elif opt in ("-j", "--contractions"):
 			separate_contractions = False
 			filename_suffix += 'j'
-		elif opt in ("-p", "--percents"):
-			convert_numbers_to_tokens = False
+		elif opt in ("-p", "--percent"):
+			convert_percent_to_tokens = False
 			filename_suffix += 'p'
 		elif opt in ("-n", "--numbers"):
 			convert_numbers_to_tokens = False
@@ -180,8 +180,8 @@ def main(argv):
 				temp_sentence = Substitute_Dates(temp_sentence)
 			if convert_times_to_tokens == True:
 				temp_sentence = Substitute_Times(temp_sentence)
-			if convert_numbers_to_tokens == True:
-				temp_sentence = Substitute_Percents(temp_sentence)
+			if convert_percent_to_tokens == True:
+				temp_sentence = Substitute_Percent(temp_sentence)
 			if convert_numbers_to_tokens == True:
 				temp_sentence = Substitute_Numbers(temp_sentence)
 			tokenized_sentence = Naive_Tokenizer(temp_sentence)
@@ -350,11 +350,12 @@ def Substitute_Times(sentence):
 	MM = r"([0-5][0-9])"
 	tz = r"(\(?[A-Za-z]{1,6}\)?|[A-Z][a-z]+([_/][A-Z][a-z]+)+)"
 	tzcorrection = r"((GMT)?[+-]" + hh + ":?" + MM + "?)"
+	tzalone = r"((GMT)[+-]" + hh + ":?" + MM + "?)"
 
 	# Accepted time formats
 	form1 = r"(\b" + hh + r"([.:]" + MM + r"){0,2}" + r" ?" + meridian + r"\b)"
 	form2 = r"(\b" + HH + r"([.:]" + MM + r"){1,2}" + r" ?(" + tz + r"|" + tzcorrection + r")?\b)"
-	form3 = r"(\b " + tzcorrection + r"\b)"
+	form3 = r"(\b" + tzalone + r"\b)"
 
 	time_pattern = form3 + r"|" + form2 + r"|" + form1 
 	sentence = re.sub(time_pattern, ' @time@ ', sentence) 
@@ -390,12 +391,12 @@ def Substitute_Dates(sentence):
 	sentence = re.sub(date_pattern, ' @date@ ', sentence, flags=re.IGNORECASE) 
 	return sentence
 
-def Substitute_Percents(sentence):
+def Substitute_Percent(sentence):
 	"""
 		Substitutes percents with special token
 	"""
-	# handles up to two integers and as many decimal marks
-	sentence = re.sub(r"(\s|\b)(\d{1-2}[.,]?\d*\%)\b", ' @percent@ ', sentence) 
+	# handles any number as in Substitute_Numbers, ending with % sign
+	sentence = re.sub(r"[+-]?[.,;]?(\d+[.,;']?)+%", ' @percent@ ', sentence) 
 	return sentence
 
 
@@ -404,7 +405,7 @@ def Substitute_Numbers(sentence):
 		Substitutes numbers with special token
 	"""
 	# handles trailing/leading decimal mark
-	sentence = re.sub(r"(\s|\b)[.,;]?(\d+[.,;']?)+\b", ' @number@ ', sentence) 
+	sentence = re.sub(r"(\s|\b)[+-]?[.,;]?(\d+[.,;']?)+\b", ' @number@ ', sentence) 
 	return sentence
 
 def Prepare_Suffix_List(suffix_list):

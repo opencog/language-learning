@@ -318,7 +318,9 @@ def Normalize_Sentence(sentence, separate_contractions):
 	"""
 
 	# remove underscores for text underlining
-	sentence = re.sub(r"\b_+|_+\b", "", sentence)
+	#sentence = re.sub(r"\b_+|_+\b", "", sentence)
+	# remove underscores completely, so they are token-splitters
+	sentence = re.sub(r"_", " ", sentence)
 	# remove asterisk
 	sentence = re.sub(r"\*", " ", sentence)
 	# Normalize apostrophes, dashes and quotes obtained from Wikipedia 
@@ -327,6 +329,8 @@ def Normalize_Sentence(sentence, separate_contractions):
 	sentence = re.sub(r"‑|‐", "-", sentence)
 	# some dashes look the same, but they are different
 	sentence = re.sub(r"-{2,}|―|—|–|‒", "—", sentence) 
+	# remove long-dashes completely, so they are token-splitters
+	sentence = re.sub(r"—", " ", sentence)
 	sentence = re.sub(r"\'\'|“|”", '\\"', sentence)
 	if separate_contractions == True:
 		# separate contractions (e.g. They're -> They 're)

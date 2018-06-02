@@ -37,7 +37,7 @@ def main(argv):
 							string without spaces between the characters, e.g. "$%^&" would eliminate
 							all tokens that have those 4 characters.
 		-U 					Keep uppercase letters (default is to convert to lowercase)
-		-q 					Keep quotes (default is to convert them to spaces)
+		-q 					Keep quotes (default is to pad them with spaces)
 		-j 					Keep contractions together (default is separate them)
 		-n 					Keep numbers (default converts them to @number@ token)
 		-d 					Keep dates (default converts them to @date@ token)
@@ -58,7 +58,7 @@ def main(argv):
 	sentence_invalid_tokens = []
 	token_invalid_symbols = []
 	convert_lowercase = True
-	convert_quotes_to_spaces = True
+	pad_quotes_with_spaces = True
 	separate_contractions = True
 	convert_percent_to_tokens = True
 	convert_numbers_to_tokens = True
@@ -128,7 +128,7 @@ def main(argv):
 			convert_lowercase = False
 			filename_suffix += 'U'
 		elif opt in ("-q", "--quotes"):
-			convert_quotes_to_spaces = False
+			pad_quotes_with_spaces = False
 			filename_suffix += 'q'
 		elif opt in ("-j", "--contractions"):
 			separate_contractions = False
@@ -170,7 +170,7 @@ def main(argv):
 		fo = open(outputfile, "w")
 		for sentence in sentences:
 			#sentence = sentence.decode('utf-8')
-			temp_sentence = Normalize_Sentence(sentence, convert_quotes_to_spaces, separate_contractions)
+			temp_sentence = Normalize_Sentence(sentence, separate_contractions)
 			temp_sentence = Remove_Suffixes(temp_sentence, new_suffix_list)
 			if convert_links_to_tokens == True:
 				temp_sentence = Substitute_Links(temp_sentence)
@@ -184,6 +184,8 @@ def main(argv):
 				temp_sentence = Substitute_Percent(temp_sentence)
 			if convert_numbers_to_tokens == True:
 				temp_sentence = Substitute_Numbers(temp_sentence)
+			if pad_quotes_with_spaces == True:
+				temp_sentence = Pad_quotes(temp_sentence)
 			tokenized_sentence = Naive_Tokenizer(temp_sentence)
 			if Ignore_Long_Sentence(tokenized_sentence, max_tokens) == True:
 				continue
@@ -306,14 +308,15 @@ def Clean_Sentence(sentence, translate_table):
 	#sentence = unicode(sentence)
 	return sentence.translate(translate_table)
 
-def Normalize_Sentence(sentence, convert_quotes_to_spaces, separate_contractions):
+def Normalize_Sentence(sentence, separate_contractions):
 	"""
 		Converts all different apostrophes, double quotes and dashes to 
 		standard symbols.
-		Also removes underscores at beginning or end of words (commonlt used 
+		Also removes underscores at beginning or end of words (commonly used 
 		as underline markup).
 	"""
 
+	# remove underscores for text underlining
 	sentence = re.sub(r"\b_+|_+\b", "", sentence)
 	# Normalize apostrophes, dashes and quotes obtained from Wikipedia 
 	# Apostrophe page
@@ -322,13 +325,17 @@ def Normalize_Sentence(sentence, convert_quotes_to_spaces, separate_contractions
 	# some dashes look the same, but they are different
 	sentence = re.sub(r"-{2,}|―|—|–|‒", "—", sentence) 
 	sentence = re.sub(r"\'\'|“|”", '\\"', sentence)
-	if convert_quotes_to_spaces == True:
-		# sentence splitter escapes double quotes, as needed by guile
-		sentence = re.sub(r'\\"|"', " ", sentence)
 	if separate_contractions == True:
 		# separate contractions (e.g. They're -> They 're)
 		sentence = re.sub(r"(?<=[a-zA-Z])'(?=[a-zA-Z])", " '", sentence)
 	return sentence
+
+def Pad_quotes(sentence):
+	# sentence splitter escapes double quotes, as needed by guile
+	sentence = re.sub(r'\\"|"', ' \\" ', sentence)
+	sentence = re.sub(r"'", " ' ", sentence)
+	return sentence
+
 
 def Substitute_Links(sentence):
 	"""

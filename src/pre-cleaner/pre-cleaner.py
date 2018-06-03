@@ -410,7 +410,8 @@ def Substitute_Percent(sentence):
 		Substitutes percents with special token
 	"""
 	# handles any number as in Substitute_Numbers, ending with % sign
-	sentence = re.sub(r'''(?<![^\s])[+-]?[.,;]?(\d+[.,;']?)+%(?![^\s.,;!?'"])''', '@percent@', sentence)
+	sentence = re.sub(r'''(?<![^\s])[+-]?[.,;]?(\d+[.,;']?)+%(?![^\s.,;!?'"])''', 
+		               '@percent@', sentence)
 	return sentence
 
 
@@ -419,7 +420,8 @@ def Substitute_Numbers(sentence):
 		Substitutes numbers with special token
 	"""
 	# handles trailing/leading decimal mark
-	sentence = re.sub(r'''(?<![^\s])[+-]?[.,;]?(\d+[.,;']?)+(?![^\s.,;!?'"])''', '@number@', sentence)
+	sentence = re.sub(r'''(?<![^\s])[+-]?[.,;]?(\d+[.,;']?)+(?![^\s.,;!?'"])''',
+	 			       '@number@', sentence)
 	return sentence
 
 def Prepare_Suffix_List(suffix_list):

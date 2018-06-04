@@ -11,7 +11,8 @@ def main(argv):
 	"""
 		Pre-cleaner takes two mandatory arguments and several optional ones:
 
-		"Usage: pre-cleaner.py -i <inputdir> -o <outputdir> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length>] [-t <token_length>] 
+		"Usage: pre-cleaner.py -i <inputdir> -o <outputdir> [-c <chars_invalid>] [-b <bounday_chars>] 
+		[-a <tokenized_chars>][-s <suffixes>] [-l <sentence_length>] [-t <token_length>] 
 		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]"
 
 		inputdir 			Directory with files to be processed.
@@ -21,6 +22,11 @@ def main(argv):
 		chars_invalid		Characters to delete from text (default = none). They need to be given as a
 							string without spaces between the characters, e.g. "$%^&" would eliminate
 							only those 4 characters from appearances in the text.
+		boundary_chars		Characters tokenized if token boundaries, only inside.
+							Default: apostrophe, double quote.
+		tokenized_chars		Characters tokenized everywhere.
+							Default: brackets, parenthesis, braces, comma, colon, semicolon, slashes,
+							currency signs, @, #, &, +, -
 		suffixes 			Suffixes to eliminate in text (default = none). They need to come in a string
 							separated by spaces.
 							For example, -s "'s 'd n't" would eliminate all suffixes 's, 'd, n't
@@ -37,7 +43,7 @@ def main(argv):
 							string without spaces between the characters, e.g. "$%^&" would eliminate
 							all tokens that have those 4 characters.
 		-U 					Keep uppercase letters (default is to convert to lowercase)
-		-q 					Keep quotes (default is to pad them with spaces)
+		-q 					Pad quotes with spaces (default is to keep them as is)
 		-j 					Keep contractions together (default is separate them)
 		-n 					Keep numbers (default converts them to @number@ token)
 		-d 					Keep dates (default converts them to @date@ token)
@@ -51,6 +57,8 @@ def main(argv):
 	inputdir = ''
 	outputdir = ''
 	invalid_chars = u""
+	boundary_chars = u"'\""
+	tokenized_chars = u"[]()\{\}<>,:;/\\$@#&+-=?!¡¿"
 	new_suffix_list = []
 	max_tokens = 25
 	max_chars = 25
@@ -58,7 +66,7 @@ def main(argv):
 	sentence_invalid_tokens = []
 	token_invalid_symbols = []
 	convert_lowercase = True
-	pad_quotes_with_spaces = True
+	dont_pad_quotes = True
 	separate_contractions = True
 	convert_percent_to_tokens = True
 	convert_numbers_to_tokens = True
@@ -69,22 +77,25 @@ def main(argv):
 	add_splitters = True
 	filename_suffix = ''
 	try:
-		opts, args = getopt.getopt(argv,"hi:o:c:s:l:t:x:y:z:UqjpndTHeS",["idir=",
-			"odir=", "chars_invalid=" "suffixes=", "sen_length=", 
+		opts, args = getopt.getopt(argv,"hi:o:c:b:a:s:l:t:x:y:z:UqjpndTHeS",["idir=",
+			"odir=", "chars_invalid=", "boundary_chars=","tokenized_chars=", 
+			"suffixes=", "sen_length=", 
 			"token_length=", "sentence_symbols=", "sentence_tokens=", 
 			"token_symbols=" "Uppercase", "quotes", "contractions", "percent",
 			"numbers", "dates", 
 			"Times", "Hyperlinks", "escaped", "Splits"])
 	except getopt.GetoptError:
 		print('''Usage: pre-cleaner.py -i <inputdir> -o <outputdir> 
-		    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
+		    [-c <chars_invalid>] [-b <boundary_chars>] [-a <tokenized_chars>] 
+		    [-s <suffixes>] [-l <sentence_length] 
 		    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
 		    [-z <token_symbols>] [-U] [-q] [-j] [-p] [-n] [-d] [-T] [-H] [-e] [-S]''')
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
 			print('''Usage: pre-cleaner.py -i <inputdir> -o <outputdir> 
-			    [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length] 
+			    [-c <chars_invalid>] [-b <boundary_chars>] [-a <tokenized_chars>] 
+			    [-s <suffixes>] [-l <sentence_length] 
 			    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
 			    [-z <token_symbols>] [-U] [-q] [-j] [-p] [-n] [-d] [-T] [-H] [-e] [-S]''')
 			sys.exit()
@@ -97,6 +108,12 @@ def main(argv):
 			#invalid_chars = arg.decode('utf-8')
 			invalid_chars = arg
 			filename_suffix += 'c'
+		elif opt in ("-b", "--boundary_chars"):
+			boundary_chars = arg
+			filename_suffix += 'b'
+		elif opt in ("-a", "--tokenized_chars"):
+			tokenized_chars = arg
+			filename_suffix += 'a'
 		elif opt in ("-s", "--suffixes"):
 			#python3 doesn't need decode
 			#suffix_list = arg.decode('utf-8').split()
@@ -128,7 +145,7 @@ def main(argv):
 			convert_lowercase = False
 			filename_suffix += 'U'
 		elif opt in ("-q", "--quotes"):
-			pad_quotes_with_spaces = False
+			dont_pad_quotes = False
 			filename_suffix += 'q'
 		elif opt in ("-j", "--contractions"):
 			separate_contractions = False
@@ -166,12 +183,11 @@ def main(argv):
 			filename_suffix = 'default'
 		outputfile = "../" + outputdir + "/" + inputfile + '_' + filename_suffix
 
-		# make sure directory doesnt change with os.listdir()
 		fo = open(outputfile, "w")
 		for sentence in sentences:
 			#sentence = sentence.decode('utf-8')
 			temp_sentence = Normalize_Sentence(sentence, separate_contractions)
-			temp_sentence = Remove_Suffixes(temp_sentence, new_suffix_list)
+			temp_sentence = Clean_Sentence(temp_sentence, translate_table, new_suffix_list)
 			if convert_links_to_tokens == True:
 				temp_sentence = Substitute_Links(temp_sentence)
 			if decode_escaped == True:
@@ -184,9 +200,10 @@ def main(argv):
 				temp_sentence = Substitute_Percent(temp_sentence)
 			if convert_numbers_to_tokens == True:
 				temp_sentence = Substitute_Numbers(temp_sentence)
-			if pad_quotes_with_spaces == True:
+			if dont_pad_quotes == False:
 				temp_sentence = Pad_quotes(temp_sentence)
-			tokenized_sentence = Naive_Tokenizer(temp_sentence)
+			tokenized_sentence = Char_Tokenizer(temp_sentence, boundary_chars, tokenized_chars)
+			tokenized_sentence = Naive_Tokenizer(tokenized_sentence)
 			if Ignore_Long_Sentence(tokenized_sentence, max_tokens) == True:
 				continue
 			tokenized_sentence = Remove_Long_Tokens(tokenized_sentence, max_chars)
@@ -194,7 +211,6 @@ def main(argv):
 				continue
 			tokenized_sentence = Remove_Invalid_Tokens(tokenized_sentence, token_invalid_symbols)
 			final_sentence = " ".join(tokenized_sentence) + "\n"
-			final_sentence = Clean_Sentence(final_sentence, translate_table)
 			if convert_lowercase == True:
 				final_sentence = final_sentence.lower()
 			if add_splitters == True:
@@ -244,6 +260,21 @@ def Remove_Caps(sentence):
         Converts all capital letters in "data" into small caps
     """
     return sentence.lower()
+
+def Char_Tokenizer(sentence, boundary_chars, tokenized_chars):
+	"""
+		Separates chars either from the boundary of a word or 
+		from any part of the string
+	"""
+	for curr_char in boundary_chars:
+		tok_sentence = re.sub(r"", r"\1");
+
+
+	trans_table = dict((ord(char), " " + ord(char) + " ") for char in tokenized_chars)
+	tok_sentence = sentence.translate(trans_table)
+
+
+	return tok_sentence
 
 def Naive_Tokenizer(sentence):
 	"""
@@ -300,13 +331,22 @@ def Ignore_Invalid_Sentence(tokenized_sentence, invalidating_symbols, invalidati
 
 	return False
 
-def Clean_Sentence(sentence, translate_table):
+def Clean_Sentence(sentence, translate_table, new_suffix_list):
 	"""
 		Cleans sentence from invalid chars
 	"""
 	#python3 doesn't need decode
 	#sentence = unicode(sentence)
-	return sentence.translate(translate_table)
+
+	# remove unaccepted characters
+	temp_sentence = sentence.translate(translate_table)
+	# remove underscores completely, so they are token-splitters
+	temp_sentence = re.sub(r"_", " ", temp_sentence)
+	# remove asterisk, so they are token-splitters
+	temp_sentence = re.sub(r"\*", " ", temp_sentence)
+	temp_sentece = Remove_Suffixes(temp_sentence, new_suffix_list)
+
+	return temp_sentence
 
 def Normalize_Sentence(sentence, separate_contractions):
 	"""
@@ -317,13 +357,7 @@ def Normalize_Sentence(sentence, separate_contractions):
 		Also converts asterisks to space
 	"""
 
-	# remove underscores for text underlining
-	#sentence = re.sub(r"\b_+|_+\b", "", sentence)
-	# remove underscores completely, so they are token-splitters
-	sentence = re.sub(r"_", " ", sentence)
-	# remove asterisk
-	sentence = re.sub(r"\*", " ", sentence)
-	# Normalize apostrophes, dashes and quotes obtained from Wikipedia 
+		# Normalize apostrophes, dashes and quotes obtained from Wikipedia 
 	# Apostrophe page
 	sentence = re.sub(r"[\`]|’|‘", "'", sentence)
 	sentence = re.sub(r"‑|‐", "-", sentence)

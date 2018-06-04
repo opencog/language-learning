@@ -49,7 +49,7 @@ def main(argv):
 		-n 					Keep numbers (default converts them to @number@ token)
 		-d 					Keep dates (default converts them to @date@ token)
 		-T 					Keep times (default converts them to @time@ token)
-		-H 					Keep hyperlinks (default converts them to @url@ token)
+		-H 					Keep hyperlinks/emails (default converts them to @url@/@email@ token)
 		-e 					Keep escaped HTML and UniCode symbols (default decodes them)
 		-S 					Don't add sentence splitter mark to be recognized by
 							split_sentences.pl, even if text is lowercased (they're added by default)
@@ -180,7 +180,6 @@ def main(argv):
 			if decode_escaped == True:
 				temp_sentence = Decode_Escaped(temp_sentence)
 			temp_sentence = Normalize_Sentence(temp_sentence, separate_contractions)
-			temp_sentence = Clean_Sentence(temp_sentence, translate_table, new_suffix_list)
 			if convert_links_to_tokens == True:
 				temp_sentence = Substitute_Links(temp_sentence)
 			if convert_dates_to_tokens == True:
@@ -193,6 +192,7 @@ def main(argv):
 				temp_sentence = Substitute_Numbers(temp_sentence)
 			if dont_pad_quotes == False:
 				temp_sentence = Pad_quotes(temp_sentence)
+			temp_sentence = Clean_Sentence(temp_sentence, translate_table, new_suffix_list)
 			tokenized_sentence = Char_Tokenizer(temp_sentence, boundary_chars, tokenized_chars)
 			tokenized_sentence = Naive_Tokenizer(tokenized_sentence)
 			if Ignore_Long_Sentence(tokenized_sentence, max_tokens) == True:
@@ -372,9 +372,12 @@ def Pad_quotes(sentence):
 def Substitute_Links(sentence):
 	"""
 		Substitutes url addresses (http://, https://, ftp://) with special token.
+		Also, substitute emails to special token.
 	"""
-	link_pattern = r"(\b(https?|ftp)://[^,\s]+)"
+	link_pattern = r"\b(https?|ftp)://[^,\s]+"
 	sentence = re.sub(link_pattern, ' @url@ ', sentence, flags=re.IGNORECASE) 
+	email_pattern = r"(?<![^\s])[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+(?![^\s])"
+	sentence = re.sub(email_pattern, ' @email@ ', sentence) 
 	return sentence
 
 def Substitute_Times(sentence):

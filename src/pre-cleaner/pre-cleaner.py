@@ -58,8 +58,8 @@ def main(argv):
 	inputdir = ''
 	outputdir = ''
 	invalid_chars = u""
-	boundary_chars = u"'" + u'"'
-	tokenized_chars = u"[](){}<>,:;/\$#&+-=?!¡¿"
+	boundary_chars = u'\'"'
+	tokenized_chars = u"[](){}<>,:;/\$#&+=?!¡¿"
 	new_suffix_list = []
 	max_tokens = 25
 	max_chars = 25
@@ -266,7 +266,7 @@ def Char_Tokenizer(sentence, boundary_chars, tokenized_chars):
 
 	# tokenizes all tokenized_chars
 	trans_table = dict((ord(char), " " + char + " ") for char in tokenized_chars)
-	tok_sentence = sentence.translate(trans_table)
+	tok_sentence = tok_sentence.translate(trans_table)
 
 	return tok_sentence
 

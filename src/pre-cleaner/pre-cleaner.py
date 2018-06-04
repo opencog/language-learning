@@ -266,13 +266,15 @@ def Char_Tokenizer(sentence, boundary_chars, tokenized_chars):
 		Separates chars either from the boundary of a word or 
 		from any part of the string
 	"""
+	tok_sentence = sentence
+	# separates boundary chars from word when they're found at word boundary
 	for curr_char in boundary_chars:
-		tok_sentence = re.sub(r"", r"\1");
+		tok_sentence = re.sub(r"(?:(\s|^))("+curr_char+"+)", r" \2 ", tok_sentence);
+		tok_sentence = re.sub(r"("+curr_char+"+)(?:(\s|$))", r" \1 ", tok_sentence);
 
-
+	# tokenizes all tokenized_chars
 	trans_table = dict((ord(char), " " + ord(char) + " ") for char in tokenized_chars)
 	tok_sentence = sentence.translate(trans_table)
-
 
 	return tok_sentence
 

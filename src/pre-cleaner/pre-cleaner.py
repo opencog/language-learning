@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
+# runs on python3
 
 # ASuMa, Feb 2018
 
@@ -25,8 +26,8 @@ def main(argv):
 		boundary_chars		Characters tokenized if token boundaries, only inside.
 							Default: apostrophe, double quote.
 		tokenized_chars		Characters tokenized everywhere.
-							Default: brackets, parenthesis, braces, comma, colon, semicolon, slashes,
-							currency signs, @, #, &, +, -
+							Default: brackets, parenthesis, braces, comma, colon, semicolon, slash,
+							currency signs, #, &, +, -
 		suffixes 			Suffixes to eliminate in text (default = none). They need to come in a string
 							separated by spaces.
 							For example, -s "'s 'd n't" would eliminate all suffixes 's, 'd, n't
@@ -44,7 +45,7 @@ def main(argv):
 							all tokens that have those 4 characters.
 		-U 					Keep uppercase letters (default is to convert to lowercase)
 		-q 					Pad quotes with spaces (default is to keep them as is)
-		-j 					Keep contractions together (default is separate them)
+		-j 					Separate contractions (default is to keep them together)
 		-n 					Keep numbers (default converts them to @number@ token)
 		-d 					Keep dates (default converts them to @date@ token)
 		-T 					Keep times (default converts them to @time@ token)
@@ -57,8 +58,8 @@ def main(argv):
 	inputdir = ''
 	outputdir = ''
 	invalid_chars = u""
-	boundary_chars = u"'\""
-	tokenized_chars = u"[]()\{\}<>,:;/\\$@#&+-=?!¡¿"
+	boundary_chars = u"'" + u'"'
+	tokenized_chars = u"[](){}<>,:;/\$#&+-=?!¡¿"
 	new_suffix_list = []
 	max_tokens = 25
 	max_chars = 25
@@ -67,7 +68,7 @@ def main(argv):
 	token_invalid_symbols = []
 	convert_lowercase = True
 	dont_pad_quotes = True
-	separate_contractions = True
+	separate_contractions = False
 	convert_percent_to_tokens = True
 	convert_numbers_to_tokens = True
 	convert_dates_to_tokens = True
@@ -104,8 +105,6 @@ def main(argv):
 		elif opt in ("-o", "--odir"):
 			outputdir = arg
 		elif opt in ("-c", "--chars_invalid"):
-			#python3 doesn't need decode
-			#invalid_chars = arg.decode('utf-8')
 			invalid_chars = arg
 			filename_suffix += 'c'
 		elif opt in ("-b", "--boundary_chars"):
@@ -115,8 +114,6 @@ def main(argv):
 			tokenized_chars = arg
 			filename_suffix += 'a'
 		elif opt in ("-s", "--suffixes"):
-			#python3 doesn't need decode
-			#suffix_list = arg.decode('utf-8').split()
 			suffix_list = arg.split()
 			new_suffix_list = Prepare_Suffix_List(suffix_list)
 			filename_suffix += 's'
@@ -127,18 +124,12 @@ def main(argv):
 			max_chars = int(arg)
 			filename_suffix += 't'
 		elif opt in ("-x", "--sentence_symbols"):
-			#python3 doesn't need decode
-			#sentence_invalid_symbols = arg.decode('utf-8')
 			sentence_invalid_symbols = arg
 			filename_suffix += 'x'
 		elif opt in ("-y", "--sentence_tokens"):
-			#sentence_invalid_tokens = arg.decode('utf-8').split()
-			#python3 doesn't need decode
 			sentence_invalid_tokens = arg
 			filename_suffix += 'y'
 		elif opt in ("-z", "--token_symbols"):
-			#token_invalid_symbols = arg.decode('utf-8')
-			#python3 doesn't need decode
 			token_invalid_symbols = arg
 			filename_suffix += 'z'
 		elif opt in ("-U", "--Uppercase"):
@@ -148,7 +139,7 @@ def main(argv):
 			dont_pad_quotes = False
 			filename_suffix += 'q'
 		elif opt in ("-j", "--contractions"):
-			separate_contractions = False
+			separate_contractions = True
 			filename_suffix += 'j'
 		elif opt in ("-p", "--percent"):
 			convert_percent_to_tokens = False
@@ -185,13 +176,13 @@ def main(argv):
 
 		fo = open(outputfile, "w")
 		for sentence in sentences:
-			#sentence = sentence.decode('utf-8')
-			temp_sentence = Normalize_Sentence(sentence, separate_contractions)
+			temp_sentence = sentence
+			if decode_escaped == True:
+				temp_sentence = Decode_Escaped(temp_sentence)
+			temp_sentence = Normalize_Sentence(temp_sentence, separate_contractions)
 			temp_sentence = Clean_Sentence(temp_sentence, translate_table, new_suffix_list)
 			if convert_links_to_tokens == True:
 				temp_sentence = Substitute_Links(temp_sentence)
-			if decode_escaped == True:
-				temp_sentence = Decode_Escaped(temp_sentence)
 			if convert_dates_to_tokens == True:
 				temp_sentence = Substitute_Dates(temp_sentence)
 			if convert_times_to_tokens == True:
@@ -211,6 +202,9 @@ def main(argv):
 				continue
 			tokenized_sentence = Remove_Invalid_Tokens(tokenized_sentence, token_invalid_symbols)
 			final_sentence = " ".join(tokenized_sentence) + "\n"
+			# backslash for double quotes and backslash needed by guile
+			final_sentence = re.sub(r'"', '\\"', final_sentence)
+			#final_sentence = re.sub(r'\\(?!\")', "\\\\", final_sentence)
 			if convert_lowercase == True:
 				final_sentence = final_sentence.lower()
 			if add_splitters == True:
@@ -238,7 +232,6 @@ def Write_Output_Sentence(fo, sentence):
 	"""
 		writes sentence to the output file
 	"""
-	#python3 doesn't need encode
 	fo.write(sentence)
 
 def Decode_Escaped(sentence):
@@ -246,14 +239,13 @@ def Decode_Escaped(sentence):
 		Converts found escaped HTML and unicode symbols to
 		their printable version
 	""" 
-	#python3 doesn't need decode
-	#sentence = sentence.decode('unicode-escape') # unicode escaped sequences
+	decode_sentence = bytes(sentence, 'ascii').decode('unicode-escape')
 
 	# html escaped sequencues
 	h = HTMLParser()
-	sentence = h.unescape(sentence)
+	decode_sentence = h.unescape(decode_sentence)
 
-	return sentence
+	return decode_sentence
 
 def Remove_Caps(sentence):
     """
@@ -273,7 +265,7 @@ def Char_Tokenizer(sentence, boundary_chars, tokenized_chars):
 		tok_sentence = re.sub(r"("+curr_char+"+)(?:(\s|$))", r" \1 ", tok_sentence);
 
 	# tokenizes all tokenized_chars
-	trans_table = dict((ord(char), " " + ord(char) + " ") for char in tokenized_chars)
+	trans_table = dict((ord(char), " " + char + " ") for char in tokenized_chars)
 	tok_sentence = sentence.translate(trans_table)
 
 	return tok_sentence
@@ -337,16 +329,15 @@ def Clean_Sentence(sentence, translate_table, new_suffix_list):
 	"""
 		Cleans sentence from invalid chars
 	"""
-	#python3 doesn't need decode
-	#sentence = unicode(sentence)
-
 	# remove unaccepted characters
 	temp_sentence = sentence.translate(translate_table)
 	# remove underscores completely, so they are token-splitters
 	temp_sentence = re.sub(r"_", " ", temp_sentence)
 	# remove asterisk, so they are token-splitters
 	temp_sentence = re.sub(r"\*", " ", temp_sentence)
-	temp_sentece = Remove_Suffixes(temp_sentence, new_suffix_list)
+	# remove long-dashes completely, so they are token-splitters
+	temp_sentence = re.sub(r"—", " ", temp_sentence)
+	temp_sentence = Remove_Suffixes(temp_sentence, new_suffix_list)
 
 	return temp_sentence
 
@@ -361,13 +352,11 @@ def Normalize_Sentence(sentence, separate_contractions):
 
 		# Normalize apostrophes, dashes and quotes obtained from Wikipedia 
 	# Apostrophe page
-	sentence = re.sub(r"[\`]|’|‘", "'", sentence)
+	sentence = re.sub(r"`|’|‘", "'", sentence)
 	sentence = re.sub(r"‑|‐", "-", sentence)
 	# some dashes look the same, but they are different
 	sentence = re.sub(r"-{2,}|―|—|–|‒", "—", sentence) 
-	# remove long-dashes completely, so they are token-splitters
-	sentence = re.sub(r"—", " ", sentence)
-	sentence = re.sub(r"\'\'|“|”", '\\"', sentence)
+	sentence = re.sub(r"''|“|”", '"', sentence)
 	if separate_contractions == True:
 		# separate contractions (e.g. They're -> They 're)
 		sentence = re.sub(r"(?<=[a-zA-Z])'(?=[a-zA-Z])", " '", sentence)
@@ -375,7 +364,7 @@ def Normalize_Sentence(sentence, separate_contractions):
 
 def Pad_quotes(sentence):
 	# sentence splitter escapes double quotes, as needed by guile
-	sentence = re.sub(r'\\"|"', ' \\" ', sentence)
+	sentence = re.sub(r'"', ' " ', sentence)
 	sentence = re.sub(r"'", " ' ", sentence)
 	return sentence
 

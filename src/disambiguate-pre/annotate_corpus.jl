@@ -46,7 +46,7 @@ function annotate_file(corpus, outfile, vm, dict, separator, min_prob, win)
                         end
                     end
                     deleteat!(context, rm_index)
-                    println(context)
+                    #println(context)
                     annotate_word(fo, separator, min_prob, vm, dict, i[2], context)
                 end
                 seek(fo, position(fo) - 1)
@@ -104,3 +104,4 @@ end
 for file in readdir(corpus_dir)
     annotate_file(corpus_dir * "/" * file, output_dir * "/" * file * "_disamb", vm, dict, separator, min_prob, win)
 end
+

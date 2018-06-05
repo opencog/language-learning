@@ -7,7 +7,7 @@
 
 function annotate_word(outfile, separator, threshold, vm, dict, word, context)
 """
-    writes word in the outfile.
+    Writes word in the outfile.
     If the word has more than one sense above threshold in vm model, 
     its context is used to get the current sense, and
     it's annotated with separator and sense number
@@ -49,7 +49,7 @@ function annotate_file(corpus, outfile, vm, dict, separator, min_prob, win)
                     println(context)
                     annotate_word(fo, separator, min_prob, vm, dict, i[2], context)
                 end
-                seek(fo, position(fo)-1)
+                seek(fo, position(fo) - 1)
                 write(fo, "\n")
             end
         end

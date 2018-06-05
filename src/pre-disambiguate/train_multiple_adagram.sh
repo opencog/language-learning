@@ -4,7 +4,7 @@ declare -a windows=(1 3)
 declare -a alphas=(0.1 0.3 0.5 0.7 0.9 1.1)
 workers=8
 dim=300
-epochs=1
+epochs=1000000
 
 for window in "${windows[@]}"
 do

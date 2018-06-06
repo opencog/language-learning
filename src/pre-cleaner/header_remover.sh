@@ -9,13 +9,13 @@ for file in $PWD/$1/*
 do
 	echo "Processing file ${file}"
 
-    X="$(sed -n '/START OF THIS PROJECT GUTENBERG EBOOK/=' $file)"
+    X="$(sed -n '/START OF/=' $file)"
     if [ "$X" = "" ];
     then X=0;
 	fi
 	((X++))
 
-    Y="$(sed -n '/END OF THIS PROJECT GUTENBERG EBOOK/=' $file)"
+    Y="$(sed -n '/END OF/=' $file)"
     if [ "$Y" = "" ];
     then Y=1000000;
 	fi

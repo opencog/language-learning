@@ -12,4 +12,5 @@ mkdir -p $HEADLESS_DIR
 
 $CLEANER_PATH/header_remover.sh $1 $HEADLESS_DIR
 
-$CLEANER_PATH/run_cleaner.sh $@
+shift
+$CLEANER_PATH/run_cleaner.sh $HEADLESS_DIR $@

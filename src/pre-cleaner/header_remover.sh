@@ -10,13 +10,13 @@ for file in $PWD/$1/*
 do
 	echo "Processing file ${file}"
 
-    X="$(sed -n '/\*\*\*\s?START OF TH/=' $file)"
+    X="$(sed -rn '/\*\*\*\s?START OF TH/=' $file)"
     if [ "$X" = "" ];
     then X=0;
 	fi
 	((X++))
 
-    Y="$(sed -n '/\*\*\*\s?END OF TH/=' $file)"
+    Y="$(sed -rn '/\*\*\*\s?END OF TH/=' $file)"
     if [ "$Y" = "" ];
     then Y=1000000;
 	fi

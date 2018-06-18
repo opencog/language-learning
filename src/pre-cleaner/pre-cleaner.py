@@ -202,9 +202,6 @@ def main(argv):
 				continue
 			tokenized_sentence = Remove_Invalid_Tokens(tokenized_sentence, token_invalid_symbols)
 			final_sentence = " ".join(tokenized_sentence) + "\n"
-			# backslash for double quotes and backslash needed by guile
-			final_sentence = re.sub(r'"', '\\"', final_sentence)
-			#final_sentence = re.sub(r'\\(?!\")', "\\\\", final_sentence)
 			if convert_lowercase == True:
 				final_sentence = final_sentence.lower()
 			if add_splitters == True:

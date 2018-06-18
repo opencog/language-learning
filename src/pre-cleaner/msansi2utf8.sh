@@ -13,5 +13,4 @@ do
 	mkdir -p $2
 
 	sed -r "s/\x91/'/g; s/\x92/'/g; s/\x93/\"/g; s/\x94/\"/g" $file > "${2}/${filename}_utf8"
-	#tail -n +"$start_line" $file | head -n "$((start_line - end_line))" > trash
 done

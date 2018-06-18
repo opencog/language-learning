@@ -1,22 +1,32 @@
 #!/bin/bash
 
 # ASuMa, Apr 2018
-# Usage FULL_PATH/run_cleaner -i <inputdir> -o <outputdir> [other args]
+# Usage FULL_PATH/run_cleaner <inputdir> <outputdir> --nosplitter [other args for pre-cleaner.py]
 # Run from directory above your inputdir
+
 
 CLEANER_PATH="`dirname \"$0\"`"
 
-SPLIT_DIR=split_books
-mkdir -p $SPLIT_DIR
+INPUT_DIR=$1
+OUTPUT_DIR=$2
 
-for file in $PWD/$2/*
-do
-	filename=$(basename -- "$file")
-	echo $file
-    $CLEANER_PATH/split-sentences.pl < $file > "${SPLIT_DIR}/${filename}_split"
-done
+if [ "$3" == "nosplitter" ]
+then
+	shift
+else
+	SPLIT_DIR=split_books
+	mkdir -p $SPLIT_DIR
 
-mkdir -p $4
+	for file in $PWD/${INPUT_DIR}/*
+	do
+		filename=$(basename -- "$file")
+		echo $file
+	    $CLEANER_PATH/split-sentences.pl < $file > "${SPLIT_DIR}/${filename}_split"
+	done
+	INPUT_DIR=$SPLIT_DIR
+fi
+shift 2
 
-$CLEANER_PATH/pre-cleaner.py $@
+mkdir -p $OUTPUT_DIR
 
+$CLEANER_PATH/pre-cleaner.py -i $INPUT_DIR -o $OUTPUT_DIR $@

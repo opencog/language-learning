@@ -6,11 +6,14 @@
 
 CLEANER_PATH="`dirname \"$0\"`"
 
+SPLIT_DIR=split_books
+mkdir -p $SPLIT_DIR
+
 for file in $PWD/$2/*
 do
+	filename=$(basename -- "$file")
 	echo $file
-    $CLEANER_PATH/split-sentences.pl < $file > "${file}_split"
-    rm $file
+    $CLEANER_PATH/split-sentences.pl < $file > "${SPLIT_DIR}/${filename}_split"
 done
 
 mkdir -p $4

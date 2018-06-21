@@ -206,7 +206,7 @@ sub preprocess
 
 	# Escape double-quotes. This is neded to prevent guile from messing
 	# with them.
-	$text =~ s/\"/\\\"/g;
+	#$text =~ s/\"/\\\"/g;
 
 	return $text;
 }

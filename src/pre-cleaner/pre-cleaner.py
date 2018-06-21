@@ -202,9 +202,6 @@ def main(argv):
 				continue
 			tokenized_sentence = Remove_Invalid_Tokens(tokenized_sentence, token_invalid_symbols)
 			final_sentence = " ".join(tokenized_sentence) + "\n"
-			# backslash for double quotes and backslash needed by guile
-			final_sentence = re.sub(r'"', '\\"', final_sentence)
-			#final_sentence = re.sub(r'\\(?!\")', "\\\\", final_sentence)
 			if convert_lowercase == True:
 				final_sentence = final_sentence.lower()
 			if add_splitters == True:
@@ -438,7 +435,7 @@ def Substitute_Percent(sentence):
 		Substitutes percents with special token
 	"""
 	# handles any number as in Substitute_Numbers, ending with % sign
-	sentence = re.sub(r'''(?<![^\s])[+-]?[.,;]?(\d+[.,;']?)+%(?![^\s.,;!?'"])''', 
+	sentence = re.sub(r'''(?<![^\s"'[(])[+-]?[.,;]?(\d+[.,;']?)+%(?![^\s.,;!?'")\]])''', 
 		               '@percent@', sentence)
 	return sentence
 
@@ -448,7 +445,7 @@ def Substitute_Numbers(sentence):
 		Substitutes numbers with special token
 	"""
 	# handles trailing/leading decimal mark
-	sentence = re.sub(r'''(?<![^\s])[+-]?[.,;]?(\d+[.,;']?)+(?![^\s.,;!?'"])''',
+	sentence = re.sub(r'''(?<![^\s"'[(])[+-]?[.,;]?(\d+[.,;']?)+(?![^\s.,;!?'")\]])''',
 	 			       '@number@', sentence)
 	return sentence
 
@@ -472,3 +469,4 @@ def Remove_Suffixes(sentence, suffix_list):
 
 if __name__ == "__main__":
 	main(sys.argv[1:])
+

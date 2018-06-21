@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# encoding: utf-8
+# coding=utf-8
 # runs on python3
 
 # ASuMa, Feb 2018
@@ -236,11 +236,12 @@ def Decode_Escaped(sentence):
 		Converts found escaped HTML and unicode symbols to
 		their printable version
 	""" 
-	decode_sentence = bytes(sentence, 'ascii').decode('unicode-escape')
+	#decode_sentence = bytes(sentence, 'ascii').decode('unicode-escape')
 
 	# html escaped sequencues
 	h = HTMLParser()
-	decode_sentence = h.unescape(decode_sentence)
+	#decode_sentence = h.unescape(decode_sentence)
+	decode_sentence = h.unescape(sentence)
 
 	return decode_sentence
 

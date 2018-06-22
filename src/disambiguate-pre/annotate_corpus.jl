@@ -1,9 +1,11 @@
 # ASuMa May, 2018
-# This script takes a corpus and an AdaGram model
+# This script takes a directory with a number of corpora and an AdaGram model
 # and outputs a corpus annotated with word senses, if there is more
 # than one sense above the threshold for a given word
 
-# usage: annotate_corpus AdaGramFile corpus-dir output-dir [--joiner=@] [--min-prob=0.3] [--window=4]
+# usage:
+#   annotate_corpus AdaGramFile corpus-dir 
+#                   output-dir [--joiner=@] [--min-prob=0.3] [--window=4]
 # see arg table for meaning of parameters
 
 #push!(LOAD_PATH, "./src/")
@@ -93,7 +95,9 @@ end
 
 args = parse_args(ARGS, s)
 
-vm, dict = load_model(args["AdaGramFile"]);
+model = args["AdaGramFile"];
+
+vm, dict = load_model(model);
 
 separator = args["joiner"]
 min_prob = args["min-prob"]
@@ -105,6 +109,6 @@ if !isdir(output_dir)
 end
 
 for file in readdir(corpus_dir)
-    annotate_file(corpus_dir * "/" * file, output_dir * "/" * file * "_disamb", vm, dict, separator, min_prob, win)
+    annotate_file(corpus_dir * "/" * file, output_dir * "/" * file * model * "_disamb", vm, dict, separator, min_prob, win)
 end
 

@@ -1,7 +1,10 @@
-# This script takes a corpus and an AdaGram model
-# and outputs an annotated corpus with word senses, if there is more
-# than one for a word
 # ASuMa May, 2018
+# This script takes a corpus and an AdaGram model
+# and outputs a corpus annotated with word senses, if there is more
+# than one sense above the threshold for a given word
+
+# usage: annotate_corpus AdaGramFile corpus-dir output-dir [--joiner=@] [--min-prob=0.3] [--window=4]
+# see arg table for meaning of parameters
 
 #push!(LOAD_PATH, "./src/")
 
@@ -81,7 +84,7 @@ s = ArgParseSettings()
   "--min-prob"
     help = "Min probability of second sense to consider a word ambiguous"
     arg_type = Float64
-    default = 0.05
+    default = 0.3
   "--window"
     help = "Size of window to look for context"
     arg_type = Int64

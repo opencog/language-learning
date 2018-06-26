@@ -201,11 +201,12 @@ sub preprocess
 
 	# Escape back-slashes.  This is neded to prevent guile from messing
 	# with them.
-	$text =~ s/\\/\\\\/g;
+	# DEACTIVATED AS IT IS HANDLED BY PRE-CLEANER
+	#$text =~ s/\\/\\\\/g;
 
 	# Escape double-quotes. This is neded to prevent guile from messing
 	# with them.
-	$text =~ s/\"/\\\"/g;
+	#$text =~ s/\"/\\\"/g;
 
 	return $text;
 }

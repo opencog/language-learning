@@ -1,7 +1,12 @@
-# This script takes a corpus and an AdaGram model
-# and outputs an annotated corpus with word senses, if there is more
-# than one for a word
 # ASuMa May, 2018
+# This script takes a directory with a number of corpora and an AdaGram model
+# and outputs a corpus annotated with word senses, if there is more
+# than one sense above the threshold for a given word
+
+# usage:
+#   annotate_corpus AdaGramFile corpus-dir 
+#                   output-dir [--joiner=@] [--min-prob=0.3] [--window=4]
+# see arg table for meaning of parameters
 
 #push!(LOAD_PATH, "./src/")
 
@@ -46,7 +51,7 @@ function annotate_file(corpus, outfile, vm, dict, separator, min_prob, win)
                         end
                     end
                     deleteat!(context, rm_index)
-                    println(context)
+                    #println(context)
                     annotate_word(fo, separator, min_prob, vm, dict, i[2], context)
                 end
                 seek(fo, position(fo) - 1)
@@ -81,7 +86,7 @@ s = ArgParseSettings()
   "--min-prob"
     help = "Min probability of second sense to consider a word ambiguous"
     arg_type = Float64
-    default = 0.05
+    default = 0.3
   "--window"
     help = "Size of window to look for context"
     arg_type = Int64
@@ -90,7 +95,9 @@ end
 
 args = parse_args(ARGS, s)
 
-vm, dict = load_model(args["AdaGramFile"]);
+model = args["AdaGramFile"];
+
+vm, dict = load_model(model);
 
 separator = args["joiner"]
 min_prob = args["min-prob"]
@@ -102,5 +109,6 @@ if !isdir(output_dir)
 end
 
 for file in readdir(corpus_dir)
-    annotate_file(corpus_dir * "/" * file, output_dir * "/" * file * "_disamb", vm, dict, separator, min_prob, win)
+    annotate_file(corpus_dir * "/" * file, output_dir * "/" * file * model * "_disamb", vm, dict, separator, min_prob, win)
 end
+

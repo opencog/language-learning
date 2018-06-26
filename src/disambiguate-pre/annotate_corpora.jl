@@ -4,7 +4,7 @@
 # than one sense above the threshold for a given word
 
 # usage:
-#   annotate_corpus AdaGramFile corpus-dir 
+#   annotate_corpora model-dir corpus-dir 
 #                   output-dir [--joiner=@] [--min-prob=0.3] [--window=4]
 # see arg table for meaning of parameters
 
@@ -67,8 +67,8 @@ using AdaGram
 s = ArgParseSettings()
 
 @add_arg_table s begin
-  "AdaGramFile"
-    help = "File with AdaGram model"
+  "model-dir"
+    help = "Directory with AdaGram model(s)"
     arg_type = AbstractString
     required = true
   "corpus-dir"
@@ -95,20 +95,23 @@ end
 
 args = parse_args(ARGS, s)
 
-model = args["AdaGramFile"];
-
-vm, dict = load_model(model);
-
 separator = args["joiner"]
 min_prob = args["min-prob"]
 win = args["window"]
 corpus_dir = args["corpus-dir"]
 output_dir = args["output-dir"]
+model_dir = args["model-dir"]
 if !isdir(output_dir) 
     mkdir(output_dir) 
 end
 
-for file in readdir(corpus_dir)
-    annotate_file(corpus_dir * "/" * file, output_dir * "/" * file * model * "_disamb", vm, dict, separator, min_prob, win)
-end
+for model in readdir(model_dir)
 
+    vm, dict = load_model(model_dir * "/" * model);
+
+    for file in readdir(corpus_dir)
+        println("Annotating " * file * " with model " * model)
+        annotate_file(corpus_dir * "/" * file, output_dir * "/" * file * model * "_disamb", vm, dict, separator, min_prob, win)
+    end
+
+end

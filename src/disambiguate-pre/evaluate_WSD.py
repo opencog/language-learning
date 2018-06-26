@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 # ASuMa, May 2018
-# Modified from AdaGram's test-all.py to evaluate WSD in annotated
-# corpus produced with annotate_corpus.jl.
+# Modified from AdaGram's test-all.py to evaluate WSD in sense-annotated
+# corpus, using a gold standard, which can be laborious to create.
 # Similarly to AdaGram (http://proceedings.mlr.press/v51/bartunov16.pdf), 
 # three metrics are used: V-Measure, F-score and ARI.
 
@@ -69,43 +69,63 @@ def compute_metrics(answers, predictions):
             aris.append(adjusted_rand_score(true, pred))
         vscores.append(v_measure_score(true, pred))
         fscores.append(compute_fscore(true, pred))
-#        print '%s: ari=%f, vscore=%f, fscore=%f' % (k, aris[-1], vscores[-1], fscores[-1])
+#        print('%s: ari=%f, vscore=%f, fscore=%f' % (k, aris[-1], vscores[-1], fscores[-1]))
     aris = np.array(aris)
     vscores = np.array(vscores)
     fscores = np.array(fscores)
     weights = np.array(weights)
-    print 'number of one-sense words: %d' % (len(vscores) - len(aris))
-    print 'mean ari: %f' % np.mean(aris)
-    print 'mean vscore: %f' % np.mean(vscores)
-    print 'weighted vscore: %f' % np.sum(vscores * (weights / float(np.sum(weights))))
-    print 'mean fscore: %f' % np.mean(fscores)
-    print 'weighted fscore: %f' % np.sum(fscores * (weights / float(np.sum(weights))))
-    return np.mean(aris),np.mean(vscores)
+    print('number of one-sense words in reference: %d' % (len(vscores) - len(aris)))
+    print('mean ari: %f' % np.mean(aris))
+    print('mean vscore: %f' % np.mean(vscores))
+    #print('weighted vscore: %f' % np.sum(vscores * (weights / float(np.sum(weights)))))
+    print('mean fscore: %f' % np.mean(fscores))
+    #print('weighted fscore: %f' % np.sum(fscores * (weights / float(np.sum(weights)))))
+    return np.mean(aris),np.mean(vscores),np.mean(fscores)
 
 def main(argv):
     import getopt
 
     separator = "@"
     try:
-        opts, args = getopt.getopt(argv, "ht:r:s:", ["test=", "reference=", "separator="])
+        opts, args = getopt.getopt(argv, "ht:r:s:", ["testdir=", "reference=", "separator="])
     except getopt.GetoptError:
-        print("Usage: ./evaluate_WSD.py -t <testfile> -r <reffile> -s <separator>")
+        print("Usage: ./evaluate_WSD.py -t <testdir> -r <reffile> [-s <separator>]")
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print("Usage: ./evaluate_WSD.py -t <testfile> -r <reffile> -s <separator>")
+            print("Usage: ./evaluate_WSD.py -t <testdir> -r <reffile> [-s <separator>]")
             sys.exit()
-        elif opt in ("-t", "--test"):
-            test_file = arg
+        elif opt in ("-t", "--testdir"):
+            test_dir = arg
         elif opt in ("-r", "--reference"):
             ref_file = arg
         elif opt in ("-s", "--separator"):
             separator = arg
 
-    true_answers = read_answers(ref_file, separator)
-    predictions = read_answers(test_file, separator)
-    compute_metrics(true_answers, predictions)
-    print('\n')
+    ari_list = []
+    vscore_list = []
+    fscore_list = []
+    eval_files = []
+    for test_file in os.listdir(test_dir):
+        print("Evaluating: {}".format(test_file))
+        eval_files.append(test_file)
+        true_answers = read_answers(ref_file, separator)
+        predictions = read_answers(test_dir + test_file, separator)
+        ari, vscore, fscore = compute_metrics(true_answers, predictions)
+        ari_list.append(ari)
+        vscore_list.append(vscore)
+        fscore_list.append(fscore)
+        print('\n')
+
+    max_ari = max(ari_list)
+    ari_indexes = [i for i, j in enumerate(ari_list) if j == max_ari]
+    print("Best ari: {} in files {}\n".format(max_ari, [eval_files[i] for i in ari_indexes]))
+    max_vscore = max(vscore_list)
+    vscore_indexes = [i for i, j in enumerate(vscore_list) if j == max_vscore]
+    print("Best vscore: {} in files {}\n".format(max_vscore, [eval_files[i] for i in vscore_indexes]))
+    max_fscore = max(fscore_list)
+    fscore_indexes = [i for i, j in enumerate(fscore_list) if j == max_fscore]
+    print("Best fscore: {} in files {}\n".format(max_fscore, [eval_files[i] for i in fscore_indexes]))
     
 if __name__ == '__main__':
     main(sys.argv[1:])

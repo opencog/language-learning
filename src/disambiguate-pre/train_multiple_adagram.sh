@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# This file lets do sequential training of an AdaGram model with a range
+# of parameters.
+# ASuMa, May 2018
+
+
 declare -a windows=(1 3)
 declare -a alphas=(0.5 0.7 0.9 1.1 1.3 1.5)
 workers=8

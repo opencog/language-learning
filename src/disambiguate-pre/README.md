@@ -1,11 +1,13 @@
 Files in this folder allow disambiguation of words in a corpus, given
-raw text as input.
+raw text as input, as well as evaluation tools.
 
-- Given a trained AdaGram model and a folder with corpus files, 
+*********************************************************************
+
+- Given a folder with trained AdaGram models and a one with corpus files, 
   `annotate_corpus.sh` will return a folder with the annotated corpus where 
   those words that are ambiguous are tagged with their sense.
 ```
-usage: annotate_corpus.sh [--window WINDOW] [--min-prob MIN-PROB] 
+usage: annotate_corpora.sh [--window WINDOW] [--min-prob MIN-PROB] 
 						  [--joiner SYMBOL] [-h] 
                 		  model corpus output
 ```
@@ -21,6 +23,8 @@ Here is the description of all parameters:
 * `corpus` — path to folder with corpus to annotate. Corpus files are expected 
   to contain only one sentence per line and be fully tokenized.
 * `output` — path to folder for saving the annotated corpus.
+
+******************************************************************************
 
 - Given a trained AdaGram model, `output_AdaGram_text.sh` returns all word
   senses included in the model above the optional threshold. File format

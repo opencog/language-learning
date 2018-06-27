@@ -22,7 +22,7 @@ function annotate_word(outfile, separator, threshold, vm, dict, word, context)
     if id != -1
         priors = expected_pi(vm, id)
         if length(find(priors .> threshold)) > 1
-            probs = disambiguate(vm, dict, word, context)
+            probs = disambiguate(vm, dict, word, context, true, threshold)
             best_sense = findmax(probs)[2]
             output_word = word * separator * string(best_sense)
         end

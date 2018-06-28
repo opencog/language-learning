@@ -7,6 +7,7 @@
 #
 # --nosplitter option for some text formats where splitting the file is 
 #              not necessary/convenient
+#
 # Run from directory above your inputdir
 
 

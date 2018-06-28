@@ -63,11 +63,11 @@ opts = BIT_SEP_STAT | BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BI
 # # ref = "/home/alex/data2/parses/poc_english.txt.ref"
 # ref = None
 
-# AGI-2018 Test
-dict = "/home/alex/data2/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
-corp = "/home/alex/data/poc-english/poc_english_noamb.txt"
-dest = "/home/alex/data2/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
-ref = "/home/alex/data/poc-english/poc_english_noamb_parse_ideal.txt"
+# # AGI-2018 Test
+# dict = "/home/alex/data2/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
+# corp = "/home/alex/data/poc-english/poc_english_noamb.txt"
+# dest = "/home/alex/data2/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
+# ref = "/home/alex/data/poc-english/poc_english_noamb_parse_ideal.txt"
 
 # # Gutenberg-Alice-2018-06-01 parse for ULL reference
 # dict = "en"
@@ -102,12 +102,6 @@ ref = "/home/alex/data/poc-english/poc_english_noamb_parse_ideal.txt"
 
 class GrammarTesterTestCase(unittest.TestCase):
 
-    # def test_snippet(self):
-    #     cfg_options = {"keep_caps": True, "keep_rwall": True, "parse_format": "diagram"}
-    #
-    #     print(get_options(cfg_options))
-
-
     @unittest.skip
     def test_test_with_conf(self):
         conf_path = "test-data/config/AGI-2018.json"
@@ -117,7 +111,7 @@ class GrammarTesterTestCase(unittest.TestCase):
         # self.assertEqual(25, gt._total_dicts)
         self.assertEqual(88, pm.sentences)
 
-    # @unittest.skip
+    @unittest.skip
     def test_test(self):
         pr = LGInprocParser()
 
@@ -129,20 +123,20 @@ class GrammarTesterTestCase(unittest.TestCase):
         # self.assertEqual(25, gt._total_dicts)
         self.assertEqual(88, pm.sentences)
 
-    @unittest.skip
-    def test_test_grammar(self):
-        file_name = "/var/tmp/test-grammar-stats"
-
-        def run_test():
-            test_grammar(corp, dest, dict, grmr, tmpl, limit, opts, ref)
-            return ""
-
-        cProfile.run(run_test())
-
-        # cProfile.run(print("!!!!!!"))
-        # p = pstats.Stats(file_name)
-        # p.strip_dirs().sort_stats(-1).print_stats()
-        self.assertTrue(True)
+    # @unittest.skip
+    # def test_test_grammar(self):
+    #     file_name = "/var/tmp/test-grammar-stats"
+    #
+    #     def run_test():
+    #         test_grammar(corp, dest, dict, grmr, tmpl, limit, opts, ref)
+    #         return ""
+    #
+    #     cProfile.run(run_test())
+    #
+    #     # cProfile.run(print("!!!!!!"))
+    #     # p = pstats.Stats(file_name)
+    #     # p.strip_dirs().sort_stats(-1).print_stats()
+    #     self.assertTrue(True)
 
 if __name__ == '__main__':
     unittest.main()

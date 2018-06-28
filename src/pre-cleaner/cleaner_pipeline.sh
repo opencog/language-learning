@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # ASuMa, June 2018
-# Usage FULL_PATH/cleaner_pipeline <inputdir> <outputdir> [more args to run_cleaner]
+# Usage: cleaner_pipeline.sh <inputdir> <outputdir> [more args to run_cleaner]
 # Run from directory above your inputdir
+# Runs header_remover.sh, followed by run_cleaner.sh
 
 CLEANER_PATH="`dirname \"$0\"`"
 

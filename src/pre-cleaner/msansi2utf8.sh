@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# USE ONLY ON FILES THAT ARE IDENTIFIED AS CODED IN MS-ANSI (CP1252)
+
 # ASuMa, June 2018
 # Replaces some MS-ANSI (CP1252) chars for the UTF-8 equivalent
 

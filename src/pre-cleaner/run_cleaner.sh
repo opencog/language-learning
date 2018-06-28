@@ -1,7 +1,12 @@
 #!/bin/bash
 
 # ASuMa, Apr 2018
-# Usage FULL_PATH/run_cleaner <inputdir> <outputdir> [--nosplitter] [other args for pre-cleaner.py]
+#
+# Usage: FULL_PATH/run_cleaner <inputdir> <outputdir> 
+#        [--nosplitter] [other args for pre-cleaner.py]
+#
+# --nosplitter option for some text formats where splitting the file is 
+#              not necessary/convenient
 # Run from directory above your inputdir
 
 

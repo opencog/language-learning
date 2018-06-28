@@ -1,0 +1,98 @@
+[
+  {
+    "component": "grammar-tester",
+    "parameters": [
+      {
+        "input_grammar": "~/data/parses/Child-Directed-Speech-2018-06-26/br-text",
+        "input_corpus": "/home/akolonin/data/parses/English/Children/ChildDirectedSpeech/LG/br-text.txt_headless_default.ull",
+        "template_path": "~/data/dict/poc-turtle",
+        "grammar_root": "~/data/dict",
+        "output_path": "~/data/parses/Child-Directed-Speech-2018-06-26/br-text",
+        "ref_path": "/home/akolonin/data/parses/English/Children/ChildDirectedSpeech/LG/br-text.txt_headless_default.ull",
+        "parse_format": "ull",
+        "linkage_limit": "100",
+        "rm_grammar_dir": true,
+        "use_link_parser": true,
+        "ull_input": true,
+        "ignore_left_wall": true,
+        "ignore_period": true,
+        "calc_parse_quality": true
+      },
+      {
+        "input_grammar": "~/data/parses/Child-Directed-Speech-2018-06-26/brent9mos",
+        "input_corpus": "/home/akolonin/data/parses/English/Children/ChildDirectedSpeech/LG/brent9mos.txt_headless_default.ull",
+        "template_path": "~/data/dict/poc-turtle",
+        "grammar_root": "~/data/dict",
+        "output_path": "~/data/parses/Child-Directed-Speech-2018-06-26/brent9mos",
+        "ref_path": "/home/akolonin/data/parses/English/Children/ChildDirectedSpeech/LG/brent9mos.txt_headless_default.ull",
+        "parse_format": "ull",
+        "linkage_limit": "100",
+        "rm_grammar_dir": true,
+        "use_link_parser": true,
+        "ull_input": true,
+        "ignore_left_wall": true,
+        "ignore_period": true,
+        "calc_parse_quality": true
+      }
+    ]
+  },
+  {
+    "component": "dash-board",
+    "parameters": [
+      {
+        "board_type": "file",
+        "file_path": "~/data/parses/Child-Directed-Speech-2018-06-26/Child-Directed-Speech.csv",
+        "board_name": "Child-Directed-Speech",
+        "row_count": 9,
+        "col_count": 11,
+        "row_key": "{4}-{3}-{0}",
+        "col_key": "{2}",
+        "value_keys": [
+          "ChildDirected/{nodes[4]:<9}",
+          "{nodes[3]:<30}",
+          "{nodes[0]:<18}",
+          "{parseability}",
+          "{parseability}",
+          "{parseability}",
+          "{parseability}",
+          "{parsequality}",
+          "{parsequality}",
+          "{parsequality}",
+          "{parsequality}"
+        ],
+        "col_headers": [
+          [
+            {"title": "Corpus"},
+            {"title": "Parsing/MI counting"},
+            {"title": "Generalization"},
+            {"title": "Connectors/DRK/Connectors"},
+            {"title": "Connectors/DRK/Disjuncts"},
+            {"title": "Disjuncts/DRK/Disjuncts"},
+            {"title": "Disjuncts/ILE/Disjuncts"},
+            {"title": "Connectors/DRK/Connectors"},
+            {"title": "Connectors/DRK/Disjuncts"},
+            {"title": "Disjuncts/DRK/Disjuncts"},
+            {"title": "Disjuncts/ILE/Disjuncts"}
+          ]
+        ],
+        "row_indexes": {
+          "br-text-LG_English-no_generalization": [1],
+          "br-text-LG_English-generalized_rules": [2],
+          "br-text-R=6_Weight=6:R_mst-weight=1:R-no_generalization": [3],
+          "br-text-R=6_Weight=6:R_mst-weight=1:R-generalized_rules": [4],
+
+          "brent9mos-LG_English-no_generalization": [5],
+          "brent9mos-LG_English-generalized_rules": [6],
+          "brent9mos-R=6_Weight=6:R_mst-weight=1:R-no_generalization": [7],
+          "brent9mos-R=6_Weight=6:R_mst-weight=1:R-generalized_rules": [8]
+        },
+        "col_indexes": {
+          "connectors-DRK-connectors": [3, 7],
+          "connectors-DRK-disjuncts": [0, 1, 2, 4, 8],
+          "disjuncts-DRK-disjuncts": [5, 9],
+          "disjuncts-ILE-disjuncts": [6, 10]
+        }
+      }
+    ]
+  }
+]

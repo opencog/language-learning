@@ -1,11 +1,7 @@
 import unittest
 import os
 
-try:
-    from link_grammar.cliutils import *
-
-except ImportError:
-    from cliutils import *
+from ull.common.cliutils import *
 
 
 class TestCliUtils(unittest.TestCase):

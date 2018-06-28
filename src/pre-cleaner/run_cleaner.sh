@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ASuMa, Apr 2018
-# Usage FULL_PATH/run_cleaner <inputdir> <outputdir> --nosplitter [other args for pre-cleaner.py]
+# Usage FULL_PATH/run_cleaner <inputdir> <outputdir> [--nosplitter] [other args for pre-cleaner.py]
 # Run from directory above your inputdir
 
 
@@ -10,7 +10,7 @@ CLEANER_PATH="`dirname \"$0\"`"
 INPUT_DIR=$1
 OUTPUT_DIR=$2
 
-if [ "$3" == "nosplitter" ]
+if [ "$3" == "--nosplitter" ]
 then
 	shift
 else

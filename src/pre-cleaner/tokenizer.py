@@ -3,6 +3,8 @@
 
 # ASuMa, Mar 2018
 # Tokenizer that uses LG functionality
+# Usage: tokenizer.py -i <inputfile> -o <outputfile>
+
 
 import getopt, sys
 from linkgrammar import Linkage, Sentence, ParseOptions, Dictionary, Clinkgrammar as clg
@@ -34,7 +36,7 @@ def main(argv):
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print 'Usage: tokenizer.py -i <inputfile> -o <outputfile> [-S]'
+            print('Usage: tokenizer.py -i <inputfile> -o <outputfile> [-S]')
             sys.exit()
         elif opt in ("-i", "--ifile"):
             inputfile = arg

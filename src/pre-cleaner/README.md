@@ -1,8 +1,8 @@
 #ASuMa, Feb 2018. Updated, Apr 2018.
 
-Directory for pre-cleaner tools: run_cleaner.sh split-sentences.pl, 
-                                 pre-cleaner.py, and tokenizer.py,
-                                 header_remover.sh, cleaner_pipeline.sh
+Directory for pre-cleaner tools.
+
+###########################
 
 The pre-cleaner pipeline can be run with script run_cleaner.sh, which will
 call split-sentences.pl and pre-cleaner.py to process all files in the given
@@ -19,17 +19,23 @@ instead of run_cleaner.sh
 
 The rest of the files in the folder are described below:
 
-#########################################################################################
-Sentence splitting is done by Multi-language sentence splitter from language learning pipeline: split-sentences.pl
+###############################
+
+Sentence splitting is done by Multi-language sentence splitter from language
+learning pipeline: split-sentences.pl
 **TODO***
-- include arbitrary symbols to do sentence splitting. At least optionally colon and semi-colon.
+- include arbitrary symbols to do sentence splitting. At least optionally 
+colon and semi-colon.
 
 **ISSUES**
-- If sentence doesn't end with end-of-sentence mark, it doesn't split (dot, question mark, etc), even if
+- If sentence doesn't end with end-of-sentence mark, it doesn't split (dot,
+ question mark, etc), even if
   separate line
 
-#########################################################################################
-Text-cleaning is done by pre-cleaner.py. It takes a directory with files pre-processed with sentence splitter. Main function documents all posibilities; they're copied here:
+###############################
+Text-cleaning is done by pre-cleaner.py. It takes a directory with files 
+pre-processed with sentence splitter. Main function documents all 
+posibilities; they're copied here:
         Pre-cleaner takes two mandatory arguments and several optional ones:
 
         ```
@@ -76,7 +82,7 @@ Text-cleaning is done by pre-cleaner.py. It takes a directory with files pre-pro
                             split_sentences.pl, even if text is lowercased (they're added by default)
         ]
         ```        
-#########################################################################################
+##########################
 Tokenization is done by tokenizer.py, using LG 'any' language dictionary. 
 Main function documents arguments; they're copied here:
 

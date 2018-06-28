@@ -2,9 +2,13 @@
 
 # ASuMa, May 2018
 # Modified from AdaGram's test-all.py to evaluate WSD in sense-annotated
-# corpus, using a gold standard, which can be laborious to create.
+# corpora inside a given directory, using a gold standard file, 
+# which can be laborious to create.
 # Similarly to AdaGram (http://proceedings.mlr.press/v51/bartunov16.pdf), 
 # three metrics are used: V-Measure, F-score and ARI.
+
+# "Usage: ./evaluate_WSD.py -t <testdir> -r <reffile> [-s <separator>]"
+# where <separator> is the character used to annotate the file
 
 import numpy as np
 import sys

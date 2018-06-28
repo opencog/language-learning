@@ -5,7 +5,7 @@ unlabelled text as input, as well as evaluation tools.
 
 - `train_multiple_adagram.sh` allows to automatically train a number of models
   with different parameters for the same corpus and dictionary. 
-  The parameters to explore are specified inside the file.
+  The parameters to explore and Adagram's path are specified inside the file.
   Corpus should be pre-processed, 
   for example with language-learning/src/pre-cleaner tools, including tokenizer.py.
   For details about AdaGram's parameters and dictionary file, please refer to
@@ -57,3 +57,7 @@ Here is the description of all parameters:
 * `model` — path to AdaGram model to print out.
 * `output` — path to output the model's senses.
  
+***********************************************
+
+`evaluate_WSD.py` returns ARI, F-SCORE, and V-SCORE for a sense-annotated corpus,
+using a gold-standard annotated corpus as a reference.

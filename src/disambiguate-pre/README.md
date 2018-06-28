@@ -1,5 +1,20 @@
 Files in this folder allow disambiguation of words in a corpus, given
-raw text as input, as well as evaluation tools.
+unlabelled text as input, as well as evaluation tools.
+
+*********************************************************************
+
+- `train_multiple_adagram.sh` allows to automatically train a number of models
+  with different parameters for the same corpus and dictionary. 
+  The parameters to explore are specified inside the file.
+  Corpus should be pre-processed, 
+  for example with language-learning/src/pre-cleaner tools, including tokenizer.py.
+  For details about AdaGram's parameters and dictionary file, please refer to
+  AdaGram's documentation.
+
+```
+Usage: ./train_multiple_adagram.sh <corpus> <dictionary>
+
+```
 
 *********************************************************************
 
@@ -19,7 +34,7 @@ Here is the description of all parameters:
   has only one sense above MIN-PROB, then the word is considered unambiguous.
 * `SYMBOL` is the symbol to annotate words in the corpus. Default is "@".
   E.g. saw@tool
-* `model` — path to AdaGram model to use for disambiguation.
+* `model` — path to directory with AdaGram models to use for disambiguation.
 * `corpus` — path to folder with corpus to annotate. Corpus files are expected 
   to contain only one sentence per line and be fully tokenized.
 * `output` — path to folder for saving the annotated corpus.

@@ -1,12 +1,15 @@
 import sys
+import os
 
 try:
     from link_grammar.parsestat import calc_parse_quality
+    from link_grammar.lgparse import traverse_dir
 except:
     from parsestat import calc_parse_quality
+    from lgparse import traverse_dir
 
 
-__all__ = ['Load_File', 'Get_Parses', 'MakeSets', 'Evaluate_Parses', 'get_parses', 'eval_parses']
+__all__ = ['Load_File', 'Get_Parses', 'MakeSets', 'Evaluate_Parses', 'get_parses', 'eval_parses', 'compare_ull_files']
 
 
 def Load_File(filename):
@@ -30,16 +33,16 @@ def get_parses(data, ignore_wall:bool=True):
     """
     parses = []              # list of parses where each parse consists of two elements: sentence and the set of links
     parse = []
-    
+
     for line in data:
 
         # Suppose that sentence line always starts with a letter
         if line[0].isalpha() or line[0] == "[":
-            
+
             if len(parse) > 0:
                 parses.append(parse)
                 parse = []
-                
+
             parse.append((((line.replace("[", "")).replace("]", "")).replace("\n", "")).strip())
             parse.append(set())
             parse.append(int(0))
@@ -47,7 +50,7 @@ def get_parses(data, ignore_wall:bool=True):
         # Parses are always start with a digit
         elif line[0].isdigit():
             link = line.split()
-    
+
             assert len(link) == 4
 
             # Do not add LW and period links to the set if 'ignore_wall' is specified
@@ -59,7 +62,7 @@ def get_parses(data, ignore_wall:bool=True):
 
             # Only token indexes are added to the set
             parse[1].add((link[0], link[2]))
-            
+
     # Last parse should always be added to the list
     if len(parse) > 0:
         parses.append(parse)
@@ -114,7 +117,7 @@ def eval_parses(test_parses:list, ref_parses:list, verbose:bool, ignore=bool, of
         ignored_links /= float(total_linkages)
 
     print("\nParse quality: {0:2.2f}%".format(quality_ratio*100.0), file=ofile)
-    print("A total of {} parses".format(total_linkages), file=ofile)
+    print("A total of {} links".format(total_linkages), file=ofile)
     print("Average ignored links: {0:2.2f}".format(ignored_links), file=ofile)
     print("Average missing links: {0:2.2f}".format(missing_links), file=ofile)
     print("Average extra links:  {0:2.2f}".format(extra_links), file=ofile)
@@ -240,3 +243,53 @@ def Evaluate_Parses(test_parses, ref_parses, verbose, ignore, ofile):
     print("A total of {} ignored links".format(ignored_links), file=ofile)
     print("A total of {} missing links".format(missing_links), file=ofile)
     #print("A total of {} extra links".format(extra_links))
+
+
+def compare_ull_files(test_path, ref_file, verbose, ignore_WALL):
+    """ Initiates evaluation process for one or multiple files."""
+
+    def evaluate(test_file):
+        """ Callback evaluation function """
+        print("\nComparing parses:")
+        print("-----------------")
+        print("File being tested: '" + test_file + "'")
+        print("Reference file   : '" + ref_file + "'")
+
+        out_file = test_file + ".qc"
+        print("Result file      : '" + out_file + "'")
+
+        try:
+            test_data = Load_File(test_file)
+            # test_parses = Get_Parses(test_data)
+
+            test_parses = get_parses(test_data, ignore_WALL)
+
+            ref_data = Load_File(ref_file)
+            # ref_parses = Get_Parses(ref_data)
+
+            ref_parses = get_parses(ref_data, ignore_WALL)
+
+            with open(out_file, "w") as ofile:
+                print("Reference file   : '" + ref_file + "'", file=ofile)
+                # Evaluate_Parses(test_parses, ref_parses, verbose, ignore_WALL, ofile)
+
+                eval_parses(test_parses, ref_parses, verbose, ignore_WALL, ofile)
+
+        except IOError as err:
+            print("IOError: " + str(err))
+
+        except Exception as err:
+            print("Exception: " + str(err))
+
+
+    # If specified name is a file.
+    if os.path.isfile(test_path):
+        evaluate(test_path)
+
+    # If specified name is a directory.
+    elif os.path.isdir(test_path):
+        traverse_dir(test_path, ".ull2", evaluate, None, True)
+
+    # If file or directory does not exist.
+    else:
+        raise("Error: File or directory '" + test_path + "' does not exist.")

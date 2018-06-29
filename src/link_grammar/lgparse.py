@@ -1,5 +1,5 @@
 """
-    This module is common for multiple Link Grammar parse scripts. 
+    This module is common for multiple Link Grammar parse scripts.
         It exports:
             parse_file_with_api()   - function capable of parsing text files and calculating parse statistics.
             parse_corpus_files()    - function capable of traversing directory tree parsing each file.
@@ -17,9 +17,9 @@ try:
     from link_grammar.parsestat import calc_stat
 
 except ImportError:
-    from psparse import parse_postscript
-    from optconst import *
-    from parsestat import calc_stat
+    from src.link_grammar.psparse import parse_postscript
+    from src.link_grammar.optconst import *
+    from src.link_grammar.parsestat import calc_stat
 
 
 __all__ = ['parse_corpus_files', 'parse_file_with_api', 'parse_file_with_lgp', 'parse_batch_ps_output',

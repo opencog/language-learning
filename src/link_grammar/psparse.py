@@ -5,11 +5,11 @@ try:
     from link_grammar.optconst import *
 
 except ImportError:
-    from optconst import *
+    from src.link_grammar.optconst import *
 
 """
     Utilities for parsing postscript notated tokens and links, returned by Link Grammar API method Linkage.postscript()
-     
+
 """
 
 __all__ = ['strip_token', 'parse_tokens', 'parse_links', 'parse_postscript']

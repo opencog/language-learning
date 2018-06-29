@@ -147,7 +147,12 @@ class GrammarTester(AbstractGrammarTestClient):
             if args[CORP_ARG_REFF] is None:
                 return None
 
-            return args[CORP_ARG_REFF] + corpus_file_path[len(args[CORP_ARG_CORP]):] + ".ull"
+            ref_path = args[CORP_ARG_REFF] + corpus_file_path[len(args[CORP_ARG_CORP]):]
+
+            if (self._options & BIT_ULL_IN) and ref_path.endswith(".ull"):
+                return ref_path
+
+            return ref_path + ".ull"
 
         return args[CORP_ARG_REFF]
 

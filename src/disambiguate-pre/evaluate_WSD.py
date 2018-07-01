@@ -29,7 +29,7 @@ def compute_fscore(true, pred):
     true_pairs = get_pairs(true)
     pred_pairs = get_pairs(pred)
     int_size = len(set(true_pairs).intersection(pred_pairs))
-    # if there are just not enough pairs to compare
+    # if there are not enough pairs to compare
     if len(pred_pairs) == 0 or len(true_pairs) == 0:
         return 0
     p = int_size / float(len(pred_pairs))
@@ -37,6 +37,10 @@ def compute_fscore(true, pred):
     return 2*p*r/float(p+r)
 
 def read_answers(filename, sep):
+    """
+        Read word-sense-annotated file and create data structure
+        that translates each word sense to an id
+    """
     with open(filename, 'r') as f:
         keys = []
         senses = []
@@ -61,6 +65,10 @@ def read_answers(filename, sep):
         return answers
 
 def compute_metrics(answers, predictions):
+    """
+        Evaluates prediction against answers, and provides eval measures:
+        fscore, vscore, ari (adjusted random index)
+    """
     aris = []
     vscores = []
     fscores = []
@@ -87,6 +95,13 @@ def compute_metrics(answers, predictions):
     return np.mean(aris),np.mean(vscores),np.mean(fscores)
 
 def main(argv):
+    """
+        Modified from AdaGram's test-all.py to evaluate WSD in sense-annotated
+        corpora inside a given directory, using a gold standard file, 
+        which can be laborious to create.
+        Similarly to AdaGram (http://proceedings.mlr.press/v51/bartunov16.pdf), 
+        three metrics are used: V-Measure, F-score and ARI.
+    """
     import getopt
 
     separator = "@"

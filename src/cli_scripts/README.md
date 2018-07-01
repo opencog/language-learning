@@ -115,6 +115,30 @@ single file.
 ### Configuration Options Available For `grammar-test.py`
 
 
+|  Parameter  |  Type  |                    Meaning                 |  Values |
+|-------------|--------|--------------------------------------------|---------|
+|input_grammar| string | Path to `.dict` file to be tested          | Any valid path |
+|input_corpus | string | Path to corpus file or directory           | Any valid path |
+|template_path| string | Path to a valid Link Grammar dictionary to be used as a template when creating new dictionary with generated `.dict` file | Any valid path |
+|grammar_root | string | Path to a directory new dictionary will be created in | Any valid path |
+|output_path  | string | Path to store output parse and statistics files | Any valid path | 
+|ref_path     | string | Path to a single reference file, or directory | Any valid path |
+|parse_format | string | Type of parse output | ull, diagram, postscript, constituent_tree |
+|linkage_limit| integer| Maximum number of linkages for Link Grammar to generate | 1-10000 | 
+|rm_grammar_dir| boolean | Force grammar tester to remove existing grammar dictionary directory if it already exists. |true/false|
+|use_link_parser|boolean | Force grammar tester to use `link-parser` executable in a separate process as a parser.| true/false|
+|ull_input|boolean| Tells grammar tester that `.ull` file is used as an input corpus. When set to `true` lines starting with a digit are filtered out.| true/false|
+|ignore_left_wall|boolean| If set to `true` `LEFT-WALL` and period links are ignored when parse statistics is estimated.|true/false|
+|ignore_period|boolean| Force grammar tester to ignore period when parse statistics is estimated.| true/false|
+|calc_parse_quality|boolean| If set to `true` parse quality is calculated.|true/false|
+|keep_caps|boolean| Capitalized tokens are left untouched if set to `true`, lowered otherwise.| true/false|
+|keep_rwall|boolean| Keep RIGHT-WALL if set to `true`|true/false|
+|strip_suffix|boolean| Strip off token suffix if set to `true`.|true/false|
+|dup_dict_path|boolean| Duplicate subdirectory structure of `input_grammar` directory if set to `true`.|true/false|
+|separate_stat|boolean| Produce separate statistics file for each corpus file if set to `true`.|true/false|
+|store_dict_localy|boolean| Create dictionary subdirectory in the same subdirectory where output files are stored.|true/false|
+|no_left_wall_in_ull|boolean| Do not write `LEFT-WALL` links to `.ull` output file.|true/false|
+
 
 ## Configuring File Dashboard
 
@@ -203,4 +227,3 @@ because one graph node value may influence multiple rows/columns in the
 dashboard. Both dictionaries are initialized with corresponding `row_indexes`
 and `col_indexes` configuration parameters. Key string in each of the above
 mentioned parameters must correspond `row_key`/`col_key` format template.
-   

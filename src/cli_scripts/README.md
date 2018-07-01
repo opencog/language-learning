@@ -1,35 +1,13 @@
-# Link Grammar API Interaction Libraries and CLI scripts
+# CLI scripts
 
-There are several command line scripts along with assotiated libraries for grammar test and evaluation located in
-this directory. Command line scripts are usualy wrappers for library functions for handling command line arguments and
+This subdirectory contains command line scripts for handling different ULL pipeline operations. Command line scripts are usualy wrappers for library functions for handling command line arguments and
 options.
-
-## Libraries
-
-`cliutils.py` - Set of functions for handling command line arguments, handy when writing CLI scripts.
-
-`evaluate.py` - Set of functions for parse quality evaluation.
-
-`lgparse.py` - Set of high level subroutines to parse corpus files using Link Grammar API or link-parser subprocess.
-
-`optconst.py` - Set of bitmask constants, used for setting/resetting different parsing options when calling functions
-from `lgparse.py` module.
-
-`parse-stat.py` - Set of functions for parseability and parse quality estimation.
-
-`psparse.py` - Set of functions for parsing postscript notated linkages, returned by Link Grammar API or link-parser
-
 
 ## Command Line Scripts
 
-`grammar-test.py` - generated grammar test script (obsolete)
-
-`grammar-test2.py`- second version of generated grammar test script capable of parsing multiple corpus files with
+`grammar-test.py`- second version of generated grammar test script capable of parsing multiple corpus files with
                     multiple dictionaries. Actually, it is a wrapper over set of high level Link Grammar parse
-                    subroutines collected in `lgparse.py`.
-
-`lgparser.py`     - parser script capable of parsing input corpus file using Link Grammar API and generating link output
-                    in ULL defacto link output format.
+                    subroutines collected in `grammartest` package.
 
 `parse-eval.py` - parse quality estimation script
 

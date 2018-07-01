@@ -110,10 +110,10 @@ def main(argv):
     vscore_list = []
     fscore_list = []
     eval_files = []
+    true_answers = read_answers(ref_file, separator)
     for test_file in os.listdir(test_dir):
         print("Evaluating: {}".format(test_file))
         eval_files.append(test_file)
-        true_answers = read_answers(ref_file, separator)
         predictions = read_answers(test_dir + test_file, separator)
         ari, vscore, fscore = compute_metrics(true_answers, predictions)
         ari_list.append(ari)

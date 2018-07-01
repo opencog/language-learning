@@ -3,8 +3,11 @@
 
 # ASuMa, Mar 2018
 # Tokenizer that uses LG functionality
+# See main() documentation
+
 
 import getopt, sys
+import os
 from linkgrammar import Linkage, Sentence, ParseOptions, Dictionary, Clinkgrammar as clg
 
 any_dict = Dictionary('any') # Opens dictionary only once
@@ -14,45 +17,41 @@ def main(argv):
     """
         Tokenizer procedure that uses LG tokenizer with python bindings
 
-        Usage: tokenizer.py -i <inputfile> -o <outputfile>
+        Usage: tokenizer.py -i <inputdir> -o <outdir>
 
-        inputfile           Name of inputfile
-        outputfile          Name of ouputfile
-        -S                  Don't remove sentence splitters added by 
-                            pre-cleaner.py (default removes them)
+        inputdir           Name of input directory
+        outdir             Name of ouput directory
     """
 
     inputfile = ''
     outputfile = ''
-    remove_splitter = True
 
     try:
-        opts, args = getopt.getopt(argv, "hi:o:S", ["ifile=", "ofile=", 
-            "Splits"])
+        opts, args = getopt.getopt(argv, "hi:o:", ["inputdir=", "outdir="])
     except getopt.GetoptError:
-        print("Usage: tokenizer.py -i <inputfile> -o <outputfile> [-S]")
+        print("Usage: tokenizer.py -i <inputdir> -o <outdir>")
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print 'Usage: tokenizer.py -i <inputfile> -o <outputfile> [-S]'
+            print('Usage: tokenizer.py -i <inputdir> -o <outputdir>')
             sys.exit()
-        elif opt in ("-i", "--ifile"):
-            inputfile = arg
-        elif opt in ("-o", "--ofile"):
-            outputfile = arg
-        elif opt in ("-S", "--Splits"):
-            remove_splitter = False
+        elif opt in ("-i", "--inputdir"):
+            inputdir = arg
+        elif opt in ("-o", "--outdir"):
+            outdir = arg
 
-    sentences = Load_Files(inputfile)
+    if not os.path.exists(outdir):
+        os.makedirs(outdir)
 
-    fo = open(outputfile, "w")
-    for sentence in sentences:
-        if sentence == "<P>\n":
-            if remove_splitter == True:
-                continue
-        tokenized_sentence = Tokenize_Sentence(sentence, po)
-        Write_Output_Sentence(fo, tokenized_sentence)
-    fo.close()
+    for inputfile in os.listdir(inputdir):
+        sentences = Load_Files(inputdir + "/" + inputfile)
+        outfile = outdir + "/" + inputfile + "_tokenized"
+
+        fo = open(outfile, "w")
+        for sentence in sentences:
+            tokenized_sentence = Tokenize_Sentence(sentence, po)
+            Write_Output_Sentence(fo, tokenized_sentence)
+        fo.close()
 
 def Tokenize_Sentence(sentence, po):
     """

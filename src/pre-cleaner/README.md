@@ -1,32 +1,46 @@
 #ASuMa, Feb 2018. Updated, Apr 2018.
 
-Directory for pre-cleaner tools: run_cleaner.sh split-sentences.pl, 
-                                 pre-cleaner.py, and tokenizer.py
+Directory for pre-cleaner tools.
+
+###########################
 
 The pre-cleaner pipeline can be run with script run_cleaner.sh, which will
 call split-sentences.pl and pre-cleaner.py to process all files in the given
 directory.
-Usage: ./run_cleaner.sh <inptudir> <outputdir>
- Run from directory where executable is, provide full path to inputdir
- and only name of outputdir, no full path.
+# Usage: FULL_PATH/run_cleaner <inputdir> <outputdir> 
+#        [--nosplitter] [other args for pre-cleaner.py]
+# --nosplitter option for some text formats where splitting the file is 
+#              not necessary/convenient
+# Run from inputdir's parent directory
+
+If removing header is of interest, run cleaner_pipeline.sh 
+instead of run_cleaner.sh
+# Usage: cleaner_pipeline.sh <inputdir> <outputdir> [more args to run_cleaner]
 
 The rest of the files in the folder are described below:
 
-#########################################################################################
-Sentence splitting is done by Multi-language sentence splitter from language learning pipeline: split-sentences.pl
+###############################
+
+Sentence splitting is done by Multi-language sentence splitter from language
+learning pipeline: split-sentences.pl
 **TODO***
-- include arbitrary symbols to do sentence splitting. At least optionally colon and semi-colon.
+- include arbitrary symbols to do sentence splitting. At least optionally 
+colon and semi-colon.
 
 **ISSUES**
-- If sentence doesn't end with end-of-sentence mark, it doesn't split (dot, question mark, etc), even if
+- If sentence doesn't end with end-of-sentence mark, it doesn't split (dot,
+ question mark, etc), even if
   separate line
-- Escapes backslash, so pre-cleaner doesn't recognize unicode escape codes
 
-#########################################################################################
-Text-cleaning is done by pre-cleaner.py. It takes a directory with files pre-processed with sentence splitter. Main function documents all posibilities; they're copied here:
+###############################
+Text-cleaning is done by pre-cleaner.py. It takes a directory with files 
+pre-processed with sentence splitter. Main function documents all 
+posibilities; they're copied here:
         Pre-cleaner takes two mandatory arguments and several optional ones:
 
-        "Usage: pre-cleaner.py -i <inputdir> -o <outputdir> [-c <chars_invalid>] [-s <suffixes>] [-l <sentence_length>] [-t <token_length>] 
+        ```
+        "Usage: pre-cleaner.py -i <inputdir> -o <outputdir> [-c <chars_invalid>] [-b <bounday_chars>] 
+        [-a <tokenized_chars>][-s <suffixes>] [-l <sentence_length>] [-t <token_length>] 
         [-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]"
 
         inputdir            Directory with files to be processed.
@@ -36,6 +50,11 @@ Text-cleaning is done by pre-cleaner.py. It takes a directory with files pre-pro
         chars_invalid       Characters to delete from text (default = none). They need to be given as a
                             string without spaces between the characters, e.g. "$%^&" would eliminate
                             only those 4 characters from appearances in the text.
+        boundary_chars      Characters tokenized if token boundaries, only inside.
+                            Default: apostrophe, double quote.
+        tokenized_chars     Characters tokenized everywhere.
+                            Default: brackets, parenthesis, braces, comma, colon, semicolon, slash,
+                            currency signs, #, &, +, -
         suffixes            Suffixes to eliminate in text (default = none). They need to come in a string
                             separated by spaces.
                             For example, -s "'s 'd n't" would eliminate all suffixes 's, 'd, n't
@@ -52,27 +71,24 @@ Text-cleaning is done by pre-cleaner.py. It takes a directory with files pre-pro
                             string without spaces between the characters, e.g. "$%^&" would eliminate
                             all tokens that have those 4 characters.
         -U                  Keep uppercase letters (default is to convert to lowercase)
-        -q                  Keep quotes (default is to convert them to spaces)
-        -j                  Keep contractions together (default is separate them)
+        -q                  Pad quotes with spaces (default is to keep them as is)
+        -j                  Separate contractions (default is to keep them together)
         -n                  Keep numbers (default converts them to @number@ token)
         -d                  Keep dates (default converts them to @date@ token)
         -T                  Keep times (default converts them to @time@ token)
-        -H                  Keep hyperlinks (default converts them to @url@ token)
+        -H                  Keep hyperlinks/emails (default converts them to @url@/@email@ token)
         -e                  Keep escaped HTML and UniCode symbols (default decodes them)
         -S                  Don't add sentence splitter mark to be recognized by
                             split_sentences.pl, even if text is lowercased (they're added by default)
         ]
-        
-#########################################################################################
+        ```        
+##########################
 Tokenization is done by tokenizer.py, using LG 'any' language dictionary. 
-tokenizer.py takes a file previously processed by sentences splitting, and optionally pre-cleaning. 
 Main function documents arguments; they're copied here:
 
 Tokenizer procedure that uses LG tokenizer with python bindings
 
-        Usage: tokenizer.py -i <inputfile> -o <outputfile> [-S]
+        Usage: tokenizer.py -i <inputdir> -o <outdir>
 
-        inputfile           Name of inputfile
-        outputfile          Name of ouputfile
-        -S                  Don't remove sentence splitters added by 
-                            pre-cleaner.py (default removes them)
+        inputdir           Name of input directory
+        outdir             Name of ouput directory

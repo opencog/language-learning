@@ -199,11 +199,12 @@ sub preprocess
 	# Add trailing break.
 	$text .= "\n" unless $text =~ /\n$/;
 
+	# DEACTIVATED, as it is done by MST-pipeline
 	# Escape back-slashes.  This is neded to prevent guile from messing
 	# with them.
-	# DEACTIVATED AS IT IS HANDLED BY PRE-CLEANER
 	#$text =~ s/\\/\\\\/g;
 
+	# DEACTIVATED, as it is done by MST-pipeline
 	# Escape double-quotes. This is neded to prevent guile from messing
 	# with them.
 	#$text =~ s/\"/\\\"/g;

@@ -7,7 +7,7 @@ from ull.common.dirhelper import traverse_dir_tree, create_dir
 from ull.common.parsemetrics import ParseMetrics, ParseQuality
 from ull.common.fileconfman import JsonFileConfigManager
 from ull.common.cliutils import handle_path_string
-from ull.grammartest.textfiledashb import TextFileDashboard
+from ull.grammartest.textfiledashb import TextFileDashboard, HTMLFileDashboard
 
 from .lgmisc import create_grammar_dir
 from .optconst import *
@@ -331,6 +331,7 @@ def test_grammar_cfg(conf_path: str) -> (ParseMetrics, ParseQuality):
 
     try:
         cfgman = JsonFileConfigManager(conf_path)
+        # dboard = HTMLFileDashboard(cfgman)
         dboard = TextFileDashboard(cfgman)
         parser = LGInprocParser()
 

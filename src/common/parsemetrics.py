@@ -1,6 +1,6 @@
 from decimal import *
 
-__all__ = ["ParseMetrics", "ParseQuality"]
+__all__ = ["ParseMetrics", "ParseQuality", "PQA_str"]
 
 class ParseMetrics():
     """ Parse statistics data """
@@ -40,7 +40,7 @@ class ParseMetrics():
 
     @staticmethod
     def parseability_str(stat) -> str:
-        return "{0:06.2f}%".format(stat.parseability(stat))
+        return "{0:6.2f}%".format(stat.parseability(stat))
 
     @staticmethod
     def text(stat) -> str:
@@ -118,7 +118,7 @@ class ParseQuality():
 
     @staticmethod
     def parse_quality_str(stat) -> str:
-        return "{0:06.2f}%".format(stat.parse_quality(stat))
+        return "{0:6.2f}%".format(stat.parse_quality(stat))
 
     @staticmethod
     def text(stat) -> str:
@@ -158,3 +158,9 @@ class ParseQuality():
     #     self.ignored /= other
     #     self.quality /= other
     #     return self
+
+
+def PQA_str(pm: ParseMetrics, pq: ParseQuality) -> str:
+    return "PQA:\t{0:2.2f}%".format((pm.average_parsed_ratio / pm.sentences *
+                                pq.quality / pq.sentences * Decimal('100.0'))
+                                if pm.sentences else Decimal("0.0"))

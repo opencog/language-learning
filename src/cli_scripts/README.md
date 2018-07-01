@@ -216,7 +216,7 @@ vary, the nodes are passed in reverse order.
   
 For `value_keys` format strings use named variables within curly braces.
 Here is the list of available variables `nodes` (used with index), 
-`parseability`, `parsequality`.
+`parseability`, `parsequality`, `PQA`.
 
 ### Row And Column Search Definitions
 There are two dictionaries created when `TextFileDashboard` class instance is initialized.

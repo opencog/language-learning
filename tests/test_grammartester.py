@@ -102,7 +102,7 @@ ref = None
 
 class GrammarTesterTestCase(unittest.TestCase):
 
-    @unittest.skip
+    # @unittest.skip
     def test_test_with_conf(self):
         conf_path = "test-data/config/AGI-2018.json"
 
@@ -111,7 +111,7 @@ class GrammarTesterTestCase(unittest.TestCase):
         # self.assertEqual(25, gt._total_dicts)
         self.assertEqual(88, pm.sentences)
 
-    # @unittest.skip
+    @unittest.skip
     def test_test(self):
         pr = LGInprocParser()
 

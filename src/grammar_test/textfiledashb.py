@@ -1,5 +1,5 @@
 from ull.common.absclient import AbstractDashboardClient, DashboardError, AbstractStatEventHandler
-from ull.common.parsemetrics import ParseMetrics, ParseQuality
+from ull.common.parsemetrics import ParseMetrics, ParseQuality, PQA_str
 from ull.common.absclient import AbstractConfigClient
 from ull.common.cliutils import handle_path_string
 
@@ -87,7 +87,8 @@ class TextFileDashboard(AbstractDashboardClient, AbstractStatEventHandler):
                     # Get value key string by column index
                     val_str = self._config[CONF_VAL_KEYS][col].format(nodes=nodes,
                                                                       parseability=metrics.parseability_str(metrics),
-                                                                      parsequality=quality.parse_quality_str(quality))
+                                                                      parsequality=quality.parse_quality_str(quality),
+                                                                      PQA=PQA_str(metrics, quality))
 
                 except IndexError as err:
                     print("on_statatistics():2: IndexError: " + str(err))
@@ -147,7 +148,7 @@ class TextFileDashboard(AbstractDashboardClient, AbstractStatEventHandler):
         for row in range(0, self._row_count):
             for col in range(0, self._col_count):
                 if self._dashboard[row][col] is None:
-                    self._dashboard[row][col] = "  N/A  "
+                    self._dashboard[row][col] = "N/A"
 
     def update_dashboard(self):
 
@@ -161,7 +162,34 @@ class TextFileDashboard(AbstractDashboardClient, AbstractStatEventHandler):
             with open(self._path, "w") as file:
 
                 for row in self._dashboard:
-                    print('"' + '";"'.join(row) + '"', file=file)
+                    print('\t'.join(row), file=file)
+
+        except IOError as err:
+            print("IOError: " + str(err))
+
+
+class HTMLFileDashboard(TextFileDashboard):
+
+    def __init__(self, cfg_man: AbstractConfigClient):
+        super().__init__(cfg_man)
+
+    def update_dashboard(self):
+
+        # Return if dashboard is not configured.
+        if self._config is None:
+            return
+
+        try:
+            self._fill_empty_cells()
+
+            with open(self._path, "w") as file:
+
+                print("<html><head>!!!</head><body><table>", file=file)
+
+                for row in self._dashboard:
+                    print("<tr><td>" + "</td><td>".join(row) + "</td></tr>", file=file)
+
+                print("</table></body></html>", file=file)
 
         except IOError as err:
             print("IOError: " + str(err))

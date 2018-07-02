@@ -224,7 +224,7 @@ class TestPSParse(unittest.TestCase):
 
         self.assertTrue(self.cmp_lists(tokens, ['###LEFT-WALL###', 'eagle', 'has', 'wing']))
 
-    @unittest.skip
+    # @unittest.skip
     def test_parse_no_period_if_no_period(self):
         options = 0
         options |= BIT_STRIP | BIT_NO_PERIOD | BIT_RWALL

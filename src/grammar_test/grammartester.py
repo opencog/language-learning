@@ -7,7 +7,7 @@ from ull.common.dirhelper import traverse_dir_tree, create_dir
 from ull.common.parsemetrics import ParseMetrics, ParseQuality
 from ull.common.fileconfman import JsonFileConfigManager
 from ull.common.cliutils import handle_path_string
-from ull.grammartest.textfiledashb import TextFileDashboard
+from ull.grammartest.textfiledashb import TextFileDashboard, HTMLFileDashboard
 
 from .lgmisc import create_grammar_dir
 from .optconst import *
@@ -147,7 +147,12 @@ class GrammarTester(AbstractGrammarTestClient):
             if args[CORP_ARG_REFF] is None:
                 return None
 
-            return args[CORP_ARG_REFF] + corpus_file_path[len(args[CORP_ARG_CORP]):] + ".ull"
+            ref_path = args[CORP_ARG_REFF] + corpus_file_path[len(args[CORP_ARG_CORP]):]
+
+            if (self._options & BIT_ULL_IN) and ref_path.endswith(".ull"):
+                return ref_path
+
+            return ref_path + ".ull"
 
         return args[CORP_ARG_REFF]
 
@@ -326,6 +331,7 @@ def test_grammar_cfg(conf_path: str) -> (ParseMetrics, ParseQuality):
 
     try:
         cfgman = JsonFileConfigManager(conf_path)
+        # dboard = HTMLFileDashboard(cfgman)
         dboard = TextFileDashboard(cfgman)
         parser = LGInprocParser()
 

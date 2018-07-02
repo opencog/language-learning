@@ -160,7 +160,9 @@ class ParseQuality():
     #     return self
 
 
+def PQA(pm: ParseMetrics, pq: ParseQuality) -> Decimal:
+    return (pm.average_parsed_ratio / pm.sentences *
+                                pq.quality / pq.sentences * Decimal('100.0')) if pm.sentences else Decimal("0.0")
+
 def PQA_str(pm: ParseMetrics, pq: ParseQuality) -> str:
-    return "PQA:\t{0:2.2f}%".format((pm.average_parsed_ratio / pm.sentences *
-                                pq.quality / pq.sentences * Decimal('100.0'))
-                                if pm.sentences else Decimal("0.0"))
+    return "PQA:\t{0:2.2f}%".format(PQA(pm, pq))

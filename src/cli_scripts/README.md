@@ -227,3 +227,11 @@ because one graph node value may influence multiple rows/columns in the
 dashboard. Both dictionaries are initialized with corresponding `row_indexes`
 and `col_indexes` configuration parameters. Key string in each of the above
 mentioned parameters must correspond `row_key`/`col_key` format template.
+
+### Column Headers
+As soon as table header may have complex structure, parameter `col_headers` is 
+represented by list of headers where each header is a list of columns. Each 
+column is a dictionary. While each column header definition may consist of 
+multiple named entries, only `title` is mandatory and should be assigned a 
+text string. HTMLFileDashboard class instances may handle `col_span` and 
+`row_span` attributes. 

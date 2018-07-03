@@ -8,5 +8,5 @@ Current version of `opencog-ull` package exports `ull.grammartest` and
 
 `ull.common` exports general purpose classes and functions while 
 `ull.grammartest` exports classes and functions necessary for testing grammars.
-Both packages are heavily used by command line scripts.
+Both packages are heavily used by command line scripts stored in `src/cli_scripts`.
 

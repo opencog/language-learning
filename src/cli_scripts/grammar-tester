@@ -14,7 +14,7 @@ __version__ = "3.0.0"
 
 def main(argv):
     """
-Usage: grammar-test.py -i <input_path> [-o <output_path> -d <dict_path>]  [OPTIONS]
+Usage: grammar-tester -i <input_path> [-o <output_path> -d <dict_path>]  [OPTIONS]
 
     dict_path           Path to grammar definition file (or directory with multiple such files) to be tested.
                         The files should be in proper Link Grammar .dict format. Language short name such as 'en' or
@@ -65,7 +65,7 @@ Usage: grammar-test.py -i <input_path> [-o <output_path> -d <dict_path>]  [OPTIO
     reference_path  = None
     config_path     = None
 
-    print("grammar-test.py ver." + __version__)
+    print("grammar-tester ver." + __version__)
     print("Python v." + platform.python_version())
 
     try:

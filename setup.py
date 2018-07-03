@@ -11,6 +11,7 @@ setup(name='opencog-ull',
       # package_dir={'ull.grammartest': 'src/grammar_test'},
       # packages=['grammartest'],
       # package_dir={'grammartest': 'src/grammar_test'},
+      scripts=['src/cli_scripts/grammar-tester', 'src/cli_scripts/parse-evaluator'],
       platform='any',
       license='MIT',
       classifiers=[

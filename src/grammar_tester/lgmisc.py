@@ -59,7 +59,7 @@ def create_grammar_dir(dict_file_path, grammar_path, template_path, options) -> 
     if not os.path.isfile(dict_file_path):
         # The path is not specified correctly.
         if dict_file_path.find("/") >= 0:
-            raise LGParseError("Dictionary path does not exist.")
+            raise LGParseError("Dictionary path '" + dict_file_path + "' does not exist.")
 
         # If 'dict_file_path' is LG language short name such as 'en' then there must be a dictionary folder with the
         #   same name. If that's the case there is no need to create grammar folder, simply return the same name.

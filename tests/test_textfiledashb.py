@@ -1,7 +1,7 @@
 import unittest
 import os
 
-from grammar_test.textfiledashb import TextFileDashboard, DashboardError
+from grammar_tester.textfiledashb import TextFileDashboard, DashboardError
 from decimal import Decimal
 
 from ull.common.fileconfman import JsonFileConfigManager

@@ -113,6 +113,7 @@ class LGInprocParser(AbstractFileParserClient):
             sentences = self._parse_batch_ps_output(text, 5)
 
             sentence_count = 0
+            error_count = 0
 
             # Parse linkages and make statistics estimation
             for sent in sentences:
@@ -134,15 +135,24 @@ class LGInprocParser(AbstractFileParserClient):
                         print_output(tokens, links, options, out_stream)
 
                     except Exception as err:
-                        print(str(err) + " in print_output()")
+                        print(str(type(err)) + ": " + str(err) + " in print_output()")
 
                     # Calculate parseability statistics
                     sent_metrics += parse_metrics(prepare_tokens(tokens, options))
 
                     # Calculate parse quality if the option is set
                     if options & BIT_PARSE_QUALITY and len(ref_parses):
-                        sent_quality += parse_quality(get_link_set(tokens, links, options),
-                                                      ref_parses[sentence_count][1])
+                        try:
+                            sent_quality += parse_quality(get_link_set(tokens, links, options),
+                                                          ref_parses[sentence_count][1])
+                        except IndexError as err:
+                            print("Sentence count: ", sentence_count)
+                            print("IndexError: " + str(err) + " in _handle_stream_output()")
+                            error_count += 1
+
+                        except Exception as err:
+                            print(str(type(err)) + ": " + str(err) + " in _handle_stream_output()")
+                            error_count += 1
 
                     linkage_count += 1
 
@@ -223,10 +233,6 @@ class LGInprocParser(AbstractFileParserClient):
                     LGParseError("Process '{0}' terminated with exit code: {1} "
                                  "and error message:\n'{2}'.".format(cmd[0], proc_pars.returncode, err.decode()))
 
-                # with open("/home/alex/data2/parses/raw-output" + str(self._counter) + ".txt", "w") as f:
-                #     f.write(raw.decode())
-                #     self._counter += 1
-
                 # Take an action depending on the output format specified by 'options'
                 ret_metrics, ret_quality = self._handle_stream_output(raw.decode("utf-8-sig"), options,
                                                                       out_stream, ref_file)
@@ -244,7 +250,7 @@ class LGInprocParser(AbstractFileParserClient):
             print("OSError: " + str(err))
 
         except Exception as err:
-            print("parse(): Exception: " + str(err))
+            print("parse(): Exception: " + str(type(err)) + str(err))
 
         finally:
             if out_stream is not None and out_stream != sys.stdout:

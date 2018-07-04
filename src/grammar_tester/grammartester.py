@@ -4,7 +4,7 @@ from decimal import *
 
 from ull.common.absclient import AbstractGrammarTestClient, AbstractStatEventHandler, AbstractFileParserClient
 from ull.common.dirhelper import traverse_dir_tree, create_dir
-from ull.common.parsemetrics import ParseMetrics, ParseQuality
+from ull.common.parsemetrics import ParseMetrics, ParseQuality, PQA
 from ull.common.fileconfman import JsonFileConfigManager
 from ull.common.cliutils import handle_path_string
 from ull.grammartest.textfiledashb import TextFileDashboard, HTMLFileDashboard
@@ -256,6 +256,12 @@ class GrammarTester(AbstractGrammarTestClient):
         self._is_dir_corpus = os.path.isdir(corpus_path)
         self._is_dir_dict = os.path.isdir(dict_path)
 
+        if not (os.path.isfile(corpus_path) or os.path.isdir(corpus_path)):
+            raise GrammarTestError("GrammarTestError: path '" + corpus_path + "' does not exist.")
+
+        if not os.path.isdir(output_path):
+            raise GrammarTestError("GrammarTestError: path '" + output_path + "' does not exist.")
+
         if reference_path is not None:
             if self._is_dir_corpus:
                 if not os.path.isdir(reference_path):
@@ -286,6 +292,8 @@ class GrammarTester(AbstractGrammarTestClient):
                 self._options &= (~BIT_DPATH_CREATE)
                 self._on_dict_file(dict_path, parse_args)
 
+            print("Dictionaries processed: ", self._total_dicts)
+
         except GrammarTestError as err:
             raise GrammarTestError("GrammarTestError: " + str(err))
 
@@ -297,7 +305,7 @@ class GrammarTester(AbstractGrammarTestClient):
 
 
 def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_path: str, template_path: str,
-                       linkage_limit: int, options: int, reference_path: str) -> (ParseMetrics, ParseQuality):
+                       linkage_limit: int, options: int, reference_path: str) -> (Decimal, Decimal, Decimal):
     """
     Test grammar(s) over specified corpus providing numerical estimation of parsing quality.
 
@@ -317,10 +325,12 @@ def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_pat
 
     gt = GrammarTester(grammar_path, template_path, linkage_limit, parser)
 
-    return gt.test(dict_path, corpus_path, output_path, reference_path, options)
+    pm, pq = gt.test(dict_path, corpus_path, output_path, reference_path, options)
+
+    return pm.parseability(pm), pq.parse_quality(pq), PQA(pm, pq)
 
 
-def test_grammar_cfg(conf_path: str) -> (ParseMetrics, ParseQuality):
+def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal):
     """
     Test grammar using configuration(s) from a JSON file
 
@@ -332,7 +342,9 @@ def test_grammar_cfg(conf_path: str) -> (ParseMetrics, ParseQuality):
     try:
         cfgman = JsonFileConfigManager(conf_path)
         # dboard = HTMLFileDashboard(cfgman)
-        dboard = TextFileDashboard(cfgman)
+
+        dboard = TextFileDashboard(cfgman) if len(cfgman.get_config("", "dash-board")) else None
+
         parser = LGInprocParser()
 
         # Get configuration parameters
@@ -359,4 +371,4 @@ def test_grammar_cfg(conf_path: str) -> (ParseMetrics, ParseQuality):
     except Exception as err:
         print(str(err))
     finally:
-        return pm, pq
+        return pm.parseability(pm), pq.parse_quality(pm), PQA(pm, pq)

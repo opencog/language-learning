@@ -300,30 +300,32 @@ sausage was a food before .
 3 a 4 food
 4 food 5 before
 
-mom wants [to] aboard the ship . 
+mom wants to board the ship . 
 0 ###LEFT-WALL### 1 mom
-0 ###LEFT-WALL### 2 wants
-0 ###LEFT-WALL### 7 .
 1 mom 2 wants
-2 wants 4 aboard
-4 aboard 6 ship
+2 wants 3 to
+2 wants 7 .
+3 to 4 board
+4 board 6 ship
 5 the 6 ship
 
-dad comes on [board] the ship . 
+dad wants to board the ship . 
 0 ###LEFT-WALL### 1 dad
-0 ###LEFT-WALL### 7 .
-1 dad 2 comes
-2 comes 3 on
-3 on 6 ship
+1 dad 2 wants
+2 wants 3 to
+2 wants 7 .
+3 to 4 board
+4 board 6 ship
 5 the 6 ship
 
-son hate to come board [ship] . 
-0 ###LEFT-WALL### 2 hate
-0 ###LEFT-WALL### 7 .
-1 son 2 hate
-2 hate 3 to
-3 to 4 come
-4 come 5 board
+son wants to board the ship . 
+0 ###LEFT-WALL### 1 son
+1 son 2 wants
+2 wants 3 to
+2 wants 7 .
+3 to 4 board
+4 board 6 ship
+5 the 6 ship
 
 daughter comes aboard the ship . 
 0 ###LEFT-WALL### 1 daughter
@@ -334,43 +336,43 @@ daughter comes aboard the ship .
 3 aboard 5 ship
 4 the 5 ship
 
-mom writes by chalk on the board . 
+mom writes with chalk on the board . 
 0 ###LEFT-WALL### 1 mom
 0 ###LEFT-WALL### 8 .
 1 mom 2 writes
-2 writes 3 by
-2 writes 4 chalk
-4 chalk 5 on
+2 writes 3 with
+2 writes 5 on
+3 with 4 chalk
 5 on 7 board
 6 the 7 board
 
-dad writes by chalk on the board . 
+dad writes with chalk on the board . 
 0 ###LEFT-WALL### 1 dad
 0 ###LEFT-WALL### 8 .
 1 dad 2 writes
-2 writes 3 by
-2 writes 4 chalk
-4 chalk 5 on
+2 writes 3 with
+2 writes 5 on
+3 with 4 chalk
 5 on 7 board
 6 the 7 board
 
-son writes by chalk on the board . 
+son writes with chalk on the board . 
 0 ###LEFT-WALL### 1 son
 0 ###LEFT-WALL### 8 .
 1 son 2 writes
-2 writes 3 by
-2 writes 4 chalk
-4 chalk 5 on
+2 writes 3 with
+2 writes 5 on
+3 with 4 chalk
 5 on 7 board
 6 the 7 board
 
-daughter writes by chalk on the board . 
+daughter writes with chalk on the board . 
 0 ###LEFT-WALL### 1 daughter
 0 ###LEFT-WALL### 8 .
 1 daughter 2 writes
-2 writes 3 by
-2 writes 4 chalk
-4 chalk 5 on
+2 writes 3 with
+2 writes 5 on
+3 with 4 chalk
 5 on 7 board
 6 the 7 board
 
@@ -468,10 +470,11 @@ saw is a tool .
 2 is 4 tool
 3 a 4 tool
 
-hammed is a tool . 
-0 ###LEFT-WALL### 1 hammed
+hammer is a tool . 
+0 ###LEFT-WALL### 1 hammer
+0 ###LEFT-WALL### 2 is
 0 ###LEFT-WALL### 5 .
-1 hammed 2 is
+1 hammer 2 is
 2 is 4 tool
 3 a 4 tool
 
@@ -549,13 +552,13 @@ dad knocked the wood with a hammer .
 5 with 7 hammer
 6 a 7 hammer
 
-mom saw dad in binoculars . 
+mom saw dad with binoculars . 
 0 ###LEFT-WALL### 2 saw
 0 ###LEFT-WALL### 6 .
 1 mom 2 saw
 2 saw 3 dad
-2 saw 4 in
-4 in 5 binoculars
+2 saw 4 with
+4 with 5 binoculars
 
 mom saw dad with a telescope . 
 0 ###LEFT-WALL### 2 saw
@@ -629,11 +632,4 @@ dad has a hammer .
 1 dad 2 has
 2 has 4 hammer
 3 a 4 hammer
-
-mom dad sausage hate [little] [eat] . 
-0 ###LEFT-WALL### 4 hate
-0 ###LEFT-WALL### 7 .
-1 mom 2 dad
-2 dad 3 sausage
-3 sausage 4 hate
 

@@ -59,7 +59,7 @@ def strip_trailing_slash(text) -> str:
     return text[:end]
 
 
-def handle_path_string(text) -> str:
+def handle_path_string(text, cur_dir_subst: bool=True) -> str:
     """
     Strip off single or double quotes if any, replace tilda with home directory path
         and finally strip trailing slash if any.
@@ -67,4 +67,11 @@ def handle_path_string(text) -> str:
     :param text: Path string.
     :return: Path string prepared to be used as an input parameter to any other function.
     """
-    return strip_trailing_slash(strip_quotes(text)).replace("~", os.environ['HOME'])
+    path = strip_trailing_slash(strip_quotes(text))
+
+    if path.startswith("~"):
+        path = path.replace("~", os.environ['HOME'])
+    elif not path.startswith("/") and cur_dir_subst:
+        path = os.environ['PWD'] + "/" + path
+
+    return path

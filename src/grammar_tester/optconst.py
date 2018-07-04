@@ -3,7 +3,7 @@ __all__ = [
     # 'LG_DICT_PATH',
     'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT', 'BIT_ULL_IN', 'BIT_RM_DIR',
     'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE', 'BIT_OUTPUT_ALL',
-    'BIT_BEST_LINKAGE', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'BIT_NO_LWALL', 'BIT_SEP_STAT', 'BIT_LOC_LANG',
+    'BIT_LG_GR_NAME', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'BIT_NO_LWALL', 'BIT_SEP_STAT', 'BIT_LOC_LANG',
     'BIT_PARSE_QUALITY', 'BIT_NO_PERIOD', 'BIT_ULL_NO_LWALL', 'BIT_GRSUBDIR_CREATE', 'get_options'
 ]
 
@@ -22,7 +22,7 @@ BIT_ULL_IN              = (1<<6)            # If set, parse_file_with_api() is i
                                             # filtered out.
 BIT_RM_DIR              = (1<<7)            # Remove grammar dictionary if it already exists. Then recreate it
                                             # from scratch.
-BIT_BEST_LINKAGE        = (1<<8)            # Take most probable linkage.
+BIT_LG_GR_NAME          = (1<<8)            # Treat dictionary path argument as Link Grammar dictionary path
 BIT_DPATH_CREATE        = (1<<9)            # Recreate dictionary path instead of source path
 BIT_LG_EXE              = (1<<10)           # Use link-parser executable in a separate process for parsing
 BIT_NO_LWALL            = (1<<11)           # Exclude left-wall from statistics estimation and ULL output
@@ -47,7 +47,8 @@ config_options = {
     "separate_stat": BIT_SEP_STAT,
     "store_dict_localy": BIT_LOC_LANG,
     "calc_parse_quality": BIT_PARSE_QUALITY,
-    "no_left_wall_in_ull": BIT_ULL_NO_LWALL
+    "no_left_wall_in_ull": BIT_ULL_NO_LWALL,
+    "lg_grammar_name": BIT_LG_GR_NAME
 }
 
 output_format = {

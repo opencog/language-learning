@@ -1,9 +1,9 @@
 import unittest
 import sys
 
-from grammar_test.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, prepare_tokens
-from grammar_test.optconst import *
-from grammar_test.parsestat import parse_metrics
+from grammar_tester.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, prepare_tokens
+from grammar_tester.optconst import *
+from grammar_tester.parsestat import parse_metrics
 
 
 gutenberg_children_bug = \

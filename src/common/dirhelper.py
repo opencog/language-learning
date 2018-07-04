@@ -1,5 +1,5 @@
 import os
-# from grammar_test.lgmisc import LGParseError
+# from grammar_tester.lgmisc import LGParseError
 
 __all__ = ['traverse_dir', 'create_dir', 'traverse_dir_tree']
 

@@ -5,16 +5,16 @@ options.
 
 ## Command Line Scripts
 
-`grammar-test.py`- second version of generated grammar test script capable of parsing multiple corpus files with
+`grammar-tester`-   second version of generated grammar test script capable of parsing multiple corpus files with
                     multiple dictionaries. Actually, it is a wrapper over set of high level Link Grammar parse
                     subroutines collected in `grammartest` package.
 
-`parse-eval.py` - parse quality estimation script
+`parse-evaluator` - parse quality estimation script
 
 
 ## Grammar Test Script In Depth Description
 
-`grammar-test2.py` has multiple options and can be used to test grammar files over the specified corpus or simply
+`grammar-tester` has multiple options and can be used to test grammar files over the specified corpus or simply
 generate ULL output files. It is capable of taking folders with multiples files and subfolders as a single corpus
 as well as taking a folder with multiple dictionary files to test each single grammar file separately over the same
 input corpus.
@@ -52,11 +52,11 @@ input corpus.
 In the example bellow the sctipt is executed using default language grammar (en). The output file will have the same
 name as the input one.
 
-`grammar-test.py -i <my-input-file.txt> -o <my-output-directory> -f ull -e -u`
+`grammar-tester -i <my-input-file.txt> -o <my-output-directory> -f ull -e -u`
 
 #### Grammar Test
 
-`grammar-test.py -d <dict-file> -i <input-file> -o <output-dir> -g <grammar-dir> -t <template-dir> -r -f ull -q -e -u`
+`grammar-tester -d <dict-file> -i <input-file> -o <output-dir> -g <grammar-dir> -t <template-dir> -r -f ull -q -e -u`
 
 `<dict-file>` - It can be either directory path, where dictionary files are located or path to a single properly notated
 dictionary file, or a short name of any language, supported by Link Grammar such as `en`, `ru` etc.
@@ -69,13 +69,13 @@ dictionary file, or a short name of any language, supported by Link Grammar such
 template grammar directory path should be specified in order to let the script copy three more files from into a new
 grammar dictionary folder along with dictionary file specified by `-d` option.
 
-## Using `grammar-test.py` With Configuration File
+## Using `grammar-tester` With Configuration File
 
 In some cases you may find more convenient to use grammar test script with 
 JSON configuration file. One configuration file may contain several testing
 configurations. General syntax is:
 ```
-grammar-test.py -C <config_file_path>
+grammar-tester -C <config_file_path>
 ``` 
 General JSON configuration file for any ULL component should have at least
 two sections `component` and `parameters`.
@@ -106,13 +106,13 @@ For grammar test script general JSON config file looks like:
   }
  ]
 ```
-There are two gems which are not available when running `grammar-test.py`
+There are two gems which are not available when running `grammar-tester`
 in a standard way with multiple command line arguments. In JSON configuration
 file you can specify multiple configurations in `parameters` section and you
 can also specify using dashboard for summarizing parsing statistics in a 
 single file. 
 
-### Configuration Options Available For `grammar-test.py`
+### Configuration Options Available For `grammar-tester`
 
 
 |  Parameter  |  Type  |                    Meaning                 |  Values |
@@ -149,7 +149,7 @@ In current version of the library dashboard is only available when using
 the script with `-C` option.
 
 File dashboard configuration is defined in `.json` configuration file and 
-only available when using `grammar-test.py` script with `-C` option.   
+only available when using `grammar-tester` script with `-C` option.   
 
 Here is the list of configurable parameters:
 

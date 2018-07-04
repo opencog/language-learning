@@ -1,31 +1,14 @@
 import unittest
-from grammar_test.grammartester import GrammarTester, test_grammar, test_grammar_cfg
-from grammar_test.lginprocparser import LGInprocParser
-from grammar_test.optconst import *
+from decimal import Decimal
+from grammar_tester.grammartester import GrammarTester, test_grammar, test_grammar_cfg
+from grammar_tester.lginprocparser import LGInprocParser
+from grammar_tester.lgapiparser import LGApiParser
+from grammar_tester.optconst import *
+# from common.cliutils import handle_path_string
 
-import cProfile
-
-from ull.common.fileconfman import JsonFileConfigManager
-from ull.common.cliutils import handle_path_string
-from grammar_test.textfiledashb import TextFileDashboard
-
-# dict = "/usr/local/share/link-grammar/en"
-# dict = "en"
-# dict = "poc-turtle"
-
-# corp = "/home/alex/data/corpora"
-# corp = "/home/alex/data/poc-english/poc_english_noamb.txt"
-# corp = "/home/alex/data/corpora/Children_Gutenberg_cleaned/pg24878.txt_split_default"
-# corp = "/var/tmp/lang-learn/pg24878.txt_split_default"
-# corp = "/home/alex/data/corpora/cleaned_Gutenberg_Children/pg24878.txt_headless_split_e"
-# corp = "/home/alex/data/corpora/cleaned_Gutenberg_Children"
-# corp = "/home/alex/data/corpora/poc-english-multi"
-# corp = "/home/alex/data/corpora/poc-english/poc_english.txt"
-
-# dest = "/home/alex/data2/parses/AGI-2018-paper-data-2018-04-22"
-# dest = "/home/alex/data2/parses/cleaned_Gutenberg_Children"
-# dest = "/home/alex/data2/parses"
-# dest = "/var/tmp/lang-learn"
+from common.fileconfman import JsonFileConfigManager
+from common.cliutils import handle_path_string
+from grammar_tester.textfiledashb import TextFileDashboard
 
 tmpl = "/home/alex/data/dict/poc-turtle"
 grmr = "/home/alex/data/dict"
@@ -33,70 +16,6 @@ limit = 100
 # opts = BIT_SEP_STAT | BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_RM_DIR #| BIT_DPATH_CREATE | BIT_LOC_LANG | BIT_PARSE_QUALITY #| BIT_ULL_IN #| BIT_OUTPUT_DIAGRAM #| BIT_SEP_STAT
 opts = BIT_SEP_STAT | BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_RM_DIR | BIT_DPATH_CREATE | BIT_LOC_LANG | BIT_PARSE_QUALITY #| BIT_ULL_IN #| BIT_OUTPUT_DIAGRAM #| BIT_SEP_STAT
 
-# # Gutenberg Children Parses
-# dict = "en"
-# corp = "/home/alex/data/corpora/cleaned_Gutenberg_Children"
-# dest = "/home/alex/data2/parses/cleaned_Gutenberg_Children_ref"
-# ref = None
-
-
-# # Gutenberg Children Parses
-# dict = "/home/alex/data2/parses/Gutenberg-Children-2018-05-30"
-# corp = "/home/alex/data/corpora/cleaned_Gutenberg_Children"
-# dest = "/home/alex/data2/parses/Gutenberg-Children-2018-05-30"
-# ref = "/home/alex/data2/parses/cleaned_Gutenberg_Children_ref"
-# # ref = None
-
-
-# ref = "/home/alex/data/corpora"
-# ref = "/home/alex/data/poc-english/poc_english_noamb_parse_ideal.txt"
-# ref = None
-
-# # Parseability test
-# dict = "poc-turtle"
-# # dict = "en"
-# # corp = "/home/alex/data/corpora/poc-english-multi"
-# corp = "/home/alex/data/corpora/poc-english-one"
-# # corp = "/home/alex/data/corpora/poc-english/poc_english.txt"
-# dest = "/home/alex/data2/parses"
-# # ref = "/home/alex/data2/parses"
-# # ref = "/home/alex/data2/parses/poc_english.txt.ref"
-# ref = None
-
-# # AGI-2018 Test
-# dict = "/home/alex/data2/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
-# corp = "/home/alex/data/poc-english/poc_english_noamb.txt"
-# dest = "/home/alex/data2/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
-# ref = "/home/alex/data/poc-english/poc_english_noamb_parse_ideal.txt"
-
-# # Gutenberg-Alice-2018-06-01 parse for ULL reference
-# dict = "en"
-# corp = "/home/alex/data2/parses/Gutenberg-Alice-2018-06-01/alice_11-0_txt_split_default.txt"
-# dest = "/home/alex/data2/parses/Gutenberg-Alice-2018-06-01/parses"
-# ref = None
-
-# # Gutenberg-Alice-2018-06-01 parse and validation with multiple dictionaries
-# dict = "/home/alex/data2/parses/Gutenberg-Alice-2018-06-01"
-# corp = "/home/alex/data2/parses/Gutenberg-Alice-2018-06-01/alice_11-0_txt_split_default.txt"
-# dest = "/home/alex/data2/parses/Gutenberg-Alice-2018-06-01"
-# ref = "/home/alex/data2/parses/Gutenberg-Alice-2018-06-01/parses/alice_11-0_txt_split_default.txt.ull"
-# # ref = None
-
-# # Child Directed Speech
-# dict = "en"
-# # dict = "/home/alex/data2/parses/Gutenberg-Alice-2018-06-01"
-# corp = "/home/alex/data/corpora/ChildDirectedSpeech"
-# dest = "/home/alex/data2/parses/ChildDirectedSpeech"
-# # ref = "/home/alex/data2/parses/Gutenberg-Alice-2018-06-01/parses/alice_11-0_txt_split_default.txt.ull"
-# ref = None
-
-
-
-# PubMed-2018-06-01 parse for ULL reference
-dict = "en"
-corp = "/home/alex/data2/parses/PubMed-2018-06-01/data"
-dest = "/home/alex/data2/parses/PubMed-2018-06-01/ref"
-ref = None
 
 
 
@@ -104,39 +23,111 @@ class GrammarTesterTestCase(unittest.TestCase):
 
     @unittest.skip
     def test_test_with_conf(self):
-        conf_path = "test-data/config/AGI-2018.json"
+        # conf_path = "test-data/config/AGI-2018.json"
+        conf_path = "test-data/config/AGI-2018-no-dashboard.json"
 
         pm, pq = test_grammar_cfg(conf_path)
 
         # self.assertEqual(25, gt._total_dicts)
         self.assertEqual(88, pm.sentences)
 
-    # @unittest.skip
+    @unittest.skip
     def test_test(self):
         pr = LGInprocParser()
+        # pr = LGApiParser()
+
+        print(dict, corp, dest, ref, sep="\n")
 
         gt = GrammarTester(grmr, tmpl, limit, pr)
         pm, pq = gt.test(dict, corp, dest, ref, opts)
 
         print(pm.text(pm))
+        # print(pq.text(pq))
 
         # self.assertEqual(25, gt._total_dicts)
         self.assertEqual(88, pm.sentences)
 
+
     # @unittest.skip
-    # def test_test_grammar(self):
-    #     file_name = "/var/tmp/test-grammar-stats"
-    #
-    #     def run_test():
-    #         test_grammar(corp, dest, dict, grmr, tmpl, limit, opts, ref)
-    #         return ""
-    #
-    #     cProfile.run(run_test())
-    #
-    #     # cProfile.run(print("!!!!!!"))
-    #     # p = pstats.Stats(file_name)
-    #     # p.strip_dirs().sort_stats(-1).print_stats()
-    #     self.assertTrue(True)
+    def test_parseability(self):
+        """ Test poc-english corpus with poc-turtle dictionary """
+        dict = "poc-turtle"
+        # dict = handle_path_string("test-data/dict/poc-turtle")
+        corp = handle_path_string("test-data/corpora/poc-english/poc_english.txt")
+        dest = handle_path_string("test-data/temp")
+        ref = None  # "/home/alex/data/poc-english/poc_english_noamb_parse_ideal.txt"
+
+        pr = LGInprocParser()
+        # pr = LGApiParser()
+
+        # print(dict, corp, dest, ref, sep="\n")
+
+        gt = GrammarTester(grmr, tmpl, limit, pr)
+        pm, pq = gt.test(dict, corp, dest, ref, opts)
+
+        print(pm.text(pm))
+        # print(pq.text(pq))
+
+        # self.assertEqual(25, gt._total_dicts)
+        self.assertEqual(88, pm.sentences)
+        self.assertEqual("2.46%", pm.parseability_str(pm).strip())
+        self.assertEqual("90.91%", pm.completely_unparsed_str(pm).strip())
+
+    # @unittest.skip
+    def test_parseability_multi_file(self):
+        """ Test poc-english corpus with poc-turtle dictionary """
+        dict = "poc-turtle"
+        # dict = handle_path_string("test-data/dict/poc-turtle")
+        corp = handle_path_string("test-data/corpora/poc-english-multi")
+        dest = handle_path_string("test-data/temp")
+        ref = None  # handle_path_string("test-data/parses/poc-english-multi-ref")
+
+        pr = LGInprocParser()
+        # pr = LGApiParser()
+
+        # print(dict, corp, dest, ref, sep="\n")
+
+        gt = GrammarTester(grmr, tmpl, limit, pr)
+        pm, pq = gt.test(dict, corp, dest, ref, opts)
+
+        print(pm.text(pm))
+        # print(pq.text(pq))
+
+        self.assertEqual(9, gt._total_files)
+        self.assertEqual(88, pm.sentences)
+        self.assertEqual("2.46%", pm.parseability_str(pm).strip())
+        self.assertEqual("90.91%", pm.completely_unparsed_str(pm).strip())
+
+
+    # @unittest.skip
+    def test_parseability_coinsedence(self):
+        """ Test poc-english corpus with poc-turtle dictionary """
+        dict = "en"  # "poc-turtle"
+        # dict = handle_path_string("test-data/dict/poc-turtle")
+        corp1 = handle_path_string("test-data/corpora/poc-english/poc_english.txt")
+        corp2 = handle_path_string("test-data/corpora/poc-english-multi")
+        dest = handle_path_string("test-data/temp")
+        ref1 = handle_path_string("test-data/parses/poc-english-ref/poc_english.txt.ull")
+        ref2 = handle_path_string("test-data/parses/poc-english-multi-ref")
+
+        pr = LGInprocParser()
+        # pr = LGApiParser()
+
+        gt = GrammarTester(grmr, tmpl, limit, pr)
+        pm1, pq1 = gt.test(dict, corp1, dest, ref1, opts)
+        pm2, pq2 = gt.test(dict, corp2, dest, ref2, opts)
+
+        # print(pm.text(pm))
+        # print(pq.text(pq))
+
+        self.assertEqual(pm1, pm2)
+        self.assertEqual(pq1, pq2)
+
+        # self.assertEqual(88, pm.sentences)
+        self.assertEqual("100.00%", pm1.parseability_str(pm1).strip())
+        self.assertEqual("0.00%", pm1.completely_unparsed_str(pm1).strip())
+        self.assertEqual("100.00%", pm1.completely_parsed_str(pm1).strip())
+
 
 if __name__ == '__main__':
     unittest.main()

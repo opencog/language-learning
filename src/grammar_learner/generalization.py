@@ -298,8 +298,8 @@ def generalize_rules(categories, **kwargs):     #80622
         new_rule = []
         for disjunct in cats['disjuncts'][cluster]:
             new_dj = []
-            for connector in disjunct:
-                new_dj.append(ancestor(connector, cats['parent']))
+            for x in disjunct:
+                new_dj.append(sign(x) * ancestor(abs(x), cats['parent']))
             new_rule.append(tuple(new_dj))
         cats['disjuncts'][cluster] = set(new_rule)
     return reorder(cats), \

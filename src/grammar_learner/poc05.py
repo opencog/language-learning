@@ -548,10 +548,12 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
         prj_dir = output_categories
     else:  prj_dir = os.path.dirname(output_categories)
     log.update({'project_directory': prj_dir})
-    parse_dir = prj_dir + '/parses/'
-    if check_dir(parse_dir, True, verbose):
-        for file in files: copy(file, os.path.dirname(parse_dir))
-    else: raise FileNotFoundError('File not found', input_parses)
+    #-Save a copy of input parses to prj_dir + '/parses/'  #FIXME:DEL?    #80704
+    #-parse_dir = prj_dir + '/parses/'
+    #-if check_dir(parse_dir, True, verbose):
+    #-    for file in files: copy(file, os.path.dirname(parse_dir))
+    #-else: raise FileNotFoundError('File not found', input_parses)
+
     # group = True    #? always? False option for context = 0 (words)?
     kwargs['input_files'] = files
 
@@ -586,17 +588,17 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
         gen_cats = categories
         log.update({'generalization': 'error: cats_gen = ' + str(cats_gen)})
         if verbose in ['max','debug']:
-            print(UTC(),':: learn_grammar: generalization: else: cats_gen =', cats_gen, '⇒ gen_cats = categories')
+            print(UTC(),':: learn_grammar: generalization: else: cats_gen =', \
+                cats_gen, '⇒ gen_cats = categories')
 
-    # Save 1st cats_file = to control 2-step generalization #FIXME:DEL?
-    re05 = save_cat_tree(gen_cats, output_categories, verbose)  #FIXME: verbose?
-    #TODO: check file save error?
-    log.update({'category_tree_file': re05['cat_tree_file']})
-
-    with open(re05['cat_tree_file'][:-3]+'pkl', 'wb') as f: #FIXME:DEL tmp 80601
-        pickle.dump(gen_cats, f)
-    if verbose in ['max','debug']:
-        print(UTC(),':: learn_grammar: 1st cat_tree saved')
+    # Save 1st cats_file = to control 2-step generalization #FIXME:DEL?   #80704
+    #-re05 = save_cat_tree(gen_cats, output_categories, verbose)
+    #-log.update({'category_tree_file': re05['cat_tree_file']})
+    # Save cats.pkl
+    #-with open(re05['cat_tree_file'][:-3]+'pkl', 'wb') as f: #FIXME:DEL? #80704
+    #-    pickle.dump(gen_cats, f)
+    #-if verbose in ['max','debug']:
+    #-    print(UTC(),':: learn_grammar: 1st cat_tree saved')
 
     # Learn grammar     #80623
 
@@ -684,11 +686,12 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
             if verbose == 'debug':
                 print('generalize_rules ⇒ gen_rules:')
                 display(html_table([['Code','Parent','Id','Quality','Words', 'Disjuncts', 'djs','Relevance','Children']] \
-                    + [x for i,x in enumerate(cats2list(rulez))]))
+                    + [x for i,x in enumerate(cats2list(gen_rules))]))
 
     # Save cat_tree.txt file
-    #-from src.utl.write_files import save_cat_tree
+    #^from src.utl.write_files import save_cat_tree
     re09 = save_cat_tree(gen_rules, output_categories, verbose='none')  #FIXME: verbose?
+    #TODO: check file save error?
     log.update(re09)
     # Save Link Grammar .dict
     re10 = save_link_grammar(gen_rules, output_grammar, grammar_rules)

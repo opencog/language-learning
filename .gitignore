@@ -103,7 +103,8 @@ ENV/
 # mypy
 .mypy_cache/
 
-# Output and temporary files
+# Output, temporary, archive files
 /output
 /tmp
 /pytest_cache
+/archive

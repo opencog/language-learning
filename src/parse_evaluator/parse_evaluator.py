@@ -61,7 +61,7 @@ def Get_Parses(data):
 
 def MakeSets(parse):
     """
-        Gets a list with links (without full sentence) and
+        Gets a list with links (without full sentence)
         and makes sets for each link's ids
     """
     link_sets = [{(link[0], link[1]), (link[2], link[3])} for link in parse]
@@ -79,6 +79,17 @@ def Evaluate_Parses(test_parses, ref_parses, ref_lengths, verbose, ignore):
     ignored_links = 0   # ignored links, if ignore is active
     score = 0           # parse quality counter
 
+    def Remove_words(link_sets):
+        """
+            replace words in link with empty string
+            to compare links with sense-disambiguated words
+        """
+        wordless_sets = []
+        for link in link_sets:
+            wordless_sets.append({(link[0][0], ""), (link[1][0], "")})
+        return wordless_sets
+
+
     for ref_parse, test_parse, sent_length in zip(ref_parses, test_parses, ref_lengths):
 
         current_missing = 0
@@ -87,6 +98,8 @@ def Evaluate_Parses(test_parses, ref_parses, ref_lengths, verbose, ignore):
         ref_sets = MakeSets(ref_parse)  # using sets to ignore link directions
         test_sets = MakeSets(test_parse)
 
+        ref_wordless = Remove_words(ref_sets)
+        test_wordless = Remove_words(test_sets)
         # loop over every ref link and try to find it in test
         for ref_link in ref_sets:
             total_links += 1
@@ -95,7 +108,7 @@ def Evaluate_Parses(test_parses, ref_parses, ref_lengths, verbose, ignore):
                     current_ignored += 1
                     continue
             current_evaluated += 1
-            if ref_link in test_sets:
+            if ref_wordless in test_wordless:
                 print("found: {}".format(ref_link))
                 test_sets.remove(ref_link) 
             else:

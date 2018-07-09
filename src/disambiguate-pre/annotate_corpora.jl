@@ -17,6 +17,7 @@ function annotate_word(outfile, separator, threshold, vm, dict, word, context)
     its context is used to get the current sense, and
     it's annotated with separator and sense number
 """
+    letters = "abcdefghjklmnopqrstuvwxyz" # "i" skipped on purpose bc LG dict
     output_word = word
     id = get(dict.word2id, word, -1)
     if id != -1
@@ -24,7 +25,8 @@ function annotate_word(outfile, separator, threshold, vm, dict, word, context)
         if length(find(priors .> threshold)) > 1
             probs = disambiguate(vm, dict, word, context, true, threshold)
             best_sense = findmax(probs)[2]
-            output_word = word * separator * string(best_sense)
+            tag = string(letters[best_sense % length(letters)])
+            output_word = word * separator * tag
         end
     end
     write(outfile, output_word * " ")

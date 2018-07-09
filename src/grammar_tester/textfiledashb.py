@@ -45,7 +45,6 @@ class TextFileDashboard(AbstractDashboardClient, AbstractStatEventHandler):
         headers = self._config[CONF_COL_HEADERS]
         for row in range(0, len(headers)):
             for col in range(0, self._col_count):
-                # print(headers[row][col])
                 self._dashboard[row][col] = headers[row][col]["title"]
 
     @staticmethod

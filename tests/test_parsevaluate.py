@@ -73,5 +73,6 @@ class TestEvalMethods(unittest.TestCase):
         self.assertEqual(0.0, pq1.missing)
         self.assertEqual(0.0, pq1.extra)
 
+
 if __name__ == '__main__':
     unittest.main()

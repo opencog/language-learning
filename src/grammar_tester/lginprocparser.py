@@ -228,8 +228,11 @@ class LGInprocParser(AbstractFileParserClient):
                 # Read pipes to get complete output returned by link-parser
                 raw, err = proc_pars.communicate()
 
+                print(proc_pars.returncode)
+                print(err.decode())
+
                 # Check return code to make sure the process completed successfully.
-                if proc_pars.returncode:
+                if proc_pars.returncode != 0:
                     LGParseError("Process '{0}' terminated with exit code: {1} "
                                  "and error message:\n'{2}'.".format(cmd[0], proc_pars.returncode, err.decode()))
 

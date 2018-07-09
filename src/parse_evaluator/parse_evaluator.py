@@ -110,8 +110,10 @@ def Evaluate_Parses(test_parses, test_sentences, ref_parses, ref_sentences, verb
                     continue
             current_evaluated += 1
             if ref_link in test_sets:
+                print("found: {}".format(ref_link))
                 test_sets.remove(ref_link) 
             else:
+                print("missing: {}".format(ref_link))
                 current_missing += 1 # count links not contained in test
 
         # skip parse if there are no links left after ignore
@@ -193,6 +195,8 @@ def main(argv):
     test_parses, test_sentences = Get_Parses(test_data) 
     ref_data = Load_File(ref_file)
     ref_parses, ref_sentences = Get_Parses(ref_data) 
+    if len(test_sentences) != len(ref_sentences):
+        sys.exit("ERROR: Number of parses differs in files")
     Evaluate_Parses(test_parses, test_sentences, ref_parses, ref_sentences, verbose, ignore_WALL)
 
 if __name__ == '__main__':

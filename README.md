@@ -36,22 +36,20 @@ From `language-learning` directory run:
 source activate ull3
 pip install .
 ```
+If for some reason you are not using virtual environment or using Python 2.x along with Python 3.x make sure you 
+run `pip3` instead:
+```
+pip3 install .
+```
+
 `opencog-ull` package will be installed to your virtual environment.
-From `src/cli-scripts` copy `grammar-test.py` to your working directory.
-To uninstall grammar tester type:
+Command line scripts from `src/cli-scripts` are copied to `/bin` subdirectory in your virtual environment.
+
+To uninstall the package type:
 ```
 pip uninstall opencog-ull
 ```
-If you are going to use grammar tester from within your own code you 
-need to add the following import instruction to the top of your source 
-file:
-```
-from ull.grammartest import test_grammar, test_grammar_cfg
-```
-If your planning to use GrammarTester class add:
-```
-from ull.grammartest import GrammarTester, GrammarTestError
-```
+If you are going to use grammar tester from within your own code see `src/samples` for use cases.
 
 
 ---

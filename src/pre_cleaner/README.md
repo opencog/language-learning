@@ -1,14 +1,14 @@
 #ASuMa, Feb 2018. Updated, Apr 2018.
 
-Directory for pre-cleaner tools.
+Directory for pre_cleaner tools.
 
 ###########################
 
-The pre-cleaner pipeline can be run with script run_cleaner.sh, which will
-call split-sentences.pl and pre-cleaner.py to process all files in the given
+The pre_cleaner pipeline can be run with script run_cleaner.sh, which will
+call split-sentences.pl and pre_cleaner.py to process all files in the given
 directory.
 # Usage: FULL_PATH/run_cleaner <inputdir> <outputdir> 
-#        [--nosplitter] [other args for pre-cleaner.py]
+#        [--nosplitter] [other args for pre_cleaner.py]
 # --nosplitter option for some text formats where splitting the file is 
 #              not necessary/convenient
 # Run from inputdir's parent directory
@@ -33,13 +33,13 @@ colon and semi-colon.
   separate line
 
 ###############################
-Text-cleaning is done by pre-cleaner.py. It takes a directory with files 
+Text-cleaning is done by pre_cleaner.py. It takes a directory with files 
 pre-processed with sentence splitter. Main function documents all 
 posibilities; they're copied here:
-        Pre-cleaner takes two mandatory arguments and several optional ones:
+        Pre_cleaner takes two mandatory arguments and several optional ones:
 
         ```
-        "Usage: pre-cleaner.py -i <inputdir> -o <outputdir> [-c <chars_invalid>] [-b <bounday_chars>] 
+        "Usage: pre_cleaner.py -i <inputdir> -o <outputdir> [-c <chars_invalid>] [-b <bounday_chars>] 
         [-a <tokenized_chars>][-s <suffixes>] [-l <sentence_length>] [-t <token_length>] 
         [-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]"
 

@@ -59,26 +59,26 @@ def read_answers(filename, sep):
         that translates each word sense to an id
     """
     with open(filename, 'r') as f:
-        keys = []
+        words = []
         senses = []
         senses_id = {}
         sense_count = 0
         for line in f.readlines():
             for token in line.split():
                 split_token = token.split(sep)
-                keys.append(split_token[0])
-                sense = 1
+                words.append(split_token[0])
+                sense = 'a'
                 if len(split_token) > 1:
-                    sense = int(split_token[-1])
+                    sense = split_token[-1]
                 senses.append(sense)
                 if sense not in senses_id:
                     senses_id[sense] = sense_count
                     sense_count += 1
         answers = {}
-        for k,s in zip(keys, senses):
-            if k not in answers:
-                answers[k] = []
-            answers[k].append(senses_id[s])
+        for w, s in zip(words, senses):
+            if w not in answers:
+                answers[w] = []
+            answers[w].append(senses_id[s])
         return answers
 
 def compute_metrics(answers, predictions):

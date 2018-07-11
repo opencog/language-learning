@@ -82,7 +82,7 @@ class GrammarTesterTestCase(unittest.TestCase):
     # @unittest.skip
     def test_parseability(self):
         """ Test poc-english corpus with poc-turtle dictionary """
-        dict = "poc-turtle"
+        # dict = "poc-turtle"
         # dict = handle_path_string("test-data/dict/poc-turtle")
         corp = handle_path_string("test-data/corpora/poc-english/poc_english.txt")
         dest = handle_path_string("test-data/temp")

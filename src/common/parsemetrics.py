@@ -135,7 +135,7 @@ class ParseQuality():
                 "Average ignored links: {2:2.2f}\n" \
                 "Average missing links: {3:2.2f}\n" \
                 "Average extra links:  {4:2.2f}\n" \
-                "Tolal sentences: {5:2.2f}\n".format(
+                "Total sentences: {5:2.2f}\n".format(
                                                         stat.parse_quality(stat),
                                                         stat.avg_total_links(stat),
                                                         stat.avg_ignored_links(stat),

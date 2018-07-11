@@ -7,7 +7,7 @@ unlabelled text as input, as well as evaluation tools.
   with different parameters for the same corpus and dictionary. 
   The parameters to explore and Adagram's path are specified inside the file.
   Corpus should be pre-processed, 
-  for example with language-learning/src/pre-cleaner tools, including tokenizer.py.
+  for example with language-learning/src/pre_cleaner tools, including tokenizer.py.
   For details about AdaGram's parameters and dictionary file, please refer to
   AdaGram's documentation.
 

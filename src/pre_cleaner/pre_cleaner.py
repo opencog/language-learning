@@ -10,9 +10,9 @@ from html.parser import HTMLParser
 
 def main(argv):
 	"""
-		Pre-cleaner takes two mandatory arguments and several optional ones:
+		Pre_cleaner takes two mandatory arguments and several optional ones:
 
-		"Usage: pre-cleaner.py -i <inputdir> -o <outputdir> [-c <chars_invalid>] [-b <bounday_chars>] 
+		"Usage: pre_cleaner.py -i <inputdir> -o <outputdir> [-c <chars_invalid>] [-b <bounday_chars>] 
 		[-a <tokenized_chars>][-s <suffixes>] [-l <sentence_length>] [-t <token_length>] 
 		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]"
 
@@ -86,7 +86,7 @@ def main(argv):
 			"numbers", "dates", 
 			"Times", "Hyperlinks", "escaped", "Splits"])
 	except getopt.GetoptError:
-		print('''Usage: pre-cleaner.py -i <inputdir> -o <outputdir> 
+		print('''Usage: pre_cleaner.py -i <inputdir> -o <outputdir> 
 		    [-c <chars_invalid>] [-b <boundary_chars>] [-a <tokenized_chars>] 
 		    [-s <suffixes>] [-l <sentence_length] 
 		    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
@@ -94,7 +94,7 @@ def main(argv):
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
-			print('''Usage: pre-cleaner.py -i <inputdir> -o <outputdir> 
+			print('''Usage: pre_cleaner.py -i <inputdir> -o <outputdir> 
 			    [-c <chars_invalid>] [-b <boundary_chars>] [-a <tokenized_chars>] 
 			    [-s <suffixes>] [-l <sentence_length] 
 			    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]

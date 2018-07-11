@@ -3,7 +3,7 @@
 # ASuMa, Apr 2018
 #
 # Usage: FULL_PATH/run_cleaner <inputdir> <outputdir> 
-#        [--nosplitter] [other args for pre-cleaner.py]
+#        [--nosplitter] [other args for pre_cleaner.py]
 #
 # --nosplitter option for some text formats where splitting the file is 
 #              not necessary/convenient
@@ -35,4 +35,4 @@ shift 2
 
 mkdir -p $OUTPUT_DIR
 
-$CLEANER_PATH/pre-cleaner.py -i $INPUT_DIR -o $OUTPUT_DIR $@
+$CLEANER_PATH/pre_cleaner.py -i $INPUT_DIR -o $OUTPUT_DIR $@

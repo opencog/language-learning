@@ -1,9 +1,16 @@
 name: ull4
 channels:
+- anaconda
 - local
 - conda-forge
 - defaults
 dependencies:
+- atomicwrites=1.1.5=py36_0
+- attrs=18.1.0=py36_0
+- more-itertools=4.2.0=py36_0
+- pluggy=0.6.0=py36hb689045_0
+- py=1.5.3=py36_0
+- pytest=3.6.2=py36_0
 - igraph=0.7.1=4
 - jupyter_contrib_core=0.3.3=py36_1
 - jupyter_contrib_nbextensions=0.5.0=py36_0

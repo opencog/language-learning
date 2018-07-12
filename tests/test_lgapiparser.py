@@ -1,8 +1,8 @@
 import unittest
 
-from grammar_test.lgapiparser import *
-from grammar_test.optconst import *
-from grammar_test.lginprocparser import LGInprocParser
+from grammar_tester.lgapiparser import *
+from grammar_tester.optconst import *
+from grammar_tester.lginprocparser import LGInprocParser
 
 
 class LGAPITestCase(unittest.TestCase):
@@ -36,16 +36,6 @@ class LGAPITestCase(unittest.TestCase):
         print(q2.text(q2))
 
         self.assertTrue(q1 == q2)
-
-
-        # api_metrics = parse_file_with_api("test-data/dict/poc-turtle", "test-data/corpora/poc-turtle/poc-turtle.txt",
-        #                               None, 1, options)
-        #
-        # print(ParseMetrics.text(api_metrics), sys.stderr)
-        #
-        # self.assertEqual(1.0, api_metrics.completely_parsed_ratio)
-        # self.assertEqual(0.0, api_metrics.completely_unparsed_ratio)
-        # self.assertEqual(1.0, api_metrics.average_parsed_ratio)
 
 
 if __name__ == '__main__':

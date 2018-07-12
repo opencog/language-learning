@@ -3,7 +3,7 @@ import sys
 import os
 
 from link_grammar.inprocparser import parse_batch_ps_output, parse_file_with_lgp, parse_file_with_lgp0
-from grammar_test.optconst import *
+from grammar_tester.optconst import *
 
 
 lg_post_output = """

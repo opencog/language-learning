@@ -1,9 +1,9 @@
 import unittest
 import sys
 
-from grammar_test.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, prepare_tokens
-from grammar_test.optconst import *
-from grammar_test.parsestat import parse_metrics
+from grammar_tester.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, prepare_tokens
+from grammar_tester.optconst import *
+from grammar_tester.parsestat import parse_metrics
 
 
 gutenberg_children_bug = \
@@ -224,7 +224,7 @@ class TestPSParse(unittest.TestCase):
 
         self.assertTrue(self.cmp_lists(tokens, ['###LEFT-WALL###', 'eagle', 'has', 'wing']))
 
-    @unittest.skip
+    # @unittest.skip
     def test_parse_no_period_if_no_period(self):
         options = 0
         options |= BIT_STRIP | BIT_NO_PERIOD | BIT_RWALL

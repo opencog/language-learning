@@ -36,45 +36,61 @@ Dad liked sausage before.
 Cake was a food before.
 Sausage was a food before.
 
-Mom wants to aboard the ship.
-Dad comes on board the ship.
-Son hate to come board ship.
-Daughter comes aboard the ship.
-Mom writes by chalk on the board.
-Dad writes by chalk on the board.
-Son writes by chalk on the board.
-Daughter writes by chalk on the board.
+Mom is on the board of directors.
+Dad is on the board of directors.
+Son is on the board of directors.
+Daughter is on the board of directors.
+Mom writes with chalk on the board.
+Dad writes with chalk on the board.
+Son writes with chalk on the board.
+Daughter writes with chalk on the board.
 
-Dad wants Mom to board the ship.
-Mom wants Dad to board the ship.
-Dad wants his son to board the ship.
-Mom wants her daughter to board the ship.
+Dad wants Mom to be on the board of directors.
+Mom wants Dad to be on the board of directors.
+Dad wants his son to be on the board of directors.
+Mom wants her daughter to be on the board of directors.
+Mom writes to Dad with chalk on the board.
+Dad writes to Mom with chalk on the board.
+Son writes to Dad with chalk on the board.
+Daughter writes to Mom with chalk on the board.
 
+Mom has a hammer.
+Mom has a saw.
+Dad has a hammer.
+Dad has a saw.
+Mom has a telescope.
+Mom has binoculars.
+Dad has a telescope.
+Dad has binoculars.
 Mom saw Dad with a hammer.
 Mom saw Dad with a saw.
 Dad saw Mom with a hammer.
 Dad saw Mom with a saw.
+
 Saw is a tool.
-Hammed is a tool.
+Hammer is a tool.
+Binoculars are a tool.
+A telescope is a tool.
+
 Mom sees Dad now.
 Dad sees Mom now.
-Mom saw Dad yesterday.
-Dad saw Mom yesterday.
+Son sees Dad now.
+Daughter sees Mom now.
+Mom saw Dad before.
+Dad saw Mom before.
+Son saw Dad before.
+Daughter saw Mom before.
+
 Mom sawed the wood with a saw.
 Dad sawed the wood with a saw.
+Son sawed the wood with a saw.
+Daughter sawed the wood with a saw.
 Mom knocked the wood with a hammer.
 Dad knocked the wood with a hammer.
+Son knocked the wood with a hammer.
+Daughter knocked the wood with a hammer.
 
-Mom saw Dad in binoculars.
+Mom saw Dad with binoculars.
 Mom saw Dad with a telescope.
 Dad saw Mom with binoculars.
 Dad saw Mom with a telescope.
-Binoculars are a tool.
-A telescope is a tool.
-Mom has a telescope.
-Mom has binoculars.
-Dad has a saw.
-Dad has a hammer.
-
-mom dad sausage hate little eat.
-

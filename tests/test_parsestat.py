@@ -1,6 +1,6 @@
 import unittest
 
-from grammar_test.parsestat import calc_parse_quality, parse_quality, calc_stat, parse_metrics
+from grammar_tester.parsestat import calc_parse_quality, parse_quality, calc_stat, parse_metrics
 
 # Token indexes
 LWALL = 0; tuna = 1; isa = 2; fish = 3; DOT = 4; RWALL = 5

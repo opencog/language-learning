@@ -1,6 +1,6 @@
 from decimal import *
 
-__all__ = ["ParseMetrics", "ParseQuality"]
+__all__ = ["ParseMetrics", "ParseQuality", "PQA_str", "PQA"]
 
 class ParseMetrics():
     """ Parse statistics data """
@@ -25,11 +25,19 @@ class ParseMetrics():
         return stat.completely_parsed_ratio / stat.sentences * Decimal("100")
 
     @staticmethod
+    def completely_parsed_str(stat) -> str:
+        return "{0:6.2f}%".format(stat.completely_parsed(stat))
+
+    @staticmethod
     def completely_unparsed(stat) -> Decimal:
         if not stat.sentences:
             return Decimal("0")
 
         return stat.completely_unparsed_ratio / stat.sentences * Decimal("100")
+
+    @staticmethod
+    def completely_unparsed_str(stat) -> str:
+        return "{0:6.2f}%".format(stat.completely_unparsed(stat))
 
     @staticmethod
     def parseability(stat) -> Decimal:
@@ -40,7 +48,7 @@ class ParseMetrics():
 
     @staticmethod
     def parseability_str(stat) -> str:
-        return "{0:06.2f}%".format(stat.parseability(stat))
+        return "{0:6.2f}%".format(stat.parseability(stat))
 
     @staticmethod
     def text(stat) -> str:
@@ -118,7 +126,7 @@ class ParseQuality():
 
     @staticmethod
     def parse_quality_str(stat) -> str:
-        return "{0:06.2f}%".format(stat.parse_quality(stat))
+        return "{0:6.2f}%".format(stat.parse_quality(stat))
 
     @staticmethod
     def text(stat) -> str:
@@ -158,3 +166,11 @@ class ParseQuality():
     #     self.ignored /= other
     #     self.quality /= other
     #     return self
+
+
+def PQA(pm: ParseMetrics, pq: ParseQuality) -> Decimal:
+    return (pm.average_parsed_ratio / pm.sentences *
+                                pq.quality / pq.sentences * Decimal('100.0')) if pm.sentences else Decimal("0.0")
+
+def PQA_str(pm: ParseMetrics, pq: ParseQuality) -> str:
+    return "PQA:\t{0:2.2f}%".format(PQA(pm, pq))

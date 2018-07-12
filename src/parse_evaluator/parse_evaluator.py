@@ -23,15 +23,15 @@ def Load_File(filename):
     print("Finished loading")
 
     # remove initial newlines, if any
-    while data[0] == "\n":
-        data.pop(0)
+    # while data[0] == "\n":
+    #     data.pop(0)
 
     return data
 
 def Get_Parses(data):
     """
-        Reads parses from data into two structures:
-        - sentences: a dictionary of indexed split sentence strings
+        Reads parses from data, counting number of parses by newlines
+        - sentences: list with tokenized sentences in data
         - parses: a list of lists containing the split links of each parse
         [
           [[link1-parse1][link2-parse1] ... ]
@@ -41,84 +41,78 @@ def Get_Parses(data):
         Each list is splitted into tokens using space.
     """
     parses = []
-    sentences = {}
-    parse_num = 0
+    sentences = []
+    parse_num = -1
     new_flag = True
     for line in data:
         if line == "\n":
             # get rid of sentences with no links
-            if (not new_flag):
-                if (len(sentences[parse_num]) == 0):
-                    sentences.pop(parse_num)
-                    parse_num -= 1
-                    #dictionary.pop(parse_num) # not needed, it will be re-written
-                parse_num += 1
-                new_flag = True
+            new_flag = True
             continue
         if new_flag:
-            sentences[parse_num] = line.split() # split ignores diff spacing between words
             new_flag = False
+            sentences.append(line.split())
             parses.append([])
+            parse_num += 1
             continue
         parses[parse_num].append(line.split())
 
     return parses, sentences
 
-def MakeSets(parse):
+def MakeSets(parse, sent_len, ignore_WALL):
     """
-        Gets a list with links (without full sentence) and
-        and makes sets for each link's ids
+        Gets a list with links and a sentence
+        and makes sets for each link's ids, ignoring WALL and dot if requested
     """
-    link_sets = [{(link[0], link[1]), (link[2], link[3])} for link in parse]
-    return link_sets
+    current_ignored = 0
+    link_sets = []
+    for link in parse:
+        if ignore_WALL:
+            if (link[0] == '0') or (link[2] == sent_len and link[3] == "."):
+                current_ignored += 1
+                continue
+        link_sets.append({link[0], link[2]})
 
-def Evaluate_Parses(test_parses, test_sentences, ref_parses, ref_sentences, verbose, ignore):
+    return link_sets, current_ignored
+
+def Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore):
     """
         Compares test_parses against ref_parses link by link
         counting errors
     """
-    evaluated_parses = 0  # reference parses not found in test
+    evaluated_parses = 0 
     total_links = 0     # in gold standard
     #extra_links = 0     # links present in test, but not in ref
     missing_links = 0   # links present in ref, but not in test
     ignored_links = 0   # ignored links, if ignore is active
     score = 0           # parse quality counter
 
-    for ref_key, ref_sent in ref_sentences.items():
-        # search if the current ref_sentence was wholly parsed in test_sentences
-        test_key = [key for key, sentence in test_sentences.items() if sentence == ref_sent]
-        if len(test_key) == 0:
-            if verbose:
-                print("Skipping sentence not found in test parses:")
-                print(ref_sent)
-            continue
-        test_sentences.pop(test_key[0]) # reduce the size of dict to search
+
+    for ref_parse, test_parse, ref_sent in zip(ref_parses, test_parses, ref_sents):
 
         current_missing = 0
         current_evaluated = 0
         current_ignored = 0
-        ref_sets = MakeSets(ref_parses[ref_key])  # using sets to ignore link directions
-        test_sets = MakeSets(test_parses[test_key[0]])
-        sent_length = str(len(ref_sent))
+
+        # using sets to ignore link directions
+        ref_sets, current_ignored = MakeSets(ref_parse, len(ref_sent), ignore)
+
+        total_links += len(ref_parse)
+        current_evaluated += len(ref_sets)
+        # if no links are left after ignore, skip parse
+        if len(ref_sets) == 0:
+            continue
+        else:
+            evaluated_parses += 1
+
+        test_sets, dummy = MakeSets(test_parse, len(ref_sent), ignore)
 
         # loop over every ref link and try to find it in test
         for ref_link in ref_sets:
-            total_links += 1
-            if ignore:
-                if (('0', '###LEFT-WALL###') in ref_link) or ((sent_length, ".") in ref_link):
-                    current_ignored += 1
-                    continue
-            current_evaluated += 1
             if ref_link in test_sets:
                 test_sets.remove(ref_link) 
             else:
                 current_missing += 1 # count links not contained in test
-
-        # skip parse if there are no links left after ignore
-        if current_ignored == len(ref_sets):
-            continue
-
-        evaluated_parses += 1
 
         if verbose:
             print("Sentence: {}".format(" ".join(ref_sent)))
@@ -132,17 +126,17 @@ def Evaluate_Parses(test_parses, test_sentences, ref_parses, ref_sentences, verb
 
     score /= evaluated_parses # averages the score
     print("\nParse quality: {:.2%}".format(score))
-    print("A total of {} parses evaluated, {:.2%} of reference file".format(evaluated_parses, float(evaluated_parses) / len(ref_sentences)))
-    print("A total of {} links".format(total_links))
-    print("{:.2f} ignored links per sentence".format(ignored_links / evaluated_parses))
-    print("{:.2f} missing links per sentence".format(missing_links / evaluated_parses))
+    print("A total of {} parses evaluated, {:.2%} of reference file".format(evaluated_parses, float(evaluated_parses) / len(ref_parses)))
+    print("A total of {} links in reference file".format(total_links))
+    print("{:.2f} ignored links per evaluated parse".format(ignored_links / evaluated_parses))
+    print("{:.2f} missing links per evaluated parse".format(missing_links / evaluated_parses))
     #print("{:.2f} extra links per sentence\n".format(extra_links / evaluated_parses))
     #print("A total of {} extra links".format(extra_links))
 
 def main(argv):
     """
-        Evaluates parses compared to given gold standard (GS).
-        For each parse, loops through all links in GS and checks if those
+        Evaluates parses compared to given reference.
+        For each parse, loops through all links in reference and checks if those
         2 word-instances are also connected in parse to evaluate.
 
         Parses must be in format:
@@ -190,10 +184,12 @@ def main(argv):
             ignore_WALL = False
 
     test_data = Load_File(test_file)
-    test_parses, test_sentences = Get_Parses(test_data) 
+    test_parses, dummy = Get_Parses(test_data) 
     ref_data = Load_File(ref_file)
-    ref_parses, ref_sentences = Get_Parses(ref_data) 
-    Evaluate_Parses(test_parses, test_sentences, ref_parses, ref_sentences, verbose, ignore_WALL)
+    ref_parses, ref_sents = Get_Parses(ref_data) 
+    if len(test_parses) != len(ref_parses):
+        sys.exit("ERROR: Number of parses differs in files")
+    Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore_WALL)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

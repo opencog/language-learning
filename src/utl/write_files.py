@@ -109,12 +109,13 @@ def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=
         if out_file[-1] != '/': out_file += '/'
         #-if 'isa' in '\t'.join(line_list): out_file += 'poc-turtle_'
         #-else: out_file += 'poc-english_'
-        out_file += 'poc-english_'
+        #out_file += 'poc-english_'   #80704 replaced with:
+        out_file += 'dict_'
         out_file = out_file + str(len(clusters)) + 'C_' \
-            + str(UTC())[:10] + '_0005.4.0.dict'    #80620 0004⇒0005
+            + str(UTC())[:10] + '_0005.4.0.dict'            #80620 0004⇒0005
     else: raise FileNotFoundError('File not found', output_grammar)
     if header == '':
-        header = '% Grammar Learner v.0.5 ' + str(UTC())   #80620 .4⇒.5
+        header = '% Grammar Learner v.0.5 ' + str(UTC())    #80620 .4⇒.5
     header = header + '\n' + '<dictionary-version-number>: V0v0v5+;\n' \
         + '<dictionary-locale>: EN4us+;'
     add_rules = 'UNKNOWN-WORD: XXX+;'
@@ -123,6 +124,11 @@ def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=
             + str(len(rules)) + ' Link Grammar rules.\n' \
             + '% Link Grammar file saved to: ' + out_file
     lg = header +'\n\n'+ '\n'.join(line_list) +'\n'+ add_rules +'\n\n'+ footer
+    #-80704 tmp FIXME:
+    #-lg = lg.replace('@1', '.a')
+    #-lg = lg.replace('@2', '.b')
+    #-lg = lg.replace('@3', '.c')
+    lg = lg.replace('@', '.')       #8070 WSD: word@1 ⇒ word.1
     with open (out_file, 'w') as f: f.write(lg)
 
     from collections import OrderedDict
@@ -166,9 +172,10 @@ def save_category_tree(category_list, tree_file, verbose='none'):  #80522
     return {'tree_file': tree_file}
 
 
-def save_cat_tree(cats, output_categories, verbose='none'):     #80623 0.5 version
+def save_cat_tree(cats, output_categories, verbose='none'):     #80706 0.5
     #80611 ~ cats2list without 'djs', children'...
-    # cats: {'cluster':[], 'words':[], ...}             #80609
+    # cats: {'cluster':[], 'words':[], ...}                     #80609
+    from copy import deepcopy
     from src.utl.write_files import list2file
     from src.utl.utl import UTC
 
@@ -189,9 +196,17 @@ def save_cat_tree(cats, output_categories, verbose='none'):     #80623 0.5 versi
         category.append(cats['parent'][i])
         category.append(i)
         category.append(round(cats['quality'][i],2))
-        category.append(sorted(cats['words'][i]))
+        #!category.append(sorted(cats['words'][i]))  #80704+06 tmp hack FIXME
+        wordz = deepcopy(sorted(cats['words'][i]))
+        #-80704 word@1, word@2 ⇒ word.a, word.b:
+        #-wordz = [x.replace('@1','.a') for x in wordz]
+        #-wordz = [x.replace('@2','.b') for x in wordz]
+        #-wordz = [x.replace('@3','.c') for x in wordz]
+        wordz = [x.replace('@','.') for x in wordz] #80706 WSD: word@1 ⇒ word.1
+        category.append(wordz)                      #80704+06 tmp hack FIXME
+        #80704+06 end
         category.append(cats['similarities'][i])
-        #category.append(cats['children'][i])
+        #-category.append(cats['children'][i])
         categories.append(category)
 
     string = list2file(categories, tree_file)

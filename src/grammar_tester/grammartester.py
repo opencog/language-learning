@@ -371,4 +371,4 @@ def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal):
     except Exception as err:
         print(str(err))
     finally:
-        return pm.parseability(pm), pq.parse_quality(pm), PQA(pm, pq)
+        return pm.parseability(pm), pq.parse_quality(pq), PQA(pm, pq)

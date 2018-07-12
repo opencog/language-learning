@@ -19,74 +19,103 @@ from sklearn.metrics import adjusted_rand_score,v_measure_score
 
 def get_pairs(labels):
     result = []
-    for label in np.unique(labels):
+    unique = np.unique(labels)
+    for label in unique:
         ulabels = np.where(labels==label)[0]
-        for p in itertools.combinations(ulabels, 2):
-            result.append(p)
+        # handles when a word sense has only one occurrence
+        if len(ulabels) == 1:
+            # returns the instance paired with itself, so it can be counted
+            result.append((ulabels[0], ulabels[0]))
+        else:
+            for p in itertools.combinations(ulabels, 2):
+                result.append(p)
     return result
 
 def compute_fscore(true, pred):
+    one_sense = False
     true_pairs = get_pairs(true)
     pred_pairs = get_pairs(pred)
     int_size = len(set(true_pairs).intersection(pred_pairs))
-    # if there are just not enough pairs to compare
-    if len(pred_pairs) == 0 or len(true_pairs) == 0:
-        return 0
     p = int_size / float(len(pred_pairs))
     r = int_size / float(len(true_pairs))
+
+    # in case both precision and recall are zero, return zero
+    if (p + r) == 0:
+        return 0
     return 2*p*r/float(p+r)
 
 def read_answers(filename, sep):
+    """
+        Read word-sense-annotated file and create data structure
+        that translates each word sense to an id
+    """
     with open(filename, 'r') as f:
-        keys = []
+        words = []
         senses = []
         senses_id = {}
         sense_count = 0
         for line in f.readlines():
             for token in line.split():
                 split_token = token.split(sep)
-                keys.append(split_token[0])
-                sense = 1
+                words.append(split_token[0])
+                sense = 'a'
                 if len(split_token) > 1:
-                    sense = int(split_token[-1])
+                    sense = split_token[-1]
                 senses.append(sense)
                 if sense not in senses_id:
                     senses_id[sense] = sense_count
                     sense_count += 1
         answers = {}
-        for k,s in zip(keys, senses):
-            if k not in answers:
-                answers[k] = []
-            answers[k].append(senses_id[s])
+        for w, s in zip(words, senses):
+            if w not in answers:
+                answers[w] = []
+            answers[w].append(senses_id[s])
         return answers
 
 def compute_metrics(answers, predictions):
+    """
+        Evaluates prediction against answers, and provides eval measures:
+        fscore, vscore, ari (adjusted random index)
+    """
     aris = []
     vscores = []
     fscores = []
-    weights = []
+    #weights = []
+    one_sense_count = 0
     for k in answers.keys():
+        #print(k)
         true = np.array(answers[k])
         pred = np.array(predictions[k])
-        weights.append(pred.shape[0])
-        if len(np.unique(true)) > 1:
-            aris.append(adjusted_rand_score(true, pred))
+        #weights.append(pred.shape[0])
+        #if len(np.unique(true)) > 1:
+        aris.append(adjusted_rand_score(true, pred))
         vscores.append(v_measure_score(true, pred))
-        fscores.append(compute_fscore(true, pred))
-#        print('%s: ari=%f, vscore=%f, fscore=%f' % (k, aris[-1], vscores[-1], fscores[-1]))
+        fscore = compute_fscore(true, pred)
+        fscores.append(fscore)
+        # if one_sense == True:
+        #    one_sense_count += 1
+        #print('%s: ari=%f, vscore=%f, fscore=%f' % (k, aris[-1], vscores[-1], fscores[-1]))
     aris = np.array(aris)
     vscores = np.array(vscores)
     fscores = np.array(fscores)
-    weights = np.array(weights)
-    print('number of one-sense words in reference: %d' % (len(vscores) - len(aris)))
+    #weights = np.array(weights)
+    #print('number of one-sense words in reference: %d' % one_sense_count)
     print('mean ari: %f' % np.mean(aris))
     print('mean vscore: %f' % np.mean(vscores))
     #print('weighted vscore: %f' % np.sum(vscores * (weights / float(np.sum(weights)))))
     print('mean fscore: %f' % np.mean(fscores))
     #print('weighted fscore: %f' % np.sum(fscores * (weights / float(np.sum(weights)))))
     return np.mean(aris),np.mean(vscores),np.mean(fscores)
+    #return np.mean(fscores)
 
 def main(argv):
+    """
+        Modified from AdaGram's test-all.py to evaluate WSD in sense-annotated
+        corpora inside a given directory, using a gold standard file, 
+        which can be laborious to create.
+        Similarly to AdaGram (http://proceedings.mlr.press/v51/bartunov16.pdf), 
+        three metrics are used: V-Measure, F-score and ARI.
+    """
     import getopt
 
     separator = "@"
@@ -110,12 +139,13 @@ def main(argv):
     vscore_list = []
     fscore_list = []
     eval_files = []
+    true_answers = read_answers(ref_file, separator)
     for test_file in os.listdir(test_dir):
         print("Evaluating: {}".format(test_file))
         eval_files.append(test_file)
-        true_answers = read_answers(ref_file, separator)
-        predictions = read_answers(test_dir + test_file, separator)
+        predictions = read_answers(test_dir + "/" + test_file, separator)
         ari, vscore, fscore = compute_metrics(true_answers, predictions)
+        fscore = compute_metrics(true_answers, predictions)
         ari_list.append(ari)
         vscore_list.append(vscore)
         fscore_list.append(fscore)

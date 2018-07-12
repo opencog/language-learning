@@ -43,7 +43,7 @@ letters = "abcdefghjklmnopqrstuvwxyz" # "i" skipped on purpose bc LG dict
 for v in 1:numWords
     probs = expected_pi(vm, v)
     for s in 1:T(vm)
-        if probs[s] > args["min-prob"]
+        if probs[s] > args["min-prob"] and vm.count[s, v] >= 1
             tag_main = string(letters[s % length(letters)])
             @printf(fo, "%s@%s\t%.3f\t\n", dict.id2word[v], tag_main, probs[s])
             for iDim in 1:M(vm)

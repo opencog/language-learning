@@ -42,14 +42,14 @@ def compute_fscore(true, pred):
     #     one_sense = True
     # else:
     true_pairs = get_pairs(true)
-    print("true pairs {}".format(true_pairs))
+    #print("true pairs {}".format(true_pairs))
     pred_pairs = get_pairs(pred)
-    print("pred pairs {}".format(pred_pairs))
+    #print("pred pairs {}".format(pred_pairs))
     int_size = len(set(true_pairs).intersection(pred_pairs))
     # if there are not enough pairs to compare
-    if len(pred_pairs) == 0 or len(true_pairs) == 0:
-        print("Returned ZERO")
-        return 0
+    # if len(pred_pairs) == 0 or len(true_pairs) == 0:
+    #     print("Returned ZERO")
+    #     return 0
     p = int_size / float(len(pred_pairs))
     r = int_size / float(len(true_pairs))
     # in case both precision and recall are zero, return zero

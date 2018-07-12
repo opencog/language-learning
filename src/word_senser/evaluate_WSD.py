@@ -96,7 +96,7 @@ def compute_metrics(answers, predictions):
     #weights = []
     one_sense_count = 0
     for k in answers.keys():
-        print(k)
+        #print(k)
         true = np.array(answers[k])
         pred = np.array(predictions[k])
         #weights.append(pred.shape[0])

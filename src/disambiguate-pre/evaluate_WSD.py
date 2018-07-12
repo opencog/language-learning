@@ -34,23 +34,24 @@ def get_pairs(labels):
 def compute_fscore(true, pred):
     one_sense = False
     # handling the case when there's only one sense for a word in "true"
-    if len(np.unique(true)) == 1:
-        dumb, counts = np.unique(pred, return_counts=True)
-        # precision and recall are the same in this case
-        r = max(counts) / len(true)
-        p = r
-        one_sense = True
-    else:
-        true_pairs = get_pairs(true)
-        print("true pairs {}".format(true_pairs))
-        pred_pairs = get_pairs(pred)
-        print("pred pairs {}".format(pred_pairs))
-        int_size = len(set(true_pairs).intersection(pred_pairs))
-        # if there are not enough pairs to compare
-        if len(pred_pairs) == 0 or len(true_pairs) == 0:
-            return 0
-        p = int_size / float(len(pred_pairs))
-        r = int_size / float(len(true_pairs))
+    # if len(np.unique(true)) == 1:
+    #     dumb, counts = np.unique(pred, return_counts=True)
+    #     # precision and recall are the same in this case
+    #     r = max(counts) / len(true)
+    #     p = r
+    #     one_sense = True
+    # else:
+    true_pairs = get_pairs(true)
+    print("true pairs {}".format(true_pairs))
+    pred_pairs = get_pairs(pred)
+    print("pred pairs {}".format(pred_pairs))
+    int_size = len(set(true_pairs).intersection(pred_pairs))
+    # if there are not enough pairs to compare
+    if len(pred_pairs) == 0 or len(true_pairs) == 0:
+        print("Returned ZERO")
+        return 0
+    p = int_size / float(len(pred_pairs))
+    r = int_size / float(len(true_pairs))
     return 2*p*r/float(p+r)
 
 def read_answers(filename, sep):
@@ -89,13 +90,13 @@ def compute_metrics(answers, predictions):
     #aris = []
     #vscores = []
     fscores = []
-    weights = []
+    #weights = []
     one_sense_count = 0
     for k in answers.keys():
         print(k)
         true = np.array(answers[k])
         pred = np.array(predictions[k])
-        weights.append(pred.shape[0])
+        #weights.append(pred.shape[0])
         #if len(np.unique(true)) > 1:
             #aris.append(adjusted_rand_score(true, pred))
         #vscores.append(v_measure_score(true, pred))
@@ -107,7 +108,7 @@ def compute_metrics(answers, predictions):
     #aris = np.array(aris)
     #vscores = np.array(vscores)
     fscores = np.array(fscores)
-    weights = np.array(weights)
+    #weights = np.array(weights)
     print('number of one-sense words in reference: %d' % one_sense_count)
     #print('mean ari: %f' % np.mean(aris))
     #print('mean vscore: %f' % np.mean(vscores))

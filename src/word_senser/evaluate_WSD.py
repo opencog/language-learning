@@ -38,7 +38,7 @@ def compute_fscore(true, pred):
     int_size = len(set(true_pairs).intersection(pred_pairs))
     p = int_size / float(len(pred_pairs))
     r = int_size / float(len(true_pairs))
-    
+
     # in case both precision and recall are zero, return zero
     if (p + r) == 0:
         return 0
@@ -94,7 +94,7 @@ def compute_metrics(answers, predictions):
         fscores.append(fscore)
         # if one_sense == True:
         #    one_sense_count += 1
-        print('%s: ari=%f, vscore=%f, fscore=%f' % (k, aris[-1], vscores[-1], fscores[-1]))
+        #print('%s: ari=%f, vscore=%f, fscore=%f' % (k, aris[-1], vscores[-1], fscores[-1]))
     aris = np.array(aris)
     vscores = np.array(vscores)
     fscores = np.array(fscores)

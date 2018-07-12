@@ -90,7 +90,7 @@ def compute_metrics(answers, predictions):
         Evaluates prediction against answers, and provides eval measures:
         fscore, vscore, ari (adjusted random index)
     """
-    #aris = []
+    aris = []
     #vscores = []
     fscores = []
     #weights = []
@@ -101,19 +101,19 @@ def compute_metrics(answers, predictions):
         pred = np.array(predictions[k])
         #weights.append(pred.shape[0])
         #if len(np.unique(true)) > 1:
-            #aris.append(adjusted_rand_score(true, pred))
+        aris.append(adjusted_rand_score(true, pred))
         #vscores.append(v_measure_score(true, pred))
         fscore = compute_fscore(true, pred)
         fscores.append(fscore)
         # if one_sense == True:
         #    one_sense_count += 1
 #        print('%s: ari=%f, vscore=%f, fscore=%f' % (k, aris[-1], vscores[-1], fscores[-1]))
-    #aris = np.array(aris)
+    aris = np.array(aris)
     #vscores = np.array(vscores)
     fscores = np.array(fscores)
     #weights = np.array(weights)
     print('number of one-sense words in reference: %d' % one_sense_count)
-    #print('mean ari: %f' % np.mean(aris))
+    print('mean ari: %f' % np.mean(aris))
     #print('mean vscore: %f' % np.mean(vscores))
     #print('weighted vscore: %f' % np.sum(vscores * (weights / float(np.sum(weights)))))
     print('mean fscore: %f' % np.mean(fscores))

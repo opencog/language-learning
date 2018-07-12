@@ -52,6 +52,9 @@ def compute_fscore(true, pred):
         return 0
     p = int_size / float(len(pred_pairs))
     r = int_size / float(len(true_pairs))
+    # in case both precision and recall are zero, return zero
+    if (p + r) == 0:
+        return 0
     return 2*p*r/float(p+r)
 
 def read_answers(filename, sep):

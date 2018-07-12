@@ -11,6 +11,11 @@
 * SparseSVD
 * PyTest
 
+## Adding Channel To Anaconda Configuration
+```
+conda config --add channels opencog-ull
+``` 
+
 ## Create virtual environment
 ```
 conda env create -f environment.yml

@@ -4,7 +4,6 @@ channels:
 - conda-forge
 - defaults
 dependencies:
-- igraph=0.7.1=4
 - jupyter_contrib_core=0.3.3=py36_1
 - jupyter_contrib_nbextensions=0.5.0=py36_0
 - jupyter_highlight_selected_word=0.2.0=py36_0
@@ -142,7 +141,7 @@ dependencies:
 - yaml=0.1.7=had09818_2
 - zeromq=4.2.3=h439df22_3
 - zlib=1.2.11=ha838bed_2
-- link-grammar-minisat=5.4.4=0
+- link-grammar-minisat-bundled=5.4.4=0
 - pip:
   - ipython-genutils==0.2.0
   - jupyter-client==5.2.3
@@ -160,7 +159,6 @@ dependencies:
   - nb-conda==2.2.1
   - nb-conda-kernels==2.1.0
   - prompt-toolkit==1.0.15
-  - python-igraph==0.7.1.post6
   - sparsesvd==0.2.2
 prefix: /home/oleg/miniconda3/envs/ull4
 

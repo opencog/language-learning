@@ -11,6 +11,9 @@ def number_of_clusters(vdf, cluster_range, algorithm='kmeans', \
     from ..utl.turtle import html_table
     from .kmeans import cluster_words_kmeans
 
+    if(len(cluster_range) < 2 or cluster_range[2] < 1):
+        return cluster_range[0]
+
     sil_range = pd.DataFrame(columns=['Np','Nc','Silhouette','Inertia'])
     if verbose == 'debug':
         print('clustering/poc.py/number_of_clusters: vdf:\n', \

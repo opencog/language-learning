@@ -204,7 +204,8 @@ def files2links(**kwargs):  #80426 kwargs  #80605 corpus_stats
     if len(files) == 0:
         return df, {'parsed_links': 0, 'error': 'files2links: files = []'}
     for i,f in enumerate(files):
-        if verbose in ['max','debug']: print('File # '+str(i)+':', f)
+        if verbose in ['max','debug']:
+            print(UTC(),':: src.space.poc05.files2links: File # '+str(i)+':', f)
         if context > 1:
             #-print(UTC(), ':: poc05 files2links - call mst2disjuncts')
             df = pd.concat([df, mst2disjuncts(f, lw=left_wall, dot=period)])
@@ -215,18 +216,18 @@ def files2links(**kwargs):  #80426 kwargs  #80605 corpus_stats
             #-print(UTC(), ':: poc05 files2links - call mst2words')
             df = pd.concat([df, mst2words(f, lw=left_wall, dot=period)])
     parsed_links = len(df)
-    if verbose in ['debug']:
-        print('parsed_links = len(df) before group:', parsed_links)
+    if verbose in ['max','debug']:
+        print(UTC(),':: src.space.poc05.files2links: parsed_links = len(df) before group:', parsed_links)
     if group:  #Always True  FIXME:?
         df = df.groupby(['word','link'], as_index=False).sum() \
             .sort_values(by=['count','word','link'], ascending=[False,True,True]) \
             .reset_index(drop=True)
     if verbose in ['debug']:
-        print('len(df) after group:', len(df))
+        print(UTC(),':: src.space.poc05.files2links: len(df) after group:', len(df))
     words_number = len(set(df['word'].tolist()))  #TODO: update to 80601 definition
     terms_number = len(set(df['link'].tolist()))  #TODO: update to 80601 definition
     if verbose in ['max','debug']:
-        print('src.space.poc05 files2links:', \
+        print(UTC(),':: src.space.poc05.files2links:', \
               words_number, 'unique words and', \
               terms_number, 'unique context terms form', \
               len(df),'unique word-term pairs from', \
@@ -240,6 +241,8 @@ def files2links(**kwargs):  #80426 kwargs  #80605 corpus_stats
         'parsed_links': parsed_links, 'unique_terms': terms_number,
         'unique_words': words_number, 'word-term_pairs': len(df)
     }
+    if verbose in ['max','debug']:
+        print(UTC(),':: src.space.poc05.files2links: return df, response')
     return df, response
 
 

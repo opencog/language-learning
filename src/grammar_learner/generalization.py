@@ -147,8 +147,14 @@ def reorder(cats):
 
 
 def jaccard(x,y):
-    if len(x.union(y)):
-        return len(x.intersection(y))/len(x.union(y))
+    try:
+        xx = set(x)
+        yy = set(y)
+    except: return 0
+    if len(xx) == 0 or len(yy) == 0:
+        return 0
+    elif len(xx.union(yy)):
+        return len(xx.intersection(yy))/len(xx.union(y))
     else: return 0
 
 

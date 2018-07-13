@@ -1,7 +1,7 @@
 name: ull4
 channels:
-- anaconda
 - local
+- anaconda
 - conda-forge
 - defaults
 dependencies:
@@ -11,7 +11,6 @@ dependencies:
 - pluggy=0.6.0=py36hb689045_0
 - py=1.5.3=py36_0
 - pytest=3.6.2=py36_0
-- igraph=0.7.1=4
 - jupyter_contrib_core=0.3.3=py36_1
 - jupyter_contrib_nbextensions=0.5.0=py36_0
 - jupyter_highlight_selected_word=0.2.0=py36_0
@@ -167,7 +166,5 @@ dependencies:
   - nb-conda==2.2.1
   - nb-conda-kernels==2.1.0
   - prompt-toolkit==1.0.15
-  - python-igraph==0.7.1.post6
   - sparsesvd==0.2.2
 prefix: /home/oleg/miniconda3/envs/ull4
-

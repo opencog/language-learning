@@ -31,11 +31,12 @@ class LGInprocParser(AbstractFileParserClient):
 
     def __init__(self, limit: int=1000):
         self._linkage_limit = limit
+        self._timeout = 9999999
         self._out_stream = None
         self._ref_stream = None
         self._counter = 0
 
-    def _parse_batch_ps_output(self, text: str, lines_to_skip: int=4) -> list:
+    def _parse_batch_ps_output(self, text: str, lines_to_skip: int=5) -> list:
         """
         Parse postscript returned by link-parser executable in a form where each sentence is followed by zero
             or many postscript notated linkages. Postscript linkages are usually represented by three lines
@@ -198,12 +199,18 @@ class LGInprocParser(AbstractFileParserClient):
         else:
             print("Info: Reference file name is not specified. Parse quality is not calculated.")
 
+
+        # sed -e 's/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27-]*\)\]/\1/g'
+
         reg_exp = "^\D.+$" if (options & BIT_ULL_IN) == BIT_ULL_IN else "^.+$"  # "^[^#].+$"
+
+
+        # reg_exp = "^\D.+$" if (options & BIT_ULL_IN) == BIT_ULL_IN else "^.+$"  # "^[^#].+$"
 
         # Make command option list depending on the output format specified.
         if not (options & BIT_OUTPUT) or (options & BIT_OUTPUT_POSTSCRIPT):
             cmd = ["link-parser", dict_path, "-echo=1", "-postscript=1", "-graphics=0", "-verbosity=0",
-                   "-limit="+str(self._linkage_limit)]
+                   "-limit="+str(self._linkage_limit), "-timeout="+str(self._timeout)]
         elif options & BIT_OUTPUT_CONST_TREE:
             cmd = ["link-parser", dict_path, "-echo=1", "-constituents=1", "-graphics=0", "-verbosity=0",
                    "-limit="+str(self._linkage_limit)]

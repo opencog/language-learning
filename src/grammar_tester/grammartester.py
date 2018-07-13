@@ -93,10 +93,6 @@ class GrammarTester(AbstractGrammarTestClient):
             print(ParseMetrics.text(metrics), file=stat_file_handle)
             print(ParseQuality.text(quality), file=stat_file_handle)
 
-            print("PQA:\t{0:2.2f}%".format((metrics.average_parsed_ratio / metrics.sentences *
-                                            quality.quality / quality.sentences * Decimal('100.0'))
-                                            if metrics.sentences else 0.0), file=stat_file_handle)
-
         except IOError as err:
             print("IOError: " + str(err))
 

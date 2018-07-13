@@ -154,7 +154,7 @@ Usage:
             return 1
 
         if linkage_limit is None:
-            linkage_limit = 100
+            linkage_limit = 1000
 
         if template_path is None:
             template_path = "en"

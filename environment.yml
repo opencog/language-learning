@@ -1,6 +1,7 @@
 name: ull4
 channels:
 - local
+- opencog-ull
 - conda-forge
 - defaults
 dependencies:

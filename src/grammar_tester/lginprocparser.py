@@ -200,7 +200,7 @@ class LGInprocParser(AbstractFileParserClient):
             print("Info: Reference file name is not specified. Parse quality is not calculated.")
 
 
-        # sed -e 's/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27-]*\)\]/\1/g'
+        # sed -e '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27-]*\)\]/\1/g'
 
         reg_exp = "^\D.+$" if (options & BIT_ULL_IN) == BIT_ULL_IN else "^.+$"  # "^[^#].+$"
 

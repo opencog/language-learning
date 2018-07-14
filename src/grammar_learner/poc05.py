@@ -487,7 +487,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     # output_grammar    - path/file.ext / dir ⇒ auto file name
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     tmpath          = kwa('',       'tmpath')
-    parse_mode      = kwa('lower',  'parse_mode')  # files2links
+    parse_mode      = kwa('given',  'parse_mode')
     left_wall       = kwa('',       'left_wall')
     period          = kwa(False,    'period')
     context         = kwa(1,        'context')
@@ -529,7 +529,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     from shutil import copy2 as copy
     from src.utl.utl import UTC
     from src.utl.read_files import check_dir, check_mst_files
-    from src.space.poc05 import files2links
+    from src.space.poc05 import files2links   #80528 .poc05
     from src.clustering.poc05 import clusters2dict
     #+from src.link_grammar.poc05 import category_learner
     #+from src.link_grammar.poc05 import induce_grammar

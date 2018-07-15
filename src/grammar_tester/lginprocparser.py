@@ -131,15 +131,24 @@ class LGInprocParser(AbstractFileParserClient):
                     # Parse postscript notated linkage and get two lists with tokens and links in return.
                     tokens, links = parse_postscript(lnkg, options, out_stream)
 
+                    prepared = None
+
                     try:
+
                         # Print out links in ULL-format
                         print_output(tokens, links, options, out_stream)
 
-                    except Exception as err:
-                        print(str(type(err)) + ": " + str(err) + " in print_output()")
+                        # Calculate parseability statistics
+                        prepared = prepare_tokens(tokens, options)
+                        sent_metrics += parse_metrics(prepared)
 
-                    # Calculate parseability statistics
-                    sent_metrics += parse_metrics(prepare_tokens(tokens, options))
+                    except Exception as err:
+                        print(str(type(err)) + ": " + str(err) + " in handle_stream_output()")
+                        print(sent.text)
+                        print(sent.linkages)
+                        print(tokens)
+                        print(links)
+                        print(prepared)
 
                     # Calculate parse quality if the option is set
                     if options & BIT_PARSE_QUALITY and len(ref_parses):
@@ -212,7 +221,7 @@ class LGInprocParser(AbstractFileParserClient):
         else:
             sed_cmd = ["sed", "-e", r"/^$/d", corpus_path]
 
-        print(sed_cmd)
+        # print(sed_cmd)
 
         # Make command option list depending on the output format specified.
         if not (options & BIT_OUTPUT) or (options & BIT_OUTPUT_POSTSCRIPT):

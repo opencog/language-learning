@@ -1,5 +1,6 @@
 import unittest
 
+from decimal import Decimal
 from grammar_tester.parsestat import calc_parse_quality, parse_quality, calc_stat, parse_metrics
 
 # Token indexes
@@ -97,10 +98,14 @@ class TestStat(unittest.TestCase):
 
     def test_parse_stat_cmp(self):
         f, n, s = calc_stat(["###LEFT-WALL###", "[a]", "dad", "is", "[a]", "human", "[.]"])
-        pm = parse_metrics(["###LEFT-WALL###", "[a]", "dad", "is", "[a]", "human", "[.]"])
+        pm = parse_metrics(["[a]", "dad", "is", "[a]", "human"])
         self.assertEqual(f, pm.completely_parsed_ratio, "'completely_parsed_ratio' mismatch")
         self.assertEqual(n, pm.completely_unparsed_ratio, "'completely_unparsed_ratio' mismatch")
         self.assertEqual(s, pm.average_parsed_ratio, "'average_parsed_ratio' mismatch")
+
+    def test_parse_metrics(self):
+        pm = parse_metrics(['###LEFT-WALL###', '[.]', '[.]', '[.]', '[.]', '[.]', '[.]', '[.]'])
+        self.assertEqual(Decimal('0.125'), pm.average_parsed_ratio)
 
 
 if __name__ == '__main__':

@@ -118,8 +118,12 @@ def prepare_tokens(tokens: list, options: int) -> list:
         rw = tokens[last_token] if tokens[last_token].startswith(r"###") or tokens[last_token].startswith(r"[##") \
                                 else None
 
-        # Skip RIGHT-WALL and period or period in brackets if any
-        while last_token and tokens[last_token] in [r"[.]", r".", r"###RIGHT-WALL###", r"[###RIGHT-WALL###]"]:
+        # Skip RIGHT-WALL if any
+        if last_token and tokens[last_token] in [r"###RIGHT-WALL###", r"[###RIGHT-WALL###]"]:
+            last_token -= 1
+
+        # Skip period or period in brackets if any
+        if last_token and tokens[last_token] in [r"[.]", r"."]:
             last_token -= 1
 
         # If both period and RIGHT-WALL were found

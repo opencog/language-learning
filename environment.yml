@@ -1,10 +1,17 @@
 name: ull4
 channels:
 - local
-- opencog-ull
+- anaconda
 - conda-forge
 - defaults
+- opencog-ull
 dependencies:
+- atomicwrites=1.1.5=py36_0
+- attrs=18.1.0=py36_0
+- more-itertools=4.2.0=py36_0
+- pluggy=0.6.0=py36hb689045_0
+- py=1.5.3=py36_0
+- pytest=3.6.2=py36_0
 - jupyter_contrib_core=0.3.3=py36_1
 - jupyter_contrib_nbextensions=0.5.0=py36_0
 - jupyter_highlight_selected_word=0.2.0=py36_0
@@ -162,4 +169,3 @@ dependencies:
   - prompt-toolkit==1.0.15
   - sparsesvd==0.2.2
 prefix: /home/oleg/miniconda3/envs/ull4
-

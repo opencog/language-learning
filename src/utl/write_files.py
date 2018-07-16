@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-#80510 POC 0.4: Proof of Concepf: Grammar Learner 0.4:
+#80629 POC 0.5: Proof of Concepf: Grammar Learner 0.5:
+import os
+from ..utl.utl import UTC
 
 def list2file(lst, out_file):  # 80321 Turtle-8 - 80330 moved here from .utl.utl
     string = ''
@@ -16,14 +18,66 @@ def list2file(lst, out_file):  # 80321 Turtle-8 - 80330 moved here from .utl.utl
     with open (out_file, 'w') as f: f.write(string)
     return string
 
+def rules2list(rules_dict, grammar_rules=2, verbose='none'):   #80620 0.5 {} ⇒ [] ⇒ save_link_grammar
+    # rules_dict: {'cluster': [], 'words': [], }
+    # grammar_rules = kwargs['grammar_rules']: 1 - connectors, 2 - disjuncts
+        #TODO: 2,3... = disjunct connectors number  #? 0 - words?
 
-#-def save_link_grammar(rules, path, file='', header='', footer=''):
-def save_link_grammar(rules, output_grammar, header='', footer=''):  # 80510
-    # rules - list
+    sign = lambda x: ('+','-')[x < 0]
+    def disjunct(x, cluster_list, cluster):
+        if x < 0:
+            return cluster_list[abs(x)] + cluster + '-'
+        else: return cluster + cluster_list[abs(x)] + '+'
+    rules = []
+    for i,cluster in enumerate(rules_dict['cluster']):
+        if i == 0: continue
+        if cluster == None: continue
+        if verbose == 'debug':
+            print('rules2list:', i, cluster, rules_dict['disjuncts'][i])
+        rule = [cluster]
+        rule.append(sorted(rules_dict['words'][i]))
+        if grammar_rules == 1:              # rules based on connectors
+            lefts = set()
+            rights = set()
+            for djtuple in rules_dict['disjuncts'][i]:
+                for x in djtuple:
+                    if x < 0:
+                        lefts.add(disjunct(x, rules_dict['cluster'], cluster))
+                    else: rights.add(disjunct(x, rules_dict['cluster'], cluster))
+            rule.append(sorted(lefts))
+            rule.append(sorted(rights))
+            rule.append('')   #disjuncts
+            if verbose == 'debug':
+                print('connector-based rule:', i, cluster, rule)
+        else:   # rules: disjuncts  #TODO: 2/3/4...
+            rule.append('')   #lefts
+            rule.append('')   #rights
+            disjuncts = []
+            for djtuple in rules_dict['disjuncts'][i]:
+                try:
+                    dj = ' & '.join([disjunct(x, rules_dict['cluster'], cluster) \
+                        for x in djtuple])
+                    disjuncts.append(dj)
+                except TypeError:
+                    print('- wrong djtuple? -', djtuple)
+            rule.append(sorted(disjuncts))
+            if verbose == 'debug':
+                print('disjunct-based rule  :', i, cluster, rule)
+        rules.append(rule)
+    return rules
+
+
+def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=''):  #80626
+    # rules: [] or {} -
+    # grammar_rules = kwargs['grammar_rules']: 1 ⇒ connectors, 2+ ⇒ disjuncts
     import os
     from ..utl.utl import UTC
     #-if path[-1] != '/': path += '/'
-    link_grammar = ''
+
+    if type(rules) is dict:  #80620 0.5 new data structure, 80626 connector-based rules
+        rules = rules2list(rules, grammar_rules)
+
+    link_grammar = ''               #80510 0.4
     line_list = list()
     clusters = set()
     for rule in rules:
@@ -53,15 +107,16 @@ def save_link_grammar(rules, output_grammar, header='', footer=''):  # 80510
     elif os.path.isdir(output_grammar):
         out_file = output_grammar
         if out_file[-1] != '/': out_file += '/'
-        if 'isa' in '\t'.join(line_list):
-            out_file += 'poc-turtle_'
-        else: out_file += 'poc-english_'
+        #-if 'isa' in '\t'.join(line_list): out_file += 'poc-turtle_'
+        #-else: out_file += 'poc-english_'
+        #out_file += 'poc-english_'   #80704 replaced with:
+        out_file += 'dict_'
         out_file = out_file + str(len(clusters)) + 'C_' \
-            + str(UTC())[:10] + '_0004.4.0.dict'    #80511 0008 ⇒ 0004
+            + str(UTC())[:10] + '_0005.4.0.dict'            #80620 0004⇒0005
     else: raise FileNotFoundError('File not found', output_grammar)
     if header == '':
-        header = '% Grammar Learner v.0.4 ' + str(UTC())   #80511 .8 ⇒ .4
-    header = header + '\n' + '<dictionary-version-number>: V0v0v4+;\n' \
+        header = '% Grammar Learner v.0.5 ' + str(UTC())    #80620 .4⇒.5
+    header = header + '\n' + '<dictionary-version-number>: V0v0v5+;\n' \
         + '<dictionary-locale>: EN4us+;'
     add_rules = 'UNKNOWN-WORD: XXX+;'
     if footer == '':
@@ -69,8 +124,13 @@ def save_link_grammar(rules, output_grammar, header='', footer=''):  # 80510
             + str(len(rules)) + ' Link Grammar rules.\n' \
             + '% Link Grammar file saved to: ' + out_file
     lg = header +'\n\n'+ '\n'.join(line_list) +'\n'+ add_rules +'\n\n'+ footer
+    #-80704 tmp FIXME:
+    #-lg = lg.replace('@1', '.a')
+    #-lg = lg.replace('@2', '.b')
+    #-lg = lg.replace('@3', '.c')
+    lg = lg.replace('@', '.')       #8070 WSD: word@1 ⇒ word.1
     with open (out_file, 'w') as f: f.write(lg)
-    #-return lg  #80511 POC 0.4 replaced:
+
     from collections import OrderedDict
     response = OrderedDict({'grammar_file': out_file})
     response.update({'grammar_clusters': len(clusters), 'grammar_rules': len(rules)})
@@ -79,8 +139,6 @@ def save_link_grammar(rules, output_grammar, header='', footer=''):  # 80510
 
 def save_category_tree(category_list, tree_file, verbose='none'):  #80522
     import os
-    from src.utl.turtle import html_table
-    from IPython.display import display
     cats = category_list
     clusters = {}
     m = 0
@@ -103,6 +161,8 @@ def save_category_tree(category_list, tree_file, verbose='none'):  #80522
                 tree.append(['', m+1, cats[j][2], cats[j][3], cats[j][4], cats[j][5]])
         else: print('WTF?', k, v)
     if verbose in ['max', 'debug']:
+        from src.utl.widgets import html_table
+        from IPython.display import display
         display(html_table([['Code','Parent','Id','Sim','Words','Similarities']] + tree))
 
     from src.utl.write_files import list2file
@@ -112,6 +172,56 @@ def save_category_tree(category_list, tree_file, verbose='none'):  #80522
     return {'tree_file': tree_file}
 
 
+def save_cat_tree(cats, output_categories, verbose='none'):     #80706 0.5
+    #80611 ~ cats2list without 'djs', children'...
+    # cats: {'cluster':[], 'words':[], ...}                     #80609
+    from copy import deepcopy
+    from src.utl.write_files import list2file
+    from src.utl.utl import UTC
+
+    tree_file = output_categories
+    if '.' not in tree_file:  #auto file name
+        if tree_file[-1] != '/': tree_file += '/'
+        #-tree_file += (str(len(set([x[0] for x in cats_list]))) + '_cat_tree.txt')
+        n_cats = len([x for i,x in enumerate(cats['parent']) if i > 0 and x < 1])
+        tree_file += (str(n_cats) + '_cat_tree.txt')
+
+    categories = []
+    for i,cluster in enumerate(cats['cluster']):
+        if i == 0: continue
+        category = []
+        if cats['cluster'][i] is not None:
+            category.append(cats['cluster'][i])
+        else: category.append('')
+        category.append(cats['parent'][i])
+        category.append(i)
+        category.append(round(cats['quality'][i],2))
+        #!category.append(sorted(cats['words'][i]))  #80704+06 tmp hack FIXME
+        wordz = deepcopy(sorted(cats['words'][i]))
+        #-80704 word@1, word@2 ⇒ word.a, word.b:
+        #-wordz = [x.replace('@1','.a') for x in wordz]
+        #-wordz = [x.replace('@2','.b') for x in wordz]
+        #-wordz = [x.replace('@3','.c') for x in wordz]
+        wordz = [x.replace('@','.') for x in wordz] #80706 WSD: word@1 ⇒ word.1
+        category.append(wordz)                      #80704+06 tmp hack FIXME
+        #80704+06 end
+        category.append(cats['similarities'][i])
+        #-category.append(cats['children'][i])
+        categories.append(category)
+
+    string = list2file(categories, tree_file)
+
+    if verbose in ['max', 'debug']:
+        print(UTC(),':: src/utl.writefiles.py save_cat_tree:', \
+            len(cats['cluster']) - 1, 'categories')
+    if verbose == 'debug':
+        from src.utl.widgets import html_table
+        from IPython.display import display
+        display(html_table([['Code','Parent','Id','Sim','Words','Similarities']] + categories))
+
+    return {'cat_tree_file': tree_file}
+
 #80331 list2file moved here from .utl.py
 #80510 save_link_grammar moved here from src/link_grammar/poc.py & updated
 #80522 save_category_tree
+#80619 save_cat_tree, +80623 auto file name

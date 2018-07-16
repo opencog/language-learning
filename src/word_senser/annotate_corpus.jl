@@ -112,7 +112,7 @@ temp = "temp_folder"
 # if model is single file, copy it in a temp folder
 if !isdir(model)
     mkdir(temp)
-    cp(model, temp)
+    cp(model, temp * "/" * model)
     model = temp
 end
 

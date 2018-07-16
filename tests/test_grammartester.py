@@ -16,9 +16,40 @@ limit = 100
 # opts = BIT_SEP_STAT | BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_RM_DIR #| BIT_DPATH_CREATE | BIT_LOC_LANG | BIT_PARSE_QUALITY #| BIT_ULL_IN #| BIT_OUTPUT_DIAGRAM #| BIT_SEP_STAT
 opts = BIT_SEP_STAT | BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_RM_DIR | BIT_DPATH_CREATE | BIT_LOC_LANG | BIT_PARSE_QUALITY #| BIT_ULL_IN #| BIT_OUTPUT_DIAGRAM #| BIT_SEP_STAT
 
+# # PubMed-2018-06-01 parse for ULL reference
+# dict = "en"
+# corp = "/home/alex/data2/parses/PubMed-2018-06-01/data"
+# dest = "/home/alex/data2/parses/PubMed-2018-06-01/ref"
+# ref = None
 
 
+# PubMed-2018-06-01 parse with learned grammar
+dict = "/home/alex/data2/parses/PubMed-2018-06-01-splitted/dict"
+corp = "/home/alex/data2/parses/PubMed-2018-06-01-splitted/data"
+dest = "/home/alex/data2/parses/PubMed-2018-06-01-splitted/parses"
+ref = "/home/alex/data2/parses/PubMed-2018-06-01-splitted/ref"
 
+
+class ParseTestCase(unittest.TestCase):
+
+    # @unittest.skip
+    def test_test(self):
+        pr = LGInprocParser()
+        # pr = LGApiParser()
+
+        print(dict, corp, dest, ref, sep="\n")
+
+        gt = GrammarTester(grmr, tmpl, limit, pr)
+        pm, pq = gt.test(dict, corp, dest, ref, opts)
+
+        print(pm.text(pm))
+        # print(pq.text(pq))
+
+        # self.assertEqual(25, gt._total_dicts)
+        self.assertEqual(88, pm.sentences)
+
+
+@unittest.skip
 class GrammarTesterTestCase(unittest.TestCase):
 
     @unittest.skip
@@ -51,7 +82,7 @@ class GrammarTesterTestCase(unittest.TestCase):
     # @unittest.skip
     def test_parseability(self):
         """ Test poc-english corpus with poc-turtle dictionary """
-        dict = "poc-turtle"
+        # dict = "poc-turtle"
         # dict = handle_path_string("test-data/dict/poc-turtle")
         corp = handle_path_string("test-data/corpora/poc-english/poc_english.txt")
         dest = handle_path_string("test-data/temp")

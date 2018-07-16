@@ -422,6 +422,15 @@ class TestPSParse(unittest.TestCase):
         result_list = prepare_tokens(tokens_only_period_unboxed, options)
         self.assertEqual(["[dad]", "has", "[binoculars]"], result_list, "Lists are not the same!!!")
 
+        seven_dots = ['###LEFT-WALL###', '[.]', '[.]', '[.]', '[.]', '[.]', '[.]', '[.]', '###RIGHT-WALL###']
+        options = 0
+        result_list = prepare_tokens(seven_dots, options)
+        self.assertEqual(['###LEFT-WALL###', '[.]', '[.]', '[.]', '[.]', '[.]', '[.]', '[.]'], result_list, "Lists are not the same!!!")
+
+        options = 0 | BIT_NO_LWALL | BIT_NO_PERIOD
+        result_list = prepare_tokens(seven_dots, options)
+        self.assertEqual(['[.]', '[.]', '[.]', '[.]', '[.]', '[.]'], result_list, "Lists are not the same!!!")
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -4,6 +4,7 @@ channels:
 - anaconda
 - conda-forge
 - defaults
+- opencog-ull
 dependencies:
 - atomicwrites=1.1.5=py36_0
 - attrs=18.1.0=py36_0
@@ -148,7 +149,7 @@ dependencies:
 - yaml=0.1.7=had09818_2
 - zeromq=4.2.3=h439df22_3
 - zlib=1.2.11=ha838bed_2
-- link-grammar-minisat=5.4.4=0
+- link-grammar-minisat-bundled=5.4.4=0
 - pip:
   - ipython-genutils==0.2.0
   - jupyter-client==5.2.3

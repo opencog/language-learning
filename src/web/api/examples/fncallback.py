@@ -3,7 +3,7 @@
 *       callbacks, it is strongly recommended to use later.
 """
 
-from web.lgclient import LGClientError, LGClientLib, LGClientREST
+from web.api.lgclient import LGClientError, LGClientLib, LGClientREST
 
 
 def main():

@@ -4,7 +4,7 @@
 """
 
 from linkgrammar import Linkage
-from web.lgclient import LGClientCallback, LGClientLib, LGClientREST, LGClientError
+from web.api.lgclient import LGClientCallback, LGClientLib, LGClientREST, LGClientError
 
 
 class ParseCallback(LGClientCallback):

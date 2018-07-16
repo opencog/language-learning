@@ -122,7 +122,9 @@ for curr_model in readdir(model)
 
     for file in readdir(corpus_dir)
         println("Annotating " * file * " with model " * curr_model)
-        annotate_file(corpus_dir * "/" * file, output_dir * "/" * file * curr_model * "_disamb", vm, dict, separator, min_prob, win)
+        corpus_file = corpus_dir * "/" * file
+        output_file = output_dir * "/" * file * curr_model * "_disamb"
+        annotate_file(corpus_file, output_file, vm, dict, separator, min_prob, win)
     end
 
 end

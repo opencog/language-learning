@@ -1,5 +1,8 @@
 # OpenCog Unsupervised Language Learning project
 
+From now on it is assumed that you using Linux and have `anaconda3` or `miniconda3` installed on your machine. Othewise see 
+https://conda.io/docs/user-guide/install/linux.html
+
 ## Dependencies
 * Anaconda 3
 * Numpy

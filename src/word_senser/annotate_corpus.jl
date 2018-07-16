@@ -1,10 +1,11 @@
 # ASuMa May, 2018
-# This script takes a directory with a number of corpora and an AdaGram model
-# and outputs a corpus annotated with word senses, if there is more
+# This script takes a directory with corpus files and one or more
+# AdaGram model(s) to annotate the corpus.
+# It outputs the corpus files annotated with word senses, if there is more
 # than one sense above the threshold for a given word
 
 # usage:
-#   annotate_corpora model-dir corpus-dir 
+#   annotate_corpus model(file or dir) corpus-dir 
 #                   output-dir [--joiner=@] [--min-prob=0.3] [--window=4]
 # see arg table for meaning of parameters
 
@@ -69,8 +70,8 @@ using AdaGram
 s = ArgParseSettings()
 
 @add_arg_table s begin
-  "model-dir"
-    help = "Directory with AdaGram model(s)"
+  "model"
+    help = "File or directory with AdaGram model(s)"
     arg_type = AbstractString
     required = true
   "corpus-dir"
@@ -102,18 +103,33 @@ min_prob = args["min-prob"]
 win = args["window"]
 corpus_dir = args["corpus-dir"]
 output_dir = args["output-dir"]
-model_dir = args["model-dir"]
+model = args["model"]
 if !isdir(output_dir) 
     mkdir(output_dir) 
 end
 
-for model in readdir(model_dir)
+temp = "temp_folder"
+# if model is single file, copy it in a temp folder
+if !isdir(model)
+    mkdir(temp)
+    cp(model, temp * "/" * model)
+    model = temp
+end
 
-    vm, dict = load_model(model_dir * "/" * model);
+for curr_model in readdir(model)
+
+    vm, dict = load_model(model * "/" * curr_model);
 
     for file in readdir(corpus_dir)
-        println("Annotating " * file * " with model " * model)
-        annotate_file(corpus_dir * "/" * file, output_dir * "/" * file * model * "_disamb", vm, dict, separator, min_prob, win)
+        println("Annotating " * file * " with model " * curr_model)
+        corpus_file = corpus_dir * "/" * file
+        output_file = output_dir * "/" * file * curr_model * "_disamb"
+        annotate_file(corpus_file, output_file, vm, dict, separator, min_prob, win)
     end
 
+end
+
+# if temp folder was created, delete it
+if isdir(temp)
+    rm(temp, recursive=true)
 end

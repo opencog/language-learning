@@ -27,13 +27,13 @@ git clone https://github.com/singnet/language-learning.git
 ## Run tests
 ```
 cd ~/language-learning
-source activate ull4
+source activate ull
 pytest
 ```
 ## Run Jupyter
 ```
 cd ~/language-learning/notebooks
-source activate ull4
+source activate ull
 jupyter notebook
 ```
 
@@ -42,7 +42,7 @@ jupyter notebook
 From `language-learning` directory run:
 
 ```
-source activate ull4
+source activate ull
 pip install .
 ```
 If for some reason you are not using virtual environment or using Python 2.x along with Python 3.x make sure you 

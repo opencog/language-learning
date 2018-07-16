@@ -144,11 +144,11 @@ class LGInprocParser(AbstractFileParserClient):
 
                     except Exception as err:
                         print(str(type(err)) + ": " + str(err) + " in handle_stream_output()")
-                        print(sent.text)
-                        print(sent.linkages)
-                        print(tokens)
-                        print(links)
-                        print(prepared)
+                        print("Sentence:", sent.text)
+                        print("Linkages:", sent.linkages)
+                        print("Tokens:", tokens)
+                        print("Links:", links)
+                        print("Filtered:", prepared)
 
                     # Calculate parse quality if the option is set
                     if options & BIT_PARSE_QUALITY and len(ref_parses):

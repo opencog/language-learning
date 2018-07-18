@@ -1,0 +1,10 @@
+Number of sentences	12
+Average sentence length	3
+Number of unique parsed words in sentences	13
+Number of unique non-parsed [words] in sentences	0
+Total words count in sentences	36
+Non-parsed [words] count in sentences	0
+Average per-word counts	3
+Number of unique links	19
+Total links count	24
+Average per-link count	1

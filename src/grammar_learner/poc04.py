@@ -197,7 +197,7 @@ def category_learner(links, **kwargs):  #80509+10
         if tmpath[-1] != '/': tmpath += '/'
         tmpath += 'tmp'
 
-    print('poc04.category_learner: tmpath = ', tmpath)
+    #-print('poc04.category_learner: tmpath = ', tmpath)
 
     if verbose == 'debug':
         print('category_learner: word_space:', word_space, '/ clustering:', clustering)
@@ -615,7 +615,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     from shutil import copy2 as copy
     from src.utl.utl import UTC
     from src.utl.read_files import check_dir, check_mst_files
-    from src.space.poc04 import files2links               #80509 .poc ⇒ 04
+    from src.space.poc04 import files2links
     #+from src.link_grammar.poc04 import category_learner
     from src.clustering.poc04 import clusters2dict
     #+from src.link_grammar.poc04 import grammar_learner
@@ -644,6 +644,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
         print('\nfiles2links returns links', type(links), ':\n')
         with pd.option_context('display.max_rows', 6): print(links, '\n')
         print('learn_grammar: word_space:', word_space, '/ clustering:', clustering)
+
     category_list, re03 = category_learner(links, **kwargs)
     log.update(re03)
     word_clusters = clusters2dict(category_list)
@@ -698,7 +699,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
 
     # Save cat_tree.txt file
     from src.utl.write_files import save_category_tree
-    tree_file = cats_file[:cats_file.rindex('/')] + '/cat_tree.txt'
+    tree_file = cats_file[:cats_file.rindex('_')] + '_cat_tree.txt'
     re08 = save_category_tree(category_list, tree_file, verbose)  #FIXME: verbose?
     log.update(re08)
     # Save Link Grammar .dict

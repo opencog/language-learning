@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-#/src/utl/widgets.py OpenCog ULL Grammar Learner POC 0.4 80511
+#/src/utl/widgets.py OpenCog ULL Grammar Learner POC.0.4 80511, 80627
+from IPython.display import HTML
 
 def html_table(tbl):
-    from IPython.display import HTML
     return HTML('<table><tr>{}</tr></table>'
                 .format('</tr><tr>'
                         .join('<td>{}</td>'
@@ -72,6 +72,17 @@ def category_tree(cat_file, verbose='none'):  # 80522 shortened: display only
     return tree
 
 
+def display_tree(response):
+    print('Parse ability (PA), parse quality(PQ), PA*PQ:', \
+          str(response['parse_ability']) + '%, ' + \
+          str(response['parse_quality']) + '%, ' + \
+          str(response['parse_quability']) + '%;')
+    print('Category tree "cat_tree.txt" file:')
+    with open(response['cat_tree_file'],'r') as f: x = f.read().splitlines()
+    display(html_table([y.split('\t') for y in x]))
+
+
 #80511 category tree v.0.1 ~ widget
 #80521 html_table, plot_2d copied from utl.turtle.py
 #80521 save file
+#80627 display_tree

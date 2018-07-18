@@ -145,7 +145,6 @@ def main(argv):
         eval_files.append(test_file)
         predictions = read_answers(test_dir + "/" + test_file, separator)
         ari, vscore, fscore = compute_metrics(true_answers, predictions)
-        fscore = compute_metrics(true_answers, predictions)
         ari_list.append(ari)
         vscore_list.append(vscore)
         fscore_list.append(fscore)

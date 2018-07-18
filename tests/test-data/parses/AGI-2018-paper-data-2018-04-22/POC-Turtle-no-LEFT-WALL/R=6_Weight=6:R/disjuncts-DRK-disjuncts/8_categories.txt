@@ -1,0 +1,8 @@
+C00	C01	0.0	bird extremity fish	0 0 0
+C00	C02	0.0	feather	0
+C00	C03	0.0	.	0
+C00	C04	0.0	scale	0
+C00	C05	0.0	fin wing	0 0
+C00	C06	0.0	eagle herring parrot tuna	0 0 0 0
+C00	C07	0.0	has	0
+C00	C08	0.0	isa	0

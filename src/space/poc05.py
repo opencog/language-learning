@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
+#language-learning/src/space/poc05.py  #80718
 import numpy as np
 import pandas as pd
 from src.utl.utl import UTC
 
-#-def corpus_stats(files, extended = False):      #80606
-    # files = ['path_to_mst_parse_files', '...', ...]
-def corpus_stats(lines, extended = False):      #80716
+def corpus_stats(lines, extended = False):  #80716 #TODO: 80718 enhance issue
     # lines = []
     from collections import Counter
     words = Counter()
@@ -13,10 +12,7 @@ def corpus_stats(lines, extended = False):      #80716
     lefts = Counter()   #:left words in links
     rights = Counter()  #:right words in links
     links = Counter()   #:tuples: (left,right)
-    #-lines = []        #80714
-    #-for file in files:
-    #-    with open(file, 'r') as f:
-    #-        lines.extend(f.readlines())
+
     sentence_lengths = []
     for line in lines:
         if(len(line)) > 1:
@@ -43,7 +39,7 @@ def corpus_stats(lines, extended = False):      #80716
         aplc = int(round(sum(links.values())/len(links),0))
     else: aplc = 0
     unpw = set(npw) - set(words)    #:unique non-parsed words
-    lost_words = set(words) - (set(lefts)|set(rights))  #:unique words not mentiones in links
+    lost_words = set(words) - (set(lefts)|set(rights))  #:unique words not mentioned in links
     response = {
         'corpus_stats': [
             ['Number of sentences', len(sentence_lengths)],
@@ -71,12 +67,11 @@ def corpus_stats(lines, extended = False):      #80716
     return response  #endof corpus_stats
 
 
-def mst2words(lines, **kwargs):
+def mst2words(lines, **kwargs):         #80717
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     lw  = kwa('', 'left_wall')
     dot = kwa(False, 'period')
     pairs = []
-    with open(input_file, 'r') as f: lines = f.readlines()
     for line in lines:
         if len(line) > 1:
             if line[0].isdigit():
@@ -89,24 +84,20 @@ def mst2words(lines, **kwargs):
                     pairs.append([x[1], x[3]])    # ~1Mlines/s
     df = pd.DataFrame(pairs, columns=['word','link'])
     df['count'] = 1
-    return df
+    return df  #endof mst2words
 
 
-#-def mst2connectors(input_file, parse_mode='given', context=1, \
-#-                   lw='LEFT-WALL', dot=True, verbose='none'):
-def mst2connectors(lines, **kwargs):
-    #-print(UTC(), 'poc05 mst2connectors')
+def mst2connectors(lines, **kwargs):    #80716
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     lw  = kwa('', 'left_wall')
     dot = kwa(False, 'period')
-
-    df = mst2words(lines, **kwargs)     #80716
+    df = mst2words(lines, **kwargs)
     lefts = df.copy()
     lefts['word'] = lefts['word'] + '-'
     lefts = lefts.rename(columns={'word':'link', 'link':'word'})
     df['link'] = df['link'] + '+'
-    links = pd.concat([lefts, df], axis=0, ignore_index=True)
-    #80605: group later:
+    links = pd.concat([lefts, df], axis=0, ignore_index=True, sort=True)
+    #80605: group later?:
     #-links = pd.concat([lefts, df], axis=0, ignore_index=True) \
     #-    .groupby(['word','link'], as_index=False).sum() \
     #-    .sort_values(by=['count','word','link'], ascending=[False,True,True]) \
@@ -114,7 +105,7 @@ def mst2connectors(lines, **kwargs):
     return links
 
 
-def mst2disjuncts(lines, **kwargs):
+def mst2disjuncts(lines, **kwargs):     #80717
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     lw      = kwa(  '',     'left_wall' )
     dot     = kwa(  False,  'period'    )
@@ -122,21 +113,22 @@ def mst2disjuncts(lines, **kwargs):
     pairs = []
     links = dict()
     words = dict()
-
-    def save_djs(words,links):
+    def save_djs(words,links):          #80717 #REF...
         if len(links) > 0:
             for k,v in links.items():
-                if len(v) == 1:
-                    disjunct = str(list(v)[0])
-                else:
-                    l = [str(x) for x in v if str(x)[-1] == '-']
-                    r = [str(x) for x in v if str(x)[-1] == '+']
-                    disjunct = ' & '.join([x for x in (l+r)])
-                pairs.append([words[k], disjunct])
+                if k in words:
+                    if len(v) == 1:
+                        disjunct = words[abs(list(v)[0])] + ('+' if list(v)[0]>0 else '-')
+                    else:
+                        l = sorted([x for x in v if abs(x) in words and x < 0], reverse=True)
+                        r = sorted([x for x in v if x in words and x > 0])
+                        disjunct = ' & '.join([words[abs(x)] + ('+' if x>0 else '-') \
+                                               for x in (l+r)])
+                    pairs.append([words[k], disjunct])
         links = dict()
         words = dict()
         return words,links
-
+    
     for line in lines:
         if len(line) > 1:
             if line[0].isdigit():
@@ -146,27 +138,40 @@ def mst2disjuncts(lines, **kwargs):
                         if lw in ['', 'none']: continue
                         else: x[1] = lw
                     if not dot and x[3] == '.': continue
-                    words[x[0]] = x[1]
-                    words[x[2]] = x[3]
-                    if x[0] not in links:
-                        links[x[0]] = set([str(x[3])+'+'])
-                    else: links[x[0]].add(str(x[3])+'+')
-                    if x[2] not in links:
-                        links[x[2]] = set([str(x[1])+'-'])
-                    else: links[x[2]].add(str(x[1])+'-')
+                    #-words[x[0]] = x[1]   #80716 #REF: strings ⇒ ints, sort djs as sentence
+                    #-words[x[2]] = x[3]
+                    #-if x[0] not in links:
+                        #-links[x[0]] = set([str(x[3])+'+'])
+                    #-else: links[x[0]].add(str(x[3])+'+')
+                    #-if x[2] not in links:
+                        #-links[x[2]] = set([str(x[1])+'-'])
+                    #-else: links[x[2]].add(str(x[1])+'-')
+                    try:
+                        i = int(x[0])
+                        j = int(x[2])
+                    except: continue
+                    words[i] = x[1]
+                    words[j] = x[3]
+                    if i in links: 
+                        links[i].add(j)
+                    else: links[i] = set([j])
+                    if j in links:
+                        links[j].add(-i)
+                    else: links[j] = set([-i])
                 else: # sentence starting with digit = same as next else
                     words,links = save_djs(words,links)
             else:  # sentence starting with letter
                 words,links = save_djs(words,links)
         else:  # empty line or last LR = same as previous else #80411
-            links,words = save_djs(words,links)
+            words,links = save_djs(words,links)
 
     df = pd.DataFrame(pairs, columns=['word','link'])
     df['count'] = 1
+    
     return df
 
 
-def files2links(**kwargs):  #80426 kwargs  #80605 corpus_stats #80617 lower_case
+def files2links(**kwargs):              #80617 lower_case
     #80406 +TODO: control & limit number of links in disjuncts
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     parse_mode      = kwa('lower',  'parse_mode')    # 'casefold' ? #80714
@@ -194,23 +199,6 @@ def files2links(**kwargs):  #80426 kwargs  #80605 corpus_stats #80617 lower_case
     #TODO: check file
     if len(files) == 0:
         return df, {'parsed_links': 0, 'error': 'files2links: files = []'}
-<<<<<<< HEAD
-    for i,f in enumerate(files):
-        if verbose in ['max','debug']:
-            print(UTC(),':: src.space.poc05.files2links: File # '+str(i)+':', f)
-        if context > 1:
-            #-print(UTC(), ':: poc05 files2links - call mst2disjuncts')
-            df = pd.concat([df, mst2disjuncts(f, lw=left_wall, dot=period)])
-        elif context == 1:
-            #-print(UTC(), ':: poc05 files2links - call mst2connectors')
-            df = pd.concat([df, mst2connectors(f, lw=left_wall, dot=period)])
-        else:
-            #-print(UTC(), ':: poc05 files2links - call mst2words')
-            df = pd.concat([df, mst2words(f, lw=left_wall, dot=period)])
-    parsed_links = len(df)
-    if verbose in ['max','debug']:
-        print(UTC(),':: src.space.poc05.files2links: parsed_links = len(df) before group:', parsed_links)
-=======
 
     lines = []
     for i,file in enumerate(files):
@@ -235,34 +223,17 @@ def files2links(**kwargs):  #80426 kwargs  #80605 corpus_stats #80617 lower_case
     else:
         df = mst2words(lines, **kwargs)
     parsed_links = len(df)
+
     if verbose in ['max','debug']:
         print('src.space.poc05 files2links: parsed_links = len(df) before group:', parsed_links)
->>>>>>> lower_case
-    if group:  #Always True  FIXME:?
+
+    if group:  #Always True?  #FIXME:?
         df = df.groupby(['word','link'], as_index=False).sum() \
             .sort_values(by=['count','word','link'], ascending=[False,True,True]) \
             .reset_index(drop=True)
-<<<<<<< HEAD
-    if verbose in ['debug']:
-        print(UTC(),':: src.space.poc05.files2links: len(df) after group:', len(df))
-    words_number = len(set(df['word'].tolist()))  #TODO: update to 80601 definition
-    terms_number = len(set(df['link'].tolist()))  #TODO: update to 80601 definition
-    if verbose in ['max','debug']:
-        print(UTC(),':: src.space.poc05.files2links:', \
-=======
-    if verbose in ['max','debug']:
-        print('src.space.poc05 files2links: len(df) after group:', len(df))
-    words_number = len(set(df['word'].tolist()))  #TODO: update to 80601 definition
-    terms_number = len(set(df['link'].tolist()))  #TODO: update to 80601 definition
 
-    if verbose in ['max','debug']:                #FIXME:DEL
-        print('src.space.poc05 files2links:', \
->>>>>>> lower_case
-              words_number, 'unique words and', \
-              terms_number, 'unique context terms form', \
-              len(df),'unique word-term pairs from', \
-              parsed_links, 'parsed items.\n Corpus statistics:')
-        for x in corp_stat['corpus_stats']: print(x[0], ':\t', x[1])
+    words_number = len(set(df['word'].tolist()))  #TODO: update to 80618 definition
+    terms_number = len(set(df['link'].tolist()))  #TODO: update to 80618 definition
 
     response = {
         'corpus_stats': corp_stat['corpus_stats'],
@@ -270,8 +241,7 @@ def files2links(**kwargs):  #80426 kwargs  #80605 corpus_stats #80617 lower_case
         'parsed_links': parsed_links, 'unique_terms': terms_number,
         'unique_words': words_number, 'word-term_pairs': len(df)
     }
-    if verbose in ['max','debug']:
-        print(UTC(),':: src.space.poc05.files2links: return df, response')
+    
     return df, response
 
 
@@ -286,3 +256,5 @@ def files2links(**kwargs):  #80426 kwargs  #80605 corpus_stats #80617 lower_case
 #80604 mst2disjuncts pd.df ⇒ pairs []
 #80605 corpus_stats
 #80714 files2links - to_lower_case
+#80716 conflicts - manual cleanup
+#80717 update, 80718 commit from 94..server

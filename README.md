@@ -14,14 +14,15 @@ https://conda.io/docs/user-guide/install/linux.html
 * SparseSVD
 * PyTest
 
-## Create virtual environment
-```
-conda env create -f environment.yml
-```
-
 ## Download source code
 ```
 git clone https://github.com/singnet/language-learning.git
+```
+
+## Create virtual environment
+```
+cd ~/language-learning
+conda env create -f environment.yml
 ```
 
 ## Run tests

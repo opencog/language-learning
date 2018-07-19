@@ -1,0 +1,80 @@
+% Grammar Learner v.0.8 2018-04-22 17:56:13 UTC
+<dictionary-version-number>: V0v0v8+;
+<dictionary-locale>: EN4us+;
+
+% C01
+"a":
+(C01C04+) or (C01C05+) or (C01C06+) or (C01C08+) or (C01C12+) or (C01C17+) or (C09C01-) or (C09C01- & C01C15+) or (C13C01-) or (C18C01-);
+
+% C02
+"before":
+(C10C02-) or (C13C02-) or (C18C02-) or (C18C02- & C07C02-);
+
+% C03
+"cake":
+(C03C07+) or (C03C18+) or (C10C03-) or (C11C03- & C06C03-) or (C11C03- & C06C03- & C03C14+) or (C11C03- & C12C03-) or (C11C03- & C12C03- & C03C14+);
+
+% C04
+"child":
+(C06C04- & C01C04- & C09C04-) or (C06C04- & C09C04- & C04C14+) or (C09C04- & C17C04- & C01C04-) or (C09C04- & C17C04- & C04C14+);
+
+% C05
+"dad":
+(C01C05- & C05C09+) or (C01C05- & C05C15+) or (C01C05- & C05C16+) or (C05C09+) or (C05C10+) or (C05C13+) or (C05C15+) or (C05C16+) or (C05C18+);
+
+% C06
+"daughter":
+(C01C06- & C06C03+) or (C06C03+) or (C06C04+) or (C06C09+) or (C18C06- & C01C06-);
+
+% C07
+"food":
+(C07C02+) or (C09C07- & C03C07-) or (C09C07- & C03C07- & C07C14+) or (C16C07- & C09C07-) or (C16C07- & C09C07- & C07C14+);
+
+% C08
+"human":
+(C09C08-) or (C09C08- & C01C08-) or (C09C08- & C08C14+);
+
+% C09
+"is":
+(C05C09- & C09C08+ & C09C01+) or (C06C09- & C09C08+ & C09C01+) or (C09C01+) or (C09C04+ & C09C01+) or (C09C07+ & C09C01+) or (C12C09- & C09C08+ & C09C01+) or (C17C09- & C09C08+ & C09C01+);
+
+% C10
+"liked":
+(C05C10- & C10C16+ & C10C02+) or (C12C10- & C10C02+ & C10C03+);
+
+% C11
+"likes":
+(C11C03+) or (C11C16+);
+
+% C12
+"mom":
+(C01C12- & C12C03+) or (C01C12- & C12C09+) or (C01C12- & C12C15+) or (C12C03+) or (C12C09+) or (C12C10+) or (C12C13+) or (C12C15+) or (C12C18+);
+
+% C13
+"not":
+(C12C13- & C18C13- & C13C02+ & C13C01+ & C13C15+) or (C18C13- & C05C13- & C13C02+ & C13C01+ & C13C15+);
+
+% C14
+"now":
+(C03C14-) or (C04C14-) or (C07C14-) or (C08C14-) or (C15C14-) or (C16C14-);
+
+% C15
+"parent":
+(C01C15- & C05C15-) or (C01C15- & C05C15- & C15C14+) or (C01C15- & C12C15-) or (C01C15- & C12C15- & C15C14+) or (C13C15-);
+
+% C16
+"sausage":
+(C10C16-) or (C11C16- & C05C16-) or (C11C16- & C05C16- & C16C14+) or (C11C16- & C17C16-) or (C11C16- & C17C16- & C16C14+) or (C16C07+) or (C16C18+);
+
+% C17
+"son":
+(C01C17- & C17C16+) or (C17C04+) or (C17C09+) or (C17C16+) or (C18C17- & C01C17-);
+
+% C18
+"was":
+(C03C18- & C18C02+ & C18C01+) or (C05C18- & C18C17+ & C18C02+) or (C12C18- & C18C06+ & C18C02+) or (C16C18- & C18C01+ & C18C02+) or (C18C13+);
+
+UNKNOWN-WORD: XXX+;
+
+% 18 word clusters, 18 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-no-LEFT-WALL-no-period/R=6_distance=1/disjuncts-ILE-disjuncts/poc-english_18C_2018-04-22_0008.4.0.dict

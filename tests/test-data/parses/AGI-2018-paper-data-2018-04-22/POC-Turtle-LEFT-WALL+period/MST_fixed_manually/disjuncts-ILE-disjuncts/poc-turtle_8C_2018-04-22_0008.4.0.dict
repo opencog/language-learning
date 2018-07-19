@@ -1,0 +1,40 @@
+% Grammar Learner v.0.8 2018-04-22 17:34:14 UTC
+<dictionary-version-number>: V0v0v8+;
+<dictionary-locale>: EN4us+;
+
+% C01
+".":
+(C03C01-) or (C05C01-) or (C06C01-);
+
+% C02
+"LEFT-WALL":
+(C02C04+) or (C02C06+);
+
+% C03
+"bird" "extremity" "fish":
+(C08C03- & C03C01+);
+
+% C04
+"eagle" "herring" "parrot" "tuna":
+(C02C04- & C04C07+) or (C02C04- & C04C08+);
+
+% C05
+"feather" "scale":
+(C07C05- & C05C01+);
+
+% C06
+"fin" "wing":
+(C02C06- & C06C07+) or (C02C06- & C06C08+) or (C07C06- & C06C01+);
+
+% C07
+"has":
+(C04C07- & C07C06+) or (C06C07- & C07C05+);
+
+% C08
+"isa":
+(C04C08- & C08C03+) or (C06C08- & C08C03+);
+
+UNKNOWN-WORD: XXX+;
+
+% 8 word clusters, 8 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-Turtle-LEFT-WALL+period/MST_fixed_manually/disjuncts-ILE-disjuncts/poc-turtle_8C_2018-04-22_0008.4.0.dict

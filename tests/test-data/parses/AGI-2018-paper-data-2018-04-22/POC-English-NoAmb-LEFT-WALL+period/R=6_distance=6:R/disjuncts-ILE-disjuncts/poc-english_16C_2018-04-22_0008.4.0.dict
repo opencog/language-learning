@@ -1,0 +1,72 @@
+% Grammar Learner v.0.8 2018-04-22 17:53:33 UTC
+<dictionary-version-number>: V0v0v8+;
+<dictionary-locale>: EN4us+;
+
+% C01
+".":
+(C04C01-) or (C05C01-) or (C06C01-) or (C09C01-) or (C14C01-) or (C15C01-);
+
+% C02
+"LEFT-WALL":
+(C02C05+) or (C02C07+) or (C02C08+);
+
+% C03
+"a":
+(C03C07+) or (C03C08+) or (C10C03- & C03C06+) or (C10C03- & C03C09+) or (C10C03- & C03C15+) or (C13C03-) or (C16C03- & C03C08+) or (C16C03- & C03C09+);
+
+% C04
+"before":
+(C09C04- & C04C01+) or (C11C04- & C04C01+) or (C15C04- & C04C01+) or (C16C04- & C04C01+);
+
+% C05
+"cake" "sausage":
+(C02C05- & C05C10+) or (C02C05- & C05C16+) or (C11C05-) or (C12C05- & C05C01+) or (C12C05- & C05C14+);
+
+% C06
+"child" "human":
+(C03C06- & C06C01+) or (C03C06- & C06C14+);
+
+% C07
+"dad" "mom":
+(C02C07- & C03C07- & C07C10+) or (C02C07- & C03C07- & C07C12+) or (C02C07- & C07C10+) or (C02C07- & C07C11+) or (C02C07- & C07C12+) or (C02C07- & C07C16+);
+
+% C08
+"daughter" "son":
+(C02C08- & C03C08- & C08C10+) or (C02C08- & C03C08- & C08C12+) or (C02C08- & C08C10+) or (C02C08- & C08C12+) or (C03C08-);
+
+% C09
+"food":
+(C03C09- & C09C01+) or (C03C09- & C09C04+) or (C03C09- & C09C14+);
+
+% C10
+"is":
+(C05C10- & C10C03+) or (C07C10- & C10C03+) or (C08C10- & C10C03+);
+
+% C11
+"liked":
+(C07C11- & C11C04+ & C11C05+) or (C07C11- & C11C05+ & C11C04+);
+
+% C12
+"likes":
+(C07C12- & C12C05+) or (C08C12- & C12C05+);
+
+% C13
+"not":
+(C16C13- & C13C15+ & C13C03+);
+
+% C14
+"now":
+(C05C14- & C14C01+) or (C06C14- & C14C01+) or (C09C14- & C14C01+) or (C15C14- & C14C01+);
+
+% C15
+"parent":
+(C03C15- & C15C01+) or (C03C15- & C15C14+) or (C13C15- & C15C04+);
+
+% C16
+"was":
+(C05C16- & C16C03+) or (C07C16- & C16C04+ & C16C03+) or (C07C16- & C16C13+);
+
+UNKNOWN-WORD: XXX+;
+
+% 16 word clusters, 16 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period/R=6_distance=6:R/disjuncts-ILE-disjuncts/poc-english_16C_2018-04-22_0008.4.0.dict

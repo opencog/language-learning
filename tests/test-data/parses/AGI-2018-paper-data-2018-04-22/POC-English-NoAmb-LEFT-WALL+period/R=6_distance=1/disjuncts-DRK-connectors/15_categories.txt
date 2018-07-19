@@ -1,0 +1,15 @@
+C00	C01	0.0	dad mom	0 0
+C00	C02	0.0	daughter son	0 0
+C00	C03	0.0	a parent	0 0
+C00	C04	0.0	LEFT-WALL likes	0 0
+C00	C05	0.0	cake sausage	0 0
+C00	C06	0.0	is	0
+C00	C07	0.0	human	0
+C00	C08	0.0	food	0
+C00	C09	0.0	now	0
+C00	C10	0.0	liked	0
+C00	C11	0.0	was	0
+C00	C12	0.0	.	0
+C00	C13	0.0	not	0
+C00	C14	0.0	before	0
+C00	C15	0.0	child	0

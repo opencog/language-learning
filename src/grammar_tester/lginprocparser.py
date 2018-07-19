@@ -52,7 +52,6 @@ class LGInprocParser(AbstractFileParserClient):
         end = trim_garbage(text)
 
         sent_count = 0
-        # sent_set = set()
 
         # Parse output to get sentences and linkages in postscript notation
         for sent in text[pos:end].split("\n\n"):
@@ -70,18 +69,7 @@ class LGInprocParser(AbstractFileParserClient):
 
             sentences.append(cur_sent)
 
-            # sent_set.add(cur_sent.text)
-
-            # set_len = len(sent_set)
-
-            # if (set_len == len(sent_set)):
-            #     print(cur_sent.text)
-
             sent_count += 1
-
-        # assert len(sent_set) == sent_count, "Duplicate sentences!"
-        # if len(sent_set) != sent_count:
-        #     print("Duplicate sentences found! len(sent_set): {},\t\tsent_count: {}".format(len(sent_set), sent_count))
 
         return sentences
 
@@ -209,12 +197,19 @@ class LGInprocParser(AbstractFileParserClient):
             print("Info: Reference file name is not specified. Parse quality is not calculated.")
 
 
+        # Getting only sentences from .ull and filtering out square brackets
         # sed -e '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27-]*\)\]/\1/g'
+
+        # The same with lowercase conversion
+        # sed '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27-]*\)\]/\1/g;s/.*/\L\0/g'
+
+        # Fixed for long dashes
+        # sed -e '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94-]*\)\]/\1/g'
 
         # If BIT_ULL_IN sed filters links leaving only sentences and removes square brackets around tokens if any.
         if (options & BIT_ULL_IN):
             sed_cmd = ["sed", "-e",
-                       r'/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27-]*\)\]/\1/g',
+                       r'/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94-]*\)\]/\1/g',
                        corpus_path]
 
         # Otherwise sed removes only empty lines.

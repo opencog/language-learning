@@ -48,6 +48,28 @@ alice_bug_002 = \
 [0]
 """
 
+alice_bug_003 = \
+"""
+[(LEFT-WALL)([(])(alice[?].n)(had.v-d)(no.misc-d)(idea.n)(what)(latitude.n-u)(was.v-d)(,)
+(or.ij)(longitude.n-u)(either.r)(,)([but])(thought.q-d)(they)(were.v-d)(nice.a)(grand.a)
+(words.n)(to.r)(say.v)(.)([)])]
+[[0 23 5 (Xp)][0 10 3 (Xx)][0 3 1 (WV)][0 2 0 (Wd)][2 3 0 (Ss)][3 5 1 (Os)][4 5 0 (Ds**x)]
+[5 6 0 (MXs)][6 9 2 (Xca)][9 10 0 (Xd)][6 8 1 (Bsdt)][6 7 0 (Rn)][7 8 0 (Ss)][10 17 4 (WV)]
+[10 11 0 (Wdc)][11 17 3 (Ss)][12 17 2 (E)][15 17 1 (Eq)][13 15 0 (Xd)][15 16 0 (SIpj)][17 20 2 (Opt)]
+[18 20 1 (A)][19 20 0 (A)][20 22 1 (Bpw)][20 21 0 (R)][21 22 0 (I)]]
+[0]
+"""
+
+alice_bug_004 = \
+"""
+[(LEFT-WALL)(posting.g)(date.n)(:.j)(@date@[?].a)([)(ebook[?].a)([#])(@number@[?].n)(])
+(release.n)(date.n)(:.j)([@date@])(last.ord)(updated.v-d)(:.v)(@date@[?].n)]
+[[0 3 2 (Xx)][0 2 1 (Wa)][1 2 0 (AN)][3 12 5 (Xx)][3 11 4 (Wa)][10 11 0 (AN)][4 10 3 (A)]
+[4 8 2 (MX*ta)][5 8 1 (Xd)][6 8 0 (A)][8 9 0 (Xc)][12 16 2 (WV)][12 14 0 (Wd)][14 16 1 (Ss*o)]
+[14 15 0 (Mv)][16 17 0 (Ost)]]
+[0]
+"""
+
 gutenberg_children_bug_002 = \
 """
 [(LEFT-WALL)([a])(millennium.n-u)(fulcrum.n)(edition.n)([(])([c])([)])(1991[!])([by])
@@ -80,44 +102,18 @@ gutenberg_children_bug_002lr = [(0, 11), (2, 11), (3, 11), (4, 11), (8, 11), (10
 #         print("-> "+self[1:-1])
 #
 #
-# def find_end_of_token(text, pos: int) -> int:
+# def test_ps_parse_tokens(self):
+#     ts = TokenString(gutenberg_children_bug_002t)
 #
-#     braces = 0
-#     brackets = 0
+#     ts.line()
 #
-#     while pos < len(text):
+#     # tokens = [t for t in ts]
 #
-#         if text[pos] == r"(":
-#             braces += 1
-#
-#         elif text[pos] == r")":
-#             # if not "[)]"
-#             if not brackets:
-#                 braces -= 1
-#
-#             if not braces:
-#                 return pos-1
-#
-#         elif text[pos] == r"[":
-#             brackets += 1
-#
-#         elif text[pos] == r"]":
-#             brackets -= 1
-#
-#         pos += 1
+#     self.assertTrue(True)
 
 
 
 class TestPSParse(unittest.TestCase):
-
-    # def test_ps_parse_tokens(self):
-    #     ts = TokenString(gutenberg_children_bug_002t)
-    #
-    #     ts.line()
-    #
-    #     # tokens = [t for t in ts]
-    #
-    #     self.assertTrue(True)
 
     post_all_walls = "[(LEFT-WALL)(Dad[!])(was.v-d)(not.e)(a)(parent.n)(before)(.)(RIGHT-WALL)]" \
                      "[[0 7 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (Osm)][2 3 0 (EBm)]" \
@@ -130,6 +126,84 @@ class TestPSParse(unittest.TestCase):
     tokens_all_walls = "(LEFT-WALL)(Dad[!])(was.v-d)(not.e)(a)(parent.n)(before)(.)(RIGHT-WALL)"
     tokens_no_walls = "(eagle)(has)(wing)(.)"
     tokens_no_walls_no_period = "(eagle)(has)(wing)"
+
+    def test_new_tokenizer(self):
+
+        def find_end_of_token(text, pos: int) -> int:
+
+            # Assume the open brace is already skipped
+            braces = 1
+            brackets = 0
+
+            text_len = len(text)
+
+            while pos < text_len:
+
+                current = text[pos]
+
+                if current == r"(":
+                    # If not "[(]"
+                    if not brackets:
+                        braces += 1
+
+                elif current == r")":
+                    # if not "[)]"
+                    if not brackets:
+                        braces -= 1
+
+                    if not braces:
+                        return pos
+
+                elif current == r"[":
+                    brackets += 1
+
+                elif current == r"]":
+                    brackets -= 1
+
+                pos += 1
+
+            return pos
+
+        def tokenizer(text: str) -> list:
+            tokens = []
+            pos = 0
+            old = -1
+
+            while pos < len(text):
+                if pos == old:
+                    print("Infinite loop detected...")
+                    break
+
+                # To avoid infinite loop in case of errors in postscript string
+                old = pos
+
+                if text[pos] == r"(":
+                    pos += 1
+
+                end = find_end_of_token(text, pos)
+
+                if end > pos:
+                    tokens.append(text[pos:end])
+
+                pos = end + 1
+
+            return tokens
+
+        self.assertEqual(["eagle", "has", "wing", "."], tokenizer("(eagle)(has)(wing)(.)"))
+
+        self.assertEqual(["LEFT-WALL", "Dad[!]", "was.v-d", "not.e", "a", "parent.n", "before", ".", "RIGHT-WALL"],
+                         tokenizer("(LEFT-WALL)(Dad[!])(was.v-d)(not.e)(a)(parent.n)(before)(.)(RIGHT-WALL)"))
+
+        post = "(LEFT-WALL)([(])(alice[?].n)(had.v-d)(no.misc-d)(idea.n)(what)(latitude.n-u)(was.v-d)(,)(or.ij)" \
+               "(longitude.n-u)(either.r)(,)([but])(thought.q-d)(they)(were.v-d)(nice.a)(grand.a)(words.n)(to.r)(say.v)" \
+               "(.)([)])"
+        ref = ["LEFT-WALL", "[(]", "alice[?].n", "had.v-d", "no.misc-d", "idea.n", "what", "latitude.n-u", "was.v-d",
+               ",", "or.ij", "longitude.n-u", "either.r", ",", "[but]", "thought.q-d", "they", "were.v-d", "nice.a",
+               "grand.a", "words.n", "to.r", "say.v", ".", "[)]"]
+
+        # print(tokenizer(post))
+
+        self.assertEqual(ref, tokenizer(post))
 
     @staticmethod
     def cmp_lists(list1: [], list2: []) -> bool:
@@ -149,6 +223,35 @@ class TestPSParse(unittest.TestCase):
         self.assertEqual(strip_token("strange[!]"), "strange")
         self.assertEqual(strip_token("strange.a"), "strange")
         self.assertEqual(strip_token("[strange]"), "[strange]")
+
+    # @unittest.skip
+    def test_parse_tokens_alice_003(self):
+        options = BIT_STRIP | BIT_NO_LWALL | BIT_NO_PERIOD
+
+        # sent = "(alice had no idea what latitude was, or longitude either, but thought they were nice grand words to say.)"
+        post = "(LEFT-WALL)([(])(alice[?].n)(had.v-d)(no.misc-d)(idea.n)(what)(latitude.n-u)(was.v-d)(,)(or.ij)" \
+               "(longitude.n-u)(either.r)(,)([but])(thought.q-d)(they)(were.v-d)(nice.a)(grand.a)(words.n)(to.r)(say.v)" \
+               "(.)([)])"
+        ref = \
+        ["###LEFT-WALL###", "[(]", "alice", "had", "no", "idea", "what", "latitude", "was", ",", "or", "longitude",
+        "either", ",", "[but]", "thought", "they", "were", "nice", "grand", "words", "to", "say", ".", "[)]"]
+
+        tokens = parse_tokens(post, options)[0]
+        self.assertEqual(ref, tokens)
+
+    # @unittest.skip
+    def test_parse_tokens_alice_004(self):
+        options = BIT_STRIP | BIT_NO_LWALL | BIT_NO_PERIOD
+
+        post = "(LEFT-WALL)(posting.g)(date.n)(:.j)(@date@[?].a)([)(ebook[?].a)([#])(@number@[?].n)(])(release.n)" \
+               "(date.n)(:.j)([@date@])(last.ord)(updated.v-d)(:.v)(@date@[?].n)"
+
+        ref = ["###LEFT-WALL###", "posting", "date", ":", "@date@", "[", "ebook", "[#]", "@number@", "]", "release",
+               "date", ":", "[@date@]", "last", "updated", ":", "@date@"]
+
+        tokens = parse_tokens(post, options)[0]
+        self.assertEqual(ref, tokens)
+
 
     # @unittest.skip
     def test_parse_tokens(self):
@@ -289,10 +392,12 @@ class TestPSParse(unittest.TestCase):
         options &= ~BIT_STRIP
 
         tokens, links = parse_postscript(self.post_no_links, options, sys.stdout)
-        pm = parse_metrics(tokens)
-        self.assertEqual(0.0, pm.completely_parsed_ratio)
-        self.assertEqual(1.0, pm.completely_unparsed_ratio)
-        self.assertEqual(0.0, pm.average_parsed_ratio)
+        self.assertEqual(0, len(links))
+
+        # pm = parse_metrics(tokens)
+        # self.assertEqual(0.0, pm.completely_parsed_ratio)
+        # self.assertEqual(1.0, pm.completely_unparsed_ratio)
+        # self.assertEqual(0.0, pm.average_parsed_ratio)
 
     # @unittest.skip
     def test_parse_postscript_gutenchildren_bug(self):
@@ -307,12 +412,12 @@ class TestPSParse(unittest.TestCase):
 
         self.assertEqual(18, len(tokens))
 
-        pm = parse_metrics(tokens)
-
-        self.assertEqual(0.0, pm.completely_parsed_ratio)
-        self.assertEqual(0.0, pm.completely_unparsed_ratio)
-        self.assertEqual(0.9411764705882353, float(pm.average_parsed_ratio))
-        # self.assertEqual(16.0/17.0, pm.average_parsed_ratio)
+        # pm = parse_metrics(tokens)
+        #
+        # self.assertEqual(0.0, pm.completely_parsed_ratio)
+        # self.assertEqual(0.0, pm.completely_unparsed_ratio)
+        # self.assertEqual(0.9411764705882353, float(pm.average_parsed_ratio))
+        # # self.assertEqual(16.0/17.0, pm.average_parsed_ratio)
 
 
     @unittest.skip

@@ -26,11 +26,16 @@ opts = BIT_SEP_STAT | BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BI
 
 
 # PubMed-2018-06-01 parse with learned grammar
-dict = "/home/alex/data2/parses/PubMed-2018-06-01-splitted/dict"
-corp = "/home/alex/data2/parses/PubMed-2018-06-01-splitted/data"
-dest = "/home/alex/data2/parses/PubMed-2018-06-01-splitted/parses"
-ref = "/home/alex/data2/parses/PubMed-2018-06-01-splitted/ref"
+# dict = "/home/alex/data2/parses/PubMed-2018-06-01-splitted/dict"
+# corp = "/home/alex/data2/parses/PubMed-2018-06-01-splitted/data"
+# dest = "/home/alex/data2/parses/PubMed-2018-06-01-splitted/parses"
+# ref = "/home/alex/data2/parses/PubMed-2018-06-01-splitted/ref"
 
+# Test poc-english corpus with poc-turtle dictionary
+dict = "poc-turtle"
+corp = "/home/alex/data/corpora/poc-english/poc_english.txt"
+dest = "/home/alex/data2/parses"
+ref = None  # "/home/alex/data/poc-english/poc_english_noamb_parse_ideal.txt"
 
 class ParseTestCase(unittest.TestCase):
 

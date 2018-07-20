@@ -101,6 +101,8 @@ class LGInprocParser(AbstractFileParserClient):
             # Parse output into sentences and assotiate a list of linkages for each one of them.
             sentences = self._parse_batch_ps_output(text, 5)
 
+            print("Parsed sentences:", len(sentences))
+
             sentence_count = 0
             error_count = 0
 
@@ -113,7 +115,7 @@ class LGInprocParser(AbstractFileParserClient):
                 # Parse and calculate statistics for each linkage
                 for lnkg in sent.linkages:
 
-                    if linkage_count == 1:  # linkage_limit:
+                    if linkage_count == 1:  # Only the first linkage is taken into account
                         break
 
                     # Parse postscript notated linkage and get two lists with tokens and links in return.
@@ -204,12 +206,13 @@ class LGInprocParser(AbstractFileParserClient):
         # sed '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27-]*\)\]/\1/g;s/.*/\L\0/g'
 
         # Fixed for long dashes
-        # sed -e '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94-]*\)\]/\1/g'
+        # sed -e '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94=+-]*\)\]/\1/g'
+        # sed -e '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94©®°•…≤±×΅⁻¹²³€αβπγδμεθ«»=+-]*\)\]/\1/g'
 
         # If BIT_ULL_IN sed filters links leaving only sentences and removes square brackets around tokens if any.
         if (options & BIT_ULL_IN):
             sed_cmd = ["sed", "-e",
-                       r'/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94-]*\)\]/\1/g',
+                       r'/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94©®°•…≤±×΅⁻¹²³€αβπγδμεθ«»=+-]*\)\]/\1/g',
                        corpus_path]
 
         # Otherwise sed removes only empty lines.

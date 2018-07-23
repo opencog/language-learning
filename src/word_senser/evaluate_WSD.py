@@ -54,11 +54,11 @@ def compute_fscore(true, pred):
         #     p = 0
         #     r = 0
         # else: # calculate precision and recall
-            true_pairs = get_pairs(true)
-            pred_pairs = get_pairs(pred)
-            int_size = len(set(true_pairs).intersection(pred_pairs))
-            p = int_size / float(len(pred_pairs))
-            r = int_size / float(len(true_pairs))
+        true_pairs = get_pairs(true)
+        pred_pairs = get_pairs(pred)
+        int_size = len(set(true_pairs).intersection(pred_pairs))
+        p = int_size / float(len(pred_pairs))# + 1e-5 # add eps to avoid div by zero
+        r = int_size / float(len(true_pairs))# + 1e-5 
 
     # return fscore
     return 2 * p * r / (p + r)

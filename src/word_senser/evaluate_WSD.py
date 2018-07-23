@@ -18,6 +18,10 @@ import itertools
 from sklearn.metrics import adjusted_rand_score,v_measure_score
 
 def get_pairs(labels):
+    """
+        For the labels of a given word, creates all possible pairs 
+        of labels that match sense
+    """
     result = []
     unique = np.unique(labels)
     for label in unique:
@@ -32,17 +36,30 @@ def get_pairs(labels):
     return result
 
 def compute_fscore(true, pred):
+    """
+        Computes f-score for a word, given predicted and true senses 
+    """
     one_sense = False
     true_pairs = get_pairs(true)
     pred_pairs = get_pairs(pred)
-    int_size = len(set(true_pairs).intersection(pred_pairs))
-    p = int_size / float(len(pred_pairs))
-    r = int_size / float(len(true_pairs))
+    unique_true = np.unique(true_pairs)
+    unique_pred = np.unique(pred_pairs)
 
-    # in case both precision and recall are zero, return zero
-    if (p + r) == 0:
-        return 0
-    return 2*p*r/float(p+r)
+    # if word should not be disambiguated
+    if len(unique_true) == 1:
+        true_pos = 0
+        false_neg = 0
+        if len(unique_pred) == 1:
+            false_pos = 0 # not disambiguated
+        else:
+            false_pos = len(true) # falsely disambiguated
+    else:
+        set_true_pairs = set(true_pairs)
+        true_pos = len(set_true_pairs.intersection(pred_pairs)) # correct disamb
+        false_neg = len(set_true_pairs) - true_pos # missing disamb
+        false_pos = len(set(pred_pairs)) - true_pos # incorrect disamb
+
+    return true_pos, false_neg, false_pos
 
 def read_answers(filename, sep):
     """
@@ -79,33 +96,37 @@ def compute_metrics(answers, predictions):
     """
     aris = []
     vscores = []
-    fscores = []
-    #weights = []
     one_sense_count = 0
+    true_positive = 0
+    false_negative = 0
+    false_positive = 0
     for k in answers.keys():
-        #print(k)
         true = np.array(answers[k])
         pred = np.array(predictions[k])
-        #weights.append(pred.shape[0])
-        #if len(np.unique(true)) > 1:
         aris.append(adjusted_rand_score(true, pred))
         vscores.append(v_measure_score(true, pred))
-        fscore = compute_fscore(true, pred)
-        fscores.append(fscore)
+        tp, fg, fp = compute_fscore(true, pred)
+        true_positive += tp
+        false_negative += fn
+        false_positive += fp
         # if one_sense == True:
         #    one_sense_count += 1
         #print('%s: ari=%f, vscore=%f, fscore=%f' % (k, aris[-1], vscores[-1], fscores[-1]))
+    #print('number of one-sense words in reference: %d' % one_sense_count)
     aris = np.array(aris)
     vscores = np.array(vscores)
-    fscores = np.array(fscores)
-    #weights = np.array(weights)
-    #print('number of one-sense words in reference: %d' % one_sense_count)
+
+    # calculate fscore
+    precision = true_positive / (true_positive + false_positive)
+    recall = true_positive / (true_positive + false_negative)
+    fscore = 2 * p * r / (p + r)
+
     print('mean ari: %f' % np.mean(aris))
     print('mean vscore: %f' % np.mean(vscores))
     #print('weighted vscore: %f' % np.sum(vscores * (weights / float(np.sum(weights)))))
-    print('mean fscore: %f' % np.mean(fscores))
+    print('total fscore: %f' % fscore)
     #print('weighted fscore: %f' % np.sum(fscores * (weights / float(np.sum(weights)))))
-    return np.mean(aris),np.mean(vscores),np.mean(fscores)
+    return np.mean(aris), np.mean(vscores), fscore
     #return np.mean(fscores)
 
 def main(argv):

@@ -82,7 +82,7 @@ Usage:
 
 #### ULL formated Output File Generation
 
-In the example bellow the sctipt is executed using default language grammar (en). If you need to use another language
+In the example below the script is executed using default language grammar (en). If you need to use another language
 you may specify it by option '-D' <lang>. The output file will have the same
 name as the input one.
 
@@ -107,14 +107,14 @@ grammar dictionary folder along with dictionary file specified by `-d` option.
 
 In some cases you may find more convenient to use grammar test script with 
 JSON configuration file. One configuration file may contain several testing
-configurations. General syntax is:
+configurations. The general syntax is:
 ```
 grammar-tester -C <config_file_path>
 ``` 
 General JSON configuration file for any ULL component should have at least
 two sections `component` and `parameters`.
 
-For grammar test script general JSON config file looks like:
+For grammar test script, a general JSON config file looks like:
 ```
 [
   {
@@ -179,7 +179,7 @@ single file.
 File dashboard is defined by TextFileDashboard class and responsible for representation 
 of parsing result statistics in a single table. 
 
-In current version of the library dashboard is only available when using 
+In the current version of the library dashboard is only available when using 
 the script with `-C` option.
 
 File dashboard configuration is defined in `.json` configuration file and 

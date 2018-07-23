@@ -243,7 +243,8 @@ def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
         pq = []
         rules = []
         for j in range(runs[0]):
-            re = learn_grammar(ip, oc, og, **kwargs)
+            try: re = learn_grammar(ip, oc, og, **kwargs)
+            except: continue
             for i in range(runs[1]):
                 a, q, qa = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
                 pa.append(a)
@@ -253,10 +254,11 @@ def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
                 line = [line[0], corpus, dataset, lw, dot, gen, spaces, rulestr, \
                     str(int(round(a,0)))+'%', str(int(round(q,0)))+'%']
                 details.append(line)
-        paa = int(round(sum(pa)/len(pa), 0))
-        pqa = int(round(sum(pq)/len(pq), 0))
-        rules_avg = int(round(sum(rules)/len(rules), 0))
-        avg = [line[0], corpus, dataset, lw, dot, gen, spaces, rules_avg, \
-            str(paa)+'%', str(pqa)+'%'] #, str(int(round(paa*pqa/100, 0)))+'%']
-        average.append(avg)
+        if len(pa) > 0:
+            paa = int(round(sum(pa)/len(pa), 0))
+            pqa = int(round(sum(pq)/len(pq), 0))
+            rules_avg = int(round(sum(rules)/len(rules), 0))
+            avg = [line[0], corpus, dataset, lw, dot, gen, spaces, rules_avg, \
+                str(paa)+'%', str(pqa)+'%'] #, str(int(round(paa*pqa/100, 0)))+'%']
+            average.append(avg)
     return average, details

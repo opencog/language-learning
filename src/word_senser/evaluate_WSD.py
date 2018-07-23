@@ -18,6 +18,10 @@ import itertools
 from sklearn.metrics import adjusted_rand_score,v_measure_score
 
 def get_pairs(labels):
+    """
+        For the labels of a given word, creates all possible pairs 
+        of labels that match sense
+    """
     result = []
     unique = np.unique(labels)
     for label in unique:
@@ -32,17 +36,32 @@ def get_pairs(labels):
     return result
 
 def compute_fscore(true, pred):
-    one_sense = False
-    true_pairs = get_pairs(true)
-    pred_pairs = get_pairs(pred)
-    int_size = len(set(true_pairs).intersection(pred_pairs))
-    p = int_size / float(len(pred_pairs))
-    r = int_size / float(len(true_pairs))
+    """
+        Computes f-score for a word, given predicted and true senses 
+    """
+    unique_true = np.unique(true)
+    unique_pred = np.unique(pred)
 
-    # in case both precision and recall are zero, return zero
-    if (p + r) == 0:
-        return 0
-    return 2*p*r/float(p+r)
+    # if word should not be disambiguated
+    if len(unique_true) == 1:
+        if len(unique_pred) == 1: # not disambiguated
+            return None # return a value that will be filtered later
+        else: # wrongly disambiguated
+            r = 1
+            p = 0
+    else: # if word should be disambiguated
+        # if len(unique_pred) == 1: # not disambiguated
+        #     p = 0
+        #     r = 0
+        # else: # calculate precision and recall
+        true_pairs = get_pairs(true)
+        pred_pairs = get_pairs(pred)
+        int_size = len(set(true_pairs).intersection(pred_pairs))
+        p = int_size / float(len(pred_pairs))# + 1e-5 # add eps to avoid div by zero
+        r = int_size / float(len(true_pairs))# + 1e-5 
+
+    # return fscore
+    return 2 * p * r / (p + r)
 
 def read_answers(filename, sep):
     """
@@ -97,6 +116,7 @@ def compute_metrics(answers, predictions):
         #print('%s: ari=%f, vscore=%f, fscore=%f' % (k, aris[-1], vscores[-1], fscores[-1]))
     aris = np.array(aris)
     vscores = np.array(vscores)
+    fscores[:] = (value for value in fscores if value != None) # remove None's
     fscores = np.array(fscores)
     #weights = np.array(weights)
     #print('number of one-sense words in reference: %d' % one_sense_count)

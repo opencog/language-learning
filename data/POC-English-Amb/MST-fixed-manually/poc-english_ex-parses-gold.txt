@@ -534,11 +534,11 @@ dad has a hammer .
 2 has 4 hammer
 3 a 4 hammer
 
-das has a saw . 
-0 ###LEFT-WALL### 1 das
+dad has a saw . 
+0 ###LEFT-WALL### 1 dad
 0 ###LEFT-WALL### 2 has
 0 ###LEFT-WALL### 5 .
-1 das 2 has
+1 dad 2 has
 2 has 4 saw
 3 a 4 saw
 

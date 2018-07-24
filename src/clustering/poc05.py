@@ -8,7 +8,7 @@ def number_of_clusters(vdf, cluster_range, algorithm='kmeans', \
     from IPython.display import display
     from statistics import mode
     from ..utl.utl import round1, round2, round3
-    from ..utl.turtle import html_table
+    from ..utl.widgets import html_table
     from .kmeans import cluster_words_kmeans
 
     if(len(cluster_range) < 2 or cluster_range[2] < 1):

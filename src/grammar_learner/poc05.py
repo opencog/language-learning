@@ -229,14 +229,14 @@ def induce_grammar(categories, links, verbose='none'):  #80620 learn_grammar rep
 
 
 '''Learn Grammar :: Integration'''
-
+'''
 def print_kwargs(**kwargs):
     from src.utl.utl import UTC
-    print('poc04 learn_grammar kwargs:')
+    print('poc05 learn_grammar kwargs:')
     for k,v in kwargs.items(): print(('- '+k+':                ')[:20], v)
     kwargs['printed'] = str(UTC())
     return kwargs
-
+'''
 def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     # input_parses - dir with .txt files
     # output_categories - path/file.ext / dir ⇒ auto file name
@@ -490,7 +490,7 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):
         else: return input_parses, out_dir, out_dir
     else: raise FileNotFoundError('File not found', input_parses)
 
-
+'''
 from src.link_grammar.lgparse import *
 from src.link_grammar.cliutils import *
 from src.link_grammar.optconst import *
@@ -574,7 +574,7 @@ def run_learn_grammar(corpus, dataset, module_path, out_dir, **kwargs): #80411
     response['parse_quability'] = int(round(pa*pq/100,0))
     response['lg_parse_file'] = lg_parse_path
     return response
-
+'''
 #_Notes
 
 #80419 update links2stalks strict_rules ⇒ changes in disjunct-based rules !:)

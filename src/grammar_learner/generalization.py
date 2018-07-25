@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-#/src/grammar_learner/generalization.py OpenCog ULL Grammar Learner 0.5 80629
-from IPython.display import display
-from src.utl.widgets import html_table
+#language-learning/src/grammar_learner/generalization.py 0.5 80725
 
 def aggregate(categories, threshold, similarity_function, verbose='none'):
     import copy
@@ -99,7 +97,7 @@ def reorder(cats):
     import copy
     ordnung = copy.copy(top)
     #_ordnung = copy.deepcopy(top)  #if the list contains objects and you want to copy them as well
-    #-print('ordnung:', len(ordnung), 'items:', ordnung)
+
     # Children branches
     def branch(i, children):
         if children[i] == 0:
@@ -311,5 +309,6 @@ def generalize_rules(categories, **kwargs):     #80622
     return reorder(cats), \
         {'similarity_thresholds': sims, 'updated_disjuncts': counter}
 
-#80619-80629 POC.0.5
+
+#80725 POC 0.1-0.4 deleted, 0.5 restructured
 #TODO: aggregate_cosine - see grammar_learner poc04.

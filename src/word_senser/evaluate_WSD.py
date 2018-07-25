@@ -46,19 +46,22 @@ def compute_fscore(true, pred):
     if len(unique_true) == 1:
         if len(unique_pred) == 1: # not disambiguated
             return None # return a value that will be filtered later
-        else: # wrongly disambiguated
-            r = 1
-            p = 0
-    else: # if word should be disambiguated
+        # else: # punish wrongly disambiguated words
+        #     true_pos = 
+        #     false_pos = len(true)
+        #     false_neg = 
+        #     r = 
+        #     p = 0
+    #else: # if word should be disambiguated
         # if len(unique_pred) == 1: # not disambiguated
         #     p = 0
         #     r = 0
         # else: # calculate precision and recall
-        true_pairs = get_pairs(true)
-        pred_pairs = get_pairs(pred)
-        int_size = len(set(true_pairs).intersection(pred_pairs))
-        p = int_size / float(len(pred_pairs))# + 1e-5 # add eps to avoid div by zero
-        r = int_size / float(len(true_pairs))# + 1e-5 
+    true_pairs = get_pairs(true)
+    pred_pairs = get_pairs(pred)
+    int_size = len(set(true_pairs).intersection(pred_pairs))
+    p = int_size / float(len(pred_pairs))# + 1e-5 # add eps to avoid div by zero
+    r = int_size / float(len(true_pairs))# + 1e-5 
 
     # return fscore
     return 2 * p * r / (p + r)

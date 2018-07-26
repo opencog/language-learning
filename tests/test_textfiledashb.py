@@ -13,7 +13,7 @@ class TextFileDashTestCase(unittest.TestCase):
     def setUp(self):
         conf_path = "test-data/config/AGI-2018.json"
         cfg_man = JsonFileConfigManager(conf_path)
-        self.dboard = TextFileDashboard(cfg_man)  # , "test-data/temp/dashboard.txt")
+        self.dboard = TextFileDashboard(cfg_man)
 
     def test_init(self):
         self.assertTrue(hasattr(self.dboard, "_path"))
@@ -21,7 +21,7 @@ class TextFileDashTestCase(unittest.TestCase):
         self.assertTrue(hasattr(self.dboard, "_col_count"))
         self.assertTrue(hasattr(self.dboard, "_dashboard"))
         self.assertTrue(hasattr(self.dboard, "_config"))
-        self.assertEqual(8, len(self.dboard._dashboard))
+        self.assertEqual(17, len(self.dboard._dashboard))
 
         for row in self.dboard._dashboard:
             self.assertEqual(10, len(row))
@@ -45,7 +45,7 @@ class TextFileDashTestCase(unittest.TestCase):
         self.dboard.set_cell_by_indexes(1, 1, "11")
 
         with self.assertRaises(IndexError) as ctx:
-            self.dboard.set_cell_by_indexes(4, 5, "45")
+            self.dboard.set_cell_by_indexes(40, 50, "45")
 
         self.assertEqual("list index out of range", str(ctx.exception))
 
@@ -99,22 +99,9 @@ class TextFileDashTestCase(unittest.TestCase):
 
     # @unittest.skip
     def test_update_dashboard(self):
-        # file_path =
-        #
-        # try:
-        #     os.unlink(file_path)
-        # except:
-        #     pass
-        #
-        # self.dboard = TextFileDashboard(2, 2, file_path)
-        # self.dboard.set_col_names(["A", "B"])
-        # self.dboard.set_cell_by_indexes(0, 0, "00")
-        # self.dboard.set_cell_by_indexes(0, 1, "01")
-        # self.dboard.set_cell_by_indexes(1, 0, "10")
-        # self.dboard.set_cell_by_indexes(1, 1, "11")
+        os.unlink(self.dboard._path)
         self.dboard.update_dashboard()
-
-        # self.assertTrue(os.path.isfile(file_path))
+        self.assertTrue(os.path.isfile(self.dboard._path))
 
 
 if __name__ == '__main__':

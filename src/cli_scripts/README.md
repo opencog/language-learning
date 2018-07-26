@@ -5,7 +5,7 @@ options.
 
 ## Command Line Scripts
 
-`grammar-tester`-   second version of generated grammar test script capable of parsing multiple corpus files with
+`grammar-tester` -  generated grammar test script capable of parsing multiple corpus files with
                     multiple dictionaries. Actually, it is a wrapper over set of high level Link Grammar parse
                     subroutines collected in `grammartest` package.
 
@@ -17,11 +17,38 @@ options.
 `grammar-tester` has multiple options and can be used to test grammar files over the specified corpus or simply
 generate ULL output files. It is capable of taking folders with multiples files and subfolders as a single corpus
 as well as taking a folder with multiple dictionary files to test each single grammar file separately over the same
-input corpus.
+input corpus. Grammar evaluator is currently integrated into `grammar-tester` and can be used by specifying reference
+ULL-file.
 
-### Options
+There are two ways to run `grammar-tester`. The first one is by specifying all parameters and options in the command 
+line. The second one is by specifying JSON configuration file, where all necessary parameters and options are properly 
+set. Each way has its own pros and cons. For example you do not have to write complex configuration file if you simply 
+need to parse a single file using English grammar. On the other hand it is much more convenient to run `grammar-tester`
+with properly prepared configuration file if you need to test several grammar files and get statistics total summary.
+
+### Parameters And Options
 
 ```
+Usage:
+
+    grammar-tester -i <input_path> [-o <output_path> -d <dict_path>]  [OPTIONS]
+    grammar-tester -C <json-config-file>
+
+    dict_path           Path to grammar definition file (or directory with multiple such files) to be tested.
+                        The files should be in proper Link Grammar .dict format. Language short name such as 'en' or
+                        'ru' may also be specified. If no '-d' option is specified English dictionary ('en') is used
+                        by default.
+    input_path          Input corpus file or directory path. In case of directory the script will traverse all
+                        subdirectories, parsing each file in there and calculating statistics for the whole corpus.
+    output_path         Output directory path to store parse text files in. sys.stdout is used if not specified.
+                        The program stores parses as text files one output file per one input file in
+                        <output_path> directory keeping the same file name for the output file but adding extetions
+                        depending on the specified output format.
+                        The output file format depends on '-f' option specified. ULL format used if ommited.
+                        If directory path is specified as <input_path>, the whole subdirectory tree is recreated
+                        inside <output_path>/<dict_name>/ where each output file corresponds to the same input one.
+    json-config-file    JSON configuration file path.
+
     OPTIONS:
         -h  --help              Print usage info.
         -c  --caps              Leave CAPS untouched.
@@ -41,15 +68,22 @@ input corpus.
                                 test corpus sentences.
         -x  --no-left-wall      Exclude LEFT-WALL and period from statistics estimation.
         -s  --separate-stat     Generate separate statistics for each input file.
+        -R  --reference         Path to reference file if single file specified by option '-i' as input corpus or path
+                                to a directory with a number of reference files. In later case files with the same names
+                                are being compared.
+        -C  <json-config-file>  Force the script to use configuration data from JSON configuration file. If this option
+                                is set, other options passed to the script are ignored.
+        -D  <lang-short-name>   Language short name used by Link Grammar such as 'en' or 'ru'. One should avoid using
+                                '-D' option along with '-d'. If both options are specified the latest one occurered in
+                                the command line is used.
 ```
-
-
 
 ### Use Cases
 
 #### ULL formated Output File Generation
 
-In the example bellow the sctipt is executed using default language grammar (en). The output file will have the same
+In the example below the script is executed using default language grammar (en). If you need to use another language
+you may specify it by option '-D' <lang>. The output file will have the same
 name as the input one.
 
 `grammar-tester -i <my-input-file.txt> -o <my-output-directory> -f ull -e -u`
@@ -73,14 +107,14 @@ grammar dictionary folder along with dictionary file specified by `-d` option.
 
 In some cases you may find more convenient to use grammar test script with 
 JSON configuration file. One configuration file may contain several testing
-configurations. General syntax is:
+configurations. The general syntax is:
 ```
 grammar-tester -C <config_file_path>
 ``` 
 General JSON configuration file for any ULL component should have at least
 two sections `component` and `parameters`.
 
-For grammar test script general JSON config file looks like:
+For grammar test script, a general JSON config file looks like:
 ```
 [
   {
@@ -145,7 +179,7 @@ single file.
 File dashboard is defined by TextFileDashboard class and responsible for representation 
 of parsing result statistics in a single table. 
 
-In current version of the library dashboard is only available when using 
+In the current version of the library dashboard is only available when using 
 the script with `-C` option.
 
 File dashboard configuration is defined in `.json` configuration file and 

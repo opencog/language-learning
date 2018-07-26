@@ -147,8 +147,14 @@ def reorder(cats):
 
 
 def jaccard(x,y):
-    if len(x.union(y)):
-        return len(x.intersection(y))/len(x.union(y))
+    try:
+        xx = set(x)
+        yy = set(y)
+    except: return 0
+    if len(xx) == 0 or len(yy) == 0:
+        return 0
+    elif len(xx.union(yy)):
+        return len(xx.intersection(yy))/len(xx.union(y))
     else: return 0
 
 
@@ -298,8 +304,8 @@ def generalize_rules(categories, **kwargs):     #80622
         new_rule = []
         for disjunct in cats['disjuncts'][cluster]:
             new_dj = []
-            for connector in disjunct:
-                new_dj.append(ancestor(connector, cats['parent']))
+            for x in disjunct:
+                new_dj.append(sign(x) * ancestor(abs(x), cats['parent']))
             new_rule.append(tuple(new_dj))
         cats['disjuncts'][cluster] = set(new_rule)
     return reorder(cats), \

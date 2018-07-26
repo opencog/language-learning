@@ -31,11 +31,12 @@ class LGInprocParser(AbstractFileParserClient):
 
     def __init__(self, limit: int=1000):
         self._linkage_limit = limit
+        self._timeout = 9999999
         self._out_stream = None
         self._ref_stream = None
         self._counter = 0
 
-    def _parse_batch_ps_output(self, text: str, lines_to_skip: int=4) -> list:
+    def _parse_batch_ps_output(self, text: str, lines_to_skip: int=5) -> list:
         """
         Parse postscript returned by link-parser executable in a form where each sentence is followed by zero
             or many postscript notated linkages. Postscript linkages are usually represented by three lines
@@ -51,7 +52,6 @@ class LGInprocParser(AbstractFileParserClient):
         end = trim_garbage(text)
 
         sent_count = 0
-        # sent_set = set()
 
         # Parse output to get sentences and linkages in postscript notation
         for sent in text[pos:end].split("\n\n"):
@@ -69,18 +69,7 @@ class LGInprocParser(AbstractFileParserClient):
 
             sentences.append(cur_sent)
 
-            # sent_set.add(cur_sent.text)
-
-            # set_len = len(sent_set)
-
-            # if (set_len == len(sent_set)):
-            #     print(cur_sent.text)
-
             sent_count += 1
-
-        # assert len(sent_set) == sent_count, "Duplicate sentences!"
-        # if len(sent_set) != sent_count:
-        #     print("Duplicate sentences found! len(sent_set): {},\t\tsent_count: {}".format(len(sent_set), sent_count))
 
         return sentences
 
@@ -130,15 +119,24 @@ class LGInprocParser(AbstractFileParserClient):
                     # Parse postscript notated linkage and get two lists with tokens and links in return.
                     tokens, links = parse_postscript(lnkg, options, out_stream)
 
+                    prepared = None
+
                     try:
+
                         # Print out links in ULL-format
                         print_output(tokens, links, options, out_stream)
 
-                    except Exception as err:
-                        print(str(type(err)) + ": " + str(err) + " in print_output()")
+                        # Calculate parseability statistics
+                        prepared = prepare_tokens(tokens, options)
+                        sent_metrics += parse_metrics(prepared)
 
-                    # Calculate parseability statistics
-                    sent_metrics += parse_metrics(prepare_tokens(tokens, options))
+                    except Exception as err:
+                        print(str(type(err)) + ": " + str(err) + " in handle_stream_output()")
+                        print("Sentence:", sent.text)
+                        print("Linkages:", sent.linkages)
+                        print("Tokens:", tokens)
+                        print("Links:", links)
+                        print("Filtered:", prepared)
 
                     # Calculate parse quality if the option is set
                     if options & BIT_PARSE_QUALITY and len(ref_parses):
@@ -198,18 +196,38 @@ class LGInprocParser(AbstractFileParserClient):
         else:
             print("Info: Reference file name is not specified. Parse quality is not calculated.")
 
-        reg_exp = "^\D.+$" if (options & BIT_ULL_IN) == BIT_ULL_IN else "^.+$"  # "^[^#].+$"
+
+        # Getting only sentences from .ull and filtering out square brackets
+        # sed -e '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27-]*\)\]/\1/g'
+
+        # The same with lowercase conversion
+        # sed '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27-]*\)\]/\1/g;s/.*/\L\0/g'
+
+        # Fixed for long dashes
+        # sed -e '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94-]*\)\]/\1/g'
+
+        # If BIT_ULL_IN sed filters links leaving only sentences and removes square brackets around tokens if any.
+        if (options & BIT_ULL_IN):
+            sed_cmd = ["sed", "-e",
+                       r'/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94-]*\)\]/\1/g',
+                       corpus_path]
+
+        # Otherwise sed removes only empty lines.
+        else:
+            sed_cmd = ["sed", "-e", r"/^$/d", corpus_path]
+
+        # print(sed_cmd)
 
         # Make command option list depending on the output format specified.
         if not (options & BIT_OUTPUT) or (options & BIT_OUTPUT_POSTSCRIPT):
-            cmd = ["link-parser", dict_path, "-echo=1", "-postscript=1", "-graphics=0", "-verbosity=0",
-                   "-limit="+str(self._linkage_limit)]
+            lgp_cmd = ["link-parser", dict_path, "-echo=1", "-postscript=1", "-graphics=0", "-verbosity=0",
+                       "-limit="+str(self._linkage_limit), "-timeout="+str(self._timeout)]
         elif options & BIT_OUTPUT_CONST_TREE:
-            cmd = ["link-parser", dict_path, "-echo=1", "-constituents=1", "-graphics=0", "-verbosity=0",
-                   "-limit="+str(self._linkage_limit)]
+            lgp_cmd = ["link-parser", dict_path, "-echo=1", "-constituents=1", "-graphics=0", "-verbosity=0",
+                       "-limit="+str(self._linkage_limit)]
         else:
-            cmd = ["link-parser", dict_path, "-echo=1", "-graphics=1", "-verbosity=0",
-                   "-limit="+str(self._linkage_limit)]
+            lgp_cmd = ["link-parser", dict_path, "-echo=1", "-graphics=1", "-verbosity=0",
+                       "-limit="+str(self._linkage_limit)]
 
         out_stream = None
         ret_metrics = ParseMetrics()
@@ -219,8 +237,8 @@ class LGInprocParser(AbstractFileParserClient):
             out_stream = sys.stdout if output_path is None \
                 else open(output_path+get_output_suffix(options), "w", encoding="utf-8")
 
-            with Popen(["grep", "-P", reg_exp, corpus_path], stdout=PIPE) as proc_grep, \
-                 Popen(cmd, stdin=proc_grep.stdout, stdout=PIPE, stderr=PIPE) as proc_pars:
+            with Popen(sed_cmd, stdout=PIPE) as proc_grep, \
+                 Popen(lgp_cmd, stdin=proc_grep.stdout, stdout=PIPE, stderr=PIPE) as proc_pars:
 
                 # Closing grep output stream will terminate it's process.
                 proc_grep.stdout.close()
@@ -229,9 +247,9 @@ class LGInprocParser(AbstractFileParserClient):
                 raw, err = proc_pars.communicate()
 
                 # Check return code to make sure the process completed successfully.
-                if proc_pars.returncode:
-                    LGParseError("Process '{0}' terminated with exit code: {1} "
-                                 "and error message:\n'{2}'.".format(cmd[0], proc_pars.returncode, err.decode()))
+                if proc_pars.returncode != 0:
+                    raise LGParseError("Process '{0}' terminated with exit code: {1} "
+                                 "and error message:\n'{2}'.".format(lgp_cmd[0], proc_pars.returncode, err.decode()))
 
                 # Take an action depending on the output format specified by 'options'
                 ret_metrics, ret_quality = self._handle_stream_output(raw.decode("utf-8-sig"), options,

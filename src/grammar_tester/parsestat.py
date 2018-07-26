@@ -57,15 +57,18 @@ def parse_metrics(tokens: list) -> ParseMetrics:
     if end_token == 0:
         return pm
 
-    start_token = 0 if not tokens[0].startswith("###") else 1
+    total = end_token
 
-    while tokens[end_token-1].startswith("###") or tokens[end_token-1] == "." or tokens[end_token-1] == "[.]":
-        end_token -= 1
+    start_token = 0  # if not tokens[0].startswith("###") else 1
 
-    total = end_token - start_token
+    # # All filtering is done in prepare_tokens
+    # while tokens[end_token-1].startswith("###") or tokens[end_token-1] == "." or tokens[end_token-1] == "[.]":
+    #     end_token -= 1
 
-    if not total:
-        return pm
+    # total = end_token - start_token
+    #
+    # if not total:
+    #     return pm
 
     # Initialize number of unlinked tokens
     unlinked = 0

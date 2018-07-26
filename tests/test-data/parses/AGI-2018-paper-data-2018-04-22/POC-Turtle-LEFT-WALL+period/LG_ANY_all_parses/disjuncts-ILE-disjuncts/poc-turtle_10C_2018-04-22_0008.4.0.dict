@@ -1,0 +1,48 @@
+% Grammar Learner v.0.8 2018-04-22 17:34:14 UTC
+<dictionary-version-number>: V0v0v8+;
+<dictionary-locale>: EN4us+;
+
+% C01
+".":
+(C03C01-) or (C05C01-) or (C06C01-) or (C09C01-) or (C10C01-);
+
+% C02
+"LEFT-WALL":
+(C02C04+) or (C02C06+) or (C02C10+);
+
+% C03
+"bird" "extremity" "fish":
+(C08C03- & C03C01+);
+
+% C04
+"eagle" "herring" "parrot" "tuna":
+(C02C04- & C04C07+) or (C02C04- & C04C08+);
+
+% C05
+"feather":
+(C10C05- & C07C05- & C05C01+);
+
+% C06
+"fin":
+(C02C06- & C06C08+) or (C02C06- & C06C09+) or (C07C06- & C06C01+);
+
+% C07
+"has":
+(C04C07- & C07C06+) or (C04C07- & C07C10+) or (C07C05+) or (C07C09+);
+
+% C08
+"isa":
+(C04C08- & C08C03+) or (C06C08- & C08C03+) or (C10C08- & C08C03+);
+
+% C09
+"scale":
+(C07C09- & C06C09- & C09C01+);
+
+% C10
+"wing":
+(C02C10- & C10C05+) or (C02C10- & C10C08+) or (C07C10- & C10C01+);
+
+UNKNOWN-WORD: XXX+;
+
+% 10 word clusters, 10 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-Turtle-LEFT-WALL+period/LG_ANY_all_parses/disjuncts-ILE-disjuncts/poc-turtle_10C_2018-04-22_0008.4.0.dict

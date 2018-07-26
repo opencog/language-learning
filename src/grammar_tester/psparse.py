@@ -36,6 +36,42 @@ def strip_token(token) -> str:
     return token[:pos:]
 
 
+def find_end_of_token(text, start_pos: int) -> int:
+
+    # Assume the open brace is already skipped
+    braces = 1
+    brackets = 0
+
+    pos = start_pos
+    text_len = len(text)
+
+    while pos < text_len:
+
+        current = text[pos]
+
+        if current == r")":
+            # if not "[)]"
+            if not brackets:
+                # If not "())"
+                if pos + 1 >= text_len or text[pos + 1] != r")":
+                    braces -= 1
+
+            if not braces:
+                return pos
+
+        elif current == r"[":
+            # If not "([)"
+            if pos + 1 >= text_len or text[pos + 1] != r")":
+                brackets += 1
+
+        elif current == r"]" and brackets:
+            brackets -= 1
+
+        pos += 1
+
+    return pos
+
+
 def parse_tokens(txt, opt) -> (list, int):
     """
     Parse string of tokens, taken from postscript notated LG parse output.
@@ -49,9 +85,17 @@ def parse_tokens(txt, opt) -> (list, int):
     """
     tokens = []
     offset = 0
-    start_pos = 1
-    end_pos = txt.find(")")
 
+    # Skip the open brace
+    start_pos = 1
+
+    # end_pos = txt.find(")")
+    # end_pos = find_end_of_token(txt, start_pos)
+
+    end_pos = txt.find(")(")
+
+    if end_pos < 0:
+        end_pos = len(txt)-1
 
     while end_pos - start_pos > 0:
         token = txt[start_pos:end_pos:]
@@ -83,7 +127,13 @@ def parse_tokens(txt, opt) -> (list, int):
             tokens.append(token)
 
         start_pos = end_pos + 2
-        end_pos = txt.find(")", start_pos + 1)
+        # end_pos = txt.find(")", start_pos + 1)
+        # end_pos = find_end_of_token(txt, start_pos)
+
+        end_pos = txt.find(")(", start_pos + 1)
+
+        if end_pos < 0:
+            end_pos = len(txt)-1
 
     return tokens, offset
 
@@ -118,8 +168,12 @@ def prepare_tokens(tokens: list, options: int) -> list:
         rw = tokens[last_token] if tokens[last_token].startswith(r"###") or tokens[last_token].startswith(r"[##") \
                                 else None
 
-        # Skip RIGHT-WALL and period or period in brackets if any
-        while last_token and tokens[last_token] in [r"[.]", r".", r"###RIGHT-WALL###", r"[###RIGHT-WALL###]"]:
+        # Skip RIGHT-WALL if any
+        if last_token and tokens[last_token] in [r"###RIGHT-WALL###", r"[###RIGHT-WALL###]"]:
+            last_token -= 1
+
+        # Skip period or period in brackets if any
+        if last_token and tokens[last_token] in [r"[.]", r"."]:
             last_token -= 1
 
         # If both period and RIGHT-WALL were found
@@ -132,14 +186,14 @@ def prepare_tokens(tokens: list, options: int) -> list:
 
 def parse_links(txt: str, tokens: list, offset: int) -> list:
     """
-    Parse links represented in postfix notation and prints them in OpenCog notation.
+    Parse links represented in postfix notation and return them as a list of tuples.
 
     :param txt:         Link list in postfix notation, obtained either from LG API or from link-parser postfix output.
     :param tokens:      List of tokens previously extracted from postfix notated output.
     :param offset:      Token index offset. Equals to 1 if tested grammar has no LEFT-WALL and the former was added
                         during postscript parsing. Offset is necessary for the links to have their indexes properly
                         updated.
-    :return:            List of links in ULL format.
+    :return:            List of tuples representing token to token links.
     """
     links = []
 

@@ -1,0 +1,32 @@
+% Grammar Learner v.0.5 2018-07-06 11:12:08 UTC
+<dictionary-version-number>: V0v0v5+;
+<dictionary-locale>: EN4us+;
+
+% C1
+"eagle" "feather" "fin" "herring" "parrot" "scale" "tuna" "wing":
+(C4C1- & C1C5+) or (C4C1- & C1C6+) or (C5C1- & C1C3+);
+
+% C2
+"bird" "extremity" "fish":
+(C6C2- & C2C3+);
+
+% C3
+".":
+(C1C3-) or (C2C3-);
+
+% C4
+"LEFT-WALL":
+(C4C1+);
+
+% C5
+"has":
+(C1C5- & C5C1+);
+
+% C6
+"isa":
+(C1C6- & C6C2+);
+
+UNKNOWN-WORD: XXX+;
+
+% 6 word clusters, 6 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/tests-2018-07-06/generalized_both/dict_6C_2018-07-06_0005.4.0.dict

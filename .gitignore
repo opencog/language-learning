@@ -103,7 +103,16 @@ ENV/
 # mypy
 .mypy_cache/
 
-# Output and temporary files
+# tests
+.pytest_cache
+
+# Output, temporary, archive, bid data files
 /output
 /tmp
-/pytest_cache
+/archive
+/bigdata
+
+# Test driven development files and notebooks, extra files
+/tdd
+/tdn
+/xtraz

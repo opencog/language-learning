@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#/src/grammar_learner/poc05.py OpenCog ULL Grammar Learner POC.0.5 80528-80629
+#language-learning/src/grammar_learner/poc05.py OpenCog ULL GL POC.0.5 80528-80718
 from IPython.display import display
 from src.utl.widgets import html_table
 
@@ -37,121 +37,6 @@ def group_links(links, verbose):  #80428
     df4 = df4.rename(columns={'words': 'cluster_words', 'links': 'disjuncts'})
     df4 = df4[['cluster', 'cluster_words', 'disjuncts', 'counts']]
     return df4
-
-#-def aggregate_cosine(clusters, generalization = 'cosine',
-#-    merge = 0.8, aggregate = 0.2, grammar_rules = 1, verbose = 'none'):
-def aggregate_cosine(clusters, **kwargs):   #80523
-    # clusters - pd.DataFrame(['cluster', 'cluster_words', 'disjuncts'])
-    def kwa(v,k): return kwargs[k] if k in kwargs else v
-    aggregation     = kwa('off',    'categories_generalization')
-    merge           = kwa(0.8,      'categories_merge')
-    aggregate       = kwa(0.2,      'categories_aggregation')
-    grammar_rules   = kwa(1,        'grammar_rules')
-    verbose         = kwa('none',   'verbose')
-    if verbose in ['debug', 'max']:
-        print('Cosine similarity based aggregation')
-    import numpy as np
-    from src.clustering.similarity import cluster_similarity
-    from src.utl.utl import round1, round2 #, round3, round4, round5
-
-    categories = clusters.copy()
-    sim_df, response = cluster_similarity(clusters, 'max')
-    if verbose in ['max','debug']:
-        count, division = np.histogram(sim_df['similarity'])
-        sim_df['similarity'].hist(bins=division)
-        print('Cluster similarities: absolute values >', aggregate, ':')
-        print(sim_df[['c1','c2', 'similarity']].loc[abs(sim_df['similarity']) > merge])
-        #print(clusters.applymap(round1))
-    for index, row in sim_df.loc[abs(sim_df['similarity']) > aggregate].iterrows():
-        print('row:', row)
-    return categories, response
-
-def aggregate_jaccard(clusters, step='categories', **kwargs):
-    # clusters - pd.DataFrame(['cluster', 'cluster_words', 'disjuncts'])
-    # step = 'categories' / 'rules' = GL stage of generalization
-    def kwa(v,k): return kwargs[k] if k in kwargs else v
-    grammar_rules   = kwa(1, 'grammar_rules')
-    if step[0] == 'r':  # 'rules'
-        aggregation = kwa('off','rules_generalization')
-        merge       = kwa(0.8,  'rules_merge')
-        aggregate   = kwa(0.2,  'rules_aggregation')
-    else:
-        aggregation = kwa('off','categories_generalization')
-        merge       = kwa(0.8,  'categories_merge')
-        aggregate   = kwa(0.2,  'categories_aggregation')
-    verbose         = kwa('none', 'verbose')
-    if verbose in ['debug', 'max']:
-        print('Jaccard index based aggregation')
-
-    categories = clusters.copy()
-    disjuncts = clusters['disjuncts'].tolist()
-    djset = set()
-    [[djset.add(y) for y in x] for x in disjuncts]
-    djlist = sorted(djset)
-    djs = [set([djlist.index(x) for x in y if x in djlist]) for y in disjuncts]
-    similarities = []       #similarity matrix FIXME:DEL?
-    similar_disjuncts = []
-    similarity_thresholds = {}
-
-    def jaccard(x,y): return len(x.intersection(y))/len(x.union(y))
-
-    for i,x in enumerate(djs):
-        lst = []
-        similar_disjuncts.append([])
-        for j,y in enumerate(djs):
-            similarity = jaccard(x,y)
-            if similarity > aggregate:
-                similar_disjuncts[i].append(j)
-            round_sim = round(similarity,2)
-            lst.append(round_sim)
-            if round_sim > 0.0 and round_sim < 1.0:
-                if round_sim in similarity_thresholds:
-                    similarity_thresholds[round_sim] += 1
-                else: similarity_thresholds[round_sim] = 1
-        similarities.append(lst)
-    if verbose in ['max', 'debug']:
-        print('\nsimilarities:')
-        for x in similarities: print(x)
-        print('\nsimilar_disjuncts:', similar_disjuncts)
-    merges = [x for x in similar_disjuncts if len(x) > 1]
-    cats = [i for i,x in enumerate(disjuncts)]
-    for x in merges:
-        for z in x: cats[z] = min([cats[y] for y in x])
-    dct = {}
-    for i,x in enumerate(sorted(set(cats))): dct[x] = i+1
-    categories['cluster'] = ['C' + str(dct[x]).zfill(2) for x in cats]
-    if verbose in ['debug', 'max']:
-        print('aggregate_jaccard: similarities:\n', similarities)
-        print('\naggregate_jaccard: categories:\n', categories)
-    #-return categories, {'similaritiy_matrix': similarities}
-    return categories, {'similarity_thresholds': similarity_thresholds}
-
-def aggregate_word_categories(clusters, **kwargs):  #80523
-    # clusters - pd.DataFrame(['cluster', 'cluster_words', 'disjuncts'])
-    def kwa(v,k): return kwargs[k] if k in kwargs else v
-    aggregation     = kwa('off',    'categories_generalization')
-    merge           = kwa(0.8,      'categories_merge')
-    aggregate       = kwa(0.2,      'categories_aggregation')
-    grammar_rules   = kwa(1,        'grammar_rules')
-    verbose         = kwa('none',   'verbose')
-
-    categories = clusters
-    log = {'aggregation': aggregation}
-    if aggregation == 'auto':
-        if 'disjuncts' in clusters:
-            categories, response = aggregate_jaccard(clusters, 'cats', **kwargs)
-        else: categories, response = aggregate_cosine(clusters, **kwargs)
-    elif aggregation == 'cosine':
-        categories, response = aggregate_cosine(clusters, **kwargs)
-    elif aggregation == 'jaccard':
-        categories, response = aggregate_jaccard(clusters, 'categories', **kwargs)
-    else:
-        categories = clusters
-        response = {'error': 'aggregate_word_categories - method choice?'}
-    log.update(response)
-    cats_number = len(set(categories['cluster'].tolist()))
-    log.update({'categories': cats_number})
-    return categories, log
 
 
 def category_learner(links, **kwargs):      #80619 POC.0.5
@@ -207,30 +92,34 @@ def category_learner(links, **kwargs):      #80619 POC.0.5
         log.update({'tmpath': tmpath})
     #TODO:ERROR
 
-    if verbose == 'debug':
-        print('category_learner: word_space:', word_space, '/ clustering:', clustering)
+    if verbose in ['max','debug']:
+        print(UTC(),':: category_learner: word_space/clustering:', word_space, '/', clustering)
 
     #-if word_space == 'vectors':    #80619 Category-Tree-2018-06-19.ipynb
     if context == 1 or word_space[0] in ['v','e'] or clustering == 'kmeans':
         #word_space options: v,e: 'vectors'='embeddings', d,w: 'discrete'='word_vectors'
-        print('DRK: context =', str(context)+', word_space: '+word_space+', clustering:', clustering)
+        if verbose in ['max','debug']:
+            print(UTC(),':: category_learner: DRK: context =', \
+                str(context)+', word_space: '+word_space+', clustering:', clustering)
         #-dim = vector_space_dim(links, dict_path, tmpath, dim_max, sv_min, verbose)
         #-80420 dict_path ⇒ tmpath :: dir to save vectors.txt
         dim = vector_space_dim(links, tmpath, tmpath, dim_max, sv_min, verbose)
         log.update({'vector_space_dim': dim})
         if verbose in ['mid','max','debug']:
-            print('Optimal vector space dimensionality:', dim)
+            print(UTC(),':: category_learner: vector space dimensionality:', dim, '⇒ pmisvd')
         #-vdf, sv, res3 = pmisvd(links, dict_path, tmpath, dim)
         vdf, sv, re01 = pmisvd(links, tmpath, tmpath, dim)
         log.update(re01)
+        if verbose in ['max','debug']:
+            print(UTC(),':: category_learner: pmisvd returned vdf, svd, re01')
     #-if clustering == 'kmeans':
         if verbose in ['max','debug']:
-            print(UTC(),':: category_learner ⇒ number_of_clusters')
+            print(UTC(),':: category_learner: ⇒ number_of_clusters')
         n_clusters = number_of_clusters(vdf, cluster_range, clustering,  \
             criteria=cluster_criteria, level=cluster_level, verbose=verbose)
         log.update({'n_clusters': n_clusters})
         if verbose in ['max','debug']:
-            print(UTC(),':: category_learner ⇒ cluster_words_kmeans:', n_clusters, 'clusters')
+            print(UTC(),':: category_learner: ⇒ cluster_words_kmeans:', n_clusters, 'clusters')
         clusters, silhouette, inertia = cluster_words_kmeans(vdf, n_clusters)
         log.update({'silhouette': silhouette, 'inertia': inertia})
     #-elif clustering[:5] in ['group','ident']:
@@ -275,143 +164,6 @@ def category_learner(links, **kwargs):      #80619 POC.0.5
     return cats, log
 
 
-# Grammar Learner 0.4 legacy
-
-def clusters2dict(clusters, verbose='none'):
-    #_convert clusters versions ⇒ unified dictionary {word: cluster}
-    if isinstance(clusters, dict):  #
-        return clusters
-    elif isinstance(clusters, list): # category_list
-        d = dict()
-        for row in clusters:
-            for word in row[3]: d[word] = row[1]
-        return d
-    if isinstance(clusters, pd.DataFrame):
-        if 'germs' in clusters:
-            d = dict()
-            for row in clusters.itertuples():
-                for word in row[1]: d[word] = row[4]
-            if verbose == 'max': print('germs!')
-            return d
-        else:
-            d = dict()
-            for row in clusters.itertuples():
-                for word in row[2]: d[word] = row[1]
-            if verbose == 'max': print('no germs')
-            return d
-
-def links2stalks(links, clusters, grammar_rules = 1, verbose='none'):
-    '''
-    TODO: debug errors on OOV -- out of clusters dict words
-    '''
-    # grammar_rules: 'connectors', 'disjuncts'
-    if verbose == 'debug': print('\nlinks2stalks\n')
-    import pandas as pd
-    #^from src.grammar_learner.poc3 import clusters2dict
-    if isinstance(clusters, dict): word_clusters = clusters
-    else: word_clusters = clusters2dict(clusters, verbose)
-    #80428 0.4 ipynb :: feed word_clusters dict -- make standard, DEL checks
-
-    def link2links(link):
-        if '&' not in link:
-            if link[-1] in ['-','+']:
-                return word_clusters[link[:-1]] + link[-1]
-            else: return link
-        else:
-            return ' & '.join([word_clusters[x[:-1]] + x[-1] \
-                for x in link.split() if x != '&' and x[:-1] in word_clusters])
-                #for x in link.split()if x != '&']) #FIXED 80507
-
-    def relaxed_rules(x):   # (c) Anton: ({a- or b-} & {c+ or d+}) or ({a-} & {c+})
-        #TODO: split disjuncts? OR just ignore?
-        z = [y for y in x[1:] if '&' not in y]   #80405 ignore disjuncts - gut??
-        lefts = sorted(set([y for y in z if y[-1] == '-']))
-        rights = sorted(set([y for y in z if y[-1] == '+']))
-        disjuncts = []
-        if len(lefts) > 0 and len(rights) > 0:
-            left = '{' + ' or '.join([y[:-1]+x[0]+'-' for y in lefts]) + '}'
-            right = '{' + ' or '.join([x[0]+y for y in rights]) + '}'
-            disjuncts.append(left + ' & ' + right)
-        elif len(lefts) > 0 and len(rights) == 0:
-            disjuncts.append(' or '.join([y[:-1]+x[0]+'-' for y in lefts]))
-        elif len(lefts) == 0 and len(rights) > 0:
-            disjuncts.append(' or '.join([x[0]+y for y in rights]))
-        return disjuncts
-
-    def strict_rules(x):    # 80419
-        if verbose == 'debug': print('links2stalks ⇒ strict_rules')
-        disjuncts = []
-        for y in x[1:]:
-            if '&' in y:
-                def f(z):  #! inside only: not pure - uses scope x[0] :(
-                    if z[-1] == '-':
-                        return z[:-1] + x[0] + '-'
-                    else: return x[0] + z
-                disjuncts.append(' & '.join([f(z) for z in y.split() if z != '&']))
-            elif y[-1] == '-':
-                disjuncts.append(y[:-1]+x[0]+'-')
-            elif y[-1] == '+':
-                disjuncts.append(x[0]+y)
-        disjuncts = sorted(set(disjuncts))
-        #-disjuncts.sort()
-        return disjuncts
-
-    if verbose == 'debug': print('\nlinks:\n', links)
-    df = links.copy()
-    df['links'] = df['link'].apply(link2links)
-    df['links'] = [[x] for x in df['links']]
-    stalks = df.groupby('word').agg({'links': 'sum', 'count': 'sum'}).reset_index()
-    #-stalks['links'] = stalks['links'].apply(dedupe)
-    stalks['links'] = stalks['links'].apply(lambda x: sorted(set(x)))
-    stalks['cluster'] = stalks['word'].apply(lambda x: word_clusters[x])
-    stalks['[clstr]'] = [[x] for x in stalks['cluster']]
-    stalks['cluster_links'] = stalks['[clstr]'] + stalks['links']
-    del stalks['[clstr]']
-    del stalks['links']
-    if verbose == 'debug':
-        print('\nstalks:', type(stalks))
-        with pd.option_context('display.max_rows', 6): print(stalks, '\n')
-
-    if grammar_rules == 1:
-        if verbose == 'debug': print('links2stalks: connectors ⇒ «relaxed_rules»')
-        #-stalks['disjuncts'] = [[x] for x in stalks['disjuncts']]
-        stalks['disjuncts'] = stalks['cluster_links'].apply(relaxed_rules)
-        if verbose == 'debug': print('type(stalks["disjuncts"]):', type(stalks['disjuncts']))
-    else:
-        if verbose == 'debug': print('links2stalks: disjuncts ⇒ strict_rules')
-        stalks['disjuncts'] = stalks['cluster_links'].apply(strict_rules)
-        if verbose == 'debug': print('type(stalks["disjuncts"]):', type(stalks['disjuncts']))
-    del stalks['cluster_links']
-    stalks['words'] = [[x] for x in stalks['word']]
-    del stalks['word']
-    if verbose == 'debug': print('\nstalks:\n', stalks)
-    return stalks
-
-def grammar_learner(clusters, links, **kwargs):  #80620 replaced by imduce_grammar
-    def kwa(v,k): return kwargs[k] if k in kwargs else v
-    grammar_rules   = kwa(1, 'grammar_rules')
-    verbose         = kwa('none', 'verbose')
-
-    stalks = links2stalks(links, clusters, grammar_rules, verbose)
-    rules = stalks.groupby('cluster') \
-        .agg({'words': 'sum', 'disjuncts': 'sum', 'count': 'sum'}).reset_index()
-
-    rules['disjuncts'] = rules['disjuncts'].apply(lambda x: sorted(set(x)))
-    #FIXME: remove duplicate disjuncts!
-
-    rule_list = list()
-    for row in rules.itertuples():
-        rule = []
-        rule.append(row[1])     # Cluster
-        rule.append(row[2])     # Words
-        rule.append([])         # Left Connectors
-        rule.append([])         # Right Connectors
-        rule.append(row[3])     # Disjuncts
-        rule_list.append(rule)
-    rule_list.sort()
-    return rule_list, {'rule_list': len(rule_list)}
-
-
 '''Grammar Learner 0.5 80625'''
 
 def induce_grammar(categories, links, verbose='none'):  #80620 learn_grammar replacement
@@ -419,6 +171,8 @@ def induce_grammar(categories, links, verbose='none'):  #80620 learn_grammar rep
     # links: pd.DataFrame (legacy)
     from src.grammar_learner.generalization import cats2list
     import copy
+    if verbose in ['max','debug']:
+        print(UTC(),':: induce_grammar: categories.keys():', categories.keys())
     rules = copy.deepcopy(categories)
 
     clusters = [i for i,x in enumerate(rules['cluster']) if i>0 and x is not None]
@@ -427,11 +181,13 @@ def induce_grammar(categories, links, verbose='none'):  #80620 learn_grammar rep
         for word in rules['words'][i]:
             word_clusters[word] = i
 
-    if verbose == 'debug':
+    if verbose in ['max','debug']:
         print('induce_grammar: rules.keys():', rules.keys())
         print('induce_grammar: clusters:', clusters)
         print('induce_grammar: word_clusters:', word_clusters)
         print('induce_grammar: rules ~ categories:')
+        from IPython.display import display
+        from src.utl.widgets import html_table
         display(html_table([['Code','Parent','Id','Quality','Words', 'Disjuncts', 'djs','Relevance','Children']] \
             + [x for i,x in enumerate(cats2list(rules)) if i < 4]))
 
@@ -487,7 +243,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     # output_grammar    - path/file.ext / dir ⇒ auto file name
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     tmpath          = kwa('',       'tmpath')
-    parse_mode      = kwa('given',  'parse_mode')
+    parse_mode      = kwa('lower',  'parse_mode')  # files2links
     left_wall       = kwa('',       'left_wall')
     period          = kwa(False,    'period')
     context         = kwa(1,        'context')
@@ -512,9 +268,6 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     #-rules_aggr      = kwa(0.3,      'rules_aggregation'),   # aggregate rules with similarity > this criteria
     verbose         = kwa('none', 'verbose')
 
-    print('learn_grammar: grammar_rules:', grammar_rules)
-
-    #80509 TODO: renamed parameters ⇒ update code
     kwargs['input_parses'] = input_parses
     kwargs['output_categories'] = output_categories
     kwargs['output_grammar'] = output_grammar
@@ -529,7 +282,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     from shutil import copy2 as copy
     from src.utl.utl import UTC
     from src.utl.read_files import check_dir, check_mst_files
-    from src.space.poc05 import files2links   #80528 .poc05
+    from src.space.poc05 import files2links
     from src.clustering.poc05 import clusters2dict
     #+from src.link_grammar.poc05 import category_learner
     #+from src.link_grammar.poc05 import induce_grammar
@@ -548,27 +301,32 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
         prj_dir = output_categories
     else:  prj_dir = os.path.dirname(output_categories)
     log.update({'project_directory': prj_dir})
-    parse_dir = prj_dir + '/parses/'
-    if check_dir(parse_dir, True, verbose):
-        for file in files: copy(file, os.path.dirname(parse_dir))
-    else: raise FileNotFoundError('File not found', input_parses)
+    #-Save a copy of input parses to prj_dir + '/parses/'  #FIXME:DEL?    #80704
+    #-parse_dir = prj_dir + '/parses/'
+    #-if check_dir(parse_dir, True, verbose):
+    #-    for file in files: copy(file, os.path.dirname(parse_dir))
+    #-else: raise FileNotFoundError('File not found', input_parses)
+
     # group = True    #? always? False option for context = 0 (words)?
     kwargs['input_files'] = files
 
     # files ⇒ links:
     links, re02 = files2links(**kwargs)
     log.update(re02)
-    # corpus_stats - implanted in files2links 80605
     list2file(re02['corpus_stats'], prj_dir+'/corpus_stats.txt')
     log.update({'corpus_stats_file': prj_dir+'/corpus_stats.txt'})
     if verbose in ['max','debug']:
-        print('\nfiles2links returns links', type(links), ':\n')
+        print('\n', UTC(),':: files2links returns links', type(links), ':\n')
         with pd.option_context('display.max_rows', 6): print(links, '\n')
-        print('learn_grammar: word_space:', word_space, '/ clustering:', clustering)
+        print('learn_grammar: word_space/clustering:', \
+              word_space,'/', clustering, '⇒ category_learner')
 
-    # Learn categories: new 80619
+    # Learn categories #80619
     categories, re03 = category_learner(links, **kwargs)   #v.0.5 categories: {}
     log.update(re03)
+    if verbose in ['max','debug']:
+        print(UTC(),':: learn_grammar: category_learner returned', \
+              type(categories), 'categories')
 
     # Generalize categories   #TODO? "gen_cats" ⇒ "categories"? no new name
     if cats_gen == 'jaccard' or (cats_gen == 'auto' and clustering == 'group'):
@@ -586,19 +344,19 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
         gen_cats = categories
         log.update({'generalization': 'error: cats_gen = ' + str(cats_gen)})
         if verbose in ['max','debug']:
-            print(UTC(),':: learn_grammar: generalization: else: cats_gen =', cats_gen, '⇒ gen_cats = categories')
+            print(UTC(),':: learn_grammar: generalization = else: cats_gen =', \
+                cats_gen, '⇒ gen_cats = categories')
 
-    # Save 1st cats_file = to control 2-step generalization #FIXME:DEL?
-    re05 = save_cat_tree(gen_cats, output_categories, verbose)  #FIXME: verbose?
-    #TODO: check file save error?
-    log.update({'category_tree_file': re05['cat_tree_file']})
+    # Save 1st cats_file = to control 2-step generalization #FIXME:DEL?   #80704
+    #-re05 = save_cat_tree(gen_cats, output_categories, verbose)
+    #-log.update({'category_tree_file': re05['cat_tree_file']})
+    # Save cats.pkl
+    #-with open(re05['cat_tree_file'][:-3]+'pkl', 'wb') as f: #FIXME:DEL? #80704
+    #-    pickle.dump(gen_cats, f)
+    #-if verbose in ['max','debug']:
+    #-    print(UTC(),':: learn_grammar: 1st cat_tree saved')
 
-    with open(re05['cat_tree_file'][:-3]+'pkl', 'wb') as f: #FIXME:DEL tmp 80601
-        pickle.dump(gen_cats, f)
-    if verbose in ['max','debug']:
-        print(UTC(),':: learn_grammar: 1st cat_tree saved')
-
-    # Learn grammar     #80623
+    # Learn grammar
 
     if grammar_rules != context:
         context = kwargs['context']
@@ -608,61 +366,54 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
         links, re06 = files2links(**kwargs)
         kwargs['context'] = context
 
-    # add disjuncts to categories {}  after k-means clustering  #TOEO: speed!
+    # add disjuncts to categories {} after k-means clustering
     def add_disjuncts(cats, links, verbose='none'):
-        if verbose in ['max','debug']:
-            print(UTC(),':: add_disjuncts: cats:', len(cats['cluster']), 'clusters')
+        # cats: {}
         from copy import deepcopy
+        fat_cats = deepcopy(cats)
         top_clusters = [i for i,x in enumerate(cats['cluster']) \
                         if i > 0 and x is not None]
-        word_clusters = dict()
+        #word_clusters = {x:i for i,x in enumerate(top_clusters)}
+        word_clusters = dict()   #TODO: comprehension?
         for i in top_clusters:
             for word in cats['words'][i]:
                 word_clusters[word] = i
-        if verbose in ['max','debug']:
-            print(UTC(),':: add_disjuncts: word_clusters:', len(word_clusters), 'words')
+
         df = links.copy()
-        if verbose in ['max','debug']:
-            print(UTC(),':: add_disjuncts: df[links] = [[x] for x in df[link]]')
-        df['links'] = [[x] for x in df['link']]
-        if verbose in ['max','debug']:
-            print(UTC(),':: add_disjuncts: df[cluster] = df[word].apply(lambda x: word_clusters[x])')
         df['cluster'] = df['word'].apply(lambda x: word_clusters[x])
-        if verbose in ['max','debug']:
-            print(UTC(),':: add_disjuncts: cdf = df.groupby("cluster").agg(...')
-        cdf = df.groupby('cluster').agg({'links': 'sum', 'count': 'sum'}).reset_index()
-        #TODO? del df[...] to free RAM?
-        disjuncts = [[]] + cdf['links'].tolist()
-        counts = [0] + cdf['count'].tolist()
-        if verbose in ['max','debug']:
-            print(UTC(),':: add_disjuncts: len(cluster, disjuncts):', \
-                  len(rules['cluster']), len(disjuncts), '\ncounts:', counts)
-        fat_cats = deepcopy(cats)
+        cdf = df.groupby('cluster').sum().reset_index()
         fat_cats['counts'] = [0] + cdf['count'].tolist()
-        fat_cats['disjuncts'] = [[]] + cdf['links'].tolist()
-        #['djs']
-        djset = set()
-        [[djset.add(y) for y in x] for x in fat_cats['disjuncts']]
-        djlist = sorted(djset)
-        fat_cats['djs'] = [set([djlist.index(x) for x in y if x in djlist]) \
-                           for y in fat_cats['disjuncts']]
-        if verbose in ['max','debug']:
-            print(UTC(),':: add_disjuncts: return fat_cats')
+
+        fat_cats['disjuncts'] = [[]]
+        cdf = df.groupby(['cluster','link'], as_index=False).sum() \
+            .sort_values(by=['cluster','count'], ascending=[True,False])
+        for cluster in top_clusters:
+            ccdf = cdf.loc[cdf['cluster'] == cluster]
+            fat_cats['disjuncts'].append(ccdf['link'].tolist())
+
+        fat_cats['djs'] = [[]]
+        ldf = df[['link','count']].copy().groupby('link').sum() \
+            .sort_values(by='count', ascending=False).reset_index()
+        djdict = {x:i for i,x in enumerate(ldf['link'].tolist())}
+        df.drop(['word'], axis=1, inplace=True)
+        df['dj'] = df['link'].apply(lambda x: djdict[x])
+        cdf = df.groupby(['cluster','dj'], as_index=False).sum() \
+                .sort_values(by=['cluster','dj'], ascending=[True,True])
+        for cluster in top_clusters:
+            ccdf = cdf.loc[cdf['cluster'] == cluster]
+            fat_cats['djs'].append(ccdf['dj'].tolist())
         return fat_cats
 
     #TODO: def djs? vectors(disjuncts, **kwargs)
 
     #if context < 2 and grammar_rules > 1:
     if word_space == 'vectors' or clustering == 'kmeans':
-        if verbose in ['max','debug']:
-            print(UTC(),':: learn_grammar ⇒ add_disjuncts')
-            #with open(re05['cat_tree_file'][:-9]+'s.pkl', 'wb') as f: #FIXME:DEL tmp 80601
-            #    pickle.dump(gen_cats, f)
-
-        fat_cats = add_disjuncts(gen_cats, links)
+        fat_cats = add_disjuncts(gen_cats, links, verbose)
+        #-with open(output_categories + '/fat_cats.pkl', 'wb') as f:
+        #-    pickle.dump(fat_cats, f)
         if verbose in ['max','debug']:
             print(UTC(),':: learn_grammar: back from add_disjuncts')
-        #TODO: fat_cats['djs'] = djs(fat_cats[disjuncts], **kwargs)   #TODO:
+        #TODO: fat_cats['djs'] = djs(fat_cats[disjuncts], **kwargs)?
     else: fat_cats = gen_cats
 
     # Learn Grammar
@@ -684,11 +435,12 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
             if verbose == 'debug':
                 print('generalize_rules ⇒ gen_rules:')
                 display(html_table([['Code','Parent','Id','Quality','Words', 'Disjuncts', 'djs','Relevance','Children']] \
-                    + [x for i,x in enumerate(cats2list(rulez))]))
+                    + [x for i,x in enumerate(cats2list(gen_rules))]))
 
     # Save cat_tree.txt file
-    #-from src.utl.write_files import save_cat_tree
+    #^from src.utl.write_files import save_cat_tree
     re09 = save_cat_tree(gen_rules, output_categories, verbose='none')  #FIXME: verbose?
+    #TODO: check file save error?
     log.update(re09)
     # Save Link Grammar .dict
     re10 = save_link_grammar(gen_rules, output_grammar, grammar_rules)
@@ -696,7 +448,6 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     log.update({'finish': str(UTC())})
 
     #TODO: elapsed execution time?  Save log?
-
     return log
 
 
@@ -716,13 +467,13 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):
         if kwargs['period']:
             period = 'period'
         else: period = 'no-period'
-        generalization = ['no_generalization', 'generalized_categories', \
-                          'generalized_rules', 'generalized_categories_and_rules']
+        generalization = ['no-generalization', 'generalized-categories', \
+                          'generalized-rules', 'generalized-categories-and-rules']
         gen = 0
         if 'categories_generalization' in kwargs:
-            if kwargs['categories_generalization'] not in ['','off']: gen += 1
+            if kwargs['categories_generalization'] not in ['','off','none']: gen += 1
         if 'rules_generalization' in kwargs:
-            if kwargs['rules_generalization'] not in ['','off']:  gen += 2
+            if kwargs['rules_generalization'] not in ['','off','none']:  gen += 2
         prj_dir = batch_dir + '_' + dataset  + '_' + \
             spaces[kwargs['context']-1] + '-'+wtf+'-' + spaces[kwargs['grammar_rules']-1] \
             + '_' + left_wall + '_' + period + '_' + generalization[gen]
@@ -830,3 +581,4 @@ def run_learn_grammar(corpus, dataset, module_path, out_dir, **kwargs): #80411
 #80511 0.4 kwargs, params, run_learn_grammar
 #80523 0.4 save category tree
 #80629 0.5 hierarchical cat_tree ⇒ agglomerative generalization
+#80718 update git push from 94..server

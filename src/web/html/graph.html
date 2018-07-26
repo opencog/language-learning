@@ -1,13 +1,13 @@
 <html>
 <head>
 
-<title>SingluarityNET Graphs Demo</title>
+<title>SingluarityNET & OpenCog Graphs Demo</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  <link rel="stylesheet" href="/ui/jquery-ui-1.11.4.custom/jquery-ui.css">
-  <script src="/ui/jquery-1.11.1.js"></script>
-  <script src="/ui/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
-  <script type="text/javascript" src="/ui/aigents-al.js?4"></script>
-  <script type="text/javascript" src="/ui/aigents-graph.js?4"></script>
+  <link rel="stylesheet" href="ui/jquery-ui-1.11.4.custom/jquery-ui.css">
+  <script src="ui/jquery-1.11.1.js"></script>
+  <script src="ui/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+  <script type="text/javascript" src="ui/aigents-al.js?4"></script>
+  <script type="text/javascript" src="ui/aigents-graph.js?4"></script>
 </head>
 
 <style>
@@ -44,6 +44,7 @@ body {background:#eaf1fc !important;margin:0 !important;}
 
 </style>
 
+<!-- test comment -->
 
 <script>
 
@@ -636,10 +637,42 @@ function do_atoms_graph(){
 	});
 }
 
+//TODO: use library version 
+function parseQuery(queryString) {
+    var query = {};
+    var pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
+    for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i].split('=');
+        query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+    }
+    return query;
+}
+
+function page_onload(){
+	var cmd = window.location.hash.substring(1);
+	console.log(window.location);
+	if (!AL.empty(window.location.search)){
+		var query = parseQuery(window.location.search.substring(1));
+		if (query.cmd)
+			cmd = cmd;
+	}
+	if (!AL.empty(cmd))
+		cmd = cmd.toLowerCase();
+	switch (cmd){
+	case "atoms": do_atoms_graph();break;
+	case "mi": do_mi_graph();break; 
+	case "senses": do_senses_graph();break;
+	case "grammar": do_grammar_graph();break;
+	case "cats": do_cat_graph();break;
+	case "parses": do_parses_graph();break;
+	}
+}
+
+
 </script>
 
-<body>
-<h2>SingluarityNET Graphs Demo</h2>
+<body class="ui-widget" onload="page_onload();">
+<h2>SingluarityNET & OpenCog Graphs Demo</h2>
 
 Click to <button id="do_atoms_graph" onclick="do_atoms_graph()">Explore OpenCog Atoms</button> from script<br> 
 <input id="atoms_script_path" type="search" placeholder="Atom Types script path" style="width:100%" value="/test/nlp/atom_types.script"></input><br>
@@ -655,7 +688,7 @@ Click to <button id="do_senses_graph" onclick="do_senses_graph()">View Word Sens
 <p> 
 
 Click to <button id="do_grammar_graph" onclick="do_grammar_graph()">View Link Grammar</button> from file <br> 
-<input id="grammar_file_path" type="search" placeholder="Grammar file path" style="width:100%" value="/test/nlp/grammar_test_dict.txt"></input>
+<input id="grammar_file_path" type="search" placeholder="Grammar file path" style="width:100%" value="/test/nlp/poc-english_5C_2018-06-06_0004.4.0.dict.txt"></input>
 <p>
 
 Click to <button id="do_cat_graph" onclick="do_cat_graph()">View Categories</button>
@@ -672,7 +705,7 @@ Click to <button id="do_parses_graph" onclick="do_parses_graph()">View Parses</b
  from file (if provided) <br>
 <input id="parses_file_path" type="search" placeholder="Parses file path" style="width:100%" value="/test/nlp/poc_english_noamb_parse_ideal.txt"></input><br>
 or text (if entered)<br>
-<textarea rows="20" cols="80" id="parses_text"  style="font-size:10">
+<textarea rows="16" cols="80" id="parses_text"  style="font-size:10">
 a mom is a human . 
 0 ###LEFT-WALL### 2 mom
 0 ###LEFT-WALL### 3 is

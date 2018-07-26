@@ -46,7 +46,6 @@ for v in 1:numWords
     for s in 1:T(vm)
         if probs[s] > args["min-prob"] && vm.counts[s, v] >= 1
             nn = nearest_neighbors(vm, dict, vec(vm, v, s), args["neighbors"]; exclude=[(Int32(v), s)])
-            #@printf(fo, "%s@%s@%.3f\t\t", dict.id2word[v], s, probs[s])
             tag_main = string(letters[s % length(letters)])
             @printf(fo, "%s@%s\t%.3f\t", dict.id2word[v], tag_main, probs[s])
     	    for neighbor in nn
@@ -57,7 +56,11 @@ for v in 1:numWords
             for neighbor in nn
                 @printf(fo, "%.3f\t", neighbor[3])
             end
-    	    @printf(fo, "\n")
+            println(fo)
+            for iDim in 1:M(vm)
+                @printf(fo, "%s ", vm.In[:,s,v][iDim])
+            end
+            println(fo)
         end
     end
 end

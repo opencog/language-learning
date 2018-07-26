@@ -41,30 +41,28 @@ def compute_fscore(true, pred):
     """
     unique_true = np.unique(true)
     unique_pred = np.unique(pred)
+    weight = 1
 
     # if word should not be disambiguated
     if len(unique_true) == 1:
         if len(unique_pred) == 1: # not disambiguated
-            return None # return a value that will be filtered later
-        # else: # punish wrongly disambiguated words
-        #     true_pos = 
-        #     false_pos = len(true)
-        #     false_neg = 
-        #     r = 
-        #     p = 0
-    #else: # if word should be disambiguated
+            return None, weight # return a value that will be filtered later
+        else: # punish wrongly disambiguated words
+            weight = 0.9
+            return None, weight
+    else: # if word should be disambiguated
         # if len(unique_pred) == 1: # not disambiguated
         #     p = 0
         #     r = 0
         # else: # calculate precision and recall
-    true_pairs = get_pairs(true)
-    pred_pairs = get_pairs(pred)
-    int_size = len(set(true_pairs).intersection(pred_pairs))
-    p = int_size / float(len(pred_pairs))# + 1e-5 # add eps to avoid div by zero
-    r = int_size / float(len(true_pairs))# + 1e-5 
+        true_pairs = get_pairs(true)
+        pred_pairs = get_pairs(pred)
+        int_size = len(set(true_pairs).intersection(pred_pairs))
+        p = int_size / float(len(pred_pairs))# + 1e-5 # add eps to avoid div by zero
+        r = int_size / float(len(true_pairs))# + 1e-5 
 
     # return fscore
-    return 2 * p * r / (p + r)
+    return 2 * p * r / (p + r), weight
 
 def read_answers(filename, sep):
     """
@@ -104,6 +102,7 @@ def compute_metrics(answers, predictions):
     fscores = []
     #weights = []
     one_sense_count = 0
+    final_weight = 1
     for k in answers.keys():
         #print(k)
         true = np.array(answers[k])
@@ -112,7 +111,8 @@ def compute_metrics(answers, predictions):
         #if len(np.unique(true)) > 1:
         aris.append(adjusted_rand_score(true, pred))
         vscores.append(v_measure_score(true, pred))
-        fscore = compute_fscore(true, pred)
+        fscore, weight = compute_fscore(true, pred)
+        final_weight *= weight
         fscores.append(fscore)
         # if one_sense == True:
         #    one_sense_count += 1
@@ -123,12 +123,14 @@ def compute_metrics(answers, predictions):
     fscores = np.array(fscores)
     #weights = np.array(weights)
     #print('number of one-sense words in reference: %d' % one_sense_count)
+    print(fscores)
+    mean_fscore = np.mean(fscores) * final_weight
     print('mean ari: %f' % np.mean(aris))
     print('mean vscore: %f' % np.mean(vscores))
     #print('weighted vscore: %f' % np.sum(vscores * (weights / float(np.sum(weights)))))
-    print('mean fscore: %f' % np.mean(fscores))
+    print('mean fscore: %f' % mean_fscore) # use weight
     #print('weighted fscore: %f' % np.sum(fscores * (weights / float(np.sum(weights)))))
-    return np.mean(aris),np.mean(vscores),np.mean(fscores)
+    return np.mean(aris), np.mean(vscores), mean_fscore
     #return np.mean(fscores)
 
 def main(argv):

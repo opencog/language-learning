@@ -56,15 +56,33 @@ class LGInprocParser(AbstractFileParserClient):
         # Parse output to get sentences and linkages in postscript notation
         for sent in text[pos:end].split("\n\n"):
 
-            sent = sent.replace("\n", "")
+            sent = sent.strip()
 
             # As it turned out sentence may start from '[', so simple `sent.find("[")`
             #   fails to tell sentence from postscript.
             post_start = sent.find("[(")
 
-            sentence = sent[:post_start]
+            echo_text = sent if post_start < 0 else sent[:post_start-1]
+
+            lines = echo_text.split("\n")
+
+            num_lines = len(lines)
+
+            # None of the unparsed sentences, if any, should be missed
+            for i in range(0, num_lines-1):
+                sent_text = lines[i]
+                tokens = sent_text.split(" ")
+                sent_obj = PSSentence(sent_text)
+
+                # Fake postscript in order for proper statistic estimation
+                post_text = r"[([" + r"])([".join(tokens) + r"])][][0]"
+                sent_obj.linkages.append(post_text)
+                sentences.append(sent_obj)
+
+            # Successfully parsed sentence is added here
+            sentence = lines[num_lines-1]
             cur_sent = PSSentence(sentence)
-            postscript = sent[post_start:]
+            postscript = sent[post_start:].replace("\n", "")
             cur_sent.linkages.append(postscript)
 
             sentences.append(cur_sent)
@@ -99,7 +117,7 @@ class LGInprocParser(AbstractFileParserClient):
                     print("Exception: " + str(err))
 
             # Parse output into sentences and assotiate a list of linkages for each one of them.
-            sentences = self._parse_batch_ps_output(text, 5)
+            sentences = self._parse_batch_ps_output(text, 6)
 
             print("Parsed sentences:", len(sentences))
 

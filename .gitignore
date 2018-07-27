@@ -106,7 +106,7 @@ ENV/
 # tests
 .pytest_cache
 
-# Output, temporary, archive, bid data files
+# Output, temporary, archive, big data (local) files
 /output
 /tmp
 /archive
@@ -116,3 +116,4 @@ ENV/
 /tdd
 /tdn
 /xtraz
+.ftpignore

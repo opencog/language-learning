@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-#language-learning/src/grammar_learner/poc05.py OpenCog ULL GL POC.0.5 80528-80718
+#language-learning/src/grammar_learner/poc05.py 0.5 80528-80725
 from IPython.display import display
-from src.utl.widgets import html_table
+from widgets import html_table
 
 # Category Learner  #80625
 
@@ -39,7 +39,7 @@ def group_links(links, verbose):  #80428
     return df4
 
 
-def category_learner(links, **kwargs):      #80619 POC.0.5
+def category_learner(links, **kwargs):      #80619 POC.0.5 #80726
     # links - DataFrame ['word', 'link', 'count']
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     #-links = kwargs['links']   # links - check?
@@ -68,15 +68,13 @@ def category_learner(links, **kwargs):      #80619 POC.0.5
     grammar_rules   = kwa(1,        'grammar_rules')
     verbose         = kwa('none',   'verbose')
 
-    from src.utl.utl import UTC, round1, round2  #, round3, round4, round5
-    from src.space.hyperwords import vector_space_dim, pmisvd
-    from src.clustering.kmeans import cluster_words_kmeans
-    from src.clustering.poc05 import number_of_clusters, clusters2list
-    from src.utl.widgets import html_table, plot2d
-    from src.utl.read_files import check_dir #, check_mst_files
-    from src.utl.write_files import list2file, save_link_grammar
-    #-from src.grammar_learner.poc05 import group_links, \
-    #-    aggregate_cosine, aggregate_jaccard, aggregate_word_categories
+    from utl import UTC, round1, round2  #, round3, round4, round5
+    from read_files import check_dir #, check_mst_files
+    from hyperwords import vector_space_dim, pmisvd
+    from clustering import number_of_clusters, clusters2list
+    from kmeans import cluster_words_kmeans
+    from write_files import list2file, save_link_grammar
+    #TODO: from ? import group_links
 
     from collections import OrderedDict
     log = OrderedDict()
@@ -127,7 +125,7 @@ def category_learner(links, **kwargs):      #80619 POC.0.5
         if verbose in ['max', 'debug']:
             print(UTC(),':: category_learner ⇒ iLE group_links: context =', \
                 str(context)+', word_space: '+str(word_space)+', clustering:', clustering)
-        #TODO: from src.clustering.grouping import group_links
+        #TODO: from ? import group_links
         clusters = group_links(links, verbose)
         log.update({'n_clusters': len(clusters)})
         if verbose not in ['min','none']:
@@ -166,10 +164,10 @@ def category_learner(links, **kwargs):      #80619 POC.0.5
 
 '''Grammar Learner 0.5 80625'''
 
-def induce_grammar(categories, links, verbose='none'):  #80620 learn_grammar replacement
+def induce_grammar(categories, links, verbose='none'):
     # categories: {'cluster': [], 'words': [], ...}
     # links: pd.DataFrame (legacy)
-    from src.grammar_learner.generalization import cats2list
+    from generalization import cats2list
     import copy
     if verbose in ['max','debug']:
         print(UTC(),':: induce_grammar: categories.keys():', categories.keys())
@@ -186,8 +184,6 @@ def induce_grammar(categories, links, verbose='none'):  #80620 learn_grammar rep
         print('induce_grammar: clusters:', clusters)
         print('induce_grammar: word_clusters:', word_clusters)
         print('induce_grammar: rules ~ categories:')
-        from IPython.display import display
-        from src.utl.widgets import html_table
         display(html_table([['Code','Parent','Id','Quality','Words', 'Disjuncts', 'djs','Relevance','Children']] \
             + [x for i,x in enumerate(cats2list(rules)) if i < 4]))
 
@@ -218,8 +214,6 @@ def induce_grammar(categories, links, verbose='none'):  #80620 learn_grammar rep
 
     if verbose == 'debug':
         print('induce_grammar: updated disjuncts:')
-        from IPython.display import display
-        from src.utl.widgets import html_table
         display(html_table([['Code','Parent','Id','Quality','Words', 'Disjuncts', 'djs','Relevance','Children']] \
             + [x for i,x in enumerate(cats2list(rules)) if i < 32]))
 
@@ -230,12 +224,6 @@ def induce_grammar(categories, links, verbose='none'):  #80620 learn_grammar rep
 
 '''Learn Grammar :: Integration'''
 
-def print_kwargs(**kwargs):
-    from src.utl.utl import UTC
-    print('poc04 learn_grammar kwargs:')
-    for k,v in kwargs.items(): print(('- '+k+':                ')[:20], v)
-    kwargs['printed'] = str(UTC())
-    return kwargs
 
 def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     # input_parses - dir with .txt files
@@ -256,16 +244,16 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     sv_min          = kwa(0.1,      'sv_min')
     dim_reduction   = kwa('svm',    'dim_reduction')
     clustering      = kwa('kmeans', 'clustering')
-    #-cluster_range   = kwa((2,48,1), 'cluster_range')
-    #-cluster_criteria = kwa('silhouette', 'cluster_criteria')
-    #-cluster_level   = kwa(0.9,      'cluster_level')
+    cluster_range   = kwa((2,48,1), 'cluster_range')
+    cluster_criteria = kwa('silhouette', 'cluster_criteria')
+    cluster_level   = kwa(0.9,      'cluster_level')
     cats_gen        = kwa('off',    'categories_generalization')
-    #-cats_merge      = kwa(0.8,      'categories_merge')
-    #-cats_aggr       = kwa(0.2,      'categories_aggregation')
+    cats_merge      = kwa(0.8,      'categories_merge')
+    cats_aggr       = kwa(0.2,      'categories_aggregation')
     grammar_rules   = kwa(1,        'grammar_rules')
-    rules_gen       = kwa('off',    'rules_generalization')   # 'off', 'cosine', 'jaccard'
-    #-rules_merge     = kwa(0.8,      'rules_merge'),   # merge rules with similarity > this 'merge' criteria
-    #-rules_aggr      = kwa(0.3,      'rules_aggregation'),   # aggregate rules with similarity > this criteria
+    rules_gen       = kwa('off',    'rules_generalization') # 'off', 'jaccard' +TODO 'cosine'
+    rules_merge     = kwa(0.8,      'rules_merge'),         # merge rules with similarity > this 'merge' criteria
+    rules_aggr      = kwa(0.2,      'rules_aggregation'),   # aggregate rules with similarity > this criteria
     verbose         = kwa('none', 'verbose')
 
     kwargs['input_parses'] = input_parses
@@ -277,20 +265,19 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     #-dict_path = output_grammar
 
     import os, pickle   #, collections
-    from collections import OrderedDict
     import pandas as pd
     from shutil import copy2 as copy
-    from src.utl.utl import UTC
-    from src.utl.read_files import check_dir, check_mst_files
-    from src.space.poc05 import files2links
-    from src.clustering.poc05 import clusters2dict
-    #+from src.link_grammar.poc05 import category_learner
-    #+from src.link_grammar.poc05 import induce_grammar
-    from src.utl.write_files import list2file, save_link_grammar, save_cat_tree
-    from src.utl.widgets import html_table, plot2d
-    from src.grammar_learner.generalization import generalize_categories, \
-        reorder, cats2list, generalize_rules #, aggregate, aggregate_word_categories\
+    from utl import UTC
+    from read_files import check_dir, check_mst_files
+    from pparser import files2links
+    from clustering import clusters2dict
+    #TODO: from ? import category_learner
+    #TODO: from ? import induce_grammar
+    from write_files import list2file, save_link_grammar, save_cat_tree
+    from generalization import generalize_categories, generalize_rules, \
+        cats2list #, reorder, aggregate, aggregate_word_categories\
 
+    from collections import OrderedDict
     log = OrderedDict({'start': str(UTC()), 'learn_grammar': '80605'})
 
     #TODO: save kwargs?
@@ -350,11 +337,8 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     # Save 1st cats_file = to control 2-step generalization #FIXME:DEL?   #80704
     #-re05 = save_cat_tree(gen_cats, output_categories, verbose)
     #-log.update({'category_tree_file': re05['cat_tree_file']})
-    # Save cats.pkl
-    #-with open(re05['cat_tree_file'][:-3]+'pkl', 'wb') as f: #FIXME:DEL? #80704
+    #-with open(re05['cat_tree_file'][:-3]+'pkl', 'wb') as f:
     #-    pickle.dump(gen_cats, f)
-    #-if verbose in ['max','debug']:
-    #-    print(UTC(),':: learn_grammar: 1st cat_tree saved')
 
     # Learn grammar
 
@@ -417,7 +401,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     else: fat_cats = gen_cats
 
     # Learn Grammar
-    #+from src.grammar_learner.poc05 import induce_grammar
+    #TODO: from ? import induce_grammar
     rules, re07 = induce_grammar(fat_cats, links)
     if verbose == 'debug':
         print('induce_grammar ⇒ rules:')
@@ -428,8 +412,6 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     gen_rules = rules
     if 'rules_generalization' in kwargs:
         if kwargs['rules_generalization'] not in ['','off']:
-            #-word_clusters, re06 = generalize_rules(rule_list, **kwargs)
-            from src.grammar_learner.generalization import generalize_rules
             gen_rules, re08 = generalize_rules(rules, **kwargs)
             log.update(re08)
             if verbose == 'debug':
@@ -438,7 +420,6 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
                     + [x for i,x in enumerate(cats2list(gen_rules))]))
 
     # Save cat_tree.txt file
-    #^from src.utl.write_files import save_cat_tree
     re09 = save_cat_tree(gen_rules, output_categories, verbose='none')  #FIXME: verbose?
     #TODO: check file save error?
     log.update(re09)
@@ -451,10 +432,10 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     return log
 
 
-'''Metrics'''
+'''Filenames creation for massive tests'''
 
 def params(corpus, dataset, module_path, out_dir, **kwargs):
-    from src.utl.read_files import check_dir
+    from read_files import check_dir
     input_parses = module_path + '/data/' + corpus + '/' + dataset
     if check_dir(input_parses, create=False, verbose='min'):
         batch_dir = out_dir + '/' + corpus
@@ -478,11 +459,6 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):
             spaces[kwargs['context']-1] + '-'+wtf+'-' + spaces[kwargs['grammar_rules']-1] \
             + '_' + left_wall + '_' + period + '_' + generalization[gen]
 
-        #-print('params - kwargs[rules_generalization]:', kwargs['rules_generalization'])
-        #-print('params - kwargs[categories_generalization]:', kwargs['categories_generalization'])
-        #-print('params - generalization['+str(gen)+'] =', generalization[gen])
-        #-print('params - prj_dir:', prj_dir)
-
         if check_dir(prj_dir, create=True, verbose='none'):
             output_categories = prj_dir     # no file name ⇒ auto file name
             output_grammar = prj_dir        # no file name ⇒ auto file name
@@ -491,90 +467,6 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):
     else: raise FileNotFoundError('File not found', input_parses)
 
 
-from src.link_grammar.lgparse import *
-from src.link_grammar.cliutils import *
-from src.link_grammar.optconst import *
-
-def parse_metrics(dict_path, **kwargs): #80515
-    if('test_corpus') in kwargs:
-        test_corpus = kwargs['test_corpus']
-    if('reference_path') in kwargs:
-        ref_path = kwargs['reference_path']
-    #TODO*3: else raise error
-    if('template_path') in kwargs:
-        template_path = kwargs['template_path']
-    else: template_path = 'en'
-    if('linkage_limit') in kwargs:
-        linkage_limit = kwargs['linkage_limit']
-    else: linkage_limit = 1
-
-    import os, sys
-    from shutil import copy2 as copy
-    #^from link_grammar.lgparse import *
-    #^from link_grammar.cliutils import *
-    #^from link_grammar.optconst import *
-    #^SyntaxError: import * only allowed at module level
-    if os.path.isfile(dict_path):
-        output_path = os.path.dirname(dict_path)   # Output directory path to store parse text files in.
-    elif os.path.isdir(dict_path):
-        output_path = dict_path
-    #else: print('.dict file error:', dict_file)
-    grammar_path = output_path
-
-    # Generate LG diagram output
-    input_path = test_corpus
-    options = 0x00000000 | BIT_ULL_IN | BIT_STRIP | BIT_LG_EXE | BIT_NO_LWALL | BIT_RM_DIR | BIT_OUTPUT_DIAGRAM #  | BIT_DPATH_CREATE
-    parse_corpus_files(input_path, output_path, dict_path, grammar_path, template_path,
-                       linkage_limit, options);
-    for root, dirs, files in os.walk(output_path):
-        for file in files:
-            if file.endswith(".diag2") and root != output_path:
-                new_diag2 = os.path.join(root, file)
-                old_diag2 = os.path.join(output_path, file)
-                if os.path.isfile(old_diag2): os.remove(old_diag2)
-                copy(new_diag2, output_path)
-
-    # Generate ULL output & parseability estimation
-    options = 0x00000000 | BIT_ULL_IN | BIT_STRIP | BIT_LG_EXE | BIT_NO_LWALL | BIT_RM_DIR # | BIT_DPATH_CREATE
-    parse_corpus_files(input_path, output_path, dict_path, grammar_path, template_path,
-                       linkage_limit, options);
-    for root, dirs, files in os.walk(output_path):
-        for file in files:
-            if file.endswith(".stat2"):
-                with open(os.path.join(root, file), 'r') as f:
-                    lines = f.read().splitlines()
-            elif file.endswith(".ull2"):
-                ull_path = os.path.join(root, file)
-    parse_ability = int(round(float(lines[-2].split('\t')[-1][:-1]),0));
-
-    # Parse Quality:
-    from src.link_grammar.evaluate_80515 import compare_ull_files
-    # evaluate_80515.py - hacked version vy @alex
-    compare_ull_files(ull_path, ref_path, False, True)
-    for root, dirs, files in os.walk(output_path):
-        for file in files:
-            if file.endswith(".qc"):
-                with open(os.path.join(root, file), 'r') as f:
-                    lines = f.read().splitlines()
-    parse_quality = int(round(float(lines[2].split()[-1][:-1]),0))
-
-    return parse_ability, parse_quality, old_diag2
-
-
-def run_learn_grammar(corpus, dataset, module_path, out_dir, **kwargs): #80411
-    from src.grammar_learner.poc05 import parse_metrics
-    input_parses, output_categories, output_grammar = \
-        params(corpus, dataset, module_path, out_dir, **kwargs)
-    #TODO: check out_dir - absolute/relative ⇒ add module_path
-    response = learn_grammar(input_parses, output_categories, output_grammar, **kwargs)
-    dict_path = response['grammar_file']
-    pa, pq, lg_parse_path = parse_metrics(dict_path, **kwargs)
-    response['parse_ability'] = pa
-    response['parse_quality'] = pq
-    response['parse_quability'] = int(round(pa*pq/100,0))
-    response['lg_parse_file'] = lg_parse_path
-    return response
-
 #_Notes
 
 #80419 update links2stalks strict_rules ⇒ changes in disjunct-based rules !:)
@@ -582,3 +474,4 @@ def run_learn_grammar(corpus, dataset, module_path, out_dir, **kwargs): #80411
 #80523 0.4 save category tree
 #80629 0.5 hierarchical cat_tree ⇒ agglomerative generalization
 #80718 update git push from 94..server
+#80725 POC 0.1-0.4 deleted, 0.5 restructured, imports updated

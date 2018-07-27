@@ -124,13 +124,15 @@ def compute_metrics(answers, predictions):
     #weights = np.array(weights)
     #print('number of one-sense words in reference: %d' % one_sense_count)
     print(fscores)
-    mean_fscore = np.mean(fscores) * final_weight
+    mean_fscore = np.mean(fscores)
+    punished_fscore = mean_fscore * final_weight
     print('mean ari: %f' % np.mean(aris))
     print('mean vscore: %f' % np.mean(vscores))
     #print('weighted vscore: %f' % np.sum(vscores * (weights / float(np.sum(weights)))))
     print('mean fscore: %f' % mean_fscore) # use weight
+    print('punished fscore: %f' % punished_fscore) # use weight
     #print('weighted fscore: %f' % np.sum(fscores * (weights / float(np.sum(weights)))))
-    return np.mean(aris), np.mean(vscores), mean_fscore
+    return np.mean(aris), np.mean(vscores), mean_fscore, punished_fscore
     #return np.mean(fscores)
 
 def main(argv):
@@ -163,16 +165,18 @@ def main(argv):
     ari_list = []
     vscore_list = []
     fscore_list = []
+    p_fscore_list = []
     eval_files = []
     true_answers = read_answers(ref_file, separator)
     for test_file in os.listdir(test_dir):
         print("Evaluating: {}".format(test_file))
         eval_files.append(test_file)
         predictions = read_answers(test_dir + "/" + test_file, separator)
-        ari, vscore, fscore = compute_metrics(true_answers, predictions)
+        ari, vscore, fscore, punished_fscore = compute_metrics(true_answers, predictions)
         ari_list.append(ari)
         vscore_list.append(vscore)
         fscore_list.append(fscore)
+        p_fscore_list.append(punished_fscore)
         print('\n')
 
     max_ari = max(ari_list)
@@ -184,6 +188,10 @@ def main(argv):
     max_fscore = max(fscore_list)
     fscore_indexes = [i for i, j in enumerate(fscore_list) if j == max_fscore]
     print("Best fscore: {} in files {}\n".format(max_fscore, [eval_files[i] for i in fscore_indexes]))
+    max_p_fscore = max(p_fscore_list)
+    p_fscore_indexes = [i for i, j in enumerate(p_fscore_list) if j == max_p_fscore]
+    print("Best punished fscore: {} in files {}\n".format(max_p_fscore, [eval_files[i] for i in p_fscore_indexes]))
+
     
 if __name__ == '__main__':
     main(sys.argv[1:])

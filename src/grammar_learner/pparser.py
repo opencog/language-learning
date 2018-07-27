@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-#language-learning/src/graammar_learner/parser.py  #80725
+#language-learning/src/graammar_learner/pparser.py  #80726
 import numpy as np
 import pandas as pd
-from utl import UTC
 
 def corpus_stats(lines, extended = False):  #80716 #TODO: 80718 enhance issue
     # lines = []
@@ -105,7 +104,7 @@ def mst2connectors(lines, **kwargs):    #80716
     return links
 
 
-def mst2disjuncts(lines, **kwargs):     #80717
+def mst2disjuncts(lines, **kwargs):     #80717 +80726 debug dILEd case (lost LW)
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     lw      = kwa(  '',     'left_wall' )
     dot     = kwa(  False,  'period'    )
@@ -113,18 +112,21 @@ def mst2disjuncts(lines, **kwargs):     #80717
     pairs = []
     links = dict()
     words = dict()
-    def save_djs(words,links):          #80717 #REF...
+    def save_djs(words,links):
+        if kwargs['verbose'] in ['debug']:
+            print('save_djs: words, links:', words, links)
         if len(links) > 0:
             for k,v in links.items():
                 if k in words:
                     if len(v) == 1:
                         disjunct = words[abs(list(v)[0])] + ('+' if list(v)[0]>0 else '-')
                     else:
-                        l = sorted([x for x in v if abs(x) in words and x < 0], reverse=True)
+                        l = sorted([x for x in v if abs(x) in words and x <= 0], reverse=True)
                         r = sorted([x for x in v if x in words and x > 0])
                         disjunct = ' & '.join([words[abs(x)] + ('+' if x>0 else '-') \
                                                for x in (l+r)])
                     pairs.append([words[k], disjunct])
+                    if kwargs['verbose'] in ['debug']: print('pairs:', pairs)
         links = dict()
         words = dict()
         return words,links
@@ -138,14 +140,6 @@ def mst2disjuncts(lines, **kwargs):     #80717
                         if lw in ['', 'none']: continue
                         else: x[1] = lw
                     if not dot and x[3] == '.': continue
-                    #-words[x[0]] = x[1]   #80716 #REF: strings ⇒ ints, sort djs as sentence
-                    #-words[x[2]] = x[3]
-                    #-if x[0] not in links:
-                        #-links[x[0]] = set([str(x[3])+'+'])
-                    #-else: links[x[0]].add(str(x[3])+'+')
-                    #-if x[2] not in links:
-                        #-links[x[2]] = set([str(x[1])+'-'])
-                    #-else: links[x[2]].add(str(x[1])+'-')
                     try:
                         i = int(x[0])
                         j = int(x[2])
@@ -158,6 +152,8 @@ def mst2disjuncts(lines, **kwargs):     #80717
                     if j in links:
                         links[j].add(-i)
                     else: links[j] = set([-i])
+                    if kwargs['verbose'] in ['debug']:
+                        print('line, words, links:', line, words, links)
                 else: # sentence starting with digit = same as next else
                     words,links = save_djs(words,links)
             else:  # sentence starting with letter
@@ -171,7 +167,7 @@ def mst2disjuncts(lines, **kwargs):     #80717
     return df
 
 
-def files2links(**kwargs):              #80617 lower_case
+def files2links(**kwargs):
     #80406 +TODO: control & limit number of links in disjuncts
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     parse_mode      = kwa('lower',  'parse_mode')    # 'casefold' ? #80714
@@ -191,8 +187,7 @@ def files2links(**kwargs):              #80617 lower_case
     #?           1: connectors: ab » a:b+, b:a-
     #?           2: disjuncts: abc » a:b+, b:a-, b:a-&c+ ...
     #?           n>1 disjuncts up to n connectors per germ
-    #+from src.space.poc05 import \
-    #+    corpus_stats, mst2words, mst2connectors, mst2disjuncts
+
     df = pd.DataFrame(columns=['word','link','count'])
 
     files = kwargs['input_files']
@@ -255,4 +250,4 @@ def files2links(**kwargs):              #80617 lower_case
 #80714 files2links - to_lower_case
 #80716 conflicts - manual cleanup
 #80717 update, 80718 commit from 94..server
-#80725 POC 0.1-0.4 deleted, 0.5 restructured - ex.space/poc05.py
+#80725 POC 0.1-0.4 deleted, 0.5 restructured - this module was src/space/poc05.py

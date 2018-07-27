@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#language-learning/src/grammar_learner/utl.py  #80625
 
 def UTC():
     import datetime
@@ -36,7 +36,3 @@ def timer(string, t0=0):
             dt = int(round(dt,0))
             print(UTC(), '::', string, 'in', int(round(dt/60,0)), 'minutes')
     return t1,dt
-
-
-#80330 code restructured, smth ⇒ read_files.py, write_files.py
-#80605 timer

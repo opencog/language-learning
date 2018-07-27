@@ -1,9 +1,8 @@
-# 2018-03-31
+#language-learning/src/grammar_learner/read_files.py #80331
 import os
 
 
-def check_dir(dir_path, create = False, verbose='none'):  # 80321 Turtle-8
-    # import os
+def check_dir(dir_path, create = False, verbose='none'):
     if os.path.exists(dir_path):
         if verbose in ['max', 'debug']:
             print('Directory', dir_path, 'exists.')
@@ -20,8 +19,7 @@ def check_dir(dir_path, create = False, verbose='none'):  # 80321 Turtle-8
             return False
 
 
-def check_dir_files(dir_path, verbose='none'):  # 80321 Turtle-8
-    # import os
+def check_dir_files(dir_path, verbose='none'):
     files = []
     if dir_path[-1] != '/':
         path = dir_path + '/'
@@ -39,8 +37,7 @@ def check_dir_files(dir_path, verbose='none'):  # 80321 Turtle-8
     return files
 
 
-def check_corpus(input_file, verbose='none'):  # 80321 Turtle-8
-    # import os
+def check_corpus(input_file, verbose='none'):
     if os.path.isfile(input_file):
         if verbose in ['max','debug']:
             print('Input file:', input_file)
@@ -57,7 +54,6 @@ def check_corpus(input_file, verbose='none'):  # 80321 Turtle-8
 
 
 def check_mst_files(input_dir, verbose='none'):
-    # from src.utl.read_files import check_dir, check_dir_files, check_corpus
     if check_dir(input_dir, create=False, verbose=verbose):
         files = check_dir_files(input_dir, verbose=verbose)
         if len(files) > 0:
@@ -80,6 +76,3 @@ def check_mst_files(input_dir, verbose='none'):
         if verbose != 'none':
             print('No input directory', input_dir)
         return [], {'error': 'no input directory'}
-
-
-# 2018-03-31 moved here from .utl.py

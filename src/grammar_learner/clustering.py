@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-#language-learning/src/grammar_learner/clustering_05.py 0.5 80725
-import matplotlib.pyplot as plt
-from IPython.display import display
-from widgets import html_table
+#language-learning/src/grammar_learner/clustering.py 0.5 80726
 
 def number_of_clusters(vdf, cluster_range, algorithm='kmeans', \
         criteria='silhouette', level=0.9, verbose='none'):
@@ -41,8 +38,6 @@ def number_of_clusters(vdf, cluster_range, algorithm='kmeans', \
             cdf, silhouette, inertia = cluster_words_kmeans(vdf, j)
             if verbose in ['debug']:
                 print(j, 'clusters ⇒ silhouette =', silhouette)
-            #-sil_range.loc[i] = [j, len(cdf), round(silhouette,3), \
-            #-    round(inertia,3), cdf['cluster_words'].tolist()]
             sil_range.loc[i] = [j, len(cdf), round(silhouette,4), round(inertia,2)]
             if level > 0.9999:   # 1 - max Silhouette index
                 n_clusters = sil_range.loc[sil_range['Silhouette'].idxmax()]['Nc']
@@ -72,7 +67,7 @@ def number_of_clusters(vdf, cluster_range, algorithm='kmeans', \
     return int(n_clusters)
 
 
-def clusters2list(clusters):    #80528
+def clusters2list(clusters):
     categories = []
     for index, row in clusters.iterrows():
         category = []
@@ -94,4 +89,4 @@ def clusters2dict(clusters):
     return word_clusters
 
 
-#80725 POC 0.1-0.4 deleted, 0.5 restructured
+#80725 POC 0.1-0.4 deleted, 0.5 restructured. This module was src/clustering/poc05.py

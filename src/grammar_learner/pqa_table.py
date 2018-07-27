@@ -2,12 +2,11 @@
 #language-learning/src/grammar_learner/pqa_table.py 80725
 import os, sys, time
 
-from ull.grammartest.optconst import *
+from ull.grammartest.optconst import * # import * only allowed at module level
 def pqa_meter(input_path, output_grammar, corpus_path, reference_path, runs=(1,1), **kwargs):
     #80720 test_grammar_wrapped 2.0
     from ull.common import handle_path_string
     from ull.grammartest import test_grammar
-    #-from ull.grammartest.optconst import * # import * only allowed at module level
     output_path   = output_grammar
     dict_path     = input_path
     grammar_path  = output_grammar
@@ -26,7 +25,7 @@ def table_damb(lines, out_dir, cps=(0,0), rps=(0,0), runs=(1,1), **kwargs):  #-l
     # cps,rps: tuples len=2 corpus_paths, reference_paths for Amb and disAmb corpora
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
-    from src.grammar_learner.poc05 import learn_grammar, params
+    from poc05 import learn_grammar, params
     rpd = module_path + '/data/POC-English-Amb/MST-fixed-manually/poc-english_ex-parses-gold.txt'
 
     spaces = ''
@@ -113,7 +112,6 @@ def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
     # cp,rp: corpus_path, rp: reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
-    #-from src.grammar_learner.poc05 import learn_grammar, params
     from poc05 import learn_grammar, params
     spaces = ''
     if kwargs['context'] == 1:

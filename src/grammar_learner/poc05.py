@@ -39,7 +39,7 @@ def group_links(links, verbose):  #80428
     return df4
 
 
-def category_learner(links, **kwargs):      #80619 POC.0.5
+def category_learner(links, **kwargs):      #80619 POC.0.5 #80726
     # links - DataFrame ['word', 'link', 'count']
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     #-links = kwargs['links']   # links - check?
@@ -69,11 +69,10 @@ def category_learner(links, **kwargs):      #80619 POC.0.5
     verbose         = kwa('none',   'verbose')
 
     from utl import UTC, round1, round2  #, round3, round4, round5
-    from hyperwords import vector_space_dim, pmisvd
-    from kmeans import cluster_words_kmeans
-    from clustering_05 import number_of_clusters, clusters2list
-    from widgets import html_table, plot2d
     from read_files import check_dir #, check_mst_files
+    from hyperwords import vector_space_dim, pmisvd
+    from clustering import number_of_clusters, clusters2list
+    from kmeans import cluster_words_kmeans
     from write_files import list2file, save_link_grammar
     #TODO: from ? import group_links
 
@@ -126,7 +125,7 @@ def category_learner(links, **kwargs):      #80619 POC.0.5
         if verbose in ['max', 'debug']:
             print(UTC(),':: category_learner ⇒ iLE group_links: context =', \
                 str(context)+', word_space: '+str(word_space)+', clustering:', clustering)
-        #TODO: from src.clustering.grouping import group_links
+        #TODO: from ? import group_links
         clusters = group_links(links, verbose)
         log.update({'n_clusters': len(clusters)})
         if verbose not in ['min','none']:
@@ -165,10 +164,9 @@ def category_learner(links, **kwargs):      #80619 POC.0.5
 
 '''Grammar Learner 0.5 80625'''
 
-def induce_grammar(categories, links, verbose='none'):  #80620 learn_grammar replacement
+def induce_grammar(categories, links, verbose='none'):
     # categories: {'cluster': [], 'words': [], ...}
     # links: pd.DataFrame (legacy)
-    #-from src.grammar_learner.generalization import cats2list
     from generalization import cats2list
     import copy
     if verbose in ['max','debug']:
@@ -186,8 +184,6 @@ def induce_grammar(categories, links, verbose='none'):  #80620 learn_grammar rep
         print('induce_grammar: clusters:', clusters)
         print('induce_grammar: word_clusters:', word_clusters)
         print('induce_grammar: rules ~ categories:')
-        from IPython.display import display
-        from widgets import html_table
         display(html_table([['Code','Parent','Id','Quality','Words', 'Disjuncts', 'djs','Relevance','Children']] \
             + [x for i,x in enumerate(cats2list(rules)) if i < 4]))
 
@@ -218,8 +214,6 @@ def induce_grammar(categories, links, verbose='none'):  #80620 learn_grammar rep
 
     if verbose == 'debug':
         print('induce_grammar: updated disjuncts:')
-        from IPython.display import display
-        from widgets import html_table
         display(html_table([['Code','Parent','Id','Quality','Words', 'Disjuncts', 'djs','Relevance','Children']] \
             + [x for i,x in enumerate(cats2list(rules)) if i < 32]))
 
@@ -250,16 +244,16 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     sv_min          = kwa(0.1,      'sv_min')
     dim_reduction   = kwa('svm',    'dim_reduction')
     clustering      = kwa('kmeans', 'clustering')
-    #-cluster_range   = kwa((2,48,1), 'cluster_range')
-    #-cluster_criteria = kwa('silhouette', 'cluster_criteria')
-    #-cluster_level   = kwa(0.9,      'cluster_level')
+    cluster_range   = kwa((2,48,1), 'cluster_range')
+    cluster_criteria = kwa('silhouette', 'cluster_criteria')
+    cluster_level   = kwa(0.9,      'cluster_level')
     cats_gen        = kwa('off',    'categories_generalization')
-    #-cats_merge      = kwa(0.8,      'categories_merge')
-    #-cats_aggr       = kwa(0.2,      'categories_aggregation')
+    cats_merge      = kwa(0.8,      'categories_merge')
+    cats_aggr       = kwa(0.2,      'categories_aggregation')
     grammar_rules   = kwa(1,        'grammar_rules')
-    rules_gen       = kwa('off',    'rules_generalization')   # 'off', 'cosine', 'jaccard'
-    #-rules_merge     = kwa(0.8,      'rules_merge'),   # merge rules with similarity > this 'merge' criteria
-    #-rules_aggr      = kwa(0.3,      'rules_aggregation'),   # aggregate rules with similarity > this criteria
+    rules_gen       = kwa('off',    'rules_generalization') # 'off', 'jaccard' +TODO 'cosine'
+    rules_merge     = kwa(0.8,      'rules_merge'),         # merge rules with similarity > this 'merge' criteria
+    rules_aggr      = kwa(0.2,      'rules_aggregation'),   # aggregate rules with similarity > this criteria
     verbose         = kwa('none', 'verbose')
 
     kwargs['input_parses'] = input_parses
@@ -271,21 +265,19 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     #-dict_path = output_grammar
 
     import os, pickle   #, collections
-    from collections import OrderedDict
     import pandas as pd
     from shutil import copy2 as copy
-    #-from src.utl.utl import UTC
     from utl import UTC
     from read_files import check_dir, check_mst_files
     from pparser import files2links
-    from clustering_05 import clusters2dict
+    from clustering import clusters2dict
     #TODO: from ? import category_learner
     #TODO: from ? import induce_grammar
     from write_files import list2file, save_link_grammar, save_cat_tree
-    from widgets import html_table, plot2d
-    from generalization import generalize_categories, \
-        reorder, cats2list, generalize_rules #, aggregate, aggregate_word_categories\
+    from generalization import generalize_categories, generalize_rules, \
+        cats2list #, reorder, aggregate, aggregate_word_categories\
 
+    from collections import OrderedDict
     log = OrderedDict({'start': str(UTC()), 'learn_grammar': '80605'})
 
     #TODO: save kwargs?
@@ -345,11 +337,8 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     # Save 1st cats_file = to control 2-step generalization #FIXME:DEL?   #80704
     #-re05 = save_cat_tree(gen_cats, output_categories, verbose)
     #-log.update({'category_tree_file': re05['cat_tree_file']})
-    # Save cats.pkl
-    #-with open(re05['cat_tree_file'][:-3]+'pkl', 'wb') as f: #FIXME:DEL? #80704
+    #-with open(re05['cat_tree_file'][:-3]+'pkl', 'wb') as f:
     #-    pickle.dump(gen_cats, f)
-    #-if verbose in ['max','debug']:
-    #-    print(UTC(),':: learn_grammar: 1st cat_tree saved')
 
     # Learn grammar
 
@@ -412,7 +401,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     else: fat_cats = gen_cats
 
     # Learn Grammar
-    #TODO: from ??? import induce_grammar
+    #TODO: from ? import induce_grammar
     rules, re07 = induce_grammar(fat_cats, links)
     if verbose == 'debug':
         print('induce_grammar ⇒ rules:')
@@ -423,9 +412,6 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     gen_rules = rules
     if 'rules_generalization' in kwargs:
         if kwargs['rules_generalization'] not in ['','off']:
-            #-word_clusters, re06 = generalize_rules(rule_list, **kwargs)
-            #-from src.grammar_learner.generalization import generalize_rules
-            from generalization import generalize_rules
             gen_rules, re08 = generalize_rules(rules, **kwargs)
             log.update(re08)
             if verbose == 'debug':
@@ -434,7 +420,6 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
                     + [x for i,x in enumerate(cats2list(gen_rules))]))
 
     # Save cat_tree.txt file
-    #^from write_files import save_cat_tree
     re09 = save_cat_tree(gen_rules, output_categories, verbose='none')  #FIXME: verbose?
     #TODO: check file save error?
     log.update(re09)
@@ -447,7 +432,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     return log
 
 
-'''Metrics'''
+'''Filenames creation for massive tests'''
 
 def params(corpus, dataset, module_path, out_dir, **kwargs):
     from read_files import check_dir

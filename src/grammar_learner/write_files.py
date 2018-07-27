@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #language-learning/src/grammar_learner/write_files.py 80725
 import os
-from utl import UTC
+from src.grammar_learner.utl import UTC
 
 def list2file(lst, out_file):  # 80321 Turtle-8 - 80330 moved here from .utl.utl
     string = ''
@@ -71,7 +71,7 @@ def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=
     # rules: [] or {} -
     # grammar_rules = kwargs['grammar_rules']: 1 ⇒ connectors, 2+ ⇒ disjuncts
     import os
-    from utl import UTC
+    from src.grammar_learner.utl import UTC
     #-if path[-1] != '/': path += '/'
 
     if type(rules) is dict:  #80620 0.5 new data structure, 80626 connector-based rules
@@ -139,6 +139,7 @@ def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=
 
 def save_category_tree(category_list, tree_file, verbose='none'):  #80522
     import os
+    #+from src.grammar_learner.write_files import list2file
     cats = category_list
     clusters = {}
     m = 0
@@ -161,23 +162,20 @@ def save_category_tree(category_list, tree_file, verbose='none'):  #80522
                 tree.append(['', m+1, cats[j][2], cats[j][3], cats[j][4], cats[j][5]])
         else: print('WTF?', k, v)
     if verbose in ['max', 'debug']:
-        from widgets import html_table
-        from IPython.display import display
         display(html_table([['Code','Parent','Id','Sim','Words','Similarities']] + tree))
 
-    from write_files import list2file
     #-tree_file = os.path.dirname(cat_file) + '/cat_tree.txt'
     string = list2file(tree, tree_file)
 
     return {'tree_file': tree_file}
 
 
-def save_cat_tree(cats, output_categories, verbose='none'):     #80706 0.5
+def save_cat_tree(cats, output_categories, verbose='none'):
     #80611 ~ cats2list without 'djs', children'...
-    # cats: {'cluster':[], 'words':[], ...}                     #80609
+    # cats: {'cluster':[], 'words':[], ...}
     from copy import deepcopy
-    from write_files import list2file
-    from utl import UTC
+    #+from src.grammar_learner.write_files import list2file
+    from src.grammar_learner.utl import UTC
 
     tree_file = output_categories
     if '.' not in tree_file:  #auto file name
@@ -215,8 +213,6 @@ def save_cat_tree(cats, output_categories, verbose='none'):     #80706 0.5
         print(UTC(),':: src/utl.writefiles.py save_cat_tree:', \
             len(cats['cluster']) - 1, 'categories')
     if verbose == 'debug':
-        from widgets import html_table
-        from IPython.display import display
         display(html_table([['Code','Parent','Id','Sim','Words','Similarities']] + categories))
 
     return {'cat_tree_file': tree_file}

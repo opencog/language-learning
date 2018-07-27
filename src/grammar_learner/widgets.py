@@ -1,6 +1,5 @@
-#!/usr/bin/env python3
-#/src/utl/widgets.py OpenCog ULL Grammar Learner POC.0.4 80511, 80627
-from IPython.display import HTML
+#language-learning/src/grammar_learner/widgets.py POC.0.4 80511, 80627
+from IPython.display import display, HTML
 
 def html_table(tbl):
     return HTML('<table><tr>{}</tr></table>'
@@ -34,11 +33,7 @@ def plot2d(i, j, df, label='', f=15):   # 80216
     #plt.show()
 
 def category_tree(cat_file, verbose='none'):  # 80522 shortened: display only
-    #import os
-    from src.utl.turtle import html_table
-    from IPython.display import display
     with open(cat_file, 'r') as f: lines = f.read().splitlines()
-    #cats = [[y[0], int(y[1]), int(y[2]), y[3], y[4].split(), y[5].split()] \
     cats = [[y[0], int(y[1]), int(y[2]), y[4].split()] \
         for y in [x.split('\t') for x in lines]]  #_shorter: no similarities
     clusters = {}
@@ -56,19 +51,13 @@ def category_tree(cat_file, verbose='none'):  # 80522 shortened: display only
             similarities = []
             for j in v:
                 words.extend(cats[j][3]) #-words.extend(cats[j][4])
-                #-similarities.extend(cats[j][5])
-            #tree.append([cats[v[0]][0], 0, m+1, cats[v[0]][3], words, similarities])
             tree.append([cats[v[0]][0], 0, m+1, words])
             for j in v:
-                #tree.append(['', m+1, cats[j][2], cats[j][3], cats[j][4], cats[j][5]])
                 tree.append(['', m+1, cats[j][2], cats[j][3]])
         else: print('WTF?', k, v)
     if verbose not in ['none', 'min']:
         display(html_table([['Code','Parent','Id','Words']] + tree))
-    #-Save cat_tree.txt  #80522 ⇒ /src/utl/write_files.py save_category_tree
-    #from src.utl.write_files import list2file
-    #tree_file = os.path.dirname(cat_file) + '/cat_tree.txt'
-    #string = list2file(tree, tree_file)
+
     return tree
 
 

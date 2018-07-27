@@ -41,14 +41,15 @@ def compute_fscore(true, pred):
     """
     unique_true = np.unique(true)
     unique_pred = np.unique(pred)
+    weight = 1
 
     # if word should not be disambiguated
     if len(unique_true) == 1:
         if len(unique_pred) == 1: # not disambiguated
-            return None # return a value that will be filtered later
-        else: # wrongly disambiguated
-            r = 1
-            p = 0
+            return None, weight # return a value that will be filtered later
+        else: # punish wrongly disambiguated words
+            weight = 0.9
+            return None, weight
     else: # if word should be disambiguated
         # if len(unique_pred) == 1: # not disambiguated
         #     p = 0
@@ -61,7 +62,7 @@ def compute_fscore(true, pred):
         r = int_size / float(len(true_pairs))# + 1e-5 
 
     # return fscore
-    return 2 * p * r / (p + r)
+    return 2 * p * r / (p + r), weight
 
 def read_answers(filename, sep):
     """
@@ -101,6 +102,7 @@ def compute_metrics(answers, predictions):
     fscores = []
     #weights = []
     one_sense_count = 0
+    final_weight = 1
     for k in answers.keys():
         #print(k)
         true = np.array(answers[k])
@@ -109,7 +111,8 @@ def compute_metrics(answers, predictions):
         #if len(np.unique(true)) > 1:
         aris.append(adjusted_rand_score(true, pred))
         vscores.append(v_measure_score(true, pred))
-        fscore = compute_fscore(true, pred)
+        fscore, weight = compute_fscore(true, pred)
+        final_weight *= weight
         fscores.append(fscore)
         # if one_sense == True:
         #    one_sense_count += 1
@@ -120,12 +123,16 @@ def compute_metrics(answers, predictions):
     fscores = np.array(fscores)
     #weights = np.array(weights)
     #print('number of one-sense words in reference: %d' % one_sense_count)
+    print(fscores)
+    mean_fscore = np.mean(fscores)
+    punished_fscore = mean_fscore * final_weight
     print('mean ari: %f' % np.mean(aris))
     print('mean vscore: %f' % np.mean(vscores))
     #print('weighted vscore: %f' % np.sum(vscores * (weights / float(np.sum(weights)))))
-    print('mean fscore: %f' % np.mean(fscores))
+    print('mean fscore: %f' % mean_fscore) # use weight
+    print('punished fscore: %f' % punished_fscore) # use weight
     #print('weighted fscore: %f' % np.sum(fscores * (weights / float(np.sum(weights)))))
-    return np.mean(aris),np.mean(vscores),np.mean(fscores)
+    return np.mean(aris), np.mean(vscores), mean_fscore, punished_fscore
     #return np.mean(fscores)
 
 def main(argv):
@@ -158,16 +165,18 @@ def main(argv):
     ari_list = []
     vscore_list = []
     fscore_list = []
+    p_fscore_list = []
     eval_files = []
     true_answers = read_answers(ref_file, separator)
     for test_file in os.listdir(test_dir):
         print("Evaluating: {}".format(test_file))
         eval_files.append(test_file)
         predictions = read_answers(test_dir + "/" + test_file, separator)
-        ari, vscore, fscore = compute_metrics(true_answers, predictions)
+        ari, vscore, fscore, punished_fscore = compute_metrics(true_answers, predictions)
         ari_list.append(ari)
         vscore_list.append(vscore)
         fscore_list.append(fscore)
+        p_fscore_list.append(punished_fscore)
         print('\n')
 
     max_ari = max(ari_list)
@@ -179,6 +188,10 @@ def main(argv):
     max_fscore = max(fscore_list)
     fscore_indexes = [i for i, j in enumerate(fscore_list) if j == max_fscore]
     print("Best fscore: {} in files {}\n".format(max_fscore, [eval_files[i] for i in fscore_indexes]))
+    max_p_fscore = max(p_fscore_list)
+    p_fscore_indexes = [i for i, j in enumerate(p_fscore_list) if j == max_p_fscore]
+    print("Best punished fscore: {} in files {}\n".format(max_p_fscore, [eval_files[i] for i in p_fscore_indexes]))
+
     
 if __name__ == '__main__':
     main(sys.argv[1:])

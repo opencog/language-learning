@@ -23,9 +23,11 @@ import json
 import os
 import logging
 from linkgrammar import LG_Error, Sentence, ParseOptions, Dictionary
+from ull.grammartest import parse_postscript
+from ull.grammartest.optconst import *
 
 
-__version__ = "1.1"
+__version__ = "2.0.0"
 
 # Link Grammar dictionaries root path
 LG_DICT_DEFAULT_PATH = "/usr/local/share/link-grammar"
@@ -37,13 +39,34 @@ LOG_FILE_PATH = "link-grammar-rest.log"
 MOD_DIAGRAM         = 0                 # text representation of linkage diagram
 MOD_POSTSCRIPT      = 1                 # postscript - linkage tree written in postfix notation
 MOD_CONSTTREE       = 2                 # constituent tree
-MAX_MODE_VALUE      = MOD_CONSTTREE
+MOD_ULL_SENT        = 3                 # ULL sentence
+MAX_MODE_VALUE      = MOD_ULL_SENT
 DEFAULT_MODE        = MOD_DIAGRAM
 
 MAX_LINKAGE_LIMIT   = 25                # maximum linkages restriction
 DEFAULT_LIMIT       = 1                 # default number of linkages
 
 DEFAULT_LANGUAGE = "poc-turtle"
+
+
+def get_ull_sentence(ps_text: str) -> str:
+    """
+    Extract a sentence from Link Grammar formatted postscript, leaving unparsed words enclosed in square brackets.
+
+    :param ps_text:     Postscript text value.
+    :return:            ULL sentence string.
+    """
+    options = BIT_CAPS | BIT_ULL_NO_LWALL | BIT_STRIP
+    tokens, links = parse_postscript(ps_text, options, None)
+
+    num_tokens = len(tokens)
+
+    if num_tokens > 1:
+        if tokens[num_tokens-1] == r"###RIGHT-WALL###":
+            tokens.remove(r"###RIGHT-WALL###")
+            num_tokens -= 1
+
+    return " ".join(tokens[1:]) if len(tokens) > 1 else ""
 
 
 class LinkParserResource:
@@ -109,9 +132,15 @@ class LinkParserResource:
             if mode == MOD_CONSTTREE:
                 for linkage in linkages:
                     link_list['linkages'].append(linkage.constituent_tree())
+
             elif mode == MOD_POSTSCRIPT:
                 for linkage in linkages:
                     link_list['linkages'].append(linkage.postscript())
+
+            elif mode == MOD_ULL_SENT:
+                    for linkage in linkages:
+                        link_list['linkages'].append(get_ull_sentence(linkage.postscript()))
+
             else:   # MOD_DIAGRAM is default mode
                 for linkage in linkages:
                     link_list['linkages'].append(linkage.diagram())

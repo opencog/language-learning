@@ -38,18 +38,19 @@ def get_pairs(labels):
 def compute_fscore(true, pred):
     """
         Computes f-score for a word, given predicted and true senses 
+        Returns pure f-score and a flag indicating if word was
+        over-disambiguated (1) or not (0).
     """
     unique_true = np.unique(true)
     unique_pred = np.unique(pred)
-    weight = 1
 
     # if word should not be disambiguated
     if len(unique_true) == 1:
         if len(unique_pred) == 1: # not disambiguated
-            return None, weight # return a value that will be filtered later
+            return None, 1 # return a value that will be filtered later
         else: # punish wrongly disambiguated words
-            weight = 0.9
-            return None, weight
+            over_sensed = 1
+            return None, 1
     else: # if word should be disambiguated
         # if len(unique_pred) == 1: # not disambiguated
         #     p = 0
@@ -62,7 +63,7 @@ def compute_fscore(true, pred):
         r = int_size / float(len(true_pairs))# + 1e-5 
 
     # return fscore
-    return 2 * p * r / (p + r), weight
+    return 2 * p * r / (p + r), 0
 
 def read_answers(filename, sep):
     """
@@ -100,40 +101,30 @@ def compute_metrics(answers, predictions):
     aris = []
     vscores = []
     fscores = []
-    #weights = []
     one_sense_count = 0
-    final_weight = 1
+    cnt_over_disamb = 0
+    penalty = 0.9 # penalty for every over disambiguated word
     for k in answers.keys():
-        #print(k)
         true = np.array(answers[k])
         pred = np.array(predictions[k])
-        #weights.append(pred.shape[0])
-        #if len(np.unique(true)) > 1:
         aris.append(adjusted_rand_score(true, pred))
         vscores.append(v_measure_score(true, pred))
-        fscore, weight = compute_fscore(true, pred)
-        final_weight *= weight
+        fscore, over_disamb = compute_fscore(true, pred)
+        cnt_over_disamb += over_disamb
         fscores.append(fscore)
-        # if one_sense == True:
-        #    one_sense_count += 1
-        #print('%s: ari=%f, vscore=%f, fscore=%f' % (k, aris[-1], vscores[-1], fscores[-1]))
     aris = np.array(aris)
     vscores = np.array(vscores)
     fscores[:] = (value for value in fscores if value != None) # remove None's
     fscores = np.array(fscores)
-    #weights = np.array(weights)
-    #print('number of one-sense words in reference: %d' % one_sense_count)
     print(fscores)
     mean_fscore = np.mean(fscores)
-    punished_fscore = mean_fscore * final_weight
+    punished_fscore = mean_fscore * (penalty)**cnt_over_disamb
     print('mean ari: %f' % np.mean(aris))
     print('mean vscore: %f' % np.mean(vscores))
-    #print('weighted vscore: %f' % np.sum(vscores * (weights / float(np.sum(weights)))))
-    print('mean fscore: %f' % mean_fscore) # use weight
-    print('punished fscore: %f' % punished_fscore) # use weight
-    #print('weighted fscore: %f' % np.sum(fscores * (weights / float(np.sum(weights)))))
+    print('mean fscore: %f' % mean_fscore) # pure f-score
+    print('over disambiguated count: %d' % cnt_over_disamb) # over disambuated
+    print('punished fscore: %f' % punished_fscore) # punished f-score
     return np.mean(aris), np.mean(vscores), mean_fscore, punished_fscore
-    #return np.mean(fscores)
 
 def main(argv):
     """

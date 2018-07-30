@@ -47,7 +47,7 @@ def compute_fscore(true, pred):
     # if word should not be disambiguated
     if len(unique_true) == 1:
         if len(unique_pred) == 1: # not disambiguated
-            return None, 1 # return a value that will be filtered later
+            return None, 0 # return a value that will be filtered later
         else: # punish wrongly disambiguated words
             over_sensed = 1
             return None, 1

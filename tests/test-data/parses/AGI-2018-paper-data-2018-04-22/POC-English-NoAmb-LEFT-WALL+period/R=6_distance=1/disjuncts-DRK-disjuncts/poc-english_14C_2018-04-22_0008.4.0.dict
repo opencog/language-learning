@@ -1,0 +1,64 @@
+% Grammar Learner v.0.8 2018-04-22 17:53:10 UTC
+<dictionary-version-number>: V0v0v8+;
+<dictionary-locale>: EN4us+;
+
+% C01
+"dad" "mom":
+(C04C01- & C01C03+) or (C04C01- & C01C05+) or (C04C01- & C01C07+) or (C04C01- & C01C08+) or (C04C01- & C01C10+) or (C04C01- & C03C01- & C01C03+) or (C04C01- & C03C01- & C01C05+);
+
+% C02
+"daughter" "son":
+(C02C03+) or (C02C14+) or (C04C02- & C02C03+) or (C04C02- & C02C05+) or (C04C02- & C02C14+) or (C04C02- & C03C02- & C02C05+) or (C10C02- & C03C02-);
+
+% C03
+"a" "is" "parent":
+(C01C03- & C03C13+ & C03C03+) or (C02C03- & C03C13+ & C03C03+) or (C03C01+) or (C03C02+) or (C03C03+) or (C03C03-) or (C03C03- & C01C03- & C03C06+) or (C03C03- & C01C03- & C03C11+) or (C03C03- & C03C03+) or (C03C09+ & C03C03+) or (C03C14+ & C03C03+) or (C04C03- & C03C13+) or (C04C03- & C03C14+) or (C07C03-) or (C10C03-);
+
+% C04
+"LEFT-WALL" "likes":
+(C04C01+) or (C04C02+) or (C04C03+) or (C04C05+) or (C04C10+);
+
+% C05
+"cake" "sausage":
+(C04C05- & C01C05- & C05C06+) or (C04C05- & C01C05- & C05C11+) or (C04C05- & C02C05- & C05C06+) or (C04C05- & C02C05- & C05C11+) or (C04C05- & C05C09+) or (C05C10+) or (C08C05-);
+
+% C06
+"now":
+(C03C06- & C06C11+) or (C05C06- & C06C11+) or (C09C06- & C06C11+) or (C13C06- & C06C11+) or (C14C06- & C06C11+);
+
+% C07
+"not":
+(C01C07- & C10C07- & C07C12+ & C07C03+ & C07C03+) or (C10C07- & C01C07- & C07C12+ & C07C03+ & C07C03+);
+
+% C08
+"liked":
+(C01C08- & C08C05+ & C08C12+) or (C01C08- & C08C12+ & C08C05+);
+
+% C09
+"food":
+(C03C09- & C05C09- & C09C06+) or (C03C09- & C05C09- & C09C11+) or (C05C09- & C03C09- & C09C06+) or (C05C09- & C03C09- & C09C11+) or (C09C12+);
+
+% C10
+"was":
+(C01C10- & C10C02+ & C10C12+) or (C04C10- & C05C10- & C10C12+ & C10C03+) or (C05C10- & C04C10- & C10C03+ & C10C12+) or (C10C07+);
+
+% C11
+".":
+(C03C11-) or (C05C11-) or (C06C11-) or (C09C11-) or (C12C11-) or (C13C11-) or (C14C11-);
+
+% C12
+"before":
+(C07C12- & C12C11+) or (C08C12- & C12C11+) or (C10C12- & C09C12- & C12C11+) or (C10C12- & C12C11+);
+
+% C13
+"human":
+(C03C13- & C03C13- & C13C11+) or (C03C13- & C13C06+) or (C03C13- & C13C11+);
+
+% C14
+"child":
+(C02C14- & C03C14- & C03C14- & C14C11+) or (C02C14- & C03C14- & C14C06+) or (C03C14- & C02C14- & C03C14- & C14C11+) or (C03C14- & C02C14- & C14C06+);
+
+UNKNOWN-WORD: XXX+;
+
+% 14 word clusters, 14 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period/R=6_distance=1/disjuncts-DRK-disjuncts/poc-english_14C_2018-04-22_0008.4.0.dict

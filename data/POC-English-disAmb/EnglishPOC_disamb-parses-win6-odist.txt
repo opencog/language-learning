@@ -1,0 +1,749 @@
+a mom is a human .
+1 a 5 human
+4 a 5 human
+3 is 5 human
+5 human 6 .
+2 mom 3 is
+0 ###LEFT-WALL### 1 a
+
+a dad is a human .
+1 a 5 human
+4 a 5 human
+3 is 5 human
+5 human 6 .
+2 dad 3 is
+0 ###LEFT-WALL### 1 a
+
+a mom is a parent .
+1 a 5 parent
+4 a 5 parent
+3 is 4 a
+5 parent 6 .
+2 mom 3 is
+0 ###LEFT-WALL### 1 a
+
+a dad is a parent .
+1 a 5 parent
+4 a 5 parent
+3 is 4 a
+5 parent 6 .
+2 dad 3 is
+0 ###LEFT-WALL### 1 a
+
+a son is a child .
+1 a 5 child
+4 a 5 child
+3 is 5 child
+2 son 3 is
+5 child 6 .
+0 ###LEFT-WALL### 1 a
+
+a daughter is a child .
+1 a 5 child
+4 a 5 child
+3 is 5 child
+2 daughter 3 is
+5 child 6 .
+0 ###LEFT-WALL### 1 a
+
+a son is a human .
+1 a 5 human
+4 a 5 human
+3 is 5 human
+2 son 3 is
+5 human 6 .
+0 ###LEFT-WALL### 1 a
+
+a daughter is a human .
+1 a 5 human
+4 a 5 human
+3 is 5 human
+2 daughter 3 is
+5 human 6 .
+0 ###LEFT-WALL### 1 a
+
+a mom likes cake .
+3 likes 4 cake
+2 mom 3 likes
+0 ###LEFT-WALL### 2 mom
+4 cake 5 .
+0 ###LEFT-WALL### 1 a
+
+a daughter likes cake .
+3 likes 4 cake
+2 daughter 3 likes
+0 ###LEFT-WALL### 2 daughter
+1 a 2 daughter
+4 cake 5 .
+
+a son likes sausage .
+3 likes 4 sausage
+2 son 3 likes
+0 ###LEFT-WALL### 2 son
+1 a 2 son
+4 sausage 5 .
+
+a dad likes sausage .
+3 likes 4 sausage
+2 dad 3 likes
+0 ###LEFT-WALL### 2 dad
+4 sausage 5 .
+0 ###LEFT-WALL### 1 a
+
+cake is a food .
+1 cake 4 food
+3 a 4 food
+2 is 3 a
+4 food 5 .
+0 ###LEFT-WALL### 1 cake
+
+sausage is a food .
+1 sausage 4 food
+3 a 4 food
+2 is 3 a
+4 food 5 .
+0 ###LEFT-WALL### 1 sausage
+
+mom is a human now .
+4 human 5 now
+5 now 6 .
+3 a 4 human
+2 is 4 human
+1 mom 2 is
+0 ###LEFT-WALL### 1 mom
+
+dad is a human now .
+4 human 5 now
+5 now 6 .
+3 a 4 human
+2 is 4 human
+1 dad 2 is
+0 ###LEFT-WALL### 1 dad
+
+mom is a parent now .
+4 parent 5 now
+5 now 6 .
+3 a 4 parent
+2 is 3 a
+1 mom 2 is
+0 ###LEFT-WALL### 1 mom
+
+dad is a parent now .
+4 parent 5 now
+5 now 6 .
+3 a 4 parent
+2 is 3 a
+1 dad 2 is
+0 ###LEFT-WALL### 1 dad
+
+son is a child now .
+4 child 5 now
+5 now 6 .
+3 a 4 child
+2 is 4 child
+1 son 2 is
+0 ###LEFT-WALL### 1 son
+
+daughter is a child now .
+4 child 5 now
+5 now 6 .
+3 a 4 child
+2 is 4 child
+1 daughter 2 is
+0 ###LEFT-WALL### 1 daughter
+
+son is a human now .
+4 human 5 now
+5 now 6 .
+3 a 4 human
+2 is 4 human
+1 son 2 is
+0 ###LEFT-WALL### 1 son
+
+daughter is a human now .
+4 human 5 now
+5 now 6 .
+3 a 4 human
+2 is 4 human
+1 daughter 2 is
+0 ###LEFT-WALL### 1 daughter
+
+mom likes cake now .
+2 likes 3 cake
+3 cake 4 now
+4 now 5 .
+1 mom 2 likes
+0 ###LEFT-WALL### 1 mom
+
+daughter likes cake now .
+2 likes 3 cake
+1 daughter 2 likes
+3 cake 4 now
+4 now 5 .
+0 ###LEFT-WALL### 1 daughter
+
+son likes sausage now .
+2 likes 3 sausage
+1 son 2 likes
+3 sausage 4 now
+4 now 5 .
+0 ###LEFT-WALL### 1 son
+
+dad likes sausage now .
+2 likes 3 sausage
+3 sausage 4 now
+4 now 5 .
+1 dad 2 likes
+0 ###LEFT-WALL### 1 dad
+
+cake is a food now .
+4 food 5 now
+1 cake 4 food
+5 now 6 .
+3 a 4 food
+2 is 3 a
+0 ###LEFT-WALL### 1 cake
+
+sausage is a food now .
+4 food 5 now
+1 sausage 4 food
+5 now 6 .
+3 a 4 food
+2 is 3 a
+0 ###LEFT-WALL### 1 sausage
+
+mom was a daughter before .
+2 was 5 before
+5 before 6 .
+2 was 3 a
+1 mom 2 was
+0 ###LEFT-WALL### 1 mom
+2 was 4 daughter
+
+dad was a son before .
+2 was 5 before
+5 before 6 .
+2 was 3 a
+1 dad 2 was
+0 ###LEFT-WALL### 1 dad
+2 was 4 son
+
+mom was not a parent before .
+2 was 3 not
+3 not 5 parent
+5 parent 6 before
+6 before 7 .
+4 a 5 parent
+1 mom 2 was
+0 ###LEFT-WALL### 1 mom
+
+dad was not a parent before .
+2 was 3 not
+3 not 5 parent
+5 parent 6 before
+6 before 7 .
+4 a 5 parent
+1 dad 2 was
+0 ###LEFT-WALL### 1 dad
+
+mom liked cake before .
+2 liked 3 cake
+2 liked 4 before
+4 before 5 .
+1 mom 2 liked
+0 ###LEFT-WALL### 1 mom
+
+dad liked sausage before .
+2 liked 3 sausage
+2 liked 4 before
+4 before 5 .
+1 dad 2 liked
+0 ###LEFT-WALL### 1 dad
+
+cake was a food before .
+4 food 5 before
+2 was 4 food
+1 cake 2 was
+5 before 6 .
+3 a 4 food
+0 ###LEFT-WALL### 1 cake
+
+sausage was a food before .
+4 food 5 before
+2 was 4 food
+1 sausage 2 was
+5 before 6 .
+3 a 4 food
+0 ###LEFT-WALL### 1 sausage
+
+mom is on the board@a of directors .
+6 of 7 directors
+5 board@a 6 of
+4 the 5 board@a
+3 on 4 the
+7 directors 8 .
+2 is 3 on
+1 mom 2 is
+0 ###LEFT-WALL### 1 mom
+
+dad is on the board@a of directors .
+6 of 7 directors
+5 board@a 6 of
+4 the 5 board@a
+3 on 4 the
+7 directors 8 .
+2 is 3 on
+1 dad 2 is
+0 ###LEFT-WALL### 1 dad
+
+son is on the board@a of directors .
+6 of 7 directors
+5 board@a 6 of
+4 the 5 board@a
+3 on 4 the
+7 directors 8 .
+2 is 3 on
+1 son 2 is
+0 ###LEFT-WALL### 1 son
+
+daughter is on the board@a of directors .
+6 of 7 directors
+5 board@a 6 of
+4 the 5 board@a
+3 on 4 the
+7 directors 8 .
+2 is 3 on
+1 daughter 2 is
+0 ###LEFT-WALL### 1 daughter
+
+mom writes with chalk on the board@b .
+4 chalk 5 on
+3 with 4 chalk
+5 on 6 the
+6 the 7 board@b
+2 writes 4 chalk
+7 board@b 8 .
+1 mom 2 writes
+0 ###LEFT-WALL### 1 mom
+
+dad writes with chalk on the board@b .
+4 chalk 5 on
+3 with 4 chalk
+5 on 6 the
+6 the 7 board@b
+2 writes 4 chalk
+7 board@b 8 .
+1 dad 2 writes
+0 ###LEFT-WALL### 1 dad
+
+son writes with chalk on the board@b .
+4 chalk 5 on
+3 with 4 chalk
+5 on 6 the
+6 the 7 board@b
+2 writes 4 chalk
+1 son 2 writes
+7 board@b 8 .
+0 ###LEFT-WALL### 1 son
+
+daughter writes with chalk on the board@b .
+4 chalk 5 on
+3 with 4 chalk
+5 on 6 the
+6 the 7 board@b
+2 writes 4 chalk
+1 daughter 2 writes
+7 board@b 8 .
+0 ###LEFT-WALL### 1 daughter
+
+dad wants mom to be on the board@a of directors .
+9 of 10 directors
+8 board@a 9 of
+7 the 8 board@a
+6 on 7 the
+5 be 6 on
+4 to 5 be
+2 wants 5 be
+10 directors 11 .
+1 dad 2 wants
+0 ###LEFT-WALL### 1 dad
+2 wants 3 mom
+
+mom wants dad to be on the board@a of directors .
+9 of 10 directors
+8 board@a 9 of
+7 the 8 board@a
+6 on 7 the
+5 be 6 on
+4 to 5 be
+2 wants 5 be
+10 directors 11 .
+1 mom 2 wants
+0 ###LEFT-WALL### 1 mom
+2 wants 3 dad
+
+dad wants his son to be on the board@a of directors .
+2 wants 3 his
+3 his 4 son
+3 his 6 be
+5 to 6 be
+6 be 7 on
+7 on 8 the
+8 the 9 board@a
+9 board@a 10 of
+10 of 11 directors
+11 directors 12 .
+1 dad 2 wants
+0 ###LEFT-WALL### 1 dad
+
+mom wants her daughter to be on the board@a of directors .
+2 wants 3 her
+3 her 4 daughter
+3 her 6 be
+5 to 6 be
+6 be 7 on
+7 on 8 the
+8 the 9 board@a
+9 board@a 10 of
+10 of 11 directors
+11 directors 12 .
+1 mom 2 wants
+0 ###LEFT-WALL### 1 mom
+
+mom writes to dad with chalk on the board@b .
+6 chalk 7 on
+5 with 6 chalk
+7 on 8 the
+8 the 9 board@b
+2 writes 6 chalk
+2 writes 3 to
+9 board@b 10 .
+3 to 4 dad
+1 mom 2 writes
+0 ###LEFT-WALL### 1 mom
+
+dad writes to mom with chalk on the board@b .
+6 chalk 7 on
+5 with 6 chalk
+7 on 8 the
+8 the 9 board@b
+2 writes 6 chalk
+2 writes 3 to
+9 board@b 10 .
+3 to 4 mom
+1 dad 2 writes
+0 ###LEFT-WALL### 1 dad
+
+son writes to dad with chalk on the board@b .
+6 chalk 7 on
+5 with 6 chalk
+7 on 8 the
+8 the 9 board@b
+2 writes 6 chalk
+2 writes 3 to
+1 son 2 writes
+9 board@b 10 .
+0 ###LEFT-WALL### 1 son
+3 to 4 dad
+
+daughter writes to mom with chalk on the board@b .
+6 chalk 7 on
+5 with 6 chalk
+7 on 8 the
+8 the 9 board@b
+2 writes 6 chalk
+2 writes 3 to
+1 daughter 2 writes
+9 board@b 10 .
+0 ###LEFT-WALL### 1 daughter
+3 to 4 mom
+
+mom has a hammer .
+1 mom 2 has
+2 has 3 a
+3 a 4 hammer
+4 hammer 5 .
+0 ###LEFT-WALL### 1 mom
+
+mom has a saw@a .
+1 mom 2 has
+2 has 3 a
+3 a 4 saw@a
+4 saw@a 5 .
+0 ###LEFT-WALL### 1 mom
+
+dad has a hammer .
+1 dad 2 has
+2 has 3 a
+3 a 4 hammer
+4 hammer 5 .
+0 ###LEFT-WALL### 1 dad
+
+dad has a saw@a .
+1 dad 2 has
+2 has 3 a
+3 a 4 saw@a
+4 saw@a 5 .
+0 ###LEFT-WALL### 1 dad
+
+mom has a telescope .
+2 has 4 telescope
+3 a 4 telescope
+1 mom 2 has
+4 telescope 5 .
+0 ###LEFT-WALL### 1 mom
+
+mom has binoculars .
+2 has 3 binoculars
+1 mom 2 has
+3 binoculars 4 .
+0 ###LEFT-WALL### 1 mom
+
+dad has a telescope .
+2 has 4 telescope
+3 a 4 telescope
+1 dad 2 has
+4 telescope 5 .
+0 ###LEFT-WALL### 1 dad
+
+dad has binoculars .
+2 has 3 binoculars
+1 dad 2 has
+3 binoculars 4 .
+0 ###LEFT-WALL### 1 dad
+
+mom saw@b dad with a hammer .
+2 saw@b 3 dad
+1 mom 2 saw@b
+2 saw@b 4 with
+4 with 6 hammer
+6 hammer 7 .
+5 a 6 hammer
+0 ###LEFT-WALL### 1 mom
+
+mom saw@b dad with a saw@a .
+2 saw@b 3 dad
+1 mom 2 saw@b
+2 saw@b 4 with
+4 with 6 saw@a
+6 saw@a 7 .
+5 a 6 saw@a
+0 ###LEFT-WALL### 1 mom
+
+dad saw@b mom with a hammer .
+2 saw@b 3 mom
+1 dad 2 saw@b
+2 saw@b 4 with
+4 with 6 hammer
+6 hammer 7 .
+5 a 6 hammer
+0 ###LEFT-WALL### 1 dad
+
+dad saw@b mom with a saw@a .
+2 saw@b 3 mom
+1 dad 2 saw@b
+2 saw@b 4 with
+4 with 6 saw@a
+6 saw@a 7 .
+5 a 6 saw@a
+0 ###LEFT-WALL### 1 dad
+
+saw@a is a tool .
+4 tool 5 .
+3 a 4 tool
+1 saw@a 5 .
+2 is 3 a
+0 ###LEFT-WALL### 1 saw@a
+
+hammer is a tool .
+4 tool 5 .
+3 a 4 tool
+1 hammer 5 .
+2 is 3 a
+0 ###LEFT-WALL### 1 hammer
+
+binoculars are a tool .
+1 binoculars 2 are
+2 are 4 tool
+4 tool 5 .
+2 are 3 a
+0 ###LEFT-WALL### 2 are
+
+a telescope is a tool .
+2 telescope 5 tool
+5 tool 6 .
+4 a 5 tool
+1 a 5 tool
+3 is 4 a
+0 ###LEFT-WALL### 1 a
+
+mom sees dad now .
+2 sees 4 now
+2 sees 3 dad
+4 now 5 .
+1 mom 2 sees
+0 ###LEFT-WALL### 1 mom
+
+dad sees mom now .
+2 sees 4 now
+2 sees 3 mom
+4 now 5 .
+1 dad 2 sees
+0 ###LEFT-WALL### 1 dad
+
+son sees dad now .
+2 sees 4 now
+2 sees 3 dad
+1 son 2 sees
+4 now 5 .
+0 ###LEFT-WALL### 1 son
+
+daughter sees mom now .
+2 sees 4 now
+2 sees 3 mom
+1 daughter 2 sees
+4 now 5 .
+0 ###LEFT-WALL### 1 daughter
+
+mom saw@b dad before .
+2 saw@b 3 dad
+1 mom 2 saw@b
+2 saw@b 4 before
+4 before 5 .
+0 ###LEFT-WALL### 1 mom
+
+dad saw@b mom before .
+2 saw@b 3 mom
+1 dad 2 saw@b
+2 saw@b 4 before
+4 before 5 .
+0 ###LEFT-WALL### 1 dad
+
+son saw@b dad before .
+2 saw@b 3 dad
+2 saw@b 4 before
+4 before 5 .
+1 son 2 saw@b
+0 ###LEFT-WALL### 1 son
+
+daughter saw@b mom before .
+2 saw@b 3 mom
+2 saw@b 4 before
+4 before 5 .
+1 daughter 2 saw@b
+0 ###LEFT-WALL### 1 daughter
+
+mom sawed the wood with a saw@a .
+2 sawed 4 wood
+3 the 4 wood
+4 wood 5 with
+4 wood 7 saw@a
+7 saw@a 8 .
+6 a 7 saw@a
+1 mom 2 sawed
+0 ###LEFT-WALL### 1 mom
+
+dad sawed the wood with a saw@a .
+2 sawed 4 wood
+3 the 4 wood
+4 wood 5 with
+4 wood 7 saw@a
+7 saw@a 8 .
+6 a 7 saw@a
+1 dad 2 sawed
+0 ###LEFT-WALL### 1 dad
+
+son sawed the wood with a saw@a .
+2 sawed 4 wood
+3 the 4 wood
+4 wood 5 with
+1 son 2 sawed
+4 wood 7 saw@a
+7 saw@a 8 .
+6 a 7 saw@a
+0 ###LEFT-WALL### 1 son
+
+daughter sawed the wood with a saw@a .
+2 sawed 4 wood
+3 the 4 wood
+4 wood 5 with
+1 daughter 2 sawed
+4 wood 7 saw@a
+7 saw@a 8 .
+6 a 7 saw@a
+0 ###LEFT-WALL### 1 daughter
+
+mom knocked the wood with a hammer .
+2 knocked 4 wood
+3 the 4 wood
+4 wood 5 with
+4 wood 7 hammer
+7 hammer 8 .
+6 a 7 hammer
+1 mom 2 knocked
+0 ###LEFT-WALL### 1 mom
+
+dad knocked the wood with a hammer .
+2 knocked 4 wood
+3 the 4 wood
+4 wood 5 with
+4 wood 7 hammer
+7 hammer 8 .
+6 a 7 hammer
+1 dad 2 knocked
+0 ###LEFT-WALL### 1 dad
+
+son knocked the wood with a hammer .
+2 knocked 4 wood
+3 the 4 wood
+4 wood 5 with
+1 son 2 knocked
+4 wood 7 hammer
+7 hammer 8 .
+6 a 7 hammer
+0 ###LEFT-WALL### 1 son
+
+daughter knocked the wood with a hammer .
+2 knocked 4 wood
+3 the 4 wood
+4 wood 5 with
+1 daughter 2 knocked
+4 wood 7 hammer
+7 hammer 8 .
+6 a 7 hammer
+0 ###LEFT-WALL### 1 daughter
+
+mom saw@b dad with binoculars .
+2 saw@b 3 dad
+1 mom 2 saw@b
+2 saw@b 4 with
+4 with 5 binoculars
+5 binoculars 6 .
+0 ###LEFT-WALL### 1 mom
+
+mom saw@b dad with a telescope .
+2 saw@b 3 dad
+1 mom 2 saw@b
+2 saw@b 4 with
+0 ###LEFT-WALL### 1 mom
+4 with 5 a
+5 a 6 telescope
+6 telescope 7 .
+
+dad saw@b mom with binoculars .
+2 saw@b 3 mom
+1 dad 2 saw@b
+2 saw@b 4 with
+4 with 5 binoculars
+5 binoculars 6 .
+0 ###LEFT-WALL### 1 dad
+
+dad saw@b mom with a telescope .
+2 saw@b 3 mom
+1 dad 2 saw@b
+2 saw@b 4 with
+0 ###LEFT-WALL### 1 dad
+4 with 5 a
+5 a 6 telescope
+6 telescope 7 .
+

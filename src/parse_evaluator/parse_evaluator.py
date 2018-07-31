@@ -68,7 +68,7 @@ def MakeSets(parse, sent_len, ignore_WALL):
     link_list = []
     for link in parse:
         if ignore_WALL:
-            if (link[0] == '0') or (link[2] == sent_len and link[3] == "."):
+            if (link[0] == '0') or (link[2] == str(sent_len) and link[3] == "."):
                 current_ignored += 1
                 continue
         link_list.append([link[0], link[2]])
@@ -123,8 +123,8 @@ def Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore):
     precision = sum_precision / evaluated_parses # averages precision
     recall = sum_recall / evaluated_parses # averages recall
     print("\nAvg Precision: {:.2%}".format(precision))
-    print("\nAvg Recall: {:.2%}".format(recall))
-    print("\nAvg Fscore: {:.2%}".format(2 * precision * recall / (precision + recall)))
+    print("Avg Recall: {:.2%}".format(recall))
+    print("Avg Fscore: {:.2%}\n".format(2 * precision * recall / (precision + recall)))
     print("A total of {} parses evaluated, {:.2%} of reference file".format(evaluated_parses, float(evaluated_parses) / len(ref_parses)))
     print("{:.2f} ignored links per evaluated parse".format(ignored_links / evaluated_parses))
 

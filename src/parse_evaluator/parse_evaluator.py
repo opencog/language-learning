@@ -61,7 +61,7 @@ def Get_Parses(data):
 
 def MakeSets(parse, sent_len, ignore_WALL):
     """
-        Gets a list with links and a sentence
+        Gets a list with links and its sentence's length
         and makes sets for each link's ids, ignoring WALL and dot if requested
     """
     current_ignored = 0

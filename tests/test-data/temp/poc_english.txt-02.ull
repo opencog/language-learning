@@ -1,0 +1,66 @@
+[mom] [is] [a] [human] [now] . 
+0 ###LEFT-WALL### 6 .
+
+[dad] [is] [a] [human] [now] . 
+0 ###LEFT-WALL### 6 .
+
+[mom] [is] [a] [parent] [now] . 
+0 ###LEFT-WALL### 6 .
+
+[dad] [is] [a] [parent] [now] . 
+0 ###LEFT-WALL### 6 .
+
+[son] [is] [a] [child] [now] . 
+0 ###LEFT-WALL### 6 .
+
+[daughter] [is] [a] [child] [now] . 
+0 ###LEFT-WALL### 6 .
+
+[son] [is] [a] [human] [now] . 
+0 ###LEFT-WALL### 6 .
+
+[daughter] [is] [a] [human] [now] . 
+0 ###LEFT-WALL### 6 .
+
+[mom] [likes] [cake] [now] . 
+0 ###LEFT-WALL### 5 .
+
+[daughter] [likes] [cake] [now] . 
+0 ###LEFT-WALL### 5 .
+
+[son] [likes] [sausage] [now] . 
+0 ###LEFT-WALL### 5 .
+
+[dad] [likes] [sausage] [now] . 
+0 ###LEFT-WALL### 5 .
+
+[cake] [is] [a] [food] [now] . 
+0 ###LEFT-WALL### 6 .
+
+[sausage] [is] [a] [food] [now] . 
+0 ###LEFT-WALL### 6 .
+
+[mom] [was] [a] [daughter] [before] . 
+0 ###LEFT-WALL### 6 .
+
+[dad] [was] [a] [son] [before] . 
+0 ###LEFT-WALL### 6 .
+
+[mom] [was] [not] [a] [parent] [before] . 
+0 ###LEFT-WALL### 7 .
+
+[dad] [was] [not] [a] [parent] [before] . 
+0 ###LEFT-WALL### 7 .
+
+[mom] [liked] [cake] [before] . 
+0 ###LEFT-WALL### 5 .
+
+[dad] [liked] [sausage] [before] . 
+0 ###LEFT-WALL### 5 .
+
+[cake] [was] [a] [food] [before] . 
+0 ###LEFT-WALL### 6 .
+
+[sausage] [was] [a] [food] [before] . 
+0 ###LEFT-WALL### 6 .
+

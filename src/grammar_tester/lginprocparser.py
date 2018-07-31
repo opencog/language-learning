@@ -267,11 +267,11 @@ class LGInprocParser(AbstractFileParserClient):
                 # Read pipes to get complete output returned by link-parser
                 raw, err = proc_pars.communicate()
 
-                with open("raw.txt", "w") as r:
-                    r.write(raw.decode("utf-8-sig"))
-
-                with open("err.txt", "w") as e:
-                    e.write(err.decode("utf-8-sig"))
+                # with open("raw.txt", "w") as r:
+                #     r.write(raw.decode("utf-8-sig"))
+                #
+                # with open("err.txt", "w") as e:
+                #     e.write(err.decode("utf-8-sig"))
 
                 # Check return code to make sure the process completed successfully.
                 if proc_pars.returncode != 0:

@@ -3,7 +3,7 @@
 Grammar Learner POC.0.5 tests #80706: pytest⇒unittest, new Link Grammar Tester
 Run test:
 $ cd language-learning
-$ source activate ull4
+$ source activate ull
 $ python tests/test_grammar_learner.py
 '''
 #from pathlib import Path
@@ -12,33 +12,31 @@ $ python tests/test_grammar_learner.py
 import os, sys
 import unittest
 module_path = os.path.abspath(os.path.join('.'))
-if module_path not in sys.path:
-    sys.path.append(module_path)
-from src.utl.utl import UTC
-from src.utl.read_files import check_dir
-from src.grammar_learner.poc05 import learn_grammar
+if module_path not in sys.path: sys.path.append(module_path)
+#from src.grammar_learner.utl import UTC
+#from src.grammar_learner.read_files import check_dir
+#from src.grammar_learner.poc05 import learn_grammar
+grammar_learner_path = module_path + '/src/grammar_learner'
+if os.path.exists(grammar_learner_path) and grammar_learner_path not in sys.path:
+    sys.path.append(grammar_learner_path)
+from utl import UTC
+from read_files import check_dir
+from poc05 import learn_grammar
 
 class TestGrammarLearner(unittest.TestCase):
 
     def setUp(self):    #FIXME: should run before every test, but would not?!
-        #-import os, sys
+        #+import os, sys
         # Paths #FIXME: don't run?
-        #module_path = os.path.abspath(os.path.join('..'))
-        #if module_path not in sys.path:
-        #    sys.path.append(module_path)
+        #+module_path = os.path.abspath(os.path.join('..'))
+        #+if module_path not in sys.path:
+        #+    sys.path.append(module_path)
         # Imports - moved up:  #FIXME: don't run here?
         #-from src.grammar_learner.poc05 import learn_grammar
-        #-from src.utl.utl import UTC
-        src_path = module_path + '/src'
-        if os.path.exists(src_path) and src_path not in sys.path:
-            sys.path.append(src_path)
-        # Don't need link grammar paths with new (June 2018) Grammar Tester (?)
-        #-lg_path = '/home/oleg/miniconda3/envs/ull4/lib/python3.6/site-packages/linkgrammar'
-        #-if os.path.exists(lg_path) and lg_path not in sys.path:
-        #-    sys.path.append(lg_path)
-        #-link_grammar_path = module_path + '/src/link_grammar'
-        #-if os.path.exists(link_grammar_path) and link_grammar_path not in sys.path:
-        #-    sys.path.append(link_grammar_path)
+        #-from src.grammar_learner.utl import UTC
+        #-src_path = module_path + '/src'
+        #-if os.path.exists(src_path) and src_path not in sys.path:
+        #-    sys.path.append(src_path)
         input_parses = module_path + '/tests/data/POC-Turtle/MST_fixed_manually/'
         batch_dir = module_path + '/output/Test_Grammar_Learner_' + str(UTC())[:10] + '/'
         # Grammar Learner 0.5 parameters:
@@ -73,7 +71,7 @@ class TestGrammarLearner(unittest.TestCase):
             'test_corpus'   :   module_path + '/data/POC-Turtle/poc-turtle-corpus.txt',
             'reference_path':   module_path + '/data/POC-Turtle/poc-turtle-parses-expected.txt',
             'template_path' :   'poc-turtle',  #FIXME: changed in June 2018 Grammar Tester
-            'linkage_limit' :   1
+            'linkage_limit' :   1000
         }
         pass
 
@@ -137,7 +135,7 @@ class TestGrammarLearner(unittest.TestCase):
             'categories_generalization' :   'off' ,
             'rules_generalization'      :   'off' ,
             'tmpath'        :   module_path + '/tmp/',
-            'verbose'       :   'none'
+            'verbose'       :   'min'
         }
         response = learn_grammar(input_parses, outpath, outpath, **kwargs)
         with open(response['grammar_file'], 'r') as f:
@@ -146,8 +144,17 @@ class TestGrammarLearner(unittest.TestCase):
         with open(base, 'r') as f: lst = f.read().splitlines()
         base_list = [line for line in lst if line[0:1] in ['"', '(']]
         if len(rule_list) == len(base_list):
+            if kwargs['verbose'] in ['debug']:
+                print('\nlen(rule_list) = len(base_list) =', len(rule_list))
+                print('\nrule_list:', rule_list)
+                print('\nbase_list:', base_list)
+                print('\nrule_list == base_list:', rule_list == base_list)
             assert rule_list == base_list
-        else: assert len(rule_list) == len(base_list)
+        else:
+            if kwargs['verbose'] in ['debug']:
+                print('\nlen(rule_list) != len(base_list):', \
+                    len(rule_list), '!-', len(base_list))
+            assert len(rule_list) == len(base_list)
 
 
     def test_turtle_generalize_categories(self):

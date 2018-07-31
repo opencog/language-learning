@@ -1,0 +1,40 @@
+% Grammar Learner v.0.8 2018-04-22 17:34:33 UTC
+<dictionary-version-number>: V0v0v8+;
+<dictionary-locale>: EN4us+;
+
+% C01
+"eagle" "parrot":
+(C01C05+);
+
+% C02
+"herring" "tuna":
+(C02C06+);
+
+% C03
+"has":
+(C03C05+) or (C03C06+) or (C03C07+);
+
+% C04
+"isa":
+(C04C05+) or (C04C06+) or (C04C07+);
+
+% C05
+"bird" "wing":
+(C03C05- & C01C05- & C05C08+) or (C04C05- & C01C05- & C05C08+) or (C05C07+);
+
+% C06
+"fin" "fish":
+(C02C06- & C04C06- & C06C08+) or (C03C06- & C02C06- & C06C08+) or (C06C07+);
+
+% C07
+"extremity" "feather" "scale":
+(C03C07- & C06C07- & C07C08+) or (C04C07- & C06C07- & C07C08+) or (C05C07- & C03C07- & C07C08+) or (C05C07- & C04C07- & C07C08+);
+
+% C08
+".":
+(C05C08-) or (C06C08-) or (C07C08-);
+
+UNKNOWN-WORD: XXX+;
+
+% 8 word clusters, 8 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-Turtle-no-LEFT-WALL/R=6_Weight=1/connectors-DRK-disjuncts/poc-turtle_8C_2018-04-22_0008.4.0.dict

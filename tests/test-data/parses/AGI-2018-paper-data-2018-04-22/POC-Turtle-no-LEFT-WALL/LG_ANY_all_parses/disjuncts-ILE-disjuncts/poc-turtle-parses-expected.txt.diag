@@ -1,0 +1,79 @@
+echo set to 1
+graphics set to 1
+verbosity set to 0
+limit set to 1
+tuna has fin .
+
+  +C03C06+C06C05+C05C01+
+  |      |      |      |
+tuna    has    fin     .
+
+eagle isa bird .
+
+  +C03C07+C07C02+C02C01+
+  |      |      |      |
+eagle   isa   bird     .
+
+fin isa extremity .
+
+ +C05C07+C07C02+C02C01+
+ |      |      |      |
+fin    isa extremity  .
+
+tuna isa fish .
+
+  +C03C07+C07C02+C02C01+
+  |      |      |      |
+tuna    isa   fish     .
+
+fin has scale .
+
+ +--C05C08--+
+ |   +C06C08+C08C01+
+ |   |      |      |
+fin has   scale    .
+
+eagle has wing .
+
+  +C03C06+C06C09+C09C01+
+  |      |      |      |
+eagle   has   wing     .
+
+wing has feather .
+
+
+
+[wing] [has] [feather] [.]
+
+wing isa extremity .
+
+  +C09C07+C07C02+C02C01+
+  |      |      |      |
+wing    isa extremity  .
+
+herring isa fish .
+
+   +C03C07+C07C02+C02C01+
+   |      |      |      |
+herring  isa   fish     .
+
+herring has fin .
+
+   +C03C06+C06C05+C05C01+
+   |      |      |      |
+herring  has    fin     .
+
+parrot isa bird .
+
+   +C03C07+C07C02+C02C01+
+   |      |      |      |
+parrot   isa   bird     .
+
+parrot has wing .
+
+   +C03C06+C06C09+C09C01+
+   |      |      |      |
+parrot   has   wing     .
+
+Bye.
+

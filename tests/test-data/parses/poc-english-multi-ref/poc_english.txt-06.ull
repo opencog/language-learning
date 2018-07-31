@@ -1,0 +1,33 @@
+saw is a tool . 
+0 ###LEFT-WALL### 1 saw
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 saw 2 is
+2 is 4 tool
+3 a 4 tool
+
+hammer is a tool . 
+0 ###LEFT-WALL### 1 hammer
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 hammer 2 is
+2 is 4 tool
+3 a 4 tool
+
+binoculars are a tool . 
+0 ###LEFT-WALL### 1 binoculars
+0 ###LEFT-WALL### 2 are
+0 ###LEFT-WALL### 5 .
+1 binoculars 2 are
+2 are 4 tool
+3 a 4 tool
+
+a telescope is a tool . 
+0 ###LEFT-WALL### 2 telescope
+0 ###LEFT-WALL### 3 is
+0 ###LEFT-WALL### 6 .
+1 a 2 telescope
+2 telescope 3 is
+3 is 5 tool
+4 a 5 tool
+

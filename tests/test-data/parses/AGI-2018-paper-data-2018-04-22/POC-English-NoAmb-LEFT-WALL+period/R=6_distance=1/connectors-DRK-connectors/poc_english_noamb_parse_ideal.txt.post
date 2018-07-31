@@ -1,0 +1,187 @@
+echo set to 1
+postscript set to 1
+graphics set to 0
+verbosity set to 0
+limit set to 1
+a mom is a human .
+[(LEFT-WALL)(a)(mom)(is)(a)(human)(.)]
+[[0 1 0 (C10C10)][1 2 0 (C10C01)][2 3 0 (C01C08)][3 4 0 (C08C10)][4 5 0 (C10C07)][5 6 0 (C07C11)]]
+[0]
+
+a dad is a human .
+[(LEFT-WALL)(a)(dad)(is)(a)(human)(.)]
+[[0 1 0 (C10C10)][1 2 0 (C10C01)][2 3 0 (C01C08)][3 4 0 (C08C10)][4 5 0 (C10C07)][5 6 0 (C07C11)]]
+[0]
+
+a mom is a parent .
+[(LEFT-WALL)(a)(mom)(is)(a)(parent)(.)]
+[[0 1 0 (C10C10)][1 2 0 (C10C01)][2 3 0 (C01C08)][3 4 0 (C08C10)][4 5 0 (C10C07)][5 6 0 (C07C11)]]
+[0]
+
+a dad is a parent .
+[(LEFT-WALL)(a)(dad)(is)(a)(parent)(.)]
+[[0 1 0 (C10C10)][1 2 0 (C10C01)][2 3 0 (C01C08)][3 4 0 (C08C10)][4 5 0 (C10C07)][5 6 0 (C07C11)]]
+[0]
+
+a son is a child .
+[(LEFT-WALL)(a)(son)(is)(a)(child)(.)]
+[[0 1 0 (C10C10)][1 2 0 (C10C05)][2 3 0 (C05C08)][3 4 0 (C08C10)][4 5 0 (C10C07)][5 6 0 (C07C11)]]
+[0]
+
+a daughter is a child .
+[(LEFT-WALL)(a)(daughter)(is)(a)(child)(.)]
+[[0 1 0 (C10C10)][1 2 0 (C10C05)][2 3 0 (C05C08)][3 4 0 (C08C10)][4 5 0 (C10C07)][5 6 0 (C07C11)]]
+[0]
+
+a son is a human .
+[(LEFT-WALL)(a)(son)(is)(a)(human)(.)]
+[[0 1 0 (C10C10)][1 2 0 (C10C05)][2 3 0 (C05C08)][3 4 0 (C08C10)][4 5 0 (C10C07)][5 6 0 (C07C11)]]
+[0]
+
+a daughter is a human .
+[(LEFT-WALL)(a)(daughter)(is)(a)(human)(.)]
+[[0 1 0 (C10C10)][1 2 0 (C10C05)][2 3 0 (C05C08)][3 4 0 (C08C10)][4 5 0 (C10C07)][5 6 0 (C07C11)]]
+[0]
+
+a mom likes cake .
+[(LEFT-WALL)(a)(mom)(likes)(cake)(.)]
+[[0 1 0 (C10C10)][1 2 0 (C10C01)][2 3 0 (C01C03)][3 4 0 (C03C04)][4 5 0 (C04C11)]]
+[0]
+
+a daughter likes cake .
+[(LEFT-WALL)(a)(daughter)([likes])(cake)(.)]
+[[0 1 0 (C10C10)][1 2 0 (C10C05)][2 4 0 (C05C04)][4 5 0 (C04C11)]]
+[0]
+
+a son likes sausage .
+[(LEFT-WALL)(a)(son)([likes])(sausage)(.)]
+[[0 1 0 (C10C10)][1 2 0 (C10C05)][2 4 0 (C05C04)][4 5 0 (C04C11)]]
+[0]
+
+a dad likes sausage .
+[(LEFT-WALL)(a)(dad)(likes)(sausage)(.)]
+[[0 1 0 (C10C10)][1 2 0 (C10C01)][2 3 0 (C01C03)][3 4 0 (C03C04)][4 5 0 (C04C11)]]
+[0]
+
+cake is a food .
+[(LEFT-WALL)(cake)([is])([a])(food)(.)]
+[[0 1 0 (C10C04)][1 4 0 (C04C06)][4 5 0 (C06C11)]]
+[0]
+
+sausage is a food .
+[(LEFT-WALL)(sausage)([is])([a])(food)(.)]
+[[0 1 0 (C10C04)][1 4 0 (C04C06)][4 5 0 (C06C11)]]
+[0]
+
+mom is a human now .
+[(LEFT-WALL)(mom)(is)(a)(human)(now)(.)]
+[[0 1 0 (C10C01)][1 2 0 (C01C08)][2 3 0 (C08C10)][3 4 0 (C10C07)][4 5 0 (C07C11)][5 6 0 (C11C11)]]
+[0]
+
+dad is a human now .
+[(LEFT-WALL)(dad)(is)(a)(human)(now)(.)]
+[[0 1 0 (C10C01)][1 2 0 (C01C08)][2 3 0 (C08C10)][3 4 0 (C10C07)][4 5 0 (C07C11)][5 6 0 (C11C11)]]
+[0]
+
+mom is a parent now .
+[(LEFT-WALL)(mom)(is)(a)(parent)(now)(.)]
+[[0 1 0 (C10C01)][1 2 0 (C01C08)][2 3 0 (C08C10)][3 4 0 (C10C07)][4 5 0 (C07C11)][5 6 0 (C11C11)]]
+[0]
+
+dad is a parent now .
+[(LEFT-WALL)(dad)(is)(a)(parent)(now)(.)]
+[[0 1 0 (C10C01)][1 2 0 (C01C08)][2 3 0 (C08C10)][3 4 0 (C10C07)][4 5 0 (C07C11)][5 6 0 (C11C11)]]
+[0]
+
+son is a child now .
+[(LEFT-WALL)(son)(is)(a)(child)(now)(.)]
+[[0 1 0 (C10C05)][1 2 0 (C05C08)][2 3 0 (C08C10)][3 4 0 (C10C07)][4 5 0 (C07C11)][5 6 0 (C11C11)]]
+[0]
+
+daughter is a child now .
+[(LEFT-WALL)(daughter)(is)(a)(child)(now)(.)]
+[[0 1 0 (C10C05)][1 2 0 (C05C08)][2 3 0 (C08C10)][3 4 0 (C10C07)][4 5 0 (C07C11)][5 6 0 (C11C11)]]
+[0]
+
+son is a human now .
+[(LEFT-WALL)(son)(is)(a)(human)(now)(.)]
+[[0 1 0 (C10C05)][1 2 0 (C05C08)][2 3 0 (C08C10)][3 4 0 (C10C07)][4 5 0 (C07C11)][5 6 0 (C11C11)]]
+[0]
+
+daughter is a human now .
+[(LEFT-WALL)(daughter)(is)(a)(human)(now)(.)]
+[[0 1 0 (C10C05)][1 2 0 (C05C08)][2 3 0 (C08C10)][3 4 0 (C10C07)][4 5 0 (C07C11)][5 6 0 (C11C11)]]
+[0]
+
+mom likes cake now .
+[(LEFT-WALL)(mom)(likes)(cake)(now)(.)]
+[[0 1 0 (C10C01)][1 2 0 (C01C03)][2 3 0 (C03C04)][3 4 0 (C04C11)][4 5 0 (C11C11)]]
+[0]
+
+daughter likes cake now .
+[(LEFT-WALL)(daughter)([likes])(cake)(now)(.)]
+[[0 1 0 (C10C05)][1 3 0 (C05C04)][3 4 0 (C04C11)][4 5 0 (C11C11)]]
+[0]
+
+son likes sausage now .
+[(LEFT-WALL)(son)([likes])(sausage)(now)(.)]
+[[0 1 0 (C10C05)][1 3 0 (C05C04)][3 4 0 (C04C11)][4 5 0 (C11C11)]]
+[0]
+
+dad likes sausage now .
+[(LEFT-WALL)(dad)(likes)(sausage)(now)(.)]
+[[0 1 0 (C10C01)][1 2 0 (C01C03)][2 3 0 (C03C04)][3 4 0 (C04C11)][4 5 0 (C11C11)]]
+[0]
+
+cake is a food now .
+[(LEFT-WALL)(cake)([is])([a])(food)(now)(.)]
+[[0 1 0 (C10C04)][1 4 0 (C04C06)][4 5 0 (C06C11)][5 6 0 (C11C11)]]
+[0]
+
+sausage is a food now .
+[(LEFT-WALL)(sausage)([is])([a])(food)(now)(.)]
+[[0 1 0 (C10C04)][1 4 0 (C04C06)][4 5 0 (C06C11)][5 6 0 (C11C11)]]
+[0]
+
+mom was a daughter before .
+[(LEFT-WALL)(mom)(was)(a)(daughter)([before])([.])]
+[[0 1 0 (C10C01)][1 2 0 (C01C06)][2 3 0 (C06C10)][3 4 0 (C10C05)]]
+[0]
+
+dad was a son before .
+[(LEFT-WALL)(dad)(was)(a)(son)([before])([.])]
+[[0 1 0 (C10C01)][1 2 0 (C01C06)][2 3 0 (C06C10)][3 4 0 (C10C05)]]
+[0]
+
+mom was not a parent before .
+[(LEFT-WALL)(mom)(was)(not)(a)(parent)([before])(.)]
+[[0 1 0 (C10C01)][1 2 0 (C01C06)][2 3 0 (C06C02)][3 4 0 (C02C10)][4 5 0 (C10C07)][5 7 0 (C07C11)]]
+[0]
+
+dad was not a parent before .
+[(LEFT-WALL)(dad)(was)(not)(a)(parent)([before])(.)]
+[[0 1 0 (C10C01)][1 2 0 (C01C06)][2 3 0 (C06C02)][3 4 0 (C02C10)][4 5 0 (C10C07)][5 7 0 (C07C11)]]
+[0]
+
+mom liked cake before .
+[(LEFT-WALL)(mom)(liked)(cake)([before])(.)]
+[[0 1 0 (C10C01)][1 2 0 (C01C03)][2 3 0 (C03C04)][3 5 0 (C04C11)]]
+[0]
+
+dad liked sausage before .
+[(LEFT-WALL)(dad)(liked)(sausage)([before])(.)]
+[[0 1 0 (C10C01)][1 2 0 (C01C03)][2 3 0 (C03C04)][3 5 0 (C04C11)]]
+[0]
+
+cake was a food before .
+[(LEFT-WALL)(cake)(was)([a])([food])(before)(.)]
+[[0 1 0 (C10C04)][1 2 0 (C04C06)][2 5 0 (C06C09)][5 6 0 (C09C11)]]
+[0]
+
+sausage was a food before .
+[(LEFT-WALL)(sausage)(was)([a])([food])(before)(.)]
+[[0 1 0 (C10C04)][1 2 0 (C04C06)][2 5 0 (C06C09)][5 6 0 (C09C11)]]
+[0]
+
+Bye.
+

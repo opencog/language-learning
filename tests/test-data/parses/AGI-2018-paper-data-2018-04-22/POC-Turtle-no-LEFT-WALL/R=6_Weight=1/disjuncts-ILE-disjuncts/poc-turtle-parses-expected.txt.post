@@ -1,0 +1,67 @@
+echo set to 1
+postscript set to 1
+graphics set to 0
+verbosity set to 0
+limit set to 1
+tuna has fin .
+[(tuna)(has)(fin)(.)]
+[[0 2 1 (C09C06)][1 2 0 (C08C06)][2 3 0 (C06C01)]]
+[0]
+
+eagle isa bird .
+[(eagle)(isa)(bird)(.)]
+[[0 2 1 (C03C02)][1 2 0 (C10C02)][2 3 0 (C02C01)]]
+[0]
+
+fin isa extremity .
+[(fin)(isa)(extremity)(.)]
+[[0 2 1 (C06C04)][1 2 0 (C10C04)][2 3 0 (C04C01)]]
+[0]
+
+tuna isa fish .
+[([tuna])([isa])([fish])([.])]
+[]
+[0]
+
+fin has scale .
+[(fin)(has)(scale)(.)]
+[[0 2 1 (C06C11)][1 2 0 (C08C11)][2 3 0 (C11C01)]]
+[0]
+
+eagle has wing .
+[(eagle)(has)(wing)(.)]
+[[0 2 1 (C03C12)][1 2 0 (C08C12)][2 3 0 (C12C01)]]
+[0]
+
+wing has feather .
+[([wing])([has])([feather])([.])]
+[]
+[0]
+
+wing isa extremity .
+[([wing])([isa])([extremity])([.])]
+[]
+[0]
+
+herring isa fish .
+[([herring])([isa])([fish])([.])]
+[]
+[0]
+
+herring has fin .
+[(herring)(has)(fin)(.)]
+[[0 2 1 (C09C06)][1 2 0 (C08C06)][2 3 0 (C06C01)]]
+[0]
+
+parrot isa bird .
+[(parrot)(isa)(bird)(.)]
+[[0 2 1 (C03C02)][1 2 0 (C10C02)][2 3 0 (C02C01)]]
+[0]
+
+parrot has wing .
+[(parrot)(has)(wing)(.)]
+[[0 2 1 (C03C12)][1 2 0 (C08C12)][2 3 0 (C12C01)]]
+[0]
+
+Bye.
+

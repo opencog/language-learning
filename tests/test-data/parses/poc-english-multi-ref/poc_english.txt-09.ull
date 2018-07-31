@@ -1,0 +1,38 @@
+mom saw dad with binoculars . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 saw
+0 ###LEFT-WALL### 6 .
+1 mom 2 saw
+2 saw 3 dad
+2 saw 4 with
+4 with 5 binoculars
+
+mom saw dad with a telescope . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 saw
+0 ###LEFT-WALL### 7 .
+1 mom 2 saw
+2 saw 3 dad
+2 saw 4 with
+4 with 6 telescope
+5 a 6 telescope
+
+dad saw mom with binoculars . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 saw
+0 ###LEFT-WALL### 6 .
+1 dad 2 saw
+2 saw 3 mom
+2 saw 4 with
+4 with 5 binoculars
+
+dad saw mom with a telescope . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 saw
+0 ###LEFT-WALL### 7 .
+1 dad 2 saw
+2 saw 3 mom
+2 saw 4 with
+4 with 6 telescope
+5 a 6 telescope
+

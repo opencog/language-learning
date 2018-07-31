@@ -1,0 +1,222 @@
+echo set to 1
+graphics set to 1
+verbosity set to 0
+limit set to 1
+a mom is a human .
+
+    +--C04C01--+C01C11+C11C04+C04C05+C05C07+
+    |          |      |      |      |      |
+LEFT-WALL [a] mom    is      a    human    .
+
+a dad is a human .
+
+    +--C04C01--+C01C11+C11C04+C04C05+C05C07+
+    |          |      |      |      |      |
+LEFT-WALL [a] dad    is      a    human    .
+
+a mom is a parent .
+
+    +--C04C01--+C01C11+C11C04+C04C05+C05C07+
+    |          |      |      |      |      |
+LEFT-WALL [a] mom    is      a   parent    .
+
+a dad is a parent .
+
+    +--C04C01--+C01C11+C11C04+C04C05+C05C07+
+    |          |      |      |      |      |
+LEFT-WALL [a] dad    is      a   parent    .
+
+a son is a child .
+
+    +--C04C02--+C02C11+C11C04+C04C05+C05C07+
+    |          |      |      |      |      |
+LEFT-WALL [a] son    is      a    child    .
+
+a daughter is a child .
+
+    +----C04C02---+C02C11+C11C04+C04C05+C05C07+
+    |             |      |      |      |      |
+LEFT-WALL [a] daughter  is      a    child    .
+
+a son is a human .
+
+    +--C04C02--+C02C11+C11C04+C04C05+C05C07+
+    |          |      |      |      |      |
+LEFT-WALL [a] son    is      a    human    .
+
+a daughter is a human .
+
+    +----C04C02---+C02C11+C11C04+C04C05+C05C07+
+    |             |      |      |      |      |
+LEFT-WALL [a] daughter  is      a    human    .
+
+a mom likes cake .
+
+    +--C04C01--+C01C10+C10C03+C03C07+
+    |          |      |      |      |
+LEFT-WALL [a] mom   likes  cake     .
+
+a daughter likes cake .
+
+    +----C04C02---+C02C10+C10C03+C03C07+
+    |             |      |      |      |
+LEFT-WALL [a] daughter likes  cake     .
+
+a son likes sausage .
+
+    +--C04C02--+C02C10+C10C03+C03C07+
+    |          |      |      |      |
+LEFT-WALL [a] son   likes sausage   .
+
+a dad likes sausage .
+
+    +--C04C01--+C01C10+C10C03+C03C07+
+    |          |      |      |      |
+LEFT-WALL [a] dad   likes sausage   .
+
+cake is a food .
+
+    +-C04C03+C03C11+C11C04+C04C05+C05C07+
+    |       |      |      |      |      |
+LEFT-WALL cake    is      a    food     .
+
+sausage is a food .
+
+    +-C04C03-+C03C11+C11C04+C04C05+C05C07+
+    |        |      |      |      |      |
+LEFT-WALL sausage  is      a    food     .
+
+mom is a human now .
+
+    +C04C01+C01C11+C11C04+C04C05+C05C06+C06C07+
+    |      |      |      |      |      |      |
+LEFT-WALL mom    is      a    human   now     .
+
+dad is a human now .
+
+    +C04C01+C01C11+C11C04+C04C05+C05C06+C06C07+
+    |      |      |      |      |      |      |
+LEFT-WALL dad    is      a    human   now     .
+
+mom is a parent now .
+
+    +C04C01+C01C11+C11C04+C04C05+C05C06+C06C07+
+    |      |      |      |      |      |      |
+LEFT-WALL mom    is      a   parent   now     .
+
+dad is a parent now .
+
+    +C04C01+C01C11+C11C04+C04C05+C05C06+C06C07+
+    |      |      |      |      |      |      |
+LEFT-WALL dad    is      a   parent   now     .
+
+son is a child now .
+
+    +C04C02+C02C11+C11C04+C04C05+C05C06+C06C07+
+    |      |      |      |      |      |      |
+LEFT-WALL son    is      a    child   now     .
+
+daughter is a child now .
+
+    +--C04C02-+C02C11+C11C04+C04C05+C05C06+C06C07+
+    |         |      |      |      |      |      |
+LEFT-WALL daughter  is      a    child   now     .
+
+son is a human now .
+
+    +C04C02+C02C11+C11C04+C04C05+C05C06+C06C07+
+    |      |      |      |      |      |      |
+LEFT-WALL son    is      a    human   now     .
+
+daughter is a human now .
+
+    +--C04C02-+C02C11+C11C04+C04C05+C05C06+C06C07+
+    |         |      |      |      |      |      |
+LEFT-WALL daughter  is      a    human   now     .
+
+mom likes cake now .
+
+    +C04C01+C01C10+C10C03+C03C06+C06C07+
+    |      |      |      |      |      |
+LEFT-WALL mom   likes  cake    now     .
+
+daughter likes cake now .
+
+    +--C04C02-+C02C10+C10C03+C03C06+C06C07+
+    |         |      |      |      |      |
+LEFT-WALL daughter likes  cake    now     .
+
+son likes sausage now .
+
+    +C04C02+C02C10+C10C03+C03C06+C06C07+
+    |      |      |      |      |      |
+LEFT-WALL son   likes sausage  now     .
+
+dad likes sausage now .
+
+    +C04C01+C01C10+C10C03+C03C06+C06C07+
+    |      |      |      |      |      |
+LEFT-WALL dad   likes sausage  now     .
+
+cake is a food now .
+
+    +-C04C03+C03C11+C11C04+C04C05+C05C06+C06C07+
+    |       |      |      |      |      |      |
+LEFT-WALL cake    is      a    food    now     .
+
+sausage is a food now .
+
+    +-C04C03-+C03C11+C11C04+C04C05+C05C06+C06C07+
+    |        |      |      |      |      |      |
+LEFT-WALL sausage  is      a    food    now     .
+
+mom was a daughter before .
+
+    +C04C01+C01C11+C11C04+C04C02+
+    |      |      |      |      |
+LEFT-WALL mom    was     a  daughter [before] [.]
+
+dad was a son before .
+
+    +C04C01+C01C11+C11C04+C04C02+
+    |      |      |      |      |
+LEFT-WALL dad    was     a     son [before] [.]
+
+mom was not a parent before .
+
+    +C04C01+C01C11+C11C09+C09C04+C04C05+C05C06+C06C07+
+    |      |      |      |      |      |      |      |
+LEFT-WALL mom    was    not     a   parent before    .
+
+dad was not a parent before .
+
+    +C04C01+C01C11+C11C09+C09C04+C04C05+C05C06+C06C07+
+    |      |      |      |      |      |      |      |
+LEFT-WALL dad    was    not     a   parent before    .
+
+mom liked cake before .
+
+    +C04C01+C01C08+C08C03+C03C06+C06C07+
+    |      |      |      |      |      |
+LEFT-WALL mom   liked  cake  before    .
+
+dad liked sausage before .
+
+    +C04C01+C01C08+C08C03+-C03C06+C06C07+
+    |      |      |      |       |      |
+LEFT-WALL dad   liked sausage before    .
+
+cake was a food before .
+
+    +-C04C03+C03C11+C11C04+C04C05+C05C06+C06C07+
+    |       |      |      |      |      |      |
+LEFT-WALL cake    was     a    food  before    .
+
+sausage was a food before .
+
+    +-C04C03-+C03C11+C11C04+C04C05+C05C06+C06C07+
+    |        |      |      |      |      |      |
+LEFT-WALL sausage  was     a    food  before    .
+
+Bye.
+

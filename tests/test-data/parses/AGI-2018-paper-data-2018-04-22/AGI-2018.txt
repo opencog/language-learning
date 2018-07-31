@@ -1,0 +1,17 @@
+	Parsing/MI counting	Connectors/DRK/Connectors	Connectors/DRK/Disjuncts	Disjuncts/DRK/Disjuncts	Disjuncts/ILE/Disjuncts	Connectors/DRK/Connectors	Connectors/DRK/Disjuncts	Disjuncts/DRK/Disjuncts	Disjuncts/ILE/Disjuncts
+POC-Turtle-LEFT-WALL+period       	MST_fixed_manually	100.00%	100.00%	100.00%	100.00%	100.00%	100.00%	100.00%	100.00%
+POC-Turtle-LEFT-WALL+period       	R=6_Weight=6:R    	 94.44%	100.00%	N/A	 91.67%	 83.33%	 91.67%	N/A	 87.50%
+POC-Turtle-LEFT-WALL+period       	R=6_Weight=1      	 66.67%	 66.67%	N/A	 66.67%	  0.00%	 33.33%	N/A	 33.33%
+POC-Turtle-LEFT-WALL+period       	LG_ANY_all_parses 	 94.44%	100.00%	N/A	 91.67%	 83.33%	 91.67%	N/A	 87.50%
+POC-Turtle-no-LEFT-WALL           	MST_fixed_manually	100.00%	100.00%	100.00%	100.00%	100.00%	100.00%	100.00%	100.00%
+POC-Turtle-no-LEFT-WALL           	R=6_Weight=6:R    	 94.44%	100.00%	 91.67%	 91.67%	 83.33%	 91.67%	 87.50%	 87.50%
+POC-Turtle-no-LEFT-WALL           	R=6_Weight=1      	 66.67%	 66.67%	 66.67%	 66.67%	  0.00%	 33.33%	 33.33%	 33.33%
+POC-Turtle-no-LEFT-WALL           	LG_ANY_all_parses 	 94.44%	100.00%	 91.67%	 91.67%	 83.33%	 91.67%	 87.50%	 87.50%
+POC-English-NoAmb-LEFT-WALL+period	MST_fixed_manually	 64.44%	  0.00%	  0.00%	  0.00%	 55.00%	  0.00%	  0.00%	  0.00%
+POC-English-NoAmb-LEFT-WALL+period	R=6_distance=6:R  	 90.28%	 90.74%	 97.96%	 81.67%	 56.11%	 56.85%	 66.11%	 51.85%
+POC-English-NoAmb-LEFT-WALL+period	R=6_distance=1    	 86.57%	 53.06%	 55.56%	 34.44%	 51.48%	 26.85%	 21.02%	 14.35%
+POC-English-NoAmb-LEFT-WALL+period	LG_ANY_all_parses 	 97.50%	 81.30%	 83.33%	 81.30%	 65.37%	 52.96%	 51.57%	 51.57%
+POC-English-Noamb-no-LEFT-WALL    	MST_fixed_manually	 71.67%	 45.56%	 45.56%	 45.56%	 61.48%	 38.89%	 38.89%	 38.89%
+POC-English-Noamb-no-LEFT-WALL    	R=6_distance=6:R  	 97.50%	 97.96%	 97.96%	 88.89%	 65.37%	 64.26%	 66.11%	 61.11%
+POC-English-Noamb-no-LEFT-WALL    	R=6_distance=1    	 86.57%	 63.89%	 43.33%	 38.33%	 51.48%	 33.52%	 23.61%	 19.44%
+POC-English-Noamb-no-LEFT-WALL    	LG_ANY_all_parses 	 97.50%	 84.63%	 78.89%	 73.33%	 65.37%	 49.44%	 43.98%	 43.06%

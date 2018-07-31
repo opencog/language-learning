@@ -1,0 +1,187 @@
+echo set to 1
+postscript set to 1
+graphics set to 0
+verbosity set to 0
+limit set to 1
+a mom is a human .
+[(LEFT-WALL)(a)(mom)(is)(a)(human)(.)]
+[[0 1 0 (C07C07)][1 2 0 (C07C01)][2 3 0 (C01C07)][3 4 0 (C07C07)][4 5 0 (C07C05)][5 6 0 (C05C08)]]
+[0]
+
+a dad is a human .
+[(LEFT-WALL)(a)(dad)(is)(a)(human)(.)]
+[[0 1 0 (C07C07)][1 2 0 (C07C01)][2 3 0 (C01C07)][3 4 0 (C07C07)][4 5 0 (C07C05)][5 6 0 (C05C08)]]
+[0]
+
+a mom is a parent .
+[(LEFT-WALL)(a)(mom)(is)(a)(parent)(.)]
+[[0 1 0 (C07C07)][1 2 0 (C07C01)][2 3 0 (C01C07)][3 4 0 (C07C07)][4 5 0 (C07C05)][5 6 0 (C05C08)]]
+[0]
+
+a dad is a parent .
+[(LEFT-WALL)(a)(dad)(is)(a)(parent)(.)]
+[[0 1 0 (C07C07)][1 2 0 (C07C01)][2 3 0 (C01C07)][3 4 0 (C07C07)][4 5 0 (C07C05)][5 6 0 (C05C08)]]
+[0]
+
+a son is a child .
+[(LEFT-WALL)(a)(son)(is)(a)(child)(.)]
+[[0 1 0 (C07C07)][1 2 0 (C07C02)][2 3 0 (C02C07)][3 4 0 (C07C07)][4 5 0 (C07C05)][5 6 0 (C05C08)]]
+[0]
+
+a daughter is a child .
+[(LEFT-WALL)(a)(daughter)(is)(a)(child)(.)]
+[[0 1 0 (C07C07)][1 2 0 (C07C02)][2 3 0 (C02C07)][3 4 0 (C07C07)][4 5 0 (C07C05)][5 6 0 (C05C08)]]
+[0]
+
+a son is a human .
+[(LEFT-WALL)(a)(son)(is)(a)(human)(.)]
+[[0 1 0 (C07C07)][1 2 0 (C07C02)][2 3 0 (C02C07)][3 4 0 (C07C07)][4 5 0 (C07C05)][5 6 0 (C05C08)]]
+[0]
+
+a daughter is a human .
+[(LEFT-WALL)(a)(daughter)(is)(a)(human)(.)]
+[[0 1 0 (C07C07)][1 2 0 (C07C02)][2 3 0 (C02C07)][3 4 0 (C07C07)][4 5 0 (C07C05)][5 6 0 (C05C08)]]
+[0]
+
+a mom likes cake .
+[(LEFT-WALL)(a)(mom)(likes)(cake)(.)]
+[[0 1 0 (C07C07)][1 2 0 (C07C01)][2 3 0 (C01C04)][3 4 0 (C04C03)][4 5 0 (C03C08)]]
+[0]
+
+a daughter likes cake .
+[(LEFT-WALL)(a)(daughter)(likes)(cake)(.)]
+[[0 1 0 (C07C07)][1 2 0 (C07C02)][2 3 0 (C02C04)][3 4 0 (C04C03)][4 5 0 (C03C08)]]
+[0]
+
+a son likes sausage .
+[(LEFT-WALL)(a)(son)(likes)(sausage)(.)]
+[[0 1 0 (C07C07)][1 2 0 (C07C02)][2 3 0 (C02C04)][3 4 0 (C04C03)][4 5 0 (C03C08)]]
+[0]
+
+a dad likes sausage .
+[(LEFT-WALL)(a)(dad)(likes)(sausage)(.)]
+[[0 1 0 (C07C07)][1 2 0 (C07C01)][2 3 0 (C01C04)][3 4 0 (C04C03)][4 5 0 (C03C08)]]
+[0]
+
+cake is a food .
+[(LEFT-WALL)(cake)(is)(a)(food)(.)]
+[[0 1 0 (C07C03)][1 2 0 (C03C07)][2 3 0 (C07C07)][3 4 0 (C07C05)][4 5 0 (C05C08)]]
+[0]
+
+sausage is a food .
+[(LEFT-WALL)(sausage)(is)(a)(food)(.)]
+[[0 1 0 (C07C03)][1 2 0 (C03C07)][2 3 0 (C07C07)][3 4 0 (C07C05)][4 5 0 (C05C08)]]
+[0]
+
+mom is a human now .
+[(LEFT-WALL)(mom)(is)(a)(human)(now)(.)]
+[[0 1 0 (C07C01)][1 2 0 (C01C07)][2 3 0 (C07C07)][3 4 0 (C07C05)][4 5 0 (C05C06)][5 6 0 (C06C08)]]
+[0]
+
+dad is a human now .
+[(LEFT-WALL)(dad)(is)(a)(human)(now)(.)]
+[[0 1 0 (C07C01)][1 2 0 (C01C07)][2 3 0 (C07C07)][3 4 0 (C07C05)][4 5 0 (C05C06)][5 6 0 (C06C08)]]
+[0]
+
+mom is a parent now .
+[(LEFT-WALL)(mom)(is)(a)(parent)(now)(.)]
+[[0 1 0 (C07C01)][1 2 0 (C01C07)][2 3 0 (C07C07)][3 4 0 (C07C05)][4 5 0 (C05C06)][5 6 0 (C06C08)]]
+[0]
+
+dad is a parent now .
+[(LEFT-WALL)(dad)(is)(a)(parent)(now)(.)]
+[[0 1 0 (C07C01)][1 2 0 (C01C07)][2 3 0 (C07C07)][3 4 0 (C07C05)][4 5 0 (C05C06)][5 6 0 (C06C08)]]
+[0]
+
+son is a child now .
+[(LEFT-WALL)(son)(is)(a)(child)(now)(.)]
+[[0 1 0 (C07C02)][1 2 0 (C02C07)][2 3 0 (C07C07)][3 4 0 (C07C05)][4 5 0 (C05C06)][5 6 0 (C06C08)]]
+[0]
+
+daughter is a child now .
+[(LEFT-WALL)(daughter)(is)(a)(child)(now)(.)]
+[[0 1 0 (C07C02)][1 2 0 (C02C07)][2 3 0 (C07C07)][3 4 0 (C07C05)][4 5 0 (C05C06)][5 6 0 (C06C08)]]
+[0]
+
+son is a human now .
+[(LEFT-WALL)(son)(is)(a)(human)(now)(.)]
+[[0 1 0 (C07C02)][1 2 0 (C02C07)][2 3 0 (C07C07)][3 4 0 (C07C05)][4 5 0 (C05C06)][5 6 0 (C06C08)]]
+[0]
+
+daughter is a human now .
+[(LEFT-WALL)(daughter)(is)(a)(human)(now)(.)]
+[[0 1 0 (C07C02)][1 2 0 (C02C07)][2 3 0 (C07C07)][3 4 0 (C07C05)][4 5 0 (C05C06)][5 6 0 (C06C08)]]
+[0]
+
+mom likes cake now .
+[(LEFT-WALL)(mom)(likes)(cake)(now)(.)]
+[[0 1 0 (C07C01)][1 2 0 (C01C04)][2 3 0 (C04C03)][3 4 0 (C03C06)][4 5 0 (C06C08)]]
+[0]
+
+daughter likes cake now .
+[(LEFT-WALL)(daughter)(likes)(cake)(now)(.)]
+[[0 1 0 (C07C02)][1 2 0 (C02C04)][2 3 0 (C04C03)][3 4 0 (C03C06)][4 5 0 (C06C08)]]
+[0]
+
+son likes sausage now .
+[(LEFT-WALL)(son)(likes)(sausage)(now)(.)]
+[[0 1 0 (C07C02)][1 2 0 (C02C04)][2 3 0 (C04C03)][3 4 0 (C03C06)][4 5 0 (C06C08)]]
+[0]
+
+dad likes sausage now .
+[(LEFT-WALL)(dad)(likes)(sausage)(now)(.)]
+[[0 1 0 (C07C01)][1 2 0 (C01C04)][2 3 0 (C04C03)][3 4 0 (C03C06)][4 5 0 (C06C08)]]
+[0]
+
+cake is a food now .
+[(LEFT-WALL)(cake)(is)(a)(food)(now)(.)]
+[[0 1 0 (C07C03)][1 2 0 (C03C07)][2 3 0 (C07C07)][3 4 0 (C07C05)][4 5 0 (C05C06)][5 6 0 (C06C08)]]
+[0]
+
+sausage is a food now .
+[(LEFT-WALL)(sausage)(is)(a)(food)(now)(.)]
+[[0 1 0 (C07C03)][1 2 0 (C03C07)][2 3 0 (C07C07)][3 4 0 (C07C05)][4 5 0 (C05C06)][5 6 0 (C06C08)]]
+[0]
+
+mom was a daughter before .
+[(LEFT-WALL)(mom)(was)(a)(daughter)([before])([.])]
+[[0 1 0 (C07C01)][1 2 0 (C01C11)][2 3 0 (C11C07)][3 4 0 (C07C02)]]
+[0]
+
+dad was a son before .
+[(LEFT-WALL)(dad)(was)(a)(son)([before])([.])]
+[[0 1 0 (C07C01)][1 2 0 (C01C11)][2 3 0 (C11C07)][3 4 0 (C07C02)]]
+[0]
+
+mom was not a parent before .
+[(LEFT-WALL)(mom)(was)(not)(a)(parent)(before)(.)]
+[[0 1 0 (C07C01)][1 2 0 (C01C11)][2 3 0 (C11C10)][3 4 0 (C10C07)][4 5 0 (C07C05)][5 6 0 (C05C06)][6 7 0 (C06C08)]]
+[0]
+
+dad was not a parent before .
+[(LEFT-WALL)(dad)(was)(not)(a)(parent)(before)(.)]
+[[0 1 0 (C07C01)][1 2 0 (C01C11)][2 3 0 (C11C10)][3 4 0 (C10C07)][4 5 0 (C07C05)][5 6 0 (C05C06)][6 7 0 (C06C08)]]
+[0]
+
+mom liked cake before .
+[(LEFT-WALL)(mom)(liked)(cake)(before)(.)]
+[[0 1 0 (C07C01)][1 2 0 (C01C09)][2 3 0 (C09C03)][3 4 0 (C03C06)][4 5 0 (C06C08)]]
+[0]
+
+dad liked sausage before .
+[(LEFT-WALL)(dad)(liked)(sausage)(before)(.)]
+[[0 1 0 (C07C01)][1 2 0 (C01C09)][2 3 0 (C09C03)][3 4 0 (C03C06)][4 5 0 (C06C08)]]
+[0]
+
+cake was a food before .
+[(LEFT-WALL)(cake)(was)(a)(food)(before)(.)]
+[[0 1 0 (C07C03)][1 2 0 (C03C11)][2 3 0 (C11C07)][3 4 0 (C07C05)][4 5 0 (C05C06)][5 6 0 (C06C08)]]
+[0]
+
+sausage was a food before .
+[(LEFT-WALL)(sausage)(was)(a)(food)(before)(.)]
+[[0 1 0 (C07C03)][1 2 0 (C03C11)][2 3 0 (C11C07)][3 4 0 (C07C05)][4 5 0 (C05C06)][5 6 0 (C06C08)]]
+[0]
+
+Bye.
+

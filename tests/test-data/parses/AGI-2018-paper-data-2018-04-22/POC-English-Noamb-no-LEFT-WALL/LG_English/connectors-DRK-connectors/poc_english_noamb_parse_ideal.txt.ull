@@ -1,0 +1,162 @@
+a mom is [a] human [.] 
+1 a 2 mom
+2 mom 3 is
+3 is 5 human
+
+a dad is [a] human [.] 
+1 a 2 dad
+2 dad 3 is
+3 is 5 human
+
+a mom is [a] parent [.] 
+1 a 2 mom
+2 mom 3 is
+3 is 5 parent
+
+a dad is [a] parent [.] 
+1 a 2 dad
+2 dad 3 is
+3 is 5 parent
+
+a son is [a] child [.] 
+1 a 2 son
+2 son 3 is
+3 is 5 child
+
+a daughter is [a] child [.] 
+1 a 2 daughter
+2 daughter 3 is
+3 is 5 child
+
+a son is [a] human [.] 
+1 a 2 son
+2 son 3 is
+3 is 5 human
+
+a daughter is [a] human [.] 
+1 a 2 daughter
+2 daughter 3 is
+3 is 5 human
+
+a mom likes cake [.] 
+1 a 2 mom
+2 mom 3 likes
+3 likes 4 cake
+
+a daughter likes cake [.] 
+1 a 2 daughter
+2 daughter 3 likes
+3 likes 4 cake
+
+a son likes sausage [.] 
+1 a 2 son
+2 son 3 likes
+3 likes 4 sausage
+
+a dad likes sausage [.] 
+1 a 2 dad
+2 dad 3 likes
+3 likes 4 sausage
+
+cake is [a] food [.] 
+1 cake 2 is
+2 is 4 food
+
+sausage is [a] food [.] 
+1 sausage 2 is
+2 is 4 food
+
+mom is [a] human [now] [.] 
+1 mom 2 is
+2 is 4 human
+
+dad is [a] human [now] [.] 
+1 dad 2 is
+2 is 4 human
+
+mom is [a] [parent] now [.] 
+1 mom 2 is
+2 is 5 now
+
+dad is [a] [parent] now [.] 
+1 dad 2 is
+2 is 5 now
+
+son is [a] [child] now [.] 
+1 son 2 is
+2 is 5 now
+
+daughter is [a] [child] now [.] 
+1 daughter 2 is
+2 is 5 now
+
+son is [a] [human] now [.] 
+1 son 2 is
+2 is 5 now
+
+daughter is [a] [human] now [.] 
+1 daughter 2 is
+2 is 5 now
+
+mom likes [cake] now [.] 
+1 mom 2 likes
+2 likes 4 now
+
+daughter likes [cake] now [.] 
+1 daughter 2 likes
+2 likes 4 now
+
+son likes [sausage] now [.] 
+1 son 2 likes
+2 likes 4 now
+
+dad likes [sausage] now [.] 
+1 dad 2 likes
+2 likes 4 now
+
+cake is [a] food [now] [.] 
+1 cake 2 is
+2 is 4 food
+
+sausage is [a] food [now] [.] 
+1 sausage 2 is
+2 is 4 food
+
+mom was [a] daughter before [.] 
+1 mom 2 was
+2 was 4 daughter
+4 daughter 5 before
+
+dad was [a] son before [.] 
+1 dad 2 was
+2 was 4 son
+4 son 5 before
+
+mom was [not] [a] parent before [.] 
+1 mom 2 was
+2 was 5 parent
+5 parent 6 before
+
+dad was [not] [a] parent before [.] 
+1 dad 2 was
+2 was 5 parent
+5 parent 6 before
+
+mom liked cake [before] [.] 
+1 mom 2 liked
+2 liked 3 cake
+
+dad liked sausage [before] [.] 
+1 dad 2 liked
+2 liked 3 sausage
+
+cake was [a] food before [.] 
+1 cake 2 was
+2 was 4 food
+4 food 5 before
+
+sausage was [a] food before [.] 
+1 sausage 2 was
+2 was 4 food
+4 food 5 before
+

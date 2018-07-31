@@ -1,0 +1,56 @@
+% Grammar Learner v.0.8 2018-04-22 17:52:28 UTC
+<dictionary-version-number>: V0v0v8+;
+<dictionary-locale>: EN4us+;
+
+% C01
+"was":
+({C05C01- or C06C01- or C07C01-} & {C01C08+ or C01C09+ or C01C10+});
+
+% C02
+"liked" "likes":
+({C05C02- or C07C02- or C08C02-} & {C02C06+ or C02C11+}) or ({C05C02- or C07C02-} & {C02C06+ or C02C10+});
+
+% C03
+"is":
+({C05C03- or C06C03- or C07C03- or C08C03-} & {C03C09+ or C03C11+});
+
+% C04
+"a":
+(C04C07+ or C04C08+ or C04C09+);
+
+% C05
+"LEFT-WALL":
+(C05C01+ or C05C02+ or C05C03+ or C05C06+ or C05C07+ or C05C08+ or C05C12+);
+
+% C06
+"cake" "sausage":
+({C02C06- or C05C06-} & {C06C01+ or C06C03+});
+
+% C07
+"dad" "mom":
+({C04C07- or C05C07-} & {C07C01+ or C07C02+ or C07C03+});
+
+% C08
+"daughter" "son":
+({C01C08- or C04C08- or C05C08-} & {C08C02+ or C08C03+});
+
+% C09
+"child" "food" "human" "parent":
+(C01C09- or C03C09- or C04C09-) or (C03C09- or C04C09-);
+
+% C10
+"before" "not":
+(C01C10-) or (C01C10- or C02C10-);
+
+% C11
+"now":
+(C02C11- or C03C11-);
+
+% C12
+".":
+(C05C12-);
+
+UNKNOWN-WORD: XXX+;
+
+% 12 word clusters, 12 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period/MST_fixed_manually/connectors-DRK-connectors/poc-english_12C_2018-04-22_0008.4.0.dict

@@ -1,0 +1,84 @@
+% Grammar Learner v.0.8 2018-04-22 17:54:46 UTC
+<dictionary-version-number>: V0v0v8+;
+<dictionary-locale>: EN4us+;
+
+% C01
+".":
+(C03C01-) or (C04C01-) or (C05C01-) or (C08C01-) or (C09C01-) or (C15C01-) or (C16C01-) or (C17C01-);
+
+% C02
+"a":
+(C02C05+) or (C02C06+) or (C02C07+) or (C02C09+) or (C02C13+) or (C02C18+) or (C10C02-) or (C10C02- & C02C16+) or (C14C02-) or (C19C02-);
+
+% C03
+"before":
+(C11C03- & C03C01+) or (C14C03- & C03C01+) or (C19C03- & C03C01+) or (C19C03- & C08C03- & C03C01+);
+
+% C04
+"cake":
+(C04C08+) or (C04C19+) or (C11C04-) or (C12C04- & C07C04- & C04C01+) or (C12C04- & C07C04- & C04C15+) or (C12C04- & C13C04- & C04C01+) or (C12C04- & C13C04- & C04C15+);
+
+% C05
+"child":
+(C07C05- & C02C05- & C10C05- & C05C01+) or (C07C05- & C10C05- & C05C15+) or (C10C05- & C18C05- & C02C05- & C05C01+) or (C10C05- & C18C05- & C05C15+);
+
+% C06
+"dad":
+(C02C06- & C06C10+) or (C02C06- & C06C16+) or (C02C06- & C06C17+) or (C06C10+) or (C06C11+) or (C06C14+) or (C06C16+) or (C06C17+) or (C06C19+);
+
+% C07
+"daughter":
+(C02C07- & C07C04+) or (C07C04+) or (C07C05+) or (C07C10+) or (C19C07- & C02C07-);
+
+% C08
+"food":
+(C08C03+) or (C10C08- & C04C08- & C08C01+) or (C10C08- & C04C08- & C08C15+) or (C17C08- & C10C08- & C08C01+) or (C17C08- & C10C08- & C08C15+);
+
+% C09
+"human":
+(C10C09- & C02C09- & C09C01+) or (C10C09- & C09C01+) or (C10C09- & C09C15+);
+
+% C10
+"is":
+(C06C10- & C10C09+ & C10C02+) or (C07C10- & C10C09+ & C10C02+) or (C10C02+) or (C10C05+ & C10C02+) or (C10C08+ & C10C02+) or (C13C10- & C10C09+ & C10C02+) or (C18C10- & C10C09+ & C10C02+);
+
+% C11
+"liked":
+(C06C11- & C11C17+ & C11C03+) or (C13C11- & C11C03+ & C11C04+);
+
+% C12
+"likes":
+(C12C04+) or (C12C17+);
+
+% C13
+"mom":
+(C02C13- & C13C04+) or (C02C13- & C13C10+) or (C02C13- & C13C16+) or (C13C04+) or (C13C10+) or (C13C11+) or (C13C14+) or (C13C16+) or (C13C19+);
+
+% C14
+"not":
+(C13C14- & C19C14- & C14C03+ & C14C02+ & C14C16+) or (C19C14- & C06C14- & C14C03+ & C14C02+ & C14C16+);
+
+% C15
+"now":
+(C04C15- & C15C01+) or (C05C15- & C15C01+) or (C08C15- & C15C01+) or (C09C15- & C15C01+) or (C16C15- & C15C01+) or (C17C15- & C15C01+);
+
+% C16
+"parent":
+(C02C16- & C06C16- & C16C01+) or (C02C16- & C06C16- & C16C15+) or (C02C16- & C13C16- & C16C01+) or (C02C16- & C13C16- & C16C15+) or (C14C16-);
+
+% C17
+"sausage":
+(C11C17-) or (C12C17- & C06C17- & C17C01+) or (C12C17- & C06C17- & C17C15+) or (C12C17- & C18C17- & C17C01+) or (C12C17- & C18C17- & C17C15+) or (C17C08+) or (C17C19+);
+
+% C18
+"son":
+(C02C18- & C18C17+) or (C18C05+) or (C18C10+) or (C18C17+) or (C19C18- & C02C18-);
+
+% C19
+"was":
+(C04C19- & C19C03+ & C19C02+) or (C06C19- & C19C18+ & C19C03+) or (C13C19- & C19C07+ & C19C03+) or (C17C19- & C19C02+ & C19C03+) or (C19C14+);
+
+UNKNOWN-WORD: XXX+;
+
+% 19 word clusters, 19 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-Noamb-no-LEFT-WALL/R=6_distance=1/disjuncts-ILE-disjuncts/poc-english_19C_2018-04-22_0008.4.0.dict

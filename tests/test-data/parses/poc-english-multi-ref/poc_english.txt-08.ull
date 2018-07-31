@@ -1,0 +1,88 @@
+mom sawed the wood with a saw . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 sawed
+0 ###LEFT-WALL### 8 .
+1 mom 2 sawed
+2 sawed 4 wood
+2 sawed 5 with
+3 the 4 wood
+5 with 7 saw
+6 a 7 saw
+
+dad sawed the wood with a saw . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 sawed
+0 ###LEFT-WALL### 8 .
+1 dad 2 sawed
+2 sawed 4 wood
+2 sawed 5 with
+3 the 4 wood
+5 with 7 saw
+6 a 7 saw
+
+son sawed the wood with a saw . 
+0 ###LEFT-WALL### 1 son
+0 ###LEFT-WALL### 2 sawed
+0 ###LEFT-WALL### 8 .
+1 son 2 sawed
+2 sawed 4 wood
+2 sawed 5 with
+3 the 4 wood
+5 with 7 saw
+6 a 7 saw
+
+daughter sawed the wood with a saw . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 sawed
+0 ###LEFT-WALL### 8 .
+1 daughter 2 sawed
+2 sawed 4 wood
+2 sawed 5 with
+3 the 4 wood
+5 with 7 saw
+6 a 7 saw
+
+mom knocked the wood with a hammer . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 knocked
+0 ###LEFT-WALL### 8 .
+1 mom 2 knocked
+2 knocked 4 wood
+2 knocked 5 with
+3 the 4 wood
+5 with 7 hammer
+6 a 7 hammer
+
+dad knocked the wood with a hammer . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 knocked
+0 ###LEFT-WALL### 8 .
+1 dad 2 knocked
+2 knocked 4 wood
+2 knocked 5 with
+3 the 4 wood
+5 with 7 hammer
+6 a 7 hammer
+
+son knocked the wood with a hammer . 
+0 ###LEFT-WALL### 1 son
+0 ###LEFT-WALL### 2 knocked
+0 ###LEFT-WALL### 8 .
+1 son 2 knocked
+2 knocked 4 wood
+2 knocked 5 with
+3 the 4 wood
+5 with 7 hammer
+6 a 7 hammer
+
+daughter knocked the wood with a hammer . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 knocked
+0 ###LEFT-WALL### 8 .
+1 daughter 2 knocked
+2 knocked 4 wood
+2 knocked 5 with
+3 the 4 wood
+5 with 7 hammer
+6 a 7 hammer
+

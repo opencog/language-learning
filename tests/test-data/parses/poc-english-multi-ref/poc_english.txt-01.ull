@@ -1,0 +1,120 @@
+a mom is a human . 
+0 ###LEFT-WALL### 2 mom
+0 ###LEFT-WALL### 3 is
+0 ###LEFT-WALL### 6 .
+1 a 2 mom
+2 mom 3 is
+3 is 5 human
+4 a 5 human
+
+a dad is a human . 
+0 ###LEFT-WALL### 2 dad
+0 ###LEFT-WALL### 3 is
+0 ###LEFT-WALL### 6 .
+1 a 2 dad
+2 dad 3 is
+3 is 5 human
+4 a 5 human
+
+a mom is a parent . 
+0 ###LEFT-WALL### 2 mom
+0 ###LEFT-WALL### 3 is
+0 ###LEFT-WALL### 6 .
+1 a 2 mom
+2 mom 3 is
+3 is 5 parent
+4 a 5 parent
+
+a dad is a parent . 
+0 ###LEFT-WALL### 2 dad
+0 ###LEFT-WALL### 3 is
+0 ###LEFT-WALL### 6 .
+1 a 2 dad
+2 dad 3 is
+3 is 5 parent
+4 a 5 parent
+
+a son is a child . 
+0 ###LEFT-WALL### 2 son
+0 ###LEFT-WALL### 3 is
+0 ###LEFT-WALL### 6 .
+1 a 2 son
+2 son 3 is
+3 is 5 child
+4 a 5 child
+
+a daughter is a child . 
+0 ###LEFT-WALL### 2 daughter
+0 ###LEFT-WALL### 3 is
+0 ###LEFT-WALL### 6 .
+1 a 2 daughter
+2 daughter 3 is
+3 is 5 child
+4 a 5 child
+
+a son is a human . 
+0 ###LEFT-WALL### 2 son
+0 ###LEFT-WALL### 3 is
+0 ###LEFT-WALL### 6 .
+1 a 2 son
+2 son 3 is
+3 is 5 human
+4 a 5 human
+
+a daughter is a human . 
+0 ###LEFT-WALL### 2 daughter
+0 ###LEFT-WALL### 3 is
+0 ###LEFT-WALL### 6 .
+1 a 2 daughter
+2 daughter 3 is
+3 is 5 human
+4 a 5 human
+
+a mom likes cake . 
+0 ###LEFT-WALL### 2 mom
+0 ###LEFT-WALL### 3 likes
+0 ###LEFT-WALL### 5 .
+1 a 2 mom
+2 mom 3 likes
+3 likes 4 cake
+
+a daughter likes cake . 
+0 ###LEFT-WALL### 2 daughter
+0 ###LEFT-WALL### 3 likes
+0 ###LEFT-WALL### 5 .
+1 a 2 daughter
+2 daughter 3 likes
+3 likes 4 cake
+
+a son likes sausage . 
+0 ###LEFT-WALL### 2 son
+0 ###LEFT-WALL### 3 likes
+0 ###LEFT-WALL### 5 .
+1 a 2 son
+2 son 3 likes
+3 likes 4 sausage
+
+a dad likes sausage . 
+0 ###LEFT-WALL### 2 dad
+0 ###LEFT-WALL### 3 likes
+0 ###LEFT-WALL### 5 .
+1 a 2 dad
+2 dad 3 likes
+3 likes 4 sausage
+
+cake is a food . 
+0 ###LEFT-WALL### 1 cake
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 cake 2 is
+2 is 4 food
+3 a 4 food
+
+sausage is a food . 
+0 ###LEFT-WALL### 1 sausage
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 sausage 2 is
+2 is 4 food
+3 a 4 food
+

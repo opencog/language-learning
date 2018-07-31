@@ -1,0 +1,32 @@
+% Grammar Learner v.0.8 2018-04-22 17:33:59 UTC
+<dictionary-version-number>: V0v0v8+;
+<dictionary-locale>: EN4us+;
+
+% C01
+"has" "isa":
+(C05C01- & C01C04+) or (C05C01- & C01C05+) or (C06C01- & C01C04+) or (C06C01- & C01C05+);
+
+% C02
+".":
+(C04C02-) or (C05C02-);
+
+% C03
+"LEFT-WALL":
+(C03C05+) or (C03C06+);
+
+% C04
+"bird" "extremity" "fish":
+(C01C04- & C04C02+);
+
+% C05
+"feather" "fin" "scale" "wing":
+(C01C05- & C05C02+) or (C03C05- & C05C01+);
+
+% C06
+"eagle" "herring" "parrot" "tuna":
+(C03C06- & C06C01+);
+
+UNKNOWN-WORD: XXX+;
+
+% 6 word clusters, 6 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-Turtle-LEFT-WALL+period/MST_fixed_manually/connectors-DRK-disjuncts/poc-turtle_6C_2018-04-22_0008.4.0.dict

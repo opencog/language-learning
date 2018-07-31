@@ -43,8 +43,8 @@ MOD_ULL_SENT        = 3                 # ULL sentence
 MAX_MODE_VALUE      = MOD_ULL_SENT
 DEFAULT_MODE        = MOD_DIAGRAM
 
-MAX_LINKAGE_LIMIT   = 25                # maximum linkages restriction
-DEFAULT_LIMIT       = 1                 # default number of linkages
+MAX_LINKAGE_LIMIT   = 1000              # maximum linkages restriction
+DEFAULT_LIMIT       = 1000              # default number of linkages
 
 DEFAULT_LANGUAGE = "poc-turtle"
 

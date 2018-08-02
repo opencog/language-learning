@@ -1,9 +1,8 @@
-#!/usr/bin/env python3
 #language-learning/src/grammar_learner/write_files.py 80725
 import os
-from src.grammar_learner.utl import UTC
+from utl import UTC
 
-def list2file(lst, out_file):  # 80321 Turtle-8 - 80330 moved here from .utl.utl
+def list2file(lst, out_file):  # 80321
     string = ''
     for i,line in enumerate(lst):
         if i > 0: string += '\n'

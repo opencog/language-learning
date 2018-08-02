@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 #language-learning/src/grammar_learner/generalization.py 0.5 80725
 
 def aggregate(categories, threshold, similarity_function, verbose='none'):
@@ -227,28 +226,6 @@ def aggregate_word_categories(clusters, **kwargs):  # 80523 +updates ~80616
     return categories, log
 
 
-def cats2list(cats):    #80609
-    # cats: {'cluster':[], 'words':[], ...} #80609
-    categories = []
-    for i,cluster in enumerate(cats['cluster']):
-        category = []
-        category.append(cats['cluster'][i])
-        category.append(cats['parent'][i])
-        category.append(i)
-        category.append(round(cats['quality'][i],2))
-        category.append(sorted(cats['words'][i]))
-        if 'disjuncts' in cats.keys():
-            category.append(sorted(cats['disjuncts'][i]))
-        else: category.append('no data')
-        if 'djs' in cats.keys():
-            category.append(sorted(cats['djs'][i]))
-        else: category.append(' - ')
-        category.append(cats['similarities'][i])
-        category.append(cats['children'][i])
-        categories.append(category)
-    return categories
-
-
 def generalize_rules(categories, **kwargs):     #80622
     # categories: {'cluster':[], 'words': [], 'disjuncts':[], ...]) from ile_df2cats_dict(clusters)
     def kwa(v,k): return kwargs[k] if k in kwargs else v
@@ -310,5 +287,9 @@ def generalize_rules(categories, **kwargs):     #80622
         {'similarity_thresholds': sims, 'updated_disjuncts': counter}
 
 
+#Notes:
+
 #80725 POC 0.1-0.4 deleted, 0.5 restructured
+#80802 poc05.py restructured, cats2list moved to category_learner.py,
+    #cats2list copird to poc05.py for tmp compatibility
 #TODO: aggregate_cosine - see grammar_learner poc04.

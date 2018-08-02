@@ -1,9 +1,9 @@
-#!/usr/bin/env python3
-#language-learning/src/grammar_learner/poc05.py 0.5 80528-80725
+#language-learning/src/grammar_learner/poc05.py 80528-80725, restructured 80802
+#FIXME:DEL / keep poc05.py+pqa05.py for a while to back-test further dev
 from IPython.display import display
 from widgets import html_table
 
-# Category Learner  #80625
+'''Category Learner 0.5 80625'''
 
 def group_links(links, verbose):  #80428
     import pandas as pd
@@ -71,10 +71,10 @@ def category_learner(links, **kwargs):      #80619 POC.0.5 #80726
     from utl import UTC, round1, round2  #, round3, round4, round5
     from read_files import check_dir #, check_mst_files
     from hyperwords import vector_space_dim, pmisvd
-    from clustering import number_of_clusters, clusters2list
-    from kmeans import cluster_words_kmeans
+    #-from clustering import number_of_clusters, clusters2list  #80802
+    from kmeans import number_of_clusters, cluster_words_kmeans #80802
     from write_files import list2file, save_link_grammar
-    #TODO: from ? import group_links
+    #?from poc05 import group_links  #this module
 
     from collections import OrderedDict
     log = OrderedDict()
@@ -167,7 +167,7 @@ def category_learner(links, **kwargs):      #80619 POC.0.5 #80726
 def induce_grammar(categories, links, verbose='none'):
     # categories: {'cluster': [], 'words': [], ...}
     # links: pd.DataFrame (legacy)
-    from generalization import cats2list
+    #-from generalization import cats2list  #80802 copied here
     import copy
     if verbose in ['max','debug']:
         print(UTC(),':: induce_grammar: categories.keys():', categories.keys())
@@ -222,8 +222,7 @@ def induce_grammar(categories, links, verbose='none'):
                    'total_clusters': len(rules['cluster']) - 1}
 
 
-'''Learn Grammar :: Integration'''
-
+'''Learn_Grammar :: Integration'''
 
 def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     # input_parses - dir with .txt files
@@ -270,12 +269,11 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     from utl import UTC
     from read_files import check_dir, check_mst_files
     from pparser import files2links
-    from clustering import clusters2dict
-    #TODO: from ? import category_learner
-    #TODO: from ? import induce_grammar
+    #-from clustering import clusters2dict
+    #?from poc05 import category_learner    #this module
+    #?from poc05 import induce_grammar      #this module
     from write_files import list2file, save_link_grammar, save_cat_tree
-    from generalization import generalize_categories, generalize_rules, \
-        cats2list #, reorder, aggregate, aggregate_word_categories\
+    from generalization import generalize_categories, generalize_rules
 
     from collections import OrderedDict
     log = OrderedDict({'start': str(UTC()), 'learn_grammar': '80605'})
@@ -467,7 +465,29 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):
     else: raise FileNotFoundError('File not found', input_parses)
 
 
-#_Notes
+def cats2list(cats):    #80609  #80802: copied here from generalization.py
+    # cats: {'cluster':[], 'words':[], ...} #80609
+    categories = []
+    for i,cluster in enumerate(cats['cluster']):
+        category = []
+        category.append(cats['cluster'][i])
+        category.append(cats['parent'][i])
+        category.append(i)
+        category.append(round(cats['quality'][i],2))
+        category.append(sorted(cats['words'][i]))
+        if 'disjuncts' in cats.keys():
+            category.append(sorted(cats['disjuncts'][i]))
+        else: category.append('no data')
+        if 'djs' in cats.keys():
+            category.append(sorted(cats['djs'][i]))
+        else: category.append(' - ')
+        category.append(cats['similarities'][i])
+        category.append(cats['children'][i])
+        categories.append(category)
+    return categories
+
+
+#Notes:
 
 #80419 update links2stalks strict_rules ⇒ changes in disjunct-based rules !:)
 #80511 0.4 kwargs, params, run_learn_grammar
@@ -475,3 +495,7 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):
 #80629 0.5 hierarchical cat_tree ⇒ agglomerative generalization
 #80718 update git push from 94..server
 #80725 POC 0.1-0.4 deleted, 0.5 restructured, imports updated
+#80802 restructured ⇒ category_learner.py, grammar_inducer.py, learner.py,
+    #_params ⇒ pqa_table.py (new), old pqa_table.py ⇒ pqa05.py
+    #_cats2list copied here, moved from generalization.py ⇒ category_learner
+    #POC.0.5 legacy: poc05.py, pqa.py, kmeans.py. Other files - further dev...

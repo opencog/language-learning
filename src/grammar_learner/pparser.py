@@ -1,69 +1,6 @@
-#!/usr/bin/env python3
-#language-learning/src/graammar_learner/pparser.py  #80726
+#language-learning/src/graammar_learner/pparser.py  #80726  #80802
 import numpy as np
 import pandas as pd
-
-def corpus_stats(lines, extended = False):  #80716 #TODO: 80718 enhance issue
-    # lines = []
-    from collections import Counter
-    words = Counter()
-    npw = Counter()     #:non-parsed words
-    lefts = Counter()   #:left words in links
-    rights = Counter()  #:right words in links
-    links = Counter()   #:tuples: (left,right)
-
-    sentence_lengths = []
-    for line in lines:
-        if(len(line)) > 1:
-            x = line.split()
-            if len(x) == 4 and x[0].isdigit() and x[2].isdigit():
-                if x[1] != '###LEFT-WALL###' and x[3] != '.':
-                    links[(x[1], x[3])] += 1
-                    lefts[x[1]] += 1
-                    rights[x[3]] += 1
-            elif len(x) > 0:  # sentence:
-                sentence_lengths.append(len(x))
-                for word in x:
-                    if word not in ['###LEFT-WALL###', '.']:
-                        if word[0] == '[' and word[-1] == ']':
-                            npw[word[1:-1]] += 1    #:non-parsed [words] in sentences
-                        else: words[word] += 1      #:parsed words in sentences
-    if len(sentence_lengths) > 0:
-        asl = int(round(sum(words.values())/len(sentence_lengths),0))
-    else: asl = 0
-    if len(words) > 0:
-        apwc = int(round(sum(words.values())/len(words),0))
-    else: apwc = 0
-    if len(links) > 0:
-        aplc = int(round(sum(links.values())/len(links),0))
-    else: aplc = 0
-    unpw = set(npw) - set(words)    #:unique non-parsed words
-    lost_words = set(words) - (set(lefts)|set(rights))  #:unique words not mentioned in links
-    response = {
-        'corpus_stats': [
-            ['Number of sentences', len(sentence_lengths)],
-            ['Average sentence length', asl],
-            ['Number of unique parsed words in sentences', len(words)],
-            ['Number of unique non-parsed [words] in sentences', len(unpw)],
-            ['Total words count in sentences', sum(words.values())],
-            ['Non-parsed [words] count in sentences', sum(npw.values())],
-            ['Average per-word counts', apwc],
-            ['Number of unique links', len(links)],
-            ['Total links count', sum(links.values())],
-            ['Average per-link count', aplc]
-        ],
-        'links_stats': {
-            'unique_left_words': len(lefts),
-            'unique_right_words': len(rights),
-            'left_&_right_intersection': len(lefts & rights),
-            'left_|_right_union': len(lefts | rights),
-            'lost_words': len(lost_words),
-            'non_parsed|lost_words': len(unpw | lost_words)
-        }
-    }
-    if extended:
-        response.update({'lost_words': lost_words, 'unpw': unpw, 'words': set(words)})
-    return response  #endof corpus_stats
 
 
 def mst2words(lines, **kwargs):         #80717
@@ -168,7 +105,6 @@ def mst2disjuncts(lines, **kwargs):     #80717 +80726 debug dILEd case (lost LW)
 
 
 def files2links(**kwargs):
-    #80406 +TODO: control & limit number of links in disjuncts
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     parse_mode      = kwa('lower',  'parse_mode')    # 'casefold' ? #80714
     # parse_mode: 'given'~ as parsed, 'lower', 'casefold', 'explode' ⇒ maniana...
@@ -187,6 +123,8 @@ def files2links(**kwargs):
     #?           1: connectors: ab » a:b+, b:a-
     #?           2: disjuncts: abc » a:b+, b:a-, b:a-&c+ ...
     #?           n>1 disjuncts up to n connectors per germ
+
+    from corpus_stats import corpus_stats
 
     df = pd.DataFrame(columns=['word','link','count'])
 
@@ -220,7 +158,7 @@ def files2links(**kwargs):
     parsed_links = len(df)
 
     if verbose in ['max','debug']:
-        print('src.space.poc05 files2links: parsed_links = len(df) before group:', parsed_links)
+        print('pparser.py files2links: parsed_links = len(df) before group:', parsed_links)
 
     if group:  #Always True?  #FIXME:?
         df = df.groupby(['word','link'], as_index=False).sum() \
@@ -240,7 +178,8 @@ def files2links(**kwargs):
     return df, response
 
 
-#80331 cleanup
+#Notes:
+
 #80406 POC: Proof of Concepf: Grammar Learner 0.1, POC-English-NoAmb
 #80507 kwargs ⇒ files2links
 #80528 poc04 ⇒ poc05
@@ -251,3 +190,5 @@ def files2links(**kwargs):
 #80716 conflicts - manual cleanup
 #80717 update, 80718 commit from 94..server
 #80725 POC 0.1-0.4 deleted, 0.5 restructured - this module was src/space/poc05.py
+#80802 corpus_stats ⇒ corpus_stats.py
+#TODO: control & limit number of links in disjuncts? #80406

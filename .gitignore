@@ -116,4 +116,5 @@ ENV/
 /tdd
 /tdn
 /xtraz
+.ftpconfig
 .ftpignore

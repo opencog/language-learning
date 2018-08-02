@@ -22,10 +22,6 @@ def Load_File(filename):
         data = file.readlines()
     print("Finished loading")
 
-    # remove initial newlines, if any
-    # while data[0] == "\n":
-    #     data.pop(0)
-
     return data
 
 def Get_Parses(data):
@@ -184,6 +180,9 @@ def main(argv):
     ref_parses, ref_sents = Get_Parses(ref_data) 
     if len(test_parses) != len(ref_parses):
         sys.exit("ERROR: Number of parses differs in files")
+    # for rs, ts in zip(ref_sents, dummy):
+    #     print("Sentence pair:")
+    #     print(rs, ts)
     Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore_WALL)
 
 if __name__ == '__main__':

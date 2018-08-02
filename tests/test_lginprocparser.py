@@ -1,8 +1,10 @@
 import unittest
 import sys
 # from link_grammar.inprocparser import parse_batch_ps_output, parse_file_with_lgp, parse_file_with_lgp0
-from grammar_tester.optconst import *
-from grammar_tester.lginprocparser import LGInprocParser
+from ull.grammartest.optconst import *
+from ull.grammartest.lginprocparser import LGInprocParser
+# from ull.grammartest.optconst import *
+# from ull.grammartest.lginprocparser import LGInprocParser
 
 lg_post_output = """
 echo set to 1
@@ -102,6 +104,10 @@ class LGInprocParserTestCase(unittest.TestCase):
         num_sent = len(pr._parse_batch_ps_output(lg_post_explosion, 0))
         self.assertEqual(num_sent, 4, "'parse_batch_ps_output()' returns '{}' instead of '{}'".format(num_sent, 4))
 
+    # def test_parse_sent_count(self):
+    #     pr = LGInprocParser()
+    #     pr.parse("test-data/dict/poc-turtle", "test-data/corpora/poc-turtle/poc-turtle.txt", "/var/tmp/parse", None, 0)
+    #     self.assertEqual(12, 12)
 
     @unittest.skip
     def test_parse_file_with_lgp(self):

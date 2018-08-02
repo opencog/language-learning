@@ -1,9 +1,8 @@
 import unittest
 import os
-
-from grammar_tester.textfiledashb import TextFileDashboard, DashboardError
 from decimal import Decimal
 
+from ull.grammartest.textfiledashb import TextFileDashboard, DashboardError
 from ull.common.fileconfman import JsonFileConfigManager
 from ull.common.parsemetrics import ParseMetrics, ParseQuality
 

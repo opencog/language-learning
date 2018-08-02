@@ -1,14 +1,14 @@
 import unittest
 from decimal import Decimal
-from grammar_tester.grammartester import GrammarTester, test_grammar, test_grammar_cfg
-from grammar_tester.lginprocparser import LGInprocParser
-from grammar_tester.lgapiparser import LGApiParser
-from grammar_tester.optconst import *
+from ull.grammartest.grammartester import GrammarTester, test_grammar, test_grammar_cfg
+from ull.grammartest.lginprocparser import LGInprocParser
+from ull.grammartest.lgapiparser import LGApiParser
+from ull.grammartest.optconst import *
 # from common.cliutils import handle_path_string
 
-from common.fileconfman import JsonFileConfigManager
-from common.cliutils import handle_path_string
-from grammar_tester.textfiledashb import TextFileDashboard
+from ull.common.fileconfman import JsonFileConfigManager
+from ull.common.cliutils import handle_path_string
+from ull.grammartest.textfiledashb import TextFileDashboard
 
 tmpl = "/home/alex/data/dict/poc-turtle"
 grmr = "/home/alex/data/dict"
@@ -39,7 +39,7 @@ ref = None  # "/home/alex/data/poc-english/poc_english_noamb_parse_ideal.txt"
 
 class ParseTestCase(unittest.TestCase):
 
-    # @unittest.skip
+    @unittest.skip
     def test_test(self):
         pr = LGInprocParser()
         # pr = LGApiParser()

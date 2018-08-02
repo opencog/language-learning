@@ -2,9 +2,9 @@ import sys
 import os
 
 
-from ull.common.dirhelper import traverse_dir
+from ..common.dirhelper import traverse_dir
 from .parsestat import parse_quality
-from ull.common.parsemetrics import ParseQuality
+from ..common.parsemetrics import ParseQuality
 
 
 __all__ = ['load_ull_file', 'get_parses', 'eval_parses', 'compare_ull_files', 'EvalError']
@@ -260,7 +260,7 @@ def compare_ull_files(test_path, ref_file, verbose, ignore_left_wall) -> ParseQu
 
         # If specified name is a directory.
         elif os.path.isdir(test_path):
-            traverse_dir(test_path, ".ull2", evaluate, None, True)
+            traverse_dir(test_path, ".ull", evaluate, None, True)
 
         # If file or directory does not exist.
         else:

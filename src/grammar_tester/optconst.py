@@ -4,7 +4,7 @@ __all__ = [
     'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT', 'BIT_ULL_IN', 'BIT_RM_DIR',
     'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE', 'BIT_OUTPUT_ALL',
     'BIT_LG_GR_NAME', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'BIT_NO_LWALL', 'BIT_SEP_STAT', 'BIT_LOC_LANG',
-    'BIT_PARSE_QUALITY', 'BIT_NO_PERIOD', 'BIT_ULL_NO_LWALL', 'BIT_GRSUBDIR_CREATE', 'get_options'
+    'BIT_PARSE_QUALITY', 'BIT_NO_PERIOD', 'BIT_ULL_NO_LWALL', 'BIT_GRSUBDIR_CREATE', 'BIT_INPUT_TO_LCASE', 'get_options'
 ]
 
 # Output format constants. If no bits set, ULL defacto format is used.
@@ -14,7 +14,7 @@ BIT_OUTPUT_CONST_TREE   = 0b0100
 BIT_OUTPUT_ALL = BIT_OUTPUT_DIAGRAM | BIT_OUTPUT_POSTSCRIPT | BIT_OUTPUT_CONST_TREE
 BIT_OUTPUT = BIT_OUTPUT_ALL
 
-BIT_CAPS                = (1<<3)            # Keep capitalized letters in tokens
+BIT_CAPS                = (1<<3)            # Preserve capitalized letters in tokens
 BIT_RWALL               = (1<<4)            # Keep RIGHT-WALL tokens and the links
 BIT_STRIP               = (1<<5)            # Strip off token suffixes
 BIT_ULL_IN              = (1<<6)            # If set, parse_file_with_api() is informed that ULL parses are used
@@ -33,6 +33,7 @@ BIT_PARSE_QUALITY       = (1<<15)           # Compare links of .ull file and ref
 BIT_ULL_NO_LWALL        = (1<<16)           # Exclude LEFT-WALL from ULL output
 BIT_GRSUBDIR_CREATE     = (1<<17)           # Create subdirectories named after each grammar file if grammar directory
                                             #   has multiple .dict files in it.
+BIT_INPUT_TO_LCASE      = (1<<18)           # Convert input stream characters to lower case
 
 config_options = {
     "keep_caps": BIT_CAPS,
@@ -48,7 +49,8 @@ config_options = {
     "store_dict_localy": BIT_LOC_LANG,
     "calc_parse_quality": BIT_PARSE_QUALITY,
     "no_left_wall_in_ull": BIT_ULL_NO_LWALL,
-    "lg_grammar_name": BIT_LG_GR_NAME
+    "lg_grammar_name": BIT_LG_GR_NAME,
+    "input_to_lcase": BIT_INPUT_TO_LCASE
 }
 
 output_format = {

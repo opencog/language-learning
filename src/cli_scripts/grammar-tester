@@ -60,6 +60,9 @@ Usage:
         -D  <lang-short-name>   Language short name used by Link Grammar such as 'en' or 'ru'. One should avoid using
                                 '-D' option along with '-d'. If both options are specified the latest one occurered in
                                 the command line is used.
+        -I  --input-to-lcase    Convert input stream characters to lower case.
+        -T  <timeout-value>     Timeout value used by Link Grammar to restrict maximum amount of time spent for parsing
+                                one sentence.
     """
 
     dict_path       = None
@@ -71,19 +74,21 @@ Usage:
     template_path   = None
     reference_path  = None
     config_path     = None
+    timeout         = 300
 
     print("grammar-tester ver." + __version__)
     print("Python v." + platform.python_version())
 
     try:
-        opts, args = getopt.getopt(argv, "hcwrnubqexsLd:i:o:l:g:t:f:R:C:D:", ["help", "caps", "right-wall", "rm-dir",
+        opts, args = getopt.getopt(argv, "hcwrnubqexsLId:i:o:l:g:t:f:R:C:D:T:", ["help", "caps", "right-wall", "rm-dir",
                                                                         "no-strip", "ull-input", "best-linkage",
                                                                         "dict-path-recreate", "link-parser-exe",
                                                                         "no-left-wall", "separate-stat",
-                                                                        "local-lang-dir", "dictionary=", "input=",
+                                                                        "local-lang-dir", "input-to-lcase",
+                                                                        "dictionary=", "input=",
                                                                         "output=", "linkage-limit=", "grammar-dir=",
                                                                         "template-dir=", "output-format", "reference=",
-                                                                        "config=", "language="])
+                                                                        "config=", "language=", "lg-timeout="])
 
         for opt, arg in opts:
             if opt in ("-h", "--help"):
@@ -111,6 +116,8 @@ Usage:
                 options |= BIT_SEP_STAT
             elif opt in ("-L", "--local-lang-dir"):
                 options |= BIT_LOC_LANG
+            elif opt in ("-I", "--input-to-lcase"):
+                options |= BIT_INPUT_TO_LCASE
             elif opt in ("-d", "--dictionary"):
                 dict_path = handle_path_string(arg)
             elif opt in ("-i", "--input"):
@@ -138,10 +145,13 @@ Usage:
                 config_path = handle_path_string(arg)
             elif opt in ("-D", "--language"):
                 dict_path = strip_quotes(arg)
+            elif opt in ("-T", "--lg-timeout"):
+                timeout = int(arg)
 
         # print("options=" + bin(options) + " (" + hex(options) + ")")
 
-    except getopt.GetoptError:
+    except getopt.GetoptError as err:
+        print(str(err))
         print(main.__doc__)
         return 1
 
@@ -171,7 +181,7 @@ Usage:
     try:
         if config_path is None:
             test_grammar(input_path, output_path, dict_path, grammar_path, template_path,
-                               linkage_limit, options, reference_path)
+                               linkage_limit, options, reference_path, timeout)
         else:
             test_grammar_cfg(config_path)
 

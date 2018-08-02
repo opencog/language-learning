@@ -2,11 +2,11 @@ import os
 import sys
 from decimal import *
 
-from ull.common.absclient import AbstractGrammarTestClient, AbstractStatEventHandler, AbstractFileParserClient
-from ull.common.dirhelper import traverse_dir_tree, create_dir
-from ull.common.parsemetrics import ParseMetrics, ParseQuality, PQA
-from ull.common.fileconfman import JsonFileConfigManager
-from ull.common.cliutils import handle_path_string
+from ..common.absclient import AbstractGrammarTestClient, AbstractStatEventHandler, AbstractFileParserClient
+from ..common.dirhelper import traverse_dir_tree, create_dir
+from ..common.parsemetrics import ParseMetrics, ParseQuality, PQA
+from ..common.fileconfman import JsonFileConfigManager
+from ..common.cliutils import handle_path_string
 from ull.grammartest.textfiledashb import TextFileDashboard, HTMLFileDashboard
 
 from .lgmisc import create_grammar_dir
@@ -301,7 +301,8 @@ class GrammarTester(AbstractGrammarTestClient):
 
 
 def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_path: str, template_path: str,
-                       linkage_limit: int, options: int, reference_path: str) -> (Decimal, Decimal, Decimal):
+                       linkage_limit: int, options: int, reference_path: str, timeout: int=300) \
+        -> (Decimal, Decimal, Decimal):
     """
     Test grammar(s) over specified corpus providing numerical estimation of parsing quality.
 
@@ -314,10 +315,12 @@ def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_pat
     :param options:         Bit mask used as a single source of options.
     :param reference_path:  Path to either reference file or a directory with reference files which is used for parse
                             quality estimation.
+    :param timeout:         Timeout value used by Link Grammar to restrict maximum amount of time spent for parsing
+                            a single sentence.
     :return: Tuple (ParseMetrics, ParseQuality)
     """
     # parser = LGInprocParser(linkage_limit) if options & BIT_LG_EXE else LGApiParser(linkage_limit)
-    parser = LGInprocParser(linkage_limit)
+    parser = LGInprocParser(linkage_limit, timeout)
 
     gt = GrammarTester(grammar_path, template_path, linkage_limit, parser)
 

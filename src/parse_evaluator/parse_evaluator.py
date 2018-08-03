@@ -100,6 +100,10 @@ def Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore):
 
         test_sets, dummy = MakeSets(test_parse, len(ref_sent), ignore)
 
+        # if test_sets has no links left, precision and recall are zero
+        if len(test_sets) == 0:
+            continue
+
         # count current parse guesses
         true_pos = len(ref_sets.intersection(test_sets))
         false_neg = len(ref_sets) - true_pos

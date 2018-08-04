@@ -21,11 +21,11 @@ jobs:
       - run:
           name: Run tests
           command: |
-            chmod +x ~/run-tests.sh && ~/run-tests.sh > /tmp/tests.log
-      - run:
-          name: Print test log
-          command: cat /tmp/tests.log
-          when: always
+            chmod +x ~/projects/language-learning/run-tests.sh && ~/run-tests.sh > /tmp/tests.log && cat /tmp/tests.log
+#      - run:
+#          name: Print test log
+#          command: cat /tmp/tests.log
+#          when: always
 #      - persist_to_workspace:
 #          root: /ws/
 #          paths:

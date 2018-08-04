@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: singularitynet/opencog-ull-build
         user: opencog-ull
-    working_directory: /home/opencog-ull
+#    working_directory: /home/opencog-ull
     environment:
       ORG: singnet
     steps:

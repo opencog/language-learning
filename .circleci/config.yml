@@ -1,7 +1,7 @@
 version: 2.0
 
 jobs:
-  tests:
+  build:
     docker:
       - image: singularitynet/opencog-ull-build
         user: opencog-ull
@@ -46,12 +46,12 @@ jobs:
 
 workflows:
   version: 2
-  test-package:
+  package:
     jobs:
-      - tests
+      - build
 #      - package:
 #          requires:
-#            - ull
+#            - build
 #          filters:
 #            branches:
 #              only: master

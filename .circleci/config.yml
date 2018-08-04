@@ -1,0 +1,57 @@
+version: 2.0
+
+jobs:
+  tests:
+    docker:
+      - image: singularitynet/opencog-ull-build
+        user: opencog-ull
+    working_directory: /ws
+    environment:
+      ORG: singnet
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /home/opencog-ull
+      - run:
+          name: Activate virtual environment
+          command: source activate ull
+      - run:
+          name: Run tests
+          command: |
+            chmod +x ~/run-tests.sh && ~/run-tests.sh > /tmp/tests.log
+      - run:
+          name: Print test log
+          command: cat /tmp/tests.log
+          when: always
+#      - persist_to_workspace:
+#          root: /ws/
+#          paths:
+#            - tests
+
+#  package: #Place holder
+#    docker:
+#      - image: opencog/opencog-deps
+#        user: root
+#    working_directory: /ws/atomspace
+#    steps:
+#      - attach_workspace:
+#          at: /ws/
+#      - run:
+#          name: Start storing ccache
+#          command: date +%d-%m-%Y > /tmp/date
+#      - save_cache:
+#          key: ccache-{{ checksum "/tmp/date" }}
+#          paths:
+#            - /ws/ccache
+
+workflows:
+  version: 2
+  test-package:
+    jobs:
+      - tests
+#      - package:
+#          requires:
+#            - ull
+#          filters:
+#            branches:
+#              only: master

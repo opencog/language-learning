@@ -5,16 +5,16 @@ jobs:
     docker:
       - image: singularitynet/opencog-ull-build
         user: opencog-ull
-#    working_directory: /home/opencog-ull
+    working_directory: ~/projects
     environment:
       ORG: singnet
     steps:
-      - run:
-          name: Create project folder
-          command: mkdir projects && cd projects
+#      - run:
+#          name: Create project folder
+#          command: mkdir projects && cd projects
+#      - attach_workspace:
+#          at: /home/opencog-ull/projects
       - checkout
-      - attach_workspace:
-          at: /home/opencog-ull/projects
       - run:
           name: Activate virtual environment
           command: source activate ull

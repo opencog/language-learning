@@ -9,9 +9,12 @@ jobs:
     environment:
       ORG: singnet
     steps:
+      - run:
+          name: Create project folder
+          command: mkdir projects && cd projects
       - checkout
       - attach_workspace:
-          at: /home/opencog-ull
+          at: /home/opencog-ull/projects
       - run:
           name: Activate virtual environment
           command: source activate ull

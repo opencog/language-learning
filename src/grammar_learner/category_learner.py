@@ -59,8 +59,8 @@ def learn_categories(links, **kwargs):      #80802 poc05 restructured learner.py
     dim_max         = kwa(100,      'dim_max')
     sv_min          = kwa(0.1,      'sv_min')
     dim_reduction   = kwa('svm',    'dim_reduction')
-    clustering      = kwa('kmeans', 'clustering')
-    cluster_range   = kwa((2,48,1), 'cluster_range')
+    algorithm       = kwa('kmeans', 'clustering')       # ⇒ best_clusters
+    cluster_range   = kwa((2,50,2), 'cluster_range')    # ⇒ best_clusters
     cluster_criteria = kwa('silhouette', 'cluster_criteria')
     cluster_level   = kwa(0.9,      'cluster_level')
     generalization  = kwa('off',    'categories_generalization')
@@ -72,33 +72,33 @@ def learn_categories(links, **kwargs):      #80802 poc05 restructured learner.py
     from utl import UTC, round1, round2  #, round3, round4, round5
     from read_files import check_dir #, check_mst_files
     from hyperwords import vector_space_dim, pmisvd
-    from clustering import number_of_clusters, cluster_words_kmeans, group_links #-clusters2list
-    #-from kmeans import cluster_words_kmeans  #80802 kmeans.py = POC.0.5 leagcy
+    #+from clustering import number_of_clusters, cluster_words_kmeans, group_links
+    from clustering import best_clusters, group_links  #80803 best_clusters
     from write_files import list2file, save_link_grammar
 
     from collections import OrderedDict
     log = OrderedDict()
-    log.update({'category_learner': '80619'})
+    log.update({'category_learner': '80803'})
+    if verbose in ['max','debug']:
+        print(UTC(),':: category_learner: word_space/algorithm:', word_space, '/', algorithm)
 
     if tmpath == '' or tmpath == 'auto':  # temporary files path
         if '.' not in cats_file: tmpath = cats_file
         else: tmpath = cats_file[:cats_file.rindex('/')]
         if tmpath[-1] != '/': tmpath += '/'
         tmpath += 'tmp/'
-        print('tmpath:', tmpath)
+        if verbose in ['max','debug']:
+            print(UTC(),':: learn_categories: tmpath:', tmpath)
     if check_dir(tmpath, True, verbose):
         log.update({'tmpath': tmpath})
     #TODO:ERROR
 
-    if verbose in ['max','debug']:
-        print(UTC(),':: category_learner: word_space/clustering:', word_space, '/', clustering)
-
-    #-if word_space == 'vectors':    #80619 Category-Tree-2018-06-19.ipynb
-    if context == 1 or word_space[0] in ['v','e'] or clustering == 'kmeans':
-        #word_space options: v,e: 'vectors'='embeddings', d,w: 'discrete'='word_vectors'
+    '''DRK'''   #-if word_space == 'vectors':
+    if word_space[0] in ['v','e']: #or context == 1 or algorithm == 'kmeans':
+        # word_space options: v,e: 'vectors'='embeddings' | d,w: 'discrete'='word_vectors'
         if verbose in ['max','debug']:
             print(UTC(),':: category_learner: DRK: context =', \
-                str(context)+', word_space: '+word_space+', clustering:', clustering)
+                str(context)+', word_space: '+word_space+', algorithm:', algorithm)
         #-dim = vector_space_dim(links, dict_path, tmpath, dim_max, sv_min, verbose)
         #-80420 dict_path ⇒ tmpath :: dir to save vectors.txt
         dim = vector_space_dim(links, tmpath, tmpath, dim_max, sv_min, verbose)
@@ -110,24 +110,23 @@ def learn_categories(links, **kwargs):      #80802 poc05 restructured learner.py
         log.update(re01)
         if verbose in ['max','debug']:
             print(UTC(),':: category_learner: pmisvd returned vdf, svd, re01')
-    #-if clustering == 'kmeans':
+    #-if algorithm == 'kmeans':
+        #-n_clusters = number_of_clusters(vdf, cluster_range, algorithm,  \
+        #-    criteria=cluster_criteria, level=cluster_level, verbose=verbose)
+        #-log.update({'n_clusters': n_clusters})
+        #-clusters, silhouette, inertia = cluster_words_kmeans(vdf, n_clusters)
         if verbose in ['max','debug']:
-            print(UTC(),':: category_learner: ⇒ number_of_clusters')
-        n_clusters = number_of_clusters(vdf, cluster_range, clustering,  \
-            criteria=cluster_criteria, level=cluster_level, verbose=verbose)
-        log.update({'n_clusters': n_clusters})
-        if verbose in ['max','debug']:
-            print(UTC(),':: category_learner: ⇒ cluster_words_kmeans:', \
-                n_clusters, 'clusters')
-        clusters, silhouette, inertia = cluster_words_kmeans(vdf, n_clusters)
+            print(UTC(),':: category_learner: ⇒ best_clusters')     #80803
+        clusters, silhouette, inertia = best_clusters(vdf, **kwargs)
+        log.update({'n_clusters': len(clusters)})
         log.update({'silhouette': silhouette, 'inertia': inertia})
 
-    #-elif clustering[:5] in ['group','ident']:
+    #?elif type(algorithm) is stringg and algorithm[:5] in ['group','ident']:
+    #?elif word_space[0] in ['d','w']   # d,w: 'discrete'='word_vectors'
     else:
         if verbose in ['max', 'debug']:
             print(UTC(),':: category_learner ⇒ ILE group_links: context =', \
-                str(context)+', word_space: '+str(word_space)+', clustering:', clustering)
-        #?from category_learner import group_links  #this module
+                str(context)+', word_space: '+str(word_space)+', algorithm:', algorithm)
         clusters = group_links(links, verbose)
         log.update({'n_clusters': len(clusters)})
         if verbose not in ['min','none']:
@@ -151,7 +150,7 @@ def learn_categories(links, **kwargs):      #80802 poc05 restructured learner.py
                        for y in cats['disjuncts']]
     if 'counts' in clusters:
         cats['counts'] = [0] + clusters['counts'].tolist()
-    if word_space == 'vectors' or clustering == 'kmeans':
+    if word_space == 'vectors' or algorithm == 'kmeans':
         cats['quality'] = [0 for x in cats['words']]
         cats['similarities'] = [[0 for y in x] for x in cats['words']]
     else:
@@ -192,3 +191,5 @@ def cats2list(cats):    #80609
     #add_disjuncts moved here ⇐ learner.py/learn_grammar
     #cats2list moved here ⇐ generalization.py, copied ⇒ poc05.py for legacy compatibility
     #group_links moved ⇒ clustering.py
+#80803 clusters, silhouette, inertia = best_clusters(vdf, **kwargs)
+#80805

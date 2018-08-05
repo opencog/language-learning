@@ -32,15 +32,12 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     rules_merge     = kwa(0.8,      'rules_merge')
     rules_aggr      = kwa(0.2,      'rules_aggregation')
     verbose         = kwa('none',   'verbose')
-
     kwargs['input_parses'] = input_parses
     kwargs['output_categories'] = output_categories
     kwargs['output_grammar'] = output_grammar
-    #TODO: if parameter != file: auto file name
     input_dir = input_parses
     #-cat_path = output_categories
     #-dict_path = output_grammar
-
     import os, pickle   #, collections
     import pandas as pd
     from shutil import copy2 as copy
@@ -51,13 +48,12 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     from grammar_inducer import induce_grammar  #80802
     from generalization import generalize_categories, generalize_rules
     from write_files import list2file, save_link_grammar, save_cat_tree
-
     from collections import OrderedDict
-    log = OrderedDict({'start': str(UTC()), 'learn_grammar': '80605'})
+    log = OrderedDict({'start': str(UTC()), 'learn_grammar': '80805'})
 
-    #TODO: save kwargs?
+    #TODO: save kwargs ⇒ tmp/file ?
 
-    '''input_parses ⇒ links:'''
+    '''input_parses ⇒ links DataFrame:'''
 
     files, re01 = check_mst_files(input_parses, verbose)
     log.update(re01)
@@ -71,23 +67,20 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     #-    for file in files: copy(file, os.path.dirname(parse_dir))
     #-else: raise FileNotFoundError('File not found', input_parses)
 
-    # group = True    #? always? False option for context = 0 (words)?
+    # group = True    #FIXME: always? False option for context = 0 (words)?
     kwargs['input_files'] = files
-
     links, re02 = files2links(**kwargs)
     log.update(re02)
     list2file(re02['corpus_stats'], prj_dir+'/corpus_stats.txt')
     log.update({'corpus_stats_file': prj_dir+'/corpus_stats.txt'})
     if verbose in ['max','debug']:
-        print('\n', UTC(),':: files2links returns links', type(links), ':\n')
+        print('\n', UTC(),':: learn_grammar:',len(links),'links', type(links))
         with pd.option_context('display.max_rows', 6): print(links, '\n')
-        print('learn_grammar: word_space/clustering:', \
+        print('\n', UTC(),':: learn_grammar: word_space/clustering:', \
               word_space,'/', clustering, '⇒ category_learner')
 
     '''Learn word categories'''
 
-    #80802: poc05.py/category_learner ⇒ category_learner.py/learn_categories
-    #-categories, re03 = category_learner(links, **kwargs) #80619 categories: {}
     categories, re03 = learn_categories(links, **kwargs)   #80802
     log.update(re03)
     if verbose in ['max','debug']:
@@ -106,7 +99,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
         #TODO: vectors g12n
         gen_cats = categories
         log.update({'generalization': 'vector-similarity based - #TODO'})
-        if verbose == 'debug':
+        if verbose in ['max','debug']:
             print('#TODO: categories generalization based on cosine similarity')
     else:
         gen_cats = categories
@@ -177,5 +170,5 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
 
 #Notes:
 
-#80802 poc05.py restructured: learn_grammar ⇒ this learner.py v~80727 +min.edits
+#80802: poc05.py/category_learner ⇒ category_learner.py/learn_categories
 #TODO: update parameters, update notebooks, remove old notebooks, add warning

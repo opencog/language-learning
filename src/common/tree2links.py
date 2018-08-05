@@ -80,6 +80,7 @@ def Process_Parse(parse, f_parse, f_sent):
     for line in parse:
         sentence.append(line.split()[0])
     
+    Write_Output_Sentence(f_parse, ' '.join(sentence) + '\n')
     if f_sent != '':
         Write_Output_Sentence(f_sent, ' '.join(sentence) + '\n\n')
 

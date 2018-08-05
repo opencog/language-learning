@@ -9,11 +9,6 @@ jobs:
     environment:
       ORG: singnet
     steps:
-#      - run:
-#          name: Create project folder
-#          command: mkdir projects && cd projects
-#      - attach_workspace:
-#          at: /home/opencog-ull/projects
       - checkout
       - run:
           name: Activate virtual environment
@@ -22,30 +17,6 @@ jobs:
           name: Run tests
           command: |
             chmod +x ~/projects/run-tests.sh && ~/projects/run-tests.sh > /tmp/tests.log && cat /tmp/tests.log
-#      - run:
-#          name: Print test log
-#          command: cat /tmp/tests.log
-#          when: always
-#      - persist_to_workspace:
-#          root: /ws/
-#          paths:
-#            - tests
-
-#  package: #Place holder
-#    docker:
-#      - image: opencog/opencog-deps
-#        user: root
-#    working_directory: /ws/atomspace
-#    steps:
-#      - attach_workspace:
-#          at: /ws/
-#      - run:
-#          name: Start storing ccache
-#          command: date +%d-%m-%Y > /tmp/date
-#      - save_cache:
-#          key: ccache-{{ checksum "/tmp/date" }}
-#          paths:
-#            - /ws/ccache
 
 workflows:
   version: 2

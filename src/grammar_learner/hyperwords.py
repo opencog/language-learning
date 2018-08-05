@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
 ## Unstructured mess of files from 2017 - TODO: restore the file structure?
 from __future__ import division
 import time
 import numpy as np
 import pandas as pd
-#-from docopt import docopt
 #-from collections import Counter
 from scipy.sparse import dok_matrix, csr_matrix
 from sparsesvd import sparsesvd
@@ -467,4 +465,7 @@ def vector_space_dim(links, path, tmpath, dim_max=100, sv_min=0.9, \
     return dim+1
 
 
+#Notes:
+
 #80329 added vector_space_dim
+#TODO: refactor, control disk writes, ... PPMI ⇒ +frequency?

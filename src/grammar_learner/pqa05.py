@@ -1,39 +1,6 @@
-#Test Grammar Learner to fill in ULL Project Plan Parses spreadshit
-#language-learning/src/grammar_learner/pqa_table.py 80725 uodated 80802
+#Legacy Grammar Learner testL fill in ULL Project Plan Parses spreadshit
+#language-learning/src/grammar_learner/pqa_table.py 80725, renamed pqa05 #80802
 import os, sys, time
-
-def params(corpus, dataset, module_path, out_dir, **kwargs):
-    from read_files import check_dir
-    input_parses = module_path + '/data/' + corpus + '/' + dataset
-    if check_dir(input_parses, create=False, verbose='min'):
-        batch_dir = out_dir + '/' + corpus
-        spaces = ['connectors', 'disjuncts']
-        if kwargs['word_space'] == 'vectors': wtf = 'DRK'
-        else: wtf = 'ILE'
-        if kwargs['left_wall'] in ['','none']:
-            left_wall = 'no-LEFT-WALL'
-        else: left_wall = 'LEFT-WALL'
-        if kwargs['period']:
-            period = 'period'
-        else: period = 'no-period'
-        generalization = ['no-generalization', 'generalized-categories', \
-                          'generalized-rules', 'generalized-categories-and-rules']
-        gen = 0
-        if 'categories_generalization' in kwargs:
-            if kwargs['categories_generalization'] not in ['','off','none']: gen += 1
-        if 'rules_generalization' in kwargs:
-            if kwargs['rules_generalization'] not in ['','off','none']:  gen += 2
-        prj_dir = batch_dir + '_' + dataset  + '_' + \
-            spaces[kwargs['context']-1] + '-'+wtf+'-' + spaces[kwargs['grammar_rules']-1] \
-            + '_' + left_wall + '_' + period + '_' + generalization[gen]
-
-        if check_dir(prj_dir, create=True, verbose='none'):
-            output_categories = prj_dir     # no file name ⇒ auto file name
-            output_grammar = prj_dir        # no file name ⇒ auto file name
-            return input_parses, output_categories, output_grammar
-        else: return input_parses, out_dir, out_dir
-    else: raise FileNotFoundError('File not found', input_parses)
-
 
 from ull.grammartest.optconst import * # import * only allowed at module level
 def pqa_meter(input_path, output_grammar, corpus_path, reference_path, runs=(1,1), **kwargs):
@@ -58,8 +25,7 @@ def table_damb(lines, out_dir, cps=(0,0), rps=(0,0), runs=(1,1), **kwargs):  #-l
     # cps,rps: tuples len=2 corpus_paths, reference_paths for Amb and disAmb corpora
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
-    #-from poc05 import learn_grammar, params   #80802 poc05 restructured
-    from learner import learn_grammar   #80802 poc05 restructured
+    from poc05 import learn_grammar, params
     rpd = module_path + '/data/POC-English-Amb/MST-fixed-manually/poc-english_ex-parses-gold.txt'
 
     spaces = ''
@@ -146,8 +112,7 @@ def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
     # cp,rp: corpus_path, rp: reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
-    #-from poc05 import learn_grammar, params   #80802 poc05 restructured
-    from learner import learn_grammar   #80802 poc05 restructured
+    from poc05 import learn_grammar, params
     spaces = ''
     if kwargs['context'] == 1:
         spaces += 'c'
@@ -222,8 +187,6 @@ def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
     return average, details
 
 
-#Notes:
-
-#80802 /src/poc05.py restructured, def params moved here, further dev here
-    #legacy pqa_table.py renamed pqa05.py ~ poc05+pqa05=baseline (DEL later)
-#TODO: replace table_damb, table_cds ⇒ new unified table with long rows
+#80802 poc05.py restructured. pqa_table.py ⇒ further dev,
+    #this legacy pqa_table.py renamed pqa05 to compare dev with poc05 baseline
+    #FIXME:DEL with poc05 POC.0.5 after major dev

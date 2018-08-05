@@ -22,10 +22,6 @@ def Load_File(filename):
         data = file.readlines()
     print("Finished loading")
 
-    # remove initial newlines, if any
-    # while data[0] == "\n":
-    #     data.pop(0)
-
     return data
 
 def Get_Parses(data):
@@ -104,6 +100,10 @@ def Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore):
 
         test_sets, dummy = MakeSets(test_parse, len(ref_sent), ignore)
 
+        # if test_sets has no links left, precision and recall are zero
+        if len(test_sets) == 0:
+            continue
+
         # count current parse guesses
         true_pos = len(ref_sets.intersection(test_sets))
         false_neg = len(ref_sets) - true_pos
@@ -150,6 +150,7 @@ def main(argv):
         goldfile        file with reference (gold standard) parses
         -v              verbose
         -i              don't ignore LEFT-WALL and end-of-sentence dot, if any
+        -s              evaluate sequential parses (benchmark)
 
     """
 
@@ -159,15 +160,16 @@ def main(argv):
     ref_file = ''
     verbose = False
     ignore_WALL = True
+    sequential = False
 
     try:
-        opts, args = getopt.getopt(argv, "ht:r:vi", ["test=", "reference=", "verbose", "ignore"])
+        opts, args = getopt.getopt(argv, "ht:r:vis", ["test=", "reference=", "verbose", "ignore", "sequential"])
     except getopt.GetoptError:
-        print("Usage: ./parse_evaluator.py -t <testfile> -r <reffile> [-v] [-i]")
+        print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s]")
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print("Usage: ./parse_evaluator.py -t <testfile> -r <reffile>")
+            print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s]")
             sys.exit()
         elif opt in ("-t", "--test"):
             test_file = arg
@@ -177,14 +179,38 @@ def main(argv):
             verbose = True
         elif opt in ("-i", "--ignore"):
             ignore_WALL = False
+        elif opt in ("-s", "--sequential"):
+            sequential = True
 
-    test_data = Load_File(test_file)
-    test_parses, dummy = Get_Parses(test_data) 
     ref_data = Load_File(ref_file)
     ref_parses, ref_sents = Get_Parses(ref_data) 
+    if sequential:
+        test_parses = Make_Sequential(ref_sents)
+    else:
+        test_data = Load_File(test_file)
+        test_parses, dummy = Get_Parses(test_data) 
     if len(test_parses) != len(ref_parses):
         sys.exit("ERROR: Number of parses differs in files")
+    # for rs, ts in zip(ref_sents, dummy):
+    #     print("Sentence pair:")
+    #     print(rs, ts)
     Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore_WALL)
+
+def Make_Sequential(sents):
+    """
+        Make sequential parses (each word simply linked to the next one), 
+        to use as a benchmark
+    """
+    sequential_parses = []
+    for sent in sents:
+        parse = [["0", "###LEFT-WALL###", "1", sent[0]]] # include left-wall
+        for i in range(1, len(sent)):
+            parse.append([str(i), sent[i - 1], str(i + 1), sent[i]])
+        #parse.append([str(i), sent[i - 1], str(i + 1), sent[i]] for i in range(1, len(sent)))
+        sequential_parses.append(parse)
+
+    return sequential_parses
+
 
 if __name__ == '__main__':
     main(sys.argv[1:])

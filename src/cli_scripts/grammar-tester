@@ -145,6 +145,7 @@ Usage:
                 config_path = handle_path_string(arg)
             elif opt in ("-D", "--language"):
                 dict_path = strip_quotes(arg)
+                options |= BIT_EXISTING_DICT
             elif opt in ("-T", "--lg-timeout"):
                 timeout = int(arg)
 

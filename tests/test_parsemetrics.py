@@ -1,13 +1,14 @@
 import unittest
 import sys
 
-from ull.common.parsemetrics import *
+from src.common.parsemetrics import *
 
 
 class TestMetrics(unittest.TestCase):
 
     # @unittest.skip
     def test_pm_sum(self):
+        """ ParseMetrics increment operator test """
         pm1 = ParseMetrics()
         pm1.completely_parsed_ratio = 0.5
         pm1.completely_unparsed_ratio = 0.5
@@ -20,7 +21,7 @@ class TestMetrics(unittest.TestCase):
 
         pm1 += pm2
 
-        print(ParseMetrics.text(pm1), file=sys.stderr)
+        # print(ParseMetrics.text(pm1), file=sys.stderr)
 
         self.assertEqual(0.7, pm1.completely_parsed_ratio)
         self.assertEqual(0.8, pm1.completely_unparsed_ratio)
@@ -28,6 +29,7 @@ class TestMetrics(unittest.TestCase):
 
     @unittest.skip
     def test_pm_div(self):
+        """ ParseMetrics division by integer test """
         pm1 = ParseMetrics()
         pm1.completely_parsed_ratio = 1.0
         pm1.completely_unparsed_ratio = 0.8
@@ -40,14 +42,14 @@ class TestMetrics(unittest.TestCase):
         self.assertEqual(0.3, pm1.average_parsed_ratio)
 
     def test_pq_add(self):
+        """ Parse quality increment operator test """
         pq1 = ParseQuality()
         pq1.missing = 0.5
         pq1.extra = 0.4
         pq1.ignored = 0.3
         pq1.total = 0.2
         pq1.quality = 0.1
-        
-        
+
         pq2 = ParseQuality()
         pq2.missing = 0.5
         pq2.extra = 0.4
@@ -57,7 +59,7 @@ class TestMetrics(unittest.TestCase):
 
         pq1 += pq2
 
-        print(ParseQuality.text(pq1), file=sys.stderr)
+        # print(ParseQuality.text(pq1), file=sys.stderr)
 
         # Make sure that all the member variables of the first instance have been incremented
         self.assertEqual(1.0, pq1.missing)
@@ -75,6 +77,7 @@ class TestMetrics(unittest.TestCase):
 
     @unittest.skip
     def test_pq_div(self):
+        """ ParseQuality division by integer test """
         pq1 = ParseQuality()
         pq1.missing = 0.8
         pq1.extra = 0.6
@@ -89,6 +92,7 @@ class TestMetrics(unittest.TestCase):
         self.assertEqual(0.2, pq1.ignored)
         self.assertEqual(0.1, pq1.total)
         self.assertEqual(0.0, pq1.quality)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,12 +1,11 @@
 import sys
 from subprocess import PIPE, Popen
-# from decimal import *
 
-from ull.common.absclient import AbstractFileParserClient
+from ..common.absclient import AbstractFileParserClient
 from .optconst import *
 from .psparse import *
 from .parsestat import *
-from ull.common.parsemetrics import *
+from ..common.parsemetrics import *
 from .lgmisc import *
 from .parsevaluate import get_parses, load_ull_file
 

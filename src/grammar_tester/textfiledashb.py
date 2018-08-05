@@ -1,7 +1,7 @@
-from ull.common.absclient import AbstractDashboardClient, DashboardError, AbstractStatEventHandler
-from ull.common.parsemetrics import ParseMetrics, ParseQuality, PQA_str
-from ull.common.absclient import AbstractConfigClient
-from ull.common.cliutils import handle_path_string
+from ..common.absclient import AbstractDashboardClient, DashboardError, AbstractStatEventHandler
+from ..common.parsemetrics import ParseMetrics, ParseQuality, PQA_str
+from ..common.absclient import AbstractConfigClient
+from ..common.cliutils import handle_path_string
 
 CONF_ROW_KEY = "row_key"
 CONF_ROW_IND = "row_indexes"

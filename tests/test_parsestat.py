@@ -1,7 +1,7 @@
 import unittest
 
 from decimal import Decimal
-from ull.grammartest.parsestat import calc_parse_quality, parse_quality, calc_stat, parse_metrics
+from src.grammar_tester.parsestat import calc_parse_quality, parse_quality, calc_stat, parse_metrics
 
 # Token indexes
 LWALL = 0; tuna = 1; isa = 2; fish = 3; DOT = 4; RWALL = 5
@@ -67,6 +67,7 @@ class TestStat(unittest.TestCase):
         self.assertEqual((2, 0, 0.5), (m, e, q))
 
     def test_parse_quality_cmp(self):
+        """ Test for exact match of calc_parse_quality() and parse_quality() """
         (m, e, q) = calc_parse_quality(test_set5, ref_set5)
         pq = parse_quality(test_set5, ref_set5)
         self.assertEqual(m, pq.missing)
@@ -92,11 +93,13 @@ class TestStat(unittest.TestCase):
 
     @unittest.skip
     def test_calc_stat_4(self):
+        """ Test for exact match """
         f, n, s = calc_stat(["###LEFT-WALL###", "[a]", "dad", "is", "[a]", "human", "[.]"])
         # print(f, n, s, file=sys.stderr)
         self.assertTrue((not f) and (not n) and (s == Decimal("0.6")))
 
     def test_parse_stat_cmp(self):
+        """ Test for matching values of calc_stat() and parse_metrics() """
         f, n, s = calc_stat(["###LEFT-WALL###", "[a]", "dad", "is", "[a]", "human", "[.]"])
         pm = parse_metrics(["[a]", "dad", "is", "[a]", "human"])
         self.assertEqual(f, pm.completely_parsed_ratio, "'completely_parsed_ratio' mismatch")
@@ -104,6 +107,7 @@ class TestStat(unittest.TestCase):
         self.assertEqual(s, pm.average_parsed_ratio, "'average_parsed_ratio' mismatch")
 
     def test_parse_metrics(self):
+        """ Test for exact value match """
         pm = parse_metrics(['###LEFT-WALL###', '[.]', '[.]', '[.]', '[.]', '[.]', '[.]', '[.]'])
         self.assertEqual(Decimal('0.125'), pm.average_parsed_ratio)
 

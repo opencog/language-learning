@@ -1,9 +1,9 @@
 import unittest
 import sys
 
-from ull.grammartest.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, prepare_tokens
-from ull.grammartest.optconst import *
-from ull.grammartest.parsestat import parse_metrics
+from src.grammar_tester.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, prepare_tokens
+from src.grammar_tester.optconst import *
+from src.grammar_tester.parsestat import parse_metrics
 
 
 gutenberg_children_bug = \
@@ -103,29 +103,6 @@ holocaust survivors did not differ in the level of resilience from comparisons (
 [18 24 3 (Xc)][18 19 0 (Mp)][19 22 2 (Jp)][20 22 1 (AN)][21 22 0 (AN)]]
 [0]
 """
-
-# class TokenString(str):
-#     def __new__(cls, content):
-#         obj = super(TokenString, cls).__new__(cls, content)
-#         obj.brace_counter = 0
-#         obj.brckt_counter = 0
-#         obj.start_pos = 0
-#         return obj
-#
-#     def line(self):
-#         print("-> "+self[1:-1])
-#
-#
-# def test_ps_parse_tokens(self):
-#     ts = TokenString(gutenberg_children_bug_002t)
-#
-#     ts.line()
-#
-#     # tokens = [t for t in ts]
-#
-#     self.assertTrue(True)
-
-
 
 class TestPSParse(unittest.TestCase):
 
@@ -231,15 +208,14 @@ class TestPSParse(unittest.TestCase):
         return True
 
     def test_strip_token(self):
-        """ test_strip_token """
-        # print(__doc__, sys.stderr)
-
+        """ Test for stripping Link Grammar suffixes off tokens """
         self.assertEqual(strip_token("strange[!]"), "strange")
         self.assertEqual(strip_token("strange.a"), "strange")
         self.assertEqual(strip_token("[strange]"), "[strange]")
 
     # @unittest.skip
     def test_parse_tokens_alice_003(self):
+        """ Test for proper parsing of '[(]' revealed by Alice in Wonderland corpus """
         options = BIT_STRIP | BIT_NO_LWALL | BIT_NO_PERIOD
 
         # sent = "(alice had no idea what latitude was, or longitude either, but thought they were nice grand words to say.)"
@@ -255,6 +231,7 @@ class TestPSParse(unittest.TestCase):
 
     # @unittest.skip
     def test_parse_tokens_alice_004(self):
+        """ Test for proper parsing of square brackets revealed by Alice in Wonderland corpus """
         options = BIT_STRIP | BIT_NO_LWALL | BIT_NO_PERIOD
 
         post = "(LEFT-WALL)(posting.g)(date.n)(:.j)(@date@[?].a)([)(ebook[?].a)([#])(@number@[?].n)(])(release.n)" \
@@ -266,11 +243,9 @@ class TestPSParse(unittest.TestCase):
         tokens = parse_tokens(post, options)[0]
         self.assertEqual(ref, tokens)
 
-
     # @unittest.skip
     def test_parse_tokens(self):
         """ test_parse_tokens """
-        # print(__doc__, sys.stderr)
 
         options = 0
 
@@ -343,19 +318,16 @@ class TestPSParse(unittest.TestCase):
 
     # @unittest.skip
     def test_parse_no_period_if_no_period(self):
+        """ Test for parsing sentence with no walls and period """
         options = 0
         options |= BIT_STRIP | BIT_NO_PERIOD | BIT_RWALL
         tokens = parse_tokens(self.tokens_no_walls_no_period, options)[0]
-
-        # print(tokens)
 
         self.assertTrue(self.cmp_lists(tokens, ['###LEFT-WALL###', 'eagle', 'has', 'wing']))
 
     # @unittest.skip
     def test_parse_links(self):
-        """ test_parse_links """
-        # print(__doc__, sys.stderr)
-
+        """ Test for parsing links out when LW and period are presented """
         links = parse_links(self.link_str, ['###LEFT-WALL###', 'dad', 'was', 'not', 'a', 'parent', 'before', '.'], 0)
 
         # [0 7 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (Osm)][2 3 0 (EBm)][4 5 0 (Ds**c)][5 6 0 (Mp)][7 8 0 (RW)]
@@ -369,9 +341,7 @@ class TestPSParse(unittest.TestCase):
 
     # @unittest.skip
     def test_parse_postscript_all_walls(self):
-        """ test_parse_postscript """
-        # print(__doc__, sys.stderr)
-
+        """ Test for parsing postscript with both walls in """
         options = 0
         options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
@@ -383,9 +353,7 @@ class TestPSParse(unittest.TestCase):
 
     # @unittest.skip
     def test_parse_postscript_no_walls(self):
-        """ test_parse_postscript """
-        # print(__doc__, sys.stderr)
-
+        """ Test for parsing_postscript with no walls in """
         options = 0
         options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
@@ -398,9 +366,7 @@ class TestPSParse(unittest.TestCase):
 
     # @unittest.skip
     def test_parse_postscript_no_links(self):
-        """ test_parse_postscript """
-        # print(__doc__, sys.stderr)
-
+        """ Test for parsing postscript with no links """
         options = 0
         options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
@@ -408,16 +374,9 @@ class TestPSParse(unittest.TestCase):
         tokens, links = parse_postscript(self.post_no_links, options, sys.stdout)
         self.assertEqual(0, len(links))
 
-        # pm = parse_metrics(tokens)
-        # self.assertEqual(0.0, pm.completely_parsed_ratio)
-        # self.assertEqual(1.0, pm.completely_unparsed_ratio)
-        # self.assertEqual(0.0, pm.average_parsed_ratio)
-
     # @unittest.skip
     def test_parse_postscript_gutenchildren_bug(self):
-        """ test_parse_postscript """
-        # print(__doc__, sys.stderr)
-
+        """ Test for number of tokens (bug from Gutenberg Children corpus) """
         options = 0
         # options |= (BIT_RWALL | BIT_CAPS)
         # options &= ~BIT_STRIP
@@ -426,16 +385,9 @@ class TestPSParse(unittest.TestCase):
 
         self.assertEqual(18, len(tokens))
 
-        # pm = parse_metrics(tokens)
-        #
-        # self.assertEqual(0.0, pm.completely_parsed_ratio)
-        # self.assertEqual(0.0, pm.completely_unparsed_ratio)
-        # self.assertEqual(0.9411764705882353, float(pm.average_parsed_ratio))
-        # # self.assertEqual(16.0/17.0, pm.average_parsed_ratio)
-
-
     @unittest.skip
     def test_parse_gutenchildren_bug_002(self):
+        """ Test for number of tokens (bug from Gutenberg Children corpus) """
         options = BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP
 
         tokens = parse_tokens(gutenberg_children_bug_002t, options)[0]
@@ -482,6 +434,7 @@ class TestPSParse(unittest.TestCase):
         #                   "search", "facility:"], tokens)
 
     def test_parse_postscript_alice_bug_002(self):
+        """ Gutenberg Children bug test """
         options = 0
         # options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
@@ -492,6 +445,7 @@ class TestPSParse(unittest.TestCase):
 
 
     def test_get_link_set(self):
+        """ Test for link extraction according to set options """
         # post_all_walls = "[(LEFT-WALL)(Dad[!])(was.v-d)(not.e)(a)(parent.n)(before)(.)(RIGHT-WALL)]" \
         #                  "[[0 7 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (Osm)][2 3 0 (EBm)]" \
         #                  "[4 5 0 (Ds**c)][5 6 0 (Mp)][7 8 0 (RW)]][0]"
@@ -500,12 +454,10 @@ class TestPSParse(unittest.TestCase):
         tokens, links = parse_postscript(self.post_all_walls, options, sys.stdout)
         result_set = get_link_set(tokens, links, options)
 
-        print(expected_set)
-        print(result_set)
-
         self.assertTrue(result_set == expected_set)
 
     def test_prepare_tokens_both_walls_period_no_options(self):
+        """ Test for filtering token list according to set options """
         token_list = ['###LEFT-WALL###', 'dad', 'was', 'not', 'a', 'parent', 'before', '.', '###RIGHT-WALL###']
         token_list_no_walls = ['dad', 'was', 'not', 'a', 'parent', 'before', '.']
         token_list_no_period = ['###LEFT-WALL###', 'dad', 'was', 'not', 'a', 'parent', 'before', '###RIGHT-WALL###']

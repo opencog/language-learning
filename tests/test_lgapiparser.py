@@ -1,8 +1,8 @@
 import unittest
 
-from ull.grammartest.lgapiparser import *
-from ull.grammartest.optconst import *
-from ull.grammartest.lginprocparser import LGInprocParser
+from src.grammar_tester.lgapiparser import *
+from src.grammar_tester.optconst import *
+from src.grammar_tester.lginprocparser import LGInprocParser
 
 
 class LGAPITestCase(unittest.TestCase):
@@ -16,10 +16,10 @@ class LGAPITestCase(unittest.TestCase):
         api = LGApiParser()
 
         dict = "en"
-        corp = "test-data/corpora/poc-english/poc_english.txt"
-        reff = "test-data/corpora/poc-english/poc_english_parses_lg.txt"
-        outp = "test-data/temp"
-        # reff = None
+        corp = "tests/test-data/corpora/poc-english/poc_english.txt"
+        # reff = "tests/test-data/corpora/poc-english/poc_english_parses_lg.txt"
+        outp = "tests/test-data/temp"
+        reff = None
 
         # dict = "test-data/dict/poc-turtle"
         # corp = "test-data/corpora/poc-turtle/poc-turtle.txt"

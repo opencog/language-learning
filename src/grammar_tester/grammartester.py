@@ -7,7 +7,7 @@ from ..common.dirhelper import traverse_dir_tree, create_dir
 from ..common.parsemetrics import ParseMetrics, ParseQuality, PQA
 from ..common.fileconfman import JsonFileConfigManager
 from ..common.cliutils import handle_path_string
-from ull.grammartest.textfiledashb import TextFileDashboard, HTMLFileDashboard
+from .textfiledashb import TextFileDashboard, HTMLFileDashboard
 
 from .lgmisc import create_grammar_dir
 from .optconst import *
@@ -205,7 +205,8 @@ class GrammarTester(AbstractGrammarTestClient):
             grmr_path = dest_path if self._options & BIT_LOC_LANG else self._grammar_root
 
             # Create new LG dictionary using .dict file and template directory with the rest of mandatory files.
-            lang_path = create_grammar_dir(dict_file_path, grmr_path, self._template_dir, self._options)
+            lang_path = dict_file_path if self._options & BIT_EXISTING_DICT else \
+                create_grammar_dir(dict_file_path, grmr_path, self._template_dir, self._options)
 
             if os.path.isfile(corp_path):
                 self._on_corpus_file(corp_path, [dest_path, lang_path] + args)
@@ -277,7 +278,7 @@ class GrammarTester(AbstractGrammarTestClient):
             parse_args = [dict_path, corpus_path, output_path, reference_path]
 
             # If dict_path is a directory then call on_dict_file for every .dict file found.
-            if self._is_dir_dict:
+            if self._is_dir_dict and not (self._options & BIT_EXISTING_DICT):
                 dir_arg_list = [self._on_dict_dir]+parse_args if self._options & BIT_DPATH_CREATE else None
 
                 traverse_dir_tree(dict_path, ".4.0.dict", [self._on_dict_file]+parse_args, dir_arg_list, True)
@@ -285,7 +286,9 @@ class GrammarTester(AbstractGrammarTestClient):
             # Otherwise it can be either single .dict file name or name of LG preinstalled dictionary e.g. 'en'
             else:
                 # If dict_path points to a single file no need to duplicate subdirectory structure
-                self._options &= (~BIT_DPATH_CREATE)
+                if not self._is_dir_dict:
+                    self._options &= (~BIT_DPATH_CREATE)
+
                 self._on_dict_file(dict_path, parse_args)
 
             print("Dictionaries processed: ", self._total_dicts)

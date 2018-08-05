@@ -1,10 +1,8 @@
 import unittest
 import sys
-# from link_grammar.inprocparser import parse_batch_ps_output, parse_file_with_lgp, parse_file_with_lgp0
-from ull.grammartest.optconst import *
-from ull.grammartest.lginprocparser import LGInprocParser
-# from ull.grammartest.optconst import *
-# from ull.grammartest.lginprocparser import LGInprocParser
+
+from src.grammar_tester.optconst import *
+from src.grammar_tester.lginprocparser import LGInprocParser
 
 lg_post_output = """
 echo set to 1
@@ -94,59 +92,22 @@ holocaust survivors did not differ in the level of resilience from comparisons (
 class LGInprocParserTestCase(unittest.TestCase):
     # @unittest.skip
     def test_parse_batch_ps_output(self):
+        """ Test postscript parsing for total number of parsed sentences """
         pr = LGInprocParser()
         num_sent = len(pr._parse_batch_ps_output(lg_post_output))
         self.assertEqual(num_sent, 12, "'parse_batch_ps_output()' returns '{}' instead of '{}'".format(num_sent, 12))
 
     # @unittest.skip
     def test_parse_batch_ps_output_explosion(self):
+        """ Test for 'combinatorial explosion' """
         pr = LGInprocParser()
         num_sent = len(pr._parse_batch_ps_output(lg_post_explosion, 0))
         self.assertEqual(num_sent, 4, "'parse_batch_ps_output()' returns '{}' instead of '{}'".format(num_sent, 4))
 
     # def test_parse_sent_count(self):
     #     pr = LGInprocParser()
-    #     pr.parse("test-data/dict/poc-turtle", "test-data/corpora/poc-turtle/poc-turtle.txt", "/var/tmp/parse", None, 0)
+    #     pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt", "/var/tmp/parse", None, 0)
     #     self.assertEqual(12, 12)
-
-    @unittest.skip
-    def test_parse_file_with_lgp(self):
-        """ Test 'parse_file_with_lgp' with default dictionary """
-        # print(__doc__, sys.stderr)
-
-        # Testing over poc-turtle corpus... 100% success is expected.
-        options = 0 | BIT_STRIP
-
-        metrics = parse_file_with_lgp("test-data/dict/poc-turtle", "test-data/corpora/poc-turtle/poc-turtle.txt",
-                             None, 1, options)
-
-        self.assertEqual(1.0, metrics.completely_parsed_ratio)
-        self.assertEqual(0.0, metrics.completely_unparsed_ratio)
-        self.assertEqual(1.0, metrics.average_parsed_ratio)
-
-    @unittest.skip
-    def test_parse_file_with_lgp_cmp(self):
-        """ Make sure 'parse_file_with_lgp' and 'parse_file_with_lgp0' produce the same results. """
-        # print(__doc__, sys.stderr)
-
-        pr = LGInprocParser()
-
-        # Testing over poc-turtle corpus... 100% success is expected.
-        options = 0 | BIT_STRIP
-
-        # Test if two functions return the same results.
-        tup_lgp = parse_file_with_lgp0("test-data/dict/poc-turtle", "test-data/corpora/poc-turtle/poc-turtle.txt",
-                                      None, 1, options)
-
-        metrics = pr.parse("test-data/dict/poc-turtle", "test-data/corpora/poc-turtle/poc-turtle.txt", None,
-                                      None, options)
-
-        print(tup_lgp, sys.stderr)
-        print(metrics.text(metrics), sys.stderr)
-
-        self.assertEqual(tup_lgp[0], metrics.completely_parsed_ratio)
-        self.assertEqual(tup_lgp[1], metrics.completely_unparsed_ratio)
-        self.assertEqual(tup_lgp[2], metrics.average_parsed_ratio)
 
 
 if __name__ == '__main__':

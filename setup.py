@@ -3,7 +3,7 @@ from setuptools import setup
 setup(name='opencog-ull',
       version='1.0.0',
       description='Unsupervised Language Learning Toolkit',
-      author='Opencog ULL Team',
+      author='SingularityNET',
       url='http://github.com/singnet/language-learning',
       namespace_packages=['ull'],
       packages=['ull.grammartest', 'ull.common'],

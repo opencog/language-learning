@@ -15,7 +15,7 @@ jobs:
 #          command: source activate ull
       - run:
           name: SparseSVD installation
-          command: conda install -n ull -y sparsesvd
+          command: source activate ull && pip install -y sparsesvd
       - run:
           name: Run tests
           command: |

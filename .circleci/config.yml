@@ -14,6 +14,9 @@ jobs:
 #          name: Activate virtual environment
 #          command: source activate ull
       - run:
+          name: SparseSVD installation
+          command: conda install -n ull -y sparsesvd
+      - run:
           name: Run tests
           command: |
             source activate ull && chmod +x ~/projects/run-tests.sh && ~/projects/run-tests.sh > /tmp/tests.log && cat /tmp/tests.log

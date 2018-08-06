@@ -15,7 +15,7 @@ jobs:
 #          command: source activate ull
       - run:
           name: SparseSVD installation
-          command: source activate ull && pip install -y sparsesvd
+          command: source activate ull && pip install sparsesvd
       - run:
           name: Run tests
           command: |

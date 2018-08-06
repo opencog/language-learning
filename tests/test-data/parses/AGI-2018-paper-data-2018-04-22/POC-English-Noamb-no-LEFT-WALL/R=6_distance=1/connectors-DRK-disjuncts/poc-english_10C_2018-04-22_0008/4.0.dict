@@ -1,0 +1,48 @@
+% Grammar Learner v.0.8 2018-04-22 17:54:33 UTC
+<dictionary-version-number>: V0v0v8+;
+<dictionary-locale>: EN4us+;
+
+% C01
+"dad" "mom":
+(C01C03+) or (C01C05+) or (C01C06+) or (C01C07+) or (C06C01- & C01C03+) or (C06C01- & C01C05+) or (C06C01- & C01C07+);
+
+% C02
+"daughter" "son":
+(C02C05+) or (C02C07+) or (C02C08+) or (C06C02- & C02C05+) or (C06C02- & C06C02-);
+
+% C03
+"liked" "not" "parent":
+(C01C03- & C03C05+ & C03C09+) or (C01C03- & C03C09+ & C03C05+) or (C01C03- & C06C03- & C03C09+ & C03C06+ & C03C03+) or (C03C03-) or (C06C03- & C01C03- & C03C09+ & C03C06+ & C03C03+) or (C06C03- & C01C03- & C03C10+);
+
+% C04
+"likes":
+(C04C05+);
+
+% C05
+"cake" "sausage":
+(C03C05-) or (C04C05- & C01C05- & C05C10+) or (C04C05- & C02C05- & C05C10+) or (C05C06+);
+
+% C06
+"a" "food" "was":
+(C01C06- & C06C02+ & C06C09+) or (C03C06-) or (C05C06- & C06C06+ & C06C09+) or (C05C06- & C06C09+ & C06C06+) or (C05C06- & C07C06- & C06C10+) or (C06C01+) or (C06C02+) or (C06C03+) or (C06C06-) or (C06C08+) or (C06C09+) or (C07C06-) or (C07C06- & C05C06- & C06C10+) or (C07C06- & C06C03+);
+
+% C07
+"is":
+(C01C07- & C07C08+ & C07C06+) or (C02C07- & C07C08+ & C07C06+) or (C07C06+) or (C07C06+ & C07C06+) or (C07C08+ & C07C06+);
+
+% C08
+"child" "human":
+(C02C08- & C06C08- & C07C08- & C08C10+) or (C02C08- & C07C08- & C08C10+) or (C07C08- & C02C08- & C06C08- & C08C10+) or (C07C08- & C02C08- & C08C10+) or (C07C08- & C06C08- & C08C10+) or (C07C08- & C08C10+);
+
+% C09
+"before":
+(C03C09- & C09C10+) or (C06C09- & C06C09- & C09C10+) or (C06C09- & C09C10+);
+
+% C10
+"." "now":
+(C03C10-) or (C03C10- & C10C10+) or (C05C10-) or (C05C10- & C10C10+) or (C06C10-) or (C06C10- & C10C10+) or (C08C10-) or (C08C10- & C10C10+) or (C09C10-) or (C10C10-);
+
+UNKNOWN-WORD: XXX+;
+
+% 10 word clusters, 10 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-Noamb-no-LEFT-WALL/R=6_distance=1/connectors-DRK-disjuncts/poc-english_10C_2018-04-22_0008.4.0.dict

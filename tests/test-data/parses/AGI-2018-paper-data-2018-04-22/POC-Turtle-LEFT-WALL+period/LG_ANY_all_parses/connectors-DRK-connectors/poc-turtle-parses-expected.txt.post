@@ -1,0 +1,67 @@
+echo set to 1
+postscript set to 1
+graphics set to 0
+verbosity set to 0
+limit set to 1
+tuna has fin .
+[(LEFT-WALL)(tuna)(has)(fin)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+eagle isa bird .
+[(LEFT-WALL)(eagle)(isa)(bird)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+fin isa extremity .
+[(LEFT-WALL)(fin)(isa)(extremity)(.)]
+[[0 1 0 (C05C04)][1 2 0 (C04C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+tuna isa fish .
+[(LEFT-WALL)(tuna)(isa)(fish)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+fin has scale .
+[(LEFT-WALL)(fin)([has])(scale)(.)]
+[[0 1 0 (C05C04)][1 3 0 (C04C04)][3 4 0 (C04C03)]]
+[0]
+
+eagle has wing .
+[(LEFT-WALL)(eagle)(has)(wing)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+wing has feather .
+[(LEFT-WALL)(wing)([has])(feather)(.)]
+[[0 1 0 (C05C04)][1 3 0 (C04C04)][3 4 0 (C04C03)]]
+[0]
+
+wing isa extremity .
+[(LEFT-WALL)(wing)(isa)(extremity)(.)]
+[[0 1 0 (C05C04)][1 2 0 (C04C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+herring isa fish .
+[(LEFT-WALL)(herring)(isa)(fish)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+herring has fin .
+[(LEFT-WALL)(herring)(has)(fin)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+parrot isa bird .
+[(LEFT-WALL)(parrot)(isa)(bird)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+parrot has wing .
+[(LEFT-WALL)(parrot)(has)(wing)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+Bye.
+

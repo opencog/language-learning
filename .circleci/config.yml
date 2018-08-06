@@ -1,0 +1,31 @@
+version: 2.0
+
+jobs:
+  build:
+    docker:
+      - image: singularitynet/opencog-ull-build
+        user: opencog-ull
+    working_directory: ~/projects
+    environment:
+      ORG: singnet
+    steps:
+      - checkout
+#      - run:
+#          name: Activate virtual environment
+#          command: source activate ull
+      - run:
+          name: Run tests
+          command: |
+            source activate ull && chmod +x ~/projects/run-tests.sh && ~/projects/run-tests.sh > /tmp/tests.log && cat /tmp/tests.log
+
+workflows:
+  version: 2
+  package:
+    jobs:
+      - build
+#      - package:
+#          requires:
+#            - build
+#          filters:
+#            branches:
+#              only: master

@@ -1,0 +1,60 @@
+% Grammar Learner v.0.8 2018-04-22 17:34:15 UTC
+<dictionary-version-number>: V0v0v8+;
+<dictionary-locale>: EN4us+;
+
+% C01
+".":
+(C03C01-) or (C05C01-) or (C06C01-) or (C07C01-) or (C08C01-) or (C12C01-) or (C13C01-);
+
+% C02
+"LEFT-WALL":
+(C02C04+) or (C02C07+) or (C02C10+) or (C02C13+);
+
+% C03
+"bird":
+(C11C03- & C04C03- & C03C01+);
+
+% C04
+"eagle" "parrot":
+(C02C04- & C04C03+) or (C02C04- & C04C13+);
+
+% C05
+"extremity":
+(C11C05- & C07C05- & C05C01+) or (C13C05- & C11C05- & C05C01+);
+
+% C06
+"feather":
+(C13C06- & C09C06- & C06C01+);
+
+% C07
+"fin":
+(C02C07- & C07C05+) or (C02C07- & C07C12+) or (C09C07- & C10C07- & C07C01+);
+
+% C08
+"fish":
+(C10C08- & C11C08- & C08C01+);
+
+% C09
+"has":
+(C09C06+) or (C09C07+) or (C09C12+) or (C09C13+);
+
+% C10
+"herring" "tuna":
+(C02C10- & C10C07+) or (C02C10- & C10C08+);
+
+% C11
+"isa":
+(C11C03+) or (C11C05+) or (C11C08+);
+
+% C12
+"scale":
+(C09C12- & C07C12- & C12C01+);
+
+% C13
+"wing":
+(C02C13- & C13C05+) or (C02C13- & C13C06+) or (C09C13- & C04C13- & C13C01+);
+
+UNKNOWN-WORD: XXX+;
+
+% 13 word clusters, 13 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-Turtle-LEFT-WALL+period/R=6_Weight=1/disjuncts-ILE-disjuncts/poc-turtle_13C_2018-04-22_0008.4.0.dict

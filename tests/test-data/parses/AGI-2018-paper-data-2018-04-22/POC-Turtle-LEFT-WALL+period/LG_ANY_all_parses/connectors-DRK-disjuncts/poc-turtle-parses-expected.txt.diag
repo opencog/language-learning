@@ -1,0 +1,80 @@
+echo set to 1
+graphics set to 1
+verbosity set to 0
+limit set to 1
+tuna has fin .
+
+    +-C05C02+C02C01+C01C04+C04C03+
+    |       |      |      |      |
+LEFT-WALL tuna    has    fin     .
+
+eagle isa bird .
+
+    +-C05C02+C02C01+C01C06+C06C03+
+    |       |      |      |      |
+LEFT-WALL eagle   isa   bird     .
+
+fin isa extremity .
+
+    +C05C04+C04C01+C01C06+C06C03+
+    |      |      |      |      |
+LEFT-WALL fin    isa extremity  .
+
+tuna isa fish .
+
+    +-C05C02+C02C01+C01C06+C06C03+
+    |       |      |      |      |
+LEFT-WALL tuna    isa   fish     .
+
+fin has scale .
+
+           +--C04C04--+
+    +C05C04+   +C01C04+C04C03+
+    |      |   |      |      |
+LEFT-WALL fin has   scale    .
+
+eagle has wing .
+
+    +-C05C02+C02C01+C01C04+C04C03+
+    |       |      |      |      |
+LEFT-WALL eagle   has   wing     .
+
+wing has feather .
+
+            +--C04C04--+
+    +-C05C04+   +C01C04+C04C03+
+    |       |   |      |      |
+LEFT-WALL wing has  feather   .
+
+wing isa extremity .
+
+    +-C05C04+C04C01+C01C06+C06C03+
+    |       |      |      |      |
+LEFT-WALL wing    isa extremity  .
+
+herring isa fish .
+
+    +-C05C02-+C02C01+C01C06+C06C03+
+    |        |      |      |      |
+LEFT-WALL herring  isa   fish     .
+
+herring has fin .
+
+    +-C05C02-+C02C01+C01C04+C04C03+
+    |        |      |      |      |
+LEFT-WALL herring  has    fin     .
+
+parrot isa bird .
+
+    +-C05C02-+C02C01+C01C06+C06C03+
+    |        |      |      |      |
+LEFT-WALL parrot   isa   bird     .
+
+parrot has wing .
+
+    +-C05C02-+C02C01+C01C04+C04C03+
+    |        |      |      |      |
+LEFT-WALL parrot   has   wing     .
+
+Bye.
+

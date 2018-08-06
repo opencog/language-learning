@@ -1,0 +1,80 @@
+A mom is a human.
+A dad is a human.
+A mom is a parent.
+A dad is a parent.
+A son is a child.
+A daughter is a child.
+A son is a human.
+A daughter is a human.
+A mom likes cake.
+A daughter likes cake.
+A son likes sausage.
+A dad likes sausage.
+Cake is a food.
+Sausage is a food.
+
+Mom is a human now.
+Dad is a human now.
+Mom is a parent now.
+Dad is a parent now.
+Son is a child now.
+Daughter is a child now.
+Son is a human now.
+Daughter is a human now.
+Mom likes cake now.
+Daughter likes cake now.
+Son likes sausage now.
+Dad likes sausage now.
+Cake is a food now.
+Sausage is a food now.
+Mom was a daughter before.
+Dad was a son before.
+Mom was not a parent before.
+Dad was not a parent before.
+Mom liked cake before.
+Dad liked sausage before.
+Cake was a food before.
+Sausage was a food before.
+
+Mom wants to aboard the ship.
+Dad comes on board the ship.
+Son hate to come board ship.
+Daughter comes aboard the ship.
+Mom writes by chalk on the board.
+Dad writes by chalk on the board.
+Son writes by chalk on the board.
+Daughter writes by chalk on the board.
+
+Dad wants Mom to board the ship.
+Mom wants Dad to board the ship.
+Dad wants his son to board the ship.
+Mom wants her daughter to board the ship.
+
+Mom saw Dad with a hammer.
+Mom saw Dad with a saw.
+Dad saw Mom with a hammer.
+Dad saw Mom with a saw.
+Saw is a tool.
+Hammed is a tool.
+Mom sees Dad now.
+Dad sees Mom now.
+Mom saw Dad yesterday.
+Dad saw Mom yesterday.
+Mom sawed the wood with a saw.
+Dad sawed the wood with a saw.
+Mom knocked the wood with a hammer.
+Dad knocked the wood with a hammer.
+
+Mom saw Dad in binoculars.
+Mom saw Dad with a telescope.
+Dad saw Mom with binoculars.
+Dad saw Mom with a telescope.
+Binoculars are a tool.
+A telescope is a tool.
+Mom has a telescope.
+Mom has binoculars.
+Dad has a saw.
+Dad has a hammer.
+
+mom dad sausage hate little eat.
+

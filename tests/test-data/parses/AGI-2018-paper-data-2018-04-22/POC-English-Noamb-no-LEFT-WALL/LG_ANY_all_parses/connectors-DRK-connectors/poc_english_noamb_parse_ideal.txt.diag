@@ -1,0 +1,222 @@
+echo set to 1
+graphics set to 1
+verbosity set to 0
+limit set to 1
+a mom is a human .
+
++C01C10+C10C04+C04C01+C01C07+C07C02+
+|      |      |      |      |      |
+a     mom    is      a    human    .
+
+a dad is a human .
+
++C01C10+C10C04+C04C01+C01C07+C07C02+
+|      |      |      |      |      |
+a     dad    is      a    human    .
+
+a mom is a parent .
+
++C01C10+C10C04+C04C01+C01C06+C06C02+
+|      |      |      |      |      |
+a     mom    is      a   parent    .
+
+a dad is a parent .
+
++C01C10+C10C04+C04C01+C01C06+C06C02+
+|      |      |      |      |      |
+a     dad    is      a   parent    .
+
+a son is a child .
+
++C01C09+C09C04+C04C01+C01C07+C07C02+
+|      |      |      |      |      |
+a     son    is      a    child    .
+
+a daughter is a child .
+
++C01C09+C09C04+C04C01+C01C07+C07C02+
+|      |      |      |      |      |
+a  daughter  is      a    child    .
+
+a son is a human .
+
++C01C09+C09C04+C04C01+C01C07+C07C02+
+|      |      |      |      |      |
+a     son    is      a    human    .
+
+a daughter is a human .
+
++C01C09+C09C04+C04C01+C01C07+C07C02+
+|      |      |      |      |      |
+a  daughter  is      a    human    .
+
+a mom likes cake .
+
++C01C10+C10C05+C05C08+C08C02+
+|      |      |      |      |
+a     mom   likes  cake     .
+
+a daughter likes cake .
+
++C01C09+C09C05+C05C08+C08C02+
+|      |      |      |      |
+a  daughter likes  cake     .
+
+a son likes sausage .
+
++C01C09+C09C05+C05C08+C08C02+
+|      |      |      |      |
+a     son   likes sausage   .
+
+a dad likes sausage .
+
++C01C10+C10C05+C05C08+C08C02+
+|      |      |      |      |
+a     dad   likes sausage   .
+
+cake is a food .
+
+  +C08C04+C04C01+C01C06+C06C02+
+  |      |      |      |      |
+cake    is      a    food     .
+
+sausage is a food .
+
+   +C08C04+C04C01+C01C06+C06C02+
+   |      |      |      |      |
+sausage  is      a    food     .
+
+mom is a human now .
+
+ +C10C04+C04C01+C01C07+C07C02+C02C02+
+ |      |      |      |      |      |
+mom    is      a    human   now     .
+
+dad is a human now .
+
+ +C10C04+C04C01+C01C07+C07C02+C02C02+
+ |      |      |      |      |      |
+dad    is      a    human   now     .
+
+mom is a parent now .
+
+ +C10C04+C04C01+C01C06+C06C02+C02C02+
+ |      |      |      |      |      |
+mom    is      a   parent   now     .
+
+dad is a parent now .
+
+ +C10C04+C04C01+C01C06+C06C02+C02C02+
+ |      |      |      |      |      |
+dad    is      a   parent   now     .
+
+son is a child now .
+
+ +C09C04+C04C01+C01C07+C07C02+C02C02+
+ |      |      |      |      |      |
+son    is      a    child   now     .
+
+daughter is a child now .
+
+    +C09C04+C04C01+C01C07+C07C02+C02C02+
+    |      |      |      |      |      |
+daughter  is      a    child   now     .
+
+son is a human now .
+
+ +C09C04+C04C01+C01C07+C07C02+C02C02+
+ |      |      |      |      |      |
+son    is      a    human   now     .
+
+daughter is a human now .
+
+    +C09C04+C04C01+C01C07+C07C02+C02C02+
+    |      |      |      |      |      |
+daughter  is      a    human   now     .
+
+mom likes cake now .
+
+ +C10C05+C05C08+C08C02+C02C02+
+ |      |      |      |      |
+mom   likes  cake    now     .
+
+daughter likes cake now .
+
+    +C09C05+C05C08+C08C02+C02C02+
+    |      |      |      |      |
+daughter likes  cake    now     .
+
+son likes sausage now .
+
+ +C09C05+C05C08+C08C02+C02C02+
+ |      |      |      |      |
+son   likes sausage  now     .
+
+dad likes sausage now .
+
+ +C10C05+C05C08+C08C02+C02C02+
+ |      |      |      |      |
+dad   likes sausage  now     .
+
+cake is a food now .
+
+  +C08C04+C04C01+C01C06+C06C02+C02C02+
+  |      |      |      |      |      |
+cake    is      a    food    now     .
+
+sausage is a food now .
+
+   +C08C04+C04C01+C01C06+C06C02+C02C02+
+   |      |      |      |      |      |
+sausage  is      a    food    now     .
+
+mom was a daughter before .
+
+ +C10C04+C04C01+C01C09+
+ |      |      |      |
+mom    was     a  daughter [before] [.]
+
+dad was a son before .
+
+ +C10C04+C04C01+C01C09+
+ |      |      |      |
+dad    was     a     son [before] [.]
+
+mom was not a parent before .
+
+ +C10C04+C04C03+C03C01+C01C06+C06C03+C03C02+
+ |      |      |      |      |      |      |
+mom    was    not     a   parent before    .
+
+dad was not a parent before .
+
+ +C10C04+C04C03+C03C01+C01C06+C06C03+C03C02+
+ |      |      |      |      |      |      |
+dad    was    not     a   parent before    .
+
+mom liked cake before .
+
+ +C10C05+----C05C03---+C03C02+
+ |      |             |      |
+mom   liked [cake] before    .
+
+dad liked sausage before .
+
+ +C10C05+-----C05C03-----+C03C02+
+ |      |                |      |
+dad   liked [sausage] before    .
+
+cake was a food before .
+
+  +C08C04+C04C01+C01C06+C06C03+C03C02+
+  |      |      |      |      |      |
+cake    was     a    food  before    .
+
+sausage was a food before .
+
+   +C08C04+C04C01+C01C06+C06C03+C03C02+
+   |      |      |      |      |      |
+sausage  was     a    food  before    .
+
+Bye.
+

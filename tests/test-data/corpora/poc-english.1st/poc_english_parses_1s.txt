@@ -1,0 +1,360 @@
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+
+daughter is a child . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 daughter 2 is
+2 is 4 child
+3 a 4 child
+

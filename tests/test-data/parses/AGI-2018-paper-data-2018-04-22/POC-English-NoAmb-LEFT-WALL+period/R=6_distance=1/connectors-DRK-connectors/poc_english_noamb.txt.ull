@@ -1,0 +1,254 @@
+a mom is a human . 
+0 ###LEFT-WALL### 1 a
+1 a 2 mom
+2 mom 3 is
+3 is 4 a
+4 a 5 human
+5 human 6 .
+
+a dad is a human . 
+0 ###LEFT-WALL### 1 a
+1 a 2 dad
+2 dad 3 is
+3 is 4 a
+4 a 5 human
+5 human 6 .
+
+a mom is a parent . 
+0 ###LEFT-WALL### 1 a
+1 a 2 mom
+2 mom 3 is
+3 is 4 a
+4 a 5 parent
+5 parent 6 .
+
+a dad is a parent . 
+0 ###LEFT-WALL### 1 a
+1 a 2 dad
+2 dad 3 is
+3 is 4 a
+4 a 5 parent
+5 parent 6 .
+
+a son is a child . 
+0 ###LEFT-WALL### 1 a
+1 a 2 son
+2 son 3 is
+3 is 4 a
+4 a 5 child
+5 child 6 .
+
+a daughter is a child . 
+0 ###LEFT-WALL### 1 a
+1 a 2 daughter
+2 daughter 3 is
+3 is 4 a
+4 a 5 child
+5 child 6 .
+
+a son is a human . 
+0 ###LEFT-WALL### 1 a
+1 a 2 son
+2 son 3 is
+3 is 4 a
+4 a 5 human
+5 human 6 .
+
+a daughter is a human . 
+0 ###LEFT-WALL### 1 a
+1 a 2 daughter
+2 daughter 3 is
+3 is 4 a
+4 a 5 human
+5 human 6 .
+
+a mom likes cake . 
+0 ###LEFT-WALL### 1 a
+1 a 2 mom
+2 mom 3 likes
+3 likes 4 cake
+4 cake 5 .
+
+a daughter [likes] cake . 
+0 ###LEFT-WALL### 1 a
+1 a 2 daughter
+2 daughter 4 cake
+4 cake 5 .
+
+a son [likes] sausage . 
+0 ###LEFT-WALL### 1 a
+1 a 2 son
+2 son 4 sausage
+4 sausage 5 .
+
+a dad likes sausage . 
+0 ###LEFT-WALL### 1 a
+1 a 2 dad
+2 dad 3 likes
+3 likes 4 sausage
+4 sausage 5 .
+
+cake [is] [a] food . 
+0 ###LEFT-WALL### 1 cake
+1 cake 4 food
+4 food 5 .
+
+sausage [is] [a] food . 
+0 ###LEFT-WALL### 1 sausage
+1 sausage 4 food
+4 food 5 .
+
+mom is a human now . 
+0 ###LEFT-WALL### 1 mom
+1 mom 2 is
+2 is 3 a
+3 a 4 human
+4 human 5 now
+5 now 6 .
+
+dad is a human now . 
+0 ###LEFT-WALL### 1 dad
+1 dad 2 is
+2 is 3 a
+3 a 4 human
+4 human 5 now
+5 now 6 .
+
+mom is a parent now . 
+0 ###LEFT-WALL### 1 mom
+1 mom 2 is
+2 is 3 a
+3 a 4 parent
+4 parent 5 now
+5 now 6 .
+
+dad is a parent now . 
+0 ###LEFT-WALL### 1 dad
+1 dad 2 is
+2 is 3 a
+3 a 4 parent
+4 parent 5 now
+5 now 6 .
+
+son is a child now . 
+0 ###LEFT-WALL### 1 son
+1 son 2 is
+2 is 3 a
+3 a 4 child
+4 child 5 now
+5 now 6 .
+
+daughter is a child now . 
+0 ###LEFT-WALL### 1 daughter
+1 daughter 2 is
+2 is 3 a
+3 a 4 child
+4 child 5 now
+5 now 6 .
+
+son is a human now . 
+0 ###LEFT-WALL### 1 son
+1 son 2 is
+2 is 3 a
+3 a 4 human
+4 human 5 now
+5 now 6 .
+
+daughter is a human now . 
+0 ###LEFT-WALL### 1 daughter
+1 daughter 2 is
+2 is 3 a
+3 a 4 human
+4 human 5 now
+5 now 6 .
+
+mom likes cake now . 
+0 ###LEFT-WALL### 1 mom
+1 mom 2 likes
+2 likes 3 cake
+3 cake 4 now
+4 now 5 .
+
+daughter [likes] cake now . 
+0 ###LEFT-WALL### 1 daughter
+1 daughter 3 cake
+3 cake 4 now
+4 now 5 .
+
+son [likes] sausage now . 
+0 ###LEFT-WALL### 1 son
+1 son 3 sausage
+3 sausage 4 now
+4 now 5 .
+
+dad likes sausage now . 
+0 ###LEFT-WALL### 1 dad
+1 dad 2 likes
+2 likes 3 sausage
+3 sausage 4 now
+4 now 5 .
+
+cake [is] [a] food now . 
+0 ###LEFT-WALL### 1 cake
+1 cake 4 food
+4 food 5 now
+5 now 6 .
+
+sausage [is] [a] food now . 
+0 ###LEFT-WALL### 1 sausage
+1 sausage 4 food
+4 food 5 now
+5 now 6 .
+
+mom was a daughter [before] [.] 
+0 ###LEFT-WALL### 1 mom
+1 mom 2 was
+2 was 3 a
+3 a 4 daughter
+
+dad was a son [before] [.] 
+0 ###LEFT-WALL### 1 dad
+1 dad 2 was
+2 was 3 a
+3 a 4 son
+
+mom was not a parent [before] . 
+0 ###LEFT-WALL### 1 mom
+1 mom 2 was
+2 was 3 not
+3 not 4 a
+4 a 5 parent
+5 parent 7 .
+
+dad was not a parent [before] . 
+0 ###LEFT-WALL### 1 dad
+1 dad 2 was
+2 was 3 not
+3 not 4 a
+4 a 5 parent
+5 parent 7 .
+
+mom liked cake [before] . 
+0 ###LEFT-WALL### 1 mom
+1 mom 2 liked
+2 liked 3 cake
+3 cake 5 .
+
+dad liked sausage [before] . 
+0 ###LEFT-WALL### 1 dad
+1 dad 2 liked
+2 liked 3 sausage
+3 sausage 5 .
+
+cake was [a] [food] before . 
+0 ###LEFT-WALL### 1 cake
+1 cake 2 was
+2 was 5 before
+5 before 6 .
+
+sausage was [a] [food] before . 
+0 ###LEFT-WALL### 1 sausage
+1 sausage 2 was
+2 was 5 before
+5 before 6 .
+

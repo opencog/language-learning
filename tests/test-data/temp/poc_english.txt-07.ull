@@ -1,0 +1,24 @@
+[mom] [sees] [dad] [now] . 
+0 ###LEFT-WALL### 5 .
+
+[dad] [sees] [mom] [now] . 
+0 ###LEFT-WALL### 5 .
+
+[son] [sees] [dad] [now] . 
+0 ###LEFT-WALL### 5 .
+
+[daughter] [sees] [mom] [now] . 
+0 ###LEFT-WALL### 5 .
+
+[mom] [saw] [dad] [before] . 
+0 ###LEFT-WALL### 5 .
+
+[dad] [saw] [mom] [before] . 
+0 ###LEFT-WALL### 5 .
+
+[son] [saw] [dad] [before] . 
+0 ###LEFT-WALL### 5 .
+
+[daughter] [saw] [mom] [before] . 
+0 ###LEFT-WALL### 5 .
+

@@ -1,0 +1,187 @@
+echo set to 1
+postscript set to 1
+graphics set to 0
+verbosity set to 0
+limit set to 1
+a mom is a human .
+[(a)(mom)(is)(a)(human)(.)]
+[[0 1 0 (C02C06)][1 2 0 (C06C09)][2 3 0 (C09C02)][3 4 0 (C02C05)][4 5 0 (C05C01)]]
+[0]
+
+a dad is a human .
+[(a)(dad)(is)(a)(human)(.)]
+[[0 1 0 (C02C06)][1 2 0 (C06C09)][2 3 0 (C09C02)][3 4 0 (C02C05)][4 5 0 (C05C01)]]
+[0]
+
+a mom is a parent .
+[(a)(mom)(is)(a)(parent)(.)]
+[[0 1 0 (C02C06)][1 2 0 (C06C09)][2 3 0 (C09C02)][3 4 0 (C02C14)][4 5 0 (C14C01)]]
+[0]
+
+a dad is a parent .
+[(a)(dad)(is)(a)(parent)(.)]
+[[0 1 0 (C02C06)][1 2 0 (C06C09)][2 3 0 (C09C02)][3 4 0 (C02C14)][4 5 0 (C14C01)]]
+[0]
+
+a son is a child .
+[(a)(son)(is)(a)(child)(.)]
+[[0 1 0 (C02C07)][1 2 0 (C07C09)][2 3 0 (C09C02)][3 4 0 (C02C05)][4 5 0 (C05C01)]]
+[0]
+
+a daughter is a child .
+[(a)(daughter)(is)(a)(child)(.)]
+[[0 1 0 (C02C07)][1 2 0 (C07C09)][2 3 0 (C09C02)][3 4 0 (C02C05)][4 5 0 (C05C01)]]
+[0]
+
+a son is a human .
+[(a)(son)(is)(a)(human)(.)]
+[[0 1 0 (C02C07)][1 2 0 (C07C09)][2 3 0 (C09C02)][3 4 0 (C02C05)][4 5 0 (C05C01)]]
+[0]
+
+a daughter is a human .
+[(a)(daughter)(is)(a)(human)(.)]
+[[0 1 0 (C02C07)][1 2 0 (C07C09)][2 3 0 (C09C02)][3 4 0 (C02C05)][4 5 0 (C05C01)]]
+[0]
+
+a mom likes cake .
+[(a)(mom)(likes)(cake)(.)]
+[[0 1 0 (C02C06)][1 2 0 (C06C11)][2 3 0 (C11C04)][3 4 0 (C04C01)]]
+[0]
+
+a daughter likes cake .
+[(a)(daughter)(likes)(cake)(.)]
+[[0 1 0 (C02C07)][1 2 0 (C07C11)][2 3 0 (C11C04)][3 4 0 (C04C01)]]
+[0]
+
+a son likes sausage .
+[(a)(son)(likes)(sausage)(.)]
+[[0 1 0 (C02C07)][1 2 0 (C07C11)][2 3 0 (C11C04)][3 4 0 (C04C01)]]
+[0]
+
+a dad likes sausage .
+[(a)(dad)(likes)(sausage)(.)]
+[[0 1 0 (C02C06)][1 2 0 (C06C11)][2 3 0 (C11C04)][3 4 0 (C04C01)]]
+[0]
+
+cake is a food .
+[(cake)(is)(a)(food)(.)]
+[[0 1 0 (C04C09)][1 2 0 (C09C02)][2 3 0 (C02C08)][3 4 0 (C08C01)]]
+[0]
+
+sausage is a food .
+[(sausage)(is)(a)(food)(.)]
+[[0 1 0 (C04C09)][1 2 0 (C09C02)][2 3 0 (C02C08)][3 4 0 (C08C01)]]
+[0]
+
+mom is a human now .
+[(mom)(is)(a)(human)(now)(.)]
+[[0 1 0 (C06C09)][1 2 0 (C09C02)][2 3 0 (C02C05)][3 4 0 (C05C13)][4 5 0 (C13C01)]]
+[0]
+
+dad is a human now .
+[(dad)(is)(a)(human)(now)(.)]
+[[0 1 0 (C06C09)][1 2 0 (C09C02)][2 3 0 (C02C05)][3 4 0 (C05C13)][4 5 0 (C13C01)]]
+[0]
+
+mom is a parent now .
+[(mom)(is)(a)(parent)(now)(.)]
+[[0 1 0 (C06C09)][1 2 0 (C09C02)][2 3 0 (C02C14)][3 4 0 (C14C13)][4 5 0 (C13C01)]]
+[0]
+
+dad is a parent now .
+[(dad)(is)(a)(parent)(now)(.)]
+[[0 1 0 (C06C09)][1 2 0 (C09C02)][2 3 0 (C02C14)][3 4 0 (C14C13)][4 5 0 (C13C01)]]
+[0]
+
+son is a child now .
+[(son)(is)(a)(child)(now)(.)]
+[[0 1 0 (C07C09)][1 2 0 (C09C02)][2 3 0 (C02C05)][3 4 0 (C05C13)][4 5 0 (C13C01)]]
+[0]
+
+daughter is a child now .
+[(daughter)(is)(a)(child)(now)(.)]
+[[0 1 0 (C07C09)][1 2 0 (C09C02)][2 3 0 (C02C05)][3 4 0 (C05C13)][4 5 0 (C13C01)]]
+[0]
+
+son is a human now .
+[(son)(is)(a)(human)(now)(.)]
+[[0 1 0 (C07C09)][1 2 0 (C09C02)][2 3 0 (C02C05)][3 4 0 (C05C13)][4 5 0 (C13C01)]]
+[0]
+
+daughter is a human now .
+[(daughter)(is)(a)(human)(now)(.)]
+[[0 1 0 (C07C09)][1 2 0 (C09C02)][2 3 0 (C02C05)][3 4 0 (C05C13)][4 5 0 (C13C01)]]
+[0]
+
+mom likes cake now .
+[(mom)(likes)(cake)(now)(.)]
+[[0 1 0 (C06C11)][1 2 0 (C11C04)][2 3 0 (C04C13)][3 4 0 (C13C01)]]
+[0]
+
+daughter likes cake now .
+[(daughter)(likes)(cake)(now)(.)]
+[[0 1 0 (C07C11)][1 2 0 (C11C04)][2 3 0 (C04C13)][3 4 0 (C13C01)]]
+[0]
+
+son likes sausage now .
+[(son)(likes)(sausage)(now)(.)]
+[[0 1 0 (C07C11)][1 2 0 (C11C04)][2 3 0 (C04C13)][3 4 0 (C13C01)]]
+[0]
+
+dad likes sausage now .
+[(dad)(likes)(sausage)(now)(.)]
+[[0 1 0 (C06C11)][1 2 0 (C11C04)][2 3 0 (C04C13)][3 4 0 (C13C01)]]
+[0]
+
+cake is a food now .
+[(cake)(is)(a)(food)(now)(.)]
+[[0 1 0 (C04C09)][1 2 0 (C09C02)][2 3 0 (C02C08)][3 4 0 (C08C13)][4 5 0 (C13C01)]]
+[0]
+
+sausage is a food now .
+[(sausage)(is)(a)(food)(now)(.)]
+[[0 1 0 (C04C09)][1 2 0 (C09C02)][2 3 0 (C02C08)][3 4 0 (C08C13)][4 5 0 (C13C01)]]
+[0]
+
+mom was a daughter before .
+[([mom])([was])([a])([daughter])([before])([.])]
+[]
+[0]
+
+dad was a son before .
+[([dad])([was])([a])([son])([before])([.])]
+[]
+[0]
+
+mom was not a parent before .
+[([mom])([was])([not])([a])([parent])([before])([.])]
+[]
+[0]
+
+dad was not a parent before .
+[([dad])([was])([not])([a])([parent])([before])([.])]
+[]
+[0]
+
+mom liked cake before .
+[(mom)(liked)(cake)(before)(.)]
+[[0 1 0 (C06C10)][1 3 1 (C10C03)][1 2 0 (C10C04)][3 4 0 (C03C01)]]
+[0]
+
+dad liked sausage before .
+[(dad)(liked)(sausage)(before)(.)]
+[[0 1 0 (C06C10)][1 3 1 (C10C03)][1 2 0 (C10C04)][3 4 0 (C03C01)]]
+[0]
+
+cake was a food before .
+[(cake)(was)(a)(food)(before)(.)]
+[[0 1 0 (C04C15)][1 2 0 (C15C02)][2 3 0 (C02C08)][3 4 0 (C08C03)][4 5 0 (C03C01)]]
+[0]
+
+sausage was a food before .
+[(sausage)(was)(a)(food)(before)(.)]
+[[0 1 0 (C04C15)][1 2 0 (C15C02)][2 3 0 (C02C08)][3 4 0 (C08C03)][4 5 0 (C03C01)]]
+[0]
+
+Bye.
+

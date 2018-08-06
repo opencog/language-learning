@@ -1,0 +1,102 @@
+mom has a hammer . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 has
+0 ###LEFT-WALL### 5 .
+1 mom 2 has
+2 has 4 hammer
+3 a 4 hammer
+
+mom has a saw . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 has
+0 ###LEFT-WALL### 5 .
+1 mom 2 has
+2 has 4 saw
+3 a 4 saw
+
+dad has a hammer . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 has
+0 ###LEFT-WALL### 5 .
+1 dad 2 has
+2 has 4 hammer
+3 a 4 hammer
+
+dad has a saw . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 has
+0 ###LEFT-WALL### 5 .
+1 dad 2 has
+2 has 4 saw
+3 a 4 saw
+
+mom has a telescope . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 has
+0 ###LEFT-WALL### 5 .
+1 mom 2 has
+2 has 4 telescope
+3 a 4 telescope
+
+mom has binoculars . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 has
+0 ###LEFT-WALL### 4 .
+1 mom 2 has
+2 has 3 binoculars
+
+dad has a telescope . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 has
+0 ###LEFT-WALL### 5 .
+1 dad 2 has
+2 has 4 telescope
+3 a 4 telescope
+
+dad has binoculars . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 has
+0 ###LEFT-WALL### 4 .
+1 dad 2 has
+2 has 3 binoculars
+
+mom saw dad with a hammer . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 saw
+0 ###LEFT-WALL### 7 .
+1 mom 2 saw
+2 saw 3 dad
+2 saw 4 with
+4 with 6 hammer
+5 a 6 hammer
+
+mom saw dad with a saw . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 saw
+0 ###LEFT-WALL### 7 .
+1 mom 2 saw
+2 saw 3 dad
+2 saw 4 with
+4 with 6 saw
+5 a 6 saw
+
+dad saw mom with a hammer . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 saw
+0 ###LEFT-WALL### 7 .
+1 dad 2 saw
+2 saw 3 mom
+2 saw 4 with
+4 with 6 hammer
+5 a 6 hammer
+
+dad saw mom with a saw . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 saw
+0 ###LEFT-WALL### 7 .
+1 dad 2 saw
+2 saw 3 mom
+2 saw 4 with
+4 with 6 saw
+5 a 6 saw
+

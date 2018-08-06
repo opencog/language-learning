@@ -1,0 +1,68 @@
+tuna has fin . 
+0 ###LEFT-WALL### 1 tuna
+1 tuna 2 has
+2 has 3 fin
+3 fin 4 .
+
+eagle isa bird . 
+0 ###LEFT-WALL### 1 eagle
+1 eagle 2 isa
+2 isa 3 bird
+3 bird 4 .
+
+fin isa extremity . 
+0 ###LEFT-WALL### 1 fin
+1 fin 2 isa
+2 isa 3 extremity
+3 extremity 4 .
+
+tuna isa fish . 
+0 ###LEFT-WALL### 1 tuna
+1 tuna 2 isa
+2 isa 3 fish
+3 fish 4 .
+
+fin has scale . 
+0 ###LEFT-WALL### 1 fin
+1 fin 3 scale
+2 has 3 scale
+3 scale 4 .
+
+eagle has wing . 
+0 ###LEFT-WALL### 1 eagle
+1 eagle 2 has
+2 has 3 wing
+3 wing 4 .
+
+[wing] [has] [feather] [.] 
+
+wing isa extremity . 
+0 ###LEFT-WALL### 1 wing
+1 wing 2 isa
+2 isa 3 extremity
+3 extremity 4 .
+
+herring isa fish . 
+0 ###LEFT-WALL### 1 herring
+1 herring 2 isa
+2 isa 3 fish
+3 fish 4 .
+
+herring has fin . 
+0 ###LEFT-WALL### 1 herring
+1 herring 2 has
+2 has 3 fin
+3 fin 4 .
+
+parrot isa bird . 
+0 ###LEFT-WALL### 1 parrot
+1 parrot 2 isa
+2 isa 3 bird
+3 bird 4 .
+
+parrot has wing . 
+0 ###LEFT-WALL### 1 parrot
+1 parrot 2 has
+2 has 3 wing
+3 wing 4 .
+

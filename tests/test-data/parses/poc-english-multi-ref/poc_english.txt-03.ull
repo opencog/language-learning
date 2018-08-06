@@ -1,0 +1,88 @@
+mom is on the board of directors . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 8 .
+1 mom 2 is
+2 is 3 on
+3 on 5 board
+4 the 5 board
+5 board 6 of
+6 of 7 directors
+
+dad is on the board of directors . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 8 .
+1 dad 2 is
+2 is 3 on
+3 on 5 board
+4 the 5 board
+5 board 6 of
+6 of 7 directors
+
+son is on the board of directors . 
+0 ###LEFT-WALL### 1 son
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 8 .
+1 son 2 is
+2 is 3 on
+3 on 5 board
+4 the 5 board
+5 board 6 of
+6 of 7 directors
+
+daughter is on the board of directors . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 8 .
+1 daughter 2 is
+2 is 3 on
+3 on 5 board
+4 the 5 board
+5 board 6 of
+6 of 7 directors
+
+mom writes with chalk on the board . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 writes
+0 ###LEFT-WALL### 8 .
+1 mom 2 writes
+2 writes 3 with
+2 writes 5 on
+3 with 4 chalk
+5 on 7 board
+6 the 7 board
+
+dad writes with chalk on the board . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 writes
+0 ###LEFT-WALL### 8 .
+1 dad 2 writes
+2 writes 3 with
+2 writes 5 on
+3 with 4 chalk
+5 on 7 board
+6 the 7 board
+
+son writes with chalk on the board . 
+0 ###LEFT-WALL### 1 son
+0 ###LEFT-WALL### 2 writes
+0 ###LEFT-WALL### 8 .
+1 son 2 writes
+2 writes 3 with
+2 writes 5 on
+3 with 4 chalk
+5 on 7 board
+6 the 7 board
+
+daughter writes with chalk on the board . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 writes
+0 ###LEFT-WALL### 8 .
+1 daughter 2 writes
+2 writes 3 with
+2 writes 5 on
+3 with 4 chalk
+5 on 7 board
+6 the 7 board
+

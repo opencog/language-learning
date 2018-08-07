@@ -73,7 +73,7 @@ class GrammarTesterTestCase(unittest.TestCase):
         self.assertEqual(88, pm.sentences)
 
 
-    # @unittest.skip
+    @unittest.skip
     def test_parseability(self):
         """ Test poc-english corpus with poc-turtle dictionary """
         # dict = "poc-turtle"
@@ -98,7 +98,7 @@ class GrammarTesterTestCase(unittest.TestCase):
         self.assertEqual("2.46%", pm.parseability_str(pm).strip())
         self.assertEqual("90.91%", pm.completely_unparsed_str(pm).strip())
 
-    # @unittest.skip
+    @unittest.skip
     def test_parseability_multi_file(self):
         """ Test poc-english corpus with poc-turtle dictionary """
         # dict = "poc-turtle"

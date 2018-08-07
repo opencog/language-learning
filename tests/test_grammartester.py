@@ -73,7 +73,7 @@ class GrammarTesterTestCase(unittest.TestCase):
         self.assertEqual(88, pm.sentences)
 
 
-    @unittest.skip
+    # @unittest.skip
     def test_parseability(self):
         """ Test poc-english corpus with poc-turtle dictionary """
         # dict = "poc-turtle"
@@ -98,7 +98,7 @@ class GrammarTesterTestCase(unittest.TestCase):
         self.assertEqual("2.46%", pm.parseability_str(pm).strip())
         self.assertEqual("90.91%", pm.completely_unparsed_str(pm).strip())
 
-    @unittest.skip
+    # @unittest.skip
     def test_parseability_multi_file(self):
         """ Test poc-english corpus with poc-turtle dictionary """
         # dict = "poc-turtle"
@@ -138,9 +138,11 @@ class GrammarTesterTestCase(unittest.TestCase):
         pr = LGInprocParser()
         # pr = LGApiParser()
 
+        # opts |= BIT_EXISTING_DICT
+
         gt = GrammarTester(grmr, tmpl, limit, pr)
-        pm1, pq1 = gt.test(dict, corp1, dest, ref1, opts)
-        pm2, pq2 = gt.test(dict, corp2, dest, ref2, opts)
+        pm1, pq1 = gt.test(dict, corp1, dest, ref1, (opts | BIT_EXISTING_DICT))
+        pm2, pq2 = gt.test(dict, corp2, dest, ref2, (opts | BIT_EXISTING_DICT))
 
         # print(pm.text(pm))
         # print(pq.text(pq))

@@ -144,5 +144,6 @@ dependencies:
   - twisted=17.5.0=py36_0
   - zope=1.0=py36_0
   - link-grammar-minisat-bundled=5.4.4=0
+  - sparsesvd=0.2.2=0
 prefix: /home/obaskov/anaconda3/envs/ull
 

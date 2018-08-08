@@ -32,8 +32,8 @@ class LGAPITestCase(unittest.TestCase):
 
         self.assertTrue(m1 == m2)
 
-        print(q1.text(q1))
-        print(q2.text(q2))
+        # print(q1.text(q1))
+        # print(q2.text(q2))
 
         self.assertTrue(q1 == q2)
 

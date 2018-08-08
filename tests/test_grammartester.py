@@ -138,9 +138,11 @@ class GrammarTesterTestCase(unittest.TestCase):
         pr = LGInprocParser()
         # pr = LGApiParser()
 
+        # opts |= BIT_EXISTING_DICT
+
         gt = GrammarTester(grmr, tmpl, limit, pr)
-        pm1, pq1 = gt.test(dict, corp1, dest, ref1, opts)
-        pm2, pq2 = gt.test(dict, corp2, dest, ref2, opts)
+        pm1, pq1 = gt.test(dict, corp1, dest, ref1, (opts | BIT_EXISTING_DICT))
+        pm2, pq2 = gt.test(dict, corp2, dest, ref2, (opts | BIT_EXISTING_DICT))
 
         # print(pm.text(pm))
         # print(pq.text(pq))

@@ -222,6 +222,73 @@ def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
     return average, details
 
 
+def table_no_pqa(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
+    # cp,rp: corpus_path, rp: reference_path for grammar tester
+    module_path = os.path.abspath(os.path.join('..'))
+    if module_path not in sys.path: sys.path.append(module_path)
+    #-from poc05 import learn_grammar, params   #80802 poc05 restructured
+    from learner import learn_grammar   #80802 poc05 restructured
+    spaces = ''
+    if kwargs['context'] == 1:
+        spaces += 'c'
+    else: spaces += 'd'
+    if kwargs['word_space'] == 'vectors':
+        spaces += 'DRK'
+    else: spaces += 'ILE'
+    if kwargs['grammar_rules'] == 1:
+        spaces += 'c'
+    else: spaces += 'd'
+    details = []
+    average = []
+    for i,line in enumerate(lines):
+        corpus = line[1]
+        dataset = line[2]
+        if line[3] != 0:
+            kwargs['left_wall'] = 'LEFT-WALL'
+            lw = 'LW'
+        else:
+            kwargs['left_wall'] = ''
+            lw = ' -- '
+        if line[4] != 0:
+            kwargs['period'] = True
+            dot = ' + '
+        else:
+            kwargs['period'] = False
+            dot = ' -- '
+        gen = line[5]  # none | rules | categories | both
+        if gen in ['rules','both']:
+            kwargs['rules_generalization'] = 'jaccard'
+        else: kwargs['rules_generalization'] = 'off'
+        if gen in ['categories','both']:
+            kwargs['categories_generalization'] = 'jaccard'
+        else: kwargs['categories_generalization'] = 'off'
+        if kwargs['grammar_rules'] == 1 and gen != 'none': continue
+
+        ip, oc, og = params(corpus, dataset, module_path, out_dir, **kwargs)
+        pa = []
+        pq = []
+        rules = []
+        for j in range(runs[0]):
+            try:
+                re = learn_grammar(ip, oc, og, **kwargs)
+                rules.append(re['grammar_rules'])
+                rulestr = ' ' + str(re['grammar_rules']) + ' '
+            except:
+                print('try: re = learn_grammar(ip, oc, og, **kwargs) ⇒ except :(')
+                rules.append(0)
+                rulestr = 'fail'
+            details.append([line[0], corpus, dataset, lw, dot, gen, spaces, \
+                rulestr, '---', '--'])
+        non_zero_rules = [x for x in rules if x > 0]
+        if len(non_zero_rules) > 0:
+            average_rules_n = str(int(round(sum(non_zero_rules)/len(non_zero_rules), 0)))
+        else: average_rules_n = 'fail'
+        average.append([line[0], corpus, dataset, lw, dot, gen, spaces, \
+            average_rules_n, '---', '---'])
+
+    return average, details
+
+
 #Notes:
 
 #80802 /src/poc05.py restructured, def params moved here, further dev here

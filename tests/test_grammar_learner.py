@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-'''
-Grammar Learner POC.0.5 tests #80706: pytest⇒unittest, new Link Grammar Tester
+'''Grammar Learner 0.5 tests #80706: pytest⇒unittest, new Link Grammar Tester
 Run test:
 $ cd language-learning
 $ source activate ull
@@ -13,15 +12,15 @@ import os, sys
 import unittest
 module_path = os.path.abspath(os.path.join('.'))
 if module_path not in sys.path: sys.path.append(module_path)
-#from src.grammar_learner.utl import UTC
-#from src.grammar_learner.read_files import check_dir
-#from src.grammar_learner.poc05 import learn_grammar
 grammar_learner_path = module_path + '/src/grammar_learner'
 if os.path.exists(grammar_learner_path) and grammar_learner_path not in sys.path:
     sys.path.append(grammar_learner_path)
 from utl import UTC
 from read_files import check_dir
-from poc05 import learn_grammar
+#from poc05 import learn_grammar
+from learner import learn_grammar   #80810 poc05 restructured
+#from ull.grammartest.optconst import * # import * only allowed at module level
+from pqa_table import pqa_meter
 
 class TestGrammarLearner(unittest.TestCase):
 
@@ -32,11 +31,6 @@ class TestGrammarLearner(unittest.TestCase):
         #+if module_path not in sys.path:
         #+    sys.path.append(module_path)
         # Imports - moved up:  #FIXME: don't run here?
-        #-from src.grammar_learner.poc05 import learn_grammar
-        #-from src.grammar_learner.utl import UTC
-        #-src_path = module_path + '/src'
-        #-if os.path.exists(src_path) and src_path not in sys.path:
-        #-    sys.path.append(src_path)
         input_parses = module_path + '/tests/data/POC-Turtle/MST_fixed_manually/'
         batch_dir = module_path + '/output/Test_Grammar_Learner_' + str(UTC())[:10] + '/'
         # Grammar Learner 0.5 parameters:
@@ -57,7 +51,7 @@ class TestGrammarLearner(unittest.TestCase):
             'clustering'    :   'group'     ,   # 'kmeans' / 'group'~'identical_entries' / future options
             'cluster_range' :   (2,48,1)    ,   # min, max, step
             'cluster_criteria': 'silhouette',   # optimal clustering criteria
-            'cluster_level' :   0.9         ,   # level = 0, 1, 0.-0.99..: 0 - max number of clusters
+            'cluster_level' :   1.0         ,   # level = 0, 1, 0.-0.99..: 0 - max number of clusters
             'categories_generalization': 'off', # 'off' / 'cosine' - cosine similarity, 'jaccard'
             'categories_merge'      :   0.8 ,   # merge categories with similarity > this 'merge' criteria
             'categories_aggregation':   0.2 ,   # aggregate categories with similarity > this criteria
@@ -79,11 +73,11 @@ class TestGrammarLearner(unittest.TestCase):
     def test_turtle_diled(self):
         corpus = 'POC-Turtle'
         dataset = 'MST_fixed_manually'
-        input_parses = module_path + '/tests/data/POC-Turtle/MST_fixed_manually/'
+        input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually/'
         base  = module_path + '/tests/data/POC-Turtle/' + \
             '/2018-04-25/turtle_dILEd_LW+dot+_2018-04-25_0008.4.0.dict'
-        batch_dir = module_path + '/output/Test_Grammar_Learner_' + str(UTC())[:10] + '/'
-        prj_dir = batch_dir + 'Turtle_dILEd_LW_and_period/'
+        batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
+        prj_dir = batch_dir + '/Turtle_dILEd_LW_and_period/'
         if check_dir(prj_dir, create=True, verbose='max'):
             output_categories = prj_dir
             output_grammar = prj_dir
@@ -119,9 +113,9 @@ class TestGrammarLearner(unittest.TestCase):
     def test_turtle_no_generalization(self):
         base  = module_path + '/tests/data/POC-Turtle/' + \
             'no_generalization/poc-turtle_8C_2018-06-08_0004.4.0.dict'
-        input_parses = module_path + '/tests/data/POC-Turtle/MST_fixed_manually/'
-        batch_dir = module_path + '/output/Test_Grammar_Learner_' + str(UTC())[:10] + '/'
-        prj_dir = batch_dir + 'no_generalization/'
+        input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually/'
+        batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
+        prj_dir = batch_dir + '/turtle_lw_&_dot_no_generalization/'
         if check_dir(prj_dir, create=True, verbose='max'):
             outpath = prj_dir
         kwargs = {
@@ -161,9 +155,9 @@ class TestGrammarLearner(unittest.TestCase):
         base  = module_path + '/tests/data/POC-Turtle/' + \
             'generalized_categories/dict_6C_2018-07-06_0005.4.0.dict'
             #'generalized_categories/poc-turtle_6C_2018-06-08_0004.4.0.dict'
-        input_parses = module_path + '/tests/data/POC-Turtle/MST_fixed_manually/'
-        batch_dir = module_path + '/output/Test_Grammar_Learner_' + str(UTC())[:10] + '/'
-        prj_dir = batch_dir + 'generalized_categories/'
+        input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually/'
+        batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
+        prj_dir = batch_dir + '/turtle_lw_&_dot_generalized_categories/'
         if check_dir(prj_dir, create=True, verbose='max'):
             outpath = prj_dir
         kwargs = {
@@ -195,9 +189,9 @@ class TestGrammarLearner(unittest.TestCase):
         base  = module_path + '/tests/data/POC-Turtle/' + \
             'generalized_rules/dict_6C_2018-07-06_0005.4.0.dict'
             #'generalized_rules/poc-turtle_6C_2018-06-08_0004.4.0.dict'
-        input_parses = module_path + '/tests/data/POC-Turtle/MST_fixed_manually/'
-        batch_dir = module_path + '/output/Test_Grammar_Learner_' + str(UTC())[:10] + '/'
-        prj_dir = batch_dir + 'generalized_rules/'
+        input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually/'
+        batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
+        prj_dir = batch_dir + '/turtle_lw_&_dot_generalized_rules/'
         if check_dir(prj_dir, create=True, verbose='max'):
             outpath = prj_dir
         kwargs = {
@@ -228,9 +222,9 @@ class TestGrammarLearner(unittest.TestCase):
         base  = module_path + '/tests/data/POC-Turtle/' + \
             'generalized_categories_and_rules/dict_6C_2018-07-06_0005.4.0.dict'
             #'generalized_categories_and_rules/poc-turtle_6C_2018-06-08_0004.4.0.dict'
-        input_parses = module_path + '/tests/data/POC-Turtle/MST_fixed_manually/'
-        batch_dir = module_path + '/output/Test_Grammar_Learner_' + str(UTC())[:10] + '/'
-        prj_dir = batch_dir + 'generalized_categories_and_rules/'
+        input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually/'
+        batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
+        prj_dir = batch_dir + '/turtle_lw_&_dot_generalized_categories_and_rules/'
         if check_dir(prj_dir, create=True, verbose='max'):
             outpath = prj_dir
         kwargs = {
@@ -255,6 +249,120 @@ class TestGrammarLearner(unittest.TestCase):
         if len(rule_list) == len(base_list):
             assert rule_list == base_list
         else: assert len(rule_list) == len(base_list)
+
+
+    def test_pqa_turtle_diled_no_generalization(self):                  #80810
+        input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually'
+        batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
+        prj_dir = batch_dir + '/turtle_pqa_diled_no_generalization/'
+        if check_dir(prj_dir, create=True, verbose='max'): outpath = prj_dir
+        # cp,rp :: (test) corpus_path and reference_path:
+        cp = module_path + '/tests/data/POC-Turtle/poc-turtle-corpus.txt'
+        rp = input_parses + '/poc-turtle-parses-gold.txt'
+        kwargs = {
+            'left_wall'     :   '' ,
+            'period'        :   False        ,
+            'context'       :   2           ,
+            'word_space'    :   'discrete'  ,
+            'dim_reduction' :   'none'      ,
+            'clustering'    :   'group'     ,
+            'grammar_rules' :   2           ,
+            'categories_generalization' :   'off' ,
+            'rules_generalization'      :   'off' ,
+            'tmpath'        :   module_path + '/tmp/',
+            'linkage_limit' :   1000,
+            'verbose'       :   'min'
+        }
+        re = learn_grammar(input_parses, outpath, outpath, **kwargs)
+        a, q, qa = pqa_meter(re['grammar_file'], outpath, cp, rp, **kwargs)
+        print('parse-ability, parse-quality:', a, q)
+        assert a*q > 0.99
+
+
+    def test_pqa_turtle_ddrkd_no_generalization(self):                  #80810
+        input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually/'
+        batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
+        prj_dir = batch_dir + '/turtle_pqa_ddrkd_no_generalization/'
+        if check_dir(prj_dir, create=True, verbose='max'): outpath = prj_dir
+        # cp,rp :: (test) corpus_path and reference_path:
+        cp = module_path + '/tests/data/POC-Turtle/poc-turtle-corpus.txt'
+        rp = input_parses + '/poc-turtle-parses-gold.txt'
+        kwargs = {
+            'left_wall'     :   '' ,
+            'period'        :   False       ,
+            'context'       :   2           ,
+            'word_space'    :   'vectors'   ,
+            'dim_reduction' :   'svd'       ,
+            'clustering'    :   ('kmeans','kmeans++',18)  ,
+            'cluster_range' :   (2,50,9)    ,
+            'grammar_rules' :   2           ,
+            'categories_generalization' :   'off' ,
+            'rules_generalization'      :   'off' ,
+            'tmpath'        :   module_path + '/tmp/',
+            'linkage_limit' :   1000,
+            'verbose'       :   'min'
+        }
+        re = learn_grammar(input_parses, outpath, outpath, **kwargs)
+        a, q, qa = pqa_meter(re['grammar_file'], outpath, cp, rp, **kwargs)
+        print('parse-ability, parse-quality:', a, q)
+        assert a*q > 0.99
+
+
+    def test_pqa_english_noamb_diled_no_generalization(self):           #80810
+        input_parses = module_path + '/tests/data/POC-English-NoAmb/MST-fixed-manually/'
+        batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
+        prj_dir = batch_dir + '/noamb_pqa_diled_no_generalization/'
+        if check_dir(prj_dir, create=True, verbose='max'): outpath = prj_dir
+        # cp,rp :: (test) corpus_path and reference_path:
+        cp = module_path + '/data/POC-English-NoAmb/poc_english_noamb_corpus.txt'
+        rp = input_parses + '/poc-english_noAmb-parses-gold.txt'
+        kwargs = {
+            'left_wall'     :   ''          ,
+            'period'        :   False       ,
+            'context'       :   2           ,
+            'word_space'    :   'vectors'   ,
+            'dim_reduction' :   'svd'       ,
+            'clustering'    :   ('kmeans','kmeans++',18)  ,
+            'cluster_range' :   (2,50,9)    ,
+            'grammar_rules' :   2           ,
+            'categories_generalization' :   'off' ,
+            'rules_generalization'      :   'off' ,
+            'tmpath'        :   module_path + '/tmp/',
+            'linkage_limit' :   1000,
+            'verbose'       :   'min'
+        }
+        re = learn_grammar(input_parses, outpath, outpath, **kwargs)
+        a, q, qa = pqa_meter(re['grammar_file'], outpath, cp, rp, **kwargs)
+        print('parse-ability, parse-quality:', a, q)
+        assert a*q > 0.99
+
+
+    def test_pqa_english_noamb_ddrkd_no_generalization(self):           #80810
+        input_parses = module_path + '/tests/data/POC-English-NoAmb/MST-fixed-manually/'
+        batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
+        prj_dir = batch_dir + '/noamb_pqa_ddrkd_no_generalization/'
+        if check_dir(prj_dir, create=True, verbose='max'): outpath = prj_dir
+        # cp,rp :: (test) corpus_path and reference_path:
+        cp = module_path + '/data/POC-English-NoAmb/poc_english_noamb_corpus.txt'
+        rp = input_parses + '/poc-english_noAmb-parses-gold.txt'
+        kwargs = {
+            'left_wall'     :   '' ,
+            'period'        :   False        ,
+            'context'       :   2           ,
+            'word_space'    :   'discrete'  ,
+            'dim_reduction' :   'none'      ,
+            'clustering'    :   'group'     ,
+            'grammar_rules' :   2           ,
+            'categories_generalization' :   'off' ,
+            'rules_generalization'      :   'off' ,
+            'tmpath'        :   module_path + '/tmp/',
+            'linkage_limit' :   1000,
+            'verbose'       :   'min'
+        }
+        re = learn_grammar(input_parses, outpath, outpath, **kwargs)
+        a, q, qa = pqa_meter(re['grammar_file'], outpath, cp, rp, **kwargs)
+        print('parse-ability, parse-quality:', a, q)
+        assert a*q > 0.99
 
 
 if __name__ == '__main__':

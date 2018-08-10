@@ -10,35 +10,39 @@ import getopt, sys
 import os
 
 outputdir = ''
-textdir = ''
+max_length = 25 # default value
 
 def main(argv):
     """
         Converts dependency parses from treebank format to links format
 
-        Usage: tree2links.py -i <inputdir> -o <outdir> [-t <textdir>]
+        Usage: tree2links.py -i <inputdir> -o <outdir> [-l <max-length> ][-t <textdir>]
 
         inputdir           Directory with treebank formatted files
         outdir             Directory to write links format files
+        max-length         Maximum length of sentence to be processed
         textdir            Path to write corpus text
     """
 
     inputdir = ''
+    textdir = ''
     ft = ''
 
     try:
-        opts, args = getopt.getopt(argv, "hi:o:t:", ["inputdir=", "outdir=", "textdir="])
+        opts, args = getopt.getopt(argv, "hi:o:l:t:", ["inputdir=", "outdir=", "max-length", "textdir="])
     except getopt.GetoptError:
-        print("Usage: tokenizer.py -i <inputdir> -o <outdir> [-t <textdir>]")
+        print("Usage: tokenizer.py -i <inputdir> -o <outdir> [-l <max-lenght> ][-t <textdir>]")
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print('Usage: tokenizer.py -i <inputdir> -o <outputdir> [-t <textdir>]')
+            print('Usage: tokenizer.py -i <inputdir> -o <outputdir> [-l <max-lenght> ][-t <textdir>]')
             sys.exit()
         elif opt in ("-i", "--inputdir"):
             inputdir = arg
         elif opt in ("-o", "--outdir"):
             outdir = arg
+        elif opt in ("-l", "--max-length"):
+            max_length = arg
         elif opt in ("-t", "--textdir"):
             textdir = arg
             if not os.path.exists(textdir):
@@ -76,6 +80,11 @@ def Process_Parse(parse, f_parse, f_sent):
         If requested, also writes the sentences in f_sent, to get
         the raw corpus from a treebank file.
     """
+
+    # Parse not processed if it's longer than max_length
+    if len(parse) > max_length:
+        return
+
     sentence = []
     for line in parse:
         sentence.append(line.split()[0])

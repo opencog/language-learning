@@ -1,0 +1,64 @@
+mom sees dad now . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 sees
+0 ###LEFT-WALL### 5 .
+1 mom 2 sees
+2 sees 3 dad
+2 sees 4 now
+
+dad sees mom now . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 sees
+0 ###LEFT-WALL### 5 .
+1 dad 2 sees
+2 sees 3 mom
+2 sees 4 now
+
+son sees dad now . 
+0 ###LEFT-WALL### 1 son
+0 ###LEFT-WALL### 2 sees
+0 ###LEFT-WALL### 5 .
+1 son 2 sees
+2 sees 3 dad
+2 sees 4 now
+
+daughter sees mom now . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 sees
+0 ###LEFT-WALL### 5 .
+1 daughter 2 sees
+2 sees 3 mom
+2 sees 4 now
+
+mom saw dad before . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 saw
+0 ###LEFT-WALL### 5 .
+1 mom 2 saw
+2 saw 3 dad
+2 saw 4 before
+
+dad saw mom before . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 saw
+0 ###LEFT-WALL### 5 .
+1 dad 2 saw
+2 saw 3 mom
+2 saw 4 before
+
+son saw dad before . 
+0 ###LEFT-WALL### 1 son
+0 ###LEFT-WALL### 2 saw
+0 ###LEFT-WALL### 5 .
+1 son 2 saw
+2 saw 3 dad
+2 saw 4 before
+
+daughter saw mom before . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 saw
+0 ###LEFT-WALL### 5 .
+1 daughter 2 saw
+2 saw 3 mom
+2 saw 4 before
+

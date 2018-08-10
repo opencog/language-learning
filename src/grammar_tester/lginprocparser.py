@@ -1,12 +1,11 @@
 import sys
 from subprocess import PIPE, Popen
-# from decimal import *
 
-from ull.common.absclient import AbstractFileParserClient
+from ..common.absclient import AbstractFileParserClient
 from .optconst import *
 from .psparse import *
 from .parsestat import *
-from ull.common.parsemetrics import *
+from ..common.parsemetrics import *
 from .lgmisc import *
 from .parsevaluate import get_parses, load_ull_file
 
@@ -29,9 +28,9 @@ class PSSentence:
 
 class LGInprocParser(AbstractFileParserClient):
 
-    def __init__(self, limit: int=1000):
+    def __init__(self, limit: int=1000, timeout=300):
         self._linkage_limit = limit
-        self._timeout = 9999999
+        self._timeout = timeout
         self._out_stream = None
         self._ref_stream = None
         self._counter = 0
@@ -56,15 +55,33 @@ class LGInprocParser(AbstractFileParserClient):
         # Parse output to get sentences and linkages in postscript notation
         for sent in text[pos:end].split("\n\n"):
 
-            sent = sent.replace("\n", "")
+            sent = sent.strip()
 
             # As it turned out sentence may start from '[', so simple `sent.find("[")`
             #   fails to tell sentence from postscript.
             post_start = sent.find("[(")
 
-            sentence = sent[:post_start]
+            echo_text = sent if post_start < 0 else sent[:post_start-1]
+
+            lines = echo_text.split("\n")
+
+            num_lines = len(lines)
+
+            # None of the unparsed sentences, if any, should be missed
+            for i in range(0, num_lines-1):
+                sent_text = lines[i]
+                tokens = sent_text.split(" ")
+                sent_obj = PSSentence(sent_text)
+
+                # Fake postscript in order for proper statistic estimation
+                post_text = r"[([" + r"])([".join(tokens) + r"])][][0]"
+                sent_obj.linkages.append(post_text)
+                sentences.append(sent_obj)
+
+            # Successfully parsed sentence is added here
+            sentence = lines[num_lines-1]
             cur_sent = PSSentence(sentence)
-            postscript = sent[post_start:]
+            postscript = sent[post_start:].replace("\n", "")
             cur_sent.linkages.append(postscript)
 
             sentences.append(cur_sent)
@@ -99,7 +116,9 @@ class LGInprocParser(AbstractFileParserClient):
                     print("Exception: " + str(err))
 
             # Parse output into sentences and assotiate a list of linkages for each one of them.
-            sentences = self._parse_batch_ps_output(text, 5)
+            sentences = self._parse_batch_ps_output(text, 6)
+
+            print("Parsed sentences:", len(sentences))
 
             sentence_count = 0
             error_count = 0
@@ -113,7 +132,7 @@ class LGInprocParser(AbstractFileParserClient):
                 # Parse and calculate statistics for each linkage
                 for lnkg in sent.linkages:
 
-                    if linkage_count == 1:  # linkage_limit:
+                    if linkage_count == 1:  # Only the first linkage is taken into account
                         break
 
                     # Parse postscript notated linkage and get two lists with tokens and links in return.
@@ -183,6 +202,9 @@ class LGInprocParser(AbstractFileParserClient):
         :param options:         Bit mask representing parsing options.
         :return:                Tuple (ParseMetrics, ParseQuality).
         """
+
+        sentence_count = 0
+
         print("Info: Parsing a corpus file: '" + corpus_path + "'")
         print("Info: Using dictionary: '" + dict_path + "'")
 
@@ -204,17 +226,22 @@ class LGInprocParser(AbstractFileParserClient):
         # sed '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27-]*\)\]/\1/g;s/.*/\L\0/g'
 
         # Fixed for long dashes
-        # sed -e '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94-]*\)\]/\1/g'
+        # sed -e '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94=+-]*\)\]/\1/g'
+        # sed -e '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94©®°•…≤±×΅⁻¹²³€αβπγδμεθ«»=+-]*\)\]/\1/g'
 
         # If BIT_ULL_IN sed filters links leaving only sentences and removes square brackets around tokens if any.
         if (options & BIT_ULL_IN):
+            reg_exp = r'/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94©®°•…≤±×΅⁻¹²³€αβπγδμεθ«»=+-]*\)\]/\1/g;s/.*/\L\0/g' \
+                if options & BIT_INPUT_TO_LCASE \
+                else r'/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94©®°•…≤±×΅⁻¹²³€αβπγδμεθ«»=+-]*\)\]/\1/g'
             sed_cmd = ["sed", "-e",
-                       r'/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94-]*\)\]/\1/g',
+                       reg_exp,
                        corpus_path]
 
         # Otherwise sed removes only empty lines.
         else:
-            sed_cmd = ["sed", "-e", r"/^$/d", corpus_path]
+            reg_exp = r"/^$/d;s/.*/\L\0/g" if options & BIT_INPUT_TO_LCASE else r"/^$/d"
+            sed_cmd = ["sed", "-e", reg_exp, corpus_path]
 
         # print(sed_cmd)
 
@@ -234,6 +261,24 @@ class LGInprocParser(AbstractFileParserClient):
         ret_quality = ParseQuality()
 
         try:
+            # Get number of sentences in input file
+            with Popen(sed_cmd, stdout=PIPE) as proc_sed, \
+                 Popen(["wc", "-l"], stdin=proc_sed.stdout, stdout=PIPE, stderr=PIPE) as proc_wcl:
+
+                # Closing grep output stream will terminate it's process.
+                proc_sed.stdout.close()
+
+                # Read pipes to get complete output returned by link-parser
+                raw, err = proc_wcl.communicate()
+
+                # Check return code to make sure the process completed successfully.
+                if proc_wcl.returncode != 0:
+                    raise LGParseError("Process '{0}' terminated with exit code: {1} "
+                                 "and error message:\n'{2}'.".format("wc", proc_wcl.returncode, err.decode()))
+
+                sentence_count = int((raw.decode("utf-8-sig")).strip())
+                print("Number of sentences: {}".format(sentence_count))
+
             out_stream = sys.stdout if output_path is None \
                 else open(output_path+get_output_suffix(options), "w", encoding="utf-8")
 
@@ -246,6 +291,12 @@ class LGInprocParser(AbstractFileParserClient):
                 # Read pipes to get complete output returned by link-parser
                 raw, err = proc_pars.communicate()
 
+                # with open("raw.txt", "w") as r:
+                #     r.write(raw.decode("utf-8-sig"))
+                #
+                # with open("err.txt", "w") as e:
+                #     e.write(err.decode("utf-8-sig"))
+
                 # Check return code to make sure the process completed successfully.
                 if proc_pars.returncode != 0:
                     raise LGParseError("Process '{0}' terminated with exit code: {1} "
@@ -254,6 +305,10 @@ class LGInprocParser(AbstractFileParserClient):
                 # Take an action depending on the output format specified by 'options'
                 ret_metrics, ret_quality = self._handle_stream_output(raw.decode("utf-8-sig"), options,
                                                                       out_stream, ref_file)
+
+                if ret_metrics.sentences != sentence_count:
+                    print("Warning: number of sentences does not match. "
+                          "Read: {}, Parsed: {}".format(sentence_count, ret_metrics.sentences))
 
         except LGParseError as err:
             print("LGParseError: " + str(err))

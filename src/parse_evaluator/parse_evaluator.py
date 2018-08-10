@@ -22,10 +22,6 @@ def Load_File(filename):
         data = file.readlines()
     print("Finished loading")
 
-    # remove initial newlines, if any
-    # while data[0] == "\n":
-    #     data.pop(0)
-
     return data
 
 def Get_Parses(data):
@@ -61,44 +57,41 @@ def Get_Parses(data):
 
 def MakeSets(parse, sent_len, ignore_WALL):
     """
-        Gets a list with links and a sentence
-        and makes sets for each link's ids, ignoring WALL and dot if requested
+        Gets a list with links and its sentence's length and returns a
+        set of sets for each link's ids, ignoring WALL and dot if requested
     """
     current_ignored = 0
-    link_sets = []
+    link_list = []
     for link in parse:
         if ignore_WALL:
-            if (link[0] == '0') or (link[2] == sent_len and link[3] == "."):
+            if (link[0] == '0') or (link[2] == str(sent_len) and link[3] == "."):
                 current_ignored += 1
                 continue
-        link_sets.append({link[0], link[2]})
+        link_list.append([link[0], link[2]])
 
-    return link_sets, current_ignored
+    # using sets for each link evaluates without link direction
+    links_set = set(map(frozenset, link_list))
+    return links_set, current_ignored
 
 def Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore):
     """
         Compares test_parses against ref_parses link by link
         counting errors
     """
-    evaluated_parses = 0 
-    total_links = 0     # in gold standard
-    #extra_links = 0     # links present in test, but not in ref
-    missing_links = 0   # links present in ref, but not in test
-    ignored_links = 0   # ignored links, if ignore is active
-    score = 0           # parse quality counter
-
+    evaluated_parses = 0
+    ignored_links = 0   # ignored links from ref, if ignore is active
+    sum_precision = 0
+    sum_recall = 0
 
     for ref_parse, test_parse, ref_sent in zip(ref_parses, test_parses, ref_sents):
 
-        current_missing = 0
-        current_evaluated = 0
-        current_ignored = 0
+        true_pos = 0
+        false_neg = 0
+        false_pos = 0
 
         # using sets to ignore link directions
         ref_sets, current_ignored = MakeSets(ref_parse, len(ref_sent), ignore)
 
-        total_links += len(ref_parse)
-        current_evaluated += len(ref_sets)
         # if no links are left after ignore, skip parse
         if len(ref_sets) == 0:
             continue
@@ -107,31 +100,33 @@ def Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore):
 
         test_sets, dummy = MakeSets(test_parse, len(ref_sent), ignore)
 
-        # loop over every ref link and try to find it in test
-        for ref_link in ref_sets:
-            if ref_link in test_sets:
-                test_sets.remove(ref_link) 
-            else:
-                current_missing += 1 # count links not contained in test
+        # if test_sets has no links left, precision and recall are zero
+        if len(test_sets) == 0:
+            continue
+
+        # count current parse guesses
+        true_pos = len(ref_sets.intersection(test_sets))
+        false_neg = len(ref_sets) - true_pos
+        false_pos = len(test_sets) - true_pos
+
+        # update global counts
+        ignored_links += current_ignored
+        sum_precision += true_pos / (true_pos + false_pos)  # add parse's precision
+        sum_recall += true_pos / (true_pos + false_neg)  # add parse's recall
 
         if verbose:
             print("Sentence: {}".format(" ".join(ref_sent)))
-            print("Missing links: {}".format(current_missing))
-            print("Extra links: {}".format(len(test_sets)))
+            print("Correct links: {}".format(true_pos))
+            print("Missing links: {}".format(false_neg))
+            print("Extra links: {}".format(false_pos))
 
-        ignored_links += current_ignored
-        score += 1 - float(current_missing) / float(current_evaluated) # adds this parse's relative score
-        #extra_links += len(test_sets) # count links not contained in reference
-        missing_links += current_missing
-
-    score /= evaluated_parses # averages the score
-    print("\nParse quality: {:.2%}".format(score))
+    precision = sum_precision / evaluated_parses # averages precision
+    recall = sum_recall / evaluated_parses # averages recall
+    print("\nAvg Precision: {:.2%}".format(precision))
+    print("Avg Recall: {:.2%}".format(recall))
+    print("Avg Fscore: {:.2%}\n".format(2 * precision * recall / (precision + recall)))
     print("A total of {} parses evaluated, {:.2%} of reference file".format(evaluated_parses, float(evaluated_parses) / len(ref_parses)))
-    print("A total of {} links in reference file".format(total_links))
     print("{:.2f} ignored links per evaluated parse".format(ignored_links / evaluated_parses))
-    print("{:.2f} missing links per evaluated parse".format(missing_links / evaluated_parses))
-    #print("{:.2f} extra links per sentence\n".format(extra_links / evaluated_parses))
-    #print("A total of {} extra links".format(extra_links))
 
 def main(argv):
     """
@@ -155,6 +150,7 @@ def main(argv):
         goldfile        file with reference (gold standard) parses
         -v              verbose
         -i              don't ignore LEFT-WALL and end-of-sentence dot, if any
+        -s              evaluate sequential parses (benchmark)
 
     """
 
@@ -164,15 +160,16 @@ def main(argv):
     ref_file = ''
     verbose = False
     ignore_WALL = True
+    sequential = False
 
     try:
-        opts, args = getopt.getopt(argv, "ht:r:vi", ["test=", "reference=", "verbose", "ignore"])
+        opts, args = getopt.getopt(argv, "ht:r:vis", ["test=", "reference=", "verbose", "ignore", "sequential"])
     except getopt.GetoptError:
-        print("Usage: ./parse_evaluator.py -t <testfile> -r <reffile> [-v] [-i]")
+        print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s]")
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print("Usage: ./parse_evaluator.py -t <testfile> -r <reffile>")
+            print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s]")
             sys.exit()
         elif opt in ("-t", "--test"):
             test_file = arg
@@ -182,14 +179,38 @@ def main(argv):
             verbose = True
         elif opt in ("-i", "--ignore"):
             ignore_WALL = False
+        elif opt in ("-s", "--sequential"):
+            sequential = True
 
-    test_data = Load_File(test_file)
-    test_parses, dummy = Get_Parses(test_data) 
     ref_data = Load_File(ref_file)
     ref_parses, ref_sents = Get_Parses(ref_data) 
+    if sequential:
+        test_parses = Make_Sequential(ref_sents)
+    else:
+        test_data = Load_File(test_file)
+        test_parses, dummy = Get_Parses(test_data) 
     if len(test_parses) != len(ref_parses):
         sys.exit("ERROR: Number of parses differs in files")
+    # for rs, ts in zip(ref_sents, dummy):
+    #     print("Sentence pair:")
+    #     print(rs, ts)
     Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore_WALL)
+
+def Make_Sequential(sents):
+    """
+        Make sequential parses (each word simply linked to the next one), 
+        to use as a benchmark
+    """
+    sequential_parses = []
+    for sent in sents:
+        parse = [["0", "###LEFT-WALL###", "1", sent[0]]] # include left-wall
+        for i in range(1, len(sent)):
+            parse.append([str(i), sent[i - 1], str(i + 1), sent[i]])
+        #parse.append([str(i), sent[i - 1], str(i + 1), sent[i]] for i in range(1, len(sent)))
+        sequential_parses.append(parse)
+
+    return sequential_parses
+
 
 if __name__ == '__main__':
     main(sys.argv[1:])

@@ -1,0 +1,126 @@
+a mom is [a] human [.] 
+1 a 5 human
+2 mom 3 is
+3 is 5 human
+
+a dad is [a] human [.] 
+1 a 5 human
+2 dad 3 is
+3 is 5 human
+
+a mom is [a] parent [.] 
+1 a 5 parent
+2 mom 3 is
+3 is 5 parent
+
+a dad is [a] parent [.] 
+1 a 5 parent
+2 dad 3 is
+3 is 5 parent
+
+a son is [a] child [.] 
+1 a 5 child
+2 son 3 is
+3 is 5 child
+
+a daughter is [a] child [.] 
+1 a 5 child
+2 daughter 3 is
+3 is 5 child
+
+a son is [a] human [.] 
+1 a 5 human
+2 son 3 is
+3 is 5 human
+
+a daughter is [a] human [.] 
+1 a 5 human
+2 daughter 3 is
+3 is 5 human
+
+a mom likes cake [.] 
+1 a 2 mom
+2 mom 3 likes
+3 likes 4 cake
+
+a daughter likes cake [.] 
+1 a 2 daughter
+2 daughter 3 likes
+3 likes 4 cake
+
+a son likes sausage [.] 
+1 a 2 son
+2 son 3 likes
+3 likes 4 sausage
+
+a dad likes sausage [.] 
+1 a 2 dad
+2 dad 3 likes
+3 likes 4 sausage
+
+[cake] [is] [a] [food] [.] 
+
+[sausage] [is] [a] [food] [.] 
+
+[mom] [is] [a] [human] [now] [.] 
+
+[dad] [is] [a] [human] [now] [.] 
+
+[mom] [is] [a] [parent] [now] [.] 
+
+[dad] [is] [a] [parent] [now] [.] 
+
+[son] [is] [a] [child] [now] [.] 
+
+[daughter] [is] [a] [child] [now] [.] 
+
+[son] [is] [a] [human] [now] [.] 
+
+[daughter] [is] [a] [human] [now] [.] 
+
+mom likes cake now [.] 
+1 mom 2 likes
+2 likes 3 cake
+2 likes 4 now
+
+daughter likes cake now [.] 
+1 daughter 2 likes
+2 likes 3 cake
+2 likes 4 now
+
+son likes sausage now [.] 
+1 son 2 likes
+2 likes 3 sausage
+2 likes 4 now
+
+dad likes sausage now [.] 
+1 dad 2 likes
+2 likes 3 sausage
+2 likes 4 now
+
+[cake] [is] [a] [food] [now] [.] 
+
+[sausage] [is] [a] [food] [now] [.] 
+
+[mom] [was] [a] [daughter] [before] [.] 
+
+[dad] [was] [a] [son] [before] [.] 
+
+[mom] [was] [not] [a] [parent] [before] [.] 
+
+[dad] [was] [not] [a] [parent] [before] [.] 
+
+mom liked cake before [.] 
+1 mom 2 liked
+2 liked 3 cake
+2 liked 4 before
+
+dad liked sausage before [.] 
+1 dad 2 liked
+2 liked 3 sausage
+2 liked 4 before
+
+[cake] [was] [a] [food] [before] [.] 
+
+[sausage] [was] [a] [food] [before] [.] 
+

@@ -1,0 +1,48 @@
+% Grammar Learner v.0.8 2018-04-22 17:52:55 UTC
+<dictionary-version-number>: V0v0v8+;
+<dictionary-locale>: EN4us+;
+
+% C01
+"dad" "mom":
+(C09C01- & C01C02+) or (C09C01- & C01C03+) or (C09C01- & C01C05+) or (C09C01- & C01C06+) or (C09C01- & C01C07+) or (C09C01- & C09C01- & C01C06+) or (C09C01- & C09C01- & C01C07+);
+
+% C02
+"not":
+(C01C02- & C05C02- & C02C07+ & C02C09+ & C02C07+) or (C05C02- & C01C02- & C02C07+ & C02C09+ & C02C07+);
+
+% C03
+"liked" "likes":
+(C01C03- & C03C06+ & C03C07+) or (C01C03- & C03C07+ & C03C06+) or (C03C06+);
+
+% C04
+"daughter" "son":
+(C04C06+) or (C04C08+) or (C05C04- & C09C04-) or (C09C04- & C04C06+) or (C09C04- & C04C08+) or (C09C04- & C09C04- & C04C06+);
+
+% C05
+"food" "was":
+(C01C05- & C05C04+ & C05C07+) or (C05C02+) or (C05C07+) or (C06C05- & C06C05- & C05C10+) or (C06C05- & C09C05- & C05C09+ & C05C07+) or (C09C05- & C06C05- & C05C07+ & C05C09+);
+
+% C06
+"cake" "is" "sausage":
+(C01C06- & C06C08+ & C06C09+) or (C03C06-) or (C03C06- & C01C06- & C06C10+) or (C03C06- & C04C06- & C06C10+) or (C04C06- & C06C08+ & C06C09+) or (C06C05+) or (C06C05+ & C06C09+) or (C06C08+ & C06C09+) or (C06C09+) or (C09C06- & C06C05+);
+
+% C07
+"before" "parent":
+(C02C07-) or (C02C07- & C07C10+) or (C03C07- & C07C10+) or (C05C07- & C05C07- & C07C10+) or (C05C07- & C07C10+) or (C09C07- & C01C07- & C07C10+);
+
+% C08
+"child" "human":
+(C04C08- & C06C08- & C08C10+) or (C04C08- & C09C08- & C06C08- & C08C10+) or (C06C08- & C04C08- & C08C10+) or (C06C08- & C04C08- & C09C08- & C08C10+) or (C06C08- & C08C10+) or (C06C08- & C09C08- & C08C10+);
+
+% C09
+"LEFT-WALL" "a":
+(C02C09-) or (C05C09-) or (C06C09-) or (C06C09- & C09C07+) or (C09C01+) or (C09C04+) or (C09C05+) or (C09C06+) or (C09C09+) or (C09C09- & C09C08+);
+
+% C10
+"." "now":
+(C05C10-) or (C05C10- & C10C10+) or (C06C10-) or (C06C10- & C10C10+) or (C07C10-) or (C07C10- & C10C10+) or (C08C10-) or (C08C10- & C10C10+) or (C10C10-);
+
+UNKNOWN-WORD: XXX+;
+
+% 10 word clusters, 10 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period/R=6_distance=1/connectors-DRK-disjuncts/poc-english_10C_2018-04-22_0008.4.0.dict

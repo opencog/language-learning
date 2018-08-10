@@ -1,0 +1,78 @@
+echo set to 1
+graphics set to 1
+verbosity set to 0
+limit set to 1
+tuna has fin .
+
+  +--C05C01-+C01C09+
+  |         |      |
+tuna [has] fin     .
+
+eagle isa bird .
+
+  +---C06C11--+C11C09+
+  |           |      |
+eagle [isa] bird     .
+
+fin isa extremity .
+
+ +---C01C12---+C12C09+
+ |            |      |
+fin [isa] extremity  .
+
+tuna isa fish .
+
+  +--C05C10--+C10C09+
+  |          |      |
+tuna [isa] fish     .
+
+fin has scale .
+
+ +--C01C07--+C07C09+
+ |          |      |
+fin [has] scale    .
+
+eagle has wing .
+
+  +---C06C02--+C02C09+
+  |           |      |
+eagle [has] wing     .
+
+wing has feather .
+
+  +---C02C08--+C08C09+
+  |           |      |
+wing [has] feather   .
+
+wing isa extremity .
+
+  +---C02C12---+C12C09+
+  |            |      |
+wing [isa] extremity  .
+
+herring isa fish .
+
+   +---C05C10---+C10C09+
+   |            |      |
+herring [isa] fish     .
+
+herring has fin .
+
+   +---C05C01--+C01C09+
+   |           |      |
+herring [has] fin     .
+
+parrot isa bird .
+
+   +---C06C11--+C11C09+
+   |           |      |
+parrot [isa] bird     .
+
+parrot has wing .
+
+   +---C06C02--+C02C09+
+   |           |      |
+parrot [has] wing     .
+
+Bye.
+

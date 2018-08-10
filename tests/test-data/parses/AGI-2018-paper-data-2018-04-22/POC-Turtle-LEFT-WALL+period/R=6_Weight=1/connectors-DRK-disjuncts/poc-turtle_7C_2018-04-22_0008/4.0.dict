@@ -1,0 +1,36 @@
+% Grammar Learner v.0.8 2018-04-22 17:34:06 UTC
+<dictionary-version-number>: V0v0v8+;
+<dictionary-locale>: EN4us+;
+
+% C01
+".":
+(C02C01-) or (C03C01-) or (C04C01-);
+
+% C02
+"extremity" "feather" "scale":
+(C04C02- & C06C02- & C02C01+) or (C04C02- & C07C02- & C02C01+) or (C06C02- & C03C02- & C02C01+) or (C07C02- & C03C02- & C02C01+);
+
+% C03
+"fin" "fish":
+(C05C03- & C06C03- & C03C01+) or (C07C03- & C03C02+) or (C07C03- & C05C03- & C03C01+);
+
+% C04
+"bird" "wing":
+(C06C04- & C06C04- & C04C01+) or (C07C04- & C04C02+) or (C07C04- & C06C04- & C04C01+);
+
+% C05
+"herring" "tuna":
+(C07C05- & C05C03+);
+
+% C06
+"eagle" "isa" "parrot":
+(C06C02+) or (C06C03+) or (C06C04+) or (C07C06- & C06C04+);
+
+% C07
+"LEFT-WALL" "has":
+(C07C02+) or (C07C03+) or (C07C04+) or (C07C05+) or (C07C06+);
+
+UNKNOWN-WORD: XXX+;
+
+% 7 word clusters, 7 Link Grammar rules.
+% Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-Turtle-LEFT-WALL+period/R=6_Weight=1/connectors-DRK-disjuncts/poc-turtle_7C_2018-04-22_0008.4.0.dict

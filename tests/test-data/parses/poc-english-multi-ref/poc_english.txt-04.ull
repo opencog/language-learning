@@ -1,0 +1,114 @@
+dad wants mom to be on the board of directors . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 wants
+0 ###LEFT-WALL### 11 .
+1 dad 2 wants
+2 wants 3 mom
+2 wants 4 to
+2 wants 5 be
+4 to 5 be
+5 be 6 on
+6 on 8 board
+7 the 8 board
+8 board 9 of
+9 of 10 directors
+
+mom wants dad to be on the board of directors . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 wants
+0 ###LEFT-WALL### 11 .
+1 mom 2 wants
+2 wants 3 dad
+2 wants 4 to
+2 wants 5 be
+4 to 5 be
+5 be 6 on
+6 on 8 board
+7 the 8 board
+8 board 9 of
+9 of 10 directors
+
+dad wants his son to be on the board of directors . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 wants
+0 ###LEFT-WALL### 12 .
+1 dad 2 wants
+2 wants 4 son
+2 wants 5 to
+2 wants 6 be
+3 his 4 son
+5 to 6 be
+6 be 7 on
+7 on 9 board
+8 the 9 board
+9 board 10 of
+10 of 11 directors
+
+mom wants her daughter to be on the board of directors . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 wants
+0 ###LEFT-WALL### 12 .
+1 mom 2 wants
+2 wants 4 daughter
+2 wants 5 to
+2 wants 6 be
+3 her 4 daughter
+5 to 6 be
+6 be 7 on
+7 on 9 board
+8 the 9 board
+9 board 10 of
+10 of 11 directors
+
+mom writes to dad with chalk on the board . 
+0 ###LEFT-WALL### 1 mom
+0 ###LEFT-WALL### 2 writes
+0 ###LEFT-WALL### 10 .
+1 mom 2 writes
+2 writes 3 to
+2 writes 5 with
+2 writes 7 on
+3 to 4 dad
+5 with 6 chalk
+7 on 9 board
+8 the 9 board
+
+dad writes to mom with chalk on the board . 
+0 ###LEFT-WALL### 1 dad
+0 ###LEFT-WALL### 2 writes
+0 ###LEFT-WALL### 10 .
+1 dad 2 writes
+2 writes 3 to
+2 writes 5 with
+2 writes 7 on
+3 to 4 mom
+5 with 6 chalk
+7 on 9 board
+8 the 9 board
+
+son writes to dad with chalk on the board . 
+0 ###LEFT-WALL### 1 son
+0 ###LEFT-WALL### 2 writes
+0 ###LEFT-WALL### 10 .
+1 son 2 writes
+2 writes 3 to
+2 writes 5 with
+2 writes 7 on
+3 to 4 dad
+5 with 6 chalk
+7 on 9 board
+8 the 9 board
+
+daughter writes to mom with chalk on the board . 
+0 ###LEFT-WALL### 1 daughter
+0 ###LEFT-WALL### 2 writes
+0 ###LEFT-WALL### 10 .
+1 daughter 2 writes
+2 writes 3 to
+2 writes 5 with
+2 writes 7 on
+3 to 4 mom
+5 with 6 chalk
+7 on 9 board
+8 the 9 board
+

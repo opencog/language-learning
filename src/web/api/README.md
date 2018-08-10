@@ -12,19 +12,19 @@ environment you will be running your web service in. Then you may start the scri
 
     gunicorn -b 127.0.0.1:9070 lgrestparser:api
 
-The service will be available at `http://127.0.0.1:9070/linkgrammar`. Use your own address and port when starting 
+The service will be available at `http://127.0.0.1:9070/linkparser`. Use your own address and port when starting 
 the script.
 
 ## Web Service Usage
 In current version the service responds to HTTP GET requests only. It accepts four arguments. One of them `text` is 
 mandatory, the others are optional. Here is the sample request string:
 
-    http://127.0.0.1:9070/linkgrammar?text=Hello%20World!&lang=en&mode=0&limit=10
+    http://127.0.0.1:9070/linkparser?text=Hello%20World!&lang=en&mode=0&limit=10
 
 where:
 * `text` - sentence to parse
 * `lang` - language, can be any language supported by Link Grammar
-* `mode` - output mode, can be 0-diagram; 1-postscript; 2-constituent tree
+* `mode` - output mode, can be 0-diagram; 1-postscript; 2-constituent tree; 3-ULL sentence
 * `limit`- maximum number of linkages that can be returned
 
 ## Client Library 

@@ -2,12 +2,12 @@ import os
 import sys
 from decimal import *
 
-from ull.common.absclient import AbstractGrammarTestClient, AbstractStatEventHandler, AbstractFileParserClient
-from ull.common.dirhelper import traverse_dir_tree, create_dir
-from ull.common.parsemetrics import ParseMetrics, ParseQuality, PQA
-from ull.common.fileconfman import JsonFileConfigManager
-from ull.common.cliutils import handle_path_string
-from ull.grammartest.textfiledashb import TextFileDashboard, HTMLFileDashboard
+from ..common.absclient import AbstractGrammarTestClient, AbstractStatEventHandler, AbstractFileParserClient
+from ..common.dirhelper import traverse_dir_tree, create_dir
+from ..common.parsemetrics import ParseMetrics, ParseQuality, PQA
+from ..common.fileconfman import JsonFileConfigManager
+from ..common.cliutils import handle_path_string
+from .textfiledashb import TextFileDashboard, HTMLFileDashboard
 
 from .lgmisc import create_grammar_dir
 from .optconst import *
@@ -205,7 +205,8 @@ class GrammarTester(AbstractGrammarTestClient):
             grmr_path = dest_path if self._options & BIT_LOC_LANG else self._grammar_root
 
             # Create new LG dictionary using .dict file and template directory with the rest of mandatory files.
-            lang_path = create_grammar_dir(dict_file_path, grmr_path, self._template_dir, self._options)
+            lang_path = dict_file_path if self._options & BIT_EXISTING_DICT else \
+                create_grammar_dir(dict_file_path, grmr_path, self._template_dir, self._options)
 
             if os.path.isfile(corp_path):
                 self._on_corpus_file(corp_path, [dest_path, lang_path] + args)
@@ -277,7 +278,7 @@ class GrammarTester(AbstractGrammarTestClient):
             parse_args = [dict_path, corpus_path, output_path, reference_path]
 
             # If dict_path is a directory then call on_dict_file for every .dict file found.
-            if self._is_dir_dict:
+            if self._is_dir_dict and not (self._options & BIT_EXISTING_DICT):
                 dir_arg_list = [self._on_dict_dir]+parse_args if self._options & BIT_DPATH_CREATE else None
 
                 traverse_dir_tree(dict_path, ".4.0.dict", [self._on_dict_file]+parse_args, dir_arg_list, True)
@@ -285,7 +286,9 @@ class GrammarTester(AbstractGrammarTestClient):
             # Otherwise it can be either single .dict file name or name of LG preinstalled dictionary e.g. 'en'
             else:
                 # If dict_path points to a single file no need to duplicate subdirectory structure
-                self._options &= (~BIT_DPATH_CREATE)
+                if not self._is_dir_dict:
+                    self._options &= (~BIT_DPATH_CREATE)
+
                 self._on_dict_file(dict_path, parse_args)
 
             print("Dictionaries processed: ", self._total_dicts)
@@ -301,7 +304,8 @@ class GrammarTester(AbstractGrammarTestClient):
 
 
 def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_path: str, template_path: str,
-                       linkage_limit: int, options: int, reference_path: str) -> (Decimal, Decimal, Decimal):
+                       linkage_limit: int, options: int, reference_path: str, timeout: int=300) \
+        -> (Decimal, Decimal, Decimal):
     """
     Test grammar(s) over specified corpus providing numerical estimation of parsing quality.
 
@@ -314,10 +318,12 @@ def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_pat
     :param options:         Bit mask used as a single source of options.
     :param reference_path:  Path to either reference file or a directory with reference files which is used for parse
                             quality estimation.
+    :param timeout:         Timeout value used by Link Grammar to restrict maximum amount of time spent for parsing
+                            a single sentence.
     :return: Tuple (ParseMetrics, ParseQuality)
     """
     # parser = LGInprocParser(linkage_limit) if options & BIT_LG_EXE else LGApiParser(linkage_limit)
-    parser = LGInprocParser(linkage_limit)
+    parser = LGInprocParser(linkage_limit, timeout)
 
     gt = GrammarTester(grammar_path, template_path, linkage_limit, parser)
 

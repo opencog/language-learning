@@ -1,6 +1,7 @@
 import os
 import sys
 from decimal import *
+from time import time
 
 from ..common.absclient import AbstractGrammarTestClient, AbstractStatEventHandler, AbstractFileParserClient
 from ..common.dirhelper import traverse_dir_tree, create_dir
@@ -46,6 +47,13 @@ DICT_ARG_DICT = 0       # original dict_path
 DICT_ARG_CORP = 1
 DICT_ARG_OUTP = 2
 DICT_ARG_REFF = 3
+
+
+def print_execution_time(title: str, duration):
+    seconds = duration % 60
+    minutes = int(duration / 60)
+    hours = int(duration / 3600)
+    print("{}: {}h {}m {}s".format(title, hours, minutes, seconds))
 
 
 class GrammarTester(AbstractGrammarTestClient):
@@ -195,6 +203,7 @@ class GrammarTester(AbstractGrammarTestClient):
         self._total_files = 0
 
         try:
+            start_time = time()
             dict_path = os.path.split(dict_file_path)[0]
             corp_path = args[DICT_ARG_CORP]
             dest_path = args[DICT_ARG_OUTP]
@@ -228,6 +237,8 @@ class GrammarTester(AbstractGrammarTestClient):
 
                     self._event_handler.on_statistics((dict_path.split("/"))[::-1],
                                                       self._total_metrics, self._total_quality)
+
+                print_execution_time("Dictionary processing time", time() - start_time)
 
         except Exception as err:
             print("_on_dict_file(): "+str(type(err))+": "+str(err))
@@ -274,6 +285,8 @@ class GrammarTester(AbstractGrammarTestClient):
             self._options &= (~BIT_DPATH_CREATE)
 
         try:
+            start_time = time()
+
             # Arguments for callback functions
             parse_args = [dict_path, corpus_path, output_path, reference_path]
 
@@ -292,6 +305,7 @@ class GrammarTester(AbstractGrammarTestClient):
                 self._on_dict_file(dict_path, parse_args)
 
             print("Dictionaries processed: ", self._total_dicts)
+            print_execution_time("Overal execution time", time() - start_time)
 
         except GrammarTestError as err:
             raise GrammarTestError("GrammarTestError: " + str(err))

@@ -146,7 +146,6 @@ def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
     # cp,rp: corpus_path, rp: reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
-    #-from poc05 import learn_grammar, params   #80802 poc05 restructured
     from learner import learn_grammar   #80802 poc05 restructured
     spaces = ''
     if kwargs['context'] == 1:
@@ -201,7 +200,8 @@ def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
                         str(int(round(a,0)))+'%', str(int(round(q,0)))+'%']
                     details.append(dline)
             except:
-                print('try: re = learn_grammar(ip, oc, og, **kwargs) ⇒ except :(')
+                print('pqa_table.py table_cds: learn_grammar(ip,oc,og,**kwargs)', \
+                      '⇒ exception:\n', sys.exc_info())
                 pa.append(0)
                 pq.append(0)
                 rules.append(0)
@@ -274,11 +274,12 @@ def table_no_pqa(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
                 rules.append(re['grammar_rules'])
                 rulestr = ' ' + str(re['grammar_rules']) + ' '
             except:
-                print('try: re = learn_grammar(ip, oc, og, **kwargs) ⇒ except :(')
+                print('pqa_table.py table_no_pqa: learn_grammar(ip,oc,og,**kwargs)', \
+                      '⇒ exception:\n', sys.exc_info())
                 rules.append(0)
                 rulestr = 'fail'
             details.append([line[0], corpus, dataset, lw, dot, gen, spaces, \
-                rulestr, '---', '--'])
+                           rulestr, '---', '--'])
         non_zero_rules = [x for x in rules if x > 0]
         if len(non_zero_rules) > 0:
             average_rules_n = str(int(round(sum(non_zero_rules)/len(non_zero_rules), 0)))

@@ -116,7 +116,6 @@ def compute_metrics(answers, predictions):
     vscores = np.array(vscores)
     fscores[:] = (value for value in fscores if value != None) # remove None's
     fscores = np.array(fscores)
-    print(fscores)
     mean_fscore = np.mean(fscores)
     punished_fscore = mean_fscore * (penalty)**cnt_over_disamb
     print('mean ari: %f' % np.mean(aris))

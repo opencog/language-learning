@@ -129,9 +129,9 @@ def files2links(**kwargs):
     df = pd.DataFrame(columns=['word','link','count'])
 
     files = kwargs['input_files']
-    #TODO: check file
     if len(files) == 0:
         return df, {'parsed_links': 0, 'error': 'files2links: files = []'}
+    #TODO: check file
 
     lines = []
     for i,file in enumerate(files):
@@ -147,33 +147,57 @@ def files2links(**kwargs):
         lines = [' '.join([y.casefold() if y != '###LEFT-WALL###' \
             else y for y in x.split() ]) for x in lines]
 
-    corp_stat = corpus_stats(lines)
+    response = corpus_stats(lines)
+    #80817 Update corpus stats:
+    ordnung = ['word','link','count']
+    #-wdf = mst2words(lines, **kwargs)[ordnung]
+    cdf = mst2connectors(lines, **kwargs)[ordnung]
+    ddf = mst2disjuncts(lines, **kwargs)[ordnung]
+
+    unique_connectors = cdf.groupby('link', as_index=False).sum()
+    avg_connector_count = round(len(cdf)/len(unique_connectors), 1)
+    unique_disjuncts = ddf.groupby('link', as_index=False).sum()
+    avg_disjunct_count = round(len(ddf)/len(unique_disjuncts), 1)
+    unique_seeds = ddf.groupby(['word','link'], as_index=False).sum()
+    avg_seed_count = round(len(ddf) / len(unique_seeds), 1)
+
+    response['corpus_stats'].extend([
+        ['Number of unique connectors', len(unique_connectors)],
+        ['Total connectors count', len(cdf)],
+        ['Average connector count', avg_connector_count],
+        ['Number of unique disjuncts', len(unique_disjuncts)],
+        ['Total disjuncts count', len(ddf)],
+        ['Average disjuncts count', avg_disjunct_count],
+        ['Number of unique seeds', len(unique_seeds)],
+        ['Total seeds count', len(ddf)],
+        ['Average seed count', avg_seed_count]
+    ])
 
     if context > 1:
-        df = mst2disjuncts(lines, **kwargs)
+        df = ddf
+        terms = 'disjuncts'
     elif context == 1:
-        df = mst2connectors(lines, **kwargs)
+        df = cdf
+        terms = 'connectors'
     else:
         df = mst2words(lines, **kwargs)
-    parsed_links = len(df)
-
-    if verbose in ['max','debug']:
-        print('pparser.py files2links: parsed_links = len(df) before group:', parsed_links)
+        terms = 'words' #legacy, not used   #FIXME:DEL?
 
     if group:  #Always True?  #FIXME:?
         df = df.groupby(['word','link'], as_index=False).sum() \
             .sort_values(by=['count','word','link'], ascending=[False,True,True]) \
             .reset_index(drop=True)
 
-    words_number = len(set(df['word'].tolist()))  #TODO: update to 80618 definition
-    terms_number = len(set(df['link'].tolist()))  #TODO: update to 80618 definition
+    response.update({
+        'terms': terms,
+        'parsed_links': sum(df['count']),
+        'unique_links': len(df),
+        'unique_words': len(set(df['word'].tolist())),
+        'unique_terms': len(set(df['link'].tolist())),
+        'word-term_pairs': len(df.groupby(['word','link'], as_index=False).sum())
+    })
 
-    response = {
-        'corpus_stats': corp_stat['corpus_stats'],
-        'links_stats' : corp_stat['links_stats'],
-        'parsed_links': parsed_links, 'unique_terms': terms_number,
-        'unique_words': words_number, 'word-term_pairs': len(df)
-    }
+    response.update({'cdf': cdf, 'ddf': ddf})  #FIXME:DEL
 
     return df, response
 

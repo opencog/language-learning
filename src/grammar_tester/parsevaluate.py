@@ -1,6 +1,6 @@
 import sys
 import os
-
+# from decimal import Decimal
 
 from ..common.dirhelper import traverse_dir
 from .parsestat import parse_quality
@@ -19,25 +19,31 @@ class EvalError(Exception):
     pass
 
 
+# def load_ull_file(filename):
+#     """
+#         Loads a data file
+#     """
+#     with open(filename, "r", encoding="utf-8-sig") as file:
+#         data = []
+#         line_count = 0
+#
+#         for line in file:
+#             line = line.strip()
+#
+#             if len(line):
+#                 data.append(line.strip())
+#                 # print(line.strip())
+#                 line_count += 1
+#
+#     return data
+
 def load_ull_file(filename):
     """
         Loads a data file
     """
     with open(filename, "r", encoding="utf-8-sig") as file:
-        data = []
-        line_count = 0
+        data = file.read()
 
-        for line in file:
-            line = line.strip()
-
-            if len(line):
-                data.append(line.strip())
-                # print(line.strip())
-                line_count += 1
-
-        # print("line_count: " + str(line_count))
-
-        # data = file.readlines()
     return data
 
 
@@ -54,21 +60,24 @@ def get_parses(data, ignore_wall: bool=True, sort_parses: bool=True):
 
         Each list is splitted into tokens using space.
     """
-    parses = []              # list of parses where each parse consists of two elements: sentence and the set of links
-    parse = []
+    parses = []
 
-    line_count = 0
+    for bulk in data.split("\n\n"):
 
-    for line in data:
+        if not len(bulk):
+            continue
 
-        line = line.strip()
-        line_len = len(line)
-        # print(line)
+        parse = []
+        line_count = 0
 
-        if line_len:
+        for line in bulk.split("\n"):
 
-            # Parses are always start with a digit
-            if len(line) and line[0].isdigit():
+            if line_count == 0:
+                parse.append((((line.replace("[", "")).replace("]", "")).replace("\n", "")).strip())
+                parse.append(set())
+                parse.append(int(0))
+
+            elif len(line):
                 link = line.split()
 
                 assert len(link) == 4, "The line appears not to be a link: " + line
@@ -83,80 +92,73 @@ def get_parses(data, ignore_wall: bool=True, sort_parses: bool=True):
                 # Only token indexes are added to the set
                 parse[PARSE_LINK_SET].add((int(link[0]), int(link[2])))
 
-            # Suppose that sentence line always starts with a letter
-            elif len(line):  # if line[0].isalpha() or line[0] == "[":
+            line_count += 1
 
-                if len(parse) > 0:
-                    parses.append(parse)
-                    parse = []
-
-                parse.append((((line.replace("[", "")).replace("]", "")).replace("\n", "")).strip())
-                parse.append(set())
-                parse.append(int(0))
-
-                line_count += 1
-
-    # Last parse should always be added to the list
-    if len(parse) > 0:
         parses.append(parse)
-
-    # if sort_parses:
-    #     parses.sort()
-
-    # print(parses, file=sys.stdout)
-
-    # print("line_count: " + str(line_count))
 
     return parses
 
 
-# def eval_parses1(test_parses: list, ref_parses: list, verbose: bool, ignore=bool, ofile=sys.stdout):
+# def get_parses(data, ignore_wall: bool=True, sort_parses: bool=True):
 #     """
-#         Compares test_parses against ref_parses link by link
-#         counting errors
+#         Separates parses from data into format:
+#         [
+#             [ <sentence>, <set-of-link-tuples>, <ignored-link-count> ]
+#             ...
+#         ]
+#         <sentence> - text string
+#         <set-of-link-tuples> - set of tuples, where each tuple has two token indexes
+#         <ignored-link-count> - integer value representing the number links which were not added to the set of tuples.
+#
+#         Each list is splitted into tokens using space.
 #     """
-#     total_linkages = len(ref_parses)        # in gold standard
-#     extra_links = 0.0                       # links present in test, but not in ref
-#     missing_links = 0.0                     # links present in ref, but not in test
-#     ignored_links = 0.0                     # ignored links, if ignore is active
-#     quality_ratio = 0.0                     # quality ratio
+#     parses = []              # list of parses where each parse consists of two elements: sentence and the set of links
+#     parse = []
 #
-#     if len(ref_parses) != len(test_parses):
-#         print("Error: files don't contain same parses. "
-#               "Number of sentences missmatch. Ref={}, Test={}".format(len(ref_parses), len(test_parses)))
-#         return
+#     line_count = 0
 #
-#     for ref_parse, test_parse in zip(ref_parses, test_parses):
+#     for line in data:
 #
-#         if ref_parse[0] != test_parse[0]:
-#             print(ref_parse[0], file=ofile)
-#             print(test_parse[0], file=ofile)
-#             print("Error: Something went wrong. Sentences missmatch.", file=ofile)
-#             return
+#         line = line.strip()
+#         line_len = len(line)
+#         # print(line)
 #
-#         # if verbose:
-#         #     print("Sentence: {}".format(" ".join(ref_sent)), file=ofile)
-#         #     print("Missing links: {}".format(current_missing), file=ofile)
-#         #     print("Extra links: {}".format(len(test_sets)), file=ofile)
+#         if line_len:
 #
-#         (m, e, q) = calc_parse_quality(test_parse[1], ref_parse[1])
+#             # Parses are always start with a digit
+#             if len(line) and line[0].isdigit():
+#                 link = line.split()
 #
-#         missing_links += m
-#         extra_links += e
-#         quality_ratio += q
-#         ignored_links += test_parse[2]
+#                 assert len(link) == 4, "The line appears not to be a link: " + line
 #
-#     if total_linkages > 1:
-#         missing_links /= float(total_linkages)
-#         extra_links   /= float(total_linkages)
-#         quality_ratio /= float(total_linkages)
-#         ignored_links /= float(total_linkages)
+#                 # Do not add LW and period links to the set if 'ignore_wall' is specified
+#                 if ignore_wall and (link[1] == "." or link[3] == "." or link[1] == "[.]" or link[3] == "[.]"
+#                                     or link[1].startswith(r"###") or link[3].startswith(r"###")):
 #
-#     print("\nParse quality: {0:2.2f}%".format(quality_ratio*100.0), file=ofile)
-#     print("A total of {} links".format(total_linkages), file=ofile)
-#     print("Average ignored links: {0:2.2f}".format(ignored_links), file=ofile)
-#     print("Average missing links: {0:2.2f}".format(missing_links), file=ofile)
-#     print("Average extra links:  {0:2.2f}".format(extra_links), file=ofile)
+#                     parse[PARSE_IGNORED] += 1  # count ignored links
+#                     continue
+#
+#                 # Only token indexes are added to the set
+#                 parse[PARSE_LINK_SET].add((int(link[0]), int(link[2])))
+#
+#             # Suppose that sentence line always starts with a letter
+#             elif len(line):  # if line[0].isalpha() or line[0] == "[":
+#
+#                 if len(parse) > 0:
+#                     parses.append(parse)
+#                     parse = []
+#
+#                 parse.append((((line.replace("[", "")).replace("]", "")).replace("\n", "")).strip())
+#                 parse.append(set())
+#                 parse.append(int(0))
+#
+#                 line_count += 1
+#
+#     # Last parse should always be added to the list
+#     if len(parse) > 0:
+#         parses.append(parse)
+#
+#     return parses
 
 
 def eval_parses(test_parses: list, ref_parses: list, verbose: bool, ofile=sys.stdout) -> ParseQuality:
@@ -194,7 +196,7 @@ def eval_parses(test_parses: list, ref_parses: list, verbose: bool, ofile=sys.st
         total_parse_quality += pq
 
     if total_linkages > 1:
-        total_parse_quality /= float(total_linkages)
+        total_parse_quality /= total_linkages
 
     print(ParseQuality.text(total_parse_quality), file=ofile)
 

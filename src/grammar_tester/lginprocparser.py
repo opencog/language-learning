@@ -47,7 +47,8 @@ class LGInprocParser(AbstractFileParserClient):
         """
         sentences = []
 
-        pos = skip_lines(text, lines_to_skip)
+        pos = skip_command_response(text)
+        # pos = skip_lines(text, lines_to_skip)
         end = trim_garbage(text)
 
         sent_count = 0
@@ -73,7 +74,7 @@ class LGInprocParser(AbstractFileParserClient):
                 tokens = sent_text.split(" ")
                 sent_obj = PSSentence(sent_text)
 
-                # Fake postscript in order for proper statistic estimation
+                # Produce fake postscript in order for proper statistic estimation
                 post_text = r"[([" + r"])([".join(tokens) + r"])][][0]"
                 sent_obj.linkages.append(post_text)
                 sentences.append(sent_obj)
@@ -141,7 +142,6 @@ class LGInprocParser(AbstractFileParserClient):
                     prepared = None
 
                     try:
-
                         # Print out links in ULL-format
                         print_output(tokens, links, options, out_stream)
 
@@ -202,7 +202,6 @@ class LGInprocParser(AbstractFileParserClient):
         :param options:         Bit mask representing parsing options.
         :return:                Tuple (ParseMetrics, ParseQuality).
         """
-
         sentence_count = 0
 
         print("Info: Parsing a corpus file: '" + corpus_path + "'")
@@ -217,17 +216,6 @@ class LGInprocParser(AbstractFileParserClient):
             print("Info: Reference file: '" + ref_file + "'")
         else:
             print("Info: Reference file name is not specified. Parse quality is not calculated.")
-
-
-        # Getting only sentences from .ull and filtering out square brackets
-        # sed -e '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27-]*\)\]/\1/g'
-
-        # The same with lowercase conversion
-        # sed '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27-]*\)\]/\1/g;s/.*/\L\0/g'
-
-        # Fixed for long dashes
-        # sed -e '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94=+-]*\)\]/\1/g'
-        # sed -e '/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94©®°•…≤±×΅⁻¹²³€αβπγδμεθ«»=+-]*\)\]/\1/g'
 
         # If BIT_ULL_IN sed filters links leaving only sentences and removes square brackets around tokens if any.
         if (options & BIT_ULL_IN):

@@ -1,7 +1,7 @@
 import unittest
 import sys
 
-from src.grammar_tester.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, prepare_tokens
+from src.grammar_tester.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, prepare_tokens, skip_command_response
 from src.grammar_tester.optconst import *
 from src.grammar_tester.parsestat import parse_metrics
 
@@ -502,6 +502,14 @@ class TestPSParse(unittest.TestCase):
         result_list = prepare_tokens(seven_dots, options)
         self.assertEqual(['[.]', '[.]', '[.]', '[.]', '[.]', '[.]'], result_list, "Lists are not the same!!!")
 
+    def test_skip_command_response(self):
+        with open("tests/test-data/raw/debug-msg.txt") as file:
+            text = file.read()
+
+        pos = skip_command_response(text)
+
+        # print(text[pos:], sys.stderr)
+        self.assertEqual(175, pos)
 
 if __name__ == '__main__':
     unittest.main()

@@ -51,7 +51,7 @@ DICT_ARG_REFF = 3
 
 def print_execution_time(title: str, duration):
     seconds = duration % 60
-    minutes = int(duration / 60)
+    minutes = int(duration % 3600)
     hours = int(duration / 3600)
     print("{}: {}h {}m {}s".format(title, hours, minutes, seconds))
 

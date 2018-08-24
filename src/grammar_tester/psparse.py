@@ -9,7 +9,7 @@ from .optconst import *
 """
 
 __all__ = ['strip_token', 'parse_tokens', 'parse_links', 'parse_postscript', 'skip_lines', 'trim_garbage',
-           'get_link_set', 'prepare_tokens']
+           'get_link_set', 'prepare_tokens', 'skip_command_response']
 
 __version__ = "1.0.0"
 
@@ -299,6 +299,33 @@ def skip_lines(text: str, lines_to_skip: int) -> int:
             cnt -= 1
         pos += 1
     return pos
+
+
+def skip_command_response(text: str) -> int:
+    """
+     Skip specified number of lines from the beginning of a text string.
+
+    :param text:            Text string with zero or many '\n' in.
+    :param lines_to_skip:   Number of lines to skip.
+    :return:                Return position of the first character after the specified number of lines is skipped.
+    """
+    l = len(text)
+
+    pos = 0
+    old = 0
+
+    while l:
+        if text[pos] == "\n":
+            line = text[old:pos]
+
+            if len(line) and not (line.startswith("Debug:") or line.find(" set to ") >= 0):
+                return old
+
+            old = pos + 1 if pos + 1 < l else pos
+        pos += 1
+
+    return pos
+
 
 
 def trim_garbage(text: str) -> int:

@@ -55,6 +55,7 @@ Usage:
         -R  --reference         Path to reference file if single file specified by option '-i' as input corpus or path
                                 to a directory with a number of reference files. In later case files with the same names
                                 are being compared.
+        -L  --local-lang-dir    Create Link Grammar dictionary localy in directory, specified by '-o' parameter.
         -C  <json-config-file>  Force the script to use configuration data from JSON configuration file. If this option
                                 is set, other options passed to the script are ignored.
         -D  <lang-short-name>   Language short name used by Link Grammar such as 'en' or 'ru'. One should avoid using
@@ -141,7 +142,7 @@ Usage:
             elif opt in ("-R", "--reference"):
                 reference_path = handle_path_string(arg)
                 options |= BIT_PARSE_QUALITY
-            elif opt in ("-C", "--reference"):
+            elif opt in ("-C", "--config"):
                 config_path = handle_path_string(arg)
             elif opt in ("-D", "--language"):
                 dict_path = strip_quotes(arg)

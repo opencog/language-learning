@@ -1,0 +1,26 @@
+echo set to 1
+postscript set to 1
+graphics set to 0
+verbosity set to 0
+limit set to 10000
+timeout set to 9999999
+Debug: Dictionary "en/4.0.dict": Locale "en_US.UTF-8" unknown
+we also presented the time trends of copd between @number@ and @number@ by age , gender and setting ( urban vs rural ) .
+the copd prevalence in males was about two-fold higher than in females , and it increased with increasing age .
+[(LEFT-WALL)(the)(copd[?].a)(prevalence.n-u)(in.r)(males.n)(was.v-d)(about)(two-fold)(higher.a-c)
+(than.e)(in.r)(females.n)(,)(and.j-n)(it)(increased.v-d)(with)(increasing.v)(age.n-u)
+(.)]
+[[0 20 4 (Xp)][0 6 3 (WV)][0 3 2 (Wd)][3 6 1 (Ss)][1 3 1 (D*u)][2 3 0 (A)][3 4 0 (Mp)]
+[4 5 0 (Jp)][6 9 1 (Pam)][6 7 0 (MVl)][7 8 0 (MVp)][9 17 3 (MVp)][9 11 1 (MVp)][9 10 0 (MVt)]
+[10 11 0 (Mpc)][11 14 2 (Ju)][14 17 2 (Mp)][12 14 1 (SJlp)][13 14 0 (Xd)][14 16 1 (Mv)][14 15 0 (SJrs)]
+[17 18 0 (Mgp)][18 19 0 (Ou)]]
+[0]
+
+as a first step , participants received the film clips in each of @number@ unimodal conditions ( facial , lexical , prosodic ) .
+as a second step , participants were presented with tasks that contained different combinations of these modalities .
+[(LEFT-WALL)(as.e)(a)(second.a)(step.n)(,)(participants.n)(were.v-d)(presented.v-d)(with)
+(tasks.n)(that.j-r)(contained.v-d)(different.a)(combinations.n)(of)(these)(modalities.n)(.)]
+[[0 18 7 (Xp)][0 8 6 (WV)][0 6 5 (Wd)][1 6 4 (CO)][1 5 3 (Xc)][1 4 2 (Js)][2 4 1 (Ds**x)]
+[3 4 0 (A)][6 7 0 (Spx)][7 8 0 (Pv)][8 9 0 (MVp)][9 10 0 (Jp)][10 12 1 (Bp)][10 11 0 (R)]
+[11 12 0 (RS)][12 14 1 (Op)][13 14 0 (Am)][14 15 0 (Mp)][15 17 1 (Jp)][16 17 0 (Dmc)]]
+[0]

@@ -1,5 +1,5 @@
 #Test Grammar Learner to fill in ULL Project Plan Parses spreadshit
-#language-learning/src/grammar_learner/pqa_table.py 80725 uodated 80802
+#language-learning/src/grammar_learner/pqa_table.py                     #80827
 import os, sys, time
 
 def params(corpus, dataset, module_path, out_dir, **kwargs):
@@ -7,8 +7,17 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):
     input_parses = module_path + '/data/' + corpus + '/' + dataset
     if check_dir(input_parses, create=False, verbose='min'):
         batch_dir = out_dir + '/' + corpus
-        spaces = ['connectors', 'disjuncts']
-        if kwargs['word_space'] == 'vectors': wtf = 'DRK'
+        spaces = ['words','connectors', 'disjuncts']
+        context = spaces[kwargs['context']]
+        rules = spaces[kwargs['grammar_rules']]
+        if kwargs['grammar_rules'] == -1:
+            rules = 'interconnected'
+        elif kwargs['grammar_rules'] == -2:
+            rules = 'linked'
+        if kwargs['clustering'] == 'random':
+            context = ''
+            wtf = 'Random-clusters'
+        elif kwargs['word_space'] == 'vectors': wtf = 'DRK'
         else: wtf = 'ILE'
         if kwargs['left_wall'] in ['','none']:
             left_wall = 'no-LEFT-WALL'
@@ -23,9 +32,11 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):
             if kwargs['categories_generalization'] not in ['','off','none']: gen += 1
         if 'rules_generalization' in kwargs:
             if kwargs['rules_generalization'] not in ['','off','none']:  gen += 2
-        prj_dir = batch_dir + '_' + dataset  + '_' + \
-            spaces[kwargs['context']-1] + '-'+wtf+'-' + spaces[kwargs['grammar_rules']-1] \
-            + '_' + left_wall + '_' + period + '_' + generalization[gen]
+        #-prj_dir = batch_dir + '_' + dataset  + '_' + \
+        #-    spaces[kwargs['context']] + '-'+wtf+'-' + spaces[kwargs['grammar_rules']] \
+        #-    + '_' + left_wall + '_' + period + '_' + generalization[gen]
+        #80827 Shorter directories  #FIXME: restore long?
+        prj_dir = batch_dir +'_'+ dataset  +'_'+ context +'-'+ wtf +'-'+ rules
 
         if check_dir(prj_dir, create=True, verbose='none'):
             output_categories = prj_dir     # no file name ⇒ auto file name
@@ -53,7 +64,7 @@ def pqa_meter(input_path, output_grammar, corpus_path, reference_path, runs=(1,1
     return pa, pq, pqa
 
 
-def table_damb(lines, out_dir, cps=(0,0), rps=(0,0), runs=(1,1), **kwargs):  #-lines, module_path,
+def table_damb(lines, out_dir, cps=(0,0), rps=(0,0), runs=(1,1), **kwargs):
     #80720: table_amb 2.0: module_path, corpus_path, test_path built-in
     # cps,rps: tuples len=2 corpus_paths, reference_paths for Amb and disAmb corpora
     module_path = os.path.abspath(os.path.join('..'))
@@ -142,20 +153,27 @@ def table_damb(lines, out_dir, cps=(0,0), rps=(0,0), runs=(1,1), **kwargs):  #-l
     return average, details
 
 
-def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
+def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):            #80825
     # cp,rp: corpus_path, rp: reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
     from learner import learn_grammar   #80802 poc05 restructured
     spaces = ''
-    if kwargs['context'] == 1:
-        spaces += 'c'
-    else: spaces += 'd'
-    if kwargs['word_space'] == 'vectors':
-        spaces += 'DRK'
-    else: spaces += 'ILE'
+    if kwargs['clustering'] == 'random':   #80825 Random clusters
+        spaces += 'RND'
+    else:
+        if kwargs['context'] == 1:
+            spaces += 'c'
+        else: spaces += 'd'
+        if kwargs['word_space'] == 'vectors':
+            spaces += 'DRK'
+        else: spaces += 'ILE'
     if kwargs['grammar_rules'] == 1:
         spaces += 'c'
+    elif kwargs['grammar_rules'] == -1:  #80825 interconnected connector-style
+        spaces += 'ic'
+    elif kwargs['grammar_rules'] == -2:  #80825 interconnected disjunct-style
+        spaces += 'id'
     else: spaces += 'd'
     details = []
     average = []
@@ -188,7 +206,7 @@ def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
         pq = []
         rules = []
         for j in range(runs[0]):
-            try:
+            if True: #try:
                 re = learn_grammar(ip, oc, og, **kwargs)
                 for i in range(runs[1]):
                     a, q, qa = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
@@ -199,7 +217,7 @@ def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
                     dline = [line[0], corpus, dataset, lw, dot, gen, spaces, rulestr, \
                         str(int(round(a,0)))+'%', str(int(round(q,0)))+'%']
                     details.append(dline)
-            except:
+            else: #except:
                 print('pqa_table.py table_cds: learn_grammar(ip,oc,og,**kwargs)', \
                       '⇒ exception:\n', sys.exc_info())
                 pa.append(0)
@@ -223,11 +241,10 @@ def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
 
 
 def table_no_pqa(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
-    # cp,rp: corpus_path, rp: reference_path for grammar tester
+    # cp,rp: corpus_path, reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
-    #-from poc05 import learn_grammar, params   #80802 poc05 restructured
-    from learner import learn_grammar   #80802 poc05 restructured
+    from learner import learn_grammar
     spaces = ''
     if kwargs['context'] == 1:
         spaces += 'c'
@@ -294,4 +311,7 @@ def table_no_pqa(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
 
 #80802 /src/poc05.py restructured, def params moved here, further dev here
     #legacy pqa_table.py renamed pqa05.py ~ poc05+pqa05=baseline (DEL later)
+#80825 kwargs['grammar_rules'] == -1,-2: interconnected clusters
+    #-1: connectors #Cxx: {C01Cxx- or ... CnCxx-} and {CxxC01+ or ... CxxCn+}
+    #-2: disjuncts  #Cxx: (C01Cxx-) or (C02Cxx-) ... or (CxxCn+)
 #TODO: replace table_damb, table_cds ⇒ new unified table with long rows

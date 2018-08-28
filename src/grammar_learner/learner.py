@@ -1,4 +1,4 @@
-#language-learning/src/category_learner.py  #80802 poc05.py restructured
+#language-learning/src/category_learner.py                              #80828
 from IPython.display import display
 from widgets import html_table
 
@@ -68,7 +68,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, \
     else:  prj_dir = os.path.dirname(output_categories)
     log.update({'project_directory': prj_dir})
 
-    #-Save a copy of input parses to prj_dir + '/parses/'  #FIXME:DEL?    #80704
+    #-Save a copy of input parses to prj_dir + '/parses/'  #FIXME:DEL?  #80704
     #-parse_dir = prj_dir + '/parses/'
     #-if check_dir(parse_dir, True, verbose):
     #-    for file in files: copy(file, os.path.dirname(parse_dir))
@@ -120,7 +120,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, \
             print(UTC(),':: learn_grammar: generalization = else: cats_gen =', \
                 cats_gen, '⇒ gen_cats = categories')
 
-    # Save 1st cats_file = to control 2-step generalization #FIXME:DEL?   #80704
+    # Save 1st cats_file = to control 2-step generalization #FIXME:DEL? #80704
     #-re05 = save_cat_tree(gen_cats, output_categories, verbose)
     #-log.update({'category_tree_file': re05['cat_tree_file']})
     #-with open(re05['cat_tree_file'][:-3]+'pkl', 'wb') as f:
@@ -148,11 +148,28 @@ def learn_grammar(input_parses, output_categories, output_grammar, \
         #TODO: fat_cats['djs'] = djs(fat_cats[disjuncts], **kwargs)?
     else: fat_cats = gen_cats
 
-    rules, re07 = induce_grammar(fat_cats, links)
+    #-rules, re07 = induce_grammar(fat_cats, links)  #80825 added:
+    #_"fully connected rules": every cluster connected to all clusters
+    if kwargs['grammar_rules'] < 0:
+        import copy
+        rules = copy.deepcopy(categories)
+        clusters = [i for i,x in enumerate(rules['cluster']) if i>0 and x is not None]
+        rule_list = [tuple([-x]) for x in clusters] + [tuple([x]) for x in clusters]
+        for cluster in clusters:
+            rules['disjuncts'][cluster] = set(rule_list)
+    else: rules, re07 = induce_grammar(fat_cats, links)
+
     if verbose == 'debug':
         print('induce_grammar ⇒ rules:')
         display(html_table([['Code','Parent','Id','Quality','Words', 'Disjuncts', 'djs','Relevance','Children']] \
             + [x for i,x in enumerate(cats2list(rules))]))
+
+    lengths = [len(x) for x in rules['disjuncts']]
+    if verbose in ['max' ,'debug']:
+        print('N clusters = len(rules[disjuncts]-1):',len(rules['disjuncts'])-1)
+        print('Rule set lengths:', lengths)
+    if verbose == 'debug':
+        print('\nrules[disjuncts]:\n', rules['disjuncts'])
 
     '''Generalize grammar rules'''
 
@@ -183,4 +200,5 @@ def learn_grammar(input_parses, output_categories, output_grammar, \
 #Notes:
 
 #80802: poc05.py/category_learner ⇒ category_learner.py/learn_categories
+#80825: random clusters, interconnected ⇒ cleanup, commit 80828
 #TODO: update parameters, update notebooks, remove old notebooks, add warning

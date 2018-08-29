@@ -103,7 +103,6 @@ def compute_metrics(answers, predictions):
     fscores = []
     one_sense_count = 0
     cnt_over_disamb = 0
-    penalty = 0.9 # penalty for every over disambiguated word
     for k in answers.keys():
         true = np.array(answers[k])
         pred = np.array(predictions[k])
@@ -117,13 +116,13 @@ def compute_metrics(answers, predictions):
     fscores[:] = (value for value in fscores if value != None) # remove None's
     fscores = np.array(fscores)
     mean_fscore = np.mean(fscores)
-    punished_fscore = mean_fscore * (penalty)**cnt_over_disamb
+    mixed_score = (mean_fscore + (1 - cnt_over_disamb / len(answers))) / 2
     print('mean ari: %f' % np.mean(aris))
     print('mean vscore: %f' % np.mean(vscores))
     print('mean fscore: %f' % mean_fscore) # pure f-score
     print('over disambiguated count: %d' % cnt_over_disamb) # over disambuated
-    print('punished fscore: %f' % punished_fscore) # punished f-score
-    return np.mean(aris), np.mean(vscores), mean_fscore, punished_fscore
+    print('WSD score: %f' % mixed_score) # mixed score
+    return np.mean(aris), np.mean(vscores), mean_fscore, mixed_score
 
 def main(argv):
     """
@@ -155,18 +154,18 @@ def main(argv):
     ari_list = []
     vscore_list = []
     fscore_list = []
-    p_fscore_list = []
+    wsd_score_list = []
     eval_files = []
     true_answers = read_answers(ref_file, separator)
     for test_file in os.listdir(test_dir):
         print("Evaluating: {}".format(test_file))
         eval_files.append(test_file)
         predictions = read_answers(test_dir + "/" + test_file, separator)
-        ari, vscore, fscore, punished_fscore = compute_metrics(true_answers, predictions)
+        ari, vscore, fscore, mixed_score = compute_metrics(true_answers, predictions)
         ari_list.append(ari)
         vscore_list.append(vscore)
         fscore_list.append(fscore)
-        p_fscore_list.append(punished_fscore)
+        wsd_score_list.append(mixed_score)
         print('\n')
 
     max_ari = max(ari_list)
@@ -178,9 +177,9 @@ def main(argv):
     max_fscore = max(fscore_list)
     fscore_indexes = [i for i, j in enumerate(fscore_list) if j == max_fscore]
     print("Best fscore: {} in files {}\n".format(max_fscore, [eval_files[i] for i in fscore_indexes]))
-    max_p_fscore = max(p_fscore_list)
-    p_fscore_indexes = [i for i, j in enumerate(p_fscore_list) if j == max_p_fscore]
-    print("Best punished fscore: {} in files {}\n".format(max_p_fscore, [eval_files[i] for i in p_fscore_indexes]))
+    max_wsd_score = max(wsd_score_list)
+    wsd_score_indexes = [i for i, j in enumerate(wsd_score_list) if j == max_wsd_score]
+    print("Best wsd score: {} in files {}\n".format(max_wsd_score, [eval_files[i] for i in wsd_score_indexes]))
 
     
 if __name__ == '__main__':

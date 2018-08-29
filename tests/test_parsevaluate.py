@@ -78,6 +78,18 @@ class TestEvalMethods(unittest.TestCase):
         self.assertEqual(0.0, pq1.missing)
         self.assertEqual(0.0, pq1.extra)
 
+    # @unittest.skip
+    def test_get_parses_start_from_digit(self):
+        """ Test evaluation """
+        ref_data = load_ull_file("tests/test-data/parses/start-from-digit/start-from-digit.ull")
+        test_data = load_ull_file("tests/test-data/parses/start-from-digit/start-from-digit.ull")
+        print("ref_data='", ref_data, "'", file=sys.stderr)
+        print("test_data='", test_data, "'", file=sys.stderr)
+        ref_parses = get_parses(ref_data, True)
+        test_parses = get_parses(test_data, True)
+        # eval_parses(test_parses, ref_parses, False, sys.stderr)
+        self.assertEqual(ref_parses, test_parses)
+
 
 if __name__ == '__main__':
     unittest.main()

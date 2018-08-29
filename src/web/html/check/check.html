@@ -100,6 +100,10 @@ function render_parse(parse){
 	$('#parse_output').html(html);
 }
 
+function render_tree(tree){
+    $('#parse_tree').html(tree);
+}
+
 /*
  TODO:
 	1. Host Link Grammar Checker WEB REST API service at http://langlearn.singularitynet.io:<some_port_except_80_or_9XXX>
@@ -121,12 +125,26 @@ function render_parse(parse){
 
 function do_check(){
 	var text = $('#parse_input').val();
+	var limit = $('#parse_limit').val();
+	if (!limit || !(limit >0))
+	    limit = 1000;
 	console.log(text);
-	ajax_request_uri_method_graph('http://langlearn.singularitynet.io/check/?lang=en&text='+text,function(parse){
+	ajax_request_uri_method_graph('http://langlearn.singularitynet.io/linkparser?lang=en&mode=3&text='+encodeURIComponent(text),function(parse){
 		console.log(parse);
-		render_parse(parse);
+		var dict = JSON.parse(parse)
+		console.log(dict.linkages[0])
+		render_parse(dict.linkages[0]);
+
+		ajax_request_uri_method_graph('http://langlearn.singularitynet.io/linkparser?lang=en&mode=0&limit='+limit+'&text='+encodeURIComponent(text),function(parse){
+		    console.log(parse);
+		    var obj = JSON.parse(parse)
+		    console.log(obj.linkages[0])
+		    render_tree(obj.linkages[0]);
+		},function(){
+		    render_tree('');
+		},'GET',"");
 	},function(){
-		render_parse('Intelligence [are] the ability to achieve complex goals in [compex] environments using resources [limited] .');
+		render_parse('Intelligence [are] the ability to achieve complex and not so complex goals in [compex] environments using resources [limited] .');
 	},'GET',"");
 }
 
@@ -164,9 +182,12 @@ Input:<br>
 <textarea rows="2" id="parse_input" style="font-size:16;width:100%;">
 Intelligence are the ability to achieve complex goals in compex environments using resources limited.
 </textarea><br>
+Limit:<br>
+<input type="text" id="parse_limit" value="1000"><br>
 <button id="do_parse" onclick="do_check()" style="margin:5px;">Check</button><br>
 Output:<br>
-<div id="parse_output" style="font-size:16;"></div> 
+<div id="parse_output" style="font-size:16;"></div><br>
+<pre id="parse_tree" style="font-size:12;font-family:courier;></pre><br>
 <p> 
  
 <p>

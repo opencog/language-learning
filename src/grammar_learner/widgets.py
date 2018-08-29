@@ -1,5 +1,6 @@
-#language-learning/src/grammar_learner/widgets.py POC.0.4 80511, 80627
+#language-learning/src/grammar_learner/widgets.py                       #80817
 from IPython.display import display, HTML
+from utl import UTC
 
 def html_table(tbl):
     return HTML('<table><tr>{}</tr></table>'
@@ -71,7 +72,57 @@ def display_tree(response):
     display(html_table([y.split('\t') for y in x]))
 
 
+def corpus_historgams(module_path, corpus, dataset, logscale=[False,False], **kwargs):
+    def kwa(v,k): return kwargs[k] if k in kwargs else v
+    parse_mode      = kwa('lower',  'parse_mode')    # 'casefold'
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    from read_files import check_dir, check_mst_files
+    from pparser    import files2links
+
+    print(corpus, dataset, UTC(), ':\n')
+    input_parses = module_path + '/' + corpus + '/' + dataset
+    files, re01 = check_mst_files(input_parses, kwargs['verbose'])
+    kwargs['input_files'] = files
+    kwargs['context'] = 1
+    ordnung = ['word','link','count']
+    links, re02 = files2links(**kwargs)
+    connectors = links[ordnung]
+    for x in re02['corpus_stats']: print(x[0], ':', x[1])
+    kwargs['context'] = 2
+    links,re02 = files2links(**kwargs)
+    disjuncts = links[ordnung]
+
+    words = connectors.groupby('word', as_index=False).sum()['count']
+    cons = connectors.groupby('link', as_index=False).sum()['count']
+    con_seeds = connectors.groupby(['word','link'], as_index=False).sum()['count']
+    djs = disjuncts.groupby('link', as_index=False).sum()['count']
+    seeds = disjuncts.groupby(['word','link'], as_index=False).sum()['count']
+
+    fig, ax = plt.subplots()
+    n,bins,patches = ax.hist([words,cons], label=['words', 'connectors'], \
+                             alpha=0.5, histtype='bar', log=logscale[0])
+    #ax.set_xlabel('Count')
+    #ax.set_ylabel('Frequency')
+    title = 'Words, connectors Frequency'
+    if logscale[0]: title = title + ', log scale'
+    ax.set_title(title)
+    ax.legend()
+    fig.tight_layout()
+    plt.show()
+
+    fig2, ax2 = plt.subplots()
+    n,bins,patches = ax2.hist([djs,seeds], label=['disjuncts', 'seeds'], \
+                              color=['blue','red'], alpha=0.5, histtype='bar', log=logscale[1])
+    title = 'Disjuncts, seeds frequency'
+    if logscale[1]: title = title + '; Y: log scale'
+    ax2.legend()
+    ax2.set_title(title)
+    fig2.tight_layout()
+    plt.show()
+
 #80511 category tree v.0.1 ~ widget
 #80521 html_table, plot_2d copied from utl.turtle.py
 #80521 save file
 #80627 display_tree  FIXME:DEL?
+#80817 corpus_historgams

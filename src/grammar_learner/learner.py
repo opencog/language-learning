@@ -2,19 +2,23 @@
 from IPython.display import display
 from widgets import html_table
 
-def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
+__all__ = ['learn_grammar']
+
+#-def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
+def learn_grammar(input_parses, output_categories, output_grammar, \
+                  output_statistics='', temp_dir='', **kwargs):     #80810
     # input_parses - dir with .txt files
     # output_categories - path/file.ext / dir ⇒ auto file name
     # output_grammar    - path/file.ext / dir ⇒ auto file name
+    # output_statistics - path/file.ext / dir ⇒ auto file name, '' ⇒ = output_grammar
     def kwa(v,k): return kwargs[k] if k in kwargs else v
-    tmpath          = kwa('',       'tmpath')
     parse_mode      = kwa('lower',  'parse_mode')
     left_wall       = kwa('',       'left_wall')
     period          = kwa(False,    'period')
     context         = kwa(1,        'context')
     window          = kwa('mst',    'window')
     weighting       = kwa('ppmi',   'weighting')
-    #? distance       = kwa(??,   'distance')
+    #? distance     = kwa(??,       'distance')
     group           = kwa(True,     'group')
     word_space      = kwa('vectors', 'word_space')
     dim_max         = kwa(100,      'dim_max')
@@ -32,26 +36,28 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     rules_merge     = kwa(0.8,      'rules_merge')
     rules_aggr      = kwa(0.2,      'rules_aggregation')
     verbose         = kwa('none',   'verbose')
+    tmpath          = kwa('',       'tmpath')
+    if temp_dir != '':          #80810: temp_dir overwrites kwargs (legacy)
+        if os.path.isdir(temp_dir):
+            kwargs['tmpath'] = temp_dir
     kwargs['input_parses'] = input_parses
     kwargs['output_categories'] = output_categories
     kwargs['output_grammar'] = output_grammar
-    input_dir = input_parses
-    #-cat_path = output_categories
-    #-dict_path = output_grammar
-    import os, pickle   #, collections
-    import pandas as pd
+    kwargs['output_statistics'] = output_statistics
+    #TODO?: save kwargs ⇒ tmp/file ?
+
+    import os, pickle, pandas as pd #, collections
     from shutil import copy2 as copy
     from utl import UTC
     from read_files import check_dir, check_mst_files
     from pparser import files2links
-    from category_learner import learn_categories, add_disjuncts, cats2list #80802
-    from grammar_inducer import induce_grammar  #80802
+    from category_learner import learn_categories, add_disjuncts, cats2list
+    from grammar_inducer import induce_grammar
     from generalization import generalize_categories, generalize_rules
     from write_files import list2file, save_link_grammar, save_cat_tree
     from collections import OrderedDict
-    log = OrderedDict({'start': str(UTC()), 'learn_grammar': '80805'})
 
-    #TODO: save kwargs ⇒ tmp/file ?
+    log = OrderedDict({'start': str(UTC()), 'learn_grammar': '80805'})
 
     '''input_parses ⇒ links DataFrame:'''
 
@@ -61,6 +67,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
         prj_dir = output_categories
     else:  prj_dir = os.path.dirname(output_categories)
     log.update({'project_directory': prj_dir})
+
     #-Save a copy of input parses to prj_dir + '/parses/'  #FIXME:DEL?    #80704
     #-parse_dir = prj_dir + '/parses/'
     #-if check_dir(parse_dir, True, verbose):
@@ -68,11 +75,16 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     #-else: raise FileNotFoundError('File not found', input_parses)
 
     # group = True    #FIXME: always? False option for context = 0 (words)?
+
     kwargs['input_files'] = files
     links, re02 = files2links(**kwargs)
     log.update(re02)
-    list2file(re02['corpus_stats'], prj_dir+'/corpus_stats.txt')
-    log.update({'corpus_stats_file': prj_dir+'/corpus_stats.txt'})
+    if output_statistics != '':                 #TODO: check dir?
+        corpus_stats_file = output_statistics
+    else: corpus_stats_file = prj_dir+'/corpus_stats.txt'
+    list2file(re02['corpus_stats'], corpus_stats_file)
+    #TODO: check write success?
+    log.update({'corpus_stats_file': corpus_stats_file})
     if verbose in ['max','debug']:
         print('\n', UTC(),':: learn_grammar:',len(links),'links', type(links))
         with pd.option_context('display.max_rows', 6): print(links, '\n')

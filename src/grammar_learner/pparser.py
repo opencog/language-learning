@@ -1,4 +1,4 @@
-#language-learning/src/graammar_learner/pparser.py  #80726  #80802
+#language-learning/src/graammar_learner/pparser.py                      #80829
 import numpy as np
 import pandas as pd
 
@@ -104,7 +104,7 @@ def mst2disjuncts(lines, **kwargs):     #80717 +80726 debug dILEd case (lost LW)
     return df
 
 
-def files2links(**kwargs):
+def files2links(**kwargs):              #80829
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     parse_mode      = kwa('lower',  'parse_mode')    # 'casefold' ? #80714
     # parse_mode: 'given'~ as parsed, 'lower', 'casefold', 'explode' ⇒ maniana...
@@ -156,21 +156,28 @@ def files2links(**kwargs):
 
     unique_connectors = cdf.groupby('link', as_index=False).sum()
     avg_connector_count = round(len(cdf)/len(unique_connectors), 1)
-    unique_disjuncts = ddf.groupby('link', as_index=False).sum()
-    avg_disjunct_count = round(len(ddf)/len(unique_disjuncts), 1)
+    unique_djs = ddf.groupby('link', as_index=False).sum()
+    avg_disjunct_count = round(len(ddf)/len(unique_djs), 1)
     unique_seeds = ddf.groupby(['word','link'], as_index=False).sum()
     avg_seed_count = round(len(ddf) / len(unique_seeds), 1)
 
+    #80831 Average, max disjunct length:
+    ddf['djlen'] = ddf['link'].apply(lambda x: x.count('&') +1)
+    avg_disjunct_length = round(ddf['djlen'].mean(), 1)
+    max_disjunct_length = ddf['djlen'].max()
+
     response['corpus_stats'].extend([
-        ['Number of unique connectors', len(unique_connectors)],
-        ['Total connectors count', len(cdf)],
-        ['Average connector count', avg_connector_count],
-        ['Number of unique disjuncts', len(unique_disjuncts)],
-        ['Total disjuncts count', len(ddf)],
-        ['Average disjuncts count', avg_disjunct_count],
-        ['Number of unique seeds', len(unique_seeds)],
-        ['Total seeds count', len(ddf)],
-        ['Average seed count', avg_seed_count]
+        ['Unique connectors number', len(unique_connectors)],
+        ['Total  connectors count ', len(cdf)],
+        ['Average connector count ', avg_connector_count],
+        ['Unique disjuncts number', len(unique_djs)],
+        ['Total  disjuncts count ', len(ddf)],
+        ['Average disjunct count ', avg_disjunct_count],
+        ['Average disjunct length', avg_disjunct_length],
+        ['Maximum disjunct length', max_disjunct_length],
+        ['Unique seeds number', len(unique_seeds)],
+        ['Total  seeds count ', len(ddf)],
+        ['Average seed count ', avg_seed_count]
     ])
 
     if context > 1:
@@ -215,4 +222,5 @@ def files2links(**kwargs):
 #80717 update, 80718 commit from 94..server
 #80725 POC 0.1-0.4 deleted, 0.5 restructured - this module was src/space/poc05.py
 #80802 corpus_stats ⇒ corpus_stats.py
+#80829 files2links: Average, max disjunct lengths
 #TODO: control & limit number of links in disjuncts? #80406

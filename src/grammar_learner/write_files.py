@@ -1,4 +1,4 @@
-#language-learning/src/grammar_learner/write_files.py 80725
+#language-learning/src/grammar_learner/write_files.py                   80827
 import os
 from utl import UTC
 
@@ -17,10 +17,10 @@ def list2file(lst, out_file):  # 80321
     with open (out_file, 'w') as f: f.write(string)
     return string
 
+
 def rules2list(rules_dict, grammar_rules=2, verbose='none'):   #80620 0.5 {} ⇒ [] ⇒ save_link_grammar
     # rules_dict: {'cluster': [], 'words': [], }
     # grammar_rules = kwargs['grammar_rules']: 1 - connectors, 2 - disjuncts
-        #TODO: 2,3... = disjunct connectors number  #? 0 - words?
 
     sign = lambda x: ('+','-')[x < 0]
     def disjunct(x, cluster_list, cluster):
@@ -35,7 +35,8 @@ def rules2list(rules_dict, grammar_rules=2, verbose='none'):   #80620 0.5 {} ⇒
             print('rules2list:', i, cluster, rules_dict['disjuncts'][i])
         rule = [cluster]
         rule.append(sorted(rules_dict['words'][i]))
-        if grammar_rules == 1:              # rules based on connectors
+        #if grammar_rules == 1:      # rules based on connectors  #80827:
+        if grammar_rules in [1,-1]:  # rules based on connectors, interconnected
             lefts = set()
             rights = set()
             for djtuple in rules_dict['disjuncts'][i]:
@@ -71,12 +72,11 @@ def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=
     # grammar_rules = kwargs['grammar_rules']: 1 ⇒ connectors, 2+ ⇒ disjuncts
     import os
     from src.grammar_learner.utl import UTC
-    #-if path[-1] != '/': path += '/'
 
-    if type(rules) is dict:  #80620 0.5 new data structure, 80626 connector-based rules
+    if type(rules) is dict:
         rules = rules2list(rules, grammar_rules)
 
-    link_grammar = ''               #80510 0.4
+    link_grammar = ''
     line_list = list()
     clusters = set()
     for rule in rules:
@@ -99,16 +99,12 @@ def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=
         clusters.add(rule[0])
 
     line_list.sort()    #FIXME: overkill?
-    #TODO: file naming - corpus name?
-    #-if file != '': out_file = path + file
+
     if os.path.isfile(output_grammar):
         out_file = output_grammar
     elif os.path.isdir(output_grammar):
         out_file = output_grammar
         if out_file[-1] != '/': out_file += '/'
-        #-if 'isa' in '\t'.join(line_list): out_file += 'poc-turtle_'
-        #-else: out_file += 'poc-english_'
-        #out_file += 'poc-english_'   #80704 replaced with:
         out_file += 'dict_'
         out_file = out_file + str(len(clusters)) + 'C_' \
             + str(UTC())[:10] + '_0005.4.0.dict'            #80620 0004⇒0005
@@ -123,11 +119,7 @@ def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=
             + str(len(rules)) + ' Link Grammar rules.\n' \
             + '% Link Grammar file saved to: ' + out_file
     lg = header +'\n\n'+ '\n'.join(line_list) +'\n'+ add_rules +'\n\n'+ footer
-    #-80704 tmp FIXME:
-    #-lg = lg.replace('@1', '.a')
-    #-lg = lg.replace('@2', '.b')
-    #-lg = lg.replace('@3', '.c')
-    lg = lg.replace('@', '.')       #8070 WSD: word@1 ⇒ word.1
+    lg = lg.replace('@', '.')       #80706 WSD: word@1 ⇒ word.1  FIXME:DEL?
     with open (out_file, 'w') as f: f.write(lg)
 
     from collections import OrderedDict
@@ -136,9 +128,9 @@ def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=
     return response
 
 
-def save_category_tree(category_list, tree_file, verbose='none'):  #80522
+def save_category_tree(category_list, tree_file, verbose='none'):
     import os
-    #+from src.grammar_learner.write_files import list2file
+    #+from write_files import list2file
     cats = category_list
     clusters = {}
     m = 0
@@ -170,16 +162,14 @@ def save_category_tree(category_list, tree_file, verbose='none'):  #80522
 
 
 def save_cat_tree(cats, output_categories, verbose='none'):
-    #80611 ~ cats2list without 'djs', children'...
     # cats: {'cluster':[], 'words':[], ...}
     from copy import deepcopy
-    #+from src.grammar_learner.write_files import list2file
-    from src.grammar_learner.utl import UTC
+    #+from write_files import list2file
+    from utl import UTC
 
     tree_file = output_categories
     if '.' not in tree_file:  #auto file name
         if tree_file[-1] != '/': tree_file += '/'
-        #-tree_file += (str(len(set([x[0] for x in cats_list]))) + '_cat_tree.txt')
         n_cats = len([x for i,x in enumerate(cats['parent']) if i > 0 and x < 1])
         tree_file += (str(n_cats) + '_cat_tree.txt')
 
@@ -193,15 +183,9 @@ def save_cat_tree(cats, output_categories, verbose='none'):
         category.append(cats['parent'][i])
         category.append(i)
         category.append(round(cats['quality'][i],2))
-        #!category.append(sorted(cats['words'][i]))  #80704+06 tmp hack FIXME
         wordz = deepcopy(sorted(cats['words'][i]))
-        #-80704 word@1, word@2 ⇒ word.a, word.b:
-        #-wordz = [x.replace('@1','.a') for x in wordz]
-        #-wordz = [x.replace('@2','.b') for x in wordz]
-        #-wordz = [x.replace('@3','.c') for x in wordz]
         wordz = [x.replace('@','.') for x in wordz] #80706 WSD: word@1 ⇒ word.1
         category.append(wordz)                      #80704+06 tmp hack FIXME
-        #80704+06 end
         category.append(cats['similarities'][i])
         #-category.append(cats['children'][i])
         categories.append(category)
@@ -216,8 +200,14 @@ def save_cat_tree(cats, output_categories, verbose='none'):
 
     return {'cat_tree_file': tree_file}
 
+
+#Notes:
+
 #80331 list2file moved here from .utl.py
 #80510 save_link_grammar moved here from src/link_grammar/poc.py & updated
 #80522 save_category_tree
 #80619 save_cat_tree, +80623 auto file name
+#80620 0.5 new data structure, rules2list, 80626 connector-based rules
+#80706 WSD: word@1 ⇒ word.1
 #80725 POC 0.1-0.4 deleted, 0.5 restructured, imports updated
+#80827 rules = -1/-2: interconnected clusters, connector/disjunct based rules

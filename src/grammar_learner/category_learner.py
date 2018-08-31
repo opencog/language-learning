@@ -1,4 +1,4 @@
-#language-learning/src/category_learner.py  #80802 poc05.py restructured
+#language-learning/src/category_learner.py                              #80828
 
 def add_disjuncts(cats, links, verbose='none'):
     # add disjuncts to categories {dict} after k-means clustering
@@ -39,7 +39,6 @@ def add_disjuncts(cats, links, verbose='none'):
     return fat_cats
 
 
-#def category_learner(links, **kwargs):     #80619 POC.0.5 #80726
 def learn_categories(links, **kwargs):      #80802 poc05 restructured learner.py
     # links - DataFrame ['word', 'link', 'count']
     def kwa(v,k): return kwargs[k] if k in kwargs else v
@@ -93,8 +92,15 @@ def learn_categories(links, **kwargs):      #80802 poc05 restructured learner.py
         log.update({'tmpath': tmpath})
     #TODO:ERROR
 
-    '''DRK'''   #-if word_space == 'vectors':
-    if word_space[0] in ['v','e']: #or context == 1 or algorithm == 'kmeans':
+    #80825 Random Clusters FIXME:DEL?
+    if algorithm == 'random':
+        from clustering import random_clusters
+        clusters = random_clusters(links, **kwargs)
+        log.update({'clusters': 'random'})
+
+    #'''DRK'''   #-if word_space == 'vectors':
+    #!if word_space[0] in ['v','e']:  #or context == 1 or algorithm == 'kmeans':
+    elif word_space[0] in ['v','e']:  #80825 tmp add Random Clusters FIXME:DEL
         # word_space options: v,e: 'vectors'='embeddings' | d,w: 'discrete'='word_vectors'
         if verbose in ['max','debug']:
             print(UTC(),':: category_learner: DRK: context =', \
@@ -192,4 +198,4 @@ def cats2list(cats):    #80609
     #cats2list moved here ⇐ generalization.py, copied ⇒ poc05.py for legacy compatibility
     #group_links moved ⇒ clustering.py
 #80803 clusters, silhouette, inertia = best_clusters(vdf, **kwargs)
-#80805
+#80825 random clusters ⇒ commit 80828

@@ -1,4 +1,4 @@
-#language-learning/src/grammar_learner/clustering.py 0.5 80726+80802+80809
+#language-learning/src/grammar_learner/clustering.py                    #80828
 import numpy as np
 import pandas as pd
 from utl import UTC
@@ -12,11 +12,10 @@ def cluster_words_kmeans(words_df, n_clusters, init='k-means++', n_init=10):
     words_list = words_df['word'].tolist()
     df = words_df.copy()
     del df['word']
-    #-fails? = KMeans(init='random', n_clusters=n_clusters, n_init=30)   #80617 #F?!
+    #-fails? = KMeans(init='random', n_clusters=n_clusters, n_init=30)  #80617 #F?!
     #-kmeans_model = KMeans(init='k-means++', n_clusters=n_clusters, n_init=10)
     kmeans_model = KMeans(init=init, n_clusters=n_clusters, n_init=n_init)
     kmeans_model.fit(df)
-    #-print('cluster_words_kmeans: kmeans_model.fit(df)')
     labels = kmeans_model.labels_
     inertia  = kmeans_model.inertia_
     centroids = np.asarray(kmeans_model.cluster_centers_[:(max(labels)+1)])
@@ -41,7 +40,7 @@ def cluster_words_kmeans(words_df, n_clusters, init='k-means++', n_init=10):
     return cdf, silhouette, inertia
 
 
-def number_of_clusters(vdf, **kwargs):
+def number_of_clusters(vdf, **kwargs):                                  #80809
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     algorithm   = kwa('kmeans',     'clustering')
     criteria    = kwa('silhouette', 'cluster_criteria')
@@ -54,9 +53,6 @@ def number_of_clusters(vdf, **kwargs):
     # (10,40,5,n) :: min, max, step, m tests for each step
     from statistics import mode
     from utl import round1, round2, round3
-
-    if verbose in ['max', 'debug']:
-        print(UTC(),':: number_of_clusters: verbose set to', verbose)
 
     if len(crange) < 2 or crange[1] == crange[0]:
         if verbose in ['max', 'debug']:
@@ -110,7 +106,7 @@ def number_of_clusters(vdf, **kwargs):
     n2 = list(dct.keys())[list(dct.values()).index(max(list(dct.values())))]
     if n2 != n_clusters:
         if len(list(dct.values())) == len(set(list(dct.values()))):
-            n3 = mode(lst)  # Might get error
+            n3 = mode(lst)  # FIXME: Might get error?
         else: n3 = n_clusters
         n_clusters = int(round((n_clusters + n2 + n3)/3.0, 0))
 
@@ -121,7 +117,7 @@ def number_of_clusters(vdf, **kwargs):
     return int(n_clusters)
 
 
-def best_clusters(vdf, **kwargs):
+def best_clusters(vdf, **kwargs):                                       #80809
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     #-cluster_range = kwa((2,48,1), 'cluster_range')
     algo        = kwa('kmeans',     'clustering')
@@ -158,7 +154,7 @@ def best_clusters(vdf, **kwargs):
     from operator import itemgetter
     from utl import round1, round2, round3
 
-    if (crange[0]==crange[1] or len(crange) < 2):  #fixed n_clusters
+    if (crange[0]==crange[1] or len(crange) < 2):  #given n_clusters
         if verbose in ['max','debug']:
             print(UTC(),':: best_clusters:', crange[0], 'clusters from range', crange)
         if len(crange) < 2 or crange[2] < 2:
@@ -166,22 +162,20 @@ def best_clusters(vdf, **kwargs):
             return clusters, silhouette, inertia
         else:   # run crange[2] times to define the best
             lst = []
-            for i in range(crange[2]):
+            for n in range(crange[2]):
                 try:
                     c,s,i = cluster_words_kmeans(vdf, crange[0], init, n_init)
-                    lst.append(i, crange[0], c,s,i)
+                    lst.append((n, crange[0], c,s,i))
                 except:
-                    if i == len(crange[0]) and len(lst) == 0:
+                    if n == crange[2]-1 and len(lst) == 0:
                         return 0,0,0
                     else: continue
             lst.sort(key=itemgetter(3), reverse=True)
-            #-return clusters, silhouette, inertia
-            return lst[0][2], lst[0][3], lst[0][3]
+            if len(lst) > 0:
+                return lst[0][2], lst[0][3], lst[0][4]
+            else: return 0,0,0
 
-    #-elif False:  #80803 DONE: FIXME:DEL
-    elif crange[1] > crange[0]:  #80809 option: old algo:
-        #-  n_clusters = number_of_clusters(vdf, crange, \
-        #-      algorithm, criteria, level, verbose)  #80803 tested, 80809 replaced:
+    elif crange[1] > crange[0]:  #80809 option: legacy search in range
         if verbose in ['max','debug']:
             print(UTC(),':: best_clusters: range', crange, '⇒ number_of_clusters')
         n_clusters = number_of_clusters(vdf, **kwargs)
@@ -192,15 +186,11 @@ def best_clusters(vdf, **kwargs):
                     c,s,i = cluster_words_kmeans(vdf, n_clusters, init, n_init)
                     lst.append((n, n_clusters, c,s,i))
                 except:
-                    if i == crange[2]-1 and len(lst) == 0:
+                    if n == crange[3]-1 and len(lst) == 0:
                         return 0,0,0
                     else: continue
             lst.sort(key=itemgetter(3), reverse=True)
-            #-return clusters, silhouette, inertia
-            print('lst:')
-            for l in lst: print(l[0],l[1],l[3],l[4],)
             return lst[0][2], lst[0][3], lst[0][4]
-            #80810 TODO:CHECK
         else:
             clusters, silhouette, inertia = cluster_words_kmeans(vdf, n_clusters)
             return clusters, silhouette, inertia
@@ -290,7 +280,7 @@ def best_clusters(vdf, **kwargs):
             return clusters, silhouette, inertia
 
 
-def group_links(links, verbose):  #80428 Group identical Lexical Entries (ILE)
+def group_links(links, verbose):    #Group ILE                          #80428
     import pandas as pd
     df = links.copy()
     df['links'] = [[x] for x in df['link']]
@@ -321,11 +311,38 @@ def group_links(links, verbose):  #80428 Group identical Lexical Entries (ILE)
     df4['cluster'] = df4.apply(cluster_id, axis=1)
     df4 = df4.rename(columns={'words': 'cluster_words', 'links': 'disjuncts'})
     df4 = df4[['cluster', 'cluster_words', 'disjuncts', 'counts']]
+
     return df4
+
+
+def random_clusters(links, **kwargs):                                   #80825
+    def kwa(v,k): return kwargs[k] if k in kwargs else v
+    crange      = kwa((20,70,2),     'cluster_range')
+    from random import randint
+    if crange[0] == crange[1]:
+        n_clusters = crange[0]
+    else:
+        n_clusters = randint(min(crange[0],crange[1]), max(crange[0],crange[1]))
+    print('random_clusters: n_clusters =', n_clusters)
+    df = links.copy()
+    df['disjuncts'] = [[x] for x in df['link']]
+    del df['link']
+    df = df.groupby('word').agg({'disjuncts': 'sum', 'count': 'sum'}).reset_index()
+    df['cluster'] = n_clusters
+    df['cluster'] = df['cluster'].apply(lambda x: randint(1,x))
+    df['cluster_words'] = [[x] for x in df['word']]
+    del df['word']
+    df = df.groupby('cluster') \
+        .agg({'cluster_words':'sum', 'disjuncts':'sum', 'count':'sum'}) \
+        .reset_index()
+    df['cluster'] = df['cluster'].apply(lambda x: 'C'+str(x).zfill(2))
+
+    return df
 
 
 #Notes:
 
+#80428 group_links :: Group identical Lexical Entries (ILE)
 #80617 kmeans_model = KMeans(init='random', n_clusters=n_clusters, n_init=30)   #fails?
 #80725 POC 0.1-0.4 deleted, 0.5 restructured. This module was src/clustering/poc05.py
 #80802 poc05 restructured,
@@ -333,5 +350,6 @@ def group_links(links, verbose):  #80428 Group identical Lexical Entries (ILE)
     #number_of_clusters copied to kmeans.py: tmp poc05 "stable" baseline
     #group_links moved here from category_learner.py
     #clusters2list, clusters2dict removed
-#80809 update
+#80809 update: (30,60,3,[3]) - old range + repeat / (120,30,3) -- search opt
+#80825 random_clusters
 #TODO: n_clusters ⇒ best_clusters: return best clusters (word lists), centroids

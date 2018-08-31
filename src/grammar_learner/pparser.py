@@ -156,15 +156,15 @@ def files2links(**kwargs):              #80829
 
     unique_connectors = cdf.groupby('link', as_index=False).sum()
     avg_connector_count = round(len(cdf)/len(unique_connectors), 1)
-    unique_djs = ddf.groupby('link', as_index=False).sum().copy()
+    unique_djs = ddf.groupby('link', as_index=False).sum()
     avg_disjunct_count = round(len(ddf)/len(unique_djs), 1)
     unique_seeds = ddf.groupby(['word','link'], as_index=False).sum()
     avg_seed_count = round(len(ddf) / len(unique_seeds), 1)
 
-    #80829 Average, max disjunct length:
-    unique_djs['djlen'] = unique_djs['link'].apply(lambda x: x.count('&') +1)
-    avg_disjunct_length = round(unique_djs['djlen'].mean(), 1)
-    max_disjunct_length = unique_djs['djlen'].max()
+    #80831 Average, max disjunct length:
+    ddf['djlen'] = ddf['link'].apply(lambda x: x.count('&') +1)
+    avg_disjunct_length = round(ddf['djlen'].mean(), 1)
+    max_disjunct_length = ddf['djlen'].max()
 
     response['corpus_stats'].extend([
         ['Unique connectors number', len(unique_connectors)],

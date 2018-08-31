@@ -1,4 +1,4 @@
-#language-learning/src/grammar_learner/corpus_stats.py 0.5 80726+80802
+#language-learning/src/grammar_learner/corpus_stats.py                  #80831
 
 def corpus_stats(lines, extended = False):  #80716 #TODO: enhance - issue
     # lines = []
@@ -42,13 +42,11 @@ def corpus_stats(lines, extended = False):  #80716 #TODO: enhance - issue
         apwc = int(round(sum(words.values())/len(words), 0))
     else: apwc = 0  #:Average parsed word count
     if len(links) > 0:
-        #alc = int(round(sum(links.values())/len(links), 0))
         alc = round(sum(links.values())/len(links), 1)
-    else: alc = 0  #:Average link count
+    else: alc = 0   #:Average link count
     if len(lws) > 0:
         alpw = int(round(sum(links.values())/len(lws), 0))
     else: alpw = 0
-    #-unpw = set(npw) - set(words)    #:unique non-parsed words #80829 updated:
     unpws = set(npws) - set(pws)    #:unique non-parsed words
     unlws = set(words) - set(lws)   #:unique non-linked words
     lost_words = set(words) - (set(lefts)|set(rights))  #:unique words not mentioned in links
@@ -59,17 +57,16 @@ def corpus_stats(lines, extended = False):  #80716 #TODO: enhance - issue
             ['Number of unique words in sentences', len(words)],
             ['Number of unique parsed words in sentences', len(pws)],
             ['Number of unique non-parsed [words] in sentences', len(unpws)],
-            ['Number of unique linked words', len(lws)],
+            ['Number of unique linked words    ', len(lws)],
             ['Number of unique non-linked words', len(unlws)],
-            ['Total words count in sentences', sum(words.values())],
+            ['Total  words count in sentences', sum(words.values())],
             ['Parsed words count in sentences', sum(pws.values())],
-            ['Non-parsed [words] count in sentences', sum(npws.values())],
-            ['Average per-word counts', apwc],
-            ['Number of unique links', len(links)],
-            ['Total links count', sum(links.values())],
-            ['Average per-link count', alc],
+            ['Non-parsed [words] in sentences', sum(npws.values())],
+            ['Unique links number', len(links)],
+            ['Total  links count ', sum(links.values())],
+            ['Average link count ', alc],
+            ['Average word count ', apwc],
             ['Average links per linked word', alpw]
-            #,['non-linked words', unlws]                             #FIXME:DEL
         ],
         'links_stats': {
             'unique_left_words': len(lefts),
@@ -81,9 +78,8 @@ def corpus_stats(lines, extended = False):  #80716 #TODO: enhance - issue
         }
     }
     if extended:
-        response.update({'lost_words': lost_words, 'unpw': unpw, 'words': set(words)})
-
-    #print('\nlinks_stats:', response['links_stats'], '\n')
+        response.update({'unique non-parsed words': unpws, \
+            'unique non-linked words': unlws, 'lost_words': lost_words, })
 
     return response
 
@@ -91,4 +87,5 @@ def corpus_stats(lines, extended = False):  #80716 #TODO: enhance - issue
 #Notes:
 
 #80802 poc05 restructured: moved here from pparser.py
+#80829,31 unpws, unlws
 #TODO: update - see GitHub issue

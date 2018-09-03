@@ -3,6 +3,8 @@ from ..common.parsemetrics import ParseMetrics, ParseQuality, PQA_str
 from ..common.absclient import AbstractConfigClient
 from ..common.cliutils import handle_path_string
 
+__all__ = ["TextFileDashboard", "HTMLFileDashboard"]
+
 CONF_ROW_KEY = "row_key"
 CONF_ROW_IND = "row_indexes"
 CONF_COL_KEY = "col_key"

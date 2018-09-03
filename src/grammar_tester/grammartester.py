@@ -3,7 +3,8 @@ import sys
 from decimal import *
 from time import time
 
-from ..common.absclient import AbstractGrammarTestClient, AbstractStatEventHandler, AbstractFileParserClient
+from ..common.absclient import AbstractGrammarTestClient, AbstractStatEventHandler, AbstractFileParserClient, \
+    AbstractPipelineComponent
 from ..common.dirhelper import traverse_dir_tree, create_dir
 from ..common.parsemetrics import ParseMetrics, ParseQuality, PQA
 from ..common.fileconfman import JsonFileConfigManager
@@ -17,7 +18,7 @@ from .lginprocparser import LGInprocParser
 from .lgapiparser import LGApiParser
 
 
-__all__ = ['test_grammar', 'test_grammar_cfg', 'GrammarTester', 'GrammarTestError']
+__all__ = ['test_grammar', 'test_grammar_cfg', 'GrammarTester', 'GrammarTestError', 'GrammarTesterComponent']
 
 
 class GrammarTestError(Exception):
@@ -50,9 +51,9 @@ DICT_ARG_REFF = 3
 
 
 def print_execution_time(title: str, duration):
-    seconds = duration % 60
-    minutes = int(duration % 3600)
     hours = int(duration / 3600)
+    minutes = int((duration - hours * 3600) / 60)
+    seconds = duration % 60
     print("{}: {}h {}m {}s".format(title, hours, minutes, seconds))
 
 
@@ -82,6 +83,32 @@ class GrammarTester(AbstractGrammarTestClient):
         self._total_quality = ParseQuality()
         self._total_files = 0
         self._total_dicts = 0
+
+
+    # def __init__(self, grmr: str, tmpl: str, limit: int, parser: AbstractFileParserClient,
+    #              evt_handler: AbstractStatEventHandler=None):
+    #
+    #     if parser is None:
+    #         raise GrammarTestError("GrammarTestError: 'parser' argument can not be None.")
+    #
+    #     if not isinstance(parser, AbstractFileParserClient):
+    #         raise GrammarTestError("GrammarTestError: 'parser' is not an instance of AbstractFileParserClient")
+    #
+    #     if evt_handler is not None and not isinstance(evt_handler, AbstractStatEventHandler):
+    #         raise GrammarTestError("ArgumentError: 'evt_handler' is not an instance of AbstractStatEventHandler")
+    #
+    #     self._parser = parser
+    #     self._event_handler = evt_handler
+    #     self._grammar_root = grmr
+    #     self._template_dir = tmpl
+    #     self._linkage_limit = limit
+    #     self._options = 0  # options
+    #     self._is_dir_corpus = False
+    #     self._is_dir_dict = False
+    #     self._total_metrics = ParseMetrics()
+    #     self._total_quality = ParseQuality()
+    #     self._total_files = 0
+    #     self._total_dicts = 0
 
     @staticmethod
     def _save_stat(stat_path: str, metrics: ParseMetrics, quality: ParseQuality) -> None:
@@ -388,3 +415,34 @@ def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal):
         print(str(err))
     finally:
         return pm.parseability(pm), pq.parse_quality(pq), PQA(pm, pq)
+
+
+class GrammarTesterComponent(AbstractPipelineComponent):
+
+    def __init__(self, **kwargs):
+
+        # Create parser instance
+        parser = LGInprocParser()
+
+        # Create GrammarTester instance
+        self.tester = GrammarTester(handle_path_string(kwargs.get(CONF_GRMR_PATH, r"~/data/dict")),
+                                    handle_path_string(kwargs.get(CONF_TMPL_PATH)),
+                                    kwargs.get(CONF_LNK_LIMIT, 1000), parser)
+
+    def validate_parameters(self, **kwargs):
+        """ Validate configuration parameters """
+        return True
+
+    def run(self, **kwargs):
+        """ Execute component code """
+        dict_path = handle_path_string(kwargs.get(CONF_DICT_PATH))
+
+        if dict_path is None:
+            dict_path = "en"
+
+        self.tester.test(dict_path,
+                         handle_path_string(kwargs.get(CONF_CORP_PATH)),
+                         handle_path_string(kwargs.get(CONF_DEST_PATH, os.environ['PWD'])),
+                         handle_path_string(kwargs.get(CONF_REFR_PATH)),
+                         get_options(kwargs))
+

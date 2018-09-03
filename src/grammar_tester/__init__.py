@@ -6,6 +6,7 @@ from .lgmisc import *
 from .optconst import *
 from .parsestat import *
 from .psparse import *
+from .textfiledashb import *
 
 __all__ = []
 __all__.extend(grammartester.__all__)
@@ -16,3 +17,4 @@ __all__.extend(lgmisc.__all__)
 __all__.extend(optconst.__all__)
 __all__.extend(parsestat.__all__)
 __all__.extend(psparse.__all__)
+__all__.extend(textfiledashb.__all__)

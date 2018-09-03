@@ -9,7 +9,7 @@ from .parsemetrics import ParseMetrics, ParseQuality
 
 
 __all__ = ['DashboardError', 'AbstractDashboardClient', 'AbstractConfigClient', 'AbstractGrammarTestClient',
-           'AbstractFileParserClient', 'AbstractStatEventHandler']
+           'AbstractFileParserClient', 'AbstractStatEventHandler', 'AbstractPipelineComponent']
 
 DASH_UPDATE_PARSEABILITY = 1
 DASH_UPDATE_PARSEQUALITY = 2
@@ -93,4 +93,23 @@ class AbstractStatEventHandler(metaclass=ABCMeta):
     """
     @abstractmethod
     def on_statistics(self, nodes: list, metrics: ParseMetrics, quality: ParseQuality) -> None:
+        pass
+
+
+class AbstractPipelineComponent(metaclass=ABCMeta):
+    """
+    Base class for pipe line components
+    """
+    @abstractmethod
+    def validate_parameters(self, **kwargs) -> bool:
+        """ This is a place holder for parameter checking and validation. Exceptions should not be generated in case
+            of invalid parameter in order to let other components to check their parameters during a single run. The
+            method should check all of the parameters print error messages and return False if at least one parameter
+            is invalid.
+        """
+        pass
+
+    @abstractmethod
+    def run(self, **kwargs) -> None:
+        """ Run component execution. In case of severe errors exceptions should be raised to stop pipeline execution """
         pass

@@ -116,7 +116,7 @@ def compute_metrics(answers, predictions):
     fscores[:] = (value for value in fscores if value != None) # remove None's
     fscores = np.array(fscores)
     mean_fscore = np.mean(fscores)
-    mixed_score = (mean_fscore + (1 - cnt_over_disamb / len(answers))) / 2
+    mixed_score = (mean_fscore + (1 - float(cnt_over_disamb) / len(answers))) / 2
     print('mean ari: %f' % np.mean(aris))
     print('mean vscore: %f' % np.mean(vscores))
     print('mean fscore: %f' % mean_fscore) # pure f-score

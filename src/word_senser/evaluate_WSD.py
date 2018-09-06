@@ -138,6 +138,7 @@ def main(argv):
     from random import randint
 
     separator = "@"
+    rand_repeats = 10
     random_benchmark = False
     try:
         opts, args = getopt.getopt(argv, "ht:r:s:z", ["testdir=", "reference=", "separator=", "random"])
@@ -166,11 +167,15 @@ def main(argv):
 
     # compare reference to random benchmark
     if random_benchmark:
-        predictions = {}
-        for word in true_answers.keys():
-            num_senses = len(set(true_answers[word]))
-            predictions[word] = [randint(1, num_senses) for i in range(len(true_answers[word]))]
-        compute_metrics(true_answers, predictions)
+        fscore = 0
+        for repeat in range(rand_repeats):
+            predictions = {}
+            for word in true_answers.keys():
+                num_senses = len(set(true_answers[word]))
+                predictions[word] = [randint(1, num_senses) for i in range(len(true_answers[word]))]
+            scores = compute_metrics(true_answers, predictions)
+            fscore += scores[2]
+        print("\nAverage fscore after {} random benchmarks: {}\n".format(rand_repeats, fscore / rand_repeats))
     # compare reference to test
     else:
         for test_file in os.listdir(test_dir):

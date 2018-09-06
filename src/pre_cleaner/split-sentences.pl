@@ -124,28 +124,28 @@ sub preprocess
 	#####add sentence breaks as needed#####
 
 	# Non-period end of sentence markers (?!) followed by sentence starters.
-	$text =~ s/([?!]) +([\'\"\(\[\¿\¡\p{IsPi}]*[\p{IsUpper}])/$1\n$2/g;
+	$text =~ s/([?!]) +([_\'\"\(\[\¿\¡\p{IsPi}]*[\p{IsUpper}])/$1\n$2/g;
 
 	# Multi-dots followed by sentence starters.
-	$text =~ s/(\.[\.]+) +([\'\"\(\[\¿\¡\p{IsPi}]*[\p{IsUpper}])/$1\n$2/g;
+	$text =~ s/(\.[\.]+) +([_\'\"\(\[\¿\¡\p{IsPi}]*[\p{IsUpper}])/$1\n$2/g;
 
 	# A period, followed by a footnote.[42] followed by sentence starters.
 	# Can be [HarvardStyle42] also.
-	$text =~ s/([\.?!][\'\"\)]?\[.*?]) +([\'\"\(\[\¿\¡\p{IsPi}]*[\p{IsUpper}])/$1\n$2/g;
+	$text =~ s/([\.?!][\'\"\)]?\[.*?]) +([_\'\"\(\[\¿\¡\p{IsPi}]*[\p{IsUpper}])/$1\n$2/g;
 
 	# Add breaks for sentences that end with some sort of punctuation
 	# inside a quote or parenthetical and are followed by a possible
 	# sentence starter punctuation and upper case.
-	$text =~ s/([?!\.][\ ]*[\'\"\)\]\p{IsPf}]+) +([\'\"\(\[\¿\¡\p{IsPi}]*[\ ]*[\p{IsUpper}])/$1\n$2/g;
+	$text =~ s/([?!\.][\ ]*[\'\"\)\]\p{IsPf}]+) +([_\'\"\(\[\¿\¡\p{IsPi}]*[\ ]*[\p{IsUpper}])/$1\n$2/g;
 
 	# Add breaks for sentences that end with some sort of punctuation
 	# are followed by a sentence starter punctuation and upper case.
 	# This differs from above in that starter punctuation is mandatory,
 	# and thus we can take the period, here, too.
-	$text =~ s/([?!\.]) +([\'\"\(\[\¿\¡\p{IsPi}]+[\ ]*[\p{IsUpper}])/$1\n$2/g;
+	$text =~ s/([?!\.]) +([_\'\"\(\[\¿\¡\p{IsPi}]+[\ ]*[\p{IsUpper}])/$1\n$2/g;
 
 	# Sentences that end in punctuation, followed by a double-dash.
-	$text =~ s/([?!\.]) +(--[ \'\"\(\[\¿\¡\p{IsPi}]*[\p{IsUpper}])/$1\n$2/g;
+	$text =~ s/([?!\.]) +(--[ _\'\"\(\[\¿\¡\p{IsPi}]*[\p{IsUpper}])/$1\n$2/g;
 
 	# Sentence-ending punctuation, followed by optional close-quote.
 	$text =~ s/([。．？！♪]”?)/$1\n/g;
@@ -175,7 +175,7 @@ sub preprocess
 			{
 				#not breaking - upper case acronym
 			}
-			elsif($words[$i+1] =~ /^([ ]*[\'\"\(\[\¿\¡\p{IsPi}]*[ ]*[\p{IsUpper}0-9])/)
+			elsif($words[$i+1] =~ /^([ ]*[_\'\"\(\[\¿\¡\p{IsPi}]*[ ]*[\p{IsUpper}0-9])/)
 			{
 				# The next word has a bunch of initial quotes, maybe a
 				# space, then either upper case or a number

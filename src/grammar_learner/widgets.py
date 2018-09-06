@@ -1,6 +1,6 @@
 #language-learning/src/grammar_learner/widgets.py                       #80817
 from IPython.display import display, HTML
-from utl import UTC
+from .utl import UTC
 
 def html_table(tbl):
     return HTML('<table><tr>{}</tr></table>'

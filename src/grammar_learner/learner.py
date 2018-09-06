@@ -1,6 +1,6 @@
 #language-learning/src/category_learner.py                              #80828
 from IPython.display import display
-from widgets import html_table
+from .widgets import html_table
 
 __all__ = ['learn_grammar']
 

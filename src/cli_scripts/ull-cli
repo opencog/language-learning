@@ -1,0 +1,167 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import getopt
+import platform
+
+from pathos.multiprocessing import Pool
+
+from ull.common import JsonFileConfigManager, AbstractPipelineComponent, handle_path_string
+from ull.grammar_tester import GrammarTesterComponent, TextFileDashboard
+from ull.grammar_learner import GrammarLearnerComponent
+
+__version__ = "1.0.0"
+
+PROCESSES_ALLOWED = 1
+
+PIPELINE_COMPONENTS = {
+    "grammar-tester": GrammarTesterComponent,
+    "grammar-learner": GrammarLearnerComponent,
+    # "dash-board": TextFileDashboard
+}
+
+
+def get_component(name: str, params: dict) -> AbstractPipelineComponent:
+    """
+    Create an instance of the pipeline component
+
+    :param name:    Pipeline component name.
+    :return:        AbstractPipelineComponent instance pointer.
+    """
+    try:
+        # Create an instance of specified pipeline component
+        component = PIPELINE_COMPONENTS[name](**params)
+
+        # Check the instance to be proper pipeline component
+        if not isinstance(component, AbstractPipelineComponent):
+            raise Exception("Error: " + str(type(component)) + " is not an instance of AbstractPipelineComponent")
+
+        return component
+
+    except KeyError:
+        raise Exception("Error: '{}' is not a valid pipeline component name.".format(name))
+
+    except Exception as err:
+        print(str(type(err)) + ": " + str(err))
+        raise err
+
+
+def run_component(entry: dict, num_processes: int) -> None:
+    """
+    Execute pipeline component code for every configuration specified by 'parameters' section of configuration file.
+
+    :param entry:               Configuration entry, specifying component name and parameters.
+    :param allow_multiproc:     Allow simultaneous execution of multiple instances of the component for each
+                                configuration.
+    :return:                    None
+    """
+    def worker(params: dict):
+
+        # Create component instance
+        component = get_component(comp_name, parameters[0])
+
+        # Execute component
+        component.run(**params)
+
+
+    comp_name = entry["component"]
+    parameters = entry["parameters"]
+
+    if num_processes == 1:
+        # Sequential execution of the component for each subconfiguration entry
+        for subconf in parameters:
+            worker(subconf)
+
+    else:
+        print("Running in parallel.")
+
+        # Parallel execution of the component for each subconfiguration entry
+        with Pool(num_processes-1) as pool:
+            pool.map(worker, [subconf for subconf in parameters])
+
+
+def main(argv):
+    """
+Usage:
+    ull-cli -C <json-config-file>
+
+    json-config-file    JSON configuration file path.
+
+    """
+    print("ull-cli ver." + __version__)
+    print("Python v." + platform.python_version())
+
+    config_path = None
+    processes   = 1
+
+    try:
+        opts, args = getopt.getopt(argv, "hC:p:", ["help", "config=", "processes="])
+
+        for opt, arg in opts:
+            if opt in ("-h", "--help"):
+                print(main.__doc__)
+                return 0
+            elif opt in ("-C", "--config"):
+                config_path = handle_path_string(arg)
+            elif opt in ("-p", "--config"):
+                processes = int(arg)
+
+    except getopt.GetoptError as err:
+        print(str(err))
+        print(main.__doc__)
+        return 1
+
+    # Get the number of CPUs available to the current process
+    cpus_available = len(os.sched_getaffinity(0))
+
+    # Number of processes should not exceed the number of CPUs the current process can use
+    if processes > cpus_available:
+        processes = cpus_available
+        print("Warning: The number of processes changed to {} because of the system restriction".format(cpus_available))
+
+    print(config_path)
+
+    try:
+        # Read JSON pipe line configuration
+        cfgman = JsonFileConfigManager(config_path)
+
+        # Get configuration parameters
+        config = cfgman.get_config("", None)
+
+        # Because pipe line component execution may take a significant time span, parameter validation
+        #   is executed as a separate step.
+
+        validation_result = True
+
+        # Check and validate each component parameters
+        for comp_cfg in config:
+
+            comp_name = comp_cfg["component"]
+            parameters = comp_cfg["parameters"]
+
+            # Validate parameters for each subconfiguration
+            for subconf in parameters:
+                component = get_component(comp_name, subconf)
+
+                # Component parameter validation
+                if not component.validate_parameters(**subconf):
+                    validation_result = False
+
+        # Prevent pipeline execution if any of the component configuration validation failed.
+        if not validation_result:
+            raise Exception("Parameter validation failed.")
+
+        # Execute each pipeline component
+        for entry in config:
+            run_component(entry, processes)
+
+    except Exception as err:
+        print(str(err))
+        return 1
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

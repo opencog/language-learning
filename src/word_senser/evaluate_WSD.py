@@ -133,16 +133,19 @@ def main(argv):
         three metrics are used: V-Measure, F-score and ARI.
     """
     import getopt
+    from random import randint
 
     separator = "@"
+    rand_repeats = 10
+    random_benchmark = False
     try:
-        opts, args = getopt.getopt(argv, "ht:r:s:", ["testdir=", "reference=", "separator="])
+        opts, args = getopt.getopt(argv, "ht:r:s:z", ["testdir=", "reference=", "separator=", "random"])
     except getopt.GetoptError:
-        print("Usage: ./evaluate_WSD.py -t <testdir> -r <reffile> [-s <separator>]")
+        print("Usage: ./evaluate_WSD.py -t <testdir> -r <reffile> [-s <separator>] [-z]")
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print("Usage: ./evaluate_WSD.py -t <testdir> -r <reffile> [-s <separator>]")
+            print("Usage: ./evaluate_WSD.py -t <testdir> -r <reffile> [-s <separator>] [-z]")
             sys.exit()
         elif opt in ("-t", "--testdir"):
             test_dir = arg
@@ -150,6 +153,8 @@ def main(argv):
             ref_file = arg
         elif opt in ("-s", "--separator"):
             separator = arg
+        elif opt in ("-z", "--random"):
+            random_benchmark = True
 
     ari_list = []
     vscore_list = []
@@ -157,30 +162,43 @@ def main(argv):
     wsd_score_list = []
     eval_files = []
     true_answers = read_answers(ref_file, separator)
-    for test_file in os.listdir(test_dir):
-        print("Evaluating: {}".format(test_file))
-        eval_files.append(test_file)
-        predictions = read_answers(test_dir + "/" + test_file, separator)
-        ari, vscore, fscore, mixed_score = compute_metrics(true_answers, predictions)
-        ari_list.append(ari)
-        vscore_list.append(vscore)
-        fscore_list.append(fscore)
-        wsd_score_list.append(mixed_score)
-        print('\n')
 
-    max_ari = max(ari_list)
-    ari_indexes = [i for i, j in enumerate(ari_list) if j == max_ari]
-    print("Best ari: {} in files {}\n".format(max_ari, [eval_files[i] for i in ari_indexes]))
-    max_vscore = max(vscore_list)
-    vscore_indexes = [i for i, j in enumerate(vscore_list) if j == max_vscore]
-    print("Best vscore: {} in files {}\n".format(max_vscore, [eval_files[i] for i in vscore_indexes]))
-    max_fscore = max(fscore_list)
-    fscore_indexes = [i for i, j in enumerate(fscore_list) if j == max_fscore]
-    print("Best fscore: {} in files {}\n".format(max_fscore, [eval_files[i] for i in fscore_indexes]))
-    max_wsd_score = max(wsd_score_list)
-    wsd_score_indexes = [i for i, j in enumerate(wsd_score_list) if j == max_wsd_score]
-    print("Best wsd score: {} in files {}\n".format(max_wsd_score, [eval_files[i] for i in wsd_score_indexes]))
+    # compare reference to random benchmark
+    if random_benchmark:
+        fscore = 0
+        for repeat in range(rand_repeats):
+            predictions = {}
+            for word in true_answers.keys():
+                num_senses = len(set(true_answers[word]))
+                predictions[word] = [randint(1, num_senses) for i in range(len(true_answers[word]))]
+            scores = compute_metrics(true_answers, predictions)
+            fscore += scores[2]
+        print("\nAverage fscore after {} random benchmarks: {}\n".format(rand_repeats, fscore / rand_repeats))
+    # compare reference to test
+    else:
+        for test_file in os.listdir(test_dir):
+            print("Evaluating: {}".format(test_file))
+            eval_files.append(test_file)
+            predictions = read_answers(test_dir + "/" + test_file, separator)
+            ari, vscore, fscore, punished_fscore = compute_metrics(true_answers, predictions)
+            ari_list.append(ari)
+            vscore_list.append(vscore)
+            fscore_list.append(fscore)
+            p_fscore_list.append(punished_fscore)
+            print('\n')
 
+        max_ari = max(ari_list)
+        ari_indexes = [i for i, j in enumerate(ari_list) if j == max_ari]
+        print("Best ari: {} in files {}\n".format(max_ari, [eval_files[i] for i in ari_indexes]))
+        max_vscore = max(vscore_list)
+        vscore_indexes = [i for i, j in enumerate(vscore_list) if j == max_vscore]
+        print("Best vscore: {} in files {}\n".format(max_vscore, [eval_files[i] for i in vscore_indexes]))
+        max_fscore = max(fscore_list)
+        fscore_indexes = [i for i, j in enumerate(fscore_list) if j == max_fscore]
+        print("Best fscore: {} in files {}\n".format(max_fscore, [eval_files[i] for i in fscore_indexes]))
+        max_p_fscore = max(p_fscore_list)
+        p_fscore_indexes = [i for i, j in enumerate(p_fscore_list) if j == max_p_fscore]
+        print("Best punished fscore: {} in files {}\n".format(max_p_fscore, [eval_files[i] for i in p_fscore_indexes]))
     
 if __name__ == '__main__':
     main(sys.argv[1:])

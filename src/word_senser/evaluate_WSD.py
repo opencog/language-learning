@@ -184,7 +184,7 @@ def main(argv):
             ari_list.append(ari)
             vscore_list.append(vscore)
             fscore_list.append(fscore)
-            p_fscore_list.append(punished_fscore)
+            wsd_score_list.append(punished_fscore)
             print('\n')
 
         max_ari = max(ari_list)
@@ -196,9 +196,9 @@ def main(argv):
         max_fscore = max(fscore_list)
         fscore_indexes = [i for i, j in enumerate(fscore_list) if j == max_fscore]
         print("Best fscore: {} in files {}\n".format(max_fscore, [eval_files[i] for i in fscore_indexes]))
-        max_p_fscore = max(p_fscore_list)
-        p_fscore_indexes = [i for i, j in enumerate(p_fscore_list) if j == max_p_fscore]
-        print("Best punished fscore: {} in files {}\n".format(max_p_fscore, [eval_files[i] for i in p_fscore_indexes]))
+        max_wsd_score = max(wsd_score_list)
+        wsd_score_indexes = [i for i, j in enumerate(wsd_score_list) if j == max_wsd_score]
+        print("Best WSD score: {} in files {}\n".format(max_wsd_score, [eval_files[i] for i in wsd_score_indexes]))
     
 if __name__ == '__main__':
     main(sys.argv[1:])

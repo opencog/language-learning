@@ -168,6 +168,6 @@ dependencies:
   - link-grammar-minisat-bundled=5.4.4=0
   - sparsesvd=0.2.2=0
   - pip:
-  - pathos=0.2.2
+  - pathos=0.2.2.1
 prefix: /home/obaskov/miniconda3/envs/ull
 

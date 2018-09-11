@@ -1,8 +1,9 @@
 #language-learning/src/grammar_learner/corpus_stats.py                  #80831
+from collections import Counter
+
 
 def corpus_stats(lines, extended = False):  #80716 #TODO: enhance - issue
     # lines = []
-    from collections import Counter
     words = Counter()   #:words in sentences
     pws = Counter()     #:parsed words in sentences
     npws = Counter()    #:non-parsed words

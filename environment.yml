@@ -102,7 +102,6 @@ dependencies:
   - numpy=1.15.1=py36h1d66e8a_0
   - numpy-base=1.15.1=py36h81de0dd_0
   - openblas=0.2.20=4
-  - openblas-devel=0.2.20=7
   - openssl=1.0.2p=h14c3975_0
   - packaging=17.1=py36_0
   - pandas=0.23.4=py36h04863e7_0
@@ -169,6 +168,6 @@ dependencies:
   - link-grammar-minisat-bundled=5.4.4=0
   - sparsesvd=0.2.2=0
   - pip:
-    - opencog-ull==1.0.0
+  - pathos=0.2.2
 prefix: /home/obaskov/miniconda3/envs/ull
 

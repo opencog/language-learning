@@ -1,7 +1,9 @@
 #language-learning/src/grammar_learner/utl.py  #80625
+import datetime
+import time
+
 
 def UTC():
-    import datetime
     return str(datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC'))
 
 
@@ -19,7 +21,6 @@ def round5(x): return round_float(x, 5)
 
 
 def timer(string, t0=0):
-    import time
     t1 = time.time()
     if t0 < 0.01:
         print(UTC(), '::', string)

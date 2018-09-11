@@ -1,6 +1,19 @@
 #language-learning/src/category_learner.py                              #80828
+import os
+from copy import deepcopy
+import pickle, pandas as pd  # , collections
+from shutil import copy2 as copy
 from IPython.display import display
+from collections import OrderedDict
+
 from .widgets import html_table
+from .utl import UTC
+from .read_files import check_dir, check_mst_files
+from .pparser import files2links
+from .category_learner import learn_categories, add_disjuncts, cats2list
+from .grammar_inducer import induce_grammar
+from .generalization import generalize_categories, generalize_rules
+from .write_files import list2file, save_link_grammar, save_cat_tree
 
 __all__ = ['learn_grammar']
 
@@ -25,7 +38,15 @@ def learn_grammar(input_parses, output_categories, output_grammar, \
     sv_min          = kwa(0.1,      'sv_min')
     dim_reduction   = kwa('svm',    'dim_reduction')
     clustering      = kwa('kmeans', 'clustering')
+
+    if isinstance(clustering, list):
+        cluster_range = tuple(clustering)
+
     cluster_range   = kwa((2,48,1), 'cluster_range')
+
+    if isinstance(cluster_range, list):
+        cluster_range = tuple(cluster_range)
+
     cluster_criteria = kwa('silhouette', 'cluster_criteria')
     cluster_level   = kwa(0.9,      'cluster_level')
     cats_gen        = kwa('off',    'categories_generalization')
@@ -37,6 +58,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, \
     rules_aggr      = kwa(0.2,      'rules_aggregation')
     verbose         = kwa('none',   'verbose')
     tmpath          = kwa('',       'tmpath')
+
     if temp_dir != '':          #80810: temp_dir overwrites kwargs (legacy)
         if os.path.isdir(temp_dir):
             kwargs['tmpath'] = temp_dir
@@ -45,17 +67,6 @@ def learn_grammar(input_parses, output_categories, output_grammar, \
     kwargs['output_grammar'] = output_grammar
     kwargs['output_statistics'] = output_statistics
     #TODO?: save kwargs ⇒ tmp/file ?
-
-    import os, pickle, pandas as pd #, collections
-    from shutil import copy2 as copy
-    from utl import UTC
-    from read_files import check_dir, check_mst_files
-    from pparser import files2links
-    from category_learner import learn_categories, add_disjuncts, cats2list
-    from grammar_inducer import induce_grammar
-    from generalization import generalize_categories, generalize_rules
-    from write_files import list2file, save_link_grammar, save_cat_tree
-    from collections import OrderedDict
 
     log = OrderedDict({'start': str(UTC()), 'learn_grammar': '80805'})
 
@@ -151,8 +162,7 @@ def learn_grammar(input_parses, output_categories, output_grammar, \
     #-rules, re07 = induce_grammar(fat_cats, links)  #80825 added:
     #_"fully connected rules": every cluster connected to all clusters
     if kwargs['grammar_rules'] < 0:
-        import copy
-        rules = copy.deepcopy(categories)
+        rules = deepcopy(categories)
         clusters = [i for i,x in enumerate(rules['cluster']) if i>0 and x is not None]
         rule_list = [tuple([-x]) for x in clusters] + [tuple([x]) for x in clusters]
         for cluster in clusters:

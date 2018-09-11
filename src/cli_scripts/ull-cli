@@ -10,6 +10,7 @@ from pathos.multiprocessing import Pool
 from ull.common import JsonFileConfigManager, AbstractPipelineComponent, handle_path_string
 from ull.grammar_tester import GrammarTesterComponent, TextFileDashboard
 from ull.grammar_learner import GrammarLearnerComponent
+from ull.text_parser import TextParserComponent
 
 __version__ = "1.0.0"
 
@@ -18,6 +19,7 @@ PROCESSES_ALLOWED = 1
 PIPELINE_COMPONENTS = {
     "grammar-tester": GrammarTesterComponent,
     "grammar-learner": GrammarLearnerComponent,
+    "text-parser": TextParserComponent,
     # "dash-board": TextFileDashboard
 }
 

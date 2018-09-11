@@ -1,14 +1,18 @@
 #language-learning/src/grammar_learner/clustering.py                    #80828
 import numpy as np
 import pandas as pd
-from utl import UTC
+from sklearn.cluster import KMeans
+from sklearn.metrics import pairwise_distances, silhouette_score
+from statistics import mode
+from random import randint
+from operator import itemgetter
+from .utl import UTC, round1, round2, round3
+
 
 def cluster_words_kmeans(words_df, n_clusters, init='k-means++', n_init=10):
     # words_df - pandas DataFrame
     # init: 'k-means++', 'random', ndarray with random seed
     # n_init - number of initializations (runs), default 10
-    from sklearn.cluster import KMeans
-    from sklearn.metrics import pairwise_distances, silhouette_score
     words_list = words_df['word'].tolist()
     df = words_df.copy()
     del df['word']
@@ -51,8 +55,6 @@ def number_of_clusters(vdf, **kwargs):                                  #80809
     # (10) = (10,10) = (10,10,n) :: 10 clusters
     # (10,40,5) :: min, max, step
     # (10,40,5,n) :: min, max, step, m tests for each step
-    from statistics import mode
-    from utl import round1, round2, round3
 
     if len(crange) < 2 or crange[1] == crange[0]:
         if verbose in ['max', 'debug']:
@@ -150,9 +152,6 @@ def best_clusters(vdf, **kwargs):                                       #80809
                 try: n_init = int(algo[2])
                 except: n_init = 10
             else: n_init = 10
-
-    from operator import itemgetter
-    from utl import round1, round2, round3
 
     if (crange[0]==crange[1] or len(crange) < 2):  #given n_clusters
         if verbose in ['max','debug']:
@@ -281,7 +280,6 @@ def best_clusters(vdf, **kwargs):                                       #80809
 
 
 def group_links(links, verbose):    #Group ILE                          #80428
-    import pandas as pd
     df = links.copy()
     df['links'] = [[x] for x in df['link']]
     del df['link']
@@ -318,7 +316,6 @@ def group_links(links, verbose):    #Group ILE                          #80428
 def random_clusters(links, **kwargs):                                   #80825
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     crange      = kwa((20,70,2),     'cluster_range')
-    from random import randint
     if crange[0] == crange[1]:
         n_clusters = crange[0]
     else:

@@ -1,12 +1,31 @@
 #language-learning/src/grammar_learner/poc05.py 80528-80725, restructured 80802
 #FIXME:DEL / keep poc05.py+pqa05.py for a while to back-test further dev
+import os
+import pickle  # , collections
+import pandas as pd
+from collections import OrderedDict
 from IPython.display import display
-from widgets import html_table
+from copy import deepcopy
+from .widgets import html_table
+from .utl import UTC, round1, round2  # , round3, round4, round5
+from .read_files import check_dir, check_mst_files
+from .hyperwords import vector_space_dim, pmisvd
+# -from clustering import number_of_clusters, clusters2list  #80802
+from .kmeans import number_of_clusters, cluster_words_kmeans  # 80802
+from .write_files import list2file, save_link_grammar, save_cat_tree
+# ?from poc05 import group_links  #this module
+
+from shutil import copy2 as copy
+from .pparser import files2links
+# -from clustering import clusters2dict
+# ?from poc05 import category_learner    #this module
+# ?from poc05 import induce_grammar      #this module
+from .generalization import generalize_categories, generalize_rules
+
 
 '''Category Learner 0.5 80625'''
 
 def group_links(links, verbose):  #80428
-    import pandas as pd
     df = links.copy()
     df['links'] = [[x] for x in df['link']]
     del df['link']
@@ -68,15 +87,6 @@ def category_learner(links, **kwargs):      #80619 POC.0.5 #80726
     grammar_rules   = kwa(1,        'grammar_rules')
     verbose         = kwa('none',   'verbose')
 
-    from utl import UTC, round1, round2  #, round3, round4, round5
-    from read_files import check_dir #, check_mst_files
-    from hyperwords import vector_space_dim, pmisvd
-    #-from clustering import number_of_clusters, clusters2list  #80802
-    from kmeans import number_of_clusters, cluster_words_kmeans #80802
-    from write_files import list2file, save_link_grammar
-    #?from poc05 import group_links  #this module
-
-    from collections import OrderedDict
     log = OrderedDict()
     log.update({'category_learner': '80619'})
 
@@ -168,10 +178,9 @@ def induce_grammar(categories, links, verbose='none'):
     # categories: {'cluster': [], 'words': [], ...}
     # links: pd.DataFrame (legacy)
     #-from generalization import cats2list  #80802 copied here
-    import copy
     if verbose in ['max','debug']:
         print(UTC(),':: induce_grammar: categories.keys():', categories.keys())
-    rules = copy.deepcopy(categories)
+    rules = deepcopy(categories)
 
     clusters = [i for i,x in enumerate(rules['cluster']) if i>0 and x is not None]
     word_clusters = dict()
@@ -263,19 +272,6 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     #cat_path = output_categories
     #-dict_path = output_grammar
 
-    import os, pickle   #, collections
-    import pandas as pd
-    from shutil import copy2 as copy
-    from utl import UTC
-    from read_files import check_dir, check_mst_files
-    from pparser import files2links
-    #-from clustering import clusters2dict
-    #?from poc05 import category_learner    #this module
-    #?from poc05 import induce_grammar      #this module
-    from write_files import list2file, save_link_grammar, save_cat_tree
-    from generalization import generalize_categories, generalize_rules
-
-    from collections import OrderedDict
     log = OrderedDict({'start': str(UTC()), 'learn_grammar': '80605'})
 
     #TODO: save kwargs?
@@ -351,7 +347,6 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     # add disjuncts to categories {} after k-means clustering
     def add_disjuncts(cats, links, verbose='none'):
         # cats: {}
-        from copy import deepcopy
         fat_cats = deepcopy(cats)
         top_clusters = [i for i,x in enumerate(cats['cluster']) \
                         if i > 0 and x is not None]
@@ -433,7 +428,6 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
 '''Filenames creation for massive tests'''
 
 def params(corpus, dataset, module_path, out_dir, **kwargs):
-    from read_files import check_dir
     input_parses = module_path + '/data/' + corpus + '/' + dataset
     if check_dir(input_parses, create=False, verbose='min'):
         batch_dir = out_dir + '/' + corpus

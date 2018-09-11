@@ -1,6 +1,11 @@
 #language-learning/src/grammar_learner/widgets.py                       #80817
+import pandas as pd
+import matplotlib.pyplot as plt
 from IPython.display import display, HTML
 from .utl import UTC
+from .read_files import check_dir, check_mst_files
+from .pparser import files2links
+
 
 def html_table(tbl):
     return HTML('<table><tr>{}</tr></table>'
@@ -10,7 +15,6 @@ def html_table(tbl):
                                       .join(str(_) for _ in row)) for row in tbl)))
 
 def plot2d(i, j, df, label='', f=15):   # 80216
-    import matplotlib.pyplot as plt
     if type(label) == str and label != '':
         if label == 'cluster_words':
             header = 'Cluster words'
@@ -75,11 +79,6 @@ def display_tree(response):
 def corpus_historgams(module_path, corpus, dataset, logscale=[False,False], **kwargs):
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     parse_mode      = kwa('lower',  'parse_mode')    # 'casefold'
-    import pandas as pd
-    import matplotlib.pyplot as plt
-    from read_files import check_dir, check_mst_files
-    from pparser    import files2links
-
     print(corpus, dataset, UTC(), ':\n')
     input_parses = module_path + '/' + corpus + '/' + dataset
     files, re01 = check_mst_files(input_parses, kwargs['verbose'])

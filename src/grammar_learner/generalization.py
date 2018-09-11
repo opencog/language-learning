@@ -1,8 +1,10 @@
 #language-learning/src/grammar_learner/generalization.py 0.5 80725
+from copy import copy, deepcopy
+from operator import itemgetter
+
 
 def aggregate(categories, threshold, similarity_function, verbose='none'):
-    import copy
-    cats = copy.deepcopy(categories)
+    cats = deepcopy(categories)
     if verbose == 'debug':
         print('aggregate: len(cats)[cluster]:', len(cats['cluster']), 'cats[cluster][-1]:', cats['cluster'][-1])
         print('aggregate: len(cats)[children]:', len(cats['children']))
@@ -88,13 +90,11 @@ def aggregate(categories, threshold, similarity_function, verbose='none'):
 
 
 def reorder(cats):
-    from operator import itemgetter
     # Parents: top clusters
     top_clusters = [(i,len(cats['words'][i])) for i,x in enumerate(cats['parent']) \
                     if x == 0 and i > 0]
     top = [0] + [x[0] for x in sorted(top_clusters, key=itemgetter(1), reverse=True)]
-    import copy
-    ordnung = copy.copy(top)
+    ordnung = copy(top)
     #_ordnung = copy.deepcopy(top)  #if the list contains objects and you want to copy them as well
 
     # Children branches

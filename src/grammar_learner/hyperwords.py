@@ -6,6 +6,7 @@ import pandas as pd
 #-from collections import Counter
 from scipy.sparse import dok_matrix, csr_matrix
 from sparsesvd import sparsesvd
+import matplotlib.pyplot as plt
 
 '''links => PMI'''
 
@@ -440,7 +441,6 @@ def pmisvd(links,path,tmpath, dim=100, cds=1.0, eig=0.5, neg=1, verbose='none'):
 
 def vector_space_dim(links, path, tmpath, dim_max=100, sv_min=0.9, \
                      verbose='none', cds=1.0, eig=0.5, neg=1):  #80329
-    import matplotlib.pyplot as plt
     #-%matplotlib inline
     #-from src.space.hyperwords import pmisvd
     vdf, sv, response = pmisvd(links, path, tmpath, dim_max)

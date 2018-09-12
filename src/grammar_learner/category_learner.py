@@ -1,9 +1,18 @@
 #language-learning/src/category_learner.py                              #80828
+from copy import deepcopy
+from collections import OrderedDict
+
+from .utl import UTC, round1, round2  # , round3, round4, round5
+from .read_files import check_dir  # , check_mst_files
+from .hyperwords import vector_space_dim, pmisvd
+# +from clustering import number_of_clusters, cluster_words_kmeans, group_links
+from .clustering import best_clusters, group_links, random_clusters  # 80803 best_clusters
+from .write_files import list2file, save_link_grammar
+
 
 def add_disjuncts(cats, links, verbose='none'):
     # add disjuncts to categories {dict} after k-means clustering
     # cats: {'cluster': [], 'words': [], }
-    from copy import deepcopy
     fat_cats = deepcopy(cats)
     top_clusters = [i for i,x in enumerate(cats['cluster']) \
                     if i > 0 and x is not None]
@@ -68,14 +77,6 @@ def learn_categories(links, **kwargs):      #80802 poc05 restructured learner.py
     grammar_rules   = kwa(1,        'grammar_rules')
     verbose         = kwa('none',   'verbose')
 
-    from utl import UTC, round1, round2  #, round3, round4, round5
-    from read_files import check_dir #, check_mst_files
-    from hyperwords import vector_space_dim, pmisvd
-    #+from clustering import number_of_clusters, cluster_words_kmeans, group_links
-    from clustering import best_clusters, group_links  #80803 best_clusters
-    from write_files import list2file, save_link_grammar
-
-    from collections import OrderedDict
     log = OrderedDict()
     log.update({'category_learner': '80803'})
     if verbose in ['max','debug']:
@@ -94,7 +95,6 @@ def learn_categories(links, **kwargs):      #80802 poc05 restructured learner.py
 
     #80825 Random Clusters FIXME:DEL?
     if algorithm == 'random':
-        from clustering import random_clusters
         clusters = random_clusters(links, **kwargs)
         log.update({'clusters': 'random'})
 

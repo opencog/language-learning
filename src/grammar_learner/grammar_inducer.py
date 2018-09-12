@@ -1,13 +1,15 @@
 #language-learning/src/grammar_inducer.py  #80802 poc05.py restructured
+from copy import deepcopy
+from .category_learner import cats2list
+from .widgets import display, html_table
+from .utl import UTC
 
 def induce_grammar(categories, links, verbose='none'):    #80625 GL POC.0.5
     # categories: {'cluster': [], 'words': [], ...}
     # links: pd.DataFrame (legacy)
-    from category_learner import cats2list
-    import copy
     if verbose in ['max','debug']:
         print(UTC(),':: induce_grammar: categories.keys():', categories.keys())
-    rules = copy.deepcopy(categories)
+    rules = deepcopy(categories)
 
     clusters = [i for i,x in enumerate(rules['cluster']) if i>0 and x is not None]
     word_clusters = dict()

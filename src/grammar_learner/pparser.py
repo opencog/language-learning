@@ -1,6 +1,7 @@
 #language-learning/src/graammar_learner/pparser.py                      #80829
 import numpy as np
 import pandas as pd
+from .corpus_stats import corpus_stats
 
 
 def mst2words(lines, **kwargs):         #80717
@@ -123,8 +124,6 @@ def files2links(**kwargs):              #80829
     #?           1: connectors: ab » a:b+, b:a-
     #?           2: disjuncts: abc » a:b+, b:a-, b:a-&c+ ...
     #?           n>1 disjuncts up to n connectors per germ
-
-    from corpus_stats import corpus_stats
 
     df = pd.DataFrame(columns=['word','link','count'])
 

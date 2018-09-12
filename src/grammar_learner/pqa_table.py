@@ -1,9 +1,17 @@
 #Test Grammar Learner to fill in ULL Project Plan Parses spreadshit
 #language-learning/src/grammar_learner/pqa_table.py                     #80827
-import os, sys, time
+import os
+import sys
+import time
+from .read_files import check_dir
+from ..common import handle_path_string
+from ..grammar_tester import test_grammar
+from ..grammar_tester.optconst import * # import * only allowed at module level
+# -from poc05 import learn_grammar, params   #80802 poc05 restructured
+from .learner import learn_grammar  # 80802 poc05 restructured
+
 
 def params(corpus, dataset, module_path, out_dir, **kwargs):
-    from read_files import check_dir
     input_parses = module_path + '/data/' + corpus + '/' + dataset
     if check_dir(input_parses, create=False, verbose='min'):
         batch_dir = out_dir + '/' + corpus
@@ -46,11 +54,8 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):
     else: raise FileNotFoundError('File not found', input_parses)
 
 
-from ull.grammartest.optconst import * # import * only allowed at module level
 def pqa_meter(input_path, output_grammar, corpus_path, reference_path, runs=(1,1), **kwargs):
     #80720 test_grammar_wrapped 2.0
-    from ull.common import handle_path_string
-    from ull.grammartest import test_grammar
     output_path   = output_grammar
     dict_path     = input_path
     grammar_path  = output_grammar
@@ -68,9 +73,7 @@ def table_damb(lines, out_dir, cps=(0,0), rps=(0,0), runs=(1,1), **kwargs):
     #80720: table_amb 2.0: module_path, corpus_path, test_path built-in
     # cps,rps: tuples len=2 corpus_paths, reference_paths for Amb and disAmb corpora
     module_path = os.path.abspath(os.path.join('..'))
-    if module_path not in sys.path: sys.path.append(module_path)
-    #-from poc05 import learn_grammar, params   #80802 poc05 restructured
-    from learner import learn_grammar   #80802 poc05 restructured
+    # if module_path not in sys.path: sys.path.append(module_path)
     rpd = module_path + '/data/POC-English-Amb/MST-fixed-manually/poc-english_ex-parses-gold.txt'
 
     spaces = ''
@@ -156,8 +159,7 @@ def table_damb(lines, out_dir, cps=(0,0), rps=(0,0), runs=(1,1), **kwargs):
 def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):            #80825
     # cp,rp: corpus_path, rp: reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
-    if module_path not in sys.path: sys.path.append(module_path)
-    from learner import learn_grammar   #80802 poc05 restructured
+    # if module_path not in sys.path: sys.path.append(module_path)
     spaces = ''
     if kwargs['clustering'] == 'random':   #80825 Random clusters
         spaces += 'RND'
@@ -243,8 +245,7 @@ def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):            #80825
 def table_no_pqa(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
     # cp,rp: corpus_path, reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
-    if module_path not in sys.path: sys.path.append(module_path)
-    from learner import learn_grammar
+    # if module_path not in sys.path: sys.path.append(module_path)
     spaces = ''
     if kwargs['context'] == 1:
         spaces += 'c'

@@ -1,12 +1,15 @@
 #Legacy Grammar Learner testL fill in ULL Project Plan Parses spreadshit
 #language-learning/src/grammar_learner/pqa_table.py 80725, renamed pqa05 #80802
-import os, sys, time
+import os
+import sys
+import time
+from ..common.cliutils import handle_path_string
+from ..grammar_tester.grammartester import test_grammar
+from ..grammar_tester.optconst import * # import * only allowed at module level
+from .poc05 import learn_grammar, params
 
-from ull.grammartest.optconst import * # import * only allowed at module level
 def pqa_meter(input_path, output_grammar, corpus_path, reference_path, runs=(1,1), **kwargs):
     #80720 test_grammar_wrapped 2.0
-    from ull.common import handle_path_string
-    from ull.grammartest import test_grammar
     output_path   = output_grammar
     dict_path     = input_path
     grammar_path  = output_grammar
@@ -24,8 +27,7 @@ def table_damb(lines, out_dir, cps=(0,0), rps=(0,0), runs=(1,1), **kwargs):  #-l
     #80720: table_amb 2.0: module_path, corpus_path, test_path built-in
     # cps,rps: tuples len=2 corpus_paths, reference_paths for Amb and disAmb corpora
     module_path = os.path.abspath(os.path.join('..'))
-    if module_path not in sys.path: sys.path.append(module_path)
-    from poc05 import learn_grammar, params
+    # if module_path not in sys.path: sys.path.append(module_path)
     rpd = module_path + '/data/POC-English-Amb/MST-fixed-manually/poc-english_ex-parses-gold.txt'
 
     spaces = ''
@@ -111,8 +113,8 @@ def table_damb(lines, out_dir, cps=(0,0), rps=(0,0), runs=(1,1), **kwargs):  #-l
 def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
     # cp,rp: corpus_path, rp: reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
-    if module_path not in sys.path: sys.path.append(module_path)
-    from poc05 import learn_grammar, params
+    # if module_path not in sys.path: sys.path.append(module_path)
+    # from poc05 import learn_grammar, params
     spaces = ''
     if kwargs['context'] == 1:
         spaces += 'c'

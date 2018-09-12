@@ -1,6 +1,9 @@
 #language-learning/src/grammar_learner/write_files.py                   80827
 import os
-from utl import UTC
+from collections import OrderedDict
+from copy import deepcopy
+from .utl import UTC
+from .widgets import html_table, display
 
 def list2file(lst, out_file):  # 80321
     string = ''
@@ -70,8 +73,6 @@ def rules2list(rules_dict, grammar_rules=2, verbose='none'):   #80620 0.5 {} ⇒
 def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=''):  #80626
     # rules: [] or {} -
     # grammar_rules = kwargs['grammar_rules']: 1 ⇒ connectors, 2+ ⇒ disjuncts
-    import os
-    from src.grammar_learner.utl import UTC
 
     if type(rules) is dict:
         rules = rules2list(rules, grammar_rules)
@@ -122,14 +123,12 @@ def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=
     lg = lg.replace('@', '.')       #80706 WSD: word@1 ⇒ word.1  FIXME:DEL?
     with open (out_file, 'w') as f: f.write(lg)
 
-    from collections import OrderedDict
     response = OrderedDict({'grammar_file': out_file})
     response.update({'grammar_clusters': len(clusters), 'grammar_rules': len(rules)})
     return response
 
 
 def save_category_tree(category_list, tree_file, verbose='none'):
-    import os
     #+from write_files import list2file
     cats = category_list
     clusters = {}
@@ -163,9 +162,7 @@ def save_category_tree(category_list, tree_file, verbose='none'):
 
 def save_cat_tree(cats, output_categories, verbose='none'):
     # cats: {'cluster':[], 'words':[], ...}
-    from copy import deepcopy
     #+from write_files import list2file
-    from utl import UTC
 
     tree_file = output_categories
     if '.' not in tree_file:  #auto file name

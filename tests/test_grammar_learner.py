@@ -13,14 +13,22 @@ import unittest
 module_path = os.path.abspath(os.path.join('.'))
 if module_path not in sys.path: sys.path.append(module_path)
 grammar_learner_path = module_path + '/src/grammar_learner'
-if os.path.exists(grammar_learner_path) and grammar_learner_path not in sys.path:
-    sys.path.append(grammar_learner_path)
-from utl import UTC
-from read_files import check_dir
+# if os.path.exists(grammar_learner_path) and grammar_learner_path not in sys.path:
+#     sys.path.append(grammar_learner_path)
+# from utl import UTC
+# from read_files import check_dir
+# #from poc05 import learn_grammar
+# from learner import learn_grammar   #80810 poc05 restructured
+# #from ull.grammartest.optconst import * # import * only allowed at module level
+# from pqa_table import pqa_meter
+
+from src.grammar_learner.utl import UTC
+from src.grammar_learner.read_files import check_dir
 #from poc05 import learn_grammar
-from learner import learn_grammar   #80810 poc05 restructured
+from src.grammar_learner.learner import learn_grammar   #80810 poc05 restructured
 #from ull.grammartest.optconst import * # import * only allowed at module level
-from pqa_table import pqa_meter
+from src.grammar_learner.pqa_table import pqa_meter
+
 
 class TestGrammarLearner(unittest.TestCase):
 

@@ -1,8 +1,8 @@
 name: ull
 channels:
-  - opencog-ull
   - anaconda
   - conda-forge
+  - opencog-ull
   - defaults
 dependencies:
   - _nb_ext_conf=0.4.0=py36_1
@@ -13,13 +13,14 @@ dependencies:
   - jupyter_highlight_selected_word=0.2.0=py36_0
   - jupyter_latex_envs=1.4.4=py36_0
   - jupyter_nbextensions_configurator=0.4.0=py36_0
+  - pyhamcrest=1.9.0=py_2
   - xorg-libxau=1.0.8=h470a237_6
   - xorg-libxdmcp=1.1.2=h470a237_7
-  - anaconda-client=1.7.1=py36_0
+  - anaconda-client=1.7.2=py36_0
   - appdirs=1.4.3=py36h28b3542_0
   - asn1crypto=0.24.0=py36_0
-  - atomicwrites=1.2.0=py36_0
-  - attrs=18.1.0=py36_0
+  - atomicwrites=1.2.1=py36_0
+  - attrs=18.2.0=py36h28b3542_0
   - automat=0.7.0=py36_0
   - backcall=0.1.0=py36_0
   - blas=1.0=mkl
@@ -52,13 +53,13 @@ dependencies:
   - hyperlink=18.0.0=py36_0
   - icu=58.2=h9c2bf20_1
   - idna=2.7=py36_0
-  - imagesize=1.0.0=py36_0
+  - imagesize=1.1.0=py36_0
   - incremental=17.5.0=py36_0
-  - intel-openmp=2018.0.3=0
-  - ipykernel=4.8.2=py36_0
+  - intel-openmp=2019.0=117
+  - ipykernel=4.9.0=py36_0
   - ipython=6.5.0=py36_0
   - ipython_genutils=0.2.0=py36_0
-  - ipywidgets=7.4.0=py36h28b3542_0
+  - ipywidgets=7.4.1=py36_0
   - jedi=0.12.1=py36_0
   - jinja2=2.10=py36_0
   - jpeg=9b=h024ee3a_2
@@ -67,7 +68,7 @@ dependencies:
   - jupyter_client=5.2.3=py36_0
   - jupyter_console=5.2.0=py36_1
   - jupyter_core=4.4.0=py36_0
-  - jupyterlab=0.34.3=py36_0
+  - jupyterlab=0.34.9=py36_0
   - jupyterlab_launcher=0.13.1=py36_0
   - kiwisolver=1.0.1=py36hf484d3e_0
   - libedit=3.1.20170329=h6b74fdf_2
@@ -76,7 +77,7 @@ dependencies:
   - libgcc-ng=8.2.0=hdf63c60_1
   - libgfortran-ng=7.3.0=hdf63c60_0
   - libiconv=1.15=h63c8f33_5
-  - libopenblas=0.3.2=h5a2b251_1
+  - libopenblas=0.3.3=h5a2b251_2
   - libpng=1.6.34=hb9fc6fc_0
   - libsodium=1.0.16=h1bed415_0
   - libstdcxx-ng=8.2.0=hdf63c60_1
@@ -84,11 +85,11 @@ dependencies:
   - libxcb=1.13=h1bed415_1
   - libxml2=2.9.8=h26e45fe_1
   - libxslt=1.1.32=h1312cb7_0
-  - lxml=4.2.4=py36hf71bdeb_0
+  - lxml=4.2.5=py36hefd8a0e_0
   - markupsafe=1.0=py36h14c3975_1
   - matplotlib=2.2.3=py36hb69df0a_0
   - mistune=0.8.3=py36h14c3975_1
-  - mkl=2018.0.3=1
+  - mkl=2019.0=117
   - mkl_fft=1.0.4=py36h4414c95_1
   - mkl_random=1.0.1=py36h4414c95_1
   - more-itertools=4.3.0=py36_0
@@ -101,7 +102,6 @@ dependencies:
   - notebook=5.6.0=py36_0
   - numpy=1.15.1=py36h1d66e8a_0
   - numpy-base=1.15.1=py36h81de0dd_0
-  - openblas=0.2.20=4
   - openssl=1.0.2p=h14c3975_0
   - packaging=17.1=py36_0
   - pandas=0.23.4=py36h04863e7_0
@@ -117,7 +117,7 @@ dependencies:
   - prompt_toolkit=1.0.15=py36_0
   - pthread-stubs=0.3=h0ce48e5_1
   - ptyprocess=0.6.0=py36_0
-  - py=1.5.4=py36_0
+  - py=1.6.0=py36_0
   - pyasn1=0.4.4=py36h28b3542_0
   - pyasn1-modules=0.2.2=py36_0
   - pycparser=2.18=py36_1
@@ -126,7 +126,7 @@ dependencies:
   - pyparsing=2.2.0=py36_1
   - pyqt=5.9.2=py36h22d08a2_1
   - pysocks=1.6.8=py36_0
-  - pytest=3.7.3=py36_0
+  - pytest=3.8.0=py36_0
   - python=3.6.6=hc3d631a_0
   - python-dateutil=2.7.3=py36_0
   - pytz=2018.5=py36_0
@@ -136,7 +136,7 @@ dependencies:
   - qtconsole=4.4.1=py36_0
   - readline=7.0=h7b6447c_5
   - requests=2.19.1=py36_0
-  - scikit-learn=0.19.1=py36hedc7406_0
+  - scikit-learn=0.19.1=py36h7aa7ec6_0
   - scipy=1.1.0=py36hfa4b5c9_1
   - send2trash=1.5.0=py36_0
   - service_identity=17.0.0=py36h28b3542_0
@@ -158,16 +158,31 @@ dependencies:
   - wcwidth=0.1.7=py36_0
   - webencodings=0.5.1=py36_1
   - wheel=0.31.1=py36_0
-  - widgetsnbextension=3.4.0=py36_0
+  - widgetsnbextension=3.4.1=py36_0
   - xz=5.2.4=h14c3975_4
   - yaml=0.1.7=had09818_2
   - zeromq=4.2.5=hf484d3e_1
   - zlib=1.2.11=ha838bed_2
-  - zope=1.0=py36_0
+  - zope=1.0=py36_1
   - zope.interface=4.5.0=py36h14c3975_0
   - link-grammar-minisat-bundled=5.4.4=0
   - sparsesvd=0.2.2=0
   - pip:
+    - autopep8==1.4
+    - dill==0.2.8.2
+    - future==0.16.0
+    - mccabe==0.6.1
+    - multiprocess==0.70.6.1
+    - opencog-ull==1.0.0
     - pathos==0.2.2.1
+    - pox==0.2.4
+    - ppft==1.6.4.8
+    - pycodestyle==2.4.0
+    - pydocstyle==2.1.1
+    - pyflakes==2.0.0
+    - python-jsonrpc-server==0.0.1
+    - python-language-server==0.21.2
+    - rope==0.11.0
+    - yapf==0.24.0
 prefix: /home/obaskov/miniconda3/envs/ull
 

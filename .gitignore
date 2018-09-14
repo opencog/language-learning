@@ -111,6 +111,7 @@ ENV/
 /tmp
 /archive
 /bigdata
+/data_
 
 # Test driven development files and notebooks, extra files
 /tdd

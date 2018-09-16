@@ -346,6 +346,7 @@ def Normalize_Sentence(sentence, separate_contractions):
 		Also removes underscores at beginning or end of words (commonly used 
 		as underline markup).
 		Also converts asterisks to space
+		Also separates contractions if separete_contractions
 	"""
 
 		# Normalize apostrophes, dashes and quotes obtained from Wikipedia 

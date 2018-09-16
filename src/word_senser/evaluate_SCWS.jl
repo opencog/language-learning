@@ -27,7 +27,7 @@ function similarity(vm, dict, w1, s1, w2, s2)
     return dot(sense_vec1, sense_vec2)
 end
 
-function evaluate_entry(vm, dict, word1, word2, context1, context2, min_prob=1e-2)
+function evaluate_entry(vm, dict, word1, word2, context1, context2; min_prob=1e-2)
 """
     Evaluates 4 similarity measures for a pair or words
 """
@@ -39,9 +39,10 @@ function evaluate_entry(vm, dict, word1, word2, context1, context2, min_prob=1e-
     # AvgSim & MaxSim (no context involved)
     # AvgSimC & MaxSimC (context taken into account)
     similarities = []
-    for s1 in 1:T
+    similaritiesC = []
+    for s1 in 1:T(vm)
         if priors1[s1] > min_prob
-            for s2 in 1:T
+            for s2 in 1:T(vm)
                 if priors2[s2] > min_prob
                     sim = similarity(vm, dict, word1, s1, word2, s2)
                     push!(similarities, sim)
@@ -61,7 +62,7 @@ function evaluate_entry(vm, dict, word1, word2, context1, context2, min_prob=1e-
     return AvgSim, MaxSim, AvgSimC, MaxSimC
 end
 
-function words_in_model(dict, word_pair)
+function words_in_model(dict, word1, word2)
 """
     Checks if both words in pair are included in vector model
 """
@@ -117,15 +118,20 @@ function evaluate_model(local_model, window, SCWS_PATH)
     data = load_SCWS(SCWS_PATH)
     vm, dict = load_model(local_model);
 
-    processed_pairs = 0
+    Avg_list = Float32[]
+    Max_list = Float32[]
+    AvgC_list = Float32[]
+    MaxC_list = Float32[]
+    similarities_GS = Float32[]
+
     for i = 1:size(data)[1]
         entry = data[i,:]
-        word1 = lowercase(entry[2])
-        word2 = lowercase(entry[4])
+        word1 = lowercase(string(entry[2]))
+        word2 = lowercase(string(entry[4]))
         text1 = lowercase(entry[6])
         text2 = lowercase(entry[7])
         if !words_in_model(dict, word1, word2)
-            println("At least one word not in model for entry: ", i)
+            #println("At least one word not in model for entry: ", i)
             continue
         end
 
@@ -137,27 +143,27 @@ function evaluate_model(local_model, window, SCWS_PATH)
         end
 
         scores = evaluate_entry(vm, dict, word1, word2, context1, context2)
-        Avg_count += scores[1]
-        Max_count += scores[2]
-        AvgC_count += scores[3]
-        MaxC_count += scores[4]
-
-        processed_pairs += 1
+        push!(Avg_list, scores[1])
+        push!(Max_list, scores[2])
+        push!(AvgC_list, scores[3])
+        push!(MaxC_list, scores[4])
+        push!(similarities_GS, entry[8])
     end
 
     println("--------------------------------------------")
-    println("Processed pairs: ", processed_pairs)
+    println("Processed pairs: ", length(Avg_list))
     println("--------------------------------------------")
-    println("AvgSim: ", Avg_count / processed_pairs)
-    println("MaxSim: ", Max_count / processed_pairs)
-    println("AvgSimC: ", AvgC_count / processed_pairs)
-    println("MaxSimC: ", MaxC_count / processed_pairs)
+    println("Spearman's coeff for AvgSim: ", corspearman(Avg_list, similarities_GS))
+    println("Spearman's coeff for MaxSim: ", corspearman(Max_list, similarities_GS))
+    println("Spearman's coeff for AvgSimC: ", corspearman(AvgC_list, similarities_GS))
+    println("Spearman's coeff for MaxSimC: ", corspearman(MaxC_list, similarities_GS))
     println("--------------------------------------------")
 end
 
 
 using ArgParse
 using AdaGram
+using StatsBase
 
 s = ArgParseSettings()
 

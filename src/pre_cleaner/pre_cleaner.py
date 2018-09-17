@@ -182,6 +182,8 @@ def main(argv):
 			if decode_escaped == True:
 				temp_sentence = Decode_Escaped(temp_sentence)
 			temp_sentence = Normalize_Sentence(temp_sentence, separate_contractions)
+			if dont_pad_quotes == False:
+				temp_sentence = Pad_quotes(temp_sentence)
 			if convert_dates_to_tokens == True:
 				temp_sentence = Substitute_Dates(temp_sentence)
 			if convert_times_to_tokens == True:
@@ -190,8 +192,6 @@ def main(argv):
 				temp_sentence = Substitute_Percent(temp_sentence)
 			if convert_numbers_to_tokens == True:
 				temp_sentence = Substitute_Numbers(temp_sentence)
-			if dont_pad_quotes == False:
-				temp_sentence = Pad_quotes(temp_sentence)
 			temp_sentence = Clean_Sentence(temp_sentence, translate_table, new_suffix_list)
 			tokenized_sentence = Char_Tokenizer(temp_sentence, boundary_chars, tokenized_chars)
 			tokenized_sentence = Naive_Tokenizer(tokenized_sentence)
@@ -423,7 +423,7 @@ def Substitute_Dates(sentence):
 	form6 = r"(\b" + m + r"[ \.-]?" + YY + r"\b)"
 	form7 = r"(\b" + YY + r"[ \.-]?" + m + r"\b)"
 	form8 = r"(\b" + m + r"[,\. ]+" + y + r"\b)"
-	form9 = r"(\b" + m + r"[ \.-]?" + dd + r"[,\. ]+(" + y + r")?\b)"
+	form9 = r"(\b" + m + r"[ \.-]?" + dd + r"[,\. ]+(" + y + r")?(\b| |$))"
 	form10 = r"(\b" + m + r"-" + DD + r"-" + y + r"\b)"
 	form11 = r"(\b" + y + r"-" + m + r"-" + DD + r"\b)"
 

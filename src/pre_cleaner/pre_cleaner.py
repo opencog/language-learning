@@ -423,7 +423,7 @@ def Substitute_Dates(sentence):
 	form6 = r"(\b" + m + r"[ \.-]?" + YY + r"\b)"
 	form7 = r"(\b" + YY + r"[ \.-]?" + m + r"\b)"
 	form8 = r"(\b" + m + r"[,\. ]+" + y + r"\b)"
-	form9 = r"(\b" + m + r"[ \.-]?" + dd + r"[,\. " + daysuf + r"]+(" + y + r")?\b)"
+	form9 = r"(\b" + m + r"[ \.-]?" + dd + r"[,\. ]+(" + y + r")?\b)"
 	form10 = r"(\b" + m + r"-" + DD + r"-" + y + r"\b)"
 	form11 = r"(\b" + y + r"-" + m + r"-" + DD + r"\b)"
 

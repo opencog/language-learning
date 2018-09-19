@@ -68,19 +68,28 @@ def run_component(entry: dict, num_processes: int) -> None:
 
 
     comp_name = entry["component"]
-    parameters = entry["parameters"]
+    common_params = entry["common-parameters"]
+    parameters = entry["specific-parameters"]
 
     if num_processes == 1:
+
         # Sequential execution of the component for each subconfiguration entry
         for subconf in parameters:
-            worker(subconf)
+            if common_params is None:
+                worker(subconf)
+            else:
+                worker({**common_params, **subconf})
 
     else:
         print("Running in parallel.")
 
         # Parallel execution of the component for each subconfiguration entry
         with Pool(num_processes-1) as pool:
-            pool.map(worker, [subconf for subconf in parameters])
+
+            if common_params is None:
+                pool.map(worker, [subconf for subconf in parameters])
+            else:
+                pool.map(worker, [{**common_params, **subconf} for subconf in parameters])
 
 
 def main(argv):
@@ -140,14 +149,18 @@ Usage:
         for comp_cfg in config:
 
             comp_name = comp_cfg["component"]
-            parameters = comp_cfg["parameters"]
+            common = comp_cfg["common-parameters"]
+            parameters = comp_cfg["specific-parameters"]
 
             # Validate parameters for each subconfiguration
             for subconf in parameters:
                 component = get_component(comp_name, subconf)
 
+                # Merge two dictionaries 'common-parameters' and 'specific-parameters'
+                all_parameters = {**common, **subconf} if common is not None else subconf
+
                 # Component parameter validation
-                if not component.validate_parameters(**subconf):
+                if not component.validate_parameters(**all_parameters):
                     validation_result = False
 
         # Prevent pipeline execution if any of the component configuration validation failed.

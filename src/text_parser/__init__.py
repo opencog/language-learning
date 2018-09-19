@@ -8,6 +8,7 @@ __all__ = ['TextParserComponent']
 
 # __all__.extend(learner.__all__)
 
+PARAM_LANGUAGE  = 'language'
 PARAM_DICT_PATH = 'dict_path'
 PARAM_CORP_PATH = 'corpus_path'
 PARAM_OUTP_PATH = 'output_path'
@@ -32,8 +33,9 @@ class TextParserComponent(AbstractPipelineComponent):
         """ Validate configuration parameters """
         ret_val = True
 
-        if kwargs.get(PARAM_DICT_PATH, None) is None:
-            print("Error: parameter '{}' is not specified.".format(PARAM_DICT_PATH))
+        if kwargs.get(PARAM_DICT_PATH, None) is None and \
+            kwargs.get(PARAM_LANGUAGE, None) is None:
+            print("Error: neither '{}' nor '{}' is specified.".format(PARAM_DICT_PATH, PARAM_LANGUAGE))
             ret_val = False
 
         if kwargs.get(PARAM_CORP_PATH, None) is None:
@@ -43,10 +45,6 @@ class TextParserComponent(AbstractPipelineComponent):
         if kwargs.get(PARAM_OUTP_PATH, None) is None:
             print("Error: parameter '{}' is not specified.".format(PARAM_OUTP_PATH))
             ret_val = False
-
-        # if kwargs.get(PARAM_REFR_PATH, None) is None:
-        #     print("Error: parameter '{}' is not specified.".format(PARAM_REFR_PATH))
-        #     ret_val = False
 
         return ret_val
 
@@ -74,20 +72,15 @@ class TextParserComponent(AbstractPipelineComponent):
         # Convert text parameters into integer
         options = get_options(kwargs)
 
-        dict_path = kwargs.get(PARAM_DICT_PATH)
+        language = kwargs.get(PARAM_LANGUAGE, None)
+        dict_path = kwargs.get(PARAM_DICT_PATH, None)
 
-        print(dict_path)
-
-        dict_path = "en" if dict_path is None else handle_path_string(dict_path)
-
-        print(dict_path)
+        dict_path = language if language is not None else "en" if dict_path is None else handle_path_string(dict_path)
 
         refr_path = kwargs.get(PARAM_REFR_PATH)
 
         if refr_path is not None:
             refr_path = handle_path_string(refr_path)
-
-        print(refr_path)
 
         # Run parser
         parser.parse(

@@ -177,11 +177,13 @@ def main(argv):
 		fo = open(outputfile, "w")
 		for sentence in sentences:
 			temp_sentence = sentence
+			if convert_links_to_tokens == True:
+				temp_sentence = Substitute_Links(temp_sentence)
 			if decode_escaped == True:
 				temp_sentence = Decode_Escaped(temp_sentence)
 			temp_sentence = Normalize_Sentence(temp_sentence, separate_contractions)
-			if convert_links_to_tokens == True:
-				temp_sentence = Substitute_Links(temp_sentence)
+			if dont_pad_quotes == False:
+				temp_sentence = Pad_quotes(temp_sentence)
 			if convert_dates_to_tokens == True:
 				temp_sentence = Substitute_Dates(temp_sentence)
 			if convert_times_to_tokens == True:
@@ -190,8 +192,6 @@ def main(argv):
 				temp_sentence = Substitute_Percent(temp_sentence)
 			if convert_numbers_to_tokens == True:
 				temp_sentence = Substitute_Numbers(temp_sentence)
-			if dont_pad_quotes == False:
-				temp_sentence = Pad_quotes(temp_sentence)
 			temp_sentence = Clean_Sentence(temp_sentence, translate_table, new_suffix_list)
 			tokenized_sentence = Char_Tokenizer(temp_sentence, boundary_chars, tokenized_chars)
 			tokenized_sentence = Naive_Tokenizer(tokenized_sentence)
@@ -329,8 +329,6 @@ def Clean_Sentence(sentence, translate_table, new_suffix_list):
 	"""
 	# remove unaccepted characters
 	temp_sentence = sentence.translate(translate_table)
-	# remove underscores completely, so they are token-splitters
-	temp_sentence = re.sub(r"_", " ", temp_sentence)
 	# remove asterisk, so they are token-splitters
 	temp_sentence = re.sub(r"\*", " ", temp_sentence)
 	# remove long-dashes completely, so they are token-splitters
@@ -343,8 +341,7 @@ def Normalize_Sentence(sentence, separate_contractions):
 	"""
 		Converts all different apostrophes, double quotes and dashes to 
 		standard symbols.
-		Also removes underscores at beginning or end of words (commonly used 
-		as underline markup).
+		Also removes underscores (commonly used as underline markup).
 		Also converts asterisks to space
 		Also separates contractions if separete_contractions
 	"""
@@ -356,6 +353,8 @@ def Normalize_Sentence(sentence, separate_contractions):
 	# some dashes look the same, but they are different
 	sentence = re.sub(r"-{2,}|―|—|–|‒", "—", sentence) 
 	sentence = re.sub(r"''|“|”", '"', sentence)
+	# remove underscores completely, so they are token-splitters
+	sentence = re.sub(r"_", " ", sentence)
 	if separate_contractions == True:
 		# separate contractions (e.g. They're -> They 're)
 		sentence = re.sub(r"(?<=[a-zA-Z])'(?=[a-zA-Z])", " '", sentence)
@@ -424,7 +423,7 @@ def Substitute_Dates(sentence):
 	form6 = r"(\b" + m + r"[ \.-]?" + YY + r"\b)"
 	form7 = r"(\b" + YY + r"[ \.-]?" + m + r"\b)"
 	form8 = r"(\b" + m + r"[,\. ]+" + y + r"\b)"
-	form9 = r"(\b" + m + r"[ \.-]?" + dd + r"[,\. " + daysuf + r"]+(" + y + r")?\b)"
+	form9 = r"(\b" + m + r"[ \.-]?" + dd + r"[,\. ]+(" + y + r")?(\b| |$))"
 	form10 = r"(\b" + m + r"-" + DD + r"-" + y + r"\b)"
 	form11 = r"(\b" + y + r"-" + m + r"-" + DD + r"\b)"
 

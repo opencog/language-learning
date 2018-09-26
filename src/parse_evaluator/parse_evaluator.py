@@ -148,18 +148,27 @@ def Make_Random(sents):
         Make random parses (from LG-parser "any"), to use as baseline
     """
     from linkgrammar import Linkage, Sentence, ParseOptions, Dictionary, Clinkgrammar as clg
+    from ..grammar_tester.psparse import parse_postscript
 
     any_dict = Dictionary('any') # Opens dictionary only once
     po = ParseOptions(min_null_count=0, max_null_count=999)
+    options = 0x00000000 | BIT_STRIP #| BIT_ULL_IN
+    options |= BIT_CAPS
+
 
     random_parses = []
     for sent in sents:
         parse = []
-        sent = Sentence(sentence, any_dict, po)
-        linkages = sent.parse()
-        print(linkages)
+        sent_string = ' '.join(sent)
+        sentence = Sentence(sent_string, any_dict, po)
+        linkages = sentence.parse()
+        for linkage in linkages:
+            tokens, links = parse_postscript(linkage.postscrip().replace("\n", ""), options,
+                                             "dummy")
+            print(tokens)
+            print(links)
+            #parse.append[[links[0], tokens[0], links[1], tokens[1]]]
 
-        parse = [["0", "###LEFT-WALL###", "1", sent[0]]] # include left-wall
         random_parses.append(parse)
 
     return random_parses

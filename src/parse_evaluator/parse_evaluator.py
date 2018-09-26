@@ -126,11 +126,12 @@ def Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore):
     print("Avg Recall: {:.2%}".format(recall))
     print("Avg Fscore: {:.2%}\n".format(2 * precision * recall / (precision + recall)))
     print("A total of {} parses evaluated, {:.2%} of reference file".format(evaluated_parses, float(evaluated_parses) / len(ref_parses)))
- 
+    print("{:.2f} ignored links per evaluated parse".format(ignored_links / evaluated_parses))
+    
 def Make_Sequential(sents):
     """
         Make sequential parses (each word simply linked to the next one), 
-        to use as a benchmark
+        to use as baseline
     """
     sequential_parses = []
     for sent in sents:
@@ -142,8 +143,26 @@ def Make_Sequential(sents):
 
     return sequential_parses
 
-if __name__ == '__main__':
-    main(sys.argv[1:])   print("{:.2f} ignored links per evaluated parse".format(ignored_links / evaluated_parses))
+def Make_Random(sents):
+    """
+        Make random parses (from LG-parser "any"), to use as baseline
+    """
+    from linkgrammar import Linkage, Sentence, ParseOptions, Dictionary, Clinkgrammar as clg
+
+    any_dict = Dictionary('any') # Opens dictionary only once
+    po = ParseOptions(min_null_count=0, max_null_count=999)
+
+    random_parses = []
+    for sent in sents:
+        parse = []
+        sent = Sentence(sentence, any_dict, po)
+        linkages = sent.parse()
+        print(linkages)
+
+        parse = [["0", "###LEFT-WALL###", "1", sent[0]]] # include left-wall
+        random_parses.append(parse)
+
+    return random_parses
 
 def main(argv):
     """
@@ -178,15 +197,16 @@ def main(argv):
     verbose = False
     ignore_WALL = True
     sequential = False
+    random = False
 
     try:
-        opts, args = getopt.getopt(argv, "ht:r:vis", ["test=", "reference=", "verbose", "ignore", "sequential"])
+        opts, args = getopt.getopt(argv, "ht:r:visz", ["test=", "reference=", "verbose", "ignore", "sequential", "random"])
     except getopt.GetoptError:
-        print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s]")
+        print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s] [-z]")
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s]")
+            print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s] [-z]")
             sys.exit()
         elif opt in ("-t", "--test"):
             test_file = arg
@@ -198,11 +218,15 @@ def main(argv):
             ignore_WALL = False
         elif opt in ("-s", "--sequential"):
             sequential = True
+        elif opt in ("-z", "--random"):
+            random = True
 
     ref_data = Load_File(ref_file)
     ref_parses, ref_sents = Get_Parses(ref_data) 
     if sequential:
         test_parses = Make_Sequential(ref_sents)
+    elif random:
+        test_parses = Make_Random(ref_sents)
     else:
         test_data = Load_File(test_file)
         test_parses, dummy = Get_Parses(test_data) 
@@ -212,3 +236,6 @@ def main(argv):
     #     print("Sentence pair:")
     #     print(rs, ts)
     Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore_WALL)
+
+if __name__ == '__main__':
+    main(sys.argv[1:])

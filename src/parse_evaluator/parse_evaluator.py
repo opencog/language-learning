@@ -126,7 +126,24 @@ def Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore):
     print("Avg Recall: {:.2%}".format(recall))
     print("Avg Fscore: {:.2%}\n".format(2 * precision * recall / (precision + recall)))
     print("A total of {} parses evaluated, {:.2%} of reference file".format(evaluated_parses, float(evaluated_parses) / len(ref_parses)))
-    print("{:.2f} ignored links per evaluated parse".format(ignored_links / evaluated_parses))
+ 
+def Make_Sequential(sents):
+    """
+        Make sequential parses (each word simply linked to the next one), 
+        to use as a benchmark
+    """
+    sequential_parses = []
+    for sent in sents:
+        parse = [["0", "###LEFT-WALL###", "1", sent[0]]] # include left-wall
+        for i in range(1, len(sent)):
+            parse.append([str(i), sent[i - 1], str(i + 1), sent[i]])
+        #parse.append([str(i), sent[i - 1], str(i + 1), sent[i]] for i in range(1, len(sent)))
+        sequential_parses.append(parse)
+
+    return sequential_parses
+
+if __name__ == '__main__':
+    main(sys.argv[1:])   print("{:.2f} ignored links per evaluated parse".format(ignored_links / evaluated_parses))
 
 def main(argv):
     """
@@ -195,22 +212,3 @@ def main(argv):
     #     print("Sentence pair:")
     #     print(rs, ts)
     Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore_WALL)
-
-def Make_Sequential(sents):
-    """
-        Make sequential parses (each word simply linked to the next one), 
-        to use as a benchmark
-    """
-    sequential_parses = []
-    for sent in sents:
-        parse = [["0", "###LEFT-WALL###", "1", sent[0]]] # include left-wall
-        for i in range(1, len(sent)):
-            parse.append([str(i), sent[i - 1], str(i + 1), sent[i]])
-        #parse.append([str(i), sent[i - 1], str(i + 1), sent[i]] for i in range(1, len(sent)))
-        sequential_parses.append(parse)
-
-    return sequential_parses
-
-
-if __name__ == '__main__':
-    main(sys.argv[1:])

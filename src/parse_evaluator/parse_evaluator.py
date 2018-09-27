@@ -1,18 +1,10 @@
-#!/usr/bin/env python
-
-# ASuMa, Mar 2018
-# Read parse data in MST-parser format, from reference and test files
-# and evaluate the accuracy of the test parses.
-# See main() documentation below for usage details
-
 import platform
-import getopt, sys
+import sys
 
-def version():
-    """
-        Prints Python version used
-    """
-    print("Code writen for Python3.6.4. Using: %s"%platform.python_version())
+from linkgrammar import Linkage, Sentence, ParseOptions, Dictionary, Clinkgrammar as clg
+from ..grammar_tester.psparse import parse_postscript
+
+__all__ = ['Load_File', 'Get_Parses', 'Make_Sequential', 'Make_Random', 'Evaluate_Parses']
 
 def Load_File(filename):
     """
@@ -147,9 +139,6 @@ def Make_Random(sents):
     """
         Make random parses (from LG-parser "any"), to use as baseline
     """
-    from linkgrammar import Linkage, Sentence, ParseOptions, Dictionary, Clinkgrammar as clg
-    from ..grammar_tester.psparse import parse_postscript
-
     any_dict = Dictionary('any') # Opens dictionary only once
     po = ParseOptions(min_null_count=0, max_null_count=999)
     options = 0x00000000 | BIT_STRIP #| BIT_ULL_IN
@@ -173,62 +162,7 @@ def Make_Random(sents):
 
     return random_parses
 
-def main(argv):
-    """
-        Evaluates parses compared to given reference.
-        For each parse, loops through all links in reference and checks if those
-        2 word-instances are also connected in parse to evaluate.
-
-        Parses must be in format:
-        Sentence to evaluate
-        # word1 # word2
-        # word2 # word3
-        ...
-
-        Another sentence to evaluate
-        # word1 # word2
-        ...
-
-        Usage: ./parse_evaluator.py -t <testfile> -r <reffile> [-v] [-i]
-
-        testfile        file with parses to evaluate
-        goldfile        file with reference (gold standard) parses
-        -v              verbose
-        -i              don't ignore LEFT-WALL and end-of-sentence dot, if any
-        -s              evaluate sequential parses (benchmark)
-
-    """
-
-    version()
-
-    test_file = ''
-    ref_file = ''
-    verbose = False
-    ignore_WALL = True
-    sequential = False
-    random = False
-
-    try:
-        opts, args = getopt.getopt(argv, "ht:r:visz", ["test=", "reference=", "verbose", "ignore", "sequential", "random"])
-    except getopt.GetoptError:
-        print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s] [-z]")
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-h':
-            print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s] [-z]")
-            sys.exit()
-        elif opt in ("-t", "--test"):
-            test_file = arg
-        elif opt in ("-r", "--reference"):
-            ref_file = arg
-        elif opt in ("-v", "--verbose"):
-            verbose = True
-        elif opt in ("-i", "--ignore"):
-            ignore_WALL = False
-        elif opt in ("-s", "--sequential"):
-            sequential = True
-        elif opt in ("-z", "--random"):
-            random = True
+def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random):
 
     ref_data = Load_File(ref_file)
     ref_parses, ref_sents = Get_Parses(ref_data) 
@@ -245,6 +179,3 @@ def main(argv):
     #     print("Sentence pair:")
     #     print(rs, ts)
     Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore_WALL)
-
-if __name__ == '__main__':
-    main(sys.argv[1:])

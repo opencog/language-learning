@@ -101,7 +101,7 @@ def main(argv):
 
     if alternative_parser:
        Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random) 
-    else 
+    else:
         try:
             # Check if the arguments are properly specified.
             if test_file is None or len(test_file) == 0:

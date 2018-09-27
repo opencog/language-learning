@@ -1,7 +1,7 @@
 import platform
 import sys
 
-from linkgrammar import Linkage, Sentence, ParseOptions, Dictionary, Clinkgrammar as clg
+from linkgrammar import LG_DictionaryError, LG_Error, ParseOptions, Dictionary, Sentence
 from ..grammar_tester.psparse import parse_postscript
 
 __all__ = ['Evaluate_Alternative']

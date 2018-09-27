@@ -3,6 +3,7 @@ import sys
 
 from linkgrammar import LG_DictionaryError, LG_Error, ParseOptions, Dictionary, Sentence
 from ..grammar_tester.psparse import parse_postscript
+from ..grammar_tester.optconst import *
 
 __all__ = ['Evaluate_Alternative']
 
@@ -141,24 +142,24 @@ def Make_Random(sents):
     """
     any_dict = Dictionary('any') # Opens dictionary only once
     po = ParseOptions(min_null_count=0, max_null_count=999)
+    po.linkage_limit = 1
     options = 0x00000000 | BIT_STRIP #| BIT_ULL_IN
     options |= BIT_CAPS
 
-
     random_parses = []
     for sent in sents:
-        parse = []
+        curr_parse = []
         sent_string = ' '.join(sent)
         sentence = Sentence(sent_string, any_dict, po)
         linkages = sentence.parse()
         for linkage in linkages:
-            tokens, links = parse_postscript(linkage.postscrip().replace("\n", ""), options,
-                                             "dummy")
-            print(tokens)
-            print(links)
-            #parse.append[[links[0], tokens[0], links[1], tokens[1]]]
+            tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options, "dummy")
+            for link in links:
+                llink = link[0]
+                rlink = link[1]
+                curr_parse.append([str(llink), tokens[llink], str(rlink), tokens[rlink]])
 
-        random_parses.append(parse)
+        random_parses.append(curr_parse)
 
     return random_parses
 
@@ -170,6 +171,8 @@ def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, 
         test_parses = Make_Sequential(ref_sents)
     elif random:
         test_parses = Make_Random(ref_sents)
+        print(ref_parses)
+        print(test_parses)
     else:
         test_data = Load_File(test_file)
         test_parses, dummy = Get_Parses(test_data) 

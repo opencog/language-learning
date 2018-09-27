@@ -12,6 +12,7 @@ import os
 
 from ull.common import handle_path_string
 from ull.grammartest import compare_ull_files, EvalError
+from ull.parse_evaluator import Evaluate_Alternative
 
 def version():
     """

@@ -4,7 +4,7 @@ import sys
 from linkgrammar import Linkage, Sentence, ParseOptions, Dictionary, Clinkgrammar as clg
 from ..grammar_tester.psparse import parse_postscript
 
-__all__ = ['Load_File', 'Get_Parses', 'Make_Sequential', 'Make_Random', 'Evaluate_Parses']
+__all__ = ['Evaluate_Alternative']
 
 def Load_File(filename):
     """

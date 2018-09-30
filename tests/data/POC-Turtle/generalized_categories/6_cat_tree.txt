@@ -1,9 +1,9 @@
-C1	0	1	0.32	eagle feather fin herring parrot scale tuna wing	0 0 0 0 0 0 0 0
-C2	0	2	1	bird extremity fish	1 1 1
-C3	0	3	1	.	1
-C4	0	4	1	LEFT-WALL	1
-C5	0	5	1	has	1
-C6	0	6	1	isa	1
+B	0	1	0.32	eagle feather fin herring parrot scale tuna wing	0 0 0 0 0 0 0 0
+C	0	2	1	bird extremity fish	1 1 1
+D	0	3	1	.	1
+E	0	4	1	LEFT-WALL	1
+F	0	5	1	has	1
+G	0	6	1	isa	1
 	1	7	0.66	eagle fin herring parrot tuna wing	0 0 0 0 0 0
 	7	8	1	eagle herring parrot tuna	1 1 1 1
 	7	9	1	fin wing	1 1

@@ -1,6 +1,7 @@
-#language-learning/src/grammar_learner/generalization.py 0.5 80725
+# language-learning/src/grammar_learner/generalization.py               80925
 from copy import copy, deepcopy
 from operator import itemgetter
+from .clustering import cluster_id
 
 
 def aggregate(categories, threshold, similarity_function, verbose='none'):
@@ -53,7 +54,11 @@ def aggregate(categories, threshold, similarity_function, verbose='none'):
             print('aggregate: new_cluster_id:', new_cluster_id, ncats)
             print('aggregate: cats lengths before append:', \
                   ', '.join([k+':'+str(len(v)) for k,v in cats.items()]))
-        cats['cluster'].append('C'+str(new_cluster_id))
+
+        #-cats['cluster'].append('C'+str(new_cluster_id))   # 80925 C01 ⇒ AB:
+        cats['cluster'].append(cluster_id(new_cluster_id, new_cluster_id))
+        # TODO: check situation new_cluster_id > 26**n      # 80925
+
         cats['parent'].append(0)
         cats['children'].append(mset)
         cats['words'].append(set())
@@ -117,8 +122,12 @@ def reorder(cats):
     new_cats = {}
     new_cats['parent'] = [ordnung.index(cats['parent'][i]) for i in ordnung]
     ndigits = len(str(len([x for x in new_cats['parent'] if x == 0]) - 1))
-    new_cats['cluster'] = ['C'+str(i).zfill(ndigits) if x == 0 else None \
-                           for i,x in enumerate(new_cats['parent']) ]
+
+    #-new_cats['cluster'] = ['C'+str(i).zfill(ndigits) if x == 0 else None \
+    #-                       for i,x in enumerate(new_cats['parent'])]  # 80925:
+    new_cats['cluster'] = [cluster_id(i, i) if x == 0 else None
+        for i, x in enumerate(new_cats['parent'])]              # 80925
+
     for key in cats.keys():
         if key not in ['cluster', 'parent']:
             new_cats[key] = [cats[key][i] for i in ordnung]

@@ -1,13 +1,10 @@
-#language-learning/src/category_learner.py                              #80828
+#language-learning/src/category_learner.py                              #80928
 from copy import deepcopy
 from collections import OrderedDict
-
-from .utl import UTC, round1, round2  # , round3, round4, round5
+from .utl import UTC
 from .read_files import check_dir  # , check_mst_files
 from .hyperwords import vector_space_dim, pmisvd
-# +from clustering import number_of_clusters, cluster_words_kmeans, group_links
-from .clustering import best_clusters, group_links, random_clusters  # 80803 best_clusters
-from .write_files import list2file, save_link_grammar
+from .clustering import best_clusters, group_links, random_clusters
 
 
 def add_disjuncts(cats, links, verbose='none'):

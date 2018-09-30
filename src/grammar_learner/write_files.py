@@ -70,7 +70,8 @@ def rules2list(rules_dict, grammar_rules=2, verbose='none'):   #80620 0.5 {} ⇒
     return rules
 
 
-def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=''):  #80626
+def save_link_grammar(rules, output_grammar,
+                      grammar_rules=2, header='', footer=''):       #   80929
     # rules: [] or {} -
     # grammar_rules = kwargs['grammar_rules']: 1 ⇒ connectors, 2+ ⇒ disjuncts
 
@@ -108,10 +109,10 @@ def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=
         if out_file[-1] != '/': out_file += '/'
         out_file += 'dict_'
         out_file = out_file + str(len(clusters)) + 'C_' \
-            + str(UTC())[:10] + '_0005.4.0.dict'            #80620 0004⇒0005
+            + str(UTC())[:10] + '_0006.4.0.dict'            # 80929 0005⇒0006
     else: raise FileNotFoundError('File not found', output_grammar)
     if header == '':
-        header = '% Grammar Learner v.0.5 ' + str(UTC())    #80620 .4⇒.5
+        header = '% Grammar Learner v.0.6 ' + str(UTC())    # 80929 .5⇒.6
     header = header + '\n' + '<dictionary-version-number>: V0v0v5+;\n' \
         + '<dictionary-locale>: EN4us+;'
     add_rules = 'UNKNOWN-WORD: XXX+;'
@@ -208,3 +209,4 @@ def save_cat_tree(cats, output_categories, verbose='none'):
 #80706 WSD: word@1 ⇒ word.1
 #80725 POC 0.1-0.4 deleted, 0.5 restructured, imports updated
 #80827 rules = -1/-2: interconnected clusters, connector/disjunct based rules
+#80929 save_link_grammar ⇒ 0.6

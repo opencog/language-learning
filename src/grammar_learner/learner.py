@@ -1,4 +1,4 @@
-#language-learning/src/category_learner.py                              #80828
+#language-learning/src/learner.py                                   #   80829
 import os
 from copy import deepcopy
 import pickle, pandas as pd  # , collections
@@ -18,35 +18,52 @@ from .write_files import list2file, save_link_grammar, save_cat_tree
 __all__ = ['learn_grammar']
 
 #-def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
-def learn_grammar(input_parses, output_categories, output_grammar, \
-                  output_statistics='', temp_dir='', **kwargs):     #80810
+#-def learn_grammar(input_parses, output_categories, output_grammar, \
+#-                  output_statistics='', temp_dir='', **kwargs):     #80810
     # input_parses - dir with .txt files
     # output_categories - path/file.ext / dir ⇒ auto file name
     # output_grammar    - path/file.ext / dir ⇒ auto file name
     # output_statistics - path/file.ext / dir ⇒ auto file name, '' ⇒ = output_grammar
+def learn_grammar(**kwargs):                                        #   80929
+    log = OrderedDict({'start': str(UTC()), 'learn_grammar': 'v.0.6.80929'})
     def kwa(v,k): return kwargs[k] if k in kwargs else v
+    # 80929 parameters (input and output paths) ⇒ kwargs:
+    input_parses = kwargs['input_parses']
+    output_grammar = kwargs['output_grammar']
+    output_categories = kwa('', 'output_categories')
+    output_statistics = kwa('', 'output_statistics')
+    temp_dir = kwa('', 'temp_dir')
+    if os.path.isdir(output_grammar):
+        prj_dir = output_grammar
+    else:  prj_dir = os.path.dirname(output_grammar)
+    log.update({'project_directory': prj_dir})
+    if output_categories == '':
+        output_categories = prj_dir
+    if output_statistics != '':                     # TODO: check path: filename/dir?
+        corpus_stats_file = output_statistics
+    else: corpus_stats_file = prj_dir+'/corpus_stats.txt'
+    if temp_dir != '':
+        if os.path.isdir(temp_dir):
+            kwargs['tmpath'] = temp_dir
+
     parse_mode      = kwa('lower',  'parse_mode')
     left_wall       = kwa('',       'left_wall')
     period          = kwa(False,    'period')
     context         = kwa(1,        'context')
     window          = kwa('mst',    'window')
     weighting       = kwa('ppmi',   'weighting')
-    #? distance     = kwa(??,       'distance')
+    #? distance     = kwa(??,       'distance')     # FIXME
     group           = kwa(True,     'group')
     word_space      = kwa('vectors', 'word_space')
     dim_max         = kwa(100,      'dim_max')
     sv_min          = kwa(0.1,      'sv_min')
     dim_reduction   = kwa('svm',    'dim_reduction')
     clustering      = kwa('kmeans', 'clustering')
-
     if isinstance(clustering, list):
-        cluster_range = tuple(clustering)
-
+        clustering = tuple(clustering)
     cluster_range   = kwa((2,48,1), 'cluster_range')
-
     if isinstance(cluster_range, list):
         cluster_range = tuple(cluster_range)
-
     cluster_criteria = kwa('silhouette', 'cluster_criteria')
     cluster_level   = kwa(0.9,      'cluster_level')
     cats_gen        = kwa('off',    'categories_generalization')
@@ -59,25 +76,13 @@ def learn_grammar(input_parses, output_categories, output_grammar, \
     verbose         = kwa('none',   'verbose')
     tmpath          = kwa('',       'tmpath')
 
-    if temp_dir != '':          #80810: temp_dir overwrites kwargs (legacy)
-        if os.path.isdir(temp_dir):
-            kwargs['tmpath'] = temp_dir
-    kwargs['input_parses'] = input_parses
-    kwargs['output_categories'] = output_categories
-    kwargs['output_grammar'] = output_grammar
-    kwargs['output_statistics'] = output_statistics
     #TODO?: save kwargs ⇒ tmp/file ?
 
-    log = OrderedDict({'start': str(UTC()), 'learn_grammar': '80805'})
 
     '''input_parses ⇒ links DataFrame:'''
 
     files, re01 = check_mst_files(input_parses, verbose)
     log.update(re01)
-    if os.path.isdir(output_categories):
-        prj_dir = output_categories
-    else:  prj_dir = os.path.dirname(output_categories)
-    log.update({'project_directory': prj_dir})
 
     #-Save a copy of input parses to prj_dir + '/parses/'  #FIXME:DEL?  #80704
     #-parse_dir = prj_dir + '/parses/'
@@ -90,9 +95,6 @@ def learn_grammar(input_parses, output_categories, output_grammar, \
     kwargs['input_files'] = files
     links, re02 = files2links(**kwargs)
     log.update(re02)
-    if output_statistics != '':                 #TODO: check dir?
-        corpus_stats_file = output_statistics
-    else: corpus_stats_file = prj_dir+'/corpus_stats.txt'
     list2file(re02['corpus_stats'], corpus_stats_file)
     #TODO: check write success?
     log.update({'corpus_stats_file': corpus_stats_file})

@@ -5,39 +5,31 @@ $ cd language-learning
 $ source activate ull
 $ python tests/test_grammar_learner.py
 '''
-#from pathlib import Path
-#print('Running' if __name__ == '__main__' else 'Importing', Path(__file__).resolve())
 
 import os, sys
 import unittest
 
 module_path = os.path.abspath(os.path.join('.'))
 if module_path not in sys.path: sys.path.append(module_path)
-# grammar_learner_path = module_path + '/src/grammar_learner'
-# if os.path.exists(grammar_learner_path) and grammar_learner_path not in sys.path:
-#     sys.path.append(grammar_learner_path)
-# from utl import UTC
-# from read_files import check_dir
-# #from poc05 import learn_grammar
-# from learner import learn_grammar   #80810 poc05 restructured
-# #from ull.grammartest.optconst import * # import * only allowed at module level
-# from pqa_table import pqa_meter
 
 from src.grammar_learner.utl import UTC
 from src.grammar_learner.read_files import check_dir
 from src.grammar_learner.learner import learn_grammar
-# from ull.grammartest.optconst import *
 from src.grammar_learner.pqa_table import pqa_meter
+# from ull.grammartest.optconst import *
 
 
 class TestGrammarLearner(unittest.TestCase):
 
-    def setUp(self):    #FIXME: should run before every test, but would not?!
+    def setUp(self):    # FIXME: should run before every test, but would not?!
         input_parses = module_path + '/tests/data/POC-Turtle/MST_fixed_manually/'
         batch_dir = module_path + '/output/Test_Grammar_Learner_' + str(UTC())[:10] + '/'
         kwargs = {  # defaults
             'input_parses'  :   input_parses,   # path to directory with input parses
             'output_grammar':   batch_dir   ,   # filename or path
+            'output_categories' :    ''     ,   # = output_grammar if '' or not set
+            'output_atatistics' :    ''     ,   # = output_grammar if '' or not set
+            'temp_dir'          :    ''     ,   # temporary files = language-learning/tmp if '' or not set
             'parse_mode'    :   'given'     ,   # 'given' (default) / 'explosive' (next)
             'left_wall'     :   'LEFT-WALL' ,   # '','none' - don't use / 'LEFT-WALL' - replace ###LEFT-WALL###
             'period'        :   True        ,   # use period in links learning: True/False
@@ -61,14 +53,15 @@ class TestGrammarLearner(unittest.TestCase):
             'rules_generalization'  :  'off',   # 'off' / 'cosine' - cosine similarity, 'jaccard'
             'rules_merge'           :   0.8 ,   # merge rules with similarity > this 'merge' criteria
             'rules_aggregation'     :   0.2 ,   # aggregate rules similarity > this criteria
-            'tmpath'        :   module_path + '/tmp/',
-            'verbose': 'min'    # display intermediate results: 'none', 'min', 'mid', 'max'
+            'tmpath': module_path + '/tmp/',    # legacy, default if not temp_dir
+            'verbose': 'min',    # display intermediate results: 'none', 'min', 'mid', 'max'
+            'linkage_limit': 1000  # Link Grammar parameter for tests
         }
         # Additional (optional) parameters for parse_metrics (_abiity & _quality):
         #'test_corpus': module_path + '/data/POC-Turtle/poc-turtle-corpus.txt',
         #'reference_path': module_path + '/data/POC-Turtle/poc-turtle-parses-expected.txt',
         #'template_path': 'poc-turtle',  # FIXME: changed in June 2018 Grammar Tester
-        #'linkage_limit': 1000
+        #
         pass
 
     '''Legacy ~ POC.0.3 test ~ as it was before 2018-09-29
@@ -262,9 +255,8 @@ class TestGrammarLearner(unittest.TestCase):
             assert rule_list == base_list
         else: assert len(rule_list) == len(base_list)
 
-    ''' 2018-09-23 FIXME: test_grammar: parse_postscript(): regex does not match!
 
-    def test_pqa_turtle_diled_no_generalization(self):              #   80929
+    def test_pqa_turtle_diled_no_generalization(self):
         input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually'
         batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
         prj_dir = batch_dir + '/turtle_pqa_diled_no_generalization/'
@@ -294,7 +286,7 @@ class TestGrammarLearner(unittest.TestCase):
         assert a*q > 0.99
 
 
-    def test_pqa_turtle_ddrkd_no_generalization(self):               #  80929
+    def test_pqa_turtle_ddrkd_no_generalization(self):
         input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually/'
         batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
         prj_dir = batch_dir + '/turtle_pqa_ddrkd_no_generalization/'
@@ -326,7 +318,7 @@ class TestGrammarLearner(unittest.TestCase):
         assert a*q > 0.99
 
 
-    def test_pqa_english_noamb_diled_no_generalization(self):           #80810
+    def test_pqa_english_noamb_diled_no_generalization(self):
         input_parses = module_path + '/tests/data/POC-English-NoAmb/MST-fixed-manually/'
         batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
         prj_dir = batch_dir + '/noamb_pqa_diled_no_generalization/'
@@ -352,13 +344,13 @@ class TestGrammarLearner(unittest.TestCase):
             'linkage_limit' :   1000,
             'verbose'       :   'min'
         }
-        re = learn_grammar(input_parses, outpath, outpath, **kwargs)
+        re = learn_grammar(**kwargs)
         a, q, qa = pqa_meter(re['grammar_file'], outpath, cp, rp, **kwargs)
         print('parse-ability, parse-quality:', a, q)
         assert a*q > 0.99
 
 
-    def test_pqa_english_noamb_ddrkd_no_generalization(self):           #80810
+    def test_pqa_english_noamb_ddrkd_no_generalization(self):
         input_parses = module_path + '/tests/data/POC-English-NoAmb/MST-fixed-manually/'
         batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
         prj_dir = batch_dir + '/noamb_pqa_ddrkd_no_generalization/'
@@ -387,7 +379,7 @@ class TestGrammarLearner(unittest.TestCase):
         a, q, qa = pqa_meter(re['grammar_file'], outpath, cp, rp, **kwargs)
         print('parse-ability, parse-quality:', a, q)
         assert a*q > 0.99
-    '''
+
 
 if __name__ == '__main__':
     unittest.main()

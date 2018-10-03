@@ -5,13 +5,9 @@ $ cd language-learning
 $ source activate ull
 $ python tests/test_grammar_learner.py
 '''
-
-import os, sys
-import unittest
-
+import os, sys, unittest
 module_path = os.path.abspath(os.path.join('.'))
 if module_path not in sys.path: sys.path.append(module_path)
-
 from src.grammar_learner.utl import UTC
 from src.grammar_learner.read_files import check_dir
 from src.grammar_learner.learner import learn_grammar
@@ -28,7 +24,7 @@ class TestGrammarLearner(unittest.TestCase):
             'input_parses'  :   input_parses,   # path to directory with input parses
             'output_grammar':   batch_dir   ,   # filename or path
             'output_categories' :    ''     ,   # = output_grammar if '' or not set
-            'output_atatistics' :    ''     ,   # = output_grammar if '' or not set
+            'output_statistics' :    ''     ,   # = output_grammar if '' or not set
             'temp_dir'          :    ''     ,   # temporary files = language-learning/tmp if '' or not set
             'parse_mode'    :   'given'     ,   # 'given' (default) / 'explosive' (next)
             'left_wall'     :   'LEFT-WALL' ,   # '','none' - don't use / 'LEFT-WALL' - replace ###LEFT-WALL###
@@ -54,14 +50,13 @@ class TestGrammarLearner(unittest.TestCase):
             'rules_merge'           :   0.8 ,   # merge rules with similarity > this 'merge' criteria
             'rules_aggregation'     :   0.2 ,   # aggregate rules similarity > this criteria
             'tmpath': module_path + '/tmp/',    # legacy, default if not temp_dir
-            'verbose': 'min',    # display intermediate results: 'none', 'min', 'mid', 'max'
-            'linkage_limit': 1000  # Link Grammar parameter for tests
+            'verbose': 'min',       # display intermediate results: 'none', 'min', 'mid', 'max'
+            'linkage_limit': 1000   # Link Grammar parameter for tests
         }
         # Additional (optional) parameters for parse_metrics (_abiity & _quality):
-        #'test_corpus': module_path + '/data/POC-Turtle/poc-turtle-corpus.txt',
-        #'reference_path': module_path + '/data/POC-Turtle/poc-turtle-parses-expected.txt',
-        #'template_path': 'poc-turtle',  # FIXME: changed in June 2018 Grammar Tester
-        #
+        # 'test_corpus': module_path + '/data/POC-Turtle/poc-turtle-corpus.txt',
+        # 'reference_path': module_path + '/data/POC-Turtle/poc-turtle-parses-expected.txt',
+        # 'template_path': 'poc-turtle',  # FIXME: changed in June 2018 Grammar Tester
         pass
 
     '''Legacy ~ POC.0.3 test ~ as it was before 2018-09-29
@@ -108,7 +103,7 @@ class TestGrammarLearner(unittest.TestCase):
 
     def test_turtle_no_generalization(self):
         base  = module_path + '/tests/data/POC-Turtle/' + \
-            'no_generalization/dict_8C_2018-09-29_0006.4.0.dict'
+            'no_generalization/dict_8C_2018-10-03_0006.4.0.dict'
         input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually/'
         batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
         prj_dir = batch_dir + '/turtle_lw_&_dot_no_generalization/'
@@ -129,8 +124,7 @@ class TestGrammarLearner(unittest.TestCase):
             'tmpath'        :   module_path + '/tmp/',
             'verbose'       :   'min'
         }
-        #-response = learn_grammar(input_parses, outpath, outpath, **kwargs)
-        response = learn_grammar(**kwargs)  # 80929
+        response = learn_grammar(**kwargs)
         with open(response['grammar_file'], 'r') as f:
             rules = f.read().splitlines()
         rule_list = [line for line in rules if line[0:1] in ['"', '(']]
@@ -144,16 +138,14 @@ class TestGrammarLearner(unittest.TestCase):
                 print('\nrule_list == base_list:', rule_list == base_list)
             assert rule_list == base_list
         else:
-            if kwargs['verbose'] in ['debug']:
-                print('\nlen(rule_list) != len(base_list):', \
-                    len(rule_list), '!-', len(base_list))
+            print('\nlen(rule_list) =', len(rule_list),
+                  '!= len(base_list) =', len(base_list))
             assert len(rule_list) == len(base_list)
 
 
     def test_turtle_generalize_categories(self):
         base  = module_path + '/tests/data/POC-Turtle/' + \
-            'generalized_categories/dict_6C_2018-09-29_0006.4.0.dict'
-            #'generalized_categories/poc-turtle_6C_2018-06-08_0004.4.0.dict'
+            'generalized_categories/dict_6C_2018-10-03_0006.4.0.dict'
         input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually/'
         batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
         prj_dir = batch_dir + '/turtle_lw_&_dot_generalized_categories/'
@@ -188,8 +180,7 @@ class TestGrammarLearner(unittest.TestCase):
 
     def test_turtle_generalize_rules(self):
         base  = module_path + '/tests/data/POC-Turtle/' + \
-            'generalized_rules/dict_6C_2018-09-29_0006.4.0.dict'
-            #'generalized_rules/poc-turtle_6C_2018-06-08_0004.4.0.dict'
+            'generalized_rules/dict_6C_2018-10-03_0006.4.0.dict'
         input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually/'
         batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
         prj_dir = batch_dir + '/turtle_lw_&_dot_generalized_rules/'
@@ -223,8 +214,7 @@ class TestGrammarLearner(unittest.TestCase):
 
     def test_turtle_generalize_both(self):
         base  = module_path + '/tests/data/POC-Turtle/' + \
-            'generalized_categories_and_rules/dict_6C_2018-09-29_0006.4.0.dict'
-            #'generalized_categories_and_rules/poc-turtle_6C_2018-06-08_0004.4.0.dict'
+            'generalized_categories_and_rules/dict_6C_2018-10-03_0006.4.0.dict'
         input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually/'
         batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
         prj_dir = batch_dir + '/turtle_lw_&_dot_generalized_categories_and_rules/'

@@ -111,9 +111,9 @@ def save_link_grammar(rules, output_grammar,
     else: raise FileNotFoundError('File not found', output_grammar)
     if header == '':
         header = '% Grammar Learner v.0.6 ' + str(UTC())    # 80929 .5⇒.6
-    header = header + '\n' + '<dictionary-version-number>: V0v0v5+;\n' \
+    header = header + '\n' + '<dictionary-version-number>: V0v0v6+;\n' \
         + '<dictionary-locale>: EN4us+;'
-    add_rules = '<UNKNOWN-WORD>: XXX+;'                     # 81003 <> LG.5.5.1
+    add_rules = 'UNKNOWN-WORD: XXX+;'                     # 81003 <> LG.5.5.1  81004 back
     if footer == '':
         footer = '% '+ str(len(clusters)) + ' word clusters, ' \
             + str(len(rules)) + ' Link Grammar rules.\n' \

@@ -1,0 +1,661 @@
+a@e mom@d is@e a@c human .@e
+0 ###LEFT-WALL### 2 mom@d
+1 a@e 2 mom@d
+2 mom@d 3 is@e
+3 is@e 4 a@c
+4 a@c 5 human
+
+a@c dad@e is@e a@c human .@e
+0 ###LEFT-WALL### 1 a@c
+1 a@c 5 human
+2 dad@e 3 is@e
+3 is@e 4 a@c
+4 a@c 5 human
+
+a@e mom@d is@e a@c parent@b .@a
+0 ###LEFT-WALL### 2 mom@d
+1 a@e 2 mom@d
+2 mom@d 3 is@e
+3 is@e 5 parent@b
+4 a@c 5 parent@b
+
+a@c dad@e is@e a@c parent@b .@a
+0 ###LEFT-WALL### 1 a@c
+1 a@c 5 parent@b
+2 dad@e 3 is@e
+3 is@e 5 parent@b
+4 a@c 5 parent@b
+
+a@c son@d is@d a@c child .@e
+0 ###LEFT-WALL### 1 a@c
+1 a@c 5 child
+2 son@d 3 is@d
+3 is@d 5 child
+4 a@c 5 child
+
+a@c daughter@d is@d a@c child .@e
+0 ###LEFT-WALL### 1 a@c
+1 a@c 5 child
+2 daughter@d 3 is@d
+3 is@d 5 child
+4 a@c 5 child
+
+a@c son@d is@d a@c human .@e
+0 ###LEFT-WALL### 1 a@c
+1 a@c 5 human
+2 son@d 3 is@d
+3 is@d 4 a@c
+4 a@c 5 human
+
+a@c daughter@d is@d a@c human .@e
+0 ###LEFT-WALL### 1 a@c
+1 a@c 5 human
+2 daughter@d 3 is@d
+3 is@d 4 a@c
+4 a@c 5 human
+
+a@e mom@a likes@b cake@a .@a
+0 ###LEFT-WALL### 2 mom@a
+1 a@e 2 mom@a
+2 mom@a 3 likes@b
+3 likes@b 4 cake@a
+
+a@c daughter@d likes@b cake@a .@a
+0 ###LEFT-WALL### 2 daughter@d
+1 a@c 2 daughter@d
+2 daughter@d 3 likes@b
+3 likes@b 4 cake@a
+
+a@c son@d likes@a sausage@a .@a
+0 ###LEFT-WALL### 2 son@d
+1 a@c 2 son@d
+2 son@d 3 likes@a
+3 likes@a 4 sausage@a
+
+a@c dad@a likes@a sausage@a .@a
+0 ###LEFT-WALL### 2 dad@a
+1 a@c 2 dad@a
+2 dad@a 3 likes@a
+3 likes@a 4 sausage@a
+
+cake@c is@e a@a food@b .@a
+0 ###LEFT-WALL### 1 cake@c
+1 cake@c 3 a@a
+1 cake@c 2 is@e
+3 a@a 4 food@b
+
+sausage@c is@d a@a food@b .@a
+0 ###LEFT-WALL### 1 sausage@c
+1 sausage@c 3 a@a
+1 sausage@c 2 is@d
+3 a@a 4 food@b
+
+mom@a is@e a@c human now .@a
+0 ###LEFT-WALL### 1 mom@a
+1 mom@a 2 is@e
+2 is@e 3 a@c
+3 a@c 4 human
+4 human 5 now
+
+dad@a is@e a@c human now .@a
+0 ###LEFT-WALL### 1 dad@a
+1 dad@a 2 is@e
+2 is@e 3 a@c
+3 a@c 4 human
+4 human 5 now
+
+mom@a is@e a@c parent@b now .@a
+0 ###LEFT-WALL### 1 mom@a
+1 mom@a 2 is@e
+2 is@e 4 parent@b
+3 a@c 4 parent@b
+4 parent@b 5 now
+
+dad@a is@e a@c parent@b now .@a
+0 ###LEFT-WALL### 1 dad@a
+1 dad@a 2 is@e
+2 is@e 4 parent@b
+3 a@c 4 parent@b
+4 parent@b 5 now
+
+son@d is@d a@c child now .@a
+0 ###LEFT-WALL### 1 son@d
+1 son@d 2 is@d
+2 is@d 4 child
+3 a@c 4 child
+4 child 5 now
+
+daughter@d is@d a@c child now .@a
+0 ###LEFT-WALL### 1 daughter@d
+1 daughter@d 2 is@d
+2 is@d 4 child
+3 a@c 4 child
+4 child 5 now
+
+son@d is@d a@c human now .@a
+0 ###LEFT-WALL### 1 son@d
+1 son@d 2 is@d
+2 is@d 3 a@c
+3 a@c 4 human
+4 human 5 now
+
+daughter@d is@d a@c human now .@a
+0 ###LEFT-WALL### 1 daughter@d
+1 daughter@d 2 is@d
+2 is@d 3 a@c
+3 a@c 4 human
+4 human 5 now
+
+mom@a likes@b cake@a now .@a
+0 ###LEFT-WALL### 1 mom@a
+1 mom@a 2 likes@b
+2 likes@b 3 cake@a
+3 cake@a 4 now
+
+daughter@a likes@b cake@a now .@a
+0 ###LEFT-WALL### 1 daughter@a
+1 daughter@a 2 likes@b
+2 likes@b 3 cake@a
+3 cake@a 4 now
+
+son@d likes@a sausage@a now .@a
+0 ###LEFT-WALL### 1 son@d
+1 son@d 2 likes@a
+2 likes@a 3 sausage@a
+3 sausage@a 4 now
+
+dad@a likes@a sausage@a now .@a
+0 ###LEFT-WALL### 1 dad@a
+1 dad@a 2 likes@a
+2 likes@a 3 sausage@a
+3 sausage@a 4 now
+
+cake@c is@e a@a food@b now .@a
+0 ###LEFT-WALL### 1 cake@c
+1 cake@c 3 a@a
+1 cake@c 2 is@e
+3 a@a 4 food@b
+4 food@b 5 now
+
+sausage@c is@d a@a food@b now .@a
+0 ###LEFT-WALL### 1 sausage@c
+1 sausage@c 3 a@a
+1 sausage@c 2 is@d
+3 a@a 4 food@b
+4 food@b 5 now
+
+mom@d was@b a@a daughter@d before@a .@a
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 was@b
+2 was@b 3 a@a
+3 a@a 5 before@a
+3 a@a 4 daughter@d
+
+dad@e was@b a@a son@d before@a .@a
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 was@b
+2 was@b 3 a@a
+3 a@a 5 before@a
+3 a@a 4 son@d
+
+mom@d was@b not a@c parent@a before@a .@a
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 was@b
+2 was@b 3 not
+3 not 5 parent@a
+3 not 4 a@c
+5 parent@a 6 before@a
+
+dad@e was@b not a@c parent@a before@a .@a
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 was@b
+2 was@b 3 not
+3 not 5 parent@a
+3 not 4 a@c
+5 parent@a 6 before@a
+
+mom@d liked cake@c before@a .@a
+0 ###LEFT-WALL### 3 cake@c
+1 mom@d 2 liked
+2 liked 3 cake@c
+3 cake@c 4 before@a
+
+dad@e liked sausage@c before@b .@a
+0 ###LEFT-WALL### 3 sausage@c
+1 dad@e 2 liked
+2 liked 3 sausage@c
+3 sausage@c 4 before@b
+
+cake@c was@a a@a food@a before@a .@a
+0 ###LEFT-WALL### 1 cake@c
+1 cake@c 2 was@a
+2 was@a 4 food@a
+3 a@a 4 food@a
+4 food@a 5 before@a
+
+sausage@c was@a a@a food@a before@a .@a
+0 ###LEFT-WALL### 1 sausage@c
+1 sausage@c 2 was@a
+2 was@a 4 food@a
+3 a@a 4 food@a
+4 food@a 5 before@a
+
+mom@a is@e on@b the@e board@a of directors .@e
+0 ###LEFT-WALL### 1 mom@a
+1 mom@a 2 is@e
+2 is@e 3 on@b
+3 on@b 4 the@e
+4 the@e 5 board@a
+5 board@a 6 of
+6 of 7 directors
+
+dad@a is@e on@b the@e board@a of directors .@e
+0 ###LEFT-WALL### 1 dad@a
+1 dad@a 2 is@e
+2 is@e 3 on@b
+3 on@b 4 the@e
+4 the@e 5 board@a
+5 board@a 6 of
+6 of 7 directors
+
+son@d is@d on@b the@e board@a of directors .@e
+0 ###LEFT-WALL### 1 son@d
+1 son@d 2 is@d
+2 is@d 3 on@b
+3 on@b 4 the@e
+4 the@e 5 board@a
+5 board@a 6 of
+6 of 7 directors
+
+daughter@d is@d on@b the@e board@a of directors .@e
+0 ###LEFT-WALL### 1 daughter@d
+1 daughter@d 2 is@d
+2 is@d 3 on@b
+3 on@b 4 the@e
+4 the@e 5 board@a
+5 board@a 6 of
+6 of 7 directors
+
+mom@a writes@a with@a chalk on@a the@e board@b .@e
+0 ###LEFT-WALL### 1 mom@a
+1 mom@a 2 writes@a
+2 writes@a 3 with@a
+3 with@a 4 chalk
+4 chalk 5 on@a
+5 on@a 6 the@e
+6 the@e 7 board@b
+
+dad@a writes@a with@a chalk on@a the@e board@b .@e
+0 ###LEFT-WALL### 1 dad@a
+1 dad@a 2 writes@a
+2 writes@a 3 with@a
+3 with@a 4 chalk
+4 chalk 5 on@a
+5 on@a 6 the@e
+6 the@e 7 board@b
+
+son@a writes@a with@a chalk on@a the@e board@b .@e
+0 ###LEFT-WALL### 1 son@a
+1 son@a 2 writes@a
+2 writes@a 3 with@a
+3 with@a 4 chalk
+4 chalk 5 on@a
+5 on@a 6 the@e
+6 the@e 7 board@b
+
+daughter@a writes@a with@a chalk on@a the@e board@b .@e
+0 ###LEFT-WALL### 1 daughter@a
+1 daughter@a 2 writes@a
+2 writes@a 3 with@a
+3 with@a 4 chalk
+4 chalk 5 on@a
+5 on@a 6 the@e
+6 the@e 7 board@b
+
+dad@e wants mom@a to@a be on@a the@e board@a of directors .@e
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 wants
+2 wants 4 to@a
+2 wants 3 mom@a
+4 to@a 5 be
+5 be 6 on@a
+6 on@a 7 the@e
+7 the@e 8 board@a
+8 board@a 9 of
+9 of 10 directors
+
+mom@d wants dad@a to@a be on@a the@e board@a of directors .@e
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 wants
+2 wants 4 to@a
+2 wants 3 dad@a
+4 to@a 5 be
+5 be 6 on@a
+6 on@a 7 the@e
+7 the@e 8 board@a
+8 board@a 9 of
+9 of 10 directors
+
+dad@e wants his son@a to@a be on@a the@e board@a of directors .@e
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 wants
+2 wants 3 his
+3 his 4 son@a
+3 his 6 be
+5 to@a 6 be
+6 be 7 on@a
+7 on@a 8 the@e
+8 the@e 9 board@a
+9 board@a 10 of
+10 of 11 directors
+
+mom@d wants her daughter@a to@a be on@a the@e board@a of directors .@e
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 wants
+2 wants 3 her
+3 her 4 daughter@a
+3 her 6 be
+5 to@a 6 be
+6 be 7 on@a
+7 on@a 8 the@e
+8 the@e 9 board@a
+9 board@a 10 of
+10 of 11 directors
+
+mom@a writes@a to@a dad@a with@a chalk on@a the@e board@b .@e
+0 ###LEFT-WALL### 1 mom@a
+1 mom@a 2 writes@a
+2 writes@a 5 with@a
+2 writes@a 3 to@a
+3 to@a 4 dad@a
+5 with@a 6 chalk
+6 chalk 7 on@a
+7 on@a 8 the@e
+8 the@e 9 board@b
+
+dad@a writes@a to@a mom@a with@a chalk on@a the@e board@b .@e
+0 ###LEFT-WALL### 1 dad@a
+1 dad@a 2 writes@a
+2 writes@a 5 with@a
+2 writes@a 3 to@a
+3 to@a 4 mom@a
+5 with@a 6 chalk
+6 chalk 7 on@a
+7 on@a 8 the@e
+8 the@e 9 board@b
+
+son@a writes@a to@a dad@a with@a chalk on@a the@e board@b .@e
+0 ###LEFT-WALL### 1 son@a
+1 son@a 2 writes@a
+2 writes@a 5 with@a
+2 writes@a 3 to@a
+3 to@a 4 dad@a
+5 with@a 6 chalk
+6 chalk 7 on@a
+7 on@a 8 the@e
+8 the@e 9 board@b
+
+daughter@a writes@a to@a mom@a with@a chalk on@a the@e board@b .@e
+0 ###LEFT-WALL### 1 daughter@a
+1 daughter@a 2 writes@a
+2 writes@a 5 with@a
+2 writes@a 3 to@a
+3 to@a 4 mom@a
+5 with@a 6 chalk
+6 chalk 7 on@a
+7 on@a 8 the@e
+8 the@e 9 board@b
+
+mom@d has@b a@e hammer@a .@e
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 has@b
+2 has@b 3 a@e
+3 a@e 4 hammer@a
+
+mom@d has@b a@e saw@c .@e
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 has@b
+2 has@b 3 a@e
+3 a@e 4 saw@c
+
+dad@e has@b a@e hammer@a .@e
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 has@b
+2 has@b 3 a@e
+3 a@e 4 hammer@a
+
+dad@e has@b a@e saw@c .@e
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 has@b
+2 has@b 3 a@e
+3 a@e 4 saw@c
+
+mom@d has@b a@e telescope@a .@e
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 has@b
+2 has@b 3 a@e
+3 a@e 4 telescope@a
+
+mom@d has@a binoculars .@e
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 has@a
+2 has@a 3 binoculars
+
+dad@e has@b a@e telescope@a .@e
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 has@b
+2 has@b 3 a@e
+3 a@e 4 telescope@a
+
+dad@e has@a binoculars .@e
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 has@a
+2 has@a 3 binoculars
+
+mom@d saw@e dad@e with@b a@e hammer@a .@e
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 saw@e
+2 saw@e 4 with@b
+2 saw@e 3 dad@e
+4 with@b 5 a@e
+5 a@e 6 hammer@a
+
+mom@d saw@e dad@e with@b a@e saw@c .@e
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 saw@e
+2 saw@e 4 with@b
+2 saw@e 3 dad@e
+4 with@b 5 a@e
+5 a@e 6 saw@c
+
+dad@e saw@e mom@d with@b a@e hammer@a .@e
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 saw@e
+2 saw@e 4 with@b
+2 saw@e 3 mom@d
+4 with@b 5 a@e
+5 a@e 6 hammer@a
+
+dad@e saw@e mom@d with@b a@e saw@c .@e
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 saw@e
+2 saw@e 4 with@b
+2 saw@e 3 mom@d
+4 with@b 5 a@e
+5 a@e 6 saw@c
+
+saw@c is@e a@c tool .@e
+0 ###LEFT-WALL### 2 is@e
+1 saw@c 2 is@e
+2 is@e 3 a@c
+3 a@c 4 tool
+
+hammer@a is@d a@c tool .@e
+0 ###LEFT-WALL### 2 is@d
+1 hammer@a 2 is@d
+2 is@d 3 a@c
+3 a@c 4 tool
+
+binoculars are a@c tool .@e
+0 ###LEFT-WALL### 2 are
+1 binoculars 2 are
+2 are 4 tool
+2 are 3 a@c
+
+a@e telescope@a is@e a@c tool .@e
+0 ###LEFT-WALL### 3 is@e
+1 a@e 2 telescope@a
+2 telescope@a 3 is@e
+3 is@e 4 a@c
+4 a@c 5 tool
+
+mom@d sees dad@e now .@a
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 sees
+2 sees 3 dad@e
+2 sees 4 now
+
+dad@e sees mom@d now .@a
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 sees
+2 sees 3 mom@d
+2 sees 4 now
+
+son@a sees dad@e now .@a
+0 ###LEFT-WALL### 1 son@a
+1 son@a 2 sees
+2 sees 3 dad@e
+2 sees 4 now
+
+daughter@a sees mom@d now .@a
+0 ###LEFT-WALL### 1 daughter@a
+1 daughter@a 2 sees
+2 sees 3 mom@d
+2 sees 4 now
+
+mom@d saw@e dad@e before@b .@a
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 saw@e
+2 saw@e 4 before@b
+2 saw@e 3 dad@e
+
+dad@e saw@e mom@d before@b .@a
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 saw@e
+2 saw@e 4 before@b
+2 saw@e 3 mom@d
+
+son@a saw@e dad@e before@b .@a
+0 ###LEFT-WALL### 1 son@a
+1 son@a 2 saw@e
+2 saw@e 4 before@b
+2 saw@e 3 dad@e
+
+daughter@a saw@e mom@d before@b .@a
+0 ###LEFT-WALL### 1 daughter@a
+1 daughter@a 2 saw@e
+2 saw@e 4 before@b
+2 saw@e 3 mom@d
+
+mom@d sawed the@b wood with@b a@e saw@c .@e
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 sawed
+2 sawed 3 the@b
+3 the@b 4 wood
+4 wood 5 with@b
+5 with@b 6 a@e
+6 a@e 7 saw@c
+
+dad@e sawed the@b wood with@b a@e saw@c .@e
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 sawed
+2 sawed 3 the@b
+3 the@b 4 wood
+4 wood 5 with@b
+5 with@b 6 a@e
+6 a@e 7 saw@c
+
+son@a sawed the@b wood with@b a@e saw@c .@e
+0 ###LEFT-WALL### 1 son@a
+1 son@a 2 sawed
+2 sawed 3 the@b
+3 the@b 4 wood
+4 wood 5 with@b
+5 with@b 6 a@e
+6 a@e 7 saw@c
+
+daughter@a sawed the@b wood with@b a@e saw@c .@e
+0 ###LEFT-WALL### 1 daughter@a
+1 daughter@a 2 sawed
+2 sawed 3 the@b
+3 the@b 4 wood
+4 wood 5 with@b
+5 with@b 6 a@e
+6 a@e 7 saw@c
+
+mom@d knocked the@b wood with@b a@e hammer@a .@e
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 knocked
+2 knocked 3 the@b
+3 the@b 4 wood
+4 wood 5 with@b
+5 with@b 6 a@e
+6 a@e 7 hammer@a
+
+dad@e knocked the@b wood with@b a@e hammer@a .@e
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 knocked
+2 knocked 3 the@b
+3 the@b 4 wood
+4 wood 5 with@b
+5 with@b 6 a@e
+6 a@e 7 hammer@a
+
+son@a knocked the@b wood with@b a@e hammer@a .@e
+0 ###LEFT-WALL### 1 son@a
+1 son@a 2 knocked
+2 knocked 3 the@b
+3 the@b 4 wood
+4 wood 5 with@b
+5 with@b 6 a@e
+6 a@e 7 hammer@a
+
+daughter@a knocked the@b wood with@b a@e hammer@a .@e
+0 ###LEFT-WALL### 1 daughter@a
+1 daughter@a 2 knocked
+2 knocked 3 the@b
+3 the@b 4 wood
+4 wood 5 with@b
+5 with@b 6 a@e
+6 a@e 7 hammer@a
+
+mom@d saw@e dad@e with@b binoculars .@e
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 saw@e
+2 saw@e 4 with@b
+2 saw@e 3 dad@e
+4 with@b 5 binoculars
+
+mom@d saw@e dad@e with@b a@e telescope@a .@e
+0 ###LEFT-WALL### 1 mom@d
+1 mom@d 2 saw@e
+2 saw@e 4 with@b
+2 saw@e 3 dad@e
+4 with@b 5 a@e
+5 a@e 6 telescope@a
+
+dad@e saw@e mom@d with@b binoculars .@e
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 saw@e
+2 saw@e 4 with@b
+2 saw@e 3 mom@d
+4 with@b 5 binoculars
+
+dad@e saw@e mom@d with@b a@e telescope@a .@e
+0 ###LEFT-WALL### 1 dad@e
+1 dad@e 2 saw@e
+2 saw@e 4 with@b
+2 saw@e 3 mom@d
+4 with@b 5 a@e
+5 a@e 6 telescope@a
+

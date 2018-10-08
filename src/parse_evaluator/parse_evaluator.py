@@ -2,7 +2,7 @@ import platform
 import sys
 import random
 
-from linkgrammar import LG_DictionaryError, LG_Error, ParseOptions, Dictionary, Sentence
+from linkgrammar import LG_DictionaryError, LG_Error, ParseOptions, Dictionary, Sentence, Linkage
 from ..grammar_tester.psparse import parse_postscript
 from ..grammar_tester.optconst import *
 
@@ -153,8 +153,9 @@ def Make_Random(sents):
         sent_string = ' '.join(sent)
         sentence = Sentence(sent_string, any_dict, po)
         linkages = sentence.parse()
-        num_parses = len(linkages)
-        linkage = linkages[random.randint(0, num_parses - 1)] # choose a random linkage
+        num_parses = len(linkages) # check nbr of linkages in sentence
+        idx = random.randint(0, num_parses - 1) # choose a random linkage index
+        linkage = Linkage(idx,sentence, po._obj) # get the random linkage
         tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options, "dummy")
         for link in links:
             llink = link[0]
@@ -173,14 +174,9 @@ def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, 
         test_parses = Make_Sequential(ref_sents)
     elif random_flag:
         test_parses = Make_Random(ref_sents)
-        print(ref_parses)
-        print(test_parses)
     else:
         test_data = Load_File(test_file)
         test_parses, dummy = Get_Parses(test_data) 
     if len(test_parses) != len(ref_parses):
         sys.exit("ERROR: Number of parses differs in files")
-    # for rs, ts in zip(ref_sents, dummy):
-    #     print("Sentence pair:")
-    #     print(rs, ts)
     Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore_WALL)

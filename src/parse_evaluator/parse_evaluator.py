@@ -154,15 +154,16 @@ def Make_Random(sents):
         sentence = Sentence(sent_string, any_dict, po)
         linkages = sentence.parse()
         num_parses = len(linkages) # check nbr of linkages in sentence
-        idx = random.randint(0, num_parses - 1) # choose a random linkage index
-        linkage = Linkage(idx,sentence, po._obj) # get the random linkage
-        tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options, "dummy")
-        for link in links:
-            llink = link[0]
-            rlink = link[1]
-            curr_parse.append([str(llink), tokens[llink], str(rlink), tokens[rlink]])
+        if num_parses > 0:
+            idx = random.randint(0, num_parses - 1) # choose a random linkage index
+            linkage = Linkage(idx, sentence, po._obj) # get the random linkage
+            tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options, "dummy")
+            for link in links:
+                llink = link[0]
+                rlink = link[1]
+                curr_parse.append([str(llink), tokens[llink], str(rlink), tokens[rlink]])
 
-        random_parses.append(curr_parse)
+            random_parses.append(curr_parse)
 
     return random_parses
 

@@ -1,5 +1,6 @@
 import platform
 import sys
+import random
 
 from linkgrammar import LG_DictionaryError, LG_Error, ParseOptions, Dictionary, Sentence
 from ..grammar_tester.psparse import parse_postscript
@@ -142,7 +143,7 @@ def Make_Random(sents):
     """
     any_dict = Dictionary('any') # Opens dictionary only once
     po = ParseOptions(min_null_count=0, max_null_count=999)
-    po.linkage_limit = 1
+    po.linkage_limit = 100
     options = 0x00000000 | BIT_STRIP #| BIT_ULL_IN
     options |= BIT_CAPS
 
@@ -152,24 +153,25 @@ def Make_Random(sents):
         sent_string = ' '.join(sent)
         sentence = Sentence(sent_string, any_dict, po)
         linkages = sentence.parse()
-        for linkage in linkages:
-            tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options, "dummy")
-            for link in links:
-                llink = link[0]
-                rlink = link[1]
-                curr_parse.append([str(llink), tokens[llink], str(rlink), tokens[rlink]])
+        num_parses = len(linkages)
+        linkage = linkages[random.randint(0, num_parses - 1)] # choose a random linkage
+        tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options, "dummy")
+        for link in links:
+            llink = link[0]
+            rlink = link[1]
+            curr_parse.append([str(llink), tokens[llink], str(rlink), tokens[rlink]])
 
         random_parses.append(curr_parse)
 
     return random_parses
 
-def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random):
+def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag):
 
     ref_data = Load_File(ref_file)
     ref_parses, ref_sents = Get_Parses(ref_data) 
     if sequential:
         test_parses = Make_Sequential(ref_sents)
-    elif random:
+    elif random_flag:
         test_parses = Make_Random(ref_sents)
         print(ref_parses)
         print(test_parses)

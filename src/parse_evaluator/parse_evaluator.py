@@ -149,8 +149,14 @@ def Make_Random(sents):
 
     random_parses = []
     for sent in sents:
+        num_words = len(sent)
         curr_parse = []
-        sent_string = ' '.join(sent)
+        # subtitute words with numbers, as we only care about the parse tree
+        fake_words = ["w{}".format(x) for x in range(1, num_words + 1)]
+        # restore final dot to maintain --ignore functionality
+        if sent[-1] == ".": 
+            fake_words[-1] = "."
+        sent_string = " ".join(fake_words)
         sentence = Sentence(sent_string, any_dict, po)
         linkages = sentence.parse()
         num_parses = len(linkages) # check nbr of linkages in sentence
@@ -179,5 +185,5 @@ def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, 
         test_data = Load_File(test_file)
         test_parses, dummy = Get_Parses(test_data) 
     if len(test_parses) != len(ref_parses):
-        sys.exit("ERROR: Number of parses differs in files")
+        sys.exit("ERROR: Number of parses differs in files: ", len(test_parses), ", ", len(ref_parses))
     Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore_WALL)

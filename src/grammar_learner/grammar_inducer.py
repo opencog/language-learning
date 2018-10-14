@@ -1,10 +1,10 @@
-#language-learning/src/grammar_inducer.py  #80802 poc05.py restructured
+# language-learning/src/grammar_inducer.py                              81012
 from copy import deepcopy
 from .category_learner import cats2list
 from .widgets import display, html_table
 from .utl import UTC
 
-def induce_grammar(categories, links, verbose='none'):    #80625 GL POC.0.5
+def induce_grammar(categories, links, verbose='none'):      # 81012
     # categories: {'cluster': [], 'words': [], ...}
     # links: pd.DataFrame (legacy)
     if verbose in ['max','debug']:
@@ -22,8 +22,6 @@ def induce_grammar(categories, links, verbose='none'):    #80625 GL POC.0.5
         print('induce_grammar: clusters:', clusters)
         print('induce_grammar: word_clusters:', word_clusters)
         print('induce_grammar: rules ~ categories:')
-        display(html_table([['Code','Parent','Id','Quality','Words', 'Disjuncts', 'djs','Relevance','Children']] \
-            + [x for i,x in enumerate(cats2list(rules)) if i < 4]))
 
     for cluster in clusters:
         djs = []
@@ -34,14 +32,17 @@ def induce_grammar(categories, links, verbose='none'):    #80625 GL POC.0.5
                 x = rule.split()
                 dj = []
                 for y in x:
-                    if y not in ['&', ' ', '']:
+                    #-if y not in ['&', ' ', '']:  # 81012:
+                    if (y not in ['&', ' ', '']) and (y[:-1] in word_clusters):
                         if y[-1] == '+':
                             dj.append(word_clusters[y[:-1]])
                         elif y[-1] == '-':
                             dj.append(-1 * word_clusters[y[:-1]])
                         else:
                             print('no sign?', dj)  #TODO:ERROR?
-                djs.append(tuple(dj))
+                #-djs.append(tuple(dj))     # 81012:
+                if len(dj) > 0:
+                    djs.append(tuple(dj))
                 if verbose == 'debug':
                     print('induce_gramma: cluster', cluster, '::', rule, '⇒', tuple(dj))
             #TODO? +elif type(rule) is tuple? connectors - tuples?

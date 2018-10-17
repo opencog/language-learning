@@ -6,7 +6,7 @@ from time import time
 from ..common.absclient import AbstractGrammarTestClient, AbstractStatEventHandler, AbstractFileParserClient, \
     AbstractPipelineComponent
 from ..common.dirhelper import traverse_dir_tree, create_dir
-from ..common.parsemetrics import ParseMetrics, ParseQuality, PQA
+from ..common.parsemetrics import ParseMetrics, ParseQuality
 from ..common.fileconfman import JsonFileConfigManager
 from ..common.cliutils import handle_path_string
 from .textfiledashb import TextFileDashboard, HTMLFileDashboard
@@ -370,7 +370,7 @@ def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_pat
 
     pm, pq = gt.test(dict_path, corpus_path, output_path, reference_path, options)
 
-    return pm.parseability(pm), pq.parse_quality(pq), PQA(pm, pq)
+    return pm.parseability(pm), pq.parse_quality(pq), pq.f1(pq)
 
 
 def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal):

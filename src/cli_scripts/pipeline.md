@@ -43,3 +43,9 @@ of dictionaries in the list.
  
 `common-parameters` is a dictionary of zero or many parameters common for all configurations of 
 the specified component. It may be ommitted if unnecessary.
+
+Each component code is executed as many times as the length of `specific-parameters` list. Each 
+successive component followes the execution path of the previous one. If the previous component
+has multiple execution paths specified by the `specific-parameters` section, each path is folloed
+by the successive component unless explicitly specified by `follow_exec_path=false` parameter.
+ 

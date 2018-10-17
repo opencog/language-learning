@@ -1,5 +1,5 @@
 from ..common.absclient import AbstractDashboardClient, DashboardError, AbstractStatEventHandler
-from ..common.parsemetrics import ParseMetrics, ParseQuality, PQA_str
+from ..common.parsemetrics import ParseMetrics, ParseQuality
 from ..common.absclient import AbstractConfigClient
 from ..common.cliutils import handle_path_string
 
@@ -89,7 +89,7 @@ class TextFileDashboard(AbstractDashboardClient, AbstractStatEventHandler):
                     val_str = self._config[CONF_VAL_KEYS][col].format(nodes=nodes,
                                                                       parseability=metrics.parseability_str(metrics),
                                                                       parsequality=quality.parse_quality_str(quality),
-                                                                      PQA=PQA_str(metrics, quality))
+                                                                      F1=quality.f1_str(quality))
 
                 except IndexError as err:
                     print("on_statatistics():2: IndexError: " + str(err))

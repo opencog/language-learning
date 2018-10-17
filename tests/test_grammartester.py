@@ -1,17 +1,17 @@
 import unittest
 from decimal import Decimal
+
 from src.grammar_tester.grammartester import GrammarTester, test_grammar, test_grammar_cfg
 from src.grammar_tester.lginprocparser import LGInprocParser
 from src.grammar_tester.lgapiparser import LGApiParser
 from src.grammar_tester.optconst import *
-# from common.cliutils import handle_path_string
 
 from src.common.fileconfman import JsonFileConfigManager
 from src.common.cliutils import handle_path_string
 from src.grammar_tester.textfiledashb import TextFileDashboard
 
 tmpl = "tests/test-data/dict/poc-turtle"
-grmr = "/tests/test-data/dict"
+grmr = "tests/test-data/dict"
 limit = 1000
 opts = BIT_SEP_STAT | BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_RM_DIR #| BIT_DPATH_CREATE | BIT_LOC_LANG | BIT_PARSE_QUALITY #| BIT_ULL_IN #| BIT_OUTPUT_DIAGRAM #| BIT_SEP_STAT
 # opts = BIT_SEP_STAT | BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_RM_DIR | BIT_DPATH_CREATE | BIT_LOC_LANG | BIT_PARSE_QUALITY #| BIT_ULL_IN #| BIT_OUTPUT_DIAGRAM #| BIT_SEP_STAT
@@ -24,23 +24,23 @@ corp = "/home/alex/data/corpora/poc-english/poc_english.txt"
 dest = "/home/alex/data2/parses"
 ref = None  # "/home/alex/data/poc-english/poc_english_noamb_parse_ideal.txt"
 
-class ParseTestCase(unittest.TestCase):
-
-    @unittest.skip
-    def test_test(self):
-        pr = LGInprocParser()
-        # pr = LGApiParser()
-
-        print(dict, corp, dest, ref, sep="\n")
-
-        gt = GrammarTester(grmr, tmpl, limit, pr)
-        pm, pq = gt.test(dict, corp, dest, ref, opts)
-
-        print(pm.text(pm))
-        # print(pq.text(pq))
-
-        # self.assertEqual(25, gt._total_dicts)
-        self.assertEqual(88, pm.sentences)
+# class ParseTestCase(unittest.TestCase):
+#
+#     @unittest.skip
+#     def test_test(self):
+#         pr = LGInprocParser()
+#         # pr = LGApiParser()
+#
+#         print(dict, corp, dest, ref, sep="\n")
+#
+#         gt = GrammarTester(grmr, tmpl, limit, pr)
+#         pm, pq = gt.test(dict, corp, dest, ref, opts)
+#
+#         print(pm.text(pm))
+#         # print(pq.text(pq))
+#
+#         # self.assertEqual(25, gt._total_dicts)
+#         self.assertEqual(88, pm.sentences)
 
 
 # @unittest.skip
@@ -55,6 +55,27 @@ class GrammarTesterTestCase(unittest.TestCase):
 
         # self.assertEqual(25, gt._total_dicts)
         self.assertEqual(88, pm.sentences)
+
+    # @unittest.skip
+    def test_test_grammar(self):
+        input_grammar = "tests/test-data/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
+        input_corpus = "tests/test-data/corpora/poc-english/poc_english_noamb.txt"
+        template_path = "tests/test-data/dict/poc-turtle"
+        grammar_root = "/var/tmp/"
+        output_path = "tests/test-data/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
+        ref_path = "tests/test-data/parses/poc-english-ref/poc_english_noamb.txt.ull"
+
+        options = BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_PARSE_QUALITY | BIT_RM_DIR | BIT_ULL_IN
+
+        pa, pq, f1 = test_grammar(input_corpus, output_path, input_grammar, grammar_root, template_path, 1000,
+                                   options, ref_path)
+
+        print("PA: {0:2.2f}\nPQ: {1:2.2f}\nF1: {2:2.2f}\n".format(pa, pq, f1))
+
+        # self.assertEqual(25, 25)
+        self.assertAlmostEqual(Decimal("81.67"), pa, 2)
+        self.assertAlmostEqual(Decimal("53.24"), pq, 2)
+        self.assertAlmostEqual(Decimal("56.70"), f1, 2)
 
     @unittest.skip
     def test_test(self):

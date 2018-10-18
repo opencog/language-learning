@@ -370,7 +370,16 @@ def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_pat
 
     pm, pq = gt.test(dict_path, corpus_path, output_path, reference_path, options)
 
-    return pm.parseability(pm), pq.f1(pq), pq.precision_val(pq), pq.recall_val(pq)
+    return \
+        pm.parseability(pm) * Decimal("100.00"), \
+        pq.recall_val(pq) * Decimal("100.00"), \
+        pq.f1(pq) * Decimal("100.00")
+
+    # return \
+    #     pm.parseability(pm) * Decimal("100.00"), \
+    #     pq.f1(pq) * Decimal("100.00"), \
+    #     pq.precision_val(pq) * Decimal("100.00"), \
+    #     pq.recall_val(pq) * Decimal("100.00")
 
 
 def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal, Decimal):
@@ -414,7 +423,16 @@ def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal, Decimal):
     except Exception as err:
         print(str(err))
     finally:
-        return pm.parseability(pm), pq.f1(pq), pq.precision_val(pq), pq.recall_val(pq)
+        return \
+            pm.parseability(pm) * Decimal("100.00"), \
+            pq.recall_val(pq) * Decimal("100.00"), \
+            pq.f1(pq) * Decimal("100.00")
+
+        # return \
+        #     pm.parseability(pm) * Decimal("100.00"), \
+        #     pq.f1(pq) * Decimal("100.00"), \
+        #     pq.precision_val(pq) * Decimal("100.00"), \
+        #     pq.recall_val(pq) * Decimal("100.00")
 
 
 class GrammarTesterComponent(AbstractPipelineComponent):

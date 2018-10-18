@@ -29,9 +29,9 @@ class JsonRWTestCase(unittest.TestCase):
         pm.average_parsed_ratio = Decimal("0.66")
         pm.sentences = 3
 
-        self.assertEqual("3>>3>>22.00", "{sentences}>>{sentences}>>{parseability}".format(parseability=pm.parseability(pm), sentences=pm.sentences))
+        self.assertEqual("3>>3>>22.00%", "{sentences}>>{sentences}>>{parseability}".format(parseability=pm.parseability_str(pm).strip(), sentences=pm.sentences))
         self.assertEqual("CBA", "{nodes[2]}{nodes[1]}{nodes[0]}".format(nodes=["A", "B", "C"]))
-        self.assertEqual("B>>3>>22.00", "{nodes[1]}>>{sentences}>>{parseability}".format(parseability=pm.parseability(pm), sentences=pm.sentences, nodes=["A", "B", "C"]))
+        self.assertEqual("B>>3>>22.00%", "{nodes[1]}>>{sentences}>>{parseability}".format(parseability=pm.parseability_str(pm).strip(), sentences=pm.sentences, nodes=["A", "B", "C"]))
 
     # @unittest.skip
     def test_read_config(self):

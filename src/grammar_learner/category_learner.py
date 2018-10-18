@@ -1,4 +1,4 @@
-#language-learning/src/category_learner.py                              #80928
+# language-learning/src/category_learner.py                              #80928
 from copy import deepcopy
 from collections import OrderedDict
 from .utl import UTC
@@ -102,11 +102,16 @@ def learn_categories(links, **kwargs):      #80802 poc05 restructured learner.py
     elif word_space[0] in ['v','e']:  #80825 tmp add Random Clusters FIXME:DEL
         # word_space options: v,e: 'vectors'='embeddings' | d,w: 'discrete'='word_vectors'
         if verbose in ['max','debug']:
-            print(UTC(),':: category_learner: DRK: context =', \
-                str(context)+', word_space: '+word_space+', algorithm:', algorithm)
+            print(UTC(),':: category_learner: DRK: context =', str(context)+',',
+                  'dim_max:', dim_max, ', sv_min:', sv_min,
+                  ', word_space: '+word_space+', algorithm:', algorithm)
         #-dim = vector_space_dim(links, dict_path, tmpath, dim_max, sv_min, verbose)
         #-80420 dict_path ⇒ tmpath :: dir to save vectors.txt
-        dim = vector_space_dim(links, tmpath, tmpath, dim_max, sv_min, verbose)
+
+        try:
+            dim = vector_space_dim(links, tmpath, tmpath, dim_max, sv_min, verbose)
+        except: dim = dim_max
+
         log.update({'vector_space_dim': dim})
         if verbose in ['mid','max','debug']:
             print(UTC(),':: category_learner: vector space dimensionality:', dim, '⇒ pmisvd')
@@ -205,7 +210,7 @@ def cdf2cats(cdf):      # 81012: pd.DataFrame ⇒ {cluster: [], ...}
                        for y in cats['disjuncts']]
     if 'counts' in clusters:
         cats['counts'] = [0] + clusters['counts'].tolist()
-    if True: # word_space == 'vectors' or algorithm == 'kmeans':
+    if word_space == 'vectors' or algorithm == 'kmeans':
         cats['quality'] = [0 for x in cats['words']]
         cats['similarities'] = [[0 for y in x] for x in cats['words']]
     else:
@@ -218,12 +223,12 @@ def cdf2cats(cdf):      # 81012: pd.DataFrame ⇒ {cluster: [], ...}
     return cats
 
 
-#Notes:
+# Notes:
 
-#80802 /src/poc05.py restructured ⇒ /src/category_learner.py POC.0.5 80619+80726
+# 80802 /src/poc05.py restructured ⇒ /src/category_learner.py POC.0.5 80619+80726
     #add_disjuncts moved here ⇐ learner.py/learn_grammar
     #cats2list moved here ⇐ generalization.py, copied ⇒ poc05.py for legacy compatibility
     #group_links moved ⇒ clustering.py
-#80803 clusters, silhouette, inertia = best_clusters(vdf, **kwargs)
-#80825 random clusters ⇒ commit 80828
-#81012 cdf2cats
+# 80803 clusters, silhouette, inertia = best_clusters(vdf, **kwargs)
+# 80825 random clusters ⇒ commit 80828
+# 81012 cdf2cats

@@ -1,6 +1,6 @@
 from decimal import *
 
-__all__ = ["ParseMetrics", "ParseQuality", "PQA_str", "PQA"]
+__all__ = ["ParseMetrics", "ParseQuality"]
 
 class ParseMetrics():
     """ Parse statistics data """
@@ -44,11 +44,11 @@ class ParseMetrics():
         if not stat.sentences:
             return Decimal("0")
 
-        return stat.average_parsed_ratio / stat.sentences * Decimal("100")
+        return stat.average_parsed_ratio / stat.sentences
 
     @staticmethod
     def parseability_str(stat) -> str:
-        return "{0:6.2f}%".format(stat.parseability(stat))
+        return "{0:6.2f}%".format(stat.parseability(stat) * Decimal("100"))
 
     @staticmethod
     def text(stat) -> str:
@@ -73,12 +73,6 @@ class ParseMetrics():
         self.sentences += other.sentences
         return self
 
-    # def __itruediv__(self, other:Decimal):
-    #     self.completely_parsed_ratio /= other
-    #     self.completely_unparsed_ratio /= other
-    #     # self.average_parsed_ratio /= other
-    #     return self
-
 
 class ParseQuality():
     def __init__(self):
@@ -88,6 +82,42 @@ class ParseQuality():
         self.ignored = Decimal('0.00')
         self.quality = Decimal('0.00')
         self.sentences = Decimal('0.00')
+
+        self.recall = Decimal("0.00")
+        self.precision = Decimal("0.00")
+
+    @staticmethod
+    def recall_val(stat) -> Decimal:
+        if not stat.sentences:
+            return Decimal('0.00')
+
+        return stat.recall / stat.sentences
+
+    @staticmethod
+    def precision_val(stat) -> Decimal:
+        if not stat.sentences:
+            return Decimal('0.00')
+
+        return stat.precision / stat.sentences
+
+    @staticmethod
+    def recall_str(stat) -> str:
+        return "{0:6.2f}%".format(stat.recall_val(stat) * Decimal("100.0"))
+
+    @staticmethod
+    def precision_str(stat) -> str:
+        return "{0:6.2f}%".format(stat.precision_val(stat) * Decimal("100.0"))
+
+    @staticmethod
+    def f1(stat) -> Decimal:
+        denominator = stat.recall_val(stat) + stat.precision_val(stat)
+
+        return Decimal("2.00") * stat.recall_val(stat) * stat.precision_val(stat) / denominator \
+            if denominator > Decimal("0.0001") else Decimal("0.00")
+
+    @staticmethod
+    def f1_str(stat) -> str:
+        return "{0:6.2f}%".format(stat.f1(stat) * Decimal('100.0'))
 
     @staticmethod
     def avg_total_links(stat) -> Decimal:
@@ -130,17 +160,23 @@ class ParseQuality():
 
     @staticmethod
     def text(stat) -> str:
-        return  "Parse quality: {0:2.2f}%\n" \
-                "Average total links: {1:2.2f}\n" \
-                "Average ignored links: {2:2.2f}\n" \
-                "Average missing links: {3:2.2f}\n" \
-                "Average extra links:  {4:2.2f}\n" \
-                "Total sentences: {5:2.2f}\n".format(
+        return  "Parse quality: {:2.2f}%\n" \
+                "Average total links: {:2.2f}\n" \
+                "Average ignored links: {:2.2f}\n" \
+                "Average missing links: {:2.2f}\n" \
+                "Average extra links:  {:2.2f}\n\n" \
+                "Recall:  {:2.2f}%\n" \
+                "Precision:  {:2.2f}%\n" \
+                "F1:  {:2.2f}%\n\n" \
+                "Total sentences: {:2.2f}\n".format(
                                                         stat.parse_quality(stat),
                                                         stat.avg_total_links(stat),
                                                         stat.avg_ignored_links(stat),
                                                         stat.avg_missing_links(stat),
                                                         stat.avg_extra_links(stat),
+                                                        stat.recall_val(stat) * Decimal("100.0"),
+                                                        stat.precision_val(stat) * Decimal("100.0"),
+                                                        stat.f1(stat),
                                                         stat.sentences)
 
     def __eq__(self, other):
@@ -148,7 +184,10 @@ class ParseQuality():
                 self.total == other.total and \
                 self.ignored == other.ignored and \
                 self.missing == other.missing and \
-                self.extra == other.extra
+                self.extra == other.extra and \
+                self.recall == other.recall and \
+                self.precision == other.precision and \
+                self.sentences == other.sentences
 
     def __iadd__(self, other):
         self.total += other.total
@@ -157,20 +196,8 @@ class ParseQuality():
         self.ignored += other.ignored
         self.quality += other.quality
         self.sentences += other.sentences
+
+        self.recall += other.recall
+        self.precision += other.precision
+
         return self
-
-    # def __itruediv__(self, other:Decimal):
-    #     self.total /= other
-    #     self.missing /= other
-    #     self.extra /= other
-    #     self.ignored /= other
-    #     self.quality /= other
-    #     return self
-
-
-def PQA(pm: ParseMetrics, pq: ParseQuality) -> Decimal:
-    return (pm.average_parsed_ratio / pm.sentences *
-                                pq.quality / pq.sentences * Decimal('100.0')) if pm.sentences else Decimal("0.0")
-
-def PQA_str(pm: ParseMetrics, pq: ParseQuality) -> str:
-    return "PQA:\t{0:2.2f}%".format(PQA(pm, pq))

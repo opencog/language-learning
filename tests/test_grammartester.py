@@ -1,5 +1,8 @@
 import unittest
+import os
+import sys
 from decimal import Decimal
+from subprocess import Popen, PIPE
 
 from src.grammar_tester.grammartester import GrammarTester, test_grammar, test_grammar_cfg
 from src.grammar_tester.lginprocparser import LGInprocParser
@@ -71,6 +74,23 @@ class GrammarTesterTestCase(unittest.TestCase):
                                    options, ref_path)
 
         print("PA: {:2.4f}\nF1: {:2.4f}\nPrecision: {:2.4f}\nRecall: {:2.4f}\n".format(pa, f1, pr, rc))
+
+
+        with Popen(["echo", "dummy_line"], stdout=PIPE) as proc_echo , \
+                Popen(["link-parser", "-verbosity=1"], stdin=proc_echo.stdout, stdout=PIPE, stderr=PIPE) as proc_link, \
+                Popen(["grep", "Library version"], stdin=proc_link.stderr, stdout=PIPE, stderr=PIPE) as proc_grep:
+
+            proc_echo.stdout.close()
+
+            # Closing grep output stream will terminate it's process.
+            proc_link.stdout.close()
+
+            # Read pipes to get complete output returned by 'conda'
+            raw, err = proc_grep.communicate()
+
+            print("raw:", raw.decode())
+            print("err:", err.decode())
+
 
         # self.assertEqual(25, 25)
         self.assertAlmostEqual(Decimal("0.8167"), pa, 4)

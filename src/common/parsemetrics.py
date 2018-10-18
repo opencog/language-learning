@@ -44,11 +44,11 @@ class ParseMetrics():
         if not stat.sentences:
             return Decimal("0")
 
-        return stat.average_parsed_ratio / stat.sentences * Decimal("100")
+        return stat.average_parsed_ratio / stat.sentences
 
     @staticmethod
     def parseability_str(stat) -> str:
-        return "{0:6.2f}%".format(stat.parseability(stat))
+        return "{0:6.2f}%".format(stat.parseability(stat) * Decimal("100"))
 
     @staticmethod
     def text(stat) -> str:
@@ -112,12 +112,12 @@ class ParseQuality():
     def f1(stat) -> Decimal:
         denominator = stat.recall_val(stat) + stat.precision_val(stat)
 
-        return Decimal("2.00") * stat.recall_val(stat) * stat.precision_val(stat) * Decimal('100.0') / denominator \
+        return Decimal("2.00") * stat.recall_val(stat) * stat.precision_val(stat) / denominator \
             if denominator > Decimal("0.0001") else Decimal("0.00")
 
     @staticmethod
     def f1_str(stat) -> str:
-        return "{0:6.2f}%".format(stat.f1(stat))
+        return "{0:6.2f}%".format(stat.f1(stat) * Decimal('100.0'))
 
     @staticmethod
     def avg_total_links(stat) -> Decimal:

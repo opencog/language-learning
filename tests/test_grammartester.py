@@ -67,15 +67,16 @@ class GrammarTesterTestCase(unittest.TestCase):
 
         options = BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_PARSE_QUALITY | BIT_RM_DIR | BIT_ULL_IN
 
-        pa, pq, f1 = test_grammar(input_corpus, output_path, input_grammar, grammar_root, template_path, 1000,
+        pa, f1, pr, rc = test_grammar(input_corpus, output_path, input_grammar, grammar_root, template_path, 1000,
                                    options, ref_path)
 
-        print("PA: {0:2.2f}\nPQ: {1:2.2f}\nF1: {2:2.2f}\n".format(pa, pq, f1))
+        print("PA: {:2.4f}\nF1: {:2.4f}\nPrecision: {:2.4f}\nRecall: {:2.4f}\n".format(pa, f1, pr, rc))
 
         # self.assertEqual(25, 25)
-        self.assertAlmostEqual(Decimal("81.67"), pa, 2)
-        self.assertAlmostEqual(Decimal("53.24"), pq, 2)
-        self.assertAlmostEqual(Decimal("56.70"), f1, 2)
+        self.assertAlmostEqual(Decimal("0.8167"), pa, 4)
+        self.assertAlmostEqual(Decimal("0.5670"), f1, 4)
+        self.assertAlmostEqual(Decimal("0.6065"), pr, 4)
+        self.assertAlmostEqual(Decimal("0.5324"), rc, 4)
 
     @unittest.skip
     def test_test(self):

@@ -88,8 +88,8 @@ class GrammarTesterTestCase(unittest.TestCase):
             # Read pipes to get complete output returned by 'conda'
             raw, err = proc_grep.communicate()
 
-            print("raw:", raw.decode())
-            print("err:", err.decode())
+            print("raw:", raw.decode(), file=sys.stderr)
+            print("err:", err.decode(), file=sys.stderr)
 
 
         # self.assertEqual(25, 25)

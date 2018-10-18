@@ -1,7 +1,6 @@
 import unittest
 
-from src.common.pipelinetree import PipelineTreeNode, PipelineTreeNode2, subst_variables_in_dict, subst_variables_in_str, \
-    build_tree, prepare_parameters
+from src.pipeline.pipelinetree import PipelineTreeNode, PipelineTreeNode2, build_tree, prepare_parameters
 
 config = [
     {

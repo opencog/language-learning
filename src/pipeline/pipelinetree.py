@@ -1,8 +1,8 @@
 import os
 from typing import Dict, List, Any, Union, Callable, NewType
 
-from .absclient import AbstractPipelineComponent
-from ..grammar_tester import GrammarTesterComponent, TextFileDashboard
+from ..common.absclient import AbstractPipelineComponent
+from ..grammar_tester.grammartester import GrammarTesterComponent, TextFileDashboard
 from ..grammar_learner import GrammarLearnerComponent
 from ..text_parser import TextParserComponent
 

@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/pqa_table.py                    81018
+# language-learning/src/grammar_learner/pqa_table.py                    81019
 # Test Grammar Learner to fill in ULL Project Plan Parses spreadshit
 import os, sys, time
 from ..common import handle_path_string
@@ -64,16 +64,13 @@ def pqa_meter(dict_path, output_path, corpus_path, reference_path, **kwargs):
     options = BIT_SEP_STAT | BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_RM_DIR | BIT_DPATH_CREATE | BIT_LOC_LANG | BIT_PARSE_QUALITY | BIT_ULL_IN  # | BIT_OUTPUT_DIAGRAM #| BIT_SEP_STAT
     # 80719: BIT_ULL_IN :: use ull parses as test corpus
     # 80719: BIT_CAPS  :: preserve caps in parses, process inside Grammar Learner
-    # TODO: pa, f1, precision, recall = test_grammmar(new grammar tester version 810...)
-    # pa, pq, pqa = test_grammar(corpus_path, output_path, dict_path, \
-    #     grammar_path, template_path, linkage_limit, options, reference_path)
-    pa, f1, pr, rc = test_grammar(corpus_path, output_path, dict_path, \
+    #-pa, pq, pqa = test_grammar(corpus_path, output_path, dict_path, \
+    pa, f1, precision, recall = test_grammar(corpus_path, output_path, dict_path,
         grammar_path, template_path, linkage_limit, options, reference_path)
-    pa = float(pa) / 100.0  # FIXME: remove /100 with new grammar_tester
-    pq = float(pq) / 100.0  # TODO: pq = recall
-    precision = 0.0
+    pa = float(pa) # / 100.0  # FIXME: remove /100 with new grammar_tester update
+    recall = float(recall) # / 100.0  # TODO: pq = float(recall)
 
-    return pa, pq, f1, precision
+    return pa, f1, precision, recall
 
 
 def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):      # 81018
@@ -81,7 +78,7 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):      # 81018
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
     header = ['Line', 'Corpus', 'Parsing', 'LW', 'RW', 'Gen.', 'Space',
-              'Rules', 'Silhouette', 'PA', 'PQ', 'PQ/PA']
+              'Rules', 'Silhouette', 'PA', 'PQ', 'F1']
     spaces = ''
     if kwargs['clustering'] == 'random':  # 80825 Random clusters
         spaces += 'RND'
@@ -162,8 +159,8 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):      # 81018
                 continue
             if kwargs['linkage_limit'] > 0:  # use 0 to avoid grammar_tester call
                 for i in range(runs[1]):
-                    # -a,q,qa = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
-                    a, q, f1, precision = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
+                    #-a,q,qa = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
+                    a, f1, precision, q = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
                     pa.append(a)
                     pq.append(q)
                     fm.append(f1)

@@ -10,8 +10,8 @@ import getopt
 import sys
 import os
 
-from ull.common import handle_path_string
 from ull.grammartest import compare_ull_files, EvalError
+from ull.parse_evaluator import Evaluate_Alternative
 
 def version():
     """
@@ -36,12 +36,15 @@ def main(argv):
         # word1 # word2
         ...
 
-        Usage: ./parse_evaluator.py -t <testfile> -r <reffile> [-v] [-i]
+        Usage: parse_evaluator -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a]
 
         testfile        file with parses to evaluate
         goldfile        file with reference (gold standard) parses
         -v              verbose
         -i              ignore LEFT-WALL and end-of-sentence dot, if any
+        -a              use alternative parse_evaluator
+        -s              evaluate sequential parses (only in alternative evaluator)
+        -z              evaluate random parses (only in alternative evaluator)
 
     """
 
@@ -50,44 +53,63 @@ def main(argv):
     test_file = ''
     ref_file = ''
     verbose = False
-    ignore_wall = False
+    ignore_WALL = True
+    sequential = False
+    random = False
+    alternative_parser = False
 
     try:
-        opts, args = getopt.getopt(argv, "ht:r:vi", ["test=", "reference=", "verbose", "ignore"])
-
+        opts, args = getopt.getopt(argv, "ht:r:visza", ["test=", "reference=", "verbose", "ignore", "sequential", "random", "alternative"])
     except getopt.GetoptError:
-        print(main.__doc__)
+        print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a]")
         sys.exit(2)
-
     for opt, arg in opts:
         if opt == '-h':
-            print(main.__doc__)
-            sys.exit(0)
+            print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a]")
+            sys.exit()
         elif opt in ("-t", "--test"):
-            test_file = handle_path_string(arg)
+            test_file = arg
         elif opt in ("-r", "--reference"):
-            ref_file = handle_path_string(arg)
+            ref_file = arg
         elif opt in ("-v", "--verbose"):
             verbose = True
         elif opt in ("-i", "--ignore"):
-            ignore_wall = True
+            ignore_WALL = False
+        elif opt in ("-s", "--sequential"):
+            sequential = True
+        elif opt in ("-z", "--random"):
+            random = True
+        elif opt in ("-a", "--alternative"):
+            alternative_parser = True
+
 
     try:
         # Check if the arguments are properly specified.
-        if test_file is None or ref_file is None or len(test_file) == 0 or len(ref_file) == 0:
+        if ref_file is None or len(ref_file) == 0:
             print(main.__doc__)
             raise EvalError("Error: Arguments are not properly specified.")
 
         # If reference file does not exist then there is nothing to compare.
         if not os.path.isfile(ref_file):
             raise EvalError("Error: File '" + ref_file + "' does not exist.")
-
-        compare_ull_files(test_file, ref_file, verbose, ignore_wall)
-
     except EvalError as err:
         print(str(err))
         exit(4)
 
+    if alternative_parser:
+       Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random) 
+    else:
+        try:
+            # Check if the arguments are properly specified.
+            if test_file is None or len(test_file) == 0:
+                print(main.__doc__)
+                raise EvalError("Error: Incorrect test_file.")
+
+            compare_ull_files(test_file, ref_file, verbose, ignore_wall)
+
+        except EvalError as err:
+            print(str(err))
+            exit(4)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

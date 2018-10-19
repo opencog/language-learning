@@ -1,10 +1,13 @@
-#language-learning/src/category_learner.py                              #80928
+#language-learning/src/grammar_learner_category_learner_.py             #80921
 from copy import deepcopy
 from collections import OrderedDict
-from .utl import UTC
-from .read_files import check_dir  # , check_mst_files
-from .hyperwords import vector_space_dim, pmisvd
-from .clustering import best_clusters, group_links, random_clusters
+
+from ull.grammar_learner.utl import UTC, round1, round2  # , round3, round4, round5
+from ull.grammar_learner.read_files import check_dir  # , check_mst_files
+from ull.grammar_learner.hyperwords import vector_space_dim, pmisvd
+# +from clustering import number_of_clusters, cluster_words_kmeans, group_links
+from .clustering_ import best_clusters, group_links, random_clusters  # 80803 best_clusters
+from ull.grammar_learner.write_files import list2file, save_link_grammar
 
 
 def add_disjuncts(cats, links, verbose='none'):
@@ -20,10 +23,8 @@ def add_disjuncts(cats, links, verbose='none'):
             word_clusters[word] = i
 
     df = links.copy()
-    #-df['cluster'] = df['word'].apply(lambda x: word_clusters[x])  # 81012:
-    df['cluster'] = df['word'].apply(lambda x: word_clusters[x] if x in word_clusters else 0)
+    df['cluster'] = df['word'].apply(lambda x: word_clusters[x])
     cdf = df.groupby('cluster').sum().reset_index()
-    cdf = cdf.loc[cdf['cluster'] > 0]                           # added 81012
     fat_cats['counts'] = [0] + cdf['count'].tolist()
 
     fat_cats['disjuncts'] = [[]]
@@ -138,7 +139,7 @@ def learn_categories(links, **kwargs):      #80802 poc05 restructured learner.py
             print(UTC(),':: ILE:', len(clusters), \
                 'clusters of identical lexical entries', type(clusters))
 
-    # Convert clusters DataFrame ⇒ cats {}  80619 0.5   81012 cdf2cats - below
+    # Convert clusters DataFrame ⇒ cats {}   #80619 0.5
     #TODO?: if clusters == pd.dataframe:
     if verbose in ['max','debug']:
         print(UTC(),':: category_learner: convert clusters ⇒ cats {}')
@@ -190,34 +191,6 @@ def cats2list(cats):    #80609
     return categories
 
 
-def cdf2cats(cdf):      # 81012: pd.DataFrame ⇒ {cluster: [], ...}
-    clusters = cdf
-    cats = {}
-    cats['cluster'] = ['A'] + clusters['cluster'].tolist()
-    cats['parent'] = [0 for x in cats['cluster']]
-    cats['words'] = [[]] + [set(x) for x in clusters['cluster_words'].tolist()]
-    if 'disjuncts' in clusters:
-        cats['disjuncts'] = [[]] + clusters['disjuncts'].tolist()
-        djset = set()
-        [[djset.add(y) for y in x] for x in cats['disjuncts']]
-        djlist = sorted(djset)
-        cats['djs'] = [set([djlist.index(x) for x in y if x in djlist]) \
-                       for y in cats['disjuncts']]
-    if 'counts' in clusters:
-        cats['counts'] = [0] + clusters['counts'].tolist()
-    if True: # word_space == 'vectors' or algorithm == 'kmeans':
-        cats['quality'] = [0 for x in cats['words']]
-        cats['similarities'] = [[0 for y in x] for x in cats['words']]
-    else:
-        cats['quality'] = [1 for x in cats['words']]
-        cats['quality'][0] = 0
-        cats['similarities'] = [[1 for y in x] for x in cats['words']]
-        cats['similarities'][0] = [0]
-    cats['children'] = [0 for x in cats['words']]
-
-    return cats
-
-
 #Notes:
 
 #80802 /src/poc05.py restructured ⇒ /src/category_learner.py POC.0.5 80619+80726
@@ -226,4 +199,3 @@ def cdf2cats(cdf):      # 81012: pd.DataFrame ⇒ {cluster: [], ...}
     #group_links moved ⇒ clustering.py
 #80803 clusters, silhouette, inertia = best_clusters(vdf, **kwargs)
 #80825 random clusters ⇒ commit 80828
-#81012 cdf2cats

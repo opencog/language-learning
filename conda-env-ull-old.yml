@@ -1,4 +1,4 @@
-name: ull
+name: ull-old
 channels:
   - anaconda
   - conda-forge

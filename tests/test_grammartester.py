@@ -59,7 +59,7 @@ class GrammarTesterTestCase(unittest.TestCase):
         # self.assertEqual(25, gt._total_dicts)
         self.assertEqual(88, pm.sentences)
 
-    # @unittest.skip
+    @unittest.skip
     def test_test_grammar(self):
         input_grammar = "tests/test-data/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
         input_corpus = "tests/test-data/corpora/poc-english/poc_english_noamb.txt"

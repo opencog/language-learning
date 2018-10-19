@@ -64,9 +64,11 @@ def pqa_meter(input_path, output_grammar, corpus_path, reference_path, runs=(1,1
     options = BIT_SEP_STAT | BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_RM_DIR | BIT_DPATH_CREATE | BIT_LOC_LANG | BIT_PARSE_QUALITY | BIT_ULL_IN #| BIT_OUTPUT_DIAGRAM #| BIT_SEP_STAT
     #80719 added BIT_ULL_IN for table_cds - Child Directed Speech
     #80719: BIT_CAPS = preserve caps
-    pa, pq, pqa = test_grammar(corpus_path, output_path, dict_path, \
+    # pa, pq, pqa = test_grammar(corpus_path, output_path, dict_path, \
+    #     grammar_path, template_path, linkage_limit, options, reference_path)
+    pa, f1, pr, rc = test_grammar(corpus_path, output_path, dict_path, \
         grammar_path, template_path, linkage_limit, options, reference_path)
-    return pa, pq, pqa
+    return pa, rc, f1
 
 
 def table_damb(lines, out_dir, cps=(0,0), rps=(0,0), runs=(1,1), **kwargs):

@@ -152,11 +152,11 @@ class ParseQuality():
         if not stat.sentences:
             return Decimal('0.00')
 
-        return stat.quality / stat.sentences * Decimal('100.0')
+        return stat.quality / stat.sentences
 
     @staticmethod
     def parse_quality_str(stat) -> str:
-        return "{0:6.2f}%".format(stat.parse_quality(stat))
+        return "{0:6.2f}%".format(stat.parse_quality(stat) * Decimal('100.0'))
 
     @staticmethod
     def text(stat) -> str:
@@ -169,7 +169,7 @@ class ParseQuality():
                 "Precision:  {:2.2f}%\n" \
                 "F1:  {:2.2f}%\n\n" \
                 "Total sentences: {:2.2f}\n".format(
-                                                        stat.parse_quality(stat),
+                                                        stat.parse_quality(stat) * Decimal('100.0'),
                                                         stat.avg_total_links(stat),
                                                         stat.avg_ignored_links(stat),
                                                         stat.avg_missing_links(stat),

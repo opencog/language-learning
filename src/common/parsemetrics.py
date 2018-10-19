@@ -52,14 +52,14 @@ class ParseMetrics():
 
     @staticmethod
     def text(stat) -> str:
-        return  "Total sentences parsed in full:\t{0[0]:2.2f}%\n" \
-                "Total sentences not parsed at all:\t{0[1]:2.2f}%\n" \
-                "Average sentence parse:\t{0[2]:2.2f}%\n" \
-                "Total sentences:\t{0[3]:2.2f}\n".format( (stat.completely_parsed(stat),
-                                                                   stat.completely_unparsed(stat),
-                                                                   stat.parseability(stat),
-                                                                   stat.sentences
-                                                                   ) )
+        return  "Total sentences parsed in full:\t\t{}\n" \
+                "Total sentences not parsed at all:\t{}\n" \
+                "Average sentence parse:\t\t\t{}\n" \
+                "Total sentences:\t\t\t{:2.2f}\n".format( stat.completely_parsed_str(stat),
+                                                      stat.completely_unparsed_str(stat),
+                                                      stat.parseability_str(stat),
+                                                      stat.sentences
+                                                    )
 
     def __eq__(self, other):
         return  self.average_parsed_ratio == other.average_parsed_ratio and \
@@ -152,31 +152,31 @@ class ParseQuality():
         if not stat.sentences:
             return Decimal('0.00')
 
-        return stat.quality / stat.sentences * Decimal('100.0')
+        return stat.quality / stat.sentences
 
     @staticmethod
     def parse_quality_str(stat) -> str:
-        return "{0:6.2f}%".format(stat.parse_quality(stat))
+        return "{0:6.2f}%".format(stat.parse_quality(stat) * Decimal('100.0'))
 
     @staticmethod
     def text(stat) -> str:
-        return  "Parse quality: {:2.2f}%\n" \
-                "Average total links: {:2.2f}\n" \
-                "Average ignored links: {:2.2f}\n" \
-                "Average missing links: {:2.2f}\n" \
-                "Average extra links:  {:2.2f}\n\n" \
-                "Recall:  {:2.2f}%\n" \
-                "Precision:  {:2.2f}%\n" \
-                "F1:  {:2.2f}%\n\n" \
+        return  "Parse quality:\t{}\n\n" \
+                "Average total links:\t{:2.2f}\n" \
+                "Average ignored links:\t{:2.2f}\n" \
+                "Average missing links:\t{:2.2f}\n" \
+                "Average extra links:\t{:2.2f}\n\n" \
+                "Recall:\t\t{}\n" \
+                "Precision:\t{}\n" \
+                "F1:\t\t{}\n\n" \
                 "Total sentences: {:2.2f}\n".format(
-                                                        stat.parse_quality(stat),
+                                                        stat.parse_quality_str(stat),
                                                         stat.avg_total_links(stat),
                                                         stat.avg_ignored_links(stat),
                                                         stat.avg_missing_links(stat),
                                                         stat.avg_extra_links(stat),
-                                                        stat.recall_val(stat) * Decimal("100.0"),
-                                                        stat.precision_val(stat) * Decimal("100.0"),
-                                                        stat.f1(stat),
+                                                        stat.recall_str(stat),
+                                                        stat.precision_str(stat),
+                                                        stat.f1_str(stat),
                                                         stat.sentences)
 
     def __eq__(self, other):

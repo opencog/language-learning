@@ -160,7 +160,7 @@ class ParseQuality():
 
     @staticmethod
     def text(stat) -> str:
-        return  "Parse quality:\t\t{:2.2f}%\n\n" \
+        return  "Parse quality:\t{}\n\n" \
                 "Average total links:\t{:2.2f}\n" \
                 "Average ignored links:\t{:2.2f}\n" \
                 "Average missing links:\t{:2.2f}\n" \
@@ -169,7 +169,7 @@ class ParseQuality():
                 "Precision:\t{}\n" \
                 "F1:\t\t{}\n\n" \
                 "Total sentences: {:2.2f}\n".format(
-                                                        stat.parse_quality(stat) * Decimal('100.0'),
+                                                        stat.parse_quality_str(stat),
                                                         stat.avg_total_links(stat),
                                                         stat.avg_ignored_links(stat),
                                                         stat.avg_missing_links(stat),

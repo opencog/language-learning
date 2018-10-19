@@ -61,15 +61,6 @@ def parse_metrics(tokens: list) -> ParseMetrics:
 
     start_token = 0  # if not tokens[0].startswith("###") else 1
 
-    # # All filtering is done in prepare_tokens
-    # while tokens[end_token-1].startswith("###") or tokens[end_token-1] == "." or tokens[end_token-1] == "[.]":
-    #     end_token -= 1
-
-    # total = end_token - start_token
-    #
-    # if not total:
-    #     return pm
-
     # Initialize number of unlinked tokens
     unlinked = 0
 
@@ -85,8 +76,6 @@ def parse_metrics(tokens: list) -> ParseMetrics:
 
     if total == unlinked:
         pm.completely_unparsed_ratio = Decimal("1.0")
-
-    # print(pm.text(pm))
 
     return pm
 
@@ -119,11 +108,20 @@ def parse_quality(test_set: set, ref_set: set) -> ParseQuality:
     pq = ParseQuality()
 
     len_ref = len(ref_set)
+    len_test = len(test_set)
+
+    expected = Decimal(len(ref_set))
+    obtained = Decimal(len(test_set))
+
+    overlapped = Decimal(len(test_set & ref_set))
 
     if len_ref > 0:
-        pq.total = len_ref
+        pq.total = expected
         pq.missing = len(ref_set - test_set)
         pq.extra = len(test_set - ref_set)
-        pq.quality = Decimal(len(test_set & ref_set)) / Decimal(len_ref)
+
+        pq.quality = pq.recall = overlapped / expected
+
+    pq.precision = overlapped / obtained if len_test > 0 else Decimal("0.00")
 
     return pq

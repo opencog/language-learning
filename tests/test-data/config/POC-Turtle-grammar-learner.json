@@ -1,0 +1,38 @@
+[
+  {
+    "component": "grammar-learner",
+    "common-parameters": {
+        "input_parses": "~/data/parses/POC-Turtle/LG/parses",
+        "output_categories": "%LEAF",
+        "output_grammar": "%LEAF",
+        "output_statistics": "",
+        "cluster_criteria": "silhouette",
+        "cluster_level": 1,
+        "tmpath": "/var/tmp/",
+        "verbose": "min",
+        "categories_generalization": "off",
+
+        "context": 1,
+        "word_space": "vectors",
+        "clustering": ["kmeans", "kmeans++", 18],
+        "cluster_range": [2, 50, 9],
+        "grammar_rules": 2,
+
+        "temp_dir": ""
+    },
+    "specific-parameters": [
+      {
+        "!title": "connectors-DRK-connectors",
+        "wtf": "MST-fixed-manually",
+        "left_wall": "LW",
+        "period": true
+      },
+      {
+        "!title": "connectors-DRK-connectors",
+        "wtf": "MST-fixed-manually",
+        "left_wall": "LW",
+        "period": false
+      }
+    ]
+  }
+]

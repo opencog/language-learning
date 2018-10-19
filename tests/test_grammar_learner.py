@@ -5,7 +5,13 @@ $ cd language-learning
 $ source activate ull
 $ python tests/test_grammar_learner.py
 '''
-import os, sys, unittest
+#from pathlib import Path
+#print('Running' if __name__ == '__main__' else 'Importing', Path(__file__).resolve())
+
+import os, sys
+import unittest
+from decimal import Decimal
+
 module_path = os.path.abspath(os.path.join('.'))
 if module_path not in sys.path: sys.path.append(module_path)
 from src.grammar_learner.utl import UTC
@@ -337,7 +343,8 @@ class TestGrammarLearner(unittest.TestCase):
         re = learn_grammar(**kwargs)
         a, q, qa = pqa_meter(re['grammar_file'], outpath, cp, rp, **kwargs)
         print('parse-ability, parse-quality:', a, q)
-        assert a*q > 0.99
+
+        self.assertTrue(a*q*Decimal("100") > 0.99, str(a) + " * " + str(q) + " * 100 !> 0.99")
 
 
     def test_pqa_english_noamb_ddrkd_no_generalization(self):
@@ -368,7 +375,7 @@ class TestGrammarLearner(unittest.TestCase):
         re = learn_grammar(**kwargs)
         a, q, qa = pqa_meter(re['grammar_file'], outpath, cp, rp, **kwargs)
         print('parse-ability, parse-quality:', a, q)
-        assert a*q > 0.99
+        self.assertTrue(a*q*Decimal("100") > 0.99, str(a) + " * " + str(q) + " * 100 !> 0.99")
 
 
 if __name__ == '__main__':

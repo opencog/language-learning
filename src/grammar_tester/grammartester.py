@@ -6,7 +6,7 @@ from time import time
 from ..common.absclient import AbstractGrammarTestClient, AbstractStatEventHandler, AbstractFileParserClient, \
     AbstractPipelineComponent
 from ..common.dirhelper import traverse_dir_tree, create_dir
-from ..common.parsemetrics import ParseMetrics, ParseQuality, PQA
+from ..common.parsemetrics import ParseMetrics, ParseQuality
 from ..common.fileconfman import JsonFileConfigManager
 from ..common.cliutils import handle_path_string
 from .textfiledashb import TextFileDashboard, HTMLFileDashboard
@@ -346,7 +346,7 @@ class GrammarTester(AbstractGrammarTestClient):
 
 def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_path: str, template_path: str,
                        linkage_limit: int, options: int, reference_path: str, timeout: int=300) \
-        -> (Decimal, Decimal, Decimal):
+        -> (Decimal, Decimal, Decimal, Decimal):
     """
     Test grammar(s) over specified corpus providing numerical estimation of parsing quality.
 
@@ -361,7 +361,7 @@ def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_pat
                             quality estimation.
     :param timeout:         Timeout value used by Link Grammar to restrict maximum amount of time spent for parsing
                             a single sentence.
-    :return: Tuple (ParseMetrics, ParseQuality)
+    :return:                (parse-ability, F1, precision, recall)
     """
     # parser = LGInprocParser(linkage_limit) if options & BIT_LG_EXE else LGApiParser(linkage_limit)
     parser = LGInprocParser(linkage_limit, timeout)
@@ -370,15 +370,19 @@ def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_pat
 
     pm, pq = gt.test(dict_path, corpus_path, output_path, reference_path, options)
 
-    return pm.parseability(pm), pq.parse_quality(pq), PQA(pm, pq)
+    return \
+        pm.parseability(pm), \
+        pq.f1(pq), \
+        pq.precision_val(pq), \
+        pq.recall_val(pq)
 
 
-def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal):
+def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal, Decimal):
     """
     Test grammar using configuration(s) from a JSON file
 
     :param conf_path:   Path to a configuration file
-    :return:            Tuple (ParseMetrics, ParseQuality) of the last processed test.
+    :return:            (parse-ability, F1, precision, recall)
     """
     pm, pq = ParseMetrics(), ParseQuality()
 
@@ -414,7 +418,11 @@ def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal):
     except Exception as err:
         print(str(err))
     finally:
-        return pm.parseability(pm), pq.parse_quality(pq), PQA(pm, pq)
+        return \
+            pm.parseability(pm), \
+            pq.f1(pq), \
+            pq.precision_val(pq), \
+            pq.recall_val(pq)
 
 
 class GrammarTesterComponent(AbstractPipelineComponent):

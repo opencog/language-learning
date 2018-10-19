@@ -65,11 +65,12 @@ def pqa_meter(dict_path, output_path, corpus_path, reference_path, **kwargs):
     # 80719: BIT_ULL_IN :: use ull parses as test corpus
     # 80719: BIT_CAPS  :: preserve caps in parses, process inside Grammar Learner
     # TODO: pa, f1, precision, recall = test_grammmar(new grammar tester version 810...)
-    pa, pq, pqa = test_grammar(corpus_path, output_path, dict_path,
+    # pa, pq, pqa = test_grammar(corpus_path, output_path, dict_path, \
+    #     grammar_path, template_path, linkage_limit, options, reference_path)
+    pa, f1, pr, rc = test_grammar(corpus_path, output_path, dict_path, \
         grammar_path, template_path, linkage_limit, options, reference_path)
     pa = float(pa) / 100.0  # FIXME: remove /100 with new grammar_tester
     pq = float(pq) / 100.0  # TODO: pq = recall
-    f1 = pq / pa if pa > 0.0 else 0.0  # FIXME: replace with new grammar_tester response
     precision = 0.0
 
     return pa, pq, f1, precision

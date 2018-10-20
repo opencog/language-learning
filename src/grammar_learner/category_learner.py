@@ -143,34 +143,7 @@ def learn_categories(links, **kwargs):      #80802 poc05 restructured learner.py
             print(UTC(),':: ILE:', len(clusters), \
                 'clusters of identical lexical entries', type(clusters))
 
-    # Convert clusters DataFrame ⇒ cats {}  80619 0.5   81012 cdf2cats - below
-    #TODO?: if clusters == pd.dataframe:
-    if verbose in ['max','debug']:
-        print(UTC(),':: category_learner: convert clusters ⇒ cats {}')
-    cats = {}  #80609 dict instead of DataFrame
-    cats['cluster'] = ['C0'] + clusters['cluster'].tolist()
-    cats['parent'] = [0 for x in cats['cluster']]
-    cats['words'] = [[]] + [set(x) for x in clusters['cluster_words'].tolist()]
-    if 'disjuncts' in clusters:
-        cats['disjuncts'] = [[]] + clusters['disjuncts'].tolist()
-        djset = set()
-        [[djset.add(y) for y in x] for x in cats['disjuncts']]
-        djlist = sorted(djset)
-        cats['djs'] = [set([djlist.index(x) for x in y if x in djlist]) \
-                       for y in cats['disjuncts']]
-    if 'counts' in clusters:
-        cats['counts'] = [0] + clusters['counts'].tolist()
-    if word_space == 'vectors' or algorithm == 'kmeans':
-        cats['quality'] = [0 for x in cats['words']]
-        cats['similarities'] = [[0 for y in x] for x in cats['words']]
-    else:
-        cats['quality'] = [1 for x in cats['words']]
-        cats['quality'][0] = 0
-        cats['similarities'] = [[1 for y in x] for x in cats['words']]
-        cats['similarities'][0] = [0]
-    cats['children'] = [0 for x in cats['words']]
-
-    return cats, log
+    return cdf2cats(clusters, **kwargs), log    # 81020: cdr2cats
 
 
 def cats2list(cats):    #80609
@@ -195,7 +168,7 @@ def cats2list(cats):    #80609
     return categories
 
 
-def cdf2cats(cdf):      # 81012: pd.DataFrame ⇒ {cluster: [], ...}
+def cdf2cats(cdf, **kwargs):    # 81012: pd.DataFrame ⇒ {cluster: [], ...}
     clusters = cdf
     cats = {}
     cats['cluster'] = ['A'] + clusters['cluster'].tolist()
@@ -210,14 +183,14 @@ def cdf2cats(cdf):      # 81012: pd.DataFrame ⇒ {cluster: [], ...}
                        for y in cats['disjuncts']]
     if 'counts' in clusters:
         cats['counts'] = [0] + clusters['counts'].tolist()
-    if word_space == 'vectors' or algorithm == 'kmeans':
-        cats['quality'] = [0 for x in cats['words']]
-        cats['similarities'] = [[0 for y in x] for x in cats['words']]
-    else:
+    if kwargs['word_space'] == 'discrete' or kwargs['clustering'] == 'group':
         cats['quality'] = [1 for x in cats['words']]
         cats['quality'][0] = 0
         cats['similarities'] = [[1 for y in x] for x in cats['words']]
         cats['similarities'][0] = [0]
+    else:
+        cats['quality'] = [0 for x in cats['words']]
+        cats['similarities'] = [[0 for y in x] for x in cats['words']]
     cats['children'] = [0 for x in cats['words']]
 
     return cats

@@ -10,8 +10,8 @@ from .utl import UTC, round1, round2, round3
 
 
 def cluster_id(n,nmax):
-    def int2az(n,l='ABCDEFGHIJKLMNOPQRSTUVWXYZ'):
-        return (int2az(n//26)+l[n%26]).lstrip("A") if n>0 else "A"
+    def int2az(n,l='ABCDEFGHJKLMNOPQRSTUVWXYZ'):
+        return (int2az(n//25)+l[n%25]).lstrip("A") if n>0 else "A"
     return int2az(n).zfill(len(int2az(nmax))).replace('0','A')
 
 

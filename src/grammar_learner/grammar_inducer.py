@@ -30,17 +30,18 @@ def induce_grammar(categories, links, verbose='none'):      # 81012
             #+TODO? (-x,-y,z) ⇒ (-x,z), (-y,z) ?
             if type(rule) is str:
                 x = rule.split()
-                dj = []
+                lefts = []
+                rights = []
                 for y in x:
-                    #-if y not in ['&', ' ', '']:  # 81012:
                     if (y not in ['&', ' ', '']) and (y[:-1] in word_clusters):
                         if y[-1] == '+':
-                            dj.append(word_clusters[y[:-1]])
+                            rights.append(word_clusters[y[:-1]])
                         elif y[-1] == '-':
-                            dj.append(-1 * word_clusters[y[:-1]])
+                            lefts.append(-1 * word_clusters[y[:-1]])
                         else:
-                            print('no sign?', dj)  #TODO:ERROR?
-                #-djs.append(tuple(dj))     # 81012:
+                            print('no sign?', y, 'in', x)  #TODO:ERROR?
+                lefts.reverse()
+                dj = lefts + rights
                 if len(dj) > 0:
                     djs.append(tuple(dj))
                 if verbose == 'debug':

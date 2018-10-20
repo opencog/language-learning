@@ -121,12 +121,10 @@ def reorder(cats):
 
     new_cats = {}
     new_cats['parent'] = [ordnung.index(cats['parent'][i]) for i in ordnung]
-    ndigits = len(str(len([x for x in new_cats['parent'] if x == 0]) - 1))
 
-    #-new_cats['cluster'] = ['C'+str(i).zfill(ndigits) if x == 0 else None \
-    #-                       for i,x in enumerate(new_cats['parent'])]  # 80925:
-    new_cats['cluster'] = [cluster_id(i, i) if x == 0 else None
-        for i, x in enumerate(new_cats['parent'])]              # 80925
+    n = sum(1 for i in new_cats['parent'] if i == 0)
+    new_cats['cluster'] = [cluster_id(i, n) if x == 0 else None
+        for i, x in enumerate(new_cats['parent'])]
 
     for key in cats.keys():
         if key not in ['cluster', 'parent']:

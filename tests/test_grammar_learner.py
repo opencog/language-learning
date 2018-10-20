@@ -345,8 +345,7 @@ class TestGrammarLearner(unittest.TestCase):
         }
         re = learn_grammar(**kwargs)
         pa, f1, precision, recall = pqa_meter(re['grammar_file'], outpath, cp, rp, **kwargs)
-        print(f'\nnoAmb dILEd: pa {round(pa,3)}, f1 {round(f1,3)}, precision {round(precision,3)}, recall {round(recall,3)} \n')
-        self.assertTrue(pa*recall > 0.17, str(pa) + " * " + str(recall) + " > 0.17")
+        self.assertTrue(pa*recall > 0.99, str(pa) + " * " + str(recall) + " > 0.99")
 
 
     def test_pqa_english_noamb_ddrkd_no_generalization(self):
@@ -375,6 +374,8 @@ class TestGrammarLearner(unittest.TestCase):
             'linkage_limit' :   1000,
             'verbose'       :   'min'
         }
+        # Sometimes pqa_meter(with test_grammar updated 2018-10-19) returns pa,recall = 0,0
+        # FIXME: check with further test_grammar updates and delete.
         x = 0.
         n = 0
         while x < 0.1 :
@@ -384,8 +385,7 @@ class TestGrammarLearner(unittest.TestCase):
             x = pa * recall
             n += 1
             if n > 24: break
-        self.assertTrue(pa*recall > 0.17, str(pa) + " * " + str(recall) + " > 0.17")
-        # 0.456 * 0.389 or zero?
+        self.assertTrue(pa*recall > 0.99, str(pa) + " * " + str(recall) + " > 0.99")
 
 
 if __name__ == '__main__':

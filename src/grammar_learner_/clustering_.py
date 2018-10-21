@@ -1,4 +1,4 @@
-#language-learning/src/grammar_learner/clustering.py                    #80828
+# language-learning/src/grammar_learner_/clustering_.py         shadow  # 81021
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
@@ -6,7 +6,13 @@ from sklearn.metrics import pairwise_distances, silhouette_score
 from statistics import mode
 from random import randint
 from operator import itemgetter
-from ull.grammar_learner.utl import UTC, round1, round2, round3
+from src.grammar_learner.utl import UTC, round1, round2, round3
+
+
+def cluster_id(n,nmax):
+    def int2az(n,l='ABCDEFGHJKLMNOPQRSTUVWXYZ'):
+        return (int2az(n//25)+l[n%25]).lstrip("A") if n>0 else "A"
+    return int2az(n).zfill(len(int2az(nmax))).replace('0','A')
 
 
 def cluster_words_kmeans(words_df, n_clusters, init='k-means++', n_init=10):
@@ -33,17 +39,15 @@ def cluster_words_kmeans(words_df, n_clusters, init='k-means++', n_init=10):
         return [words_list[j] for j,x in enumerate(labels) if x==i]
     cdf['cluster'] = cdf.index
     cdf['cluster_words'] = cdf['cluster'].apply(cluster_word_list)
-    #+cdf = cdf.sort_values(by=[1,2,3], ascending=[True,True,True])
-    cdf = cdf.sort_values(by=[1,2], ascending=[True,True])
-    cdf.index = range(1, len(cdf)+1)
-    def cluster_id(row): return 'C' + str(row.name).zfill(2)
-    cdf['cluster'] = cdf.apply(cluster_id, axis=1)
+    #-cdf = cdf.sort_values(by=[1,2], ascending=[True,True])    # 81020: [x]
+    #-cdf.index = range(1, len(cdf)+1)
+    cdf['cluster'] = cdf['cluster'].apply(lambda x: cluster_id(x+1, len(cdf)))
     cols = ['cluster', 'cluster_words'] + cols
     cdf = cdf[cols]
 
     return cdf, silhouette, inertia
 
-
+'''
 def number_of_clusters(vdf, **kwargs):                                  #80809
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     algorithm   = kwa('kmeans',     'clustering')
@@ -117,9 +121,9 @@ def number_of_clusters(vdf, **kwargs):                                  #80809
             print(UTC(),':: number_of_clusters:', sorted(lst), \
                 '⇒', n_clusters, 'clusters weighted average')
     return int(n_clusters)
+'''
 
-
-def best_clusters(vdf, **kwargs):                                       #80809
+def best_clusters(vdf, **kwargs):                                       # 81021
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     #-cluster_range = kwa((2,48,1), 'cluster_range')
     algo        = kwa('kmeans',     'clustering')
@@ -128,10 +132,12 @@ def best_clusters(vdf, **kwargs):                                       #80809
     verbose     = kwa('none',       'verbose')
     crange      = kwa((2,50,2),     'cluster_range')
     # crange :: cluster range:
-    # (10) = (10,10) = (10,10,n) :: 10 clusters, n tests
-    # (10,40,5) :: min, max, step ⇒ number_of_clusters
-    # (10,40,5,n) :: min, max, step, n tests for each step ⇒ number_of_clusters
+    # (10) :: 10 clusters, 1 test
+    # (10,3) = (10,10,3) :: 10 clusters, 3 tests
+    # [x] (10,40,5) :: min, max, step ⇒ number_of_clusters
+    # (10,40,m) :: min, max, optimum: max of m top results with same number of clusters
     # (40,10,m) :: max, min, optimum: max of m top results with same number of clusters
+    # (10,40,5,n) :: min, max, step, n tests for each step ⇒ number_of_clusters
     if verbose in ['max','debug']:
         print(UTC(),':: best_clusters started')
 
@@ -279,7 +285,7 @@ def best_clusters(vdf, **kwargs):                                       #80809
             return clusters, silhouette, inertia
 
 
-def group_links(links, verbose):    #Group ILE                          #80428
+def group_links(links, verbose):    # Group ILE                         # 80925
     df = links.copy()
     df['links'] = [[x] for x in df['link']]
     del df['link']
@@ -305,15 +311,17 @@ def group_links(links, verbose):    #Group ILE                          #80428
     df4['links'] = df4['links'].apply(lambda x: sorted(list(x)))
     df4 = df4[['words','links','counts']].sort_values(by='words', ascending=True)
     df4.index = range(1, len(df4)+1)
-    def cluster_id(row): return 'C' + str(row.name).zfill(2)
-    df4['cluster'] = df4.apply(cluster_id, axis=1)
+    #-def cluster_id(row): return 'C' + str(row.name).zfill(2)
+    #-df4['cluster'] = df4.apply(cluster_id, axis=1)        # 80925: C01 ⇒ AB:
+    df4['cluster'] = range(1, len(df4)+1)
+    df4['cluster'] = df4['cluster'].apply(lambda x: cluster_id(x, len(df4)))
     df4 = df4.rename(columns={'words': 'cluster_words', 'links': 'disjuncts'})
     df4 = df4[['cluster', 'cluster_words', 'disjuncts', 'counts']]
 
     return df4
 
 
-def random_clusters(links, **kwargs):                                   #80825
+def random_clusters(links, **kwargs):                                   # 80925
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     crange      = kwa((20,70,2),     'cluster_range')
     if crange[0] == crange[1]:
@@ -332,7 +340,8 @@ def random_clusters(links, **kwargs):                                   #80825
     df = df.groupby('cluster') \
         .agg({'cluster_words':'sum', 'disjuncts':'sum', 'count':'sum'}) \
         .reset_index()
-    df['cluster'] = df['cluster'].apply(lambda x: 'C'+str(x).zfill(2))
+    #-df['cluster'] = df['cluster'].apply(lambda x: 'C'+str(x).zfill(2))
+    df['cluster'] = df['cluster'].apply(lambda x: cluster_id(x, n_clusters))
 
     return df
 

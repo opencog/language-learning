@@ -109,7 +109,7 @@ class TestGrammarLearner(unittest.TestCase):
 
     def test_turtle_no_generalization(self):
         base  = module_path + '/tests/data/POC-Turtle/' + \
-            'no_generalization/dict_8C_2018-10-03_0006.4.0.dict'
+            'no_generalization/dict_8C_2018-10-21_0006.4.0.dict'
         input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually/'
         batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
         prj_dir = batch_dir + '/turtle_lw_&_dot_no_generalization/'

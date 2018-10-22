@@ -1,10 +1,26 @@
 Number of sentences	12
 Average sentence length	3
+Number of unique words in sentences	13
 Number of unique parsed words in sentences	13
 Number of unique non-parsed [words] in sentences	0
-Total words count in sentences	36
-Non-parsed [words] count in sentences	0
-Average per-word counts	3
-Number of unique links	19
-Total links count	24
-Average per-link count	1
+Number of unique linked words    	13
+Number of unique non-linked words	0
+Total  words count in sentences	36
+Parsed words count in sentences	36
+Non-parsed [words] in sentences	0
+Unique links number	19
+Total  links count 	24
+Average link count 	1.3
+Average word count 	3
+Average links per linked word	2
+Unique connectors number	28
+Total  connectors count 	96
+Average connector count 	3.4
+Unique disjuncts number	29
+Total  disjuncts count 	60
+Average disjunct count 	2.1
+Average disjunct length	1.6
+Maximum disjunct length	2
+Unique seeds number	44
+Total  seeds count 	60
+Average seed count 	1.4

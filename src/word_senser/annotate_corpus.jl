@@ -40,6 +40,9 @@ function annotate_file(corpus, outfile, vm, dict, separator, min_prob, win)
     open(corpus, "r") do fi
         open(outfile, "w") do fo
             for line in eachline(fi)
+                if line == "\n"
+                    write(fo, "\n")
+                end
                 split_line = split(line)
                 #println(split_line)
                 for i in enumerate(split_line)

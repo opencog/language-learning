@@ -1,18 +1,12 @@
-#!/usr/bin/env python
-
-# ASuMa, Mar 2018
-# Read parse data in MST-parser format, from reference and test files
-# and evaluate the accuracy of the test parses.
-# See main() documentation below for usage details
-
 import platform
-import getopt, sys
+import sys
+import random
 
-def version():
-    """
-        Prints Python version used
-    """
-    print("Code writen for Python3.6.4. Using: %s"%platform.python_version())
+from linkgrammar import LG_DictionaryError, LG_Error, ParseOptions, Dictionary, Sentence, Linkage
+from ..grammar_tester.psparse import parse_postscript
+from ..grammar_tester.optconst import *
+
+__all__ = ['Evaluate_Alternative']
 
 def Load_File(filename):
     """
@@ -127,79 +121,11 @@ def Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore):
     print("Avg Fscore: {:.2%}\n".format(2 * precision * recall / (precision + recall)))
     print("A total of {} parses evaluated, {:.2%} of reference file".format(evaluated_parses, float(evaluated_parses) / len(ref_parses)))
     print("{:.2f} ignored links per evaluated parse".format(ignored_links / evaluated_parses))
-
-def main(argv):
-    """
-        Evaluates parses compared to given reference.
-        For each parse, loops through all links in reference and checks if those
-        2 word-instances are also connected in parse to evaluate.
-
-        Parses must be in format:
-        Sentence to evaluate
-        # word1 # word2
-        # word2 # word3
-        ...
-
-        Another sentence to evaluate
-        # word1 # word2
-        ...
-
-        Usage: ./parse_evaluator.py -t <testfile> -r <reffile> [-v] [-i]
-
-        testfile        file with parses to evaluate
-        goldfile        file with reference (gold standard) parses
-        -v              verbose
-        -i              don't ignore LEFT-WALL and end-of-sentence dot, if any
-        -s              evaluate sequential parses (benchmark)
-
-    """
-
-    version()
-
-    test_file = ''
-    ref_file = ''
-    verbose = False
-    ignore_WALL = True
-    sequential = False
-
-    try:
-        opts, args = getopt.getopt(argv, "ht:r:vis", ["test=", "reference=", "verbose", "ignore", "sequential"])
-    except getopt.GetoptError:
-        print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s]")
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-h':
-            print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s]")
-            sys.exit()
-        elif opt in ("-t", "--test"):
-            test_file = arg
-        elif opt in ("-r", "--reference"):
-            ref_file = arg
-        elif opt in ("-v", "--verbose"):
-            verbose = True
-        elif opt in ("-i", "--ignore"):
-            ignore_WALL = False
-        elif opt in ("-s", "--sequential"):
-            sequential = True
-
-    ref_data = Load_File(ref_file)
-    ref_parses, ref_sents = Get_Parses(ref_data) 
-    if sequential:
-        test_parses = Make_Sequential(ref_sents)
-    else:
-        test_data = Load_File(test_file)
-        test_parses, dummy = Get_Parses(test_data) 
-    if len(test_parses) != len(ref_parses):
-        sys.exit("ERROR: Number of parses differs in files")
-    # for rs, ts in zip(ref_sents, dummy):
-    #     print("Sentence pair:")
-    #     print(rs, ts)
-    Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore_WALL)
-
+    
 def Make_Sequential(sents):
     """
         Make sequential parses (each word simply linked to the next one), 
-        to use as a benchmark
+        to use as baseline
     """
     sequential_parses = []
     for sent in sents:
@@ -211,6 +137,53 @@ def Make_Sequential(sents):
 
     return sequential_parses
 
+def Make_Random(sents):
+    """
+        Make random parses (from LG-parser "any"), to use as baseline
+    """
+    any_dict = Dictionary('any') # Opens dictionary only once
+    po = ParseOptions(min_null_count=0, max_null_count=999)
+    po.linkage_limit = 100
+    options = 0x00000000 | BIT_STRIP #| BIT_ULL_IN
+    options |= BIT_CAPS
 
-if __name__ == '__main__':
-    main(sys.argv[1:])
+    random_parses = []
+    for sent in sents:
+        num_words = len(sent)
+        curr_parse = []
+        # subtitute words with numbers, as we only care about the parse tree
+        fake_words = ["w{}".format(x) for x in range(1, num_words + 1)]
+        # restore final dot to maintain --ignore functionality
+        if sent[-1] == ".": 
+            fake_words[-1] = "."
+        sent_string = " ".join(fake_words)
+        sentence = Sentence(sent_string, any_dict, po)
+        linkages = sentence.parse()
+        num_parses = len(linkages) # check nbr of linkages in sentence
+        if num_parses > 0:
+            idx = random.randint(0, num_parses - 1) # choose a random linkage index
+            linkage = Linkage(idx, sentence, po._obj) # get the random linkage
+            tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options, "dummy")
+            for link in links:
+                llink = link[0]
+                rlink = link[1]
+                curr_parse.append([str(llink), tokens[llink], str(rlink), tokens[rlink]])
+
+            random_parses.append(curr_parse)
+
+    return random_parses
+
+def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag):
+
+    ref_data = Load_File(ref_file)
+    ref_parses, ref_sents = Get_Parses(ref_data) 
+    if sequential:
+        test_parses = Make_Sequential(ref_sents)
+    elif random_flag:
+        test_parses = Make_Random(ref_sents)
+    else:
+        test_data = Load_File(test_file)
+        test_parses, dummy = Get_Parses(test_data) 
+    if len(test_parses) != len(ref_parses):
+        sys.exit("ERROR: Number of parses differs in files: ", len(test_parses), ", ", len(ref_parses))
+    Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore_WALL)

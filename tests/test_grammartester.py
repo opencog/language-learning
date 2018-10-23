@@ -69,7 +69,7 @@ class GrammarTesterTestCase(unittest.TestCase):
         output_path = "tests/test-data/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
         ref_path = "tests/test-data/parses/poc-english-ref/poc_english_noamb.txt.ull"
 
-        options = BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_PARSE_QUALITY | BIT_RM_DIR | BIT_ULL_IN
+        options = BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_PARSE_QUALITY | BIT_RM_DIR | BIT_ULL_IN | BIT_LG_GR_NAME
         # options = BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_PARSE_QUALITY | BIT_RM_DIR | BIT_ULL_IN
 
         pa, f1, pr, rc = test_grammar(input_corpus, output_path, input_grammar, grammar_root, template_path, 1000,

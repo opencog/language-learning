@@ -59,7 +59,7 @@ class GrammarTesterTestCase(unittest.TestCase):
         # self.assertEqual(25, gt._total_dicts)
         self.assertEqual(88, pm.sentences)
 
-    # @unittest.skip
+    @unittest.skip
     def test_test_grammar(self):
         input_grammar = "en"
         # input_grammar = "tests/test-data/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
@@ -103,14 +103,14 @@ class GrammarTesterTestCase(unittest.TestCase):
         # self.assertAlmostEqual(Decimal("0.6065"), pr, 2)
         # self.assertAlmostEqual(Decimal("0.5324"), rc, 2)
 
-    @unittest.skip
+    # @unittest.skip
     def test_test_grammar_1(self):
-        input_grammar = "tests/test-data/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
-        input_corpus = "tests/test-data/corpora/poc-english/poc_english_noamb_half_1.txt"
+        input_grammar = "tests/test-data/metrics-test/1"
+        input_corpus = "tests/test-data/metrics-test/poc-turtle-parses-gold.txt"
         template_path = "tests/test-data/dict/poc-turtle"
         grammar_root = "/var/tmp/"
-        output_path = "tests/test-data/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
-        ref_path = "tests/test-data/parses/poc-english-ref/poc_english_noamb.txt.ull"
+        output_path = "/var/tmp"
+        ref_path = input_corpus
 
         options = BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_PARSE_QUALITY | BIT_RM_DIR | BIT_ULL_IN
 
@@ -119,19 +119,19 @@ class GrammarTesterTestCase(unittest.TestCase):
 
         print("PA: {:2.4f}\nF1: {:2.4f}\nPrecision: {:2.4f}\nRecall: {:2.4f}\n".format(pa, f1, pr, rc))
 
-        self.assertAlmostEqual(Decimal("0.8167"), pa, 2)
-        self.assertAlmostEqual(Decimal("0.5670"), f1, 2)
-        self.assertAlmostEqual(Decimal("0.6065"), pr, 2)
-        self.assertAlmostEqual(Decimal("0.5324"), rc, 2)
+        self.assertAlmostEqual(Decimal("1.0"), pa, 2)
+        self.assertAlmostEqual(Decimal("1.0"), f1, 2)
+        self.assertAlmostEqual(Decimal("1.0"), pr, 2)
+        self.assertAlmostEqual(Decimal("1.0"), rc, 2)
 
-    @unittest.skip
+    # @unittest.skip
     def test_test_grammar_2(self):
-        input_grammar = "tests/test-data/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
-        input_corpus = "tests/test-data/corpora/poc-english/poc_english_noamb_half_2.txt"
+        input_grammar = "tests/test-data/metrics-test/2"
+        input_corpus = "tests/test-data/metrics-test/poc-turtle-parses-win6.txt"
         template_path = "tests/test-data/dict/poc-turtle"
         grammar_root = "/var/tmp/"
-        output_path = "tests/test-data/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
-        ref_path = "tests/test-data/parses/poc-english-ref/poc_english_noamb.txt.ull"
+        output_path = "/var/tmp"
+        ref_path = "tests/test-data/metrics-test/poc-turtle-parses-gold.txt"
 
         options = BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_PARSE_QUALITY | BIT_RM_DIR | BIT_ULL_IN
 
@@ -140,10 +140,10 @@ class GrammarTesterTestCase(unittest.TestCase):
 
         print("PA: {:2.4f}\nF1: {:2.4f}\nPrecision: {:2.4f}\nRecall: {:2.4f}\n".format(pa, f1, pr, rc))
 
-        self.assertAlmostEqual(Decimal("0.8167"), pa, 2)
-        self.assertAlmostEqual(Decimal("0.5670"), f1, 2)
-        self.assertAlmostEqual(Decimal("0.6065"), pr, 2)
-        self.assertAlmostEqual(Decimal("0.5324"), rc, 2)
+        self.assertAlmostEqual(Decimal("1.0"), pa, 2)
+        self.assertAlmostEqual(Decimal("0.5"), f1, 2)
+        self.assertAlmostEqual(Decimal("0.5"), pr, 2)
+        self.assertAlmostEqual(Decimal("0.5"), rc, 2)
 
     @unittest.skip
     def test_test(self):

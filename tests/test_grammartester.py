@@ -27,24 +27,6 @@ corp = "/home/alex/data/corpora/poc-english/poc_english.txt"
 dest = "/home/alex/data2/parses"
 ref = None  # "/home/alex/data/poc-english/poc_english_noamb_parse_ideal.txt"
 
-# class ParseTestCase(unittest.TestCase):
-#
-#     @unittest.skip
-#     def test_test(self):
-#         pr = LGInprocParser()
-#         # pr = LGApiParser()
-#
-#         print(dict, corp, dest, ref, sep="\n")
-#
-#         gt = GrammarTester(grmr, tmpl, limit, pr)
-#         pm, pq = gt.test(dict, corp, dest, ref, opts)
-#
-#         print(pm.text(pm))
-#         # print(pq.text(pq))
-#
-#         # self.assertEqual(25, gt._total_dicts)
-#         self.assertEqual(88, pm.sentences)
-
 
 # @unittest.skip
 class GrammarTesterTestCase(unittest.TestCase):
@@ -76,22 +58,6 @@ class GrammarTesterTestCase(unittest.TestCase):
                                    options, ref_path)
 
         print("PA: {:2.4f}\nF1: {:2.4f}\nPrecision: {:2.4f}\nRecall: {:2.4f}\n".format(pa, f1, pr, rc))
-
-        # with Popen(["echo", "dummy_line"], stdout=PIPE) as proc_echo , \
-        #         Popen(["link-parser", "-verbosity=1"], stdin=proc_echo.stdout, stdout=PIPE, stderr=PIPE) as proc_link, \
-        #         Popen(["grep", "Library version"], stdin=proc_link.stderr, stdout=PIPE, stderr=PIPE) as proc_grep:
-        # 
-        #     proc_echo.stdout.close()
-        # 
-        #     # Closing grep output stream will terminate it's process.
-        #     proc_link.stdout.close()
-        # 
-        #     # Read pipes to get complete output returned by 'conda'
-        #     raw, err = proc_grep.communicate()
-        # 
-        #     print(raw.decode(), file=sys.stderr)
-        #     # print("err:", err.decode(), file=sys.stderr)
-
 
         self.assertAlmostEqual(Decimal("1.0"), pa, 2)
         self.assertAlmostEqual(Decimal("1.0"), f1, 2)
@@ -168,7 +134,8 @@ class GrammarTesterTestCase(unittest.TestCase):
         # dict = "poc-turtle"
         dict = handle_path_string("tests/test-data/dict/poc-turtle")
         corp = handle_path_string("tests/test-data/corpora/poc-english/poc_english.txt")
-        dest = handle_path_string("tests/test-data/temp")
+        dest = handle_path_string("/var/tmp")
+        # dest = handle_path_string("tests/test-data/temp")
         ref = None  # "/home/alex/data/poc-english/poc_english_noamb_parse_ideal.txt"
 
         pr = LGInprocParser()
@@ -193,7 +160,8 @@ class GrammarTesterTestCase(unittest.TestCase):
         # dict = "poc-turtle"
         dict = handle_path_string("tests/test-data/dict/poc-turtle")
         corp = handle_path_string("tests/test-data/corpora/poc-english-multi")
-        dest = handle_path_string("tests/test-data/temp")
+        dest = handle_path_string("/var/tmp")
+        # dest = handle_path_string("tests/test-data/temp")
         ref = None  # handle_path_string("test-data/parses/poc-english-multi-ref")
 
         pr = LGInprocParser()
@@ -220,7 +188,8 @@ class GrammarTesterTestCase(unittest.TestCase):
         # dict = handle_path_string("tests/test-data/dict/poc-turtle")
         corp1 = handle_path_string("tests/test-data/corpora/poc-english/poc_english.txt")
         corp2 = handle_path_string("tests/test-data/corpora/poc-english-multi")
-        dest = handle_path_string("tests/test-data/temp")
+        dest = handle_path_string("/var/tmp")
+        # dest = handle_path_string("tests/test-data/temp")
         ref1 = handle_path_string("tests/test-data/parses/poc-english-ref/poc_english.txt.ull")
         ref2 = handle_path_string("tests/test-data/parses/poc-english-multi-ref")
 

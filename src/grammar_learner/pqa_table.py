@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/pqa_table.py                    81019
+# language-learning/src/grammar_learner/pqa_table.py                    # 81022
 # Test Grammar Learner to fill in ULL Project Plan Parses spreadshit
 import os, sys, time
 from ..common import handle_path_string
@@ -8,7 +8,7 @@ from .read_files import check_dir
 from .learner import learn_grammar
 
 
-def params(corpus, dataset, module_path, out_dir, **kwargs):
+def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81022
     input_parses = module_path + '/data/' + corpus + '/' + dataset
     if check_dir(input_parses, create=False, verbose='min'):
         batch_dir = out_dir + '/' + corpus
@@ -24,15 +24,17 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):
             wtf = 'Random-clusters'
         elif kwargs['word_space'] == 'vectors':
             wtf = 'DRK'
-        else: wtf = 'ILE'
+        elif kwargs['word_space'] == 'discrete':
+            wtf = 'ILE'
+        elif kwargs['word_space'] == 'sparse':
+            wtf = 'ALE'
+        else: wtf = '???'
         if kwargs['left_wall'] in ['', 'none']:
             left_wall = 'no-LW'
         else: left_wall = 'LW'
         if kwargs['period']:
-            period = 'RW'       # 81018 'period ⇒ 'RW'
+            period = 'RW'
         else: period = 'no-RW'
-        # generalization = ['no-generalization', 'generalized-categories', \
-        #    'generalized-rules', 'generalized-categories-and-rules']
         generalization = ['no-gen', 'gen-cats', 'gen-rules', 'gen-both']
         gen = 0
         if 'categories_generalization' in kwargs:
@@ -64,16 +66,15 @@ def pqa_meter(dict_path, output_path, corpus_path, reference_path, **kwargs):
     options = BIT_SEP_STAT | BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_RM_DIR | BIT_DPATH_CREATE | BIT_LOC_LANG | BIT_PARSE_QUALITY | BIT_ULL_IN  # | BIT_OUTPUT_DIAGRAM #| BIT_SEP_STAT
     # 80719: BIT_ULL_IN :: use ull parses as test corpus
     # 80719: BIT_CAPS  :: preserve caps in parses, process inside Grammar Learner
-    #-pa, pq, pqa = test_grammar(corpus_path, output_path, dict_path, \
     pa, f1, precision, recall = test_grammar(corpus_path, output_path, dict_path,
         grammar_path, template_path, linkage_limit, options, reference_path)
-    pa = float(pa) # / 100.0  # FIXME: remove /100 with new grammar_tester update
-    recall = float(recall) # / 100.0  # TODO: pq = float(recall)
+    pa = float(pa)
+    recall = float(recall)
 
     return pa, f1, precision, recall
 
 
-def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):      # 81018
+def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81021
     # cp,rp: corpus_path, rp: reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
@@ -89,8 +90,12 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):      # 81018
             spaces += 'd'
         if kwargs['word_space'] == 'vectors':
             spaces += 'DRK'
-        else:
+        elif kwargs['word_space'] == 'discrete':
             spaces += 'ILE'
+        elif kwargs['word_space'] == 'sparse':
+            spaces += 'ALE'
+        else:
+            spaces += '???'
     if kwargs['grammar_rules'] == 1:
         spaces += 'c'
     elif kwargs['grammar_rules'] == -1:  # 80825 interconnected connector-style
@@ -138,7 +143,7 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):      # 81018
         fm = []  # F-measure
         rules = []
         for j in range(runs[0]):
-            try:
+            if True: # try: #
                 re = learn_grammar(**kwargs)
                 if 'silhouette' in re:
                     s = round(re['silhouette'], 2)
@@ -146,7 +151,7 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):      # 81018
                 else:
                     s = 0
                     s_str = ' --- '
-            except:
+            else: # except: #
                 if kwargs['verbose'] not in ['none']:
                     print('pqa_table.py table_rows: learn_grammar(**kwargs)',
                           '⇒ exception:\n', sys.exc_info())

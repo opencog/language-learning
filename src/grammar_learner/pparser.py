@@ -1,10 +1,10 @@
-#language-learning/src/graammar_learner/pparser.py                      #80829
+# language-learning/src/graammar_learner/pparser.py                     # 81024
 import numpy as np
 import pandas as pd
 from .corpus_stats import corpus_stats
 
 
-def mst2words(lines, **kwargs):         #80717
+def mst2words(lines, **kwargs):
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     lw  = kwa('', 'left_wall')
     dot = kwa(False, 'period')
@@ -21,35 +21,31 @@ def mst2words(lines, **kwargs):         #80717
                     pairs.append([x[1], x[3]])    # ~1Mlines/s
     df = pd.DataFrame(pairs, columns=['word','link'])
     df['count'] = 1
-    return df  #endof mst2words
+
+    return df
 
 
-def mst2connectors(lines, **kwargs):    #80716
-    def kwa(v,k): return kwargs[k] if k in kwargs else v
-    lw  = kwa('', 'left_wall')
-    dot = kwa(False, 'period')
+def mst2connectors(lines, **kwargs):
     df = mst2words(lines, **kwargs)
     lefts = df.copy()
     lefts['word'] = lefts['word'] + '-'
     lefts = lefts.rename(columns={'word':'link', 'link':'word'})
     df['link'] = df['link'] + '+'
     links = pd.concat([lefts, df], axis=0, ignore_index=True, sort=True)
-    #80605: group later?:
-    #-links = pd.concat([lefts, df], axis=0, ignore_index=True) \
-    #-    .groupby(['word','link'], as_index=False).sum() \
-    #-    .sort_values(by=['count','word','link'], ascending=[False,True,True]) \
-    #-    .reset_index(drop=True)
+
     return links
 
 
-def mst2disjuncts(lines, **kwargs):     #80717 +80726 debug dILEd case (lost LW)
+def mst2disjuncts(lines, **kwargs):                                     # 81024
     def kwa(v,k): return kwargs[k] if k in kwargs else v
-    lw      = kwa(  '',     'left_wall' )
-    dot     = kwa(  False,  'period'    )
-    context = kwa(  2,      'context'   )
+    lw  = kwa('', 'left_wall')
+    dot = kwa(False, 'period')
+
+    if len(lines[-1]) > 0: lines.append([])  # 81024
     pairs = []
     links = dict()
     words = dict()
+
     def save_djs(words,links):
         if kwargs['verbose'] in ['debug']:
             print('save_djs: words, links:', words, links)
@@ -96,7 +92,7 @@ def mst2disjuncts(lines, **kwargs):     #80717 +80726 debug dILEd case (lost LW)
                     words,links = save_djs(words,links)
             else:  # sentence starting with letter
                 words,links = save_djs(words,links)
-        else:  # empty line or last LR = same as previous else #80411
+        else:  # empty line or last LR = same as previous else
             words,links = save_djs(words,links)
 
     df = pd.DataFrame(pairs, columns=['word','link'])
@@ -105,12 +101,10 @@ def mst2disjuncts(lines, **kwargs):     #80717 +80726 debug dILEd case (lost LW)
     return df
 
 
-def files2links(**kwargs):              #80829
+def files2links(**kwargs):
     def kwa(v,k): return kwargs[k] if k in kwargs else v
-    parse_mode      = kwa('lower',  'parse_mode')    # 'casefold' ? #80714
+    parse_mode      = kwa('lower',  'parse_mode')    # 'casefold' ?
     # parse_mode: 'given'~ as parsed, 'lower', 'casefold', 'explode' ⇒ maniana...
-    #-left_wall       = kwa('',       'left_wall')
-    #-period          = kwa(False,    'period')
     context         = kwa(2,        'context')
     group           = True  # always? kwa(True,     'group')
     verbose         = kwa('none',   'verbose')
@@ -147,9 +141,8 @@ def files2links(**kwargs):              #80829
             else y for y in x.split() ]) for x in lines]
 
     response = corpus_stats(lines)
-    #80817 Update corpus stats:
     ordnung = ['word','link','count']
-    #-wdf = mst2words(lines, **kwargs)[ordnung]
+    # wdf = mst2words(lines, **kwargs)[ordnung]
     cdf = mst2connectors(lines, **kwargs)[ordnung]
     ddf = mst2disjuncts(lines, **kwargs)[ordnung]
 
@@ -160,7 +153,6 @@ def files2links(**kwargs):              #80829
     unique_seeds = ddf.groupby(['word','link'], as_index=False).sum()
     avg_seed_count = round(len(ddf) / len(unique_seeds), 1)
 
-    #80831 Average, max disjunct length:
     ddf['djlen'] = ddf['link'].apply(lambda x: x.count('&') +1)
     avg_disjunct_length = round(ddf['djlen'].mean(), 1)
     max_disjunct_length = ddf['djlen'].max()
@@ -203,23 +195,12 @@ def files2links(**kwargs):              #80829
         'word-term_pairs': len(df.groupby(['word','link'], as_index=False).sum())
     })
 
-    response.update({'cdf': cdf, 'ddf': ddf})  #FIXME:DEL
-
     return df, response
 
 
 #Notes:
 
-#80406 POC: Proof of Concepf: Grammar Learner 0.1, POC-English-NoAmb
-#80507 kwargs ⇒ files2links
-#80528 poc04 ⇒ poc05
-#80601 mst2words pd.df ⇒ pairs []
-#80604 mst2disjuncts pd.df ⇒ pairs []
-#80605 corpus_stats
-#80714 files2links - to_lower_case
-#80716 conflicts - manual cleanup
-#80717 update, 80718 commit from 94..server
-#80725 POC 0.1-0.4 deleted, 0.5 restructured - this module was src/space/poc05.py
-#80802 corpus_stats ⇒ corpus_stats.py
-#80829 files2links: Average, max disjunct lengths
-#TODO: control & limit number of links in disjuncts? #80406
+# 80725 POC 0.1-0.4 deleted, 0.5 restructured - this module was src/space/poc05.py
+# 80802 corpus_stats ⇒ corpus_stats.py
+# 80829 files2links: Average, max disjunct lengths
+# 81024 line 24: cure case of MST parses file last line not ending with CR

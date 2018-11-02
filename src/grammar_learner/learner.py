@@ -11,6 +11,7 @@ from .utl import UTC
 from .read_files import check_dir, check_mst_files
 from .pparser import files2links
 from .category_learner import learn_categories, add_disjuncts, cats2list
+# from ..grammar_learner_.grammar_inducer_ import induce_grammar   # tested 81029-31
 from .grammar_inducer import induce_grammar
 from .generalization import generalize_categories, generalize_rules
 from .write_files import list2file, save_link_grammar, save_cat_tree

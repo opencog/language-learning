@@ -1,34 +1,43 @@
-# language-learning/src/grammar_inducer.py                              81012
+# language-learning/src/grammar_learner_/grammar_inducer_.py    shadow  # 81025
 from copy import deepcopy
-from .category_learner import cats2list
-from .widgets import display, html_table
-from .utl import UTC
+from collections import Counter
+from typing import List, Tuple
+from .category_learner_ import cats2list
+from ull.grammar_learner.utl import UTC
 
-def induce_grammar(categories, links, verbose='none'):      # 81012
-    # categories: {'cluster': [], 'words': [], ...}
-    # links: pd.DataFrame (legacy)
-    if verbose in ['max','debug']:
-        print(UTC(),':: induce_grammar: categories.keys():', categories.keys())
+
+def induce_grammar(categories, **kwargs):  # 81025
+    # categories == {'cluster': [], 'words': [], ...}
+    def kwa(v, k):
+        return kwargs[k] if k in kwargs else v
+
+    max_disjuncts = kwa(1000, 'max_disjuncts')  # 81025
+    verbose = kwa('none', 'verbose')
+
+    # verbose = 'debug'  # 81031 FIXME:DEL
+
+    if verbose in ['max', 'debug']:
+        print(UTC(), ':: induce_grammar: categories.keys():', categories.keys())
+
     rules = deepcopy(categories)
+    dj_counts = Counter()  # 81025
 
-    clusters = [i for i,x in enumerate(rules['cluster']) if i>0 and x is not None]
+    clusters = [i for i, x in enumerate(rules['cluster']) if i > 0 and x is not None]
     word_clusters = dict()
     for i in clusters:
         for word in rules['words'][i]:
             word_clusters[word] = i
 
-    if verbose in ['max','debug']:
+    if verbose in ['max', 'debug']:
         print('induce_grammar: rules.keys():', rules.keys())
         print('induce_grammar: clusters:', clusters)
-        print('induce_grammar: word_clusters:', word_clusters)
+        # print('induce_grammar: word_clusters:', word_clusters)
         print('induce_grammar: rules ~ categories:')
 
     for cluster in clusters:
         djs = []
-        for rule in categories['disjuncts'][cluster]:  #FIXME: categories ⇒ rules 80621
-            # 'a- & was-' ⇒ (-9,-26)
-            #+TODO? (-x,-y,z) ⇒ (-x,z), (-y,z) ?
-            if type(rule) is str:
+        for i, rule in enumerate(categories['disjuncts'][cluster]):  # 81025
+            if type(rule) is str:  # 'a- & was-' ⇒ (-9,-26)    reverse   81012
                 x = rule.split()
                 lefts = []
                 rights = []
@@ -39,29 +48,42 @@ def induce_grammar(categories, links, verbose='none'):      # 81012
                         elif y[-1] == '-':
                             lefts.append(-1 * word_clusters[y[:-1]])
                         else:
-                            print('no sign?', y, 'in', x)  #TODO:ERROR?
-                lefts.reverse()
+                            print('no sign?', y, 'in', x)  # TODO:ERROR?
+                lefts.reverse()  # 81012
                 dj = lefts + rights
                 if len(dj) > 0:
                     djs.append(tuple(dj))
+                    dj_counts[tuple(dj)] += categories['dj_counts'][cluster][i]
                 if verbose == 'debug':
-                    print('induce_gramma: cluster', cluster, '::', rule, '⇒', tuple(dj))
-            #TODO? +elif type(rule) is tuple? connectors - tuples?
+                    print(f'induce_grammar_: cluster {cluster}: {rule} ⇒ {tuple(dj)}')
+            # TODO? +elif type(rule) is tuple? connectors - tuples?
         rules['disjuncts'][cluster] = set(djs)
-        if verbose == 'debug':
-            print('induce_grammar: rules["disjuncts"]['+str(cluster)+']', rules['disjuncts'][cluster])
-    #rules['djs'] = copy.deepcopy(rules['disjuncts'])  #TODO: check jaccard with tuples else replace with numbers
 
-    if verbose == 'debug':
-        print('induce_grammar: updated disjuncts:')
-        display(html_table([['Code','Parent','Id','Quality','Words', 'Disjuncts', 'djs','Relevance','Children']] \
-            + [x for i,x in enumerate(cats2list(rules)) if i < 32]))
+        if verbose in ['max', 'debug']:
+            print('induce_grammar: rules["disjuncts"][' + str(cluster) + ']', len(rules['disjuncts'][cluster]),
+                  'rules,', len(dj_counts), 'total unique disjunts')
 
-    return rules, {'learned_rules': \
-                    len([x for i,x in enumerate(rules['parent']) if x==0 and i>0]), \
+    # 81025 add only top (filtered) disjuncts:
+    top_djs = set([x[0] for x in dj_counts.most_common(max_disjuncts)])
+
+    if verbose in ['debug']:
+        print(max_disjuncts, 'top_djs:', top_djs)
+        for cluster in clusters:
+            rules['disjuncts'][cluster] = top_djs & rules['disjuncts'][cluster]
+        print('\nrules:')
+        nr = 0
+        for cluster in clusters:
+            print('\n', cluster, len(rules['disjuncts'][cluster]))  #, 'rules:'),
+            # rules['disjuncts'][cluster])
+            nr += len(rules['disjuncts'][cluster])
+        print('Total:', nr)
+
+    # rules['djs'] = deepcopy(rules['disjuncts'])  # no need: conversion in g12n
+    # TOD0?: check jaccard with tuples else replace with numbers?
+
+    return rules, {'learned_rules': len([x for i, x in enumerate(rules['parent']) if x == 0 and i > 0]), \
                    'total_clusters': len(rules['cluster']) - 1}
 
+# Notes:
 
-#Notes:
-
-#80802 poc05.py restructured: induce_grammar ⇒ grammar_inducer.py v~80625
+# 80802 poc05.py restructured: induce_grammar ⇒ grammar_inducer.py v~80625

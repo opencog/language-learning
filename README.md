@@ -1,12 +1,9 @@
 # SingularityNET Unsupervised Language Learning project
 
 ## Dependencies
-* Anaconda 3
-* Numpy
-* Pandas
-* Scikit-Learn
-* Cython
-* SparseSVD
+* Anaconda 3 Python 3.6
+* numpy, pandas, scipy, scikit-learn, cython
+* SparseSVD Anaconda package
 * Jupyter notebook
 * Matplotlib
 
@@ -44,7 +41,9 @@ The `--prune` key would force remove packages not specified in the `.yml` file.
 If you have added come packages to the environment, you would rather let them prune and add after the update. Otherwise vwrsion conflicts might occur.  
 You might need to reinstall Grammar Tester after environment update.
 
-## Grammar Tester Installation
+## Grammar Tester 
+
+### Installation
 
 From `language-learning` directory run:
 
@@ -66,17 +65,19 @@ To uninstall the package type:
 $ pip uninstall opencog-ull
 ```
 
-## Running command line scripts
+### Running command line scripts
 
 Command line scripts (which are located in `src/cli-scripts`) can be run from any location. In activated virtual
 environment type the name of the script you need to run.
 
-## Calling library functions from within your code
+### Calling library functions from within your code
 
 If you are going to use grammar tester from within your own code see `src/samples` for use cases.
 
 
-## Runing Jupyter notebooks
+## Jupyter notebooks
+
+### Running on a local machine (with opencog-ull istalled)
 ```
 $ cd ~/language-learning
 $ source activate ull

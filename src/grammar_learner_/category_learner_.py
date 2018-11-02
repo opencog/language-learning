@@ -4,7 +4,8 @@ from collections import OrderedDict
 from ull.grammar_learner.utl import UTC # , round1,round2,round3,round4,round5
 from ull.grammar_learner.read_files import check_dir  # , check_mst_files
 from ull.grammar_learner.hyperwords import vector_space_dim, pmisvd
-from .clustering_ import best_clusters, group_links, random_clusters
+from ..grammar_learner.sparse_word_space import clean_links, co_occurrence_matrix, categorical_distribution
+# from .sparse_word_space_ import clean_links, co_occurrence_matrix, categorical_distribution
 from ull.grammar_learner.write_files import list2file, save_link_grammar
 
 

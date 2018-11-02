@@ -6,6 +6,11 @@ from ull.grammar_learner.read_files import check_dir  # , check_mst_files
 from ull.grammar_learner.hyperwords import vector_space_dim, pmisvd
 from ..grammar_learner.sparse_word_space import clean_links, co_occurrence_matrix, categorical_distribution
 # from .sparse_word_space_ import clean_links, co_occurrence_matrix, categorical_distribution
+# from .clustering_ import cluster_id, best_clusters, group_links, random_clusters
+# from .skl_clustering_ import optimal_clusters
+from ..grammar_learner.sparse_word_space import clean_links, co_occurrence_matrix, categorical_distribution
+from ..grammar_learner.clustering import cluster_id, best_clusters, group_links, random_clusters
+from ..grammar_learner.skl_clustering import optimal_clusters
 from ull.grammar_learner.write_files import list2file, save_link_grammar
 
 
@@ -99,53 +104,80 @@ def learn_categories(links, **kwargs):      #80802 poc05 restructured learner.py
         clusters = random_clusters(links, **kwargs)
         log.update({'clusters': 'random'})
 
-    #'''DRK'''   #-if word_space == 'vectors':
-    #!if word_space[0] in ['v','e']:  #or context == 1 or algorithm == 'kmeans':
-    elif word_space[0] in ['v','e']:  #80825 tmp add Random Clusters FIXME:DEL
-        # word_space options: v,e: 'vectors'='embeddings' | d,w: 'discrete'='word_vectors'
-        if verbose in ['max','debug']:
-            print(UTC(),':: category_learner: DRK: context =', str(context)+',',
-                  'dim_max:', dim_max, ', sv_min:', sv_min,
-                  ', word_space: '+word_space+', algorithm:', algorithm)
-        #-dim = vector_space_dim(links, dict_path, tmpath, dim_max, sv_min, verbose)
-        #-80420 dict_path ⇒ tmpath :: dir to save vectors.txt
+    # «ILE» ?elif word_space[0] in ['d','w']   # d,w: 'discrete'='word_vectors'
+    elif algorithm == 'group' or word_space[0] == 'd':  # «ILE»: 'discrete' word_space
+        log.update({'clustering': 'ILE'})
+        if verbose in ['max', 'debug']:
+            print(UTC(), ':: category_learner ⇒ ILE group_links: context =', \
+                  str(context) + ', word_space: ' + str(word_space) + ', algorithm:', algorithm)
+        cdf = group_links(links, verbose)
+        if verbose not in ['min', 'none']:
+            print(UTC(), ':: ILE:', len(clusters), 'clusters of identical lexical entries', type(clusters))
 
+    # «DRK» ?if word_space[0] in ['v','e'] or context == 1 or algorithm == 'kmeans':
+    elif word_space[0] in ['v', 'e']:  # «DRK» legacy Grammar Learner 0.6
+        # word_space :: v,e: 'vectors'='embeddings' | 'discrete', 'sparse'
+        if verbose in ['max', 'debug']:
+            print(UTC(), ':: category_learner: DRK: context =', str(context) + ',', 'dim_max:', dim_max, ', sv_min:',
+                  sv_min, ', word_space: ' + word_space + ', algorithm:', algorithm)
+        dict_path = tmpath  # dir to save vectors.txt   # 80420: = tmpath
         try:
-            dim = vector_space_dim(links, tmpath, tmpath, dim_max, sv_min, verbose)
-        except: dim = dim_max
-
+            dim = vector_space_dim(links, dict_path, tmpath, dim_max, sv_min, verbose)
+        except:
+            dim = dim_max
         log.update({'vector_space_dim': dim})
-        if verbose in ['mid','max','debug']:
-            print(UTC(),':: category_learner: vector space dimensionality:', dim, '⇒ pmisvd')
-        #-vdf, sv, res3 = pmisvd(links, dict_path, tmpath, dim)
-        vdf, sv, re01 = pmisvd(links, tmpath, tmpath, dim)
+        if verbose in ['mid', 'max', 'debug']:
+            print(UTC(), ':: category_learner: vector space dimensionality:', dim, '⇒ pmisvd')
+        # -vdf, sv, res3 = pmisvd(links, dict_path, tmpath, dim)
+        # -vdf, sv, re01 = pmisvd(links, tmpath, tmpath, dim)    # 81021:
+        vdf, sv, re01 = pmisvd(links, dict_path, tmpath, dim)
         log.update(re01)
-        if verbose in ['max','debug']:
-            print(UTC(),':: category_learner: pmisvd returned vdf, svd, re01')
-    #-if algorithm == 'kmeans':
-        #-n_clusters = number_of_clusters(vdf, cluster_range, algorithm,  \
-        #-    criteria=cluster_criteria, level=cluster_level, verbose=verbose)
-        #-log.update({'n_clusters': n_clusters})
-        #-clusters, silhouette, inertia = cluster_words_kmeans(vdf, n_clusters)
-        if verbose in ['max','debug']:
-            print(UTC(),':: category_learner: ⇒ best_clusters')     #80803
-        clusters, silhouette, inertia = best_clusters(vdf, **kwargs)
-        log.update({'n_clusters': len(clusters)})
+        if verbose in ['max', 'debug']:
+            print(UTC(), ':: category_learner: pmisvd ⇒ best_clusters')
+        cdf, silhouette, inertia = best_clusters(vdf, **kwargs)
         log.update({'silhouette': silhouette, 'inertia': inertia})
 
-    #?elif type(algorithm) is stringg and algorithm[:5] in ['group','ident']:
-    #?elif word_space[0] in ['d','w']   # d,w: 'discrete'='word_vectors'
-    else:
-        if verbose in ['max', 'debug']:
-            print(UTC(),':: category_learner ⇒ ILE group_links: context =', \
-                str(context)+', word_space: '+str(word_space)+', algorithm:', algorithm)
-        clusters = group_links(links, verbose)
-        log.update({'n_clusters': len(clusters)})
-        if verbose not in ['min','none']:
-            print(UTC(),':: ILE:', len(clusters), \
-                'clusters of identical lexical entries', type(clusters))
+    # Sparse word space, agglomerative clustering 81021, ... ⇒ any clustering
+    elif word_space[0] == 's':  # sparse
+        log.update({'clustering': 'agglomerative'})
+        linx, words, features = clean_links(links, **kwargs)
+        print(
+            f'{len(links)} links: {len(set(links["word"].tolist()))} unique words, {len(set(links["link"].tolist()))} links')
+        print(f'words: len {len(words)}, min {min(words)}, max {max(words)}')
+        print(f'features: len {len(features)}, min {min(features)}, max {max(features)}')
+        print(f'features: {features}')
+        print(f'linx: {linx}')
+        counts = co_occurrence_matrix(linx, **kwargs)
+        print(f'counts: {counts}')
+        cd = categorical_distribution(counts, **kwargs)
+        print(f'counts.shape {counts.shape},cd.shape {cd.shape}')
 
-    return cdf2cats(clusters, **kwargs), log    # 81020: cdr2cats
+        labels, metrics, centroids = optimal_clusters(cd, **kwargs)  # skl_clustering.py
+
+        print(f'labels: {labels},\n{len(sorted(np.unique(labels)))} unique: {sorted(np.unique(labels))}')
+
+        log.update({'silhouette': metrics['silhouette_index']})
+        # labels ⇒ cdf (legacy, extracted from agglomerative_clustering:
+        cdf['cluster'] = sorted(np.unique(labels))  # set(labels)
+        clusters = {x: [] for x in cdf['cluster'].tolist()}
+
+        for i, x in enumerate(words): clusters[labels[i]].append(x)
+        cdf['cluster_words'] = cdf['cluster'].apply(lambda x: clusters[x])
+        cdf['cluster'] = range(1, len(cdf) + 1)
+        cdf['cluster'] = cdf['cluster'].apply(lambda x: cluster_id(x, len(cdf)))
+
+
+    else:  # overkill: ILE
+        if verbose in ['max', 'debug']:
+            print(UTC(), ':: category_learner ⇒ else ⇒ ILE group_links')
+        cdf = group_links(links, verbose)
+        log.update({'clustering': 'else: ILE'})
+
+    log.update({'n_clusters': len(cdf)})
+
+    print('\ncategory_learner: log:\n', log)
+
+    return cdf2cats(cdf, **kwargs), log  # 81020: cdf2cats
 
 
 def cats2list(cats):    #80609

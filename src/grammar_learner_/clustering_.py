@@ -47,7 +47,7 @@ def cluster_words_kmeans(words_df, n_clusters, init='k-means++', n_init=10):
 
     return cdf, silhouette, inertia
 
-'''
+
 def number_of_clusters(vdf, **kwargs):                                  #80809
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     algorithm   = kwa('kmeans',     'clustering')
@@ -121,7 +121,7 @@ def number_of_clusters(vdf, **kwargs):                                  #80809
             print(UTC(),':: number_of_clusters:', sorted(lst), \
                 '⇒', n_clusters, 'clusters weighted average')
     return int(n_clusters)
-'''
+
 
 def best_clusters(vdf, **kwargs):                                       # 81021
     def kwa(v,k): return kwargs[k] if k in kwargs else v

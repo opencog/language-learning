@@ -1,8 +1,7 @@
 name: ull-old
 channels:
-  - anaconda
-  - conda-forge
   - defaults
+  - conda-forge
   - opencog-ull
 dependencies:
   - _nb_ext_conf=0.4.0=py36_1

@@ -143,7 +143,7 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81021
         fm = []  # F-measure
         rules = []
         for j in range(runs[0]):
-            if True: # try: #
+            try: # if True: #
                 re = learn_grammar(**kwargs)
                 if 'silhouette' in re:
                     s = round(re['silhouette'], 2)
@@ -151,7 +151,7 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81021
                 else:
                     s = 0
                     s_str = ' --- '
-            else: # except: #
+            except: # else: #
                 if kwargs['verbose'] not in ['none']:
                     print('pqa_table.py table_rows: learn_grammar(**kwargs)',
                           '⇒ exception:\n', sys.exc_info())

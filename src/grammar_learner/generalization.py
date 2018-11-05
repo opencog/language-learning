@@ -85,7 +85,6 @@ def aggregate(categories, threshold, similarity_function, verbose='none'):
         cats['djs'] = [set([d[x] for x in y]) for y in cats['disjuncts']]
         # ToD0? sort by frequency? Counter([x for y in cats['disjuncts'] for x in y]).most_common()...
 
-
         if verbose == 'debug':
             print('aggregate: words[' + str(new_cluster_id) + ']:', cats['words'][new_cluster_id])
             print('aggregate: disjuncts[' + str(new_cluster_id - 1) + ']:', cats['disjuncts'][new_cluster_id - 1])
@@ -133,13 +132,15 @@ def reorder(cats):
 
     for key in cats.keys():
         if key not in ['cluster', 'parent']:
-            new_cats[key] = [cats[key][i] for i in ordnung]
+            # new_cats[key] = [cats[key][i] for i in ordnung]  # 81105:
+            new_cats[key] = [cats[key][i] if i < len(cats[key]) else None for i in ordnung]
 
     for i, item in enumerate(new_cats['children']):
         if type(item) is set and len(item) > 0:
             new_cats['children'][i] = set([ordnung.index(x) for x in item])
 
-    rules = [i for i, x in enumerate(new_cats['parent']) if (x == 0 and i > 0)]  # and type(list(new_cats['parent'][i])[0]) is tuple)]
+    rules = [i for i, x in enumerate(new_cats['parent']) if
+             (x == 0 and i > 0)]  # and type(list(new_cats['parent'][i])[0]) is tuple)]
     sign = lambda x: (1, -1)[x < 0]
     for rule in rules:
         if type(list(new_cats['disjuncts'][rule])[0]) is tuple:

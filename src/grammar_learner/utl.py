@@ -1,6 +1,5 @@
-#language-learning/src/grammar_learner/utl.py  #80625
-import datetime
-import time
+# language-learning/src/grammar_learner/utl.py                          # 81107
+import datetime, time
 
 
 def UTC():
@@ -37,3 +36,7 @@ def timer(string, t0=0):
             dt = int(round(dt,0))
             print(UTC(), '::', string, 'in', int(round(dt/60,0)), 'minutes')
     return t1,dt
+
+
+def kwa(v, k, **kwargs):  # 81107
+    return kwargs[k] if k in kwargs else v

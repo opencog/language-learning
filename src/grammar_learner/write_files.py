@@ -1,5 +1,5 @@
-# language-learning/src/grammar_learner/write_files.py                  # 81105
-import os
+# language-learning/src/grammar_learner/write_files.py                  # 81108
+import os, linkgrammar
 from collections import OrderedDict
 from copy import deepcopy
 from .utl import UTC
@@ -73,7 +73,7 @@ def rules2list(rules_dict, grammar_rules=2, verbose='none'):
 
 
 def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=''):
-    # rules: [] or {} -
+    # rules: [] or {}
     # grammar_rules = kwargs['grammar_rules']: 1 ⇒ connectors, 2+ ⇒ disjuncts
 
     if type(rules) is dict:
@@ -110,13 +110,19 @@ def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=
         out_file = out_file + str(len(clusters)) + 'C_' + str(UTC())[:10] + '_0006.4.0.dict'
     else:
         raise FileNotFoundError('File not found', output_grammar)
+
+    # TODO: Link Grammar 5.4.x ⇒ 5.5.1: delete 'if' statements:
     if header == '':
-        header = '% Grammar Learner v.0.6 ' + str(UTC())
+        if linkgrammar.__version__ == '5.4.4':
+            header = '% Grammar Learner v.0.6 ' + str(UTC())
+        else:
+            header = '% Grammar Learner v.0.7 ' + str(UTC())
     header = header + '\n' + '<dictionary-version-number>: V0v0v6+;\n' + '<dictionary-locale>: EN4us+;'
 
-    # TODO: Link Grammar 5.4.x ⇒ 5.5.1: comment the next line and uncomment the following one
-    add_rules = 'UNKNOWN-WORD: XXX+;'  # comment this line for Link Grammar 5.5.1
-    # add_rules = '<UNKNOWN-WORD>: XXX+;'  # uncomment this line for Link Grammar 5.5.1
+    if linkgrammar.__version__ == '5.4.4':
+        add_rules = 'UNKNOWN-WORD: XXX+;'
+    else:
+        add_rules = '<UNKNOWN-WORD>: XXX+;'
 
     if footer == '':
         footer = '% ' + str(len(clusters)) + ' word clusters, ' + str(
@@ -200,3 +206,4 @@ def save_cat_tree(cats, output_categories, verbose='none'):
 # 80929 save_link_grammar ⇒ 0.6
 # 81003 save_link_grammar: Link Grammar ⇒ 5.5.1: UNKNOWN-WORD ⇒ <UNKNOWN-WORD>
 # 81105 lines 121-123: ready to upgrade Link Grammar 5.4.4 ⇒ 5.5.1
+# 81108 lines 116-125: check Link Grammar version and adapt grammar rules

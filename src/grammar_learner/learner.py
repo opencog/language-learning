@@ -1,4 +1,4 @@
-# language-learning/src/learner.py                                      # 81021
+# language-learning/src/learner.py                                      # 81106
 import os
 from copy import deepcopy
 import pickle, numpy as np, pandas as pd
@@ -6,7 +6,7 @@ from shutil import copy2 as copy
 from IPython.display import display
 from collections import OrderedDict
 from .widgets import html_table
-from .utl import UTC
+from .utl import UTC, kwa
 from .read_files import check_dir, check_mst_files
 from .pparser import files2links
 from .category_learner import learn_categories, add_disjuncts, cats2list
@@ -18,16 +18,13 @@ __all__ = ['learn_grammar']
 
 
 def learn_grammar(**kwargs):
-    log = OrderedDict({'start': str(UTC()), 'learn_grammar': 'v.0.6.80929'})
-
-    def kwa(v, k):
-        return kwargs[k] if k in kwargs else v
+    log = OrderedDict({'start': str(UTC()), 'learn_grammar': 'v.0.7.81109'})
 
     input_parses = kwargs['input_parses']
     output_grammar = kwargs['output_grammar']
-    output_categories = kwa('', 'output_categories')
-    output_statistics = kwa('', 'output_statistics')
-    temp_dir = kwa('', 'temp_dir')
+    output_categories = kwa('', 'output_categories', **kwargs)
+    output_statistics = kwa('', 'output_statistics', **kwargs)
+    temp_dir = kwa('', 'temp_dir', **kwargs)
     if os.path.isdir(output_grammar):
         prj_dir = output_grammar
     else:
@@ -43,14 +40,11 @@ def learn_grammar(**kwargs):
         if os.path.isdir(temp_dir):
             kwargs['tmpath'] = temp_dir
 
-    context = kwa(1, 'context')
-    word_space = kwa('vectors', 'word_space')
-    clustering = kwa('kmeans', 'clustering')  # TODO: update
-    cluster_range = kwa((2, 48, 1), 'cluster_range')
-    cats_gen = kwa('off', 'categories_generalization')
-    grammar_rules = kwa(1, 'grammar_rules')
-    verbose = kwa('none', 'verbose')
-    tmpath = kwa('', 'tmpath')
+    context = kwa(1, 'context', **kwargs)
+    clustering = kwa('kmeans', 'clustering', **kwargs)  # TODO: update
+    cats_gen = kwa('off', 'categories_generalization', **kwargs)
+    grammar_rules = kwa(1, 'grammar_rules', **kwargs)
+    verbose = kwa('none', 'verbose', **kwargs)
 
     files, re01 = check_mst_files(input_parses, verbose)
     log.update(re01)

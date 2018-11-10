@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/pqa_table.py                    # 81022
+# language-learning/src/grammar_learner/pqa_table.py                    # 81109
 # Test Grammar Learner to fill in ULL Project Plan Parses spreadshit
 import os, sys, time
 from ..common import handle_path_string
@@ -8,8 +8,12 @@ from .read_files import check_dir
 from .learner import learn_grammar
 
 
-def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81022
+def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81109
     input_parses = module_path + '/data/' + corpus + '/' + dataset
+    if type(kwargs['clustering']) is str:
+        clustering = kwargs['clustering']
+    else:
+        clustering = kwargs['clustering'][0]
     if check_dir(input_parses, create=False, verbose='min'):
         batch_dir = out_dir + '/' + corpus
         spaces = ['w', 'c', 'd']        # 'words','connectors', 'disjuncts'
@@ -27,7 +31,15 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81022
         elif kwargs['word_space'] == 'discrete':
             wtf = 'ILE'
         elif kwargs['word_space'] == 'sparse':
-            wtf = 'ALE'
+            # wtf = 'ALE'  # 81109:
+            if clustering == 'agglomerative':
+                wtf = 'ALE'
+            elif clustering in ['k-means', 'kmeans']:
+                wtf = 'KLE'
+            elif clustering[:4] == 'mean': # ['mean shift', 'mean_shift']:
+                wtf = 'MLE'
+            else:
+                wtf = '?LE'
         else: wtf = '???'
         if kwargs['left_wall'] in ['', 'none']:
             left_wall = 'no-LW'
@@ -81,7 +93,7 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81021
     header = ['Line', 'Corpus', 'Parsing', 'LW', 'RW', 'Gen.', 'Space',
               'Rules', 'Silhouette', 'PA', 'PQ', 'F1']
     spaces = ''
-    if kwargs['clustering'] == 'random':  # 80825 Random clusters
+    if kwargs['clustering'] == 'random':
         spaces += 'RND'
     else:
         if kwargs['context'] == 1:
@@ -93,7 +105,14 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81021
         elif kwargs['word_space'] == 'discrete':
             spaces += 'ILE'
         elif kwargs['word_space'] == 'sparse':
-            spaces += 'ALE'
+            if kwargs['clustering'][0] == 'agglomerative':
+                spaces += 'ALE'
+            elif kwargs['clustering'][0] in ['k-means', 'kmeans']:
+                spaces += 'KLE'
+            elif kwargs['clustering'][0][:4] == 'mean': # ['mean shift', 'mean_shift']:
+                spaces += 'MLE'
+            else:
+                spaces += '?LE'
         else:
             spaces += '???'
     if kwargs['grammar_rules'] == 1:
@@ -216,4 +235,3 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81021
 # -1: connectors #Cxx: {C01Cxx- or ... CnCxx-} and {CxxC01+ or ... CxxCn+}
 # -2: disjuncts  #Cxx: (C01Cxx-) or (C02Cxx-) ... or (CxxCn+)
 # 81018: unified table_rows, ready for next test_grammar, table: PA/PQ/F1
-# TODO: add new test_grammar; add new metrics from updated learn_grammar

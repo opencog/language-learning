@@ -1,18 +1,14 @@
-# language-learning/src/grammar_inducer.py                              # 81102
+# language-learning/src/grammar_inducer.py                              # 81110
 from copy import deepcopy
 from collections import Counter
 from typing import List, Tuple
-from .utl import UTC
+from .utl import UTC, kwa
 
 
 def induce_grammar(categories, **kwargs):  # 81025
     # categories == {'cluster': [], 'words': [], ...}
-    def kwa(v, k):
-        return kwargs[k] if k in kwargs else v
-
-    max_disjuncts = kwa(1000, 'max_disjuncts')  # 81025
-    verbose = kwa('none', 'verbose')
-
+    max_disjuncts = kwa(100000, 'max_disjuncts', **kwargs)
+    verbose = kwa('none', 'verbose', **kwargs)
     if verbose in ['max', 'debug']:
         print(UTC(), ':: induce_grammar: categories.keys():', categories.keys())
 
@@ -59,19 +55,22 @@ def induce_grammar(categories, **kwargs):  # 81025
             print('induce_grammar: rules["disjuncts"][' + str(cluster) + ']', len(rules['disjuncts'][cluster]),
                   'rules,', len(dj_counts), 'total unique disjunts')
 
-    # 81025 add only top (filtered) disjuncts:
+    # Add only top-frequency disjuncts:
     top_djs = set([x[0] for x in dj_counts.most_common(max_disjuncts)])
 
+    for cluster in clusters:
+        rules['disjuncts'][cluster] = top_djs & rules['disjuncts'][cluster]
+
     if verbose in ['debug']:
-        print(max_disjuncts, 'top_djs:', top_djs)
-        for cluster in clusters:
-            rules['disjuncts'][cluster] = top_djs & rules['disjuncts'][cluster]
+        print(max_disjuncts, 'max_disjuncts, len(top_djs):', len(top_djs))
         print('\nrules:')
         nr = 0
-        for cluster in clusters:
-            print('\n', cluster, len(rules['disjuncts'][cluster]))
-            nr += len(rules['disjuncts'][cluster])
-        print('Total:', nr)
+        rule_lengths = {x: len(rules['disjuncts'][x]) for x in clusters}
+        #for cluster in clusters:
+        #    print('\n', cluster, len(rules['disjuncts'][cluster]))
+        #    nr += len(rules['disjuncts'][cluster])
+        print('Rule lengths:', rule_lengths, 'total', sum(rule_lengths.values()),
+              'rules ⇒ average', round(sum(rule_lengths.values())/len(rule_lengths)), 'rules/cluster' )
 
     # rules['djs'] = deepcopy(rules['disjuncts'])  # no need: conversion in g12n
     # TOD0?: check jaccard with tuples else replace with numbers?

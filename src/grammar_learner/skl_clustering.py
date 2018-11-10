@@ -1,24 +1,38 @@
-# language-learning/src/grammar_learner/skl_clustering.py               # 81102
+# language-learning/src/grammar_learner/skl_clustering.py               # 81107
 import numpy as np
 import pandas as pd
-from sklearn.cluster import AgglomerativeClustering, KMeans
+from sklearn.cluster import AgglomerativeClustering, KMeans, MeanShift, estimate_bandwidth
 # from sklearn import metrics, pairwise_distances
 from sklearn.metrics import silhouette_score, calinski_harabaz_score
 # davies_bouldin_score -- next release? https://github.com/scikit-learn/scikit-learn/issues/11303
-from ..grammar_learner.clustering import cluster_id
+from .utl import kwa
+from .clustering import cluster_id
 
 
 def skl_clustering(cd, n_clusters=10, **kwargs):
     # cd == ndarray(words*disjuncts)
-    def kwa(v, k):
-        return kwargs[k] if k in kwargs else v
+    clustering = kwa(('agglomerative', 'ward'), 'clustering', **kwargs)
+    if type(clustering) is str:
+        if clustering == 'kmeans':
+            clustering = ('kmeans', 'k-means++', 10)
+        elif clustering == 'agglomerative':
+            clustering = ('agglomerative', 'ward')
+        elif clustering == 'mean_shift':
+            clustering = ('mean_shift', 'auto')
+        elif clustering == 'group':  # TODO: call ILE cuatering?
+            print('Call ILE clustering from optimal_clusters?')
+        elif clustering == 'random':  # TODO: call random clustering?
+            print('Call random clustering from optimal_clusters?')
+        else:
+            clustering = ('agglomerative', 'ward')
 
-    clustering = kwa(('agglomerative', 'ward'), 'clustering')
+    print('skl_clustering:', clustering, kwargs['clustering'])
+
     # linkage: ('ward', 'average', 'complete')
-    cluster_criteria = kwa('silhouette', 'cluster_criteria')  # GL.0.6 legacy
-    clustering_metric = kwa(('silhouette', 'euclidean'), 'clustering_metric')
+    cluster_criteria = kwa('silhouette', 'cluster_criteria', **kwargs)  # GL.0.6 legacy
+    clustering_metric = kwa(('silhouette', 'euclidean'), 'clustering_metric', **kwargs)
     labels = np.asarray([[]])
-    metrics = {}  # {'silhouette_index': 0.0, ...}
+    metrics = {'clustering': clustering}
     centroids = np.asarray([[]])
 
     try:  # if True:  #
@@ -30,7 +44,11 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
             model = AgglomerativeClustering(linkage=linkage, n_clusters=n_clusters)
             model.fit(cd)
             labels = model.labels_  # TODO: centroids = ...
+
         elif clustering[0] in ['k-means', 'kmeans']:
+
+            print('skl_clustering ⇒ kmeans')  # FIXME:DEL
+
             if clustering[1] in ['k-means++']:  # 'random' - fails?
                 init = clustering[1]
             else:
@@ -44,6 +62,22 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
             labels = model.labels_
             metrics['inertia'] = model.inertia_
             centroids = np.asarray(model.cluster_centers_[:(max(labels) + 1)])
+
+        elif clustering[0] in ['mean shift', 'mean_shift']:
+
+            print('skl_clustering ⇒ mean shift')  # FIXME:DEL
+
+            if len(clustering) < 2:
+                bandwidth = None
+            if type(clustering[1]) is int:
+                bandwidth = clustering[1]
+            else:
+                bandwidth = None  # TODO: auto ⇒ estimate_bandwidth
+            model = MeanShift(bandwidth=bandwidth)
+            model.fit(cd)
+            labels = model.labels_
+            centroids = np.asarray(model.cluster_centers_[:(max(labels) + 1)])
+
         else:  # TODO: random clustering?
             model = AgglomerativeClustering(linkage='ward', n_clusters=n_clusters)
             model.fit(cd)
@@ -62,19 +96,16 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
 
         return labels, metrics, centroids
     except:  # else:  #
-        return [], {'skl_clustering error': 'error'}, []
+        return [], {'clustering': 'skl_clustering error'}, []
 
 
 def optimal_clusters(cd, **kwargs):
-    def kwa(v, k):
-        return kwargs[k] if k in kwargs else v
-
     # cluster_range = kwa((2,48,1), 'cluster_range')
-    algo = kwa('kmeans', 'clustering')
-    criteria = kwa('silhouette', 'cluster_criteria')
-    level = kwa(1.0, 'cluster_level')
-    verbose = kwa('none', 'verbose')
-    crange = kwa((2, 50, 2), 'cluster_range')
+    algo = kwa('kmeans', 'clustering', **kwargs)
+    criteria = kwa('silhouette', 'cluster_criteria', **kwargs)
+    level = kwa(1.0, 'cluster_level', **kwargs)
+    verbose = kwa('none', 'verbose', **kwargs)
+    crange = kwa((2, 50, 2), 'cluster_range', **kwargs)
 
     if type(algo) is str:
         if algo == 'kmeans':
@@ -136,3 +167,4 @@ def optimal_clusters(cd, **kwargs):
 
 # from sklearn.metrics import davies_bouldin_score -- next sklearn release?
     # https://github.com/scikit-learn/scikit-learn/issues/11303
+# 81107 k-means, mean_shift

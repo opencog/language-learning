@@ -1,9 +1,9 @@
-# language-learning/src/category_learner.py                             # 81102
+# language-learning/src/category_learner.py                             # 81110
 import numpy as np
 import pandas as pd
 from copy import deepcopy
 from collections import OrderedDict
-from .utl import UTC  # , round1,round2,round3,round4,round5
+from .utl import UTC, kwa  # , round1,round2,round3,round4,round5
 from .read_files import check_dir  # , check_mst_files
 from .hyperwords import vector_space_dim, pmisvd
 from .clustering import cluster_id, best_clusters, group_links, random_clusters
@@ -52,39 +52,21 @@ def add_disjuncts(cats, links, **kwargs):
 
 def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
     # links == pd.DataFrame(columns = ['word', 'link', 'count'])
-    def kwa(v, k):
-        return kwargs[k] if k in kwargs else v
-
-    cats_file = kwa('/output', 'output_categories')  # to define tmpath
-    tmpath = kwa('', 'tmpath')
-    parse_mode = kwa('given', 'parse_mode')
-    left_wall = kwa('', 'left_wall')
-    period = kwa(False, 'period')
+    cats_file = kwa('/output', 'output_categories', **kwargs)  # to define tmpath
+    tmpath = kwa('', 'tmpath', **kwargs)
     context = kwa(1, 'context')
-    window = kwa('mst', 'window')
-    weighting = kwa('ppmi', 'weighting')
-    # ? distance       = kwa(??,   'distance')
-    group = kwa(True, 'group')
-    word_space = kwa('vectors', 'word_space')
-    dim_max = kwa(100, 'dim_max')
-    sv_min = kwa(0.1, 'sv_min')
-    dim_reduction = kwa('svm', 'dim_reduction')
-    algorithm = kwa('kmeans', 'clustering')  # ⇒ best_clusters
-    cluster_range = kwa((2, 50, 2), 'cluster_range')  # ⇒ best_clusters
-    cluster_criteria = kwa('silhouette', 'cluster_criteria')
-    cluster_level = kwa(0.9, 'cluster_level')
-    generalization = kwa('off', 'categories_generalization')
-    merge = kwa(0.8, 'categories_merge')
-    aggregate = kwa(0.2, 'categories_aggregation')
-    grammar_rules = kwa(1, 'grammar_rules')
-    verbose = kwa('none', 'verbose')
+    word_space = kwa('vectors', 'word_space', **kwargs)
+    dim_max = kwa(100, 'dim_max', **kwargs)
+    sv_min = kwa(0.1, 'sv_min', **kwargs)
+    algorithm = kwa('kmeans', 'clustering', **kwargs)  # ⇒ best_clusters
+    verbose = kwa('none', 'verbose', **kwargs)
 
     log = OrderedDict()
-    log.update({'category_learner': '80803-81101'})
+    log.update({'category_learner': '80803-81110'})
     if verbose in ['max', 'debug']:
         print(UTC(), ':: category_learner: word_space/algorithm:', word_space, '/', algorithm)
 
-    if tmpath == '' or tmpath == 'auto':  # temporary files path
+    if tmpath == '' or tmpath == 'auto':
         if '.' not in cats_file:
             tmpath = cats_file
         else:
@@ -99,7 +81,7 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
 
     cdf = pd.DataFrame(columns=['cluster', 'cluster_words'])
 
-    # Random Clusters   # 80825
+    # Random Clusters
     if algorithm == 'random':
         log.update({'clustering': 'random'})
         cdf = random_clusters(links, **kwargs)
@@ -128,8 +110,6 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
         log.update({'vector_space_dim': dim})
         if verbose in ['mid', 'max', 'debug']:
             print(UTC(), ':: category_learner: vector space dimensionality:', dim, '⇒ pmisvd')
-        # -vdf, sv, res3 = pmisvd(links, dict_path, tmpath, dim)
-        # -vdf, sv, re01 = pmisvd(links, tmpath, tmpath, dim)    # 81021:
         vdf, sv, re01 = pmisvd(links, dict_path, tmpath, dim)
         log.update(re01)
         if verbose in ['max', 'debug']:
@@ -139,24 +119,25 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
 
     # Sparse word space, agglomerative clustering 81021, ... ⇒ any clustering
     elif word_space[0] == 's':  # sparse
-        log.update({'clustering': 'agglomerative'})
+        log.update({'word_space': 'sparse'})
         linx, words, features = clean_links(links, **kwargs)
-        print(
-            f'{len(links)} links: {len(set(links["word"].tolist()))} unique words, {len(set(links["link"].tolist()))} links')
+        print(f'{len(links)} links: {len(set(links["word"].tolist()))} unique words, {len(set(links["link"].tolist()))} links')
         print(f'words: len {len(words)}, min {min(words)}, max {max(words)}')
         print(f'features: len {len(features)}, min {min(features)}, max {max(features)}')
         print(f'features: {features}')
         print(f'linx: {linx}')
+
         counts = co_occurrence_matrix(linx, **kwargs)
-        print(f'counts: {counts}')
+        if verbose in ['max', 'debug']:
+            print(f'counts: {counts}')
         cd = categorical_distribution(counts, **kwargs)
-        print(f'counts.shape {counts.shape},cd.shape {cd.shape}')
-
+        if verbose in ['max', 'debug']:
+            print(f'counts.shape {counts.shape},cd.shape {cd.shape}')
         labels, metrics, centroids = optimal_clusters(cd, **kwargs)  # skl_clustering.py
+        if verbose in ['max', 'debug']:
+            print(f'labels: {labels},\n{len(sorted(np.unique(labels)))} unique: {sorted(np.unique(labels))}')
 
-        print(f'labels: {labels},\n{len(sorted(np.unique(labels)))} unique: {sorted(np.unique(labels))}')
-
-        log.update({'silhouette': metrics['silhouette_index']})
+        log.update(metrics)
         # labels ⇒ cdf (legacy, extracted from agglomerative_clustering:
         cdf['cluster'] = sorted(np.unique(labels))  # set(labels)
         clusters = {x: [] for x in cdf['cluster'].tolist()}
@@ -166,18 +147,16 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
         cdf['cluster'] = range(1, len(cdf) + 1)
         cdf['cluster'] = cdf['cluster'].apply(lambda x: cluster_id(x, len(cdf)))
 
-
-    else:  # overkill: ILE
+    else:  # random clusters
         if verbose in ['max', 'debug']:
-            print(UTC(), ':: category_learner ⇒ else ⇒ ILE group_links')
-        cdf = group_links(links, verbose)
-        log.update({'clustering': 'else: ILE'})
+            print(UTC(), ':: category_learner ⇒ else ⇒ random clusters')
+        cdf = random_clusters(links, **kwargs)
+        log.update({'clustering': 'random'})
 
     log.update({'n_clusters': len(cdf)})
-
-    print('\ncategory_learner: log:\n', log)
-
-    return cdf2cats(cdf, **kwargs), log  # 81020: cdf2cats
+    if verbose in ['max', 'debug']:
+        print('\ncategory_learner: log:\n', log)
+    return cdf2cats(cdf, **kwargs), log
 
 
 def cats2list(cats):
@@ -227,7 +206,6 @@ def cdf2cats(clusters, **kwargs):
         cats['quality'] = [0 for x in cats['words']]
         cats['similarities'] = [[0 for y in x] for x in cats['words']]
     cats['children'] = [0 for x in cats['words']]
-
     return cats
 
 # Notes:

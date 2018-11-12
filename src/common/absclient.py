@@ -110,6 +110,6 @@ class AbstractPipelineComponent(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def run(self, **kwargs) -> None:
+    def run(self, **kwargs) -> dict:
         """ Run component execution. In case of severe errors exceptions should be raised to stop pipeline execution """
         pass

@@ -1,6 +1,6 @@
 import unittest
 
-from src.pipeline.pipelinetree import PipelineTreeNode, PipelineTreeNode2, build_tree, prepare_parameters
+from src.pipeline.pipelinetree import PipelineTreeNode2, build_tree, prepare_parameters
 
 config = [
     {
@@ -48,34 +48,34 @@ config = [
             {'parse_format': 'postscript', "follow_exec_path": False},
             {'parse_format': 'constituent', "follow_exec_path": False}
         ]
-    },
-    {
-        'component': 'dash-board',
-        'common-parameters': {
-            'input_grammar': '%PREV/',
-            'corpus_path': '%ROOT/aging3.txt',
-            'output_path': '%PREV/',
-            'linkage_limit': '1000',
-            'rm_grammar_dir': True,
-            'use_link_parser': True,
-            'ull_input': True,
-            'ignore_left_wall': True,
-            'ignore_period': True,
-            'calc_parse_quality': True
-        },
-        'specific-parameters': [
-            {'row': '%AUTO', 'col': '8', 'value': '%PA'},
-            {'row': '%AUTO', 'col': '9', 'value': '%PQ'},
-        ]
     }
 ]
+# {
+#     'component': 'dash-board',
+#     'common-parameters': {
+#         'input_grammar': '%PREV/',
+#         'corpus_path': '%ROOT/aging3.txt',
+#         'output_path': '%PREV/',
+#         'linkage_limit': '1000',
+#         'rm_grammar_dir': True,
+#         'use_link_parser': True,
+#         'ull_input': True,
+#         'ignore_left_wall': True,
+#         'ignore_period': True,
+#         'calc_parse_quality': True
+#     },
+#     'specific-parameters': [
+#         {'row': '1', 'col': '8', 'value': '%PREV.PA'},
+#         {'row': '2', 'col': '9', 'value': '%PREV.PQ'},
+#     ]
+# }
 
 
 class PipelineTreeTestCase(unittest.TestCase):
 
     @unittest.skip
     def test_init(self):
-        root = PipelineTreeNode("grammar-learner", {"space": "cDRKc"}, {"input_parses": "~/data/parses/poc-turtle"})
+        root = PipelineTreeNode2("grammar-learner", {"space": "cDRKc"}, {"input_parses": "~/data/parses/poc-turtle"})
         self.assertEqual("grammar-learner", root._component_name)
         self.assertEqual({"space": "cDRKc"}, root._specific_parameters)
         self.assertEqual({"input_parses": "~/data/parses/poc-turtle"}, root._common_parameters)
@@ -83,10 +83,10 @@ class PipelineTreeTestCase(unittest.TestCase):
 
     @unittest.skip
     def test_add_siblings(self):
-        root = PipelineTreeNode("grammar-learner", {"space": "cDRKc"}, {"input_parses": "~/data/parses/poc-turtle"})
-        root.add_sibling(PipelineTreeNode("grammar-tester", {"A": "a"}))
-        root.add_sibling(PipelineTreeNode("grammar-tester", {"B": "b"}))
-        root.add_sibling(PipelineTreeNode("grammar-tester", {"C": "c"}))
+        root = PipelineTreeNode2("grammar-learner", {"space": "cDRKc"}, {"input_parses": "~/data/parses/poc-turtle"})
+        root.add_sibling(PipelineTreeNode2("grammar-tester", {"A": "a"}))
+        root.add_sibling(PipelineTreeNode2("grammar-tester", {"B": "b"}))
+        root.add_sibling(PipelineTreeNode2("grammar-tester", {"C": "c"}))
         self.assertEqual(3, len(root._siblings))
 
     @unittest.skip
@@ -101,7 +101,7 @@ class PipelineTreeTestCase(unittest.TestCase):
         self.assertEqual(True, True)
 
     def test_prepare_parameters(self):
-        p, e = prepare_parameters({"path_to_somewhere": "%ROOT/abc"},
+        p, e = prepare_parameters(None, {"path_to_somewhere": "%ROOT/abc"},
                                   {"path_to_elsewhere": "%ROOT/efg", "X": "xx", "n": 1},
                                   {"ROOT": "~/data/2018-09-01"})
         # print(p, e, sep="\n")

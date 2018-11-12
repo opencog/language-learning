@@ -1,6 +1,6 @@
 import unittest
 
-from src.pipeline.pipelinetree import PipelineTreeNode, PipelineTreeNode2, build_tree, prepare_parameters
+from src.pipeline.pipelinetree import PipelineTreeNode2, build_tree, prepare_parameters
 
 config = [
     {
@@ -75,7 +75,7 @@ class PipelineTreeTestCase(unittest.TestCase):
 
     @unittest.skip
     def test_init(self):
-        root = PipelineTreeNode("grammar-learner", {"space": "cDRKc"}, {"input_parses": "~/data/parses/poc-turtle"})
+        root = PipelineTreeNode2("grammar-learner", {"space": "cDRKc"}, {"input_parses": "~/data/parses/poc-turtle"})
         self.assertEqual("grammar-learner", root._component_name)
         self.assertEqual({"space": "cDRKc"}, root._specific_parameters)
         self.assertEqual({"input_parses": "~/data/parses/poc-turtle"}, root._common_parameters)
@@ -83,10 +83,10 @@ class PipelineTreeTestCase(unittest.TestCase):
 
     @unittest.skip
     def test_add_siblings(self):
-        root = PipelineTreeNode("grammar-learner", {"space": "cDRKc"}, {"input_parses": "~/data/parses/poc-turtle"})
-        root.add_sibling(PipelineTreeNode("grammar-tester", {"A": "a"}))
-        root.add_sibling(PipelineTreeNode("grammar-tester", {"B": "b"}))
-        root.add_sibling(PipelineTreeNode("grammar-tester", {"C": "c"}))
+        root = PipelineTreeNode2("grammar-learner", {"space": "cDRKc"}, {"input_parses": "~/data/parses/poc-turtle"})
+        root.add_sibling(PipelineTreeNode2("grammar-tester", {"A": "a"}))
+        root.add_sibling(PipelineTreeNode2("grammar-tester", {"B": "b"}))
+        root.add_sibling(PipelineTreeNode2("grammar-tester", {"C": "c"}))
         self.assertEqual(3, len(root._siblings))
 
     @unittest.skip

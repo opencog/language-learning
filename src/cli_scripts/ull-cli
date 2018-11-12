@@ -8,9 +8,9 @@ import shutil
 
 from pathos.multiprocessing import Pool
 
-from ull.common import subst_variables_in_str, subst_variables_in_dict, get_path_from_dict
-from ull.common import JsonFileConfigManager, AbstractPipelineComponent, handle_path_string, \
-    PipelineTreeNode2, build_tree, run_tree
+# from ull.common import subst_variables_in_str, subst_variables_in_dict, get_path_from_dict
+from ull.common import JsonFileConfigManager, AbstractPipelineComponent, handle_path_string
+from ull.pipeline import build_tree, run_tree, PipelineTreeNode2
 
 __version__ = "1.0.0"
 
@@ -128,9 +128,11 @@ Usage:
         # Get configuration parameters
         config = cfgman.get_config("", None)
 
-        print(config)
+        # print(config)
 
         execution_tree = build_tree(config, GLOBALS)
+
+        print("Execution tree has been built.")
 
         # Because pipe line component execution may take a significant time span, parameter validation
         #   is executed as a separate step.
@@ -176,6 +178,7 @@ Usage:
 
         run_tree()
 
+        PipelineTreeNode2.free_static_components()
 
     except Exception as err:
         print(str(err))

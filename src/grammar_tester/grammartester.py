@@ -9,7 +9,7 @@ from ..common.dirhelper import traverse_dir_tree, create_dir
 from ..common.parsemetrics import ParseMetrics, ParseQuality
 from ..common.fileconfman import JsonFileConfigManager
 from ..common.cliutils import handle_path_string
-from .textfiledashb import TextFileDashboard, HTMLFileDashboard
+from .textfiledashb import TextFileDashboardConf  #, HTMLFileDashboard
 
 from .lgmisc import create_grammar_dir
 from .optconst import *
@@ -390,7 +390,7 @@ def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal, Decimal):
         cfgman = JsonFileConfigManager(conf_path)
         # dboard = HTMLFileDashboard(cfgman)
 
-        dboard = TextFileDashboard(cfgman) if len(cfgman.get_config("", "dash-board")) else None
+        dboard = TextFileDashboardConf(cfgman) if len(cfgman.get_config("", "dash-board")) else None
 
         parser = LGInprocParser()
 
@@ -437,20 +437,27 @@ class GrammarTesterComponent(AbstractPipelineComponent):
                                     handle_path_string(kwargs.get(CONF_TMPL_PATH)),
                                     kwargs.get(CONF_LNK_LIMIT, 1000), parser)
 
-    def validate_parameters(self, **kwargs):
+    def validate_parameters(self, **kwargs) -> bool:
         """ Validate configuration parameters """
         return True
 
-    def run(self, **kwargs):
+    def run(self, **kwargs) -> dict:
         """ Execute component code """
         dict_path = handle_path_string(kwargs.get(CONF_DICT_PATH))
 
         if dict_path is None:
             dict_path = "en"
 
-        self.tester.test(dict_path,
+        ref_path = kwargs.get(CONF_REFR_PATH, None)
+
+        if ref_path:
+            ref_path = handle_path_string(ref_path)
+
+        pa, pq = self.tester.test(dict_path,
                          handle_path_string(kwargs.get(CONF_CORP_PATH)),
                          handle_path_string(kwargs.get(CONF_DEST_PATH, os.environ['PWD'])),
-                         handle_path_string(kwargs.get(CONF_REFR_PATH)),
+                         ref_path,
                          get_options(kwargs))
 
+        return {"parseability": pa.parseability_str(pa), "PA": pa.parseability_str(pa), "F1": pq.f1_str(pq),
+                "recall": pq.recall_str(pq), "precision": pq.precision_str(pq)}

@@ -53,12 +53,5 @@ class GrammarLearnerComponent(AbstractPipelineComponent):
 
         # check_kwargs(**kwargs)
 
-
         # Run Grammar Learner
-        learn_grammar(
-            handle_path_string(kwargs.pop(PARAM_INPUT_PARSES, None)),
-            handle_path_string(kwargs.pop(PARAM_OUTPUT_CATEGORIES, None)),
-            handle_path_string(kwargs.pop(PARAM_OUTPUT_GRAMMAR, None)),
-            kwargs.pop(PARAM_OUTPUT_STATISTICS, ''),
-            kwargs.pop(PARAM_TEMP_DIR, ''),
-            **kwargs)
+        return learn_grammar(**kwargs)

@@ -1,10 +1,14 @@
 #language-learning/src/grammar_learner/kmeans.py POC.0.5 80725 as-was tmp
 import numpy as np
 import pandas as pd
+from sklearn.cluster import KMeans
+from sklearn.metrics import pairwise_distances, silhouette_score
+from statistics import mode
+from .utl import round1, round2, round3
+# -from kmeans import cluster_words_kmeans   #this module
+
 
 def cluster_words_kmeans(words_df, n_clusters):
-    from sklearn.cluster import KMeans
-    from sklearn.metrics import pairwise_distances, silhouette_score
     words_list = words_df['word'].tolist()
     df = words_df.copy()
     del df['word']
@@ -36,9 +40,6 @@ def cluster_words_kmeans(words_df, n_clusters):
 
 def number_of_clusters(vdf, cluster_range, algorithm='kmeans', \
         criteria='silhouette', level=0.9, verbose='none'):
-    from statistics import mode
-    from utl import round1, round2, round3
-    #-from kmeans import cluster_words_kmeans   #this module
 
     if(len(cluster_range) < 2 or cluster_range[2] < 1):
         return cluster_range[0]

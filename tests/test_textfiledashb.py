@@ -2,7 +2,7 @@ import unittest
 import os
 from decimal import Decimal
 
-from src.grammar_tester.textfiledashb import TextFileDashboard, DashboardError
+from src.grammar_tester.textfiledashb import TextFileDashboardConf, DashboardError
 from src.common.fileconfman import JsonFileConfigManager
 from src.common.parsemetrics import ParseMetrics, ParseQuality
 
@@ -12,7 +12,7 @@ class TextFileDashTestCase(unittest.TestCase):
     def setUp(self):
         conf_path = "tests/test-data/config/AGI-2018.json"
         cfg_man = JsonFileConfigManager(conf_path)
-        self.dboard = TextFileDashboard(cfg_man)
+        self.dboard = TextFileDashboardConf(cfg_man)
 
     def test_init(self):
         """ Test constructor """
@@ -21,7 +21,7 @@ class TextFileDashTestCase(unittest.TestCase):
         self.assertTrue(hasattr(self.dboard, "_col_count"))
         self.assertTrue(hasattr(self.dboard, "_dashboard"))
         self.assertTrue(hasattr(self.dboard, "_config"))
-        self.assertEqual(17, len(self.dboard._dashboard))
+        self.assertEqual(18, len(self.dboard._dashboard))
 
         for row in self.dboard._dashboard:
             self.assertEqual(10, len(row))

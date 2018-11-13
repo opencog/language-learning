@@ -3,12 +3,13 @@ import sys
 from decimal import *
 from time import time
 
-from ..common.absclient import AbstractGrammarTestClient, AbstractStatEventHandler, AbstractFileParserClient
+from ..common.absclient import AbstractGrammarTestClient, AbstractStatEventHandler, AbstractFileParserClient, \
+    AbstractPipelineComponent
 from ..common.dirhelper import traverse_dir_tree, create_dir
-from ..common.parsemetrics import ParseMetrics, ParseQuality, PQA
+from ..common.parsemetrics import ParseMetrics, ParseQuality
 from ..common.fileconfman import JsonFileConfigManager
 from ..common.cliutils import handle_path_string
-from .textfiledashb import TextFileDashboard, HTMLFileDashboard
+from .textfiledashb import TextFileDashboardConf  #, HTMLFileDashboard
 
 from .lgmisc import create_grammar_dir
 from .optconst import *
@@ -17,7 +18,7 @@ from .lginprocparser import LGInprocParser
 from .lgapiparser import LGApiParser
 
 
-__all__ = ['test_grammar', 'test_grammar_cfg', 'GrammarTester', 'GrammarTestError']
+__all__ = ['test_grammar', 'test_grammar_cfg', 'GrammarTester', 'GrammarTestError', 'GrammarTesterComponent']
 
 
 class GrammarTestError(Exception):
@@ -50,9 +51,9 @@ DICT_ARG_REFF = 3
 
 
 def print_execution_time(title: str, duration):
-    seconds = duration % 60
-    minutes = int(duration % 3600)
     hours = int(duration / 3600)
+    minutes = int((duration - hours * 3600) / 60)
+    seconds = duration % 60
     print("{}: {}h {}m {}s".format(title, hours, minutes, seconds))
 
 
@@ -82,6 +83,32 @@ class GrammarTester(AbstractGrammarTestClient):
         self._total_quality = ParseQuality()
         self._total_files = 0
         self._total_dicts = 0
+
+
+    # def __init__(self, grmr: str, tmpl: str, limit: int, parser: AbstractFileParserClient,
+    #              evt_handler: AbstractStatEventHandler=None):
+    #
+    #     if parser is None:
+    #         raise GrammarTestError("GrammarTestError: 'parser' argument can not be None.")
+    #
+    #     if not isinstance(parser, AbstractFileParserClient):
+    #         raise GrammarTestError("GrammarTestError: 'parser' is not an instance of AbstractFileParserClient")
+    #
+    #     if evt_handler is not None and not isinstance(evt_handler, AbstractStatEventHandler):
+    #         raise GrammarTestError("ArgumentError: 'evt_handler' is not an instance of AbstractStatEventHandler")
+    #
+    #     self._parser = parser
+    #     self._event_handler = evt_handler
+    #     self._grammar_root = grmr
+    #     self._template_dir = tmpl
+    #     self._linkage_limit = limit
+    #     self._options = 0  # options
+    #     self._is_dir_corpus = False
+    #     self._is_dir_dict = False
+    #     self._total_metrics = ParseMetrics()
+    #     self._total_quality = ParseQuality()
+    #     self._total_files = 0
+    #     self._total_dicts = 0
 
     @staticmethod
     def _save_stat(stat_path: str, metrics: ParseMetrics, quality: ParseQuality) -> None:
@@ -319,7 +346,7 @@ class GrammarTester(AbstractGrammarTestClient):
 
 def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_path: str, template_path: str,
                        linkage_limit: int, options: int, reference_path: str, timeout: int=300) \
-        -> (Decimal, Decimal, Decimal):
+        -> (Decimal, Decimal, Decimal, Decimal):
     """
     Test grammar(s) over specified corpus providing numerical estimation of parsing quality.
 
@@ -334,7 +361,7 @@ def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_pat
                             quality estimation.
     :param timeout:         Timeout value used by Link Grammar to restrict maximum amount of time spent for parsing
                             a single sentence.
-    :return: Tuple (ParseMetrics, ParseQuality)
+    :return:                (parse-ability, F1, precision, recall)
     """
     # parser = LGInprocParser(linkage_limit) if options & BIT_LG_EXE else LGApiParser(linkage_limit)
     parser = LGInprocParser(linkage_limit, timeout)
@@ -343,15 +370,19 @@ def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_pat
 
     pm, pq = gt.test(dict_path, corpus_path, output_path, reference_path, options)
 
-    return pm.parseability(pm), pq.parse_quality(pq), PQA(pm, pq)
+    return \
+        pm.parseability(pm), \
+        pq.f1(pq), \
+        pq.precision_val(pq), \
+        pq.recall_val(pq)
 
 
-def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal):
+def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal, Decimal):
     """
     Test grammar using configuration(s) from a JSON file
 
     :param conf_path:   Path to a configuration file
-    :return:            Tuple (ParseMetrics, ParseQuality) of the last processed test.
+    :return:            (parse-ability, F1, precision, recall)
     """
     pm, pq = ParseMetrics(), ParseQuality()
 
@@ -359,7 +390,7 @@ def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal):
         cfgman = JsonFileConfigManager(conf_path)
         # dboard = HTMLFileDashboard(cfgman)
 
-        dboard = TextFileDashboard(cfgman) if len(cfgman.get_config("", "dash-board")) else None
+        dboard = TextFileDashboardConf(cfgman) if len(cfgman.get_config("", "dash-board")) else None
 
         parser = LGInprocParser()
 
@@ -387,4 +418,46 @@ def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal):
     except Exception as err:
         print(str(err))
     finally:
-        return pm.parseability(pm), pq.parse_quality(pq), PQA(pm, pq)
+        return \
+            pm.parseability(pm), \
+            pq.f1(pq), \
+            pq.precision_val(pq), \
+            pq.recall_val(pq)
+
+
+class GrammarTesterComponent(AbstractPipelineComponent):
+
+    def __init__(self, **kwargs):
+
+        # Create parser instance
+        parser = LGInprocParser()
+
+        # Create GrammarTester instance
+        self.tester = GrammarTester(handle_path_string(kwargs.get(CONF_GRMR_PATH, r"~/data/dict")),
+                                    handle_path_string(kwargs.get(CONF_TMPL_PATH)),
+                                    kwargs.get(CONF_LNK_LIMIT, 1000), parser)
+
+    def validate_parameters(self, **kwargs) -> bool:
+        """ Validate configuration parameters """
+        return True
+
+    def run(self, **kwargs) -> dict:
+        """ Execute component code """
+        dict_path = handle_path_string(kwargs.get(CONF_DICT_PATH))
+
+        if dict_path is None:
+            dict_path = "en"
+
+        ref_path = kwargs.get(CONF_REFR_PATH, None)
+
+        if ref_path:
+            ref_path = handle_path_string(ref_path)
+
+        pa, pq = self.tester.test(dict_path,
+                         handle_path_string(kwargs.get(CONF_CORP_PATH)),
+                         handle_path_string(kwargs.get(CONF_DEST_PATH, os.environ['PWD'])),
+                         ref_path,
+                         get_options(kwargs))
+
+        return {"parseability": pa.parseability_str(pa), "PA": pa.parseability_str(pa), "F1": pq.f1_str(pq),
+                "recall": pq.recall_str(pq), "precision": pq.precision_str(pq)}

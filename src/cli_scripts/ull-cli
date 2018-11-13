@@ -1,0 +1,191 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import getopt
+import platform
+import shutil
+
+from pathos.multiprocessing import Pool
+
+# from ull.common import subst_variables_in_str, subst_variables_in_dict, get_path_from_dict
+from ull.common import JsonFileConfigManager, AbstractPipelineComponent, handle_path_string
+from ull.pipeline import build_tree, run_tree, PipelineTreeNode2
+
+__version__ = "1.0.0"
+
+PROCESSES_ALLOWED = 1
+
+GLOBALS = {}
+FIRST_CHAR = "%"
+
+
+
+# def run_component(entry: dict, num_processes: int) -> None:
+#     """
+#     Execute pipeline component code for every configuration specified by 'parameters' section of configuration file.
+#
+#     :param entry:               Configuration entry, specifying component name and parameters.
+#     :param allow_multiproc:     Allow simultaneous execution of multiple instances of the component for each
+#                                 configuration.
+#     :return:                    None
+#     """
+#     def worker(common: dict, specific: dict):
+#
+#         # Substitute variable names with their respective values
+#         specific = subst_variables_in_dict(specific, GLOBALS, FIRST_CHAR)
+#
+#         # Merge two dictionaries 'common-parameters' and 'specific-parameters'
+#         all_parameters = {**common, **specific} if common is not None else specific
+#
+#         # Path parameters should not appear in other paths
+#         non_path = {k: v for k, v in zip(specific.keys(), specific.values()) if not isinstance(v, str)
+#                     or (isinstance(v, str) and v.find("/") < 0)}
+#
+#         # Get subdir path based on specific parameters
+#         leaf = GLOBALS["ROOT"] + "/" + get_path_from_dict(non_path)
+#
+#         # Substitute derived path for LEAF variable
+#         all_parameters = subst_variables_in_dict(all_parameters, {"LEAF": leaf}, FIRST_CHAR)
+#
+#         # Create path if it does not exist
+#         if not os.path.isdir(leaf):
+#             os.makedirs(leaf)
+#
+#         # Create component instance
+#         component = get_component(comp_name, all_parameters)
+#
+#         # Execute component
+#         component.run(**all_parameters)
+#
+#
+#     comp_name = entry["component"]
+#     common = subst_variables_in_dict(entry["common-parameters"], GLOBALS)
+#
+#     parameters = entry["specific-parameters"]
+#
+#     if num_processes == 1:
+#
+#         # Sequential execution of the component for each subconfiguration entry
+#         for subconf in parameters:
+#             worker(common, subconf)
+#
+#     else:
+#         print("Running in parallel.")
+#
+#         # Parallel execution of the component for each subconfiguration entry
+#         with Pool(num_processes-1) as pool:
+#             pool.map(worker, [common for _ in range(len(parameters))], [subconf for subconf in parameters])
+
+
+def main(argv):
+    """
+Usage:
+    ull-cli -C <json-config-file>
+
+    json-config-file    JSON configuration file path.
+
+    """
+    print("ull-cli ver." + __version__)
+    print("Python v." + platform.python_version())
+
+    config_path = None
+    processes   = 1
+
+    try:
+        opts, args = getopt.getopt(argv, "hC:p:", ["help", "config=", "processes="])
+
+        for opt, arg in opts:
+            if opt in ("-h", "--help"):
+                print(main.__doc__)
+                return 0
+            elif opt in ("-C", "--config"):
+                config_path = handle_path_string(arg)
+            elif opt in ("-p", "--config"):
+                processes = int(arg)
+
+    except getopt.GetoptError as err:
+        print(str(err))
+        print(main.__doc__)
+        return 1
+
+    # Get the number of CPUs available to the current process
+    cpus_available = len(os.sched_getaffinity(0))
+
+    # Number of processes should not exceed the number of CPUs the current process can use
+    if processes > cpus_available:
+        processes = cpus_available
+        print("Warning: The number of processes changed to {} because of the system restriction".format(cpus_available))
+
+    print(config_path)
+
+    try:
+        GLOBALS["ROOT"] = os.path.split(os.path.abspath(config_path))[0]
+
+        # Read JSON pipe line configuration
+        cfgman = JsonFileConfigManager(config_path)
+
+        # Get configuration parameters
+        config = cfgman.get_config("", None)
+
+        # print(config)
+
+        execution_tree = build_tree(config, GLOBALS)
+
+        print("Execution tree has been built.")
+
+        # Because pipe line component execution may take a significant time span, parameter validation
+        #   is executed as a separate step.
+
+        # validation_result = True
+        #
+        # # Check and validate each component parameters
+        # for comp_cfg in config:
+        #
+        #     comp_name = comp_cfg["component"]
+        #     common = subst_variables_in_dict(comp_cfg["common-parameters"], GLOBALS)
+        #
+        #     parameters = comp_cfg["specific-parameters"]
+        #
+        #     # Validate parameters for each subconfiguration
+        #     for subconf in parameters:
+        #
+        #         # Substitute variable names with their respective values
+        #         specific = subst_variables_in_dict(subconf, GLOBALS)
+        #
+        #         # Merge two dictionaries 'common-parameters' and 'specific-parameters'
+        #         all_parameters = {**common, **specific} if common is not None else specific
+        #
+        #         # Create component instance
+        #         component = get_component(comp_name, all_parameters)
+        #
+        #         # Component parameter validation
+        #         if not component.validate_parameters(**all_parameters):
+        #             validation_result = False
+        #
+        # # Prevent pipeline execution if any of the component configuration validation failed.
+        # if not validation_result:
+        #     raise Exception("Parameter validation failed.")
+
+        # # Execute each pipeline component
+        # for entry in config:
+        #     run_component(entry, processes)
+
+        # PipelineTreeNode2.traverse_all(lambda n: print("\t"*n.seq_no+n._component_name+": "+str(n._parameters)))
+        # PipelineTreeNode2.traverse_all(lambda n: print("\t"*n.seq_no+n._component_name+": "+str(n._environment)))
+
+        # print(GLOBALS)
+
+        run_tree()
+
+        PipelineTreeNode2.free_static_components()
+
+    except Exception as err:
+        print(str(err))
+        return 1
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

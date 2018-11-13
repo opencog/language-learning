@@ -294,7 +294,7 @@ class LGInprocParser(AbstractFileParserClient):
                 ret_metrics, ret_quality = self._handle_stream_output(raw.decode("utf-8-sig"), options,
                                                                       out_stream, ref_file)
 
-                if ret_metrics.sentences != sentence_count:
+                if not (options & BIT_OUTPUT) and ret_metrics.sentences != sentence_count:
                     print("Warning: number of sentences does not match. "
                           "Read: {}, Parsed: {}".format(sentence_count, ret_metrics.sentences))
 

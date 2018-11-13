@@ -1,7 +1,8 @@
-#language-learning/src/grammar_learner/utl.py  #80625
+# language-learning/src/grammar_learner/utl.py                          # 81107
+import datetime, time
+
 
 def UTC():
-    import datetime
     return str(datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC'))
 
 
@@ -19,7 +20,6 @@ def round5(x): return round_float(x, 5)
 
 
 def timer(string, t0=0):
-    import time
     t1 = time.time()
     if t0 < 0.01:
         print(UTC(), '::', string)
@@ -36,3 +36,7 @@ def timer(string, t0=0):
             dt = int(round(dt,0))
             print(UTC(), '::', string, 'in', int(round(dt/60,0)), 'minutes')
     return t1,dt
+
+
+def kwa(v, k, **kwargs):  # 81107
+    return kwargs[k] if k in kwargs else v

@@ -6,8 +6,8 @@ import getopt
 import platform
 
 from ull.common import handle_path_string, strip_quotes
-from ull.grammartest import test_grammar, test_grammar_cfg, GrammarTestError, LG_DICT_PATH  # , LGParseError
-from ull.grammartest.optconst import *
+from ull.grammar_tester import test_grammar, test_grammar_cfg, GrammarTestError, LG_DICT_PATH  # , LGParseError
+from ull.grammar_tester.optconst import *
 
 __version__ = "3.0.0"
 

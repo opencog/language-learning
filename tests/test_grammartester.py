@@ -31,6 +31,11 @@ ref = None  # "/home/alex/data/poc-english/poc_english_noamb_parse_ideal.txt"
 # @unittest.skip
 class GrammarTesterTestCase(unittest.TestCase):
 
+    @staticmethod
+    def create_path(path: str):
+        if path is not None and not os.path.isdir(path):
+            os.makedirs(path)
+
     @unittest.skip
     def test_test_with_conf(self):
         # conf_path = "test-data/config/AGI-2018.json"
@@ -47,8 +52,12 @@ class GrammarTesterTestCase(unittest.TestCase):
         # input_grammar = "tests/test-data/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
         input_corpus = "tests/test-data/corpora/poc-english/poc_english_noamb.txt"
         template_path = "tests/test-data/dict/poc-turtle"
-        grammar_root = "/var/tmp/"
-        output_path = "tests/test-data/parses/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
+
+        grammar_root = "/var/tmp/test_grammar"
+        self.create_path(grammar_root)
+        output_path = "/var/tmp/test_grammar/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period"
+        self.create_path(output_path)
+
         ref_path = "tests/test-data/parses/poc-english-ref/poc_english_noamb.txt.ull"
 
         options = BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_PARSE_QUALITY | BIT_RM_DIR | BIT_ULL_IN | BIT_LG_GR_NAME
@@ -74,8 +83,12 @@ class GrammarTesterTestCase(unittest.TestCase):
         input_grammar = "tests/test-data/metrics-test/1"
         input_corpus = "tests/test-data/metrics-test/poc-turtle-parses-gold.txt"
         template_path = "tests/test-data/dict/poc-turtle"
-        grammar_root = "/var/tmp/"
-        output_path = "/var/tmp"
+
+        grammar_root = "/var/tmp/test_grammar_1/"
+        output_path = "/var/tmp/test_grammar_1"
+        self.create_path(grammar_root)
+        self.create_path(output_path)
+
         ref_path = input_corpus
 
         options = BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_PARSE_QUALITY | BIT_RM_DIR | BIT_ULL_IN
@@ -95,8 +108,10 @@ class GrammarTesterTestCase(unittest.TestCase):
         input_grammar = "tests/test-data/metrics-test/2"
         input_corpus = "tests/test-data/metrics-test/poc-turtle-parses-win6.txt"
         template_path = "tests/test-data/dict/poc-turtle"
-        grammar_root = "/var/tmp/"
-        output_path = "/var/tmp"
+        grammar_root = "/var/tmp/test_grammar_2/"
+        output_path = "/var/tmp/test_grammar_2/"
+        self.create_path(grammar_root)
+
         ref_path = "tests/test-data/metrics-test/poc-turtle-parses-gold.txt"
 
         options = BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_PARSE_QUALITY | BIT_RM_DIR | BIT_ULL_IN
@@ -134,7 +149,9 @@ class GrammarTesterTestCase(unittest.TestCase):
         # dict = "poc-turtle"
         dict = handle_path_string("tests/test-data/dict/poc-turtle")
         corp = handle_path_string("tests/test-data/corpora/poc-english/poc_english.txt")
-        dest = handle_path_string("/var/tmp")
+        dest = handle_path_string("/var/tmp/test_parseability")
+        self.create_path(dest)
+
         # dest = handle_path_string("tests/test-data/temp")
         ref = None  # "/home/alex/data/poc-english/poc_english_noamb_parse_ideal.txt"
 
@@ -160,7 +177,9 @@ class GrammarTesterTestCase(unittest.TestCase):
         # dict = "poc-turtle"
         dict = handle_path_string("tests/test-data/dict/poc-turtle")
         corp = handle_path_string("tests/test-data/corpora/poc-english-multi")
-        dest = handle_path_string("/var/tmp")
+        dest = handle_path_string("/var/tmp/test_parseability_multi_file")
+        self.create_path(dest)
+
         # dest = handle_path_string("tests/test-data/temp")
         ref = None  # handle_path_string("test-data/parses/poc-english-multi-ref")
 
@@ -188,7 +207,9 @@ class GrammarTesterTestCase(unittest.TestCase):
         # dict = handle_path_string("tests/test-data/dict/poc-turtle")
         corp1 = handle_path_string("tests/test-data/corpora/poc-english/poc_english.txt")
         corp2 = handle_path_string("tests/test-data/corpora/poc-english-multi")
-        dest = handle_path_string("/var/tmp")
+        dest = handle_path_string("/var/tmp/test_parseability_coinsedence")
+        self.create_path(dest)
+
         # dest = handle_path_string("tests/test-data/temp")
         ref1 = handle_path_string("tests/test-data/parses/poc-english-ref/poc_english.txt.ull")
         ref2 = handle_path_string("tests/test-data/parses/poc-english-multi-ref")

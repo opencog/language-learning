@@ -90,7 +90,7 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
     elif algorithm == 'group' or word_space[0] == 'd':  # «ILE»: 'discrete' word_space
         log.update({'clustering': 'ILE'})
         if verbose in ['max', 'debug']:
-            print(UTC(), ':: category_learner ⇒ ILE group_links: context =', \
+            print(UTC(), ':: category_learner ⇒ ILE group_links: context =',
                   str(context) + ', word_space: ' + str(word_space) + ', algorithm:', algorithm)
         cdf = group_links(links, verbose)
         if verbose not in ['min', 'none']:
@@ -134,8 +134,12 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
         if verbose in ['max', 'debug']:
             print(f'counts.shape {counts.shape},cd.shape {cd.shape}')
         labels, metrics, centroids = optimal_clusters(cd, **kwargs)  # skl_clustering.py
+
+        # TODO check labels != [] ?  81114 check error via try learn_grammar
+
         if verbose in ['max', 'debug']:
-            print(f'labels: {labels},\n{len(sorted(np.unique(labels)))} unique: {sorted(np.unique(labels))}')
+            print(
+                f'\nlearn_categories ⇒ labels: {labels},\n{len(sorted(np.unique(labels)))} unique: {sorted(np.unique(labels))}')
 
         log.update(metrics)
         # labels ⇒ cdf (legacy, extracted from agglomerative_clustering:
@@ -153,7 +157,10 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
         cdf = random_clusters(links, **kwargs)
         log.update({'clustering': 'random'})
 
-    log.update({'n_clusters': len(cdf)})
+    # TODO: log.update({'cluster_sizes': [int]})  # 81114
+    cluster_sizes = sorted(set([len(x) for x in cdf['cluster_words'].tolist()]), reverse=True)
+    log.update({'n_clusters': len(cdf), 'cluster_sizes': cluster_sizes})
+
     if verbose in ['max', 'debug']:
         print('\ncategory_learner: log:\n', log)
     return cdf2cats(cdf, **kwargs), log

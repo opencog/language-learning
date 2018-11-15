@@ -37,11 +37,14 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
 
     try:  # if True:  #
         if clustering[0] == 'agglomerative':
-            if clustering[1] in ['ward', 'average', 'complete']:
+            linkage = 'ward'
+            affinity = 'euclidean'
+            if clustering[1] in ['average', 'complete', 'single']:
                 linkage = clustering[1]
-            else:
-                linkage = 'ward'
-            model = AgglomerativeClustering(linkage=linkage, n_clusters=n_clusters)
+            if len(clustering) > 2:
+                if clustering[2] in ['euclidean', 'cosine', 'manhattan']:
+                    affinity = clustering[2]
+            model = AgglomerativeClustering(n_clusters=n_clusters, affinity=affinity, linkage=linkage)
             model.fit(cd)
             labels = model.labels_  # TODO: centroids = ...
 

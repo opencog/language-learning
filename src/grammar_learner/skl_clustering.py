@@ -4,6 +4,7 @@ import pandas as pd
 from sklearn.cluster import AgglomerativeClustering, KMeans, MeanShift, estimate_bandwidth
 # from sklearn import metrics, pairwise_distances
 from sklearn.metrics import silhouette_score, calinski_harabaz_score
+from sklearn.neighbors import kneighbors_graph  # 81115
 # davies_bouldin_score -- next release? https://github.com/scikit-learn/scikit-learn/issues/11303
 from .utl import kwa
 from .clustering import cluster_id
@@ -19,7 +20,7 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
             clustering = ('agglomerative', 'ward')
         elif clustering == 'mean_shift':
             clustering = ('mean_shift', 'auto')
-        elif clustering == 'group':  # TODO: call ILE cuatering?
+        elif clustering == 'group':  # TODO: call ILE clustering?
             print('Call ILE clustering from optimal_clusters?')
         elif clustering == 'random':  # TODO: call random clustering?
             print('Call random clustering from optimal_clusters?')
@@ -37,13 +38,35 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
 
     try:  # if True:  #
         if clustering[0] == 'agglomerative':
-            if clustering[1] in ['ward', 'average', 'complete']:
+            linkage = 'ward'
+            affinity = 'euclidean'
+            connectivity = None
+            compute_full_tree = 'auto'
+            if clustering[1] in ['average', 'complete', 'single']:
                 linkage = clustering[1]
-            else:
-                linkage = 'ward'
-            model = AgglomerativeClustering(linkage=linkage, n_clusters=n_clusters)
+            if len(clustering) > 2:
+                if clustering[2] in ['euclidean', 'cosine', 'manhattan']:
+                    affinity = clustering[2]
+            if len(clustering) > 3:  # connectivity
+                print('skl_clustering: connectivity:', clustering[3])
+                if type(clustering[3]) is int and clustering[3] > 0:
+                    neighbors = clustering[3]
+                    # TODO: int / dict 
+                    connectivity = kneighbors_graph(cd, neighbors, include_self=False)
+                    print(f'\nconnectivity: {connectivity}\n')
+
+            if len(clustering) > 4:  # compute_full_tree
+                if clustering[4] is bool:
+                    compute_full_tree = clustering[4]
+                    print(f'compute_full_tree: {compute_full_tree}\n')
+
+            model = AgglomerativeClustering(
+                n_clusters=n_clusters, linkage=linkage, affinity=affinity,
+                connectivity=connectivity, compute_full_tree=compute_full_tree)
             model.fit(cd)
-            labels = model.labels_  # TODO: centroids = ...
+            labels = model.labels_
+
+            # TODO: centroids = ...
 
         elif clustering[0] in ['k-means', 'kmeans']:
 

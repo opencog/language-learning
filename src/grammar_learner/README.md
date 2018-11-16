@@ -68,11 +68,14 @@ response = learn_grammar(**kwargs)
   in `word_space` == 'embeddings' setting: `'kmeans++'` initializations, `10` seed clustering attempts;
 - `'group'` -- group identical lexical entries (ILE) in `discrete` `word_space` setting;
 - `'agglomerative'` or `['agglomerative', 'ward']` -- default settings for agglomerative clustering.  
-More options: `['agglomerative', linkage, affinity]`:  
+More options: `['agglomerative', linkage, affinity, connectivity, compute_full_tree]`:  
   - `linkage` -- linkage criterion: 'ward', 'complete', 'average', 'single';  
   - `affinity` -- metric used to compute the linkage: 'euclidean', 'l1', 'l2', 'manhattan', 'cosine'; 
   only 'euclidean' for 'ward' `linkage`;  
-  - future options: `connectivity`, `compute_full_tree`, 'precomputed' affility callable/
+  - `connectivity` -- neighborhood graph computation parameters, `int` or `dict`: 
+    - `int` -- number of neighbours to compute; 
+    - `dict` -- future option, more info -- [sklearn](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.kneighbors_graph.html#sklearn.neighbors.kneighbors_graph)
+  - `compute_full_tree` -- `True` or `False` to save computation time, default 'auto'.   
   - more information ⇒ [sklearn.cluster.AgglomerativeClustering](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html)
 - `mean shift` -- mean shift clustering, coming soon...
  

@@ -263,7 +263,12 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81114
     #-header = ['Line', 'Corpus', 'Parsing', 'LW', 'RW', 'Gen.', 'Space',
     #-          'Rules', 'Silhouette', 'PA', 'PQ', 'F1']
     header = ['Line', 'Corpus', 'Parsing', 'Space', 'Linkage', 'Affinity',
-              'Gen.', 'Rules', 'SI', 'PA', 'PQ', 'F1', 'Top 5 cluster sizes']
+              'Gen.', 'Rules', 'NN', 'SI', 'PA', 'PQ', 'F1', 'Top 5 cluster sizes']
+
+    knn = '---'  # 81116 k nearest neighbors for connectivity graph
+    if len(kwargs['clustering']) > 3:
+        if type(kwargs['clustering'][3]) is int:
+            knn = kwargs['clustering'][3]
 
     spaces = ''
     if kwargs['clustering'] == 'random':
@@ -346,7 +351,7 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81114
                 rules.append(0)
                 det_line = [line[0], corpus, dataset, spaces,
                             kwargs['clustering'][1], kwargs['clustering'][2], gen,
-                            ' fail ', ' --- ', ' --- ', ' --- ', ' --- ', ' --- ']
+                            'fail', ' ---', ' ---', ' ---', ' ---', ' ---', ' ---']
                 details.append(det_line)
                 continue
             if kwargs['linkage_limit'] > 0:  # use 0 to avoid grammar_tester call
@@ -364,7 +369,7 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81114
                     #         str(round(f1, 2))]
                     dline = [line[0], corpus, dataset, spaces,
                              kwargs['clustering'][1], kwargs['clustering'][2], gen,
-                             ' ' + str(re['grammar_rules']) + ' ', s_str,
+                             ' ' + str(re['grammar_rules']) + ' ', s_str, str(knn),
                              str(round(a*100))+'%', str(round(q*100))+'%',
                              str(round(f1, 2)), cluster_sizes]
                     details.append(dline)
@@ -378,8 +383,8 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81114
                 #                ' --- ', ' --- ', ' --- '])
                 details.append([line[0], corpus, dataset, spaces,
                                 kwargs['clustering'][1], kwargs['clustering'][2], gen,
-                                ' ' + str(re['grammar_rules']) + ' ', s_str,
-                                ' --- ', ' --- ', ' --- ', ' --- '])
+                                ' ' + str(re['grammar_rules']) + ' ', s_str, str(knn),
+                                ' ---', ' ---', ' ---', ' ---', ' ---'])
         if len(pa) > 0:
             pa_str = str(round(sum(pa) * 100 / len(pa))) + '%'
             pq_str = str(round(sum(pq) * 100 / len(pa))) + '%'
@@ -400,9 +405,9 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81114
 
         #-avg_line = [line[0], corpus, dataset, lw, dot, gen, spaces,
         #             mean_rules, sia_str, pa_str, pq_str, fm_str]
-        avg_line = [line[0], corpus, dataset, spaces,
-                    kwargs['clustering'][1], kwargs['clustering'][2], gen,
-                    mean_rules, sia_str, pa_str, pq_str, fm_str, cluster_sizes]
+        avg_line = [line[0], corpus, dataset, spaces, kwargs['clustering'][1],
+                    kwargs['clustering'][2], gen, mean_rules, str(knn),
+                    sia_str, pa_str, pq_str, fm_str, cluster_sizes]
 
         average.append(avg_line)
 

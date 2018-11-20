@@ -6,7 +6,7 @@ import getopt
 import platform
 import shutil
 
-from pathos.multiprocessing import Pool
+# from pathos.multiprocessing import Pool
 
 # from ull.common import subst_variables_in_str, subst_variables_in_dict, get_path_from_dict
 from ull.common import JsonFileConfigManager, AbstractPipelineComponent, handle_path_string
@@ -179,6 +179,10 @@ Usage:
         run_tree()
 
         PipelineTreeNode2.free_static_components()
+
+    except KeyboardInterrupt:
+        print("Ctrl+C triggered.")
+        return 1
 
     except Exception as err:
         print(str(err))

@@ -293,7 +293,7 @@ def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, 
     # Substitute derived path for LEAF, PREV and other variables
     all_parameters = subst_variables_in_dict2(all_parameters, scopes, True, first_char)
 
-    print(all_parameters)
+    # print(all_parameters)
 
     return all_parameters, new_environment
 
@@ -320,7 +320,7 @@ def build_tree(config: List, globals: dict, first_char="%") -> List[PipelineTree
         if type == "static":
             params = subst_variables_in_dict(component_config.get("parameters", {}), globals, first_char)
 
-            print(params)
+            # print(params)
 
             inst_name = component_config.get("instance-name", None)
 

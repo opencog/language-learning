@@ -19,24 +19,6 @@ class EvalError(Exception):
     pass
 
 
-# def load_ull_file(filename):
-#     """
-#         Loads a data file
-#     """
-#     with open(filename, "r", encoding="utf-8-sig") as file:
-#         data = []
-#         line_count = 0
-#
-#         for line in file:
-#             line = line.strip()
-#
-#             if len(line):
-#                 data.append(line.strip())
-#                 # print(line.strip())
-#                 line_count += 1
-#
-#     return data
-
 def load_ull_file(filename):
     """
         Loads a data file
@@ -99,68 +81,6 @@ def get_parses(data, ignore_wall: bool=True, sort_parses: bool=True):
     return parses
 
 
-# def get_parses(data, ignore_wall: bool=True, sort_parses: bool=True):
-#     """
-#         Separates parses from data into format:
-#         [
-#             [ <sentence>, <set-of-link-tuples>, <ignored-link-count> ]
-#             ...
-#         ]
-#         <sentence> - text string
-#         <set-of-link-tuples> - set of tuples, where each tuple has two token indexes
-#         <ignored-link-count> - integer value representing the number links which were not added to the set of tuples.
-#
-#         Each list is splitted into tokens using space.
-#     """
-#     parses = []              # list of parses where each parse consists of two elements: sentence and the set of links
-#     parse = []
-#
-#     line_count = 0
-#
-#     for line in data:
-#
-#         line = line.strip()
-#         line_len = len(line)
-#         # print(line)
-#
-#         if line_len:
-#
-#             # Parses are always start with a digit
-#             if len(line) and line[0].isdigit():
-#                 link = line.split()
-#
-#                 assert len(link) == 4, "The line appears not to be a link: " + line
-#
-#                 # Do not add LW and period links to the set if 'ignore_wall' is specified
-#                 if ignore_wall and (link[1] == "." or link[3] == "." or link[1] == "[.]" or link[3] == "[.]"
-#                                     or link[1].startswith(r"###") or link[3].startswith(r"###")):
-#
-#                     parse[PARSE_IGNORED] += 1  # count ignored links
-#                     continue
-#
-#                 # Only token indexes are added to the set
-#                 parse[PARSE_LINK_SET].add((int(link[0]), int(link[2])))
-#
-#             # Suppose that sentence line always starts with a letter
-#             elif len(line):  # if line[0].isalpha() or line[0] == "[":
-#
-#                 if len(parse) > 0:
-#                     parses.append(parse)
-#                     parse = []
-#
-#                 parse.append((((line.replace("[", "")).replace("]", "")).replace("\n", "")).strip())
-#                 parse.append(set())
-#                 parse.append(int(0))
-#
-#                 line_count += 1
-#
-#     # Last parse should always be added to the list
-#     if len(parse) > 0:
-#         parses.append(parse)
-#
-#     return parses
-
-
 def eval_parses(test_parses: list, ref_parses: list, verbose: bool, ofile=sys.stdout) -> ParseQuality:
     """
         Compares test_parses against ref_parses link by link
@@ -172,13 +92,16 @@ def eval_parses(test_parses: list, ref_parses: list, verbose: bool, ofile=sys.st
     :param ofile: Output file handle.
     :return: ParseQuality class instance filled with the result data.
     """
-    total_linkages = len(ref_parses)        # in gold standard
 
     total_parse_quality = ParseQuality()
 
     if len(ref_parses) != len(test_parses):
         raise EvalError("Error: files don't contain same parses. "
                         "Number of sentences missmatch. Ref={}, Test={}".format(len(ref_parses), len(test_parses)))
+
+    if verbose:
+        print("\nTest Set\tReference Set\tIntersection\tRecall\tPrecision\tF1")
+        print("-" * 75)
 
     for ref_parse, test_parse in zip(ref_parses, test_parses):
 
@@ -189,16 +112,17 @@ def eval_parses(test_parses: list, ref_parses: list, verbose: bool, ofile=sys.st
         pq = parse_quality(test_parse[PARSE_LINK_SET], ref_parse[PARSE_LINK_SET])
 
         pq.ignored += test_parse[PARSE_IGNORED]
+        pq.sentences += 1
 
         if verbose:
-            print(ParseQuality.text(pq), file=sys.stdout)
+            print(test_parse[PARSE_LINK_SET], ref_parse[PARSE_LINK_SET],
+                  test_parse[PARSE_LINK_SET] & ref_parse[PARSE_LINK_SET],
+                  ParseQuality.recall_str(pq), ParseQuality.precision_str(pq), ParseQuality.f1_str(pq))
 
         total_parse_quality += pq
 
-    if total_linkages > 1:
-        total_parse_quality /= total_linkages
-
-    print(ParseQuality.text(total_parse_quality), file=ofile)
+    if ofile != sys.stdout or (ofile == sys.stdout and verbose):
+        print(ParseQuality.text(total_parse_quality), file=ofile)
 
     return total_parse_quality
 
@@ -223,28 +147,27 @@ def compare_ull_files(test_path, ref_file, verbose, ignore_left_wall) -> ParseQu
         nonlocal total_parse_quality
         nonlocal total_file_count
 
-        print("\nComparing parses:")
-        print("-----------------")
-        print("File being tested: '" + test_file + "'")
-        print("Reference file   : '" + ref_file + "'")
+        out_file = test_file + ".stat"
 
-        suffix = "" if test_file[-1] != "2" else "2"
-
-        out_file = test_file + ".stat" + suffix
-
-        print("Result file      : '" + out_file + "'")
+        if verbose:
+            print("\nComparing parses:")
+            print("-----------------")
+            print("File being tested: '" + test_file + "'")
+            print("Reference file   : '" + ref_file + "'")
+            print("Result file      : '" + out_file + "'")
 
         mode = "a" if os.path.isfile(out_file) else "w"
 
         try:
             ref_data = load_ull_file(ref_file)
-            ref_parses = get_parses(ref_data, ignore_left_wall)
+            ref_parses = get_parses(ref_data, ignore_left_wall, False)
 
             test_data = load_ull_file(test_file)
-            test_parses = get_parses(test_data, ignore_left_wall)
+            test_parses = get_parses(test_data, ignore_left_wall, False)
 
             with open(out_file, mode) as ofile:
-                print("Reference file   : '" + ref_file + "'", file=ofile)
+                print("File being tested: '" + test_file + "'", file=ofile)
+                print("Reference file   : '" + ref_file + "'\n", file=ofile)
 
                 total_parse_quality += eval_parses(test_parses, ref_parses, verbose, ofile)
                 total_file_count += 1
@@ -253,8 +176,8 @@ def compare_ull_files(test_path, ref_file, verbose, ignore_left_wall) -> ParseQu
             print("IOError: " + str(err))
 
         except Exception as err:
-            print("Exception: " + str(err))
-
+            print("evaluate(): Exception: " + str(err))
+            raise
     try:
         # If specified name is a file.
         if os.path.isfile(test_path):
@@ -268,11 +191,13 @@ def compare_ull_files(test_path, ref_file, verbose, ignore_left_wall) -> ParseQu
         else:
             raise("Error: File or directory '" + test_path + "' does not exist.")
 
-        if total_file_count > 1:
-            total_parse_quality /= float(total_file_count)
+        print("\n" + total_parse_quality.text(total_parse_quality))
 
     except IOError as err:
         print("IOError: " + str(err))
+
+    except KeyboardInterrupt:
+        print("Ctrl+C triggered.")
 
     except Exception as err:
         print("Exception: " + str(err))

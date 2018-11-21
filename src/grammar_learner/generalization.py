@@ -1,7 +1,8 @@
-# language-learning/src/grammar_learner/generalization.py               # 81101
+# language-learning/src/grammar_learner/generalization.py               # 81121
 from copy import copy, deepcopy
 from operator import itemgetter
 from .clustering import cluster_id
+from .utl import kwa                    # TODO: replace local kwa's
 
 
 def aggregate(categories, threshold, similarity_function, verbose='none'):
@@ -59,7 +60,7 @@ def aggregate(categories, threshold, similarity_function, verbose='none'):
             print('aggregate: cats lengths before append:', ', '.join([k + ':' + str(len(v)) for k, v in cats.items()]))
 
         cats['cluster'].append(cluster_id(new_cluster_id, new_cluster_id))
-        # TODO: check situation new_cluster_id > 26**n      # 80925
+        # TODO: check situation new_cluster_id > 25**n      # 80925
 
         cats['parent'].append(0)
         cats['children'].append(mset)
@@ -171,11 +172,10 @@ def jaccard(x, y):
 
 def generalize_categories(categories, **kwargs):  # 80616 v.0.5 ex. aggregate_word_categories
     # categories == {'cluster':[], 'words': [], 'disjuncts':[], ...}
-    def kwa(v, k): return kwargs[k] if k in kwargs else v
-    aggregation = kwa('off', 'categories_generalization')
-    merge_threshold = kwa(0.8, 'categories_merge')
-    aggr_threshold = kwa(0.2, 'categories_aggregation')
-    verbose = kwa('none', 'verbose')
+    aggregation = kwa('off', 'categories_generalization', **kwargs)
+    merge_threshold = kwa(0.8, 'categories_merge', **kwargs)
+    aggr_threshold = kwa(0.2, 'categories_aggregation', **kwargs)
+    verbose = kwa('none', 'verbose', **kwargs)
 
     if aggregation == 'jaccard':
 
@@ -209,29 +209,15 @@ def generalize_categories(categories, **kwargs):  # 80616 v.0.5 ex. aggregate_wo
 
 def generalize_rules(categories, **kwargs):  # 80622
     # categories == {'cluster':[], 'words': [], 'disjuncts':[], ...}
-    def kwa(v, k): return kwargs[k] if k in kwargs else v
-    grammar_rules = kwa(1, 'grammar_rules')
-    merge_threshold = kwa(0.8, 'rules_merge')
-    aggr_threshold = kwa(0.2, 'rules_aggregation')
+    merge_threshold = kwa(0.8, 'rules_merge', **kwargs)
+    aggr_threshold = kwa(0.2, 'rules_aggregation', **kwargs)
     verbose = kwa('none', 'verbose')
 
-    if verbose in ['debug', 'max']:
-        print('Jaccard index based generalize_rules')
-        if len(set([len(x) for x in categories.values()])) > 1:
-            print('cats lengths:', ', '.join([k + ':' + str(len(v)) for k, v in categories.items()]))
-        else:
-            print('cats lengths:', set([len(x) for x in categories.values()]))
-
     threshold = merge_threshold  # 0.8
-
-    if verbose == 'debug':
-        print('generalize_rules: 1st call aggregate with threshold', threshold)
-
     cats, similarities = aggregate(categories, threshold, jaccard, verbose)
     sims = [x for x in similarities]  # if x < threshold]
     threshold = max(sims) - 0.01
-    # TODO: list of merged clusters - to delete further?
-    # TODO: delete merged clusters
+    # TODO: delete merged clusters?
 
     z = len(similarities)
     while z > 1 and threshold > aggr_threshold:
@@ -269,6 +255,65 @@ def generalize_rules(categories, **kwargs):  # 80622
 
     return reorder(cats), {'similarity_thresholds': sims, 'updated_disjuncts': counter}
 
+
+def renumber(cats):                                                     # 81121
+    #  Renumber connectors in disjuncts
+    clusters =  [i for i,x in enumerate(cats['cluster']) if i > 0 and x is not None]
+    sign = lambda x: (1, -1)[x < 0]
+
+    def ancestor(connector,parents):
+        if parents[abs(connector)] == 0: return connector
+        else: return ancestor(parents[abs(connector)], parents)
+
+    for cluster in clusters:
+        new_rule = []
+        for disjunct in cats['disjuncts'][cluster]:
+            new_dj = []
+            for x in disjunct:
+                new_dj.append(sign(x) * ancestor(abs(x), cats['parent']))
+            new_rule.append(tuple(new_dj))
+        cats['disjuncts'][cluster] = set(new_rule)
+
+    return cats
+
+
+def generalise_rules(categories, **kwargs):                             # 81121
+    # categories == {'cluster':[], 'words': [], 'disjuncts':[], ...}
+    generalisation = kwa('jaccard', 'rules_generalization', **kwargs)
+    merge_threshold = kwa(0.8, 'rules_merge', **kwargs)
+    aggr_threshold = kwa(0.2, 'rules_aggregation', **kwargs)
+    verbose = kwa('none', 'verbose', **kwargs)
+
+    if generalisation == 'hierarchical':  # updated 'jaccard' legacy
+        threshold = merge_threshold  # 0.8
+        cats, similarities = aggregate(categories, threshold, jaccard, verbose)
+        sims = [x for x in similarities]  # if x < threshold]
+        threshold = max(sims) - 0.01
+        # TODO: delete merged clusters?
+        z = len(similarities)
+        while z > 1 and threshold > aggr_threshold:
+            cats, similarities = aggregate(cats, threshold, jaccard, verbose)
+            cats = renumber(cats)
+            sims = [x for x in similarities if x < threshold]
+            threshold = max(sims) - 0.01  # step-by-step hierarchy construction
+            z = len(sims)
+
+    else:  # 81120 1-step jaccard-based, iterate after dj commectors update
+        threshold = aggr_threshold
+        n_clusters = len([x for x in categories['parent'] if x == 0])
+        print(f'generalise_rules (new): n_clusters = {n_clusters}')
+        dn = 1
+        while dn > 0:
+            cats, similarities = aggregate(categories, threshold, jaccard, verbose)
+            cats = renumber(cats)
+            n_cats = len([x for x in cats['parent'] if x == 0])
+            print(f'n_clusters = {n_clusters}, n_cats = {n_cats}')
+            dn = n_clusters - n_cats
+            n_clusters = n_cats
+
+    return reorder(cats), {'rules_generalization': 'new'}
+
+
 # Notes:
 
 # 80725 POC 0.1-0.4 deleted, 0.5 restructured
@@ -276,3 +321,4 @@ def generalize_rules(categories, **kwargs):  # 80622
     # cats2list copied to poc05.py for tmp compatibility
 # TODO: aggregate_cosine?
 # 80802 fix compatibility with dj_counts & max_disjuncts, delete ...05.py?
+# 81121 generalise_rules

@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 from copy import deepcopy
-from collections import OrderedDict
+from collections import OrderedDict, Counter
 from .utl import UTC, kwa  # , round1,round2,round3,round4,round5
 from .read_files import check_dir  # , check_mst_files
 from .hyperwords import vector_space_dim, pmisvd
@@ -93,8 +93,6 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
             print(UTC(), ':: category_learner ⇒ ILE group_links: context =',
                   str(context) + ', word_space: ' + str(word_space) + ', algorithm:', algorithm)
         cdf = group_links(links, verbose)
-        if verbose not in ['min', 'none']:
-            print(UTC(), ':: ILE:', len(clusters), 'clusters of identical lexical entries', type(clusters))
 
     # «DRK» ?if word_space[0] in ['v','e'] or context == 1 or algorithm == 'kmeans':
     elif word_space[0] in ['v', 'e']:  # «DRK» legacy Grammar Learner 0.6
@@ -121,11 +119,12 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
     elif word_space[0] == 's':  # sparse
         log.update({'word_space': 'sparse'})
         linx, words, features = clean_links(links, **kwargs)
-        print(f'{len(links)} links: {len(set(links["word"].tolist()))} unique words, {len(set(links["link"].tolist()))} links')
-        print(f'words: len {len(words)}, min {min(words)}, max {max(words)}')
-        print(f'features: len {len(features)}, min {min(features)}, max {max(features)}')
-        print(f'features: {features}')
-        print(f'linx: {linx}')
+        if verbose in ['max', 'debug']:
+            print(f'{len(links)} links: {len(set(links["word"].tolist()))} unique words, {len(set(links["link"].tolist()))} links')
+            print(f'words: len {len(words)}, min {min(words)}, max {max(words)}')
+            print(f'features: len {len(features)}, min {min(features)}, max {max(features)}')
+            print(f'features: {features}')
+            print(f'linx: {linx}')
 
         counts = co_occurrence_matrix(linx, **kwargs)
         if verbose in ['max', 'debug']:
@@ -157,8 +156,7 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
         cdf = random_clusters(links, **kwargs)
         log.update({'clustering': 'random'})
 
-    # TODO: log.update({'cluster_sizes': [int]})  # 81114
-    cluster_sizes = sorted(set([len(x) for x in cdf['cluster_words'].tolist()]), reverse=True)
+    cluster_sizes = Counter([len(x) for x in cdf['cluster_words'].tolist()])
     log.update({'n_clusters': len(cdf), 'cluster_sizes': cluster_sizes})
 
     if verbose in ['max', 'debug']:

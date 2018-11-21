@@ -1,17 +1,18 @@
-# language-learning/src/learner.py                                      # 81106
+# language-learning/src/learner.py                                      # 81121
 import os
 from copy import deepcopy
 import pickle, numpy as np, pandas as pd
 from shutil import copy2 as copy
 from IPython.display import display
-from collections import OrderedDict
+from collections import OrderedDict, Counter
 from .widgets import html_table
 from .utl import UTC, kwa
 from .read_files import check_dir, check_mst_files
 from .pparser import files2links
 from .category_learner import learn_categories, add_disjuncts, cats2list
 from .grammar_inducer import induce_grammar
-from .generalization import generalize_categories, generalize_rules
+from .generalization import generalize_categories, generalize_rules, \
+                            generalise_rules                            # 81120
 from .write_files import list2file, save_link_grammar, save_cat_tree
 
 __all__ = ['learn_grammar']
@@ -19,7 +20,6 @@ __all__ = ['learn_grammar']
 
 def learn_grammar(**kwargs):
     log = OrderedDict({'start': str(UTC()), 'learn_grammar': 'v.0.7.81109'})
-
     input_parses = kwargs['input_parses']
     output_grammar = kwargs['output_grammar']
     output_categories = kwa('', 'output_categories', **kwargs)
@@ -96,11 +96,18 @@ def learn_grammar(**kwargs):
     '''Generalize grammar rules'''
 
     if 'rules_generalization' in kwargs:
-        if kwargs['rules_generalization'] not in ['', 'off']:
+        # if kwargs['rules_generalization'] not in ['', 'off']:
+        if kwargs['rules_generalization'] in ['jaccard', 'legacy']:
+            print('rules_generalization:', kwargs['rules_generalization'])
             rules, re08 = generalize_rules(rules, **kwargs)
             log.update(re08)
-            if verbose == 'debug':
-                print('generalize_rules ⇒ gen_rules:')
+        elif kwargs['rules_generalization'] in ['hierarchical','new']:  # 81121
+            print('generalise_rules ⇒ new')
+            rules, re08 = generalise_rules(rules, **kwargs)
+            log.update(re08)
+
+    log['rule_sizes'] = Counter(
+        [len(x) for i, x in enumerate(rules['words']) if rules['parent'][i] == 0])
 
     '''Save word category tree, Link Grammar files: cat_tree.txt, dict...dict'''
 
@@ -112,7 +119,16 @@ def learn_grammar(**kwargs):
     log.update({'finish': str(UTC())})
     # TODO: elapsed execution time?  Save log?
 
-    return log
+    # 81120: check 2nd g12n   FIXME
+    # rules, re11 = generalize_rules(rules, **kwargs)
+    # re12 = save_cat_tree(rules, output_categories, verbose='none')
+    # re13 = save_link_grammar(rules, output_grammar, grammar_rules)
+    # log.update(re11)
+    # log.update(re12)
+    # log.update(re13)
+
+    # return log
+    return rules, log  # 81120 FIXME
 
 # Notes:
 

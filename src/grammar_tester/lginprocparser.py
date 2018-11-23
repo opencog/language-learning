@@ -310,14 +310,14 @@ class LGInprocParser(AbstractFileParserClient):
                     print("Warning: number of sentences does not match. "
                           "Read: {}, Parsed: {}".format(sentence_count, ret_metrics.sentences))
 
+        except FileNotFoundError as err:
+            print("FileNotFoundError: " + str(err))
+
         except LGParseError as err:
             print("LGParseError: " + str(err))
 
         except IOError as err:
             print("IOError: " + str(err))
-
-        except FileNotFoundError as err:
-            print("FileNotFoundError: " + str(err))
 
         except OSError as err:
             print("OSError: " + str(err))

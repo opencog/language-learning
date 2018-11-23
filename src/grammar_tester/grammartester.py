@@ -128,11 +128,11 @@ class GrammarTester(AbstractGrammarTestClient):
             print(ParseMetrics.text(metrics), file=stat_file_handle)
             print(ParseQuality.text(quality), file=stat_file_handle)
 
-        except IOError as err:
-            print("IOError: " + str(err))
-
         except FileNotFoundError as err:
             print("FileNotFoundError: " + str(err))
+
+        except IOError as err:
+            print("IOError: " + str(err))
 
         except OSError as err:
             print("OSError: " + str(err))
@@ -198,6 +198,7 @@ class GrammarTester(AbstractGrammarTestClient):
         dict_path = args[CORP_ARG_LANG]
 
         try:
+            start_time = time()
             out_file = self._get_output_file_name(corpus_file_path, args)
             ref_file = self._get_ref_file_name(corpus_file_path, args)
 
@@ -214,6 +215,8 @@ class GrammarTester(AbstractGrammarTestClient):
             self._total_quality += file_quality
 
             self._total_files += 1
+
+            print_execution_time(os.path.split(out_file)[1] + " parse time", time() - start_time)
 
         except Exception as err:
             print("_on_corpus_file(): " + str(err))
@@ -265,7 +268,7 @@ class GrammarTester(AbstractGrammarTestClient):
                     self._event_handler.on_statistics((dict_path.split("/"))[::-1],
                                                       self._total_metrics, self._total_quality)
 
-                print_execution_time("Dictionary processing time", time() - start_time)
+                print_execution_time(os.path.split(dict_file_path)[1] + " dictionary processing time", time() - start_time)
 
         except Exception as err:
             print("_on_dict_file(): "+str(type(err))+": "+str(err))

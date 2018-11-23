@@ -139,12 +139,13 @@ def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, 
     Create built-in variables (PREV, RPREV, LEAF, RLEAF), substitute variables, starting with '%'
         with their real values.
 
-    :param parent:      Parent node of the execution tree.
-    :param common:      Common parameters dictionary.
-    :param specific:    Specific parameters dictionary.
-    :param environment: Environment dictionary.
-    :param first_char:  Character that delimits variables ('%' is default).
-    :return:            Tuple of two dictionaries: one for parameters, another for environment.
+    :param parent:          Parent node of the execution tree.
+    :param common:          Common parameters dictionary.
+    :param specific:        Specific parameters dictionary.
+    :param environment:     Environment dictionary.
+    :param first_char:      Character that delimits variables ('%' is default).
+    :param create_sub_dir   Boolean value forces the program to create subdirectory path based on specific dictionary.
+    :return:                Tuple of two dictionaries: one for parameters, another for environment.
     """
 
     # Merge two dictionaries 'common-parameters' and 'specific-parameters'

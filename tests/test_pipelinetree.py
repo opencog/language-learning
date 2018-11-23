@@ -103,12 +103,12 @@ class PipelineTreeTestCase(unittest.TestCase):
     def test_prepare_parameters(self):
         p, e = prepare_parameters(None, {"path_to_somewhere": "%ROOT/abc"},
                                   {"path_to_elsewhere": "%ROOT/efg", "X": "xx", "n": 1},
-                                  {"ROOT": "~/data/2018-09-01"})
+                                  {"ROOT": "~/data/2018-09-01"}, "%", True)
         # print(p, e, sep="\n")
 
         self.assertEqual(p["path_to_somewhere"], "~/data/2018-09-01/abc")
         self.assertEqual(p["path_to_elsewhere"], "~/data/2018-09-01/efg")
-        self.assertEqual(e["LEAF"], "~/data/2018-09-01/X:xx/n:1")
+        self.assertEqual(e["LEAF"], "~/data/2018-09-01/X:xx_n:1")
 
     # @unittest.skip
     def test_build_tree(self):

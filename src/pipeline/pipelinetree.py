@@ -133,7 +133,8 @@ def handle_request(node: PipelineTreeNode2, req: dict) -> None:
     return getattr(inst, meth)(**req)
 
 
-def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, environment: dict, first_char="%") -> (dict, dict):
+def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, environment: dict, first_char="%",
+                       create_sub_dir: bool=True) -> (dict, dict):
     """
     Create built-in variables (PREV, RPREV, LEAF, RLEAF), substitute variables, starting with '%'
         with their real values.
@@ -161,8 +162,8 @@ def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, 
                 if (not (isinstance(v, list) or isinstance(v, dict) or isinstance(v, str)))
                 or (isinstance(v, str) and v.find("/") < 0 and v.find("%") < 0)}
 
-    # Get subdir path based on specific parameters
-    rleaf = get_path_from_dict(non_path)
+    # Get subdir path based on specific parameters if requested
+    rleaf = get_path_from_dict(non_path, "_") if create_sub_dir else ""
 
     inherit_prev = all_parameters.get("inherit_prev_path", False)
 
@@ -215,13 +216,14 @@ def build_tree(config: List, globals: dict, first_char="%") -> List[PipelineTree
 
                 # Only if the previous component path should be followed
                 if parent._parameters.get("follow_exec_path", True):
+
                     for specific in spec:
 
                         # Create parameter and environment dictionaries
                         parameters, environment = prepare_parameters(
                             parent, comm, specific,
                             {**globals, **{"RPREV": parent._environment["RLEAF"], "PREV": parent._environment["LEAF"]}},
-                            first_char)
+                            first_char, len(spec) > 1)
 
                         children.append(PipelineTreeNode2(level, name, parameters, environment, parent))
 
@@ -229,7 +231,7 @@ def build_tree(config: List, globals: dict, first_char="%") -> List[PipelineTree
             for specific in spec:
 
                 # Create parameter and environment dictionaries
-                parameters, environment = prepare_parameters(None, comm, specific, globals, first_char)
+                parameters, environment = prepare_parameters(None, comm, specific, globals, first_char, len(spec) > 1)
 
                 children.append(PipelineTreeNode2(level, name, parameters, environment, None))
 

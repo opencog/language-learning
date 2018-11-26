@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/pqa_table.py                    # 81109
+# language-learning/src/grammar_learner/pqa_table.py                    # 81121
 # Test Grammar Learner to fill in ULL Project Plan Parses spreadshit
 import os, sys, time
 from ..common import handle_path_string
@@ -8,7 +8,7 @@ from .read_files import check_dir
 from .learner import learn_grammar
 
 
-def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81114
+def params(corpus, dataset, module_path, out_dir, **kwargs):  # 81114
     input_parses = module_path + '/data/' + corpus + '/' + dataset
     if type(kwargs['clustering']) is str:
         clustering = kwargs['clustering']
@@ -16,7 +16,7 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81114
         clustering = kwargs['clustering'][0]
     if check_dir(input_parses, create=False, verbose='min'):
         batch_dir = out_dir + '/' + corpus
-        spaces = ['w', 'c', 'd']        # 'words', 'connectors', 'disjuncts'
+        spaces = ['w', 'c', 'd']  # 'words', 'connectors', 'disjuncts'
         context = spaces[kwargs['context']]
         rules = spaces[kwargs['grammar_rules']]
         if kwargs['grammar_rules'] == -1:
@@ -26,33 +26,18 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81114
         if kwargs['clustering'] == 'random':
             context = ''
             wtf = 'Random-clusters'
-
         else:
             wtf = abrvlg(**kwargs)  # 81114
-        '''
-        elif kwargs['word_space'] == 'vectors':\
-            wtf = 'DRK'
-        elif kwargs['word_space'] == 'discrete':
-            wtf = 'ILE'
-        elif kwargs['word_space'] == 'sparse':
-            # wtf = 'ALE'  # 81109:
-            if clustering == 'agglomerative':
-                wtf = 'ALE'
-            elif clustering in ['k-means', 'kmeans']:
-                wtf = 'KLE'
-            elif clustering[:4] == 'mean': # ['mean shift', 'mean_shift']:
-                wtf = 'MLE'
-            else:
-                wtf = '?LE'
-        else: wtf = '???'
-        #'''
 
         if kwargs['left_wall'] in ['', 'none']:
             left_wall = 'no-LW'
-        else: left_wall = 'LW'
+        else:
+            left_wall = 'LW'
         if kwargs['period']:
             period = 'RW'
-        else: period = 'no-RW'
+        else:
+            period = 'no-RW'
+
         generalization = ['no-gen', 'gen-cats', 'gen-rules', 'gen-both']
         gen = 0
         if 'categories_generalization' in kwargs:
@@ -63,13 +48,20 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81114
                 gen += 2
 
         prj_dir = batch_dir + '_' + dataset + '_' + context + wtf + rules \
-                  + '_' + left_wall + '_' + period + '_' + generalization[gen]
+                  + '_' + generalization[gen]                           # 81121
+                  # + '_' + left_wall + '_' + period + '_' + generalization[gen]
+        if type(kwargs['cluster_range']) is int:
+            prj_dir = prj_dir + '_' + str(kwargs['cluster_range']) + 'c'
+        if len(kwargs['clustering']) > 3 and type(kwargs['clustering'][3]) is int:
+            prj_dir = prj_dir + '_' + str(['clustering'][3]) + 'nn'
+            # number of nearest neighbors in connectivuty constraints (81116)
 
         if check_dir(prj_dir, create=True, verbose='none'):
-            output_categories = prj_dir     # no file name ⇒ auto file name
-            output_grammar = prj_dir        # no file name ⇒ auto file name
+            output_categories = prj_dir  # no file name ⇒ auto file name
+            output_grammar = prj_dir  # no file name ⇒ auto file name
             return input_parses, output_categories, output_grammar
-        else: return input_parses, out_dir, out_dir
+        else:
+            return input_parses, out_dir, out_dir
 
     else:
         raise FileNotFoundError('File not found', input_parses)
@@ -80,24 +72,23 @@ def pqa_meter(dict_path, output_path, corpus_path, reference_path, **kwargs):
     template_path = handle_path_string("tests/test-data/dict/poc-turtle")
     linkage_limit = kwargs['linkage_limit'] if 'linkage_limit' in kwargs else 1000
     if kwargs['linkage_limit'] == 0:
-        return 0.0, 0.0, 0.0, 0.0   # table_rows: get grammar for further tests
+        return 0.0, 0.0, 0.0, 0.0  # table_rows: get grammar for further tests
     options = BIT_SEP_STAT | BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_RM_DIR | BIT_DPATH_CREATE | BIT_LOC_LANG | BIT_PARSE_QUALITY | BIT_ULL_IN  # | BIT_OUTPUT_DIAGRAM #| BIT_SEP_STAT
     # 80719: BIT_ULL_IN :: use ull parses as test corpus
     # 80719: BIT_CAPS  :: preserve caps in parses, process inside Grammar Learner
-    pa, f1, precision, recall = test_grammar(corpus_path, output_path, dict_path,
-        grammar_path, template_path, linkage_limit, options, reference_path)
+    pa, f1, precision, recall = test_grammar(corpus_path, output_path, dict_path, grammar_path, template_path,
+                                             linkage_limit, options, reference_path)
     pa = float(pa)
     recall = float(recall)
 
     return pa, f1, precision, recall
 
 
-def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81021
+def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):  # 81021
     # cp,rp: corpus_path, rp: reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
-    header = ['Line', 'Corpus', 'Parsing', 'LW', 'RW', 'Gen.', 'Space',
-              'Rules', 'Silhouette', 'PA', 'PQ', 'F1']
+    header = ['Line', 'Corpus', 'Parsing', 'LW', 'RW', 'Gen.', 'Space', 'Rules', 'Silhouette', 'PA', 'PQ', 'F1']
     spaces = ''
     if kwargs['clustering'] == 'random':
         spaces += 'RND'
@@ -115,7 +106,7 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81021
                 spaces += 'ALE'
             elif kwargs['clustering'][0] in ['k-means', 'kmeans']:
                 spaces += 'KLE'
-            elif kwargs['clustering'][0][:4] == 'mean': # ['mean shift', 'mean_shift']:
+            elif kwargs['clustering'][0][:4] == 'mean':  # ['mean shift', 'mean_shift']:
                 spaces += 'MLE'
             else:
                 spaces += '?LE'
@@ -168,7 +159,7 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81021
         fm = []  # F-measure
         rules = []
         for j in range(runs[0]):
-            try: # if True: #
+            try:  # if True: #
                 re = learn_grammar(**kwargs)
                 if 'silhouette' in re:
                     s = round(re['silhouette'], 2)
@@ -176,39 +167,36 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81021
                 else:
                     s = 0
                     s_str = ' --- '
-            except: # else: #
+            except:  # else: #
                 if kwargs['verbose'] not in ['none']:
-                    print('pqa_table.py table_rows: learn_grammar(**kwargs)',
-                          '⇒ exception:\n', sys.exc_info())
+                    print('pqa_table.py table_rows: learn_grammar(**kwargs)', '⇒ exception:\n', sys.exc_info())
                 pa.append(0.)
                 pq.append(0.)
                 rules.append(0)
-                det_line = [line[0], corpus, dataset, lw, dot, gen, spaces,
-                            ' fail ', ' --- ', ' --- ', ' --- ', ' --- ']
+                det_line = [line[0], corpus, dataset, lw, dot, gen, spaces, ' fail ', ' --- ', ' --- ', ' --- ',
+                            ' --- ']
                 details.append(det_line)
                 continue
             if kwargs['linkage_limit'] > 0:  # use 0 to avoid grammar_tester call
                 for i in range(runs[1]):
-                    #-a,q,qa = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
+                    # -a,q,qa = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
                     a, f1, precision, q = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
                     pa.append(a)
                     pq.append(q)
                     fm.append(f1)
                     si.append(s)
                     rules.append(re['grammar_rules'])
-                    dline = [line[0], corpus, dataset, lw, dot, gen, spaces,
-                             ' ' + str(re['grammar_rules']) + ' ', s_str,
-                             str(round(a*100))+'%', str(round(q*100))+'%',
-                             str(round(f1, 2))]
+                    dline = [line[0], corpus, dataset, lw, dot, gen, spaces, ' ' + str(re['grammar_rules']) + ' ',
+                             s_str, str(round(a * 100)) + '%', str(round(q * 100)) + '%', str(round(f1, 2))]
                     details.append(dline)
             else:
                 si.append(s)
                 rules.append(re['grammar_rules'])
-                print('else: details.append: re[grammar_rules]:', re['grammar_rules'],
-                      're[silhouette]:', re['silhouette'], 's_str:', s_str)
-                details.append([line[0], corpus, dataset, lw, dot, gen, spaces,
-                                ' ' + str(re['grammar_rules']) + ' ', s_str,
-                                ' --- ', ' --- ', ' --- '])
+                print('else: details.append: re[grammar_rules]:', re['grammar_rules'], 're[silhouette]:',
+                      re['silhouette'], 's_str:', s_str)
+                details.append(
+                    [line[0], corpus, dataset, lw, dot, gen, spaces, ' ' + str(re['grammar_rules']) + ' ', s_str,
+                     ' --- ', ' --- ', ' --- '])
         if len(pa) > 0:
             pa_str = str(round(sum(pa) * 100 / len(pa))) + '%'
             pq_str = str(round(sum(pq) * 100 / len(pa))) + '%'
@@ -217,18 +205,20 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81021
             pq_str = ' --- '
         if len(si) > 0:
             sia = round(sum(si) / len(si), 2)
-        else: sia = 0.0
+        else:
+            sia = 0.0
         sia_str = str(sia) if sia > 0.005 else ' --- '
         if len(fm) > 0:
             fm_str = str(round(sum(fm) / len(fm), 2))
-        else: fm_str = ' --- '
+        else:
+            fm_str = ' --- '
         non_zero_rules = [x for x in rules if x > 0]
         if len(non_zero_rules) > 0:
             mean_rules = str(round(sum(non_zero_rules) / len(non_zero_rules)))
-        else: mean_rules = 'fail'
+        else:
+            mean_rules = 'fail'
 
-        avg_line = [line[0], corpus, dataset, lw, dot, gen, spaces,
-                    mean_rules, sia_str, pa_str, pq_str, fm_str]
+        avg_line = [line[0], corpus, dataset, lw, dot, gen, spaces, mean_rules, sia_str, pa_str, pq_str, fm_str]
         average.append(avg_line)
 
     return average, details, header
@@ -256,14 +246,12 @@ def abrvlg(**kwargs):
         return '???'
 
 
-def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81114
+def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):  # 81121
     # cp,rp: corpus_path, rp: reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
-    #-header = ['Line', 'Corpus', 'Parsing', 'LW', 'RW', 'Gen.', 'Space',
-    #-          'Rules', 'Silhouette', 'PA', 'PQ', 'F1']
-    header = ['Line', 'Corpus', 'Parsing', 'Space', 'Linkage', 'Affinity',
-              'Gen.', 'Rules', 'NN', 'SI', 'PA', 'PQ', 'F1', 'Top 5 cluster sizes']
+    header = ['Line', 'Corpus', 'Parsing', 'Space', 'Linkage', 'Affinity', 'G12n', 'Threshold', 'Rules', 'NN', 'SI',
+              'PA', 'PQ', 'F1', 'Top 5 cluster sizes']
 
     knn = '---'  # 81116 k nearest neighbors for connectivity graph
     if len(kwargs['clustering']) > 3:
@@ -306,11 +294,21 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81114
         else:
             kwargs['period'] = False
             dot = ' --- '
-        gen = line[5]  # none | rules | categories | both
-        if gen in ['rules', 'both']:
-            kwargs['rules_generalization'] = 'jaccard'
-        else:
-            kwargs['rules_generalization'] = 'off'
+
+        gen = line[5]  # none | rules | categories | both | old | updated | new
+        rgt = '---'  # rules_generalization_threshold  # 81121
+        if 'rules_aggregation' in kwargs and type(kwargs['rules_aggregation']) is float:
+            rgt = str(kwargs['rules_aggregation'])  # rules_generalization_threshold
+            if gen in ['rules', 'both', 'old', 'jaccard']:
+                kwargs['rules_generalization'] = 'jaccard'
+            elif gen in ['updated', 'hierarchical']:
+                kwargs['rules_generalization'] = 'hierarchical'  # 81121 ~ jaccard+
+                gen = 'updated'
+            elif gen == 'new':
+                kwargs['rules_generalization'] = 'new'  # 81121 ~ iterative 1-step jaccard
+            else:
+                kwargs['rules_generalization'] = 'off'
+                rgt = '---'  # rules_generalization_threshold
         if gen in ['categories', 'both']:
             kwargs['categories_generalization'] = 'jaccard'
         else:
@@ -327,64 +325,61 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81114
         si = []  # Silhouette index
         fm = []  # F-measure
         rules = []
-        log = []
         cluster_sizes = []
         for j in range(runs[0]):
-            try: # if True: #
-                re = learn_grammar(**kwargs)
-                cluster_sizes = [x for x in sorted(re['cluster_sizes'], reverse=True)[:5]]
-                # cluster_sizes = [str(round(x*100/re['unique_words'])) + '%'
-                #                 for x in sorted(re['cluster_sizes'], reverse=True)[:5]]
-                log.append(re)
+            if True:  # try: #
+                # re = learn_grammar(**kwargs)
+                rulez, re = learn_grammar(**kwargs)  # 81120 FIXME!
+                if 'rule_sizes' in re:
+                    cluster_sizes = sorted(re['rule_sizes'].keys(), reverse=True)[:5]
+                elif 'cluster_sizes' in re:
+                    cluster_sizes = sorted(re['cluster_sizes'].keys(), reverse=True)[:5]
                 if 'silhouette' in re:
                     s = round(re['silhouette'], 2)
                     s_str = str(s)
                 else:
                     s = 0
                     s_str = ' --- '
-            except: # else: #
+            else:  # except: #
                 if kwargs['verbose'] not in ['none']:
-                    print('pqa_table.py table_rows: learn_grammar(**kwargs)',
-                          '⇒ exception:\n', sys.exc_info())
+                    print('pqa_table.py table_rows: learn_grammar(**kwargs)', '⇒ exception:\n', sys.exc_info())
                 pa.append(0.)
                 pq.append(0.)
                 rules.append(0)
-                det_line = [line[0], corpus, dataset, spaces,
-                            kwargs['clustering'][1], kwargs['clustering'][2], gen,
+                det_line = [line[0], corpus, dataset, spaces, kwargs['clustering'][1], kwargs['clustering'][2], gen,
                             'fail', ' ---', ' ---', ' ---', ' ---', ' ---', ' ---']
                 details.append(det_line)
                 continue
             if kwargs['linkage_limit'] > 0:  # use 0 to avoid grammar_tester call
                 for i in range(runs[1]):
-                    #-a,q,qa = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
+                    # -a,q,qa = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
                     a, f1, precision, q = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
                     pa.append(a)
                     pq.append(q)
                     fm.append(f1)
                     si.append(s)
                     rules.append(re['grammar_rules'])
-                    #-dline = [line[0], corpus, dataset, lw, dot, gen, spaces,
+                    # -dline = [line[0], corpus, dataset, lw, dot, gen, spaces,
                     #         ' ' + str(re['grammar_rules']) + ' ', s_str,
                     #         str(round(a*100))+'%', str(round(q*100))+'%',
                     #         str(round(f1, 2))]
-                    dline = [line[0], corpus, dataset, spaces,
-                             kwargs['clustering'][1], kwargs['clustering'][2], gen,
-                             ' ' + str(re['grammar_rules']) + ' ', s_str, str(knn),
-                             str(round(a*100))+'%', str(round(q*100))+'%',
-                             str(round(f1, 2)), cluster_sizes]
+                    dline = [line[0], corpus, dataset, spaces, kwargs['clustering'][1], kwargs['clustering'][2], gen,
+                             rgt, ' ' + str(re['grammar_rules']) + ' ', s_str, str(knn), str(round(a * 100)) + '%',
+                             str(round(q * 100)) + '%', str(round(f1, 2)), cluster_sizes]
                     details.append(dline)
+
+                    # TODO: rename
             else:
                 si.append(s)
                 rules.append(re['grammar_rules'])
-                print('else: details.append: re[grammar_rules]:', re['grammar_rules'],
-                      're[silhouette]:', re['silhouette'], 's_str:', s_str)
-                #-details.append([line[0], corpus, dataset, lw, dot, gen, spaces,
+                print('else: details.append: re[grammar_rules]:', re['grammar_rules'], 're[silhouette]:',
+                      re['silhouette'], 's_str:', s_str)
+                # -details.append([line[0], corpus, dataset, lw, dot, gen, spaces,
                 #                ' ' + str(re['grammar_rules']) + ' ', s_str,
                 #                ' --- ', ' --- ', ' --- '])
-                details.append([line[0], corpus, dataset, spaces,
-                                kwargs['clustering'][1], kwargs['clustering'][2], gen,
-                                ' ' + str(re['grammar_rules']) + ' ', s_str, str(knn),
-                                ' ---', ' ---', ' ---', ' ---', ' ---'])
+                details.append([line[0], corpus, dataset, spaces, kwargs['clustering'][1], kwargs['clustering'][2], gen,
+                                ' ' + str(re['grammar_rules']) + ' ', s_str, str(knn), ' ---', ' ---', ' ---', ' ---',
+                                ' ---'])
         if len(pa) > 0:
             pa_str = str(round(sum(pa) * 100 / len(pa))) + '%'
             pq_str = str(round(sum(pq) * 100 / len(pa))) + '%'
@@ -393,26 +388,28 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81114
             pq_str = ' --- '
         if len(si) > 0:
             sia = round(sum(si) / len(si), 2)
-        else: sia = 0.0
-        sia_str = str(sia) if sia > 0.005 else ' --- '
+        else:
+            sia = 0.0
+        sia_str = str(sia)  # if sia > 0.005 else ' --- '
         if len(fm) > 0:
             fm_str = str(round(sum(fm) / len(fm), 2))
-        else: fm_str = ' --- '
+        else:
+            fm_str = ' --- '
         non_zero_rules = [x for x in rules if x > 0]
         if len(non_zero_rules) > 0:
             mean_rules = str(round(sum(non_zero_rules) / len(non_zero_rules)))
-        else: mean_rules = 'fail'
+        else:
+            mean_rules = 'fail'
 
-        #-avg_line = [line[0], corpus, dataset, lw, dot, gen, spaces,
+        # -avg_line = [line[0], corpus, dataset, lw, dot, gen, spaces,
         #             mean_rules, sia_str, pa_str, pq_str, fm_str]
-        avg_line = [line[0], corpus, dataset, spaces, kwargs['clustering'][1],
-                    kwargs['clustering'][2], gen, mean_rules, str(knn),
-                    sia_str, pa_str, pq_str, fm_str, cluster_sizes]
+        avg_line = [line[0], corpus, dataset, spaces, kwargs['clustering'][1], kwargs['clustering'][2], gen, rgt,
+                    mean_rules, str(knn), sia_str, pa_str, pq_str, fm_str, cluster_sizes]
 
         average.append(avg_line)
 
-    return average, details, header, log
-
+    # return average, details, header, re
+    return average, details, header, re, rulez  # 81120 tmp FIXME!
 
 # Notes:
 
@@ -423,3 +420,4 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):          # 81114
 # -2: disjuncts  #Cxx: (C01Cxx-) or (C02Cxx-) ... or (CxxCn+)
 # 81018: unified table_rows, ready for next test_grammar, table: PA/PQ/F1
 # 81114: wider table for agglomerative clustering tests
+# 81120: wide_rows

@@ -45,7 +45,7 @@ kwargs = {                              # defaults:
     'categories_aggregation':   0.2 ,   # aggregate categories with similarity > this criteria
     # grammar induction and generalization:
     'grammar_rules' :   2           ,   # 1: 'connectors' / 2 - 'disjuncts'
-    'rules_generalization'  :  'off',   # 'off' / 'jaccard' - group ILE-based rules by jaccard similarity 
+    'rules_generalization'  :  'off',   # 'off' / 'hierarchical' / 'jaccard' -- see comments below 
     'rules_merge'           :   0.8 ,   # merge rules with similarity > this 'merge' criteria
     'rules_aggregation'     :   0.2 ,   # aggregate rules similarity > this criteria
     # miscellaneous:
@@ -99,3 +99,9 @@ optimal number of clusters: minimal, providing `clustering_metric` better than s
 - 1.0 -- clustering, providing max value of `clustering_metric`;  
 - x = 0.1-0.99 -- clustering with minimal number of clusters, providing x * max value of `clustering_metric`;
 - 0 / 0.0  -- return clustering with maxi,al possible number of clusters
+
+**'rules_generalization'**: 'off' / 'jaccard' / 'hierarchical' / 'new'
+- 'jaccard' -- group ILE-based rules by jaccard similarity (mid-2018 legacy),  
+- 'hierarchical' -- updated 'jaccard' with rules renumbering in each loop (Nov 2018),  
+- 'new' -- experimental iterative jaccard with rules renumbering (Nov 2018),  
+- 'classification' (idea to test) -- classify smaller clusters and merge with the best fit  

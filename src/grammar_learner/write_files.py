@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/write_files.py                  # 81108
+# language-learning/src/grammar_learner/write_files.py                  # 81126
 import os, linkgrammar
 from collections import OrderedDict
 from copy import deepcopy
@@ -171,7 +171,9 @@ def save_cat_tree(cats, output_categories, verbose='none'):
     tree_file = output_categories
     if '.' not in tree_file:  # received directory ⇒ auto file name
         if tree_file[-1] != '/': tree_file += '/'
-        n_cats = len([x for i, x in enumerate(cats['parent']) if i > 0 and x < 1])
+        # n_cats = len([x for i, x in enumerate(cats['parent']) if i > 0 and x < 1])
+        n_cats = len([x for i, x in enumerate(cats['cluster'])
+                      if i > 0 and x is not None])                      # 81122
         tree_file += (str(n_cats) + '_cat_tree.txt')
 
     categories = []

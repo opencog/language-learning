@@ -10,7 +10,7 @@ import getopt
 import sys
 import os
 
-from ull.grammartest import compare_ull_files, EvalError
+from ull.grammar_tester import compare_ull_files, EvalError
 from ull.parse_evaluator import Evaluate_Alternative
 
 def version():
@@ -53,16 +53,18 @@ def main(argv):
     test_file = ''
     ref_file = ''
     verbose = False
-    ignore_WALL = True
+    ignore_wall = True
     sequential = False
     random = False
     alternative_parser = False
 
     try:
         opts, args = getopt.getopt(argv, "ht:r:visza", ["test=", "reference=", "verbose", "ignore", "sequential", "random", "alternative"])
+
     except getopt.GetoptError:
         print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a]")
         sys.exit(2)
+
     for opt, arg in opts:
         if opt == '-h':
             print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a]")
@@ -74,14 +76,13 @@ def main(argv):
         elif opt in ("-v", "--verbose"):
             verbose = True
         elif opt in ("-i", "--ignore"):
-            ignore_WALL = False
+            ignore_wall = False
         elif opt in ("-s", "--sequential"):
             sequential = True
         elif opt in ("-z", "--random"):
             random = True
         elif opt in ("-a", "--alternative"):
             alternative_parser = True
-
 
     try:
         # Check if the arguments are properly specified.
@@ -97,7 +98,7 @@ def main(argv):
         exit(4)
 
     if alternative_parser:
-       Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random) 
+       Evaluate_Alternative(ref_file, test_file, verbose, ignore_wall, sequential, random) 
     else:
         try:
             # Check if the arguments are properly specified.

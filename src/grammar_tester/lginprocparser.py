@@ -113,6 +113,10 @@ class LGInprocParser(AbstractFileParserClient):
                     data = load_ull_file(ref_path)
                     ref_parses = get_parses(data, (options & BIT_NO_LWALL) == BIT_NO_LWALL, False)
 
+                except KeyboardInterrupt:
+                    print("_handle_stream_output(): Ctrl+C triggered.")
+                    raise
+
                 except Exception as err:
                     print("Exception: " + str(err))
 
@@ -149,6 +153,10 @@ class LGInprocParser(AbstractFileParserClient):
                         prepared = prepare_tokens(tokens, options)
                         sent_metrics += parse_metrics(prepared)
 
+                    except KeyboardInterrupt:
+                        print("_handle_stream_output(): Ctrl+C triggered.")
+                        raise
+
                     except Exception as err:
                         print(str(type(err)) + ": " + str(err) + " in handle_stream_output()")
                         print("Sentence:", sent.text)
@@ -166,6 +174,10 @@ class LGInprocParser(AbstractFileParserClient):
                             print("Sentence count: ", sentence_count)
                             print("IndexError: " + str(err) + " in _handle_stream_output()")
                             error_count += 1
+
+                        except KeyboardInterrupt:
+                            print("_handle_stream_output(): Ctrl+C triggered.")
+                            raise
 
                         except Exception as err:
                             print(str(type(err)) + ": " + str(err) + " in _handle_stream_output()")
@@ -309,6 +321,10 @@ class LGInprocParser(AbstractFileParserClient):
 
         except OSError as err:
             print("OSError: " + str(err))
+
+        except KeyboardInterrupt:
+            print("parse(): Ctrl+C triggered.")
+            raise
 
         except Exception as err:
             print("parse(): Exception: " + str(type(err)) + str(err))

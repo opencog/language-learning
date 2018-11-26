@@ -1,4 +1,4 @@
-# language-learning/src/learner.py                                      # 81121
+# language-learning/src/learner.py                                      # 81126
 import os
 from copy import deepcopy
 import pickle, numpy as np, pandas as pd
@@ -12,7 +12,7 @@ from .pparser import files2links
 from .category_learner import learn_categories, add_disjuncts, cats2list
 from .grammar_inducer import induce_grammar
 from .generalization import generalize_categories, generalize_rules, \
-                            generalise_rules                            # 81120
+                            generalise_rules, add_upper_level           # 81122
 from .write_files import list2file, save_link_grammar, save_cat_tree
 
 __all__ = ['learn_grammar']
@@ -93,17 +93,14 @@ def learn_grammar(**kwargs):
         print('N clusters = len(rules[disjuncts]-1):', len(rules['disjuncts']) - 1)
         print('Rule set lengths:', lengths)
 
-    '''Generalize grammar rules'''
+    '''Generalize grammar rules'''                                      # 81121
 
     if 'rules_generalization' in kwargs:
-        # if kwargs['rules_generalization'] not in ['', 'off']:
         if kwargs['rules_generalization'] in ['jaccard', 'legacy']:
-            print('rules_generalization:', kwargs['rules_generalization'])
             rules, re08 = generalize_rules(rules, **kwargs)
             log.update(re08)
-        elif kwargs['rules_generalization'] in ['hierarchical','new']:  # 81121
-            print('generalise_rules ⇒ new')
-            rules, re08 = generalise_rules(rules, **kwargs)
+        elif kwargs['rules_generalization'] in ['hierarchical', 'new']:
+            rules, re08 = generalise_rules(rules, **kwargs)             # 81121
             log.update(re08)
 
     log['rule_sizes'] = Counter(
@@ -111,7 +108,9 @@ def learn_grammar(**kwargs):
 
     '''Save word category tree, Link Grammar files: cat_tree.txt, dict...dict'''
 
-    re09 = save_cat_tree(rules, output_categories, verbose='none')
+    # re09 = save_cat_tree(rules, output_categories, verbose='none')    # 81123
+    tree, _ = add_upper_level(rules, **kwargs)  # 81123 add 3rd level over rules
+    re09 = save_cat_tree(tree, output_categories, verbose='none')
     # TODO: check file save error?
     log.update(re09)
     re10 = save_link_grammar(rules, output_grammar, grammar_rules)

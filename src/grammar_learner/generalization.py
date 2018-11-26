@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/generalization.py               # 81121
+# language-learning/src/grammar_learner/generalization.py               # 81126
 from copy import copy, deepcopy
 from operator import itemgetter
 from .clustering import cluster_id
@@ -170,6 +170,20 @@ def jaccard(x, y):
         return 0
 
 
+def squared(x, y):
+    try:
+        xx = set(x)
+        yy = set(y)
+    except:
+        return 0
+    if len(xx) == 0 or len(yy) == 0:
+        return 0
+    elif len(xx.union(yy)):
+        return len(xx.intersection(yy))**2  / len(xx) / len(yy)
+    else:
+        return 0
+
+
 def generalize_categories(categories, **kwargs):  # 80616 v.0.5 ex. aggregate_word_categories
     # categories == {'cluster':[], 'words': [], 'disjuncts':[], ...}
     aggregation = kwa('off', 'categories_generalization', **kwargs)
@@ -312,6 +326,103 @@ def generalise_rules(categories, **kwargs):                             # 81121
             n_clusters = n_cats
 
     return reorder(cats), {'rules_generalization': 'new'}
+
+
+def agglomerate(categories, threshold, similarity_function, verbose='none'):
+    cats = deepcopy(categories)
+    cats.pop('dj_counts', None)  # 81101 TODO: list ⇒ dict? restucture cats?
+    cats.update({'top': deepcopy(cats['parent'])})  # 81123
+
+    similarities = []
+    similar_clusters = []
+    ncats = len(cats['words'])
+    for i, x in enumerate(cats['djs']):
+        if i == 0: continue
+        if cats['parent'][i] > 0: continue
+        # if cats['top'][i] > 0: continue
+        for j in range(i + 1, ncats):
+            if cats['parent'][j] > 0: continue
+            # if cats['top'][j] > 0: continue
+            similarity = similarity_function(x, cats['djs'][j])
+            if similarity > threshold:
+                similar_clusters.append([i, j, similarity])
+            # if similarity > aggregate and similarity < merge:
+            similarities.append(round(similarity, 2))
+
+    merged = []
+    merges = [{x[0], x[1]} for x in similar_clusters if x[2] > threshold]
+    for m, mset in enumerate(merges):
+        if m in merged: continue
+        for k in range(m + 1, len(merges)):
+            if k in merged: continue
+            if len(mset & merges[k]) > 0:
+                if verbose == 'debug':  print()
+                if mset | merges[k] not in merges:
+                    merges.append(mset | merges[k])
+                merged.extend([m, k])
+    merges = [x for i, x in enumerate(merges) if i not in merged]
+    for mset in merges:
+        new_cluster_id = len(cats['parent'])
+        # new_cluster_id = len(cats['top'])  # TODO?
+        # cats['cluster'].append(cluster_id(new_cluster_id, new_cluster_id))
+        cats['cluster'].append(None)    # 81123
+        cats['top'].append(0)           # 81123
+        cats['parent'].append(0)        # TODO? append(None) & use top?
+
+        cats['children'].append(mset)
+        cats['words'].append(set())
+        cats['disjuncts'].append(set())
+        cats['djs'].append(set())
+        cats['counts'].append(0)
+        cats['quality'].append(threshold)
+
+        for cluster in mset:
+            cats['top'][cluster] = new_cluster_id   # 81123
+            cats['parent'][cluster] = new_cluster_id  # TODO: don't change
+            cats['words'][new_cluster_id].update(cats['words'][cluster])
+            cats['disjuncts'][new_cluster_id].update(cats['disjuncts'][cluster])
+            cats['djs'][new_cluster_id].update(cats['djs'][cluster])
+            cats['counts'][new_cluster_id] += cats['counts'][cluster]  # cats['similarities'][new_cluster_id]... TODO?
+        cats['similarities'].append([0 for word in cats['words'][new_cluster_id]])
+
+        d = {x: (i + 1) for i, x in enumerate(sorted(set([x for y in cats['disjuncts'] for x in y])))}
+        cats['djs'] = [set([d[x] for x in y]) for y in cats['disjuncts']]
+        # ToD0? sort by frequency? Counter([x for y in cats['disjuncts'] for x in y]).most_common()...
+
+    return cats, sorted(set(similarities), reverse=True)
+
+
+def add_upper_level(categories, **kwargs):                             # 81121
+    # categories == {'cluster':[], 'words': [], 'disjuncts':[], ...}
+    generalisation = kwa(None, 'rules_generalization', **kwargs)
+    merge_threshold = kwa(0.8, 'rules_merge', **kwargs)
+    aggr_threshold = kwa(0.2, 'rules_aggregation', **kwargs)
+    verbose = kwa('none', 'verbose', **kwargs)
+    group_threshold = kwa(0.1, 'top_level', **kwargs)
+
+    print('\nadd_upper_level\n')
+
+    if generalisation in ['jaccard', 'hierarchical', 'legacy', 'new']:
+        if group_threshold >= aggr_threshold:
+            return categories, {'rules_agglomeration': 'no_top_level'}
+        threshold = aggr_threshold # merge_threshold  # 0.8
+    else: threshold = 0.8
+    cats, similarities = agglomerate(categories, threshold, jaccard, verbose)
+    sims = [x for x in similarities]  # if x < threshold]
+    threshold = max(sims) - 0.01
+    if threshold <= group_threshold:
+        return categories, {'rules_agglomeration': 'no_top_level'}
+    z = len(similarities)
+    while z > 1 and threshold > group_threshold:
+        # cats, similarities = aggregate(cats, threshold, jaccard, verbose)
+        cats, similarities = agglomerate(cats, threshold, jaccard, verbose)
+        #cats = renumber(cats)
+        sims = [x for x in similarities if x < threshold]
+        threshold = max(sims) - 0.01  # step-by-step hierarchy construction
+        z = len(sims)
+
+    #return reorder(cats), {'TODO': 'new reorder for 3-level category tree'}
+    return cats, {'category tree': '2018-11-23'}
 
 
 # Notes:

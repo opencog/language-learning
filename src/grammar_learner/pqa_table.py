@@ -1,11 +1,11 @@
-# language-learning/src/grammar_learner/pqa_table.py                    # 81121
+# language-learning/src/grammar_learner/pqa_table.py                    # 81126
 # Test Grammar Learner to fill in ULL Project Plan Parses spreadshit
 import os, sys, time
 from ..common import handle_path_string
 from ..grammar_tester import test_grammar
 from ..grammar_tester.optconst import *
 from .read_files import check_dir
-from .learner import learn_grammar
+from .learner import learn_grammar, learn  # 81126 learn returns rules, log
 
 
 def params(corpus, dataset, module_path, out_dir, **kwargs):  # 81114
@@ -327,9 +327,9 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):  # 81121
         rules = []
         cluster_sizes = []
         for j in range(runs[0]):
-            if True:  # try: #
+            try:  # if True: #
                 # re = learn_grammar(**kwargs)
-                rulez, re = learn_grammar(**kwargs)  # 81120 FIXME!
+                rulez, re = learn(**kwargs)  # 81126 FIXME?
                 if 'rule_sizes' in re:
                     cluster_sizes = sorted(re['rule_sizes'].keys(), reverse=True)[:5]
                 elif 'cluster_sizes' in re:
@@ -340,7 +340,7 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):  # 81121
                 else:
                     s = 0
                     s_str = ' --- '
-            else:  # except: #
+            except:  # else: #
                 if kwargs['verbose'] not in ['none']:
                     print('pqa_table.py table_rows: learn_grammar(**kwargs)', '⇒ exception:\n', sys.exc_info())
                 pa.append(0.)

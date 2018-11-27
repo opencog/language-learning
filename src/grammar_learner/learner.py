@@ -3,9 +3,7 @@ import os
 from copy import deepcopy
 import pickle, numpy as np, pandas as pd
 from shutil import copy2 as copy
-from IPython.display import display
 from collections import OrderedDict, Counter
-from .widgets import html_table
 from .utl import UTC, kwa
 from .read_files import check_dir, check_mst_files
 from .pparser import files2links
@@ -18,7 +16,7 @@ from .write_files import list2file, save_link_grammar, save_cat_tree
 __all__ = ['learn_grammar']
 
 
-def learn_grammar(**kwargs):
+def learn(**kwargs):
     log = OrderedDict({'start': str(UTC()), 'learn_grammar': 'v.0.7.81109'})
     input_parses = kwargs['input_parses']
     output_grammar = kwargs['output_grammar']
@@ -108,9 +106,11 @@ def learn_grammar(**kwargs):
 
     '''Save word category tree, Link Grammar files: cat_tree.txt, dict...dict'''
 
-    # re09 = save_cat_tree(rules, output_categories, verbose='none')    # 81123
-    tree, _ = add_upper_level(rules, **kwargs)  # 81123 add 3rd level over rules
-    re09 = save_cat_tree(tree, output_categories, verbose='none')
+    if 'top+level' in kwargs and kwargs['top_level'] > -1:  # 81126 3rd hierarchy level over rules
+        tree, _ = add_upper_level(rules, **kwargs)
+        re09 = save_cat_tree(tree, output_categories, verbose='none')
+    else:
+        re09 = save_cat_tree(rules, output_categories, verbose='none')
     # TODO: check file save error?
     log.update(re09)
     re10 = save_link_grammar(rules, output_grammar, grammar_rules)
@@ -127,7 +127,13 @@ def learn_grammar(**kwargs):
     # log.update(re13)
 
     # return log
-    return rules, log  # 81120 FIXME
+    return rules, log  # 81126 FIXME?
+
+
+def learn_grammar(**kwargs):  # Backwards compatibility with legacy calls
+    rules, log = learn(**kwargs)
+    return log
+
 
 # Notes:
 
@@ -135,3 +141,4 @@ def learn_grammar(**kwargs):
 # 80825: random clusters, interconnected ⇒ cleanup, commit 80828
 # 81021 cleanup: Grammar Learner 0.6
 # 81102 sparse wordspace agglomerative clustering
+# 81126 def learn_grammar ⇒ def learn + decorator

@@ -6,8 +6,8 @@
   <link rel="stylesheet" href="ui/jquery-ui-1.11.4.custom/jquery-ui.css">
   <script src="ui/jquery-1.11.1.js"></script>
   <script src="ui/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
-  <script type="text/javascript" src="ui/aigents-al.js?4"></script>
-  <script type="text/javascript" src="ui/aigents-graph.js?4"></script>
+  <script type="text/javascript" src="ui/aigents-al.js?5"></script>
+  <script type="text/javascript" src="ui/aigents-graph.js?5"></script>
 </head>
 
 <style>
@@ -162,11 +162,11 @@ function grammar_build_links(data){
 		if (AL.empty(line))
 			continue;
 		//get code
-		if (line.substring(0,3) == '% C'){//% CXX
+		if (line.substring(0,2) == '% ' && line.toUpperCase() == line){//% ABCD
 			var split = line.split(' ');
 			if (!split || split.length < 2)
 				continue;
-			var code = split[1];//CXX
+			var code = split[1];//ABCD
 			//get words
 			if (++l >= lines.length || AL.empty(line = lines[l]))//get next line
 				break;

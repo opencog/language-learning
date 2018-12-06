@@ -5,7 +5,7 @@ __all__ = [
     'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE', 'BIT_OUTPUT_ALL',
     'BIT_LG_GR_NAME', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'BIT_NO_LWALL', 'BIT_SEP_STAT', 'BIT_LOC_LANG',
     'BIT_PARSE_QUALITY', 'BIT_NO_PERIOD', 'BIT_ULL_NO_LWALL', 'BIT_GRSUBDIR_CREATE', 'BIT_INPUT_TO_LCASE',
-    'BIT_EXISTING_DICT', 'get_options'
+    'BIT_EXISTING_DICT', 'BIT_EXCLUDE_TIMEOUTED', 'BIT_EXCLUDE_PANICED', 'BIT_EXCLUDE_EXPLOSION', 'get_options'
 ]
 
 # Output format constants. If no bits set, ULL defacto format is used.
@@ -36,6 +36,10 @@ BIT_GRSUBDIR_CREATE     = (1<<17)           # Create subdirectories named after 
                                             #   has multiple .dict files in it.
 BIT_INPUT_TO_LCASE      = (1<<18)           # Convert input stream characters to lower case
 BIT_EXISTING_DICT       = (1<<19)           # Dictionary path should be treated as path to proper Link Grammar dictionary
+BIT_EXCLUDE_TIMEOUTED   = (1<<20)           # Exclude linkage(s) from statistics estimations if LG timeout is expired
+BIT_EXCLUDE_PANICED     = (1<<21)           # Exclude linkage(s) from statistics estimation if LG 'panic' is detected
+BIT_EXCLUDE_EXPLOSION   = (1<<22)           # Exclude linkage(s) from statistics estimation if LG combinatorial
+                                            #   explosion is detected.
 
 config_options = {
     "keep_caps": BIT_CAPS,
@@ -53,7 +57,10 @@ config_options = {
     "no_left_wall_in_ull": BIT_ULL_NO_LWALL,
     "lg_grammar_name": BIT_LG_GR_NAME,
     "input_to_lcase": BIT_INPUT_TO_LCASE,
-    "existing_dict_dir": BIT_EXISTING_DICT
+    "existing_dict_dir": BIT_EXISTING_DICT,
+    "exclude_timeouted": BIT_EXCLUDE_TIMEOUTED,
+    "exclude_paniced": BIT_EXCLUDE_PANICED,
+    "exclude_explosion": BIT_EXCLUDE_EXPLOSION
 }
 
 output_format = {

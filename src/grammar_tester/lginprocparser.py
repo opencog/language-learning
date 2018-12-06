@@ -1,13 +1,18 @@
 import sys
+import os
 from subprocess import PIPE, Popen
 
-from ..common.absclient import AbstractFileParserClient
+from ..common.absclient import AbstractFileParserClient, AbstractProgressClient
 from .optconst import *
 from .psparse import *
 from .parsestat import *
 from ..common.parsemetrics import *
 from .lgmisc import *
 from .parsevaluate import get_parses, load_ull_file
+from .commands import *
+from .sentencecount import get_sentence_count
+from .linkgrammarver import get_lg_version
+
 
 __all__ = ['LGInprocParser']
 
@@ -16,6 +21,7 @@ class PSSentence:
     def __init__(self, sent_text):
         self.text = sent_text
         self.linkages = []
+        self.valid = True
 
     def __str__(self):
         ret = self.text + "\n"
@@ -28,63 +34,85 @@ class PSSentence:
 
 class LGInprocParser(AbstractFileParserClient):
 
-    def __init__(self, limit: int=1000, timeout=300):
+    def __init__(self, limit: int=1000, timeout=300, verbosity=1):
         self._linkage_limit = limit
         self._timeout = timeout
         self._out_stream = None
         self._ref_stream = None
         self._counter = 0
+        self._lg_version, self._lg_dict_path = get_lg_version()
+        self._lg_verbosity = verbosity
 
-    def _parse_batch_ps_output(self, text: str, lines_to_skip: int=5) -> list:
+    def _parse_batch_ps_output(self, text: str, options: int) -> list:
         """
         Parse postscript returned by link-parser executable in a form where each sentence is followed by zero
             or many postscript notated linkages. Postscript linkages are usually represented by three lines
             enclosed in brackets.
-        :param text: String variable with postscript output returned by link-parser.
-        :param lines_to_skip: Number of lines to skip before start parsing the text. It is necessary when additional
-                    parameters specified, when link-parser is invoked. In that case link-parser writes those parameter
-                    values on startup.
+
+        :param text:        String variable with postscript output returned by link-parser.
+        :param options:     Parsing options.
+        :return:            List of PSSentence.
+
         """
         sentences = []
 
         pos = skip_command_response(text)
-        # pos = skip_lines(text, lines_to_skip)
         end = trim_garbage(text)
 
         sent_count = 0
+
+        validity_mask = (options & (BIT_EXCLUDE_TIMEOUTED | BIT_EXCLUDE_PANICED | BIT_EXCLUDE_EXPLOSION))
 
         # Parse output to get sentences and linkages in postscript notation
         for sent in text[pos:end].split("\n\n"):
 
             sent = sent.strip()
 
-            # As it turned out sentence may start from '[', so simple `sent.find("[")`
-            #   fails to tell sentence from postscript.
-            post_start = sent.find("[(")
+            # Get postscript starting position after parsing LG error and warning messages
+            post_start, post_errors = skip_linkage_header(sent)
 
+            # is_valid = post_start >= 0
+
+            # Get input sentence(s) echoed by link-parser
             echo_text = sent if post_start < 0 else sent[:post_start-1]
 
+            # There might be many sentences followed by single postscript if one or several sentences are not parsed
+            #   because of so called 'combinatorial explosion'.
             lines = echo_text.split("\n")
 
             num_lines = len(lines)
 
-            # None of the unparsed sentences, if any, should be missed
-            for i in range(0, num_lines-1):
-                sent_text = lines[i]
-                tokens = sent_text.split(" ")
-                sent_obj = PSSentence(sent_text)
+            # If verbosity is set to 0
+            if self._lg_verbosity == 0:
 
-                # Produce fake postscript in order for proper statistic estimation
-                post_text = r"[([" + r"])([".join(tokens) + r"])][][0]"
-                sent_obj.linkages.append(post_text)
-                sentences.append(sent_obj)
+                # None of the unparsed by link-parser sentences, if any, should be missed
+                for i in range(0, num_lines-1):
+                    sent_text = lines[i]
+                    tokens = sent_text.split(" ")
+                    sent_obj = PSSentence(sent_text)
+
+                    # Produce fake postscript in order for proper statistic estimation
+                    post_text = r"[([" + r"])([".join(tokens) + r"])][][0]"
+                    sent_obj.linkages.append(post_text)
+                    sentences.append(sent_obj)
+
+                sentence = lines[num_lines-1]
+
+            else:
+                sentence = lines[0]
+
+            # Check if the postscript linkage is valid
+            is_valid = not (post_errors & validity_mask)
 
             # Successfully parsed sentence is added here
-            sentence = lines[num_lines-1]
             cur_sent = PSSentence(sentence)
-            postscript = sent[post_start:].replace("\n", "")
-            cur_sent.linkages.append(postscript)
 
+            cur_sent.valid = is_valid
+
+            postscript = sent[post_start:].replace("\n", "") if is_valid \
+                else r"[([" + r"])([".join(sentence.split(" ")) + r"])][][0]"
+
+            cur_sent.linkages.append(postscript)
             sentences.append(cur_sent)
 
             sent_count += 1
@@ -121,15 +149,16 @@ class LGInprocParser(AbstractFileParserClient):
                     print("Exception: " + str(err))
 
             # Parse output into sentences and assotiate a list of linkages for each one of them.
-            sentences = self._parse_batch_ps_output(text, 6)
+            sentences = self._parse_batch_ps_output(text, options)
 
-            print("Parsed sentences:", len(sentences))
+            # print("Parsed sentences:", len(sentences))
 
             sentence_count = 0
             error_count = 0
 
             # Parse linkages and make statistics estimation
             for sent in sentences:
+
                 linkage_count = 0
 
                 sent_metrics, sent_quality = ParseMetrics(), ParseQuality()
@@ -137,7 +166,7 @@ class LGInprocParser(AbstractFileParserClient):
                 # Parse and calculate statistics for each linkage
                 for lnkg in sent.linkages:
 
-                    if linkage_count == 1:  # Only the first linkage is taken into account
+                    if linkage_count == 1:  # Only the first linkage is taken into account so far
                         break
 
                     # Parse postscript notated linkage and get two lists with tokens and links in return.
@@ -148,6 +177,10 @@ class LGInprocParser(AbstractFileParserClient):
                     try:
                         # Print out links in ULL-format
                         print_output(tokens, links, options, out_stream)
+
+                        if not sent.valid:
+                            sent_metrics.skipped_sentences += 1
+                            continue
 
                         # Calculate parseability statistics
                         prepared = prepare_tokens(tokens, options)
@@ -166,7 +199,7 @@ class LGInprocParser(AbstractFileParserClient):
                         print("Filtered:", prepared)
 
                     # Calculate parse quality if the option is set
-                    if options & BIT_PARSE_QUALITY and len(ref_parses):
+                    if sent.valid and (options & BIT_PARSE_QUALITY) and len(ref_parses):
                         try:
                             sent_quality += parse_quality(get_link_set(tokens, links, options),
                                                           ref_parses[sentence_count][1])
@@ -182,6 +215,7 @@ class LGInprocParser(AbstractFileParserClient):
                         except Exception as err:
                             print(str(type(err)) + ": " + str(err) + " in _handle_stream_output()")
                             error_count += 1
+                            raise
 
                     linkage_count += 1
 
@@ -202,7 +236,8 @@ class LGInprocParser(AbstractFileParserClient):
 
         return total_metrics, total_quality
 
-    def parse(self, dict_path: str, corpus_path: str, output_path: str, ref_file: str, options: int) \
+    def parse(self, dict_path: str, corpus_path: str, output_path: str, ref_file: str, options: int,
+              progress: AbstractProgressClient=None) \
             -> (ParseMetrics, ParseQuality):
         """
         Link parser invocation routine. Runs link-parser executable in a separate process.
@@ -214,47 +249,32 @@ class LGInprocParser(AbstractFileParserClient):
         :param options:         Bit mask representing parsing options.
         :return:                Tuple (ParseMetrics, ParseQuality).
         """
+        if progress is None:
+            print("Link Grammar version: {}\n"
+                  "Link Grammar dictionaries: {}".format(self._lg_version, self._lg_dict_path))
+
         sentence_count = 0
 
-        print("Info: Parsing a corpus file: '" + corpus_path + "'")
-        print("Info: Using dictionary: '" + dict_path + "'")
+        bar = None
 
-        if output_path is not None:
-            print("Info: Parses are saved in: '" + output_path+get_output_suffix(options) + "'")
-        else:
-            print("Info: Output file name is not specified. Parses are redirected to 'stdout'.")
+        if progress is None:
+            print("Info: Parsing a corpus file: '" + corpus_path + "'")
+            print("Info: Using dictionary: '" + dict_path + "'")
 
-        if ref_file is not None:
-            print("Info: Reference file: '" + ref_file + "'")
-        else:
-            print("Info: Reference file name is not specified. Parse quality is not calculated.")
+            if output_path is not None:
+                print("Info: Parses are saved in: '" + output_path+get_output_suffix(options) + "'")
+            else:
+                print("Info: Output file name is not specified. Parses are redirected to 'stdout'.")
 
-        # If BIT_ULL_IN sed filters links leaving only sentences and removes square brackets around tokens if any.
-        if (options & BIT_ULL_IN):
-            reg_exp = r'/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94©®°•…≤±×΅⁻¹²³€αβπγδμεθ«»=+-]*\)\]/\1/g;s/.*/\L\0/g' \
-                if options & BIT_INPUT_TO_LCASE \
-                else r'/\(^[0-9].*$\)\|\(^$\)/d;s/\[\([a-z0-9A-Z.,:\@"?!*~()\/\#\$&;^%_`\0xe2\x27\xE2\x80\x94©®°•…≤±×΅⁻¹²³€αβπγδμεθ«»=+-]*\)\]/\1/g'
-            sed_cmd = ["sed", "-e",
-                       reg_exp,
-                       corpus_path]
+            if ref_file is not None:
+                print("Info: Reference file: '" + ref_file + "'")
+            else:
+                print("Info: Reference file name is not specified. Parse quality is not calculated.")
 
-        # Otherwise sed removes only empty lines.
-        else:
-            reg_exp = r"/^$/d;s/.*/\L\0/g" if options & BIT_INPUT_TO_LCASE else r"/^$/d"
-            sed_cmd = ["sed", "-e", reg_exp, corpus_path]
+
+        sed_cmd = ["sed", "-e", get_sed_regex(options), corpus_path]
 
         # print(sed_cmd)
-
-        # Make command option list depending on the output format specified.
-        if not (options & BIT_OUTPUT) or (options & BIT_OUTPUT_POSTSCRIPT):
-            lgp_cmd = ["link-parser", dict_path, "-echo=1", "-postscript=1", "-graphics=0", "-verbosity=0",
-                       "-limit="+str(self._linkage_limit), "-timeout="+str(self._timeout)]
-        elif options & BIT_OUTPUT_CONST_TREE:
-            lgp_cmd = ["link-parser", dict_path, "-echo=1", "-constituents=1", "-graphics=0", "-verbosity=0",
-                       "-limit="+str(self._linkage_limit)]
-        else:
-            lgp_cmd = ["link-parser", dict_path, "-echo=1", "-graphics=1", "-verbosity=0",
-                       "-limit="+str(self._linkage_limit)]
 
         out_stream = None
         ret_metrics = ParseMetrics()
@@ -262,22 +282,16 @@ class LGInprocParser(AbstractFileParserClient):
 
         try:
             # Get number of sentences in input file
-            with Popen(sed_cmd, stdout=PIPE) as proc_sed, \
-                 Popen(["wc", "-l"], stdin=proc_sed.stdout, stdout=PIPE, stderr=PIPE) as proc_wcl:
+            sentence_count = get_sentence_count(corpus_path, options)
 
-                # Closing grep output stream will terminate it's process.
-                proc_sed.stdout.close()
-
-                # Read pipes to get complete output returned by link-parser
-                raw, err = proc_wcl.communicate()
-
-                # Check return code to make sure the process completed successfully.
-                if proc_wcl.returncode != 0:
-                    raise LGParseError("Process '{0}' terminated with exit code: {1} "
-                                 "and error message:\n'{2}'.".format("wc", proc_wcl.returncode, err.decode()))
-
-                sentence_count = int((raw.decode("utf-8-sig")).strip())
+            if progress is not None:
+                progress_type = type(progress)
+                bar = progress_type(total=sentence_count, desc=os.path.split(corpus_path)[1],
+                                    unit="sentences", leave=True)
+            else:
                 print("Number of sentences: {}".format(sentence_count))
+
+            lgp_cmd = get_linkparser_command(options, dict_path, self._linkage_limit, self._timeout, self._lg_verbosity)
 
             out_stream = sys.stdout if output_path is None \
                 else open(output_path+get_output_suffix(options), "w", encoding="utf-8")
@@ -291,20 +305,26 @@ class LGInprocParser(AbstractFileParserClient):
                 # Read pipes to get complete output returned by link-parser
                 raw, err = proc_pars.communicate()
 
-                # with open("raw.txt", "w") as r:
-                #     r.write(raw.decode("utf-8-sig"))
-                #
-                # with open("err.txt", "w") as e:
-                #     e.write(err.decode("utf-8-sig"))
-
                 # Check return code to make sure the process completed successfully.
                 if proc_pars.returncode != 0:
                     raise LGParseError("Process '{0}' terminated with exit code: {1} "
                                  "and error message:\n'{2}'.".format(lgp_cmd[0], proc_pars.returncode, err.decode()))
 
+                # with open(corpus_path+".raw", "w") as r:
+                #     r.write(raw.decode("utf-8-sig"))
+                #
+                # with open(corpus_path+".err", "w") as e:
+                #     e.write(err.decode("utf-8-sig"))
+
                 # Take an action depending on the output format specified by 'options'
                 ret_metrics, ret_quality = self._handle_stream_output(raw.decode("utf-8-sig"), options,
                                                                       out_stream, ref_file)
+
+                if progress is not None:
+                    progress.update(sentence_count)
+
+                if bar is not None:
+                    bar.update(sentence_count)
 
                 if not (options & BIT_OUTPUT) and ret_metrics.sentences != sentence_count:
                     print("Warning: number of sentences does not match. "
@@ -319,9 +339,6 @@ class LGInprocParser(AbstractFileParserClient):
         except IOError as err:
             print("IOError: " + str(err))
 
-        except OSError as err:
-            print("OSError: " + str(err))
-
         except KeyboardInterrupt:
             print("parse(): Ctrl+C triggered.")
             raise
@@ -330,6 +347,9 @@ class LGInprocParser(AbstractFileParserClient):
             print("parse(): Exception: " + str(type(err)) + str(err))
 
         finally:
+            if bar is not None:
+                del bar
+
             if out_stream is not None and out_stream != sys.stdout:
                 out_stream.close()
 

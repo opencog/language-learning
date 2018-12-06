@@ -78,7 +78,7 @@ Usage:
     template_path   = None
     reference_path  = None
     config_path     = None
-    timeout         = 300
+    timeout         = 1
 
     print("grammar-tester ver." + __version__)
     print("Python v." + platform.python_version())
@@ -177,7 +177,7 @@ Usage:
             return 1
 
         if linkage_limit is None:
-            linkage_limit = 1000
+            linkage_limit = 100
 
         if template_path is None:
             template_path = "en"

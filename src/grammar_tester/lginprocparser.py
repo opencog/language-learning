@@ -34,7 +34,7 @@ class PSSentence:
 
 class LGInprocParser(AbstractFileParserClient):
 
-    def __init__(self, limit: int=1000, timeout=300, verbosity=1):
+    def __init__(self, limit: int=100, timeout=1, verbosity=1):
         self._linkage_limit = limit
         self._timeout = timeout
         self._out_stream = None

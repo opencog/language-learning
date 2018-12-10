@@ -64,6 +64,9 @@ Usage:
         -I  --input-to-lcase    Convert input stream characters to lower case.
         -T  <timeout-value>     Timeout value used by Link Grammar to restrict maximum amount of time spent for parsing
                                 one sentence.
+        -E --exclude-timeouted  Exclude linkages with exceeded timeout from statistics estimation.
+        -P --exclude-paniced    Exclude linkages with panic timeout from statistics estimation.
+        -X --exclude-explosion  Exclude linkages with 'combinatorial explosion' timeout from statistics estimation.
     """
 
     dict_path       = None
@@ -75,21 +78,23 @@ Usage:
     template_path   = None
     reference_path  = None
     config_path     = None
-    timeout         = 300
+    timeout         = 1
 
     print("grammar-tester ver." + __version__)
     print("Python v." + platform.python_version())
 
     try:
-        opts, args = getopt.getopt(argv, "hcwrnubqexsLId:i:o:l:g:t:f:R:C:D:T:", ["help", "caps", "right-wall", "rm-dir",
-                                                                        "no-strip", "ull-input", "best-linkage",
-                                                                        "dict-path-recreate", "link-parser-exe",
-                                                                        "no-left-wall", "separate-stat",
-                                                                        "local-lang-dir", "input-to-lcase",
-                                                                        "dictionary=", "input=",
-                                                                        "output=", "linkage-limit=", "grammar-dir=",
-                                                                        "template-dir=", "output-format", "reference=",
-                                                                        "config=", "language=", "lg-timeout="])
+        opts, args = getopt.getopt(argv, "hcwrnubqexsLId:i:o:l:g:t:f:R:C:D:T:EPX",
+                                   ["help", "caps", "right-wall", "rm-dir",
+                                    "no-strip", "ull-input", "best-linkage",
+                                    "dict-path-recreate", "link-parser-exe",
+                                    "no-left-wall", "separate-stat",
+                                    "local-lang-dir", "input-to-lcase",
+                                    "dictionary=", "input=",
+                                    "output=", "linkage-limit=", "grammar-dir=",
+                                    "template-dir=", "output-format", "reference=",
+                                    "config=", "language=", "lg-timeout=",
+                                    "exclude-timeouted", "exclude-paniced", "exclude-explosion"])
 
         for opt, arg in opts:
             if opt in ("-h", "--help"):
@@ -149,6 +154,12 @@ Usage:
                 options |= BIT_EXISTING_DICT
             elif opt in ("-T", "--lg-timeout"):
                 timeout = int(arg)
+            elif opt in ("-E", "--exclude-timeouted"):
+                options |= BIT_EXCLUDE_TIMEOUTED
+            elif opt in ("-P", "--exclude-paniced"):
+                options |= BIT_EXCLUDE_PANICED
+            elif opt in ("-X", "--exclude-explosion"):
+                options |= BIT_EXCLUDE_EXPLOSION
 
         # print("options=" + bin(options) + " (" + hex(options) + ")")
 
@@ -166,7 +177,7 @@ Usage:
             return 1
 
         if linkage_limit is None:
-            linkage_limit = 1000
+            linkage_limit = 100
 
         if template_path is None:
             template_path = "en"

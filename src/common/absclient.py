@@ -67,13 +67,26 @@ class AbstractConfigClient(metaclass=ABCMeta):
         pass
 
 
+class AbstractProgressClient(metaclass=ABCMeta):
+    """
+    Base class for progress reporting client
+    """
+    @abstractmethod
+    def update(self, increment: int) -> None:
+        pass
+
+    @abstractmethod
+    def set_total(self, total: int) -> None:
+        pass
+
+
 class AbstractGrammarTestClient(metaclass=ABCMeta):
     """
     Base class responsible for induced grammar testing.
     """
     @abstractmethod
-    def test(self, dict_path: str, corpus_path: str, output_path: str, reference_path: str, options: int) \
-            -> (ParseMetrics, ParseQuality):
+    def test(self, dict_path: str, corpus_path: str, output_path: str, reference_path: str, options: int,
+             progress: AbstractProgressClient=None) -> (ParseMetrics, ParseQuality):
         pass
 
 
@@ -82,8 +95,8 @@ class AbstractFileParserClient(metaclass=ABCMeta):
     Base class for parsers
     """
     @abstractmethod
-    def parse(self, dict_path: str, corpus_path: str, output_path: str, ref_file: str, options: int) \
-            -> (ParseMetrics, ParseQuality):
+    def parse(self, dict_path: str, corpus_path: str, output_path: str, ref_file: str, options: int,
+              progress: AbstractProgressClient=None) -> (ParseMetrics, ParseQuality):
         pass
 
 

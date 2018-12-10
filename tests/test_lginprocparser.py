@@ -3,6 +3,7 @@ import sys
 
 from src.grammar_tester.optconst import *
 from src.grammar_tester.lginprocparser import LGInprocParser
+from src.common.textprogress import TextProgress
 
 lg_post_output = """
 echo set to 1
@@ -94,20 +95,22 @@ class LGInprocParserTestCase(unittest.TestCase):
     def test_parse_batch_ps_output(self):
         """ Test postscript parsing for total number of parsed sentences """
         pr = LGInprocParser()
-        num_sent = len(pr._parse_batch_ps_output(lg_post_output))
+        num_sent = len(pr._parse_batch_ps_output(lg_post_output, 0))
         self.assertEqual(num_sent, 12, "'parse_batch_ps_output()' returns '{}' instead of '{}'".format(num_sent, 12))
 
     # @unittest.skip
     def test_parse_batch_ps_output_explosion(self):
         """ Test for 'combinatorial explosion' """
-        pr = LGInprocParser()
+        pr = LGInprocParser(verbosity=0)
         num_sent = len(pr._parse_batch_ps_output(lg_post_explosion, 0))
         self.assertEqual(num_sent, 4, "'parse_batch_ps_output()' returns '{}' instead of '{}'".format(num_sent, 4))
 
-    # def test_parse_sent_count(self):
-    #     pr = LGInprocParser()
-    #     pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt", "/var/tmp/parse", None, 0)
-    #     self.assertEqual(12, 12)
+    def test_parse_sent_count(self):
+        pr = LGInprocParser()
+        bar = TextProgress(total=12, desc="Overal progress")
+        pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
+                 "/var/tmp/parse", None, 0, bar)
+        self.assertEqual(12, 12)
 
 
 if __name__ == '__main__':

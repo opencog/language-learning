@@ -53,7 +53,7 @@ def main(argv):
     test_file = ''
     ref_file = ''
     verbose = False
-    ignore_wall = True
+    ignore_wall = False
     sequential = False
     random = False
     alternative_parser = False
@@ -76,7 +76,7 @@ def main(argv):
         elif opt in ("-v", "--verbose"):
             verbose = True
         elif opt in ("-i", "--ignore"):
-            ignore_wall = False
+            ignore_wall = True
         elif opt in ("-s", "--sequential"):
             sequential = True
         elif opt in ("-z", "--random"):

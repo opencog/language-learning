@@ -44,8 +44,10 @@ def traverse_dir_tree(root: str, file_ext: str, file_arg_list: list=None, dir_ar
     try:
         # If all the arguments are correct start traversing
         traverse_directory(root, file_ext, file_arg_list, dir_arg_list, is_recursive)
+
     except Exception as err:
-        print("traverse_dir_tree(): ")
+        print("traverse_dir_tree(): " + str(type(err)) + ": " + str(err))
+        raise
 
 def traverse_directory(root: str, file_ext: str, file_arg_list: list=None, dir_arg_list: list=None, is_recursive=False):
     """

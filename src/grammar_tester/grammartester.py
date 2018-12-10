@@ -2,13 +2,15 @@ import os
 import sys
 from decimal import *
 from time import time
+from inspect import isclass
 
 from ..common.absclient import AbstractGrammarTestClient, AbstractStatEventHandler, AbstractFileParserClient, \
-    AbstractPipelineComponent
+    AbstractPipelineComponent, AbstractProgressClient
 from ..common.dirhelper import traverse_dir_tree, create_dir
 from ..common.parsemetrics import ParseMetrics, ParseQuality
 from ..common.fileconfman import JsonFileConfigManager
 from ..common.cliutils import handle_path_string
+from ..common.textprogress import TextProgress
 from .textfiledashb import TextFileDashboardConf  #, HTMLFileDashboard
 
 from .lgmisc import create_grammar_dir
@@ -16,7 +18,7 @@ from .optconst import *
 
 from .lginprocparser import LGInprocParser
 from .lgapiparser import LGApiParser
-
+from .sentencecount import get_sentence_count
 
 __all__ = ['test_grammar', 'test_grammar_cfg', 'GrammarTester', 'GrammarTestError', 'GrammarTesterComponent']
 
@@ -83,32 +85,8 @@ class GrammarTester(AbstractGrammarTestClient):
         self._total_quality = ParseQuality()
         self._total_files = 0
         self._total_dicts = 0
-
-
-    # def __init__(self, grmr: str, tmpl: str, limit: int, parser: AbstractFileParserClient,
-    #              evt_handler: AbstractStatEventHandler=None):
-    #
-    #     if parser is None:
-    #         raise GrammarTestError("GrammarTestError: 'parser' argument can not be None.")
-    #
-    #     if not isinstance(parser, AbstractFileParserClient):
-    #         raise GrammarTestError("GrammarTestError: 'parser' is not an instance of AbstractFileParserClient")
-    #
-    #     if evt_handler is not None and not isinstance(evt_handler, AbstractStatEventHandler):
-    #         raise GrammarTestError("ArgumentError: 'evt_handler' is not an instance of AbstractStatEventHandler")
-    #
-    #     self._parser = parser
-    #     self._event_handler = evt_handler
-    #     self._grammar_root = grmr
-    #     self._template_dir = tmpl
-    #     self._linkage_limit = limit
-    #     self._options = 0  # options
-    #     self._is_dir_corpus = False
-    #     self._is_dir_dict = False
-    #     self._total_metrics = ParseMetrics()
-    #     self._total_quality = ParseQuality()
-    #     self._total_files = 0
-    #     self._total_dicts = 0
+        self._total_sentences = 0
+        self._progress = None
 
     @staticmethod
     def _save_stat(stat_path: str, metrics: ParseMetrics, quality: ParseQuality) -> None:
@@ -128,14 +106,11 @@ class GrammarTester(AbstractGrammarTestClient):
             print(ParseMetrics.text(metrics), file=stat_file_handle)
             print(ParseQuality.text(quality), file=stat_file_handle)
 
-        except IOError as err:
-            print("IOError: " + str(err))
-
         except FileNotFoundError as err:
             print("FileNotFoundError: " + str(err))
 
-        except OSError as err:
-            print("OSError: " + str(err))
+        except IOError as err:
+            print("IOError: " + str(err))
 
         except Exception as err:
             print("Exception: " + str(err))
@@ -198,15 +173,15 @@ class GrammarTester(AbstractGrammarTestClient):
         dict_path = args[CORP_ARG_LANG]
 
         try:
+            start_time = time()
             out_file = self._get_output_file_name(corpus_file_path, args)
             ref_file = self._get_ref_file_name(corpus_file_path, args)
 
             file_metrics, file_quality = self._parser.parse(dict_path, corpus_file_path, out_file,
-                                                            ref_file, self._options)
+                                                            ref_file, self._options, self._progress)
 
             if self._options & (BIT_SEP_STAT | BIT_OUTPUT) == BIT_SEP_STAT:
                 stat_name = out_file + ".stat"
-                # stat_name += "2" if (self._options & BIT_LG_EXE) else ""
 
                 self._save_stat(stat_name, file_metrics, file_quality)
 
@@ -214,6 +189,9 @@ class GrammarTester(AbstractGrammarTestClient):
             self._total_quality += file_quality
 
             self._total_files += 1
+
+            if self._parser is None:
+                print_execution_time(os.path.split(out_file)[1] + " parse time", time() - start_time)
 
         except Exception as err:
             print("_on_corpus_file(): " + str(err))
@@ -253,8 +231,7 @@ class GrammarTester(AbstractGrammarTestClient):
 
             # If output format is set to ULL
             if not self._options & BIT_OUTPUT:
-                # stat_suffix = "2" if (self._options & BIT_LG_EXE) == BIT_LG_EXE else ""
-                stat_path = dest_path + "/" + os.path.split(corp_path)[1] + ".stat" #+ stat_suffix
+                stat_path = dest_path + "/" + os.path.split(corp_path)[1] + ".stat"  # + stat_suffix
 
                 # Write statistics summary to a file
                 self._save_stat(stat_path, self._total_metrics, self._total_quality)
@@ -265,15 +242,26 @@ class GrammarTester(AbstractGrammarTestClient):
                     self._event_handler.on_statistics((dict_path.split("/"))[::-1],
                                                       self._total_metrics, self._total_quality)
 
-                print_execution_time("Dictionary processing time", time() - start_time)
+                if self._parser is None:
+                    print_execution_time(os.path.split(dict_file_path)[1] + " dictionary processing time",
+                                         time() - start_time)
 
         except Exception as err:
             print("_on_dict_file(): "+str(type(err))+": "+str(err))
+            raise
 
         self._total_dicts += 1
 
-    def test(self, dict_path: str, corpus_path: str, output_path: str, reference_path: str, options: int) \
-            -> (ParseMetrics, ParseQuality):
+    def _on_sentence_count(self, file: str, args: list) -> None:
+        try:
+            self._total_sentences += get_sentence_count(file, self._options)
+
+        except Exception as err:
+            print("on_sentence_count(): " + str(type(err)) + ": " + str(err))
+            raise
+
+    def test(self, dict_path: str, corpus_path: str, output_path: str, reference_path: str, options: int,
+             progress: AbstractProgressClient=None) -> (ParseMetrics, ParseQuality):
         """
         Main method to initiate grammar test.
 
@@ -312,6 +300,18 @@ class GrammarTester(AbstractGrammarTestClient):
             self._options &= (~BIT_DPATH_CREATE)
 
         try:
+            self._total_sentences = 0
+
+            if self._is_dir_corpus:
+                traverse_dir_tree(corpus_path, "", [self._on_sentence_count], None, True)
+
+            else:
+                self._total_sentences = get_sentence_count(corpus_path, options)
+
+            if isclass(progress):
+                bar = progress(total=self._total_sentences, desc="Overal execution", miniters=1)
+                self._progress = bar
+
             start_time = time()
 
             # Arguments for callback functions
@@ -330,6 +330,12 @@ class GrammarTester(AbstractGrammarTestClient):
                     self._options &= (~BIT_DPATH_CREATE)
 
                 self._on_dict_file(dict_path, parse_args)
+
+            if self._parser is not None:
+                if progress is None:
+                    print("\n\n")
+                else:
+                    self._progress.write("\n\n")
 
             print("Dictionaries processed: ", self._total_dicts)
             print_execution_time("Overal execution time", time() - start_time)
@@ -368,7 +374,9 @@ def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_pat
 
     gt = GrammarTester(grammar_path, template_path, linkage_limit, parser)
 
-    pm, pq = gt.test(dict_path, corpus_path, output_path, reference_path, options)
+    # bar = TextProgress(total=100)
+
+    pm, pq = gt.test(dict_path, corpus_path, output_path, reference_path, options, TextProgress)
 
     return \
         pm.parseability(pm), \

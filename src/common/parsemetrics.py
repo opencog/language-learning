@@ -11,11 +11,13 @@ class ParseMetrics():
             self.completely_unparsed_ratio = Decimal('0.0')
             self.average_parsed_ratio = Decimal('0.0')
             self.sentences = int(0)
+            self.skipped_sentences = int(0)
         else:
             self.completely_parsed_ratio = other.completely_parsed_ratio
             self.completely_unparsed_ratio = other.completely_unparsed_ratio
             self.average_parsed_ratio = other.average_parsed_ratio
             self.sentences = other.sentences
+            self.skipped_sentences = other.skipped_sentences
 
     @staticmethod
     def completely_parsed(stat) -> Decimal:
@@ -55,10 +57,12 @@ class ParseMetrics():
         return  "Total sentences parsed in full:\t\t{}\n" \
                 "Total sentences not parsed at all:\t{}\n" \
                 "Average sentence parse:\t\t\t{}\n" \
-                "Total sentences:\t\t\t{:2.2f}\n".format( stat.completely_parsed_str(stat),
+                "Total sentences:\t\t\t{:2.2f}\n" \
+                "Skipped sentences:\t\t\t{:2.2f}\n".format( stat.completely_parsed_str(stat),
                                                       stat.completely_unparsed_str(stat),
                                                       stat.parseability_str(stat),
-                                                      stat.sentences
+                                                      stat.sentences,
+                                                      stat.skipped_sentences
                                                     )
 
     def __eq__(self, other):
@@ -71,6 +75,7 @@ class ParseMetrics():
         self.completely_unparsed_ratio += other.completely_unparsed_ratio
         self.average_parsed_ratio += other.average_parsed_ratio
         self.sentences += other.sentences
+        self.skipped_sentences += other.skipped_sentences
         return self
 
 

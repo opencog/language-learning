@@ -266,9 +266,6 @@ class GrammarTester(AbstractGrammarTestClient):
         self._is_dir_corpus = os.path.isdir(corpus_path)
         self._is_dir_dict = os.path.isdir(dict_path)
 
-        if self._is_dir_dict and not (self._options & BIT_LG_GR_NAME) and not os.path.isfile(dict_path):
-            raise GrammarTestError("Path '" + dict_path + "' does not exist.")
-
         if not (os.path.isfile(corpus_path) or os.path.isdir(corpus_path)):
             raise GrammarTestError("Path '" + corpus_path + "' does not exist.")
 
@@ -325,6 +322,9 @@ class GrammarTester(AbstractGrammarTestClient):
                 print("\n\n")
             else:
                 self._progress.write("\n\n")
+
+        if not self._total_dicts:
+            raise GrammarTestError("No dictionary files found in '" + dict_path + "'")
 
         print("Dictionaries processed: ", self._total_dicts)
         print_execution_time("Overal execution time", time() - start_time)

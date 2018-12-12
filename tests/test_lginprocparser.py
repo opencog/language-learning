@@ -159,5 +159,6 @@ class LGInprocParserTestCase(unittest.TestCase):
         except Exception as err:
             print(str(type(err)) + ": " + str(err), file=sys.stderr)
 
+
 if __name__ == '__main__':
     unittest.main()

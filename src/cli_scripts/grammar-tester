@@ -4,9 +4,10 @@ import sys
 import os
 import getopt
 import platform
+import traceback
 
 from ull.common import handle_path_string, strip_quotes
-from ull.grammar_tester import test_grammar, test_grammar_cfg, GrammarTestError, LG_DICT_PATH  # , LGParseError
+from ull.grammar_tester import test_grammar, test_grammar_cfg, GrammarTestError, LG_DICT_PATH, LGParseError, ParserError
 from ull.grammar_tester.optconst import *
 
 __version__ = "3.0.0"
@@ -200,15 +201,22 @@ Usage:
 
     except GrammarTestError as err:
         print(str(err))
+        # traceback.print_exc()
         return 2
 
-    except OSError as err:
+    except ParserError as err:
         print(str(err))
-        return 3
+        # traceback.print_exc()
+        return 2
+
+    except KeyboardInterrupt:
+        print("Ctrl+C triggered. User abort.")
+        return 4
 
     except Exception as err:
-        print(str(err))
-        return 4
+        print(str(type(err)) + ": " + str(err))
+        # traceback.print_exc()
+        return 5
 
     return 0
 

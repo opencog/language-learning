@@ -62,7 +62,7 @@ def get_parses(data, ignore_wall: bool=True, sort_parses: bool=True):
             elif len(line):
                 link = line.split()
 
-                assert len(link) == 4, "The line appears not to be a link: " + line
+                assert len(link) == 4, "The line appears not to be a link: '{}'".format(line)
 
                 # Do not add LW and period links to the set if 'ignore_wall' is specified
                 if ignore_wall and (link[1] == "." or link[3] == "." or link[1] == "[.]" or link[3] == "[.]"

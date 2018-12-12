@@ -4,6 +4,8 @@ import sys
 from src.grammar_tester.optconst import *
 from src.grammar_tester.lginprocparser import LGInprocParser
 from src.common.textprogress import TextProgress
+from src.grammar_tester import load_ull_file
+from src.grammar_tester.lgmisc import ParserError, LGParseError
 
 lg_post_output = """
 echo set to 1
@@ -112,6 +114,50 @@ class LGInprocParserTestCase(unittest.TestCase):
                  "/var/tmp/parse", None, 0, bar)
         self.assertEqual(12, 12)
 
+    def test_load_ull_file_not_found(self):
+
+        with self.assertRaises(FileNotFoundError) as ctx:
+            data = load_ull_file("/var/tmp/something.txt")
+
+        # self.assertEqual("list index out of range", str(ctx.exception))
+
+    def test_load_ull_file_access_denied(self):
+
+        with self.assertRaises(PermissionError) as ctx:
+            data = load_ull_file("/root/something.txt")
+
+        # self.assertEqual("list index out of range", str(ctx.exception))
+
+    def test_parse_file_not_found(self):
+        with self.assertRaises(FileNotFoundError) as ctx:
+            # TestClass().test_func()
+            pr = LGInprocParser()
+            pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
+                     "/var/tmp/parse", "tests/test-data/corpora/poc-turtle/poc-horse.txt", BIT_PARSE_QUALITY)
+
+        # self.assertEqual("list index out of range", str(ctx.exception))
+
+    # @unittest.skip
+    def test_parse_invalid_file_format(self):
+
+        with self.assertRaises(LGParseError) as ctx:
+            pr = LGInprocParser()
+            pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
+                     "/var/tmp/parse", "tests/test-data/corpora/poc-turtle/poc-turtle.txt", BIT_PARSE_QUALITY)
+
+        # self.assertEqual("list index out of range", str(ctx.exception))
+
+    # @unittest.skip
+    def test_parse_invalid_ref_file(self):
+
+        # with self.assertRaises(LGParseError) as ctx:
+        try:
+            pr = LGInprocParser()
+            pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-english/poc_english.txt",
+                     "/var/tmp/parse", "tests/test-data/parses/poc-turtle-mst/poc-turtle-parses-expected.txt",
+                     BIT_PARSE_QUALITY)
+        except Exception as err:
+            print(str(type(err)) + ": " + str(err), file=sys.stderr)
 
 if __name__ == '__main__':
     unittest.main()

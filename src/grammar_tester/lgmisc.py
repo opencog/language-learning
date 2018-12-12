@@ -4,7 +4,8 @@ import shutil
 
 from .optconst import *
 
-__all__ = ['get_output_suffix', 'print_output', 'LGParseError', 'LG_DICT_PATH', 'create_grammar_dir', 'get_dir_name']
+__all__ = ['get_output_suffix', 'print_output', 'LGParseError', 'LG_DICT_PATH', 'create_grammar_dir', 'get_dir_name',
+           'ParserError']
 
 
 LG_DICT_PATH = "/usr/local/share/link-grammar"
@@ -13,7 +14,11 @@ LINK_1ST_TOKEN_INDEX = 0
 LINK_2ND_TOKEN_INDEX = 1
 
 
-class LGParseError(Exception):
+
+class ParserError(Exception):
+    pass
+
+class LGParseError(ParserError):
     pass
 
 

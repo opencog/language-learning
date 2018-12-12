@@ -1,4 +1,5 @@
 from typing import Dict, List, Any, Union, Callable
+from .pipelineexceptions import PipelineComponentException, FatalPipelineException
 
 __all__ = ['PipelineTreeNode2']
 
@@ -48,7 +49,7 @@ class PipelineTreeNode2:
         PipelineTreeNode2.static_components = dict()
 
     @staticmethod
-    def traverse(job: Callable, node = None) -> None:
+    def traverse(job: Callable, node=None) -> None:
         """
 
         Traverse pipeline tree executing the job
@@ -63,9 +64,13 @@ class PipelineTreeNode2:
         if job is not None:
             try:
                 job(node)
-            except Exception as err:
+
+            except PipelineComponentException as err:
                 print("Error: " + str(err))
                 return None
+
+            except Exception as err:
+                raise FatalPipelineException("Fatal error: " + str(err))
 
         for sibling in node._siblings:
                 PipelineTreeNode2.traverse(job, sibling)

@@ -158,11 +158,11 @@ class TextFileDashboardComponent(AbstractPipelineComponent):
         self._board = TextFileDashboard(kwargs)
 
     def __exit__(self):
-        print("__exit__", file=sys.stderr)
+        # print("__exit__", file=sys.stderr)
         self._board.update_dashboard()
 
     def __del__(self):
-        print("__del__", file=sys.stderr)
+        # print("__del__", file=sys.stderr)
         self._board.update_dashboard()
 
     def set(self, **kwargs):

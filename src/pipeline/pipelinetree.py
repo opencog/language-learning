@@ -164,11 +164,16 @@ def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, 
                 or (isinstance(v, str) and v.find("/") < 0 and v.find("%") < 0)}
 
     # Get subdir path based on specific parameters if requested
-    rleaf = get_path_from_dict(non_path, "_") if create_sub_dir else ""
+    rleaf = get_path_from_dict(non_path, "_") if create_leaf else ""
+    # rleaf = get_path_from_dict(non_path, "_") if create_sub_dir else ""
+
+    # print("RLEAF: " + rleaf)
 
     inherit_prev = all_parameters.get("inherit_prev_path", False)
 
     leaf = environment["PREV"] + "/" + rleaf if inherit_prev else environment["ROOT"] + "/" + rleaf
+
+    # print("LEAF: " + leaf)
 
     new_environment = {**environment, **{"RLEAF": rleaf, "LEAF": leaf, "CREATE_LEAF": create_leaf}}
 

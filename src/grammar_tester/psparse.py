@@ -2,6 +2,7 @@ import sys
 import re
 
 from .optconst import *
+from .lgmisc import LGParseError
 
 """
     Utilities for parsing postscript notated tokens and links, returned by Link Grammar API method Linkage.postscript()
@@ -90,9 +91,6 @@ def parse_tokens(txt, opt) -> (list, int):
     # Skip the open brace
     start_pos = 1
 
-    # end_pos = txt.find(")")
-    # end_pos = find_end_of_token(txt, start_pos)
-
     end_pos = txt.find(")(")
 
     if end_pos < 0:
@@ -128,9 +126,6 @@ def parse_tokens(txt, opt) -> (list, int):
             tokens.append(token)
 
         start_pos = end_pos + 2
-        # end_pos = txt.find(")", start_pos + 1)
-        # end_pos = find_end_of_token(txt, start_pos)
-
         end_pos = txt.find(")(", start_pos + 1)
 
         if end_pos < 0:
@@ -220,13 +215,12 @@ def parse_links(txt: str, tokens: list, offset: int) -> list:
     return links
 
 
-def parse_postscript(text: str, options: int, ofile) -> ([], []):
+def parse_postscript(text: str, options: int) -> ([], []):
     """
     Parse postscript notation of the linkage.
 
     :param text:        Text string returned by Linkage.postscript() method.
     :param options      Bit mask, representing different parsing options. See `optconst.py` for details.
-    :param ofile:       Output file object reference.
     :return:            Tuple of two lists: (tokens, links).
     """
     p = re.compile('\[(\(.+?\)+?)\]\[(.*?)\]\[0\]', re.S)
@@ -239,11 +233,13 @@ def parse_postscript(text: str, options: int, ofile) -> ([], []):
 
         return tokens, links
 
-    else:
-        print("parse_postscript(): regex does not match!", file=sys.stderr)
-        print(text, file=sys.stderr)
+    raise LGParseError("parse_postscript(): regex does not match!")
 
-    return [], []
+    # else:
+    #     print("parse_postscript(): regex does not match!", file=sys.stderr)
+    #     print(text, file=sys.stderr)
+    #
+    # return [], []
 
 
 def get_link_set(tokens: list, links: list, options: int) -> set:
@@ -311,8 +307,7 @@ def skip_command_response(text: str) -> int:
     """
     l = len(text)
 
-    pos = 0
-    old = 0
+    pos, old = 0, 0
 
     while l:
         if text[pos] == "\n":

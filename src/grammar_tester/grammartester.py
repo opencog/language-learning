@@ -266,6 +266,9 @@ class GrammarTester(AbstractGrammarTestClient):
         self._is_dir_corpus = os.path.isdir(corpus_path)
         self._is_dir_dict = os.path.isdir(dict_path)
 
+        if self._is_dir_dict and not (self._options & BIT_LG_GR_NAME) and not os.path.isfile(dict_path):
+            raise GrammarTestError("Path '" + dict_path + "' does not exist.")
+
         if not (os.path.isfile(corpus_path) or os.path.isdir(corpus_path)):
             raise GrammarTestError("Path '" + corpus_path + "' does not exist.")
 

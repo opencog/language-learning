@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/utl.py                          # 81107
+# language-learning/src/grammar_learner/utl.py                          # 81214
 import datetime, time
 
 
@@ -40,3 +40,15 @@ def timer(string, t0=0):
 
 def kwa(v, k, **kwargs):  # 81107
     return kwargs[k] if k in kwargs else v
+
+
+def sec2string(secs):  # 81212
+    mins, secs = divmod(secs, 60)
+    hours, mins = divmod(mins, 60)
+    return '%02d:%02d:%02d' % (hours, mins, secs)
+
+
+def test_stats(log):  # 81212
+    return 'Cleaned dictionary: ' + str(log['cleaned_words']) \
+           + ' words, grammar learn time: ' + log['grammar_learn_time'] \
+           + ', test time: ' + log['grammar_test_time'] + ' (hh:mm:ss)'

@@ -3,14 +3,15 @@ import numpy as np
 import pandas as pd
 from .utl import kwa
 
+
 def clean_links(links, **kwargs):
     # links == pd.DataFrame ['word', 'word- & word+']
     min_word_count = kwa(1, 'min_word_count', **kwargs)
     min_link_count = kwa(1, 'min_link_count', **kwargs)
     min_word_frequency = kwa(0.0, 'min_word_frequency', **kwargs)
     min_link_frequency = kwa(0.0, 'min_word_frequency', **kwargs)
-    max_words = kwa(100000, 'max_words', **kwargs)  # SVS: max space dimension 1
-    max_features = kwa(100000, 'max_features', **kwargs)  # SVS: dimension 2: disjuncts/connectors
+    max_words = kwa(1000000, 'max_words', **kwargs)  # SVS: max space dimension 1
+    max_features = kwa(1000000, 'max_features', **kwargs)  # SVS: dimension 2: disjuncts/connectors
     trash = ['.', ',', '+', '-', '?', ':', ';', '!', '"', '{', '}', '|', '[', ']', '(', ')', ')(', ')(,', ', ']  # $,&,'
     stop_words = kwa(trash, 'stop_words', **kwargs)
 
@@ -52,8 +53,6 @@ def co_occurrence_matrix(linx, **kwargs):  # updated 81012
 def categorical_distribution(counts, **kwargs):
     # counts: numpy.ndarray [words]*[links]
     threshold = kwa(0.0, 'min_co-occurrence_frequency', **kwargs)
-    #-summ = np.sum(counts)
-    #-vsm = np.divide(counts, summ)       # Vector Space Model
     vsm = np.divide(counts, np.sum(counts))  # Vector Space Model
     cd = (vsm > threshold).astype(int)  # categorical distribution
     return cd

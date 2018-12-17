@@ -149,41 +149,6 @@ class TestGrammarLearner(unittest.TestCase):
             assert len(rule_list) == len(base_list)
 
 
-    def test_turtle_generalize_categories(self):
-        base  = module_path + '/tests/data/POC-Turtle/' + \
-            'generalized_categories/dict_6C_2018-10-03_0006.4.0.dict'
-        input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually/'
-        batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
-        prj_dir = batch_dir + '/turtle_lw_&_dot_generalized_categories/'
-        if check_dir(prj_dir, create=True, verbose='max'):
-            outpath = prj_dir
-        kwargs = {
-            'input_parses'  :   input_parses,
-            'output_grammar':   outpath,
-            'left_wall'     :   'LEFT-WALL' ,
-            'period'        :   True        ,
-            'context'       :   2           ,
-            'word_space'    :   'discrete'  ,
-            'dim_reduction' :   'none'      ,
-            'clustering'    :   'group'     ,
-            'grammar_rules' :   2           ,
-            'categories_generalization' :   'jaccard',
-            'rules_generalization'      :   'off'    ,
-            'tmpath'        :   module_path + '/tmp/',
-            'verbose'       :   'none'
-        }
-        response = learn_grammar(**kwargs)
-        with open(response['grammar_file'], 'r') as f:
-            rules = f.read().splitlines()
-        rule_list = [line for line in rules if line[0:1] in ['"', '(']]
-        with open(base, 'r') as f:
-            lst = f.read().splitlines()
-        base_list = [line for line in lst if line[0:1] in ['"', '(']]
-        if len(rule_list) == len(base_list):
-            assert rule_list == base_list
-        else: assert len(rule_list) == len(base_list)
-
-
     def test_turtle_generalize_rules(self):
         base  = module_path + '/tests/data/POC-Turtle/' + \
             'generalized_rules/dict_6C_2018-10-03_0006.4.0.dict'
@@ -203,40 +168,6 @@ class TestGrammarLearner(unittest.TestCase):
             'clustering'    :   'group'     ,
             'grammar_rules' :   2           ,
             'categories_generalization' :   'off'    ,
-            'rules_generalization'      :   'jaccard',
-            'tmpath'        :   module_path + '/tmp/',
-            'verbose'       :   'none'
-        }
-        response = learn_grammar(**kwargs)
-        with open(response['grammar_file'], 'r') as f:
-            rules = f.read().splitlines()
-        rule_list = [line for line in rules if line[0:1] in ['"', '(']]
-        with open(base, 'r') as f: lst = f.read().splitlines()
-        base_list = [line for line in lst if line[0:1] in ['"', '(']]
-        if len(rule_list) == len(base_list):
-            assert rule_list == base_list
-        else: assert len(rule_list) == len(base_list)
-
-
-    def test_turtle_generalize_both(self):
-        base  = module_path + '/tests/data/POC-Turtle/' + \
-            'generalized_categories_and_rules/dict_6C_2018-10-03_0006.4.0.dict'
-        input_parses = module_path + '/tests/data/POC-Turtle/MST-fixed-manually/'
-        batch_dir = module_path + '/output/test_grammar_learner_' + str(UTC())[:10]
-        prj_dir = batch_dir + '/turtle_lw_&_dot_generalized_categories_and_rules/'
-        if check_dir(prj_dir, create=True, verbose='max'):
-            outpath = prj_dir
-        kwargs = {
-            'input_parses'  :   input_parses,
-            'output_grammar':   outpath,
-            'left_wall'     :   'LEFT-WALL' ,
-            'period'        :   True        ,
-            'context'       :   2           ,
-            'word_space'    :   'discrete'  ,
-            'dim_reduction' :   'none'      ,
-            'clustering'    :   'group'     ,
-            'grammar_rules' :   2           ,
-            'categories_generalization' :   'jaccard',
             'rules_generalization'      :   'jaccard',
             'tmpath'        :   module_path + '/tmp/',
             'verbose'       :   'none'

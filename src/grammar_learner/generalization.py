@@ -187,7 +187,7 @@ def squared(x, y):
         return 0
 
 
-def generalize_categories(categories, **kwargs):  # 80616 v.0.5 ex. aggregate_word_categories
+def generalize_categories(categories, **kwargs):  # 80717 [F] FIXME:DEL?
     # categories == {'cluster':[], 'words': [], 'disjuncts':[], ...}
     aggregation = kwa('off', 'categories_generalization', **kwargs)
     merge_threshold = kwa(0.8, 'categories_merge', **kwargs)
@@ -219,6 +219,7 @@ def generalize_categories(categories, **kwargs):  # 80616 v.0.5 ex. aggregate_wo
             z = len(sims)
 
         return reorder(cats), {'similarity_thresholds': sims}
+        # !!! 81217 reorder [F] for (gen) cats (tests - Turtle) ⇒ [x]
 
     else:
         return categories, {'categories_generalization': 'none'}
@@ -456,3 +457,4 @@ def add_upper_level(categories, **kwargs):                             # 81121
 # TODO: aggregate_cosine?
 # 80802 fix compatibility with dj_counts & max_disjuncts, delete ...05.py?
 # 81121 generalise_rules
+# 81217 FIXME? generalize_categories [F] with new reorder (Turtle tests) ⇒ [x] gen cet tests

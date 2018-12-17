@@ -144,7 +144,7 @@ def best_clusters(vdf, **kwargs):                                       #80809
             algorithm = 'kmeans'
             init = 'k-means++'
             n_init = 10
-    elif type(algo) is tuple:
+    elif type(algo) in [tuple, list]:
         if algo[0] == 'kmeans':
             algorithm = 'kmeans'
             if len(algo) > 1:

@@ -27,8 +27,6 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
         else:
             clustering = ('agglomerative', 'ward')
 
-    print('skl_clustering:', clustering, kwargs['clustering'])
-
     # linkage: ('ward', 'average', 'complete')
     cluster_criteria = kwa('silhouette', 'cluster_criteria', **kwargs)  # GL.0.6 legacy
     clustering_metric = kwa(('silhouette', 'euclidean'), 'clustering_metric', **kwargs)
@@ -145,7 +143,7 @@ def optimal_clusters(cd, **kwargs):
     if type(crange) is int:
         labels, metrics, centroids = skl_clustering(cd, crange, **kwargs)
 
-    if type(crange) is tuple:
+    if type(crange) in [tuple, list]:
         if len(crange) == 1:
             if type(crange[0]) is int:
                 labels, metrics, centroids = skl_clustering(cd, crange[0], **kwargs)

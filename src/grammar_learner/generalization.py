@@ -1,8 +1,8 @@
-# language-learning/src/grammar_learner/generalization.py               # 81126
+# language-learning/src/grammar_learner/generalization.py               # 81205
 from copy import copy, deepcopy
 from operator import itemgetter
 from .clustering import cluster_id
-from .utl import kwa                    # TODO: replace local kwa's
+from .utl import kwa
 
 
 def aggregate(categories, threshold, similarity_function, verbose='none'):
@@ -113,7 +113,7 @@ def reorder(cats):
             return []
         else:
             x = []
-            # TODO? define order of chidren?
+            # TODO? define order of children?
             for j in children[i]:
                 x.append(j)
                 y = branch(j, children)
@@ -133,18 +133,18 @@ def reorder(cats):
 
     for key in cats.keys():
         if key not in ['cluster', 'parent']:
-            # new_cats[key] = [cats[key][i] for i in ordnung]  # 81105:
             new_cats[key] = [cats[key][i] if i < len(cats[key]) else None for i in ordnung]
 
     for i, item in enumerate(new_cats['children']):
         if type(item) is set and len(item) > 0:
             new_cats['children'][i] = set([ordnung.index(x) for x in item])
 
-    rules = [i for i, x in enumerate(new_cats['parent']) if
-             (x == 0 and i > 0)]  # and type(list(new_cats['parent'][i])[0]) is tuple)]
+    rules = [i for i, x in enumerate(new_cats['parent'])
+             if (x == 0 and i > 0)]  # and type(list(new_cats['parent'][i])[0]) is tuple)]
     sign = lambda x: (1, -1)[x < 0]
+
     for rule in rules:
-        if type(list(new_cats['disjuncts'][rule])[0]) is tuple:
+        if len(new_cats['disjuncts'][rule]) > 0:  # 81130: prune clusters with empty dj sets
             new_rule = []
             for disjunct in new_cats['disjuncts'][rule]:
                 new_dj = []
@@ -152,6 +152,9 @@ def reorder(cats):
                     new_dj.append(ordnung.index(abs(index)) * sign(index))
                 new_rule.append(tuple(new_dj))
             new_cats['disjuncts'][rule] = set(new_rule)
+        else:  # 81130: prune clusters with empty dj sets  # TODO: update else...
+            print(('rule', rule, '- 0 djs in new_cats[disjuncts][rule]:',
+                   new_cats['disjuncts'][rule]))
 
     return new_cats
 
@@ -184,7 +187,7 @@ def squared(x, y):
         return 0
 
 
-def generalize_categories(categories, **kwargs):  # 80616 v.0.5 ex. aggregate_word_categories
+def generalize_categories(categories, **kwargs):  # 80717 [F] FIXME:DEL?
     # categories == {'cluster':[], 'words': [], 'disjuncts':[], ...}
     aggregation = kwa('off', 'categories_generalization', **kwargs)
     merge_threshold = kwa(0.8, 'categories_merge', **kwargs)
@@ -216,6 +219,7 @@ def generalize_categories(categories, **kwargs):  # 80616 v.0.5 ex. aggregate_wo
             z = len(sims)
 
         return reorder(cats), {'similarity_thresholds': sims}
+        # !!! 81217 reorder [F] for (gen) cats (tests - Turtle) ⇒ [x]
 
     else:
         return categories, {'categories_generalization': 'none'}
@@ -312,7 +316,7 @@ def generalise_rules(categories, **kwargs):                             # 81121
             threshold = max(sims) - 0.01  # step-by-step hierarchy construction
             z = len(sims)
 
-    else:  # 81120 1-step jaccard-based, iterate after dj commectors update
+    else:  # 81120 1-step jaccard-based, iterate after dj connectors update
         threshold = aggr_threshold
         n_clusters = len([x for x in categories['parent'] if x == 0])
         print(f'generalise_rules (new): n_clusters = {n_clusters}')
@@ -325,7 +329,7 @@ def generalise_rules(categories, **kwargs):                             # 81121
             dn = n_clusters - n_cats
             n_clusters = n_cats
 
-    return reorder(cats), {'rules_generalization': 'new'}
+    return reorder(cats), {'rules_generalization': 'hierarchical'}
 
 
 def agglomerate(categories, threshold, similarity_function, verbose='none'):
@@ -400,29 +404,49 @@ def add_upper_level(categories, **kwargs):                             # 81121
     verbose = kwa('none', 'verbose', **kwargs)
     group_threshold = kwa(0.1, 'top_level', **kwargs)
 
-    print('\nadd_upper_level\n')
+    if verbose == 'debug':
+        print('\nadd_upper_level\n')
 
     if generalisation in ['jaccard', 'hierarchical', 'legacy', 'new']:
         if group_threshold >= aggr_threshold:
             return categories, {'rules_agglomeration': 'no_top_level'}
-        threshold = aggr_threshold # merge_threshold  # 0.8
+        threshold = aggr_threshold  # merge_threshold  # 0.8
     else: threshold = 0.8
     cats, similarities = agglomerate(categories, threshold, jaccard, verbose)
     sims = [x for x in similarities]  # if x < threshold]
-    threshold = max(sims) - 0.01
+
+    if verbose == 'debug':
+        print(f'425 threshold, {threshold}, similarities: {similarities}, sims: {sims}')
+
+    if len(sims) > 0:
+        threshold = max(sims) - 0.01
+    else: threshold = 0.0
     if threshold <= group_threshold:
         return categories, {'rules_agglomeration': 'no_top_level'}
-    z = len(similarities)
-    while z > 1 and threshold > group_threshold:
-        # cats, similarities = aggregate(cats, threshold, jaccard, verbose)
-        cats, similarities = agglomerate(cats, threshold, jaccard, verbose)
-        #cats = renumber(cats)
-        sims = [x for x in similarities if x < threshold]
-        threshold = max(sims) - 0.01  # step-by-step hierarchy construction
-        z = len(sims)
 
-    #return reorder(cats), {'TODO': 'new reorder for 3-level category tree'}
-    return cats, {'category tree': '2018-11-23'}
+    if verbose == 'debug':
+        print(f'434 threshold, {threshold}, similarities: {similarities}')
+
+    z = len(similarities)
+    #while z > 1 and threshold > group_threshold:  # works
+    while z > 0 and threshold > group_threshold:
+        cats, similarities = agglomerate(cats, threshold, jaccard, verbose)
+
+        if verbose == 'debug':
+            print(f'442 threshold, {threshold}, similarities: {similarities}')
+
+        # cats = renumber(cats)
+        sims = [x for x in similarities if x < threshold]
+        z = len(sims)
+        if z > 0:
+            threshold = max(sims) - 0.01
+        else: threshold = 0.0
+
+        if verbose == 'debug':
+            print(f'441 threshold {threshold}, z = {z}, sims: {sims}')
+
+    return cats, {'category tree': 'v.2018-12-12'}
+    # TODO? return reorder(cats)  # new reorder for 3-level category tree? -- no need
 
 
 # Notes:
@@ -433,3 +457,4 @@ def add_upper_level(categories, **kwargs):                             # 81121
 # TODO: aggregate_cosine?
 # 80802 fix compatibility with dj_counts & max_disjuncts, delete ...05.py?
 # 81121 generalise_rules
+# 81217 FIXME? generalize_categories [F] with new reorder (Turtle tests) ⇒ [x] gen cet tests

@@ -1,7 +1,7 @@
 name: ull
 channels:
-  - defaults
   - conda-forge
+  - defaults
   - opencog-ull
 dependencies:
   - _nb_ext_conf=0.4.0=py36_1
@@ -163,7 +163,7 @@ dependencies:
   - zlib=1.2.11=ha838bed_2
   - zope=1.0=py36_0
   - zope.interface=4.5.0=py36h14c3975_0
-  - link-grammar-minisat-bundled=5.4.4=0
+  - link-grammar-minisat-bundled=5.5.1=0
   - sparsesvd=0.2.2=0
   - tqdm=4.28.1=py36h28b3542_0
 prefix: /home/obaskov/miniconda3/envs/ull-old

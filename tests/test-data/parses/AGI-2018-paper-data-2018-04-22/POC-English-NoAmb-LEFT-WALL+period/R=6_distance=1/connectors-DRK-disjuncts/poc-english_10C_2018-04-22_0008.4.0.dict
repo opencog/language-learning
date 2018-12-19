@@ -42,7 +42,7 @@
 "." "now":
 (C05C10-) or (C05C10- & C10C10+) or (C06C10-) or (C06C10- & C10C10+) or (C07C10-) or (C07C10- & C10C10+) or (C08C10-) or (C08C10- & C10C10+) or (C10C10-);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 10 word clusters, 10 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period/R=6_distance=1/connectors-DRK-disjuncts/poc-english_10C_2018-04-22_0008.4.0.dict

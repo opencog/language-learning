@@ -29,4 +29,4 @@
 
 LEFT-WALL: {Wa+} & {WV+} & {Xp+};
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;

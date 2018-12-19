@@ -46,7 +46,7 @@
 "a" "was":
 (C01C11- & C11C05+ & C11C11+) or (C01C11- & C11C06+) or (C03C11- & C11C05+) or (C06C11-) or (C08C11- & C11C04+) or (C11C01+) or (C11C02+) or (C11C04+) or (C11C11- & C11C02+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 11 word clusters, 11 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period/LG_ANY_all_parses/disjuncts-DRK-disjuncts/poc-english_11C_2018-04-22_0008.4.0.dict

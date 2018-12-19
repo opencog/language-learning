@@ -54,7 +54,7 @@
 "liked":
 (C03C13- & C13C02+ & C13C05+) or (C03C13- & C13C05+ & C13C02+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 13 word clusters, 13 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-no-LEFT-WALL-no-period/LG_ANY_all_parses/disjuncts-DRK-disjuncts/poc-english_13C_2018-04-22_0008.4.0.dict

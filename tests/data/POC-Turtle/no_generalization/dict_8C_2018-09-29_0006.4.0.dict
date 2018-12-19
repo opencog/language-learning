@@ -34,7 +34,7 @@
 "isa":
 (EI- & ID+) or (GI- & ID+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 8 word clusters, 8 Link Grammar rules.
 % Link Grammar file saved to: /home/obaskov/py/language-learning/output/test_grammar_learner_2018-09-29/turtle_lw_&_dot_no_generalization/dict_8C_2018-09-29_0005.4.0.dict

@@ -1,4 +1,5 @@
 import os
+import logging
 from typing import Dict, List, Any, Union, Callable, NewType
 
 from ..common.absclient import AbstractPipelineComponent
@@ -11,6 +12,9 @@ from .pipelinetreenode import PipelineTreeNode2
 
 
 __all__ = ['build_tree', 'run_tree']
+
+
+logger = logging.getLogger(__name__)
 
 
 class PathCreatorComponent(AbstractPipelineComponent):
@@ -63,7 +67,7 @@ def get_component(name: str, params: dict) -> AbstractPipelineComponent:
         raise Exception("Error: '{}' is not a valid pipeline component name.".format(name))
 
     except Exception as err:
-        print(str(type(err)) + ": " + str(err))
+        logger.error(str(type(err)) + ": " + str(err))
         raise err
 
 
@@ -101,7 +105,7 @@ def single_proc_exec(node: PipelineTreeNode2) -> None:
             handle_request(node, {**req, **result})
 
     # Just for debug purposes
-    print(node._component_name + ": successfull execution")
+    logger.info(node._component_name + ": successfull execution")
 
 
 def handle_request(node: PipelineTreeNode2, req: dict) -> None:
@@ -115,7 +119,7 @@ def handle_request(node: PipelineTreeNode2, req: dict) -> None:
     obj = req.pop("obj", None)
 
     if obj is None:
-        raise Exception("Error: Mandatory parameter 'obj' does not exist.")
+        raise Exception("Error: Required parameter 'obj' does not exist.")
 
     pos = str(obj).find(".")
 
@@ -164,11 +168,16 @@ def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, 
                 or (isinstance(v, str) and v.find("/") < 0 and v.find("%") < 0)}
 
     # Get subdir path based on specific parameters if requested
-    rleaf = get_path_from_dict(non_path, "_") if create_sub_dir else ""
+    rleaf = get_path_from_dict(non_path, "_") if create_leaf else ""
+    # rleaf = get_path_from_dict(non_path, "_") if create_sub_dir else ""
+
+    logger.debug("RLEAF: " + rleaf)
 
     inherit_prev = all_parameters.get("inherit_prev_path", False)
 
     leaf = environment["PREV"] + "/" + rleaf if inherit_prev else environment["ROOT"] + "/" + rleaf
+
+    logger.debug("LEAF: " + leaf)
 
     new_environment = {**environment, **{"RLEAF": rleaf, "LEAF": leaf, "CREATE_LEAF": create_leaf}}
 
@@ -178,7 +187,7 @@ def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, 
     # Substitute derived path for LEAF, PREV and other variables
     all_parameters = subst_variables_in_dict2(all_parameters, scopes, True, first_char)
 
-    # print(all_parameters)
+    logger.debug("all_parameters: {}".format(all_parameters))
 
     return all_parameters, new_environment
 

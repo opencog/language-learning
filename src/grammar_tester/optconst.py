@@ -40,6 +40,12 @@ BIT_EXCLUDE_TIMEOUTED   = (1<<20)           # Exclude linkage(s) from statistics
 BIT_EXCLUDE_PANICED     = (1<<21)           # Exclude linkage(s) from statistics estimation if LG 'panic' is detected
 BIT_EXCLUDE_EXPLOSION   = (1<<22)           # Exclude linkage(s) from statistics estimation if LG combinatorial
                                             #   explosion is detected.
+BIT_VERBOSITY           = (7<<23)           # Verbosity mask
+BIT_VERBOSITY_DEBUG     = (1<<23)
+BIT_VERBOSITY_INFO      = (2<<23)
+BIT_VERBOSITY_WARNINGS  = (3<<23)
+BIT_VERBOSITY_ERRORS    = (4<<23)
+BIT_VERBOSITY_CRITICAL  = (5<<23)
 
 config_options = {
     "keep_caps": BIT_CAPS,

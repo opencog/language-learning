@@ -15,7 +15,7 @@ def get_sed_regex(options: int) -> str:
         return r"/^$/d;s/.*/\L\0/g" if options & BIT_INPUT_TO_LCASE else r"/^$/d"
 
 
-def get_linkparser_command(options: int, dict_path: str, limit: int, timeout: int, verb: int=0) -> List[str]:
+def get_linkparser_command(options: int, dict_path: str, limit: int, timeout: int, verb: int=1) -> List[str]:
 
     verbosity = "-verbosity={}".format(verb)
 

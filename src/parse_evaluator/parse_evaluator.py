@@ -163,7 +163,7 @@ def Make_Random(sents):
         if num_parses > 0:
             idx = random.randint(0, num_parses - 1) # choose a random linkage index
             linkage = Linkage(idx, sentence, po._obj) # get the random linkage
-            tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options, "dummy")
+            tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options)
             for link in links:
                 llink = link[0]
                 rlink = link[1]

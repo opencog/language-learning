@@ -363,7 +363,7 @@ class TestPSParse(unittest.TestCase):
         options = 0
         options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
-        tokens, links = parse_postscript(self.post_all_walls, options, sys.stdout)
+        tokens, links = parse_postscript(self.post_all_walls, options)
         pm = parse_metrics(tokens)
         self.assertEqual(1.0, pm.completely_parsed_ratio)
         self.assertEqual(0.0, pm.completely_unparsed_ratio)
@@ -376,7 +376,7 @@ class TestPSParse(unittest.TestCase):
         options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(self.post_no_walls, options, sys.stdout)
+        tokens, links = parse_postscript(self.post_no_walls, options)
         pm = parse_metrics(tokens)
         self.assertEqual(1.0, pm.completely_parsed_ratio)
         self.assertEqual(0.0, pm.completely_unparsed_ratio)
@@ -389,7 +389,7 @@ class TestPSParse(unittest.TestCase):
         options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(self.post_no_links, options, sys.stdout)
+        tokens, links = parse_postscript(self.post_no_links, options)
         self.assertEqual(0, len(links))
 
     # @unittest.skip
@@ -399,7 +399,7 @@ class TestPSParse(unittest.TestCase):
         # options |= (BIT_RWALL | BIT_CAPS)
         # options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(gutenberg_children_bug, options, sys.stdout)
+        tokens, links = parse_postscript(gutenberg_children_bug, options)
 
         self.assertEqual(18, len(tokens))
 
@@ -417,7 +417,7 @@ class TestPSParse(unittest.TestCase):
 
         options = BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP
 
-        tokens, links = parse_postscript(gutenberg_children_bug_002, options, sys.stdout)
+        tokens, links = parse_postscript(gutenberg_children_bug_002, options)
 
         print(tokens)
 
@@ -441,7 +441,7 @@ class TestPSParse(unittest.TestCase):
         # options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(alice_bug_001, options, sys.stdout)
+        tokens, links = parse_postscript(alice_bug_001, options)
 
         self.assertEqual(15, len(tokens))
 
@@ -457,7 +457,7 @@ class TestPSParse(unittest.TestCase):
         # options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(alice_bug_002, options, sys.stdout)
+        tokens, links = parse_postscript(alice_bug_002, options)
 
         self.assertEqual(29, len(tokens), tokens)
 
@@ -469,7 +469,7 @@ class TestPSParse(unittest.TestCase):
         #                  "[4 5 0 (Ds**c)][5 6 0 (Mp)][7 8 0 (RW)]][0]"
         expected_set = {(1, 2), (2, 5), (2, 3), (4, 5), (5, 6)}
         options = BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_PARSE_QUALITY
-        tokens, links = parse_postscript(self.post_all_walls, options, sys.stdout)
+        tokens, links = parse_postscript(self.post_all_walls, options)
         result_set = get_link_set(tokens, links, options)
 
         self.assertTrue(result_set == expected_set)

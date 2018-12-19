@@ -58,7 +58,8 @@ class TextFileDashboardConf(TextFileDashboard, AbstractStatEventHandler):
                     val_str = self._config[CONF_VAL_KEYS][col].format(nodes=nodes,
                                                                       parseability=metrics.parseability_str(metrics),
                                                                       parsequality=quality.parse_quality_str(quality),
-                                                                      F1=quality.f1_str(quality))
+                                                                      F1=quality.f1_str(quality),
+                                                                      parsetime=metrics.parse_time_str(metrics))
 
                 except IndexError as err:
                     print("on_statatistics():2: IndexError: " + str(err))

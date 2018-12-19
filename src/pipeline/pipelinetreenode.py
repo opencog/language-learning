@@ -1,4 +1,6 @@
+import logging
 from typing import Dict, List, Any, Union, Callable
+from .pipelineexceptions import PipelineComponentException, FatalPipelineException
 
 __all__ = ['PipelineTreeNode2']
 
@@ -11,6 +13,7 @@ class PipelineTreeNode2:
     """
     roots = list()
     static_components = dict()
+    logger = logging.getLogger("PipelineTreeNode2")
 
     def __init__(self,
                  seq_no: int,
@@ -48,7 +51,7 @@ class PipelineTreeNode2:
         PipelineTreeNode2.static_components = dict()
 
     @staticmethod
-    def traverse(job: Callable, node = None) -> None:
+    def traverse(job: Callable, node=None) -> None:
         """
 
         Traverse pipeline tree executing the job
@@ -63,9 +66,14 @@ class PipelineTreeNode2:
         if job is not None:
             try:
                 job(node)
-            except Exception as err:
-                print("Error: " + str(err))
+
+            # TODO: Recovery
+            except PipelineComponentException as err:
+                PipelineTreeNode2.logger.error(str(err))
                 return None
+
+            except Exception as err:
+                raise FatalPipelineException("Fatal error: " + str(err))
 
         for sibling in node._siblings:
                 PipelineTreeNode2.traverse(job, sibling)
@@ -80,7 +88,7 @@ class PipelineTreeNode2:
         :return:            None
         """
         for i, root in enumerate(PipelineTreeNode2.roots, 0):
-            print("Execution path: " + str(i))
+            PipelineTreeNode2.logger.info("Execution path: " + str(i))
             PipelineTreeNode2.traverse(job, root)
 
     @staticmethod

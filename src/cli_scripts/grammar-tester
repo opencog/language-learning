@@ -5,8 +5,9 @@ import os
 import getopt
 import platform
 import traceback
+import logging
 
-from ull.common import handle_path_string, strip_quotes
+from ull.common import handle_path_string, strip_quotes, setup_logging
 from ull.grammar_tester import test_grammar, test_grammar_cfg, GrammarTestError, LG_DICT_PATH, LGParseError, ParserError
 from ull.grammar_tester.optconst import *
 
@@ -68,7 +69,11 @@ Usage:
         -E --exclude-timeouted  Exclude linkages with exceeded timeout from statistics estimation.
         -P --exclude-paniced    Exclude linkages with panic timeout from statistics estimation.
         -X --exclude-explosion  Exclude linkages with 'combinatorial explosion' timeout from statistics estimation.
+        -v --verbosity          Verbosity level options: [none, debug, info, warning, error, critical]
+        -z --logging            File logging level options: [none, debug, info, warning, error, critical]
     """
+    verbosity_options = {"none": logging.NOTSET, "debug": logging.DEBUG, "info": logging.INFO, "warning": logging.INFO,
+                         "error": logging.ERROR, "critical": logging.CRITICAL}
 
     dict_path       = None
     input_path      = None
@@ -80,12 +85,13 @@ Usage:
     reference_path  = None
     config_path     = None
     timeout         = 1
-
-    print("grammar-tester ver." + __version__)
-    print("Python v." + platform.python_version())
+    verbosity_level = logging.WARNING
+    logging_level   = logging.NOTSET
 
     try:
-        opts, args = getopt.getopt(argv, "hcwrnubqexsLId:i:o:l:g:t:f:R:C:D:T:EPX",
+        app_name = str(os.path.split(__file__)[1]).split(".")[0]
+
+        opts, args = getopt.getopt(argv, "hcwrnubqexsLId:i:o:l:g:t:f:R:C:D:T:EPXvz",
                                    ["help", "caps", "right-wall", "rm-dir",
                                     "no-strip", "ull-input", "best-linkage",
                                     "dict-path-recreate", "link-parser-exe",
@@ -95,7 +101,8 @@ Usage:
                                     "output=", "linkage-limit=", "grammar-dir=",
                                     "template-dir=", "output-format", "reference=",
                                     "config=", "language=", "lg-timeout=",
-                                    "exclude-timeouted", "exclude-paniced", "exclude-explosion"])
+                                    "exclude-timeouted", "exclude-paniced", "exclude-explosion", "verbosity=",
+                                    "logging="])
 
         for opt, arg in opts:
             if opt in ("-h", "--help"):
@@ -161,6 +168,20 @@ Usage:
                 options |= BIT_EXCLUDE_PANICED
             elif opt in ("-X", "--exclude-explosion"):
                 options |= BIT_EXCLUDE_EXPLOSION
+            elif opt in ("-v", "--verbosity"):
+                verb_key = strip_quotes(arg)
+
+                if verb_key not in verbosity_options.keys():
+                    raise getopt.GetoptError("Wrong verbosity argument value: ()".format(verb_key))
+
+                verbosity_level = verbosity_options[verb_key]
+            elif opt in ("-z", "--logging"):
+                log_key = strip_quotes(arg)
+
+                if log_key not in verbosity_options.keys():
+                    raise getopt.GetoptError("Wrong logging argument value: ()".format(log_key))
+
+                logging_level = verbosity_options[log_key]
 
         # print("options=" + bin(options) + " (" + hex(options) + ")")
 
@@ -192,6 +213,13 @@ Usage:
         if dict_path is None:
             dict_path = "en"
 
+    setup_logging(verbosity_level, logging_level, output_path + "/" + app_name + ".log", "w")
+
+    logger = logging.getLogger(app_name)
+
+    logger.warning(app_name + " ver." + __version__)
+    logger.warning("Python v." + platform.python_version())
+
     try:
         if config_path is None:
             test_grammar(input_path, output_path, dict_path, grammar_path, template_path,
@@ -200,22 +228,22 @@ Usage:
             test_grammar_cfg(config_path)
 
     except GrammarTestError as err:
-        print(str(err))
-        # traceback.print_exc()
+        logger.critical(str(err))
+        logger.debug(traceback.print_exc())
         return 2
 
     except ParserError as err:
-        print(str(err))
-        # traceback.print_exc()
+        logger.critical(str(err))
+        logger.debug(traceback.print_exc())
         return 2
 
     except KeyboardInterrupt:
-        print("Ctrl+C triggered. User abort.")
+        logger.warning("Ctrl+C triggered. User abort.")
         return 4
 
     except Exception as err:
-        print(str(type(err)) + ": " + str(err))
-        # traceback.print_exc()
+        logger.critical(str(type(err)) + ": " + str(err))
+        logger.debug(traceback.print_exc())
         return 5
 
     return 0

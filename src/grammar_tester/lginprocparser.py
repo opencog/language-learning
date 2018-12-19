@@ -1,5 +1,6 @@
 import sys
 import os
+import logging
 from subprocess import PIPE, Popen
 
 from ..common.absclient import AbstractFileParserClient, AbstractProgressClient
@@ -35,6 +36,7 @@ class PSSentence:
 class LGInprocParser(AbstractFileParserClient):
 
     def __init__(self, limit: int=100, timeout=1, verbosity=1):
+        self._logger = logging.getLogger("LGInprocParser")
         self._linkage_limit = limit
         self._timeout = timeout
         self._out_stream = None
@@ -224,7 +226,7 @@ class LGInprocParser(AbstractFileParserClient):
         :return:                Tuple (ParseMetrics, ParseQuality).
         """
         if progress is None:
-            print("Link Grammar version: {}\n"
+            self._logger.info("Link Grammar version: {}\n"
                   "Link Grammar dictionaries: {}".format(self._lg_version, self._lg_dict_path))
 
         sentence_count = 0
@@ -232,18 +234,18 @@ class LGInprocParser(AbstractFileParserClient):
         bar = None
 
         if progress is None:
-            print("Info: Parsing a corpus file: '" + corpus_path + "'")
-            print("Info: Using dictionary: '" + dict_path + "'")
+            self._logger.info("Parsing a corpus file: '" + corpus_path + "'")
+            self._logger.info("Using dictionary: '" + dict_path + "'")
 
             if output_path is not None:
-                print("Info: Parses are saved in: '" + output_path+get_output_suffix(options) + "'")
+                self._logger.info("Parses are saved in: '" + output_path+get_output_suffix(options) + "'")
             else:
-                print("Info: Output file name is not specified. Parses are redirected to 'stdout'.")
+                self._logger.info("Output file name is not specified. Parses are redirected to 'stdout'.")
 
             if ref_file is not None:
-                print("Info: Reference file: '" + ref_file + "'")
+                self._logger.info("Reference file: '" + ref_file + "'")
             else:
-                print("Info: Reference file name is not specified. Parse quality is not calculated.")
+                self._logger.info("Reference file name is not specified. Parse quality is not calculated.")
 
         sed_cmd = ["sed", "-e", get_sed_regex(options), corpus_path]
 
@@ -260,7 +262,7 @@ class LGInprocParser(AbstractFileParserClient):
                 bar = progress_type(total=sentence_count, desc=os.path.split(corpus_path)[1],
                                     unit="sentences", leave=True)
             else:
-                print("Number of sentences: {}".format(sentence_count))
+                self._logger.info("Number of sentences: {}".format(sentence_count))
 
             lgp_cmd = get_linkparser_command(options, dict_path, self._linkage_limit, self._timeout, self._lg_verbosity)
 
@@ -299,7 +301,7 @@ class LGInprocParser(AbstractFileParserClient):
                     bar.update(sentence_count)
 
                 if not (options & BIT_OUTPUT) and ret_metrics.sentences != sentence_count:
-                    print("Warning: number of sentences does not match. "
+                    self._logger.warning("Number of sentences does not match. "
                           "Read: {}, Parsed: {}".format(sentence_count, ret_metrics.sentences))
 
         # except FileNotFoundError as err:

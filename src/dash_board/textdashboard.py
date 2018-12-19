@@ -1,4 +1,4 @@
-import sys
+import logging
 from ..common.absclient import AbstractDashboardClient, DashboardError, AbstractPipelineComponent
 from ..common.cliutils import handle_path_string
 
@@ -22,6 +22,7 @@ class TextFileDashboard(AbstractDashboardClient):
     """
     def __init__(self, config: dict):
 
+        self._logger = logging.getLogger("TextFileDashboard")
         self.check_config(self)
 
         self._path = handle_path_string(config[CONF_FILE_PATH])
@@ -112,8 +113,8 @@ class TextFileDashboard(AbstractDashboardClient):
                 print(self.get_text(), file=file)
 
         except IOError as err:
-            print("IOError: " + str(err))
-
+            self._logger.error("IOError: " + str(err))
+            raise
 
     def get_text(self) -> str:
         """ Return dashboard as text string """
@@ -158,24 +159,22 @@ class TextFileDashboardComponent(AbstractPipelineComponent):
         self._board = TextFileDashboard(kwargs)
 
     def __exit__(self):
-        # print("__exit__", file=sys.stderr)
         self._board.update_dashboard()
 
     def __del__(self):
-        # print("__del__", file=sys.stderr)
         self._board.update_dashboard()
 
     def set(self, **kwargs):
-        try:
-            row = int(kwargs["row"])
-            col = int(kwargs["col"])
-            val = kwargs["val"]
-            val = str(val).format(**kwargs)
+        # try:
+        row = int(kwargs["row"])
+        col = int(kwargs["col"])
+        val = kwargs["val"]
+        val = str(val).format(**kwargs)
 
-            self._board.set_cell_by_indexes(row, col, val)
+        self._board.set_cell_by_indexes(row, col, val)
 
-        except Exception as err:
-            print(str(err))
+        # except Exception as err:
+        #     print(str(err))
 
     def validate_parameters(self, **kwargs) -> bool:
         return True

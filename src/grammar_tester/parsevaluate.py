@@ -1,5 +1,7 @@
 import sys
 import os
+import logging
+import traceback
 # from decimal import Decimal
 
 from ..common.dirhelper import traverse_dir
@@ -13,6 +15,8 @@ __all__ = ['load_ull_file', 'get_parses', 'eval_parses', 'compare_ull_files', 'E
 PARSE_SENTENCE = 0
 PARSE_LINK_SET = 1
 PARSE_IGNORED = 2
+
+logger = logging.getLogger(__name__)
 
 
 class EvalError(Exception):
@@ -99,9 +103,8 @@ def eval_parses(test_parses: list, ref_parses: list, verbose: bool, ofile=sys.st
         raise EvalError("Error: files don't contain same parses. "
                         "Number of sentences missmatch. Ref={}, Test={}".format(len(ref_parses), len(test_parses)))
 
-    if verbose:
-        print("\nTest Set\tReference Set\tIntersection\tRecall\tPrecision\tF1")
-        print("-" * 75)
+    logger.info("\nTest Set\tReference Set\tIntersection\tRecall\tPrecision\tF1")
+    logger.info("-" * 75)
 
     for ref_parse, test_parse in zip(ref_parses, test_parses):
 
@@ -114,10 +117,9 @@ def eval_parses(test_parses: list, ref_parses: list, verbose: bool, ofile=sys.st
         pq.ignored += test_parse[PARSE_IGNORED]
         pq.sentences += 1
 
-        if verbose:
-            print(test_parse[PARSE_LINK_SET], ref_parse[PARSE_LINK_SET],
-                  test_parse[PARSE_LINK_SET] & ref_parse[PARSE_LINK_SET],
-                  ParseQuality.recall_str(pq), ParseQuality.precision_str(pq), ParseQuality.f1_str(pq))
+        logger.info("{} {} {} {} {} {}".format(test_parse[PARSE_LINK_SET], ref_parse[PARSE_LINK_SET],
+              test_parse[PARSE_LINK_SET] & ref_parse[PARSE_LINK_SET],
+              ParseQuality.recall_str(pq), ParseQuality.precision_str(pq), ParseQuality.f1_str(pq)))
 
         total_parse_quality += pq
 
@@ -150,11 +152,11 @@ def compare_ull_files(test_path, ref_file, verbose, ignore_left_wall) -> ParseQu
         out_file = test_file + ".stat"
 
         if verbose:
-            print("\nComparing parses:")
-            print("-----------------")
-            print("File being tested: '" + test_file + "'")
-            print("Reference file   : '" + ref_file + "'")
-            print("Result file      : '" + out_file + "'")
+            logger.info("\nComparing parses:")
+            logger.info("-----------------")
+            logger.info("File being tested: '" + test_file + "'")
+            logger.info("Reference file   : '" + ref_file + "'")
+            logger.info("Result file      : '" + out_file + "'")
 
         mode = "a" if os.path.isfile(out_file) else "w"
 
@@ -173,10 +175,11 @@ def compare_ull_files(test_path, ref_file, verbose, ignore_left_wall) -> ParseQu
                 total_file_count += 1
 
         except IOError as err:
-            print("IOError: " + str(err))
+            logger.critical("IOError: " + str(err))
 
         except Exception as err:
-            print("evaluate(): Exception: " + str(err))
+            logger.critical("evaluate(): Exception: " + str(err))
+            logger.debug(traceback.print_exc())
             raise
     try:
         # If specified name is a file.
@@ -191,16 +194,17 @@ def compare_ull_files(test_path, ref_file, verbose, ignore_left_wall) -> ParseQu
         else:
             raise("Error: File or directory '" + test_path + "' does not exist.")
 
-        print("\n" + total_parse_quality.text(total_parse_quality))
+        logger.info("\n" + total_parse_quality.text(total_parse_quality))
 
     except IOError as err:
-        print("IOError: " + str(err))
+        logger.critical("IOError: " + str(err))
+        logger.debug(traceback.print_exc())
 
     except KeyboardInterrupt:
-        print("Ctrl+C triggered.")
+        logger.warning("Ctrl+C triggered.")
 
     except Exception as err:
-        print("Exception: " + str(err))
+        logger.critical("Exception: " + str(err))
+        logger.debug(traceback.print_exc())
 
-    finally:
-        return total_parse_quality
+    return total_parse_quality

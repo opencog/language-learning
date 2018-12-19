@@ -1,3 +1,4 @@
+import logging
 from typing import Dict, List, Any, Union, Callable
 from .pipelineexceptions import PipelineComponentException, FatalPipelineException
 
@@ -12,6 +13,7 @@ class PipelineTreeNode2:
     """
     roots = list()
     static_components = dict()
+    logger = logging.getLogger("PipelineTreeNode2")
 
     def __init__(self,
                  seq_no: int,
@@ -65,8 +67,9 @@ class PipelineTreeNode2:
             try:
                 job(node)
 
+            # TODO: Recovery
             except PipelineComponentException as err:
-                print("Error: " + str(err))
+                PipelineTreeNode2.logger.error(str(err))
                 return None
 
             except Exception as err:
@@ -85,7 +88,7 @@ class PipelineTreeNode2:
         :return:            None
         """
         for i, root in enumerate(PipelineTreeNode2.roots, 0):
-            print("Execution path: " + str(i))
+            PipelineTreeNode2.logger.info("Execution path: " + str(i))
             PipelineTreeNode2.traverse(job, root)
 
     @staticmethod

@@ -34,7 +34,7 @@
 "isa":
 (C04C08- & C08C03+) or (C06C08- & C08C03+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 8 word clusters, 8 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/tests-2018-07-06/no_generalization/dict_8C_2018-07-06_0005.4.0.dict

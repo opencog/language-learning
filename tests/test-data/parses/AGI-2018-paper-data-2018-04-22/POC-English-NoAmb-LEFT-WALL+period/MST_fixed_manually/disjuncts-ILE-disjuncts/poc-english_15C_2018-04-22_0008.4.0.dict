@@ -62,7 +62,7 @@
 "was":
 (C02C15- & C05C15- & C15C09+ & C15C04+) or (C02C15- & C07C15- & C15C08+ & C15C04+) or (C02C15- & C07C15- & C15C13+ & C15C04+ & C15C09+) or (C05C15- & C02C15- & C15C09+ & C15C04+) or (C07C15- & C02C15- & C15C13+ & C15C04+ & C15C09+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 15 word clusters, 15 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period/MST_fixed_manually/disjuncts-ILE-disjuncts/poc-english_15C_2018-04-22_0008.4.0.dict

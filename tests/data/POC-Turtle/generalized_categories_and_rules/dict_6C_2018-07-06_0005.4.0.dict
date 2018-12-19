@@ -26,7 +26,7 @@
 "isa":
 (C1C6- & C6C2+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 6 word clusters, 6 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/tests-2018-07-06/generalized_both/dict_6C_2018-07-06_0005.4.0.dict

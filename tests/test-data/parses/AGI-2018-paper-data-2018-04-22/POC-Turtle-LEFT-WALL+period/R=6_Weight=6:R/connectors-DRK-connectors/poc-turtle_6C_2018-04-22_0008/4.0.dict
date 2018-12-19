@@ -26,7 +26,7 @@
 "bird" "extremity" "fish":
 ({C01C06-} & {C06C03+});
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 6 word clusters, 6 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-Turtle-LEFT-WALL+period/R=6_Weight=6:R/connectors-DRK-connectors/poc-turtle_6C_2018-04-22_0008.4.0.dict

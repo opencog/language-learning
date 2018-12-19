@@ -1,0 +1,20 @@
+{
+  "corpus": "GCB",
+  "dataset": "LG-ANY-all-parses-agm-opt",
+  "input_parses": "/data/GCB/LG-ANY-all-parses-agm-opt",
+  "reference": "/data/GCB/LG-E-clean/GCB-LG-English-clean.ull",
+  "out_path": "/output/Gutenberg-Children-MST-test-2018-12-14",
+  "context": 1,
+  "min_word_count": 31,
+  "word_space": "sparse",
+  "clustering": ["agglomerative", "ward"],
+  "clustering_metric": ["silhouette", "cosine"],
+  "cluster_range": 500,
+  "grammar_rules": 2,
+  "max_disjuncts": 1000000,
+  "rules_generalization": "none",
+  "top_level": 0.01,
+  "tmpath": "/tmp",
+  "verbose": "min",
+  "linkage_limit": 1000
+}

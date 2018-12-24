@@ -40,7 +40,7 @@ def check_dir_files(dir_path, verbose='none'):
 def check_corpus(input_file, verbose='none'):
     if os.path.isfile(input_file):
         if verbose in ['max','debug']:
-            print('Input file:', input_file)
+            print('File exists:', input_file)
         if verbose == 'debug':
             print('Input corpus:\n')
             with open(input_file, 'r') as f:

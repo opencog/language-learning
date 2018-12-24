@@ -10,8 +10,8 @@ from .utl import UTC, round1, round2, round3
 
 
 def cluster_id(n,nmax):
-    def int2az(n,l='ABCDEFGHIJKLMNOPQRSTUVWXYZ'):
-        return (int2az(n//26)+l[n%26]).lstrip("A") if n>0 else "A"
+    def int2az(n,l='ABCDEFGHJKLMNOPQRSTUVWXYZ'):
+        return (int2az(n//25)+l[n%25]).lstrip("A") if n>0 else "A"
     return int2az(n).zfill(len(int2az(nmax))).replace('0','A')
 
 
@@ -39,11 +39,8 @@ def cluster_words_kmeans(words_df, n_clusters, init='k-means++', n_init=10):
         return [words_list[j] for j,x in enumerate(labels) if x==i]
     cdf['cluster'] = cdf.index
     cdf['cluster_words'] = cdf['cluster'].apply(cluster_word_list)
-    #+cdf = cdf.sort_values(by=[1,2,3], ascending=[True,True,True])
-    cdf = cdf.sort_values(by=[1,2], ascending=[True,True])
-    cdf.index = range(1, len(cdf)+1)
-    #-def cluster_id(row): return 'C' + str(row.name).zfill(2)  # 80925: C01⇒AB
-    #-cdf['cluster'] = cdf.apply(cluster_id, axis=1)
+    #-cdf = cdf.sort_values(by=[1,2], ascending=[True,True])    # 81020: [x]
+    #-cdf.index = range(1, len(cdf)+1)
     cdf['cluster'] = cdf['cluster'].apply(lambda x: cluster_id(x+1, len(cdf)))
     cols = ['cluster', 'cluster_words'] + cols
     cdf = cdf[cols]
@@ -149,7 +146,7 @@ def best_clusters(vdf, **kwargs):                                       #80809
             algorithm = 'kmeans'
             init = 'k-means++'
             n_init = 10
-    elif type(algo) is tuple:
+    elif type(algo) in [tuple, list]:
         if algo[0] == 'kmeans':
             algorithm = 'kmeans'
             if len(algo) > 1:

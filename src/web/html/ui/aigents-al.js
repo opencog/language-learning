@@ -8,6 +8,25 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+//https://stackoverflow.com/questions/5899783/detect-safari-using-jquery
+var isSafariFlag = null;
+function isSafari(){
+	if (isSafariFlag == null)
+		isSafariFlag = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);;
+	return isSafariFlag;
+}
+
+//parse HTTP query from URL
+function parseQuery(queryString) {
+    var query = {};
+    var pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
+    for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i].split('=');
+        query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+    }
+    return query;
+}
+
 function parseToFields(input) {
 	var list = [];
 	var p = new Parser(input);
@@ -148,7 +167,7 @@ var AL = {
 	separators : ".,:",
 	special : "+#=-*/\\",
 	empty : function(anything) {
-		return !anything || anything.lenght == 0;
+		return !anything || anything.length == 0;
 	},
 	toNumber : function(string) {
 		return AL.empty(string) ? 0 : Number(string);
@@ -377,6 +396,36 @@ function Parser(input) {
 		}
 		return null;
 	};
+	this.parseObj = function() {
+		var o = {};
+		while (!this.end()) {
+			var n = this.parse();//property name is one word
+			if (!AL.empty(n) && AL.punctuation.indexOf(n) == -1){
+				var done = false;
+				var v = "";
+				while (!this.end()) {//property value may be multi-word
+					var s = this.parse();
+					if (s == ",")
+						break;//break forming value, go to next property
+					else
+					if (AL.punctuation.indexOf(s) != -1){
+						done = true;
+						break;
+					} else
+					if (!AL.empty(s))
+						v += (v.length == 0 ? s : ' ' + s);
+					else
+						break;
+				}
+				if (AL.empty(v))
+					break;
+				o[n] = v;
+				if (done)
+					break;
+			}
+		}
+		return AL.empty(o) ? null : o;
+	};
     this.punctuationException = function(cur) {
     	if (AL.separators.indexOf(this.input.charAt(cur)) == -1)//not allow anything but , and . inside
     		return false;
@@ -411,6 +460,9 @@ function parse(input, delimeters) {
 	var sb = '';
 	var s;
 	while ((s = parser.parse()) != null) {
+		if (!delimeters){
+			chunks.push(s);
+		} else //TODO: remove this branch if not actually used
 		if (delimeters.indexOf(s) == -1) { //not a delimiter
 			if (sb.length > 0)
 				sb += AL.space;
@@ -513,6 +565,21 @@ function RGBtoFFFFFF(colorRGBhex,saturation100){
 	return rgb(colorToFF(r,toFF),colorToFF(g,toFF),colorToFF(b,toFF));
 }
 
+
+//// HTML helpers ////
+
+function create_selector(title,cls,id,value,options,labels){
+	if (!labels)
+		labels = options;
+	var str = '<select title="'+title+'" class="'+cls+'" id="'+id+'">';
+	for (var i = 0; i < options.length; i++){
+		var selected = value == options[i] ? ' selected="selected"' : '';
+		str = str.concat('<option value="'+options[i]+'"'+selected+'>'+labels[i]+'</option>');
+	}
+	return str.concat('</select>');
+}
+
+
 //// name helpers ////
 
 function splitName2(name){
@@ -538,7 +605,7 @@ function splitName2(name){
 //// range helpers ////
 
 function range_init(){
-	return { min : Number.MAX_SAFE_INTEGER, max : Number.MIN_SAFE_INTEGER};
+	return { min : Number.MAX_SAFE_INTEGER, max : Number.MIN_SAFE_INTEGER, sum: 0, cnt: 0 };
 }
 
 function range_update(range,value){
@@ -546,6 +613,21 @@ function range_update(range,value){
 		range.min = value;
 	if (range.max < value)
 		range.max = value;
+	range.sum += value;
+	range.cnt += 1;
+}
+
+function range_center(range){
+	if (range.cnt == 0)
+		return;
+	var avg = range.sum / range.cnt; 
+	var d1 = avg - range.min;
+	var d2 = range.max - avg;
+	if (d1 < d2)
+		range.min = avg - d2;
+	else
+	if (d2 < d1)
+		range.max = avg + d1;
 }
 
 function range_scale(scale,range,value){
@@ -637,11 +719,13 @@ function counter_extend(extendee,extender){
 				return extendee[p] = extender[p];
 }
 
-function counter_normalize(graph){
+function counter_normalize(graph,log){
 	var max = 0;
 	for (var p in graph){
 		if (graph.hasOwnProperty(p)) {
 			var v = graph[p];
+			if (log)
+				v = graph[p] = Math.log10(1+v);
 			if (v && max < v)
 				max = v;
 		}

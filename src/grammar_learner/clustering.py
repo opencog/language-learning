@@ -111,7 +111,9 @@ def number_of_clusters(vdf, **kwargs):                                  #80809
         if n in dct:
             dct[n] += 1
         else: dct[n] = 1
-    n_clusters = int(round(np.mean(lst),0))
+    #     'cannot convert float NaN to integer' fixed
+    f_mean: float = np.mean(lst)
+    n_clusters = int(round(f_mean,0)) if f_mean is not None else 0
     n2 = list(dct.keys())[list(dct.values()).index(max(list(dct.values())))]
     if n2 != n_clusters:
         if len(list(dct.values())) == len(set(list(dct.values()))):

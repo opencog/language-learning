@@ -115,6 +115,11 @@ Usage:
         logger.warning("Ctrl+C triggered.")
         return 1
 
+    except FileNotFoundError as err:
+        logger.critical(str(err))
+        # logger.debug(traceback.print_exc())
+        return 1
+
     except Exception as err:
         logger.critical(str(type(err)) + ": " + str(err))
         logger.debug(traceback.print_exc())

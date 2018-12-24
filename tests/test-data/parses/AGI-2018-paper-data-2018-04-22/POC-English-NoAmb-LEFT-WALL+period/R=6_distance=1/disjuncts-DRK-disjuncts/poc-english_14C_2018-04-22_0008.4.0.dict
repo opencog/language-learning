@@ -58,7 +58,7 @@
 "child":
 (C02C14- & C03C14- & C03C14- & C14C11+) or (C02C14- & C03C14- & C14C06+) or (C03C14- & C02C14- & C03C14- & C14C11+) or (C03C14- & C02C14- & C14C06+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 14 word clusters, 14 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period/R=6_distance=1/disjuncts-DRK-disjuncts/poc-english_14C_2018-04-22_0008.4.0.dict

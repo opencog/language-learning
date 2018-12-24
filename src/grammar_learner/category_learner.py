@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 from copy import deepcopy
-from collections import OrderedDict
+from collections import OrderedDict, Counter
 from .utl import UTC, kwa  # , round1,round2,round3,round4,round5
 from .read_files import check_dir  # , check_mst_files
 from .hyperwords import vector_space_dim, pmisvd
@@ -11,7 +11,7 @@ from .sparse_word_space import clean_links, co_occurrence_matrix, categorical_di
 from .skl_clustering import optimal_clusters
 
 
-def add_disjuncts(cats, links, **kwargs):
+def add_disjuncts(cats, links, **kwargs):  # 81204 as-is ⇒ grammar_inducer.py  FIXME:DEL
     # add disjuncts to categories {cats} after k-means or agglomerative clustering
     # cats: {'cluster': [], 'words': [], }
     fat_cats = deepcopy(cats)
@@ -90,11 +90,9 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
     elif algorithm == 'group' or word_space[0] == 'd':  # «ILE»: 'discrete' word_space
         log.update({'clustering': 'ILE'})
         if verbose in ['max', 'debug']:
-            print(UTC(), ':: category_learner ⇒ ILE group_links: context =', \
+            print(UTC(), ':: category_learner ⇒ ILE group_links: context =',
                   str(context) + ', word_space: ' + str(word_space) + ', algorithm:', algorithm)
         cdf = group_links(links, verbose)
-        if verbose not in ['min', 'none']:
-            print(UTC(), ':: ILE:', len(clusters), 'clusters of identical lexical entries', type(clusters))
 
     # «DRK» ?if word_space[0] in ['v','e'] or context == 1 or algorithm == 'kmeans':
     elif word_space[0] in ['v', 'e']:  # «DRK» legacy Grammar Learner 0.6
@@ -121,11 +119,18 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
     elif word_space[0] == 's':  # sparse
         log.update({'word_space': 'sparse'})
         linx, words, features = clean_links(links, **kwargs)
-        print(f'{len(links)} links: {len(set(links["word"].tolist()))} unique words, {len(set(links["link"].tolist()))} links')
-        print(f'words: len {len(words)}, min {min(words)}, max {max(words)}')
-        print(f'features: len {len(features)}, min {min(features)}, max {max(features)}')
-        print(f'features: {features}')
-        print(f'linx: {linx}')
+
+        if verbose in ['max', 'debug']:
+            print(f'{len(links)} links: {len(set(links["word"].tolist()))} unique words, {len(set(links["link"].tolist()))} links')
+            print(f'words: len {len(words)}, min {min(words)}, max {max(words)}')
+            print(f'features: len {len(features)}, min {min(features)}, max {max(features)}')
+            # print(f'features: {features}')
+            print(f'linx: type {type(linx)}, shape {linx.shape} len {len(linx)}')
+            print(linx)
+
+        log.update({'cleaned_words': len(sorted(np.unique(words))),
+                    'clean_features': len(sorted(np.unique(features)))})
+                    # 'links_array': linx.shape})
 
         counts = co_occurrence_matrix(linx, **kwargs)
         if verbose in ['max', 'debug']:
@@ -134,8 +139,12 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
         if verbose in ['max', 'debug']:
             print(f'counts.shape {counts.shape},cd.shape {cd.shape}')
         labels, metrics, centroids = optimal_clusters(cd, **kwargs)  # skl_clustering.py
+
+        # TODO check labels != [] ?  81114 check error via try learn_grammar
+
         if verbose in ['max', 'debug']:
-            print(f'labels: {labels},\n{len(sorted(np.unique(labels)))} unique: {sorted(np.unique(labels))}')
+            print(
+                f'\nlearn_categories ⇒ labels: {labels},\n{len(sorted(np.unique(labels)))} unique: {sorted(np.unique(labels))}')
 
         log.update(metrics)
         # labels ⇒ cdf (legacy, extracted from agglomerative_clustering:
@@ -153,9 +162,12 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
         cdf = random_clusters(links, **kwargs)
         log.update({'clustering': 'random'})
 
-    log.update({'n_clusters': len(cdf)})
-    if verbose in ['max', 'debug']:
-        print('\ncategory_learner: log:\n', log)
+    if 'log+' in verbose:
+        cluster_sizes = Counter([len(x) for x in cdf['cluster_words'].tolist()])
+        log.update({'n_clusters': len(cdf), 'cluster_sizes': dict(cluster_sizes)})
+
+    if verbose in ['max', 'debug']: print('\ncategory_learner: log:\n', log)
+
     return cdf2cats(cdf, **kwargs), log
 
 
@@ -207,6 +219,7 @@ def cdf2cats(clusters, **kwargs):
         cats['similarities'] = [[0 for y in x] for x in cats['words']]
     cats['children'] = [0 for x in cats['words']]
     return cats
+
 
 # Notes:
 

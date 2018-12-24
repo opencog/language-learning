@@ -1,25 +1,23 @@
-# language-learning/src/learner.py                                      # 81106
-import os
+# language-learning/src/learner.py                                      # 81213
+import os, time  # pickle, numpy as np, pandas as pd
 from copy import deepcopy
-import pickle, numpy as np, pandas as pd
 from shutil import copy2 as copy
-from IPython.display import display
-from collections import OrderedDict
-from .widgets import html_table
-from .utl import UTC, kwa
+from collections import OrderedDict, Counter
+from .utl import UTC, kwa, sec2string
 from .read_files import check_dir, check_mst_files
 from .pparser import files2links
-from .category_learner import learn_categories, add_disjuncts, cats2list
-from .grammar_inducer import induce_grammar
-from .generalization import generalize_categories, generalize_rules
+from .category_learner import learn_categories, cats2list  #, add_disjuncts
+from .grammar_inducer import induce_grammar, check_cats, prune_cats, add_disjuncts
+from .generalization import generalize_categories, generalize_rules, \
+                            generalise_rules, add_upper_level           # 81122
 from .write_files import list2file, save_link_grammar, save_cat_tree
 
 __all__ = ['learn_grammar']
 
 
-def learn_grammar(**kwargs):
+def learn(**kwargs):
+    start = time.time()
     log = OrderedDict({'start': str(UTC()), 'learn_grammar': 'v.0.7.81109'})
-
     input_parses = kwargs['input_parses']
     output_grammar = kwargs['output_grammar']
     output_categories = kwa('', 'output_categories', **kwargs)
@@ -32,7 +30,7 @@ def learn_grammar(**kwargs):
     log.update({'project_directory': prj_dir})
     if output_categories == '':
         output_categories = prj_dir
-    if output_statistics != '':  # TODO: check path: filename/dir?
+    if output_statistics != '':         # TODO: check path: filename/dir?
         corpus_stats_file = output_statistics
     else:
         corpus_stats_file = prj_dir + '/corpus_stats.txt'
@@ -56,6 +54,11 @@ def learn_grammar(**kwargs):
 
     categories, re03 = learn_categories(links, **kwargs)
     log.update(re03)
+    if 'corpus_stats' in log and 'cleaned_words' in re03:               # 81213
+        log['corpus_stats'].extend([
+            ['Number of unique words after cleanup', re03['cleaned_words']],
+            ['Number of unique features after cleanup', re03['clean_features']]])
+        list2file(log['corpus_stats'], corpus_stats_file)
 
     '''Generalize word categories'''
 
@@ -76,7 +79,11 @@ def learn_grammar(**kwargs):
         kwargs['context'] = context
 
     if 'disjuncts' not in 'categories':  # k-means, sparse agglomerative clustering
-        categories = add_disjuncts(categories, links, **kwargs)  # category_learner.py
+        categories = add_disjuncts(categories, links, **kwargs)
+
+    # TODO: check every category has disjuncts          # 81204,  blocked 81207
+    # categories = prune_cats(categories, **kwargs)  # [F] ⇒ implant in induce_grammar?
+    # re = check_cats(categories, **kwargs)
 
     # "fully connected rules": every cluster connected to all clusters  # 80825
     if kwargs['grammar_rules'] < 0:
@@ -93,26 +100,53 @@ def learn_grammar(**kwargs):
         print('N clusters = len(rules[disjuncts]-1):', len(rules['disjuncts']) - 1)
         print('Rule set lengths:', lengths)
 
-    '''Generalize grammar rules'''
+    '''Generalize grammar rules'''                                      # 81121
 
     if 'rules_generalization' in kwargs:
-        if kwargs['rules_generalization'] not in ['', 'off']:
+        if kwargs['rules_generalization'] in ['jaccard', 'legacy']:
             rules, re08 = generalize_rules(rules, **kwargs)
             log.update(re08)
-            if verbose == 'debug':
-                print('generalize_rules ⇒ gen_rules:')
+        elif kwargs['rules_generalization'] in ['hierarchical', 'fast', 'updated', 'new']:
+            rules, re08 = generalise_rules(rules, **kwargs)             # 81121
+            log.update(re08)
+
+    if 'log+' in verbose:
+        log['rule_sizes'] = dict(Counter(
+            [len(x) for i, x in enumerate(rules['words']) if rules['parent'][i] == 0]))
 
     '''Save word category tree, Link Grammar files: cat_tree.txt, dict...dict'''
 
-    re09 = save_cat_tree(rules, output_categories, verbose='none')
+    if 'top_level' in kwargs and kwargs['top_level'] > -1:  # 81126 3rd hierarchy level over rules
+        tree, _ = add_upper_level(rules, **kwargs)
+        re09 = save_cat_tree(tree, output_categories, verbose='none')
+    else:
+        re09 = save_cat_tree(rules, output_categories, verbose='none')
     # TODO: check file save error?
     log.update(re09)
     re10 = save_link_grammar(rules, output_grammar, grammar_rules)
     log.update(re10)
     log.update({'finish': str(UTC())})
+
     # TODO: elapsed execution time?  Save log?
 
+    log.update({'grammar_learn_time': sec2string(time.time() - start)})
+
+    # 81120: check 2nd g12n   FIXME
+    # rules, re11 = generalize_rules(rules, **kwargs)
+    # re12 = save_cat_tree(rules, output_categories, verbose='none')
+    # re13 = save_link_grammar(rules, output_grammar, grammar_rules)
+    # log.update(re11)
+    # log.update(re12)
+    # log.update(re13)
+
+    # return log
+    return rules, log  # 81126 FIXME?
+
+
+def learn_grammar(**kwargs):  # Backwards compatibility with legacy calls
+    rules, log = learn(**kwargs)
     return log
+
 
 # Notes:
 
@@ -120,3 +154,5 @@ def learn_grammar(**kwargs):
 # 80825: random clusters, interconnected ⇒ cleanup, commit 80828
 # 81021 cleanup: Grammar Learner 0.6
 # 81102 sparse wordspace agglomerative clustering
+# 81126 def learn_grammar ⇒ def learn + decorator
+# 81204-07 test and block (snooze) data pruning with max_disjuncts, etc...

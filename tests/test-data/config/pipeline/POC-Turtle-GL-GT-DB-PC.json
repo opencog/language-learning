@@ -1,0 +1,143 @@
+[
+  {
+    "component": "path-creator",
+    "type": "static",
+    "instance-name": "path",
+    "parameters": {
+    }
+  },
+  {
+    "component": "dash-board",
+    "type": "static",
+    "instance-name": "stat",
+    "parameters": {
+        "board_type": "file",
+        "file_path":  "%ROOT/AGI-2018.txt",
+        "board_name": "AGI-2018",
+        "row_count": 8,
+        "col_count": 15,
+        "col_headers": [
+          [
+            {"title": "Parsing                       "},
+            {"title": "LW"},
+            {"title": "Period"},
+            {"title": "cDRKc"},
+            {"title": "cDRKd"},
+            {"title": "dDRKd"},
+            {"title": "dILEd"},
+            {"title": "dALEd"},
+            {"title": "cALEd"},
+
+            {"title": "cDRKc"},
+            {"title": "cDRKd"},
+            {"title": "dDRKd"},
+            {"title": "dILEd"},
+            {"title": "dALEd"},
+            {"title": "cALEd"}
+          ]
+        ]
+    }
+  },
+  {
+    "component": "grammar-learner",
+    "common-parameters": {
+	"PARSES": "/home/alex/PycharmProjects/language-learning/data/POC-Turtle",
+        
+        "tmpath": "/var/tmp/",
+        "verbose": "min",
+        "categories_generalization": "off",
+        "temp_dir": "",
+
+        "context": 1,
+        "word_space": "vectors",
+        "clustering": ["kmeans", "kmeans++", 10],
+        "cluster_range": [2, 50, 9],
+        "grammar_rules": 1
+    },
+    "specific-parameters": [
+      { "space": "connectors-DRK-connectors", "parsing": "MST-fixed-manually", "input_parses": "%PARSES/%parsing", "db_row": "1", "pa_col": "3", "f1_col": "9", "left_wall": "LW", "period": true, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "connectors-DRK-connectors", "parsing": "MST-fixed-manually", "input_parses": "%PARSES/%parsing", "db_row": "2", "pa_col": "3", "f1_col": "9", "left_wall": "",   "period": false, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "connectors-DRK-connectors", "parsing": "R=6-Weight=6:R-mst-weight=+1:R", "input_parses": "%PARSES/%parsing", "db_row": "3", "pa_col": "3", "f1_col": "9", "left_wall": "LW", "period": true, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "connectors-DRK-connectors", "parsing": "R=6-Weight=6:R-mst-weight=+1:R", "input_parses": "%PARSES/%parsing", "db_row": "4", "pa_col": "3", "f1_col": "9", "left_wall": "",   "period": false, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "connectors-DRK-connectors", "parsing": "R=6-Weight=1-no-mst-weighting", "input_parses": "%PARSES/%parsing", "db_row": "5", "pa_col": "3", "f1_col": "9", "left_wall": "LW", "period": true, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "connectors-DRK-connectors", "parsing": "R=6-Weight=1-no-mst-weighting", "input_parses": "%PARSES/%parsing", "db_row": "6", "pa_col": "3", "f1_col": "9", "left_wall": "",   "period": false, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "connectors-DRK-connectors", "parsing": "LG-ANY-all-parses", "input_parses": "%PARSES/%parsing", "db_row": "7", "pa_col": "3", "f1_col": "9", "left_wall": "LW", "period": true, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "connectors-DRK-connectors", "parsing": "LG-ANY-all-parses", "input_parses": "%PARSES/%parsing", "db_row": "8", "pa_col": "3", "f1_col": "9", "left_wall": "",   "period": false, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+
+      { "space": "Connectors-DRK-Disjuncts", "parsing": "MST-fixed-manually", "input_parses": "%PARSES/%parsing", "db_row": "1", "pa_col": "4", "f1_col": "10", "left_wall": "LW", "period": true, "grammar_rules": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Connectors-DRK-Disjuncts", "parsing": "MST-fixed-manually", "input_parses": "%PARSES/%parsing", "db_row": "2", "pa_col": "4", "f1_col": "10", "left_wall": "",   "period": false, "grammar_rules": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Connectors-DRK-Disjuncts", "parsing": "R=6-Weight=6:R-mst-weight=+1:R", "input_parses": "%PARSES/%parsing", "db_row": "3", "pa_col": "4", "f1_col": "10", "left_wall": "LW", "period": true, "grammar_rules": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Connectors-DRK-Disjuncts", "parsing": "R=6-Weight=6:R-mst-weight=+1:R", "input_parses": "%PARSES/%parsing", "db_row": "4", "pa_col": "4", "f1_col": "10", "left_wall": "",   "period": false, "grammar_rules": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Connectors-DRK-Disjuncts", "parsing": "R=6-Weight=1-no-mst-weighting", "input_parses": "%PARSES/%parsing", "db_row": "5", "pa_col": "4", "f1_col": "10", "left_wall": "LW", "period": true, "grammar_rules": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Connectors-DRK-Disjuncts", "parsing": "R=6-Weight=1-no-mst-weighting", "input_parses": "%PARSES/%parsing", "db_row": "6", "pa_col": "4", "f1_col": "10", "left_wall": "",   "period": false, "grammar_rules": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Connectors-DRK-Disjuncts", "parsing": "LG-ANY-all-parses", "input_parses": "%PARSES/%parsing", "db_row": "7", "pa_col": "4", "f1_col": "10", "left_wall": "LW", "period": true, "grammar_rules": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Connectors-DRK-Disjuncts", "parsing": "LG-ANY-all-parses", "input_parses": "%PARSES/%parsing", "db_row": "8", "pa_col": "4", "f1_col": "10", "left_wall": "",   "period": false, "grammar_rules": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+
+      { "space": "Disjuncts-DRK-Disjuncts", "parsing": "MST-fixed-manually", "input_parses": "%PARSES/%parsing", "db_row": "1", "pa_col": "5", "f1_col": "11", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-DRK-Disjuncts", "parsing": "MST-fixed-manually", "input_parses": "%PARSES/%parsing", "db_row": "2", "pa_col": "5", "f1_col": "11", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-DRK-Disjuncts", "parsing": "R=6-Weight=6:R-mst-weight=+1:R", "input_parses": "%PARSES/%parsing", "db_row": "3", "pa_col": "5", "f1_col": "11", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-DRK-Disjuncts", "parsing": "R=6-Weight=6:R-mst-weight=+1:R", "input_parses": "%PARSES/%parsing", "db_row": "4", "pa_col": "5", "f1_col": "11", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-DRK-Disjuncts", "parsing": "R=6-Weight=1-no-mst-weighting", "input_parses": "%PARSES/%parsing", "db_row": "5", "pa_col": "5", "f1_col": "11", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-DRK-Disjuncts", "parsing": "R=6-Weight=1-no-mst-weighting", "input_parses": "%PARSES/%parsing", "db_row": "6", "pa_col": "5", "f1_col": "11", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-DRK-Disjuncts", "parsing": "LG-ANY-all-parses", "input_parses": "%PARSES/%parsing", "db_row": "7", "pa_col": "5", "f1_col": "11", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-DRK-Disjuncts", "parsing": "LG-ANY-all-parses", "input_parses": "%PARSES/%parsing", "db_row": "8", "pa_col": "5", "f1_col": "11", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 2, "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+
+      { "space": "Disjuncts-ILE-Disjuncts", "parsing": "MST-fixed-manually", "input_parses": "%PARSES/%parsing", "db_row": "1", "pa_col": "6", "f1_col": "12", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 2, "word_space": "discrete", "clustering": "group", "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-ILE-Disjuncts", "parsing": "MST-fixed-manually", "input_parses": "%PARSES/%parsing", "db_row": "2", "pa_col": "6", "f1_col": "12", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 2, "word_space": "discrete", "clustering": "group", "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-ILE-Disjuncts", "parsing": "R=6-Weight=6:R-mst-weight=+1:R", "input_parses": "%PARSES/%parsing", "db_row": "3", "pa_col": "6", "f1_col": "12", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 2, "word_space": "discrete", "clustering": "group", "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-ILE-Disjuncts", "parsing": "R=6-Weight=6:R-mst-weight=+1:R", "input_parses": "%PARSES/%parsing", "db_row": "4", "pa_col": "6", "f1_col": "12", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 2, "word_space": "discrete", "clustering": "group", "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-ILE-Disjuncts", "parsing": "R=6-Weight=1-no-mst-weighting", "input_parses": "%PARSES/%parsing", "db_row": "5", "pa_col": "6", "f1_col": "12", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 2, "word_space": "discrete", "clustering": "group", "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-ILE-Disjuncts", "parsing": "R=6-Weight=1-no-mst-weighting", "input_parses": "%PARSES/%parsing", "db_row": "6", "pa_col": "6", "f1_col": "12", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 2, "word_space": "discrete", "clustering": "group", "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-ILE-Disjuncts", "parsing": "LG-ANY-all-parses", "input_parses": "%PARSES/%parsing", "db_row": "7", "pa_col": "6", "f1_col": "12", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 2, "word_space": "discrete", "clustering": "group", "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-ILE-Disjuncts", "parsing": "LG-ANY-all-parses", "input_parses": "%PARSES/%parsing", "db_row": "8", "pa_col": "6", "f1_col": "12", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 2, "word_space": "discrete", "clustering": "group", "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+
+      { "space": "Disjuncts-ALE-Disjuncts", "parsing": "MST-fixed-manually", "input_parses": "%PARSES/%parsing", "db_row": "1", "pa_col": "7", "f1_col": "13", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 2, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-ALE-Disjuncts", "parsing": "MST-fixed-manually", "input_parses": "%PARSES/%parsing", "db_row": "2", "pa_col": "7", "f1_col": "13", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 2, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-ALE-Disjuncts", "parsing": "R=6-Weight=6:R-mst-weight=+1:R", "input_parses": "%PARSES/%parsing", "db_row": "3", "pa_col": "7", "f1_col": "13", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 2, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-ALE-Disjuncts", "parsing": "R=6-Weight=6:R-mst-weight=+1:R", "input_parses": "%PARSES/%parsing", "db_row": "4", "pa_col": "7", "f1_col": "13", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 2, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-ALE-Disjuncts", "parsing": "R=6-Weight=1-no-mst-weighting", "input_parses": "%PARSES/%parsing", "db_row": "5", "pa_col": "7", "f1_col": "13", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 2, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-ALE-Disjuncts", "parsing": "R=6-Weight=1-no-mst-weighting", "input_parses": "%PARSES/%parsing", "db_row": "6", "pa_col": "7", "f1_col": "13", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 2, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-ALE-Disjuncts", "parsing": "LG-ANY-all-parses", "input_parses": "%PARSES/%parsing", "db_row": "7", "pa_col": "7", "f1_col": "13", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 2, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Disjuncts-ALE-Disjuncts", "parsing": "LG-ANY-all-parses", "input_parses": "%PARSES/%parsing", "db_row": "8", "pa_col": "7", "f1_col": "13", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 2, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+
+      { "space": "Connectors-ALE-disjuncts", "parsing": "MST-fixed-manually", "input_parses": "%PARSES/%parsing", "db_row": "1", "pa_col": "8", "f1_col": "14", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 1, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Connectors-ALE-disjuncts", "parsing": "MST-fixed-manually", "input_parses": "%PARSES/%parsing", "db_row": "2", "pa_col": "8", "f1_col": "14", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 1, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Connectors-ALE-disjuncts", "parsing": "R=6-Weight=6:R-mst-weight=+1:R", "input_parses": "%PARSES/%parsing", "db_row": "3", "pa_col": "8", "f1_col": "14", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 1, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Connectors-ALE-disjuncts", "parsing": "R=6-Weight=6:R-mst-weight=+1:R", "input_parses": "%PARSES/%parsing", "db_row": "4", "pa_col": "8", "f1_col": "14", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 1, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Connectors-ALE-disjuncts", "parsing": "R=6-Weight=1-no-mst-weighting", "input_parses": "%PARSES/%parsing", "db_row": "5", "pa_col": "8", "f1_col": "14", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 1, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Connectors-ALE-disjuncts", "parsing": "R=6-Weight=1-no-mst-weighting", "input_parses": "%PARSES/%parsing", "db_row": "6", "pa_col": "8", "f1_col": "14", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 1, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Connectors-ALE-disjuncts", "parsing": "LG-ANY-all-parses", "input_parses": "%PARSES/%parsing", "db_row": "7", "pa_col": "8", "f1_col": "14", "left_wall": "LW", "period": true, "grammar_rules": 2, "context": 1, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" },
+      { "space": "Connectors-ALE-disjuncts", "parsing": "LG-ANY-all-parses", "input_parses": "%PARSES/%parsing", "db_row": "8", "pa_col": "8", "f1_col": "14", "left_wall": "",   "period": false, "grammar_rules": 2, "context": 1, "word_space": "sparse", "clustering": ["agglomerative", "ward"], "output_categories": "%ROOT/%space/%parsing/%left_wall", "pre-exec-req": [{ "obj": "path.create", "path": "%output_categories"}], "output_grammar": "%output_categories", "output_statistics": "%output_categories/stats.txt" }
+    ]
+  },
+  {
+    "component": "grammar-tester",
+    "common-parameters": {
+	"inherit_prev_path": true,
+	"input_grammar": "%PREV.output_grammar",
+	"input_corpus": "/home/alex/data/corpora/POC-Turtle/poc-turtle-corpus.txt",
+	"ref_path": "/home/alex/data/corpora/POC-Turtle/poc-turtle-parses.txt",
+	"output_path": "%PREV.output_grammar",
+	"grammar_root": "/home/alex/data/dict",
+	"template_path": "/home/alex/data/dict/poc-turtle",
+	"linkage_limit": "1000",
+	"rm_grammar_dir": true,
+	"ignore_left_wall": true,
+	"ignore_period": true,
+	"store_dict_localy": true,
+	"calc_parse_quality": true
+    },
+    "specific-parameters": [
+	{
+	  "output_format": "ull", 
+	  "post-exec-req": [
+	    {"obj": "stat.set", "row": "%PREV.db_row", "col": 		 "0", "val": "%PREV.parsing"},
+	    {"obj": "stat.set", "row": "%PREV.db_row", "col": 		 "1", "val": "%PREV.left_wall"},
+	    {"obj": "stat.set", "row": "%PREV.db_row", "col": 		 "2", "val": "%PREV.period"},
+	    {"obj": "stat.set", "row": "%PREV.db_row", "col": "%PREV.pa_col", "val": "{PA}"},
+	    {"obj": "stat.set", "row": "%PREV.db_row", "col": "%PREV.f1_col", "val": "{F1}"}
+	  ] 
+	}
+    ]
+  }
+]

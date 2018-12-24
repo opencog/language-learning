@@ -103,8 +103,7 @@ class LGApiParser(AbstractFileParserClient):
 
                     elif not (options & BIT_OUTPUT):
 
-                        tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options,
-                                                         output_file_handle)
+                        tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options)
 
                         # Print ULL formated parses
                         print_output(tokens, links, options, output_file_handle)

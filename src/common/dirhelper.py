@@ -44,8 +44,11 @@ def traverse_dir_tree(root: str, file_ext: str, file_arg_list: list=None, dir_ar
     try:
         # If all the arguments are correct start traversing
         traverse_directory(root, file_ext, file_arg_list, dir_arg_list, is_recursive)
+
     except Exception as err:
-        print("traverse_dir_tree(): ")
+        print("traverse_dir_tree(): " + str(type(err)) + ": " + str(err))
+        raise
+
 
 def traverse_directory(root: str, file_ext: str, file_arg_list: list=None, dir_arg_list: list=None, is_recursive=False):
     """
@@ -72,13 +75,7 @@ def traverse_directory(root: str, file_ext: str, file_arg_list: list=None, dir_a
 
             elif entry.is_file() and (len(file_ext) < 1 or (len(file_ext) and entry.path.endswith(file_ext))):
                 if file_arg_list is not None:
-                    # try:
                     file_arg_list[0](entry.path, file_arg_list[1:])
-
-                    # except Exception as err:
-                    #     print("traverse_directory(): " + str(err))
-
-
 
 
 def traverse_dir(root, file_ext, on_file, on_dir=None, is_recursive=False):

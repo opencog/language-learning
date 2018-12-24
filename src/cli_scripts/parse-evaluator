@@ -9,15 +9,12 @@ import platform
 import getopt
 import sys
 import os
+import logging
+import traceback
 
-from ull.grammartest import compare_ull_files, EvalError
+from ull.common import handle_path_string, strip_quotes, setup_logging
+from ull.grammar_tester import compare_ull_files, EvalError
 from ull.parse_evaluator import Evaluate_Alternative
-
-def version():
-    """
-        Prints Python version used
-    """
-    print("Code writen for Python3.6.4. Using: %s" % platform.python_version())
 
 
 def main(argv):
@@ -40,76 +37,105 @@ def main(argv):
 
         testfile        file with parses to evaluate
         goldfile        file with reference (gold standard) parses
-        -v              verbose
+        -v              Verbosity level options: [none, debug, info, warning, error, critical]
         -i              ignore LEFT-WALL and end-of-sentence dot, if any
         -a              use alternative parse_evaluator
         -s              evaluate sequential parses (only in alternative evaluator)
         -z              evaluate random parses (only in alternative evaluator)
 
     """
-
-    version()
+    verbosity_options = {"none": logging.NOTSET, "debug": logging.DEBUG, "info": logging.INFO, "warning": logging.INFO,
+                         "error": logging.ERROR, "critical": logging.CRITICAL}
 
     test_file = ''
     ref_file = ''
     verbose = False
-    ignore_WALL = True
+    verbosity_level = logging.WARNING
+    ignore_wall = False
     sequential = False
     random = False
     alternative_parser = False
 
     try:
-        opts, args = getopt.getopt(argv, "ht:r:visza", ["test=", "reference=", "verbose", "ignore", "sequential", "random", "alternative"])
+        app_name = str(os.path.split(__file__)[1]).split(".")[0]
+
+        opts, args = getopt.getopt(argv, "ht:r:v:isza", ["test=", "reference=", "verbosity=", "ignore", "sequential",
+                                                         "random", "alternative"])
+
+        for opt, arg in opts:
+            if opt == '-h':
+                print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a]")
+                sys.exit()
+            elif opt in ("-t", "--test"):
+                test_file = arg
+            elif opt in ("-r", "--reference"):
+                ref_file = arg
+            elif opt in ("-v", "--verbosity"):
+                verb_key = strip_quotes(arg)
+
+                if verb_key not in verbosity_options.keys():
+                    raise getopt.GetoptError("Wrong verbosity argument value: ()".format(verb_key))
+
+                verbosity_level = verbosity_options[verb_key]
+                verbose = verbosity_level < logging.WARNING
+            elif opt in ("-i", "--ignore"):
+                ignore_wall = True
+            elif opt in ("-s", "--sequential"):
+                sequential = True
+            elif opt in ("-z", "--random"):
+                random = True
+            elif opt in ("-a", "--alternative"):
+                alternative_parser = True
+
     except getopt.GetoptError:
         print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a]")
         sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-h':
-            print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a]")
-            sys.exit()
-        elif opt in ("-t", "--test"):
-            test_file = arg
-        elif opt in ("-r", "--reference"):
-            ref_file = arg
-        elif opt in ("-v", "--verbose"):
-            verbose = True
-        elif opt in ("-i", "--ignore"):
-            ignore_WALL = False
-        elif opt in ("-s", "--sequential"):
-            sequential = True
-        elif opt in ("-z", "--random"):
-            random = True
-        elif opt in ("-a", "--alternative"):
-            alternative_parser = True
 
+
+    setup_logging(verbosity_level, logging.NOTSET, os.environ["PWD"] + "/" + app_name + ".log", "w")
+
+    logger = logging.getLogger(app_name)
+
+    logger.info("Code writen for Python3.6.4. Using: %s" % platform.python_version())
 
     try:
         # Check if the arguments are properly specified.
         if ref_file is None or len(ref_file) == 0:
-            print(main.__doc__)
+            logger.info(main.__doc__)
             raise EvalError("Error: Arguments are not properly specified.")
 
         # If reference file does not exist then there is nothing to compare.
         if not os.path.isfile(ref_file):
             raise EvalError("Error: File '" + ref_file + "' does not exist.")
-    except EvalError as err:
-        print(str(err))
-        exit(4)
 
-    if alternative_parser:
-       Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random) 
-    else:
-        try:
-            # Check if the arguments are properly specified.
-            if test_file is None or len(test_file) == 0:
-                print(main.__doc__)
-                raise EvalError("Error: Incorrect test_file.")
+        # Check if the arguments are properly specified.
+        if test_file is None or len(test_file) == 0:
+            print(main.__doc__)
+            raise EvalError("Error: Incorrect test_file.")
 
+        if alternative_parser:
+            Evaluate_Alternative(ref_file, test_file, verbose, ignore_wall, sequential, random)
+
+        else:
             compare_ull_files(test_file, ref_file, verbose, ignore_wall)
 
-        except EvalError as err:
-            print(str(err))
-            exit(4)
+    except EvalError as err:
+        logger.critical(str(err))
+        logger.debug(traceback.print_exc())
+        return 3
+
+    except KeyboardInterrupt:
+        logger.warning("Ctrl+C triggered. User abort.")
+        logger.debug(traceback.print_exc())
+        return 4
+
+    except Exception as err:
+        logger.critical(str(type(err)) + ": " + str(err))
+        logger.debug(traceback.print_exc())
+        return 5
+
+    return 0
+
 
 if __name__ == '__main__':
     main(sys.argv[1:])

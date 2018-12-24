@@ -3,17 +3,19 @@ from typing import Dict, Union
 __all__ = ['get_path_from_dict', 'subst_variables_in_str', 'subst_variables_in_dict', 'subst_variables_in_dict2']
 
 
-def get_path_from_dict(params: dict) -> str:
+def get_path_from_dict(params: dict, delimiter: str="_") -> str:
     """
     Return path where key/value pairs separated by colon represent a subdirectory.
 
     :param params:     Dictionary.
+    :param delimiter   Character that delimits key/value pairs.
     :return:           String path in a form of 'key1:value1/key2:value2/.../key_n:value_n'
     """
     if params is None or len(params) == 0:
         return ""
 
-    return "/".join([item[0].replace("_", "-")+":"+str(item[1]) for item in sorted(params.items(), key=lambda i: i[0])])
+    return delimiter.join([item[0].replace("_", "-")+":"+str(item[1])
+                           for item in sorted(params.items(), key=lambda i: i[0])])
 
 
 def subst_variables_in_str(line: str, values: dict, start_char: str="%") -> object:
@@ -58,7 +60,8 @@ def get_variable_value(line, values: Dict[str, object]) -> (Union[str, None], Un
     return None, None
 
 
-def get_referenced_variable_value(line: str, scopes: Dict[str, Dict[str, object]]): # -> Union[(str, str), (None, None)]:
+def get_referenced_variable_value(line: str, scopes: Dict[str, Dict[str, object]]):
+    # -> Union[(str, str), (None, None)]:
     """
     Return value corresponding to referenced variable name
 
@@ -80,8 +83,8 @@ def get_referenced_variable_value(line: str, scopes: Dict[str, Dict[str, object]
         if key is not None:
             return key, value
 
-        # print("\n\n")
-        # print(scopes["THIS"])
+        print("\n\n")
+        print(scopes["THIS"])
 
         # Raise exception if not found in current scope
         raise ValueError(__name__ + ": Error '{}' is unknown within the scope '{}'.".format(line, key))

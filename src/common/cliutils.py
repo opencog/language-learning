@@ -1,6 +1,37 @@
+import logging
+import sys
 import os
 
-__all__ = ['strip_quotes', 'strip_trailing_slash', 'handle_path_string', 'strip_brackets']
+__all__ = ['strip_quotes', 'strip_trailing_slash', 'handle_path_string', 'strip_brackets', 'setup_logging']
+
+
+def setup_logging(console_level: int = logging.WARNING, file_level: int = logging.NOTSET, file_path: str = "error.log",
+                  mode: str = "w") -> None:
+    """
+    Setup application logging
+
+    :param console_level:       Logging level for console handler.
+    :param file_level:          Logging level for file handler.
+    :param file_path:           Log file path.
+    :param mode:                Log file write mode.
+    :return:                    None
+    """
+    # Setup root logger
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+
+    # Setup stream handler 'stdout'
+    stream = logging.StreamHandler(sys.stdout)
+    stream.setLevel(console_level)
+    logger.addHandler(stream)
+
+    # No need to setup file handler if 'file_level' is logging.NOTSET
+    if file_level > logging.NOTSET:
+        # Setup log file handler
+        file = logging.FileHandler(file_path, mode)
+        file.setLevel(file_level)
+        file.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
+        logger.addHandler(file)
 
 
 def strip_brackets(text) -> str:

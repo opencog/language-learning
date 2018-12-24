@@ -1,19 +1,19 @@
-# language-learner/src/grammar_learner/sparse_word_space.py             # 81102
+# language-learner/src/grammar_learner/sparse_word_space.py             # 81114
 import numpy as np
 import pandas as pd
+from .utl import kwa
 
 
 def clean_links(links, **kwargs):
     # links == pd.DataFrame ['word', 'word- & word+']
-    def kwa(v, k): return kwargs[k] if k in kwargs else v
-    min_word_count = kwa(1, 'min_word_count')
-    min_link_count = kwa(1, 'min_link_count')
-    min_word_probability = kwa(0.0, 'min_word_count')
-    min_link_probability = kwa(0.0, 'min_link_count')
-    max_words = kwa(100000, 'max_words')  # SVS: max space dimension 1
-    max_features = kwa(100000, 'max_features')  # SVS: dimension 2: disjuncts/connectors
+    min_word_count = kwa(1, 'min_word_count', **kwargs)
+    min_link_count = kwa(1, 'min_link_count', **kwargs)
+    min_word_frequency = kwa(0.0, 'min_word_frequency', **kwargs)
+    min_link_frequency = kwa(0.0, 'min_word_frequency', **kwargs)
+    max_words = kwa(1000000, 'max_words', **kwargs)  # SVS: max space dimension 1
+    max_features = kwa(1000000, 'max_features', **kwargs)  # SVS: dimension 2: disjuncts/connectors
     trash = ['.', ',', '+', '-', '?', ':', ';', '!', '"', '{', '}', '|', '[', ']', '(', ')', ')(', ')(,', ', ']  # $,&,'
-    stop_words = kwa(trash, 'stop_words')
+    stop_words = kwa(trash, 'stop_words', **kwargs)
 
     wdf = links.groupby('word', as_index=False).sum().sort_values(by=['count', 'word'], ascending=[False, True])
     if 'djlen' in wdf: del wdf['djlen']
@@ -44,8 +44,7 @@ def clean_links(links, **kwargs):
 
 def co_occurrence_matrix(linx, **kwargs):  # updated 81012
     # linx == numpy.ndarray [[word_id, feature_id, count]]
-    def kwa(v, k): return kwargs[k] if k in kwargs else v
-    threshold = kwa(1, 'min_co-occurrence_count')
+    threshold = kwa(1, 'min_co-occurrence_count', **kwargs)
     counts = np.zeros((max(linx[:, 0]) + 1, max(linx[:, 1]) + 1), dtype=np.int16)
     for x in linx: counts[x[0], x[1]] = x[2] if x[2] >= threshold else 0
     return counts
@@ -53,10 +52,7 @@ def co_occurrence_matrix(linx, **kwargs):  # updated 81012
 
 def categorical_distribution(counts, **kwargs):
     # counts: numpy.ndarray [words]*[links]
-    def kwa(v, k): return kwargs[k] if k in kwargs else v
-    threshold = kwa(0.0, 'min_co-occurrence_probability')
-    #-summ = np.sum(counts)
-    #-vsm = np.divide(counts, summ)       # Vector Space Model
+    threshold = kwa(0.0, 'min_co-occurrence_frequency', **kwargs)
     vsm = np.divide(counts, np.sum(counts))  # Vector Space Model
     cd = (vsm > threshold).astype(int)  # categorical distribution
     return cd

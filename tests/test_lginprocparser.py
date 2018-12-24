@@ -3,6 +3,9 @@ import sys
 
 from src.grammar_tester.optconst import *
 from src.grammar_tester.lginprocparser import LGInprocParser
+from src.common.textprogress import TextProgress
+from src.grammar_tester import load_ull_file
+from src.grammar_tester.lgmisc import ParserError, LGParseError
 
 lg_post_output = """
 echo set to 1
@@ -94,20 +97,67 @@ class LGInprocParserTestCase(unittest.TestCase):
     def test_parse_batch_ps_output(self):
         """ Test postscript parsing for total number of parsed sentences """
         pr = LGInprocParser()
-        num_sent = len(pr._parse_batch_ps_output(lg_post_output))
+        num_sent = len(pr._parse_batch_ps_output(lg_post_output, 0))
         self.assertEqual(num_sent, 12, "'parse_batch_ps_output()' returns '{}' instead of '{}'".format(num_sent, 12))
 
     # @unittest.skip
     def test_parse_batch_ps_output_explosion(self):
         """ Test for 'combinatorial explosion' """
-        pr = LGInprocParser()
+        pr = LGInprocParser(verbosity=0)
         num_sent = len(pr._parse_batch_ps_output(lg_post_explosion, 0))
         self.assertEqual(num_sent, 4, "'parse_batch_ps_output()' returns '{}' instead of '{}'".format(num_sent, 4))
 
-    # def test_parse_sent_count(self):
-    #     pr = LGInprocParser()
-    #     pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt", "/var/tmp/parse", None, 0)
-    #     self.assertEqual(12, 12)
+    def test_parse_sent_count(self):
+        pr = LGInprocParser()
+        bar = TextProgress(total=12, desc="Overal progress")
+        pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
+                 "/var/tmp/parse", None, 0, bar)
+        self.assertEqual(12, 12)
+
+    def test_load_ull_file_not_found(self):
+
+        with self.assertRaises(FileNotFoundError) as ctx:
+            data = load_ull_file("/var/tmp/something.txt")
+
+        # self.assertEqual("list index out of range", str(ctx.exception))
+
+    def test_load_ull_file_access_denied(self):
+
+        with self.assertRaises(PermissionError) as ctx:
+            data = load_ull_file("/root/something.txt")
+
+        # self.assertEqual("list index out of range", str(ctx.exception))
+
+    def test_parse_file_not_found(self):
+        with self.assertRaises(FileNotFoundError) as ctx:
+            # TestClass().test_func()
+            pr = LGInprocParser()
+            pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
+                     "/var/tmp/parse", "tests/test-data/corpora/poc-turtle/poc-horse.txt", BIT_PARSE_QUALITY)
+
+        # self.assertEqual("list index out of range", str(ctx.exception))
+
+    # @unittest.skip
+    def test_parse_invalid_file_format(self):
+
+        with self.assertRaises(LGParseError) as ctx:
+            pr = LGInprocParser()
+            pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
+                     "/var/tmp/parse", "tests/test-data/corpora/poc-turtle/poc-turtle.txt", BIT_PARSE_QUALITY)
+
+        # self.assertEqual("list index out of range", str(ctx.exception))
+
+    # @unittest.skip
+    def test_parse_invalid_ref_file(self):
+
+        # with self.assertRaises(LGParseError) as ctx:
+        try:
+            pr = LGInprocParser()
+            pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-english/poc_english.txt",
+                     "/var/tmp/parse", "tests/test-data/parses/poc-turtle-mst/poc-turtle-parses-expected.txt",
+                     BIT_PARSE_QUALITY)
+        except Exception as err:
+            print(str(type(err)) + ": " + str(err), file=sys.stderr)
 
 
 if __name__ == '__main__':

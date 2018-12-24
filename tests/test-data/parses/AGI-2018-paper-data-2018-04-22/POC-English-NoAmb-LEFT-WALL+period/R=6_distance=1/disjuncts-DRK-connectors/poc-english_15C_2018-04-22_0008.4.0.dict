@@ -62,7 +62,7 @@
 "child":
 ({C02C15- or C03C15- or C06C15-} & {C15C09+ or C15C12+});
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 15 word clusters, 15 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period/R=6_distance=1/disjuncts-DRK-connectors/poc-english_15C_2018-04-22_0008.4.0.dict

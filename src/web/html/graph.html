@@ -136,16 +136,18 @@ function cat_build_links(data){
 		if (AL.empty(line))
 			break;
 		var link = line.trim().split("\t");
-		if (!AL.empty(link) && (link.length == 6 || (link.length == 5 && line.substring(0,1) == '\t'))){
-			if (link.length == 5)
+		if (!AL.empty(link)){
+			if (line.substring(0,1) == '\t')//id missed category label
 				link.unshift('');
-			var label = link[0];
-			var parent = link[1];
-			var child = link[2];
-			link[0] = child;
-			link[1] = parent;
-			link[2] = label;
-			links.push(link);
+			if (link.length >= 5){
+				var label = link[0];
+				var parent = link[1];
+				var child = link[2];
+				link[0] = child;
+				link[1] = parent;
+				link[2] = label;
+				links.push(link);
+			}
 		}
 	}
 	return links;

@@ -1,4 +1,5 @@
 # language-learning/src/grammar_inducer.py                              # 81207
+import logging
 from copy import deepcopy
 from collections import Counter
 from typing import List, Tuple
@@ -89,15 +90,18 @@ def check_cats(cats, **kwargs):
 
 
 def induce_grammar(categories, **kwargs):                               # 81205
+    logger = logging.getLogger(__name__ + ".induce_grammar")
     # categories == {'cluster': [], 'words': [], ...}
     max_disjuncts = kwa(100000, 'max_disjuncts', **kwargs)              # 81105
     verbose = kwa('none', 'verbose', **kwargs)
 
     rules = deepcopy(categories)
 
-    if verbose == 'debug':
-        print('grammar_inducer.py line 99: rules.keys():\n',
-              {key: len(rules[key]) for key in rules.keys()})
+    # if verbose == 'debug':
+    #     print('grammar_inducer.py line 99: rules.keys():\n',
+    #           {key: len(rules[key]) for key in rules.keys()})
+    logger.debug('grammar_inducer.py line 99: rules.keys():\n{}'.format(
+          {key: len(rules[key]) for key in rules.keys()}))
 
     dj_counts = Counter()                                               # 81105
     clusters = [i for i,x in enumerate(rules['cluster']) if i > 0 and x is not None]
@@ -127,8 +131,10 @@ def induce_grammar(categories, **kwargs):                               # 81205
                 if len(dj) > 0:
                     djs.append(tuple(dj))
                     dj_counts[tuple(dj)] += categories['dj_counts'][cluster][i]
-                if verbose == 'debug':
-                    print(f'induce_grammar_: cluster {cluster}: {rule} ⇒ {tuple(dj)}')
+                # if verbose == 'debug':
+                #     print(f'induce_grammar_: cluster {cluster}: {rule} ⇒ {tuple(dj)}')
+                logger.debug(f'induce_grammar_: cluster {cluster}: {rule} ⇒ {tuple(dj)}')
+
             # TODO? +elif type(rule) is tuple? connectors - tuples?
         rules['disjuncts'][cluster] = set(djs)
         #? disjuncts[cluster] = set(djs)
@@ -166,9 +172,11 @@ def induce_grammar(categories, **kwargs):                               # 81205
     # TOD0?: remove disjuncts connected with deleted clusters...
     # TODO?: iterate: prune clusters ⇒ disjuncts ⇒ clusters ... ⇒ renumber & rename :(
 
-    if verbose == 'debug':
-        print('grammar_inducer.py line 170: rules.keys():\n',
-              {key: len(rules[key]) for key in rules.keys()})
+    # if verbose == 'debug':
+    #     print('grammar_inducer.py line 170: rules.keys():\n',
+    #           {key: len(rules[key]) for key in rules.keys()})
+    logger.debug('grammar_inducer.py line 170: rules.keys():\n{}'.format(
+          {key: len(rules[key]) for key in rules.keys()}))
 
     return rules, {'learned_rules': len([x for i, x in enumerate(rules['parent'])
                                          if x == 0 and i > 0]),

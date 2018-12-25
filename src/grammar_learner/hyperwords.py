@@ -1,6 +1,6 @@
 ## Unstructured mess of files from 2017 - TODO: restore the file structure?
-import logging
 from __future__ import division
+import logging
 import time
 import numpy as np
 import pandas as pd

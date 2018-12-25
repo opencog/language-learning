@@ -2,7 +2,11 @@ import logging
 import sys
 import os
 
-__all__ = ['strip_quotes', 'strip_trailing_slash', 'handle_path_string', 'strip_brackets', 'setup_logging']
+__all__ = ['strip_quotes', 'strip_trailing_slash', 'handle_path_string', 'strip_brackets', 'setup_logging',
+           'VERBOSITY_OPTIONS']
+
+VERBOSITY_OPTIONS = {"none": logging.NOTSET, "debug": logging.DEBUG, "info": logging.INFO, "warning": logging.WARNING,
+                     "error": logging.ERROR, "critical": logging.CRITICAL}
 
 
 def setup_logging(console_level: int = logging.WARNING, file_level: int = logging.NOTSET, file_path: str = "error.log",

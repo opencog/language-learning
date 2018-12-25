@@ -7,7 +7,7 @@ import platform
 import traceback
 import logging
 
-from ull.common import handle_path_string, strip_quotes, setup_logging
+from ull.common import handle_path_string, strip_quotes, setup_logging, VERBOSITY_OPTIONS
 from ull.grammar_tester import test_grammar, test_grammar_cfg, GrammarTestError, LG_DICT_PATH, LGParseError, ParserError
 from ull.grammar_tester.optconst import *
 
@@ -72,9 +72,6 @@ Usage:
         -v --verbosity          Verbosity level options: [none, debug, info, warning, error, critical]
         -z --logging            File logging level options: [none, debug, info, warning, error, critical]
     """
-    verbosity_options = {"none": logging.NOTSET, "debug": logging.DEBUG, "info": logging.INFO, "warning": logging.INFO,
-                         "error": logging.ERROR, "critical": logging.CRITICAL}
-
     dict_path       = None
     input_path      = None
     output_path     = None
@@ -171,17 +168,17 @@ Usage:
             elif opt in ("-v", "--verbosity"):
                 verb_key = strip_quotes(arg)
 
-                if verb_key not in verbosity_options.keys():
+                if verb_key not in VERBOSITY_OPTIONS.keys():
                     raise getopt.GetoptError("Wrong verbosity argument value: ()".format(verb_key))
 
-                verbosity_level = verbosity_options[verb_key]
+                verbosity_level = VERBOSITY_OPTIONS[verb_key]
             elif opt in ("-z", "--logging"):
                 log_key = strip_quotes(arg)
 
-                if log_key not in verbosity_options.keys():
+                if log_key not in VERBOSITY_OPTIONS.keys():
                     raise getopt.GetoptError("Wrong logging argument value: ()".format(log_key))
 
-                logging_level = verbosity_options[log_key]
+                logging_level = VERBOSITY_OPTIONS[log_key]
 
         # print("options=" + bin(options) + " (" + hex(options) + ")")
 

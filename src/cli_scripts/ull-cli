@@ -7,7 +7,8 @@ import platform
 import logging
 import traceback
 
-from ull.common import JsonFileConfigManager, AbstractPipelineComponent, handle_path_string, setup_logging, strip_quotes
+from ull.common import JsonFileConfigManager, AbstractPipelineComponent, handle_path_string, setup_logging, \
+    VERBOSITY_OPTIONS, strip_quotes
 from ull.pipeline import build_tree, run_tree, PipelineTreeNode2
 
 __version__ = "1.0.0"
@@ -27,9 +28,6 @@ Usage:
     level               Can be one of [debug, info, warning, critical]
 
     """
-    verbosity_options = {"none": logging.NOTSET, "debug": logging.DEBUG, "info": logging.INFO, "warning": logging.INFO,
-                         "error": logging.ERROR, "critical": logging.CRITICAL}
-
     config_path     = None
     config_name     = None
     abs_config_path = None
@@ -61,17 +59,17 @@ Usage:
             elif opt in ("-v", "--verbosity"):
                 verb_key = strip_quotes(arg)
 
-                if verb_key not in verbosity_options.keys():
+                if verb_key not in VERBOSITY_OPTIONS.keys():
                     raise getopt.GetoptError("Wrong verbosity argument value: ()".format(verb_key))
 
-                verbosity_level = verbosity_options[verb_key]
+                verbosity_level = VERBOSITY_OPTIONS[verb_key]
             elif opt in ("-l", "--logging"):
                 log_key = strip_quotes(arg)
 
-                if log_key not in verbosity_options.keys():
+                if log_key not in VERBOSITY_OPTIONS.keys():
                     raise getopt.GetoptError("Wrong logging argument value: ()".format(log_key))
 
-                logging_level = verbosity_options[log_key]
+                logging_level = VERBOSITY_OPTIONS[log_key]
 
     except getopt.GetoptError as err:
         print(str(err))

@@ -12,7 +12,7 @@ import os
 import logging
 import traceback
 
-from ull.common import handle_path_string, strip_quotes, setup_logging
+from ull.common import handle_path_string, strip_quotes, setup_logging, VERBOSITY_OPTIONS
 from ull.grammar_tester import compare_ull_files, EvalError
 from ull.parse_evaluator import Evaluate_Alternative
 
@@ -44,9 +44,6 @@ def main(argv):
         -z              evaluate random parses (only in alternative evaluator)
 
     """
-    verbosity_options = {"none": logging.NOTSET, "debug": logging.DEBUG, "info": logging.INFO, "warning": logging.INFO,
-                         "error": logging.ERROR, "critical": logging.CRITICAL}
-
     test_file = ''
     ref_file = ''
     verbose = False
@@ -73,10 +70,10 @@ def main(argv):
             elif opt in ("-v", "--verbosity"):
                 verb_key = strip_quotes(arg)
 
-                if verb_key not in verbosity_options.keys():
+                if verb_key not in VERBOSITY_OPTIONS.keys():
                     raise getopt.GetoptError("Wrong verbosity argument value: ()".format(verb_key))
 
-                verbosity_level = verbosity_options[verb_key]
+                verbosity_level = VERBOSITY_OPTIONS[verb_key]
                 verbose = verbosity_level < logging.WARNING
             elif opt in ("-i", "--ignore"):
                 ignore_wall = True

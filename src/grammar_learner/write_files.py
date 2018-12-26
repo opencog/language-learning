@@ -1,4 +1,5 @@
 # language-learning/src/grammar_learner/write_files.py                  # 81126
+import logging
 import os, linkgrammar
 from collections import OrderedDict
 from copy import deepcopy
@@ -25,6 +26,7 @@ def list2file(lst, out_file):
 
 
 def rules2list(rules_dict, grammar_rules=2, verbose='none'):
+    logger = logging.getLogger(__name__ + ".rules2list")
     # rules_dict: {'cluster': [], 'words': [], } ⇒ return rules []
     # grammar_rules = kwargs['grammar_rules']: 1 - connectors, 2 - disjuncts
 
@@ -40,8 +42,10 @@ def rules2list(rules_dict, grammar_rules=2, verbose='none'):
     for i, cluster in enumerate(rules_dict['cluster']):
         if i == 0: continue
         if cluster == None: continue
-        if verbose == 'debug':
-            print('rules2list:', i, cluster, rules_dict['disjuncts'][i])
+        # if verbose == 'debug':
+        #     print('rules2list:', i, cluster, rules_dict['disjuncts'][i])
+        logger.debug(f'rules2list: {i}, {cluster}, {rules_dict["disjuncts"][i]}')
+
         rule = [cluster]
         rule.append(sorted(rules_dict['words'][i]))
         if grammar_rules in [1, -1]:  # rules based on connectors, interconnected
@@ -65,7 +69,7 @@ def rules2list(rules_dict, grammar_rules=2, verbose='none'):
                     dj = ' & '.join([disjunct(x, rules_dict['cluster'], cluster) for x in djtuple])
                     disjuncts.append(dj)
                 except TypeError:
-                    print('- wrong djtuple? -', djtuple)
+                    logger.critical(f'- wrong djtuple? - {djtuple}')
             rule.append(sorted(disjuncts))
         rules.append(rule)
 
@@ -138,6 +142,7 @@ def save_link_grammar(rules, output_grammar, grammar_rules=2, header='', footer=
 
 
 def save_category_tree(category_list, tree_file, verbose='none'):
+    logger = logging.getLogger(__name__ + ".save_category_tree")
     cats = category_list
     clusters = {}
     m = 0
@@ -159,7 +164,7 @@ def save_category_tree(category_list, tree_file, verbose='none'):
             for j in v:
                 tree.append(['', m + 1, cats[j][2], cats[j][3], cats[j][4], cats[j][5]])
         else:
-            print('WTF?', k, v)
+            logger.critical(f'WTF? {k} {v}')
 
     _ = list2file(tree, tree_file)
 
@@ -167,6 +172,7 @@ def save_category_tree(category_list, tree_file, verbose='none'):
 
 
 def save_cat_tree(cats, output_categories, verbose='none'):
+    logger = logging.getLogger(__name__ + ".save_cat_tree")
     # cats: {'cluster':[], 'words':[], ...}
     tree_file = output_categories
     if '.' not in tree_file:  # received directory ⇒ auto file name
@@ -196,8 +202,9 @@ def save_cat_tree(cats, output_categories, verbose='none'):
 
     _ = list2file(categories, tree_file)
 
-    if verbose in ['max', 'debug']:
-        print(UTC(), ':: src/utl.writefiles.py save_cat_tree:', len(cats['cluster']) - 1, 'categories')
+    # if verbose in ['max', 'debug']:
+    #     print(UTC(), ':: src/utl.writefiles.py save_cat_tree:', len(cats['cluster']) - 1, 'categories')
+    logger.info(f'{UTC()} :: src/utl.writefiles.py save_cat_tree: {len(cats["cluster"]) - 1} categories')
 
     return {'cat_tree_file': tree_file}
 

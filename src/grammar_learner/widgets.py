@@ -60,6 +60,7 @@ def category_tree(cat_file, verbose='none'):  # 80522 shortened: display only
             for j in v:
                 tree.append(['', m+1, cats[j][2], cats[j][3]])
         else: print('WTF?', k, v)
+    #  TODO: To be reviewed and changed if necessary
     if verbose not in ['none', 'min']:
         display(html_table([['Code','Parent','Id','Words']] + tree))
 

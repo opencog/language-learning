@@ -1,4 +1,5 @@
 # language-learning/src/graammar_learner/pparser.py                     # 81024
+import logging
 import numpy as np
 import pandas as pd
 from .corpus_stats import corpus_stats
@@ -37,6 +38,7 @@ def mst2connectors(lines, **kwargs):
 
 
 def mst2disjuncts(lines, **kwargs):                                     # 81024
+    logger = logging.getLogger(__name__ + ".mst2disjuncts")
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     lw  = kwa('', 'left_wall')
     dot = kwa(False, 'period')
@@ -47,8 +49,10 @@ def mst2disjuncts(lines, **kwargs):                                     # 81024
     words = dict()
 
     def save_djs(words,links):
-        if kwargs['verbose'] in ['debug']:
-            print('save_djs: words, links:', words, links)
+        # if kwargs['verbose'] in ['debug']:
+        #     print('save_djs: words, links:', words, links)
+        logger.debug(f'save_djs: words, links: {words}, {links}')
+
         if len(links) > 0:
             for k,v in links.items():
                 if k in words:
@@ -60,7 +64,8 @@ def mst2disjuncts(lines, **kwargs):                                     # 81024
                         disjunct = ' & '.join([words[abs(x)] + ('+' if x>0 else '-') \
                                                for x in (l+r)])
                     pairs.append([words[k], disjunct])
-                    if kwargs['verbose'] in ['debug']: print('pairs:', pairs)
+                    # if kwargs['verbose'] in ['debug']: print('pairs:', pairs)
+                    logger.debug(f'pairs: {pairs}')
         links = dict()
         words = dict()
         return words,links
@@ -86,8 +91,10 @@ def mst2disjuncts(lines, **kwargs):                                     # 81024
                     if j in links:
                         links[j].add(-i)
                     else: links[j] = set([-i])
-                    if kwargs['verbose'] in ['debug']:
-                        print('line, words, links:', line, words, links)
+                    # if kwargs['verbose'] in ['debug']:
+                    #     print('line, words, links:', line, words, links)
+                    logger.debug(f'line, words, links: {line}, {words}, {links}')
+
                 else: # sentence starting with digit = same as next else
                     words,links = save_djs(words,links)
             else:  # sentence starting with letter
@@ -102,6 +109,8 @@ def mst2disjuncts(lines, **kwargs):                                     # 81024
 
 
 def files2links(**kwargs):
+    logger = logging.getLogger(__name__ + ".files2links")
+
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     parse_mode      = kwa('lower',  'parse_mode')    # 'casefold' ?
     # parse_mode: 'given'~ as parsed, 'lower', 'casefold', 'explode' ⇒ maniana...
@@ -129,7 +138,9 @@ def files2links(**kwargs):
     lines = []
     for i,file in enumerate(files):
         #TODO: check file
-        if verbose in ['max','debug']:  print('File # '+str(i)+':', file)
+        # if verbose in ['max','debug']:  print('File # '+str(i)+':', file)
+        logger.info('File # '+str(i)+':'+file)
+
         with open(file, 'r') as f:
             lines.extend(f.readlines())
 

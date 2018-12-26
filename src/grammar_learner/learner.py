@@ -1,4 +1,5 @@
 # language-learning/src/learner.py                                      # 81213
+import logging
 import os, time  # pickle, numpy as np, pandas as pd
 from copy import deepcopy
 from shutil import copy2 as copy
@@ -16,6 +17,8 @@ __all__ = ['learn_grammar']
 
 
 def learn(**kwargs):
+    logger = logging.getLogger(__name__ + ".learn")
+
     start = time.time()
     log = OrderedDict({'start': str(UTC()), 'learn_grammar': 'v.0.7.81109'})
     input_parses = kwargs['input_parses']
@@ -96,9 +99,11 @@ def learn(**kwargs):
         rules, re07 = induce_grammar(categories, **kwargs)
 
     lengths = [len(x) for x in rules['disjuncts']]
-    if verbose in ['max', 'debug']:
-        print('N clusters = len(rules[disjuncts]-1):', len(rules['disjuncts']) - 1)
-        print('Rule set lengths:', lengths)
+    # if verbose in ['max', 'debug']:
+    #     print('N clusters = len(rules[disjuncts]-1):', len(rules['disjuncts']) - 1)
+    #     print('Rule set lengths:', lengths)
+    logger.info(f'N clusters = len(rules[disjuncts]-1): {len(rules["disjuncts"]) - 1}')
+    logger.info(f'Rule set lengths: {lengths}')
 
     '''Generalize grammar rules'''                                      # 81121
 

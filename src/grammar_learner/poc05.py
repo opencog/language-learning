@@ -1,5 +1,6 @@
 #language-learning/src/grammar_learner/poc05.py 80528-80725, restructured 80802
 #FIXME:DEL / keep poc05.py+pqa05.py for a while to back-test further dev
+import logging
 import os
 import pickle  # , collections
 import pandas as pd
@@ -26,23 +27,32 @@ from .generalization import generalize_categories, generalize_rules
 '''Category Learner 0.5 80625'''
 
 def group_links(links, verbose):  #80428
+    logger = logging.getLogger(__name__ + ".group_links")
     df = links.copy()
     df['links'] = [[x] for x in df['link']]
     del df['link']
-    if verbose in ['max','debug']:
-        print('\ngroup_links: links:\n')
-        with pd.option_context('display.max_rows', 6):
-            print(links.sort_values(by='word', ascending=True))
-        print('\ngroup_links: df:\n')
-        with pd.option_context('display.max_rows', 6): print(df)
+    # if verbose in ['max','debug']:
+    #     print('\ngroup_links: links:\n')
+    #     with pd.option_context('display.max_rows', 6):
+    #         print(links.sort_values(by='word', ascending=True))
+    #     print('\ngroup_links: df:\n')
+    #     with pd.option_context('display.max_rows', 6): print(df)
+    logger.info('\ngroup_links: links:\n')
+    with pd.option_context('display.max_rows', 6):
+        logger.info(f'{links.sort_values(by="word", ascending=True)}')
+    logger.info('\ngroup_links: df:\n')
+    with pd.option_context('display.max_rows', 6): logger.info(f'{df}')
+
     df = df.groupby('word').agg({'links': 'sum', 'count': 'sum'}).reset_index()
     df['words'] = [[x] for x in df['word']]
     del df['word']
     df2 = df.copy().reset_index()
     df2['links'] = df2['links'].apply(lambda x: tuple(sorted(x)))
     df3 = df2.groupby('links')['count'].apply(sum).reset_index()
-    if verbose == 'debug':
-        with pd.option_context('display.max_rows', 6): print('\ndf3:\n', df3)
+    # if verbose == 'debug':
+    #     with pd.option_context('display.max_rows', 6): print('\ndf3:\n', df3)
+    with pd.option_context('display.max_rows', 6): logger.debug(f'\ndf3:\n{df3}')
+
     df4 = df2.groupby('links')['words'].apply(sum).reset_index()
     if df4['links'].tolist() == df3['links'].tolist():
         df4['counts'] = df3['count']
@@ -59,6 +69,7 @@ def group_links(links, verbose):  #80428
 
 
 def category_learner(links, **kwargs):      #80619 POC.0.5 #80726
+    logger = logging.getLogger(__name__ + ".category_learner")
     # links - DataFrame ['word', 'link', 'count']
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     #-links = kwargs['links']   # links - check?
@@ -100,52 +111,70 @@ def category_learner(links, **kwargs):      #80619 POC.0.5 #80726
         log.update({'tmpath': tmpath})
     #TODO:ERROR
 
-    if verbose in ['max','debug']:
-        print(UTC(),':: category_learner: word_space/clustering:', word_space, '/', clustering)
+    # if verbose in ['max','debug']:
+    #     print(UTC(),':: category_learner: word_space/clustering:', word_space, '/', clustering)
+    logger.info(f'{UTC()} :: category_learner: word_space/clustering: {word_space}/{clustering}')
 
     #-if word_space == 'vectors':    #80619 Category-Tree-2018-06-19.ipynb
     if context == 1 or word_space[0] in ['v','e'] or clustering == 'kmeans':
         #word_space options: v,e: 'vectors'='embeddings', d,w: 'discrete'='word_vectors'
-        if verbose in ['max','debug']:
-            print(UTC(),':: category_learner: DRK: context =', \
-                str(context)+', word_space: '+word_space+', clustering:', clustering)
+        # if verbose in ['max','debug']:
+        #     print(UTC(),':: category_learner: DRK: context =', \
+        #         str(context)+', word_space: '+word_space+', clustering:', clustering)
+        logger.info(f'{UTC()} :: category_learner: DRK: context = {str(context)}, word_space: {word_space}, '
+                    f'clustering: {clustering}')
+
         #-dim = vector_space_dim(links, dict_path, tmpath, dim_max, sv_min, verbose)
         #-80420 dict_path ⇒ tmpath :: dir to save vectors.txt
         dim = vector_space_dim(links, tmpath, tmpath, dim_max, sv_min, verbose)
         log.update({'vector_space_dim': dim})
-        if verbose in ['mid','max','debug']:
-            print(UTC(),':: category_learner: vector space dimensionality:', dim, '⇒ pmisvd')
+        # if verbose in ['mid','max','debug']:
+        #     print(UTC(),':: category_learner: vector space dimensionality:', dim, '⇒ pmisvd')
+        logger.warning(f'{UTC()} :: category_learner: vector space dimensionality: {dim} ⇒ pmisvd')
+
         #-vdf, sv, res3 = pmisvd(links, dict_path, tmpath, dim)
         vdf, sv, re01 = pmisvd(links, tmpath, tmpath, dim)
         log.update(re01)
-        if verbose in ['max','debug']:
-            print(UTC(),':: category_learner: pmisvd returned vdf, svd, re01')
-    #-if clustering == 'kmeans':
-        if verbose in ['max','debug']:
-            print(UTC(),':: category_learner: ⇒ number_of_clusters')
+        # if verbose in ['max','debug']:
+        #     print(UTC(),':: category_learner: pmisvd returned vdf, svd, re01')
+        logger.warning(f'{UTC()} :: category_learner: pmisvd returned vdf, svd, re01')
+
+        #-if clustering == 'kmeans':
+        # if verbose in ['max','debug']:
+        #     print(UTC(),':: category_learner: ⇒ number_of_clusters')
+        logger.info(f'{UTC()} :: category_learner: ⇒ number_of_clusters')
+
         n_clusters = number_of_clusters(vdf, cluster_range, clustering,  \
             criteria=cluster_criteria, level=cluster_level, verbose=verbose)
         log.update({'n_clusters': n_clusters})
-        if verbose in ['max','debug']:
-            print(UTC(),':: category_learner: ⇒ cluster_words_kmeans:', n_clusters, 'clusters')
+        # if verbose in ['max','debug']:
+        #     print(UTC(),':: category_learner: ⇒ cluster_words_kmeans:', n_clusters, 'clusters')
+        logger.info(f'{UTC()} :: category_learner: ⇒ cluster_words_kmeans: {n_clusters} clusters')
+
         clusters, silhouette, inertia = cluster_words_kmeans(vdf, n_clusters)
         log.update({'silhouette': silhouette, 'inertia': inertia})
     #-elif clustering[:5] in ['group','ident']:
     else:
-        if verbose in ['max', 'debug']:
-            print(UTC(),':: category_learner ⇒ iLE group_links: context =', \
-                str(context)+', word_space: '+str(word_space)+', clustering:', clustering)
+        # if verbose in ['max', 'debug']:
+        #     print(UTC(),':: category_learner ⇒ iLE group_links: context =', \
+        #         str(context)+', word_space: '+str(word_space)+', clustering:', clustering)
+        logger.info(f'{UTC()} :: category_learner ⇒ iLE group_links: context = {str(context)}, '
+                    f'word_space: {str(word_space)}, clustering: {clustering}')
+
         #TODO: from ? import group_links
         clusters = group_links(links, verbose)
         log.update({'n_clusters': len(clusters)})
-        if verbose not in ['min','none']:
-            print('Total', len(clusters), \
-                'clusters of identical lexical entries', type(clusters))
+        # if verbose not in ['min','none']:
+        #     print('Total', len(clusters), \
+        #         'clusters of identical lexical entries', type(clusters))
+        logger.warning('Total {len(clusters)} clusters of identical lexical entries {type(clusters)}')
 
     # Convert clusters DataFrame ⇒ cats {}   #80619 0.5
     #TODO?: if clusters == pd.dataframe:
-    if verbose in ['max','debug']:
-        print(UTC(),':: category_learner: convert clusters ⇒ cats {}')
+    # if verbose in ['max','debug']:
+    #     print(UTC(),':: category_learner: convert clusters ⇒ cats {}')
+    logger.info(str(UTC()) + ' :: category_learner: convert clusters ⇒ cats {}')
+
     cats = {}  #80609 dict instead of DataFrame
     cats['cluster'] = ['C0'] + clusters['cluster'].tolist()
     cats['parent'] = [0 for x in cats['cluster']]
@@ -175,11 +204,15 @@ def category_learner(links, **kwargs):      #80619 POC.0.5 #80726
 '''Grammar Learner 0.5 80625'''
 
 def induce_grammar(categories, links, verbose='none'):
+    logger = logging.getLogger(__name__ + ".induce_grammar")
+
     # categories: {'cluster': [], 'words': [], ...}
     # links: pd.DataFrame (legacy)
     #-from generalization import cats2list  #80802 copied here
-    if verbose in ['max','debug']:
-        print(UTC(),':: induce_grammar: categories.keys():', categories.keys())
+    # if verbose in ['max','debug']:
+    #     print(UTC(),':: induce_grammar: categories.keys():', categories.keys())
+    logger.info(f'{UTC()} :: induce_grammar: categories.keys(): {categories.keys()}')
+
     rules = deepcopy(categories)
 
     clusters = [i for i,x in enumerate(rules['cluster']) if i>0 and x is not None]
@@ -188,11 +221,13 @@ def induce_grammar(categories, links, verbose='none'):
         for word in rules['words'][i]:
             word_clusters[word] = i
 
+    # TODO: Review and change logging and verbosity
     if verbose in ['max','debug']:
         print('induce_grammar: rules.keys():', rules.keys())
         print('induce_grammar: clusters:', clusters)
         print('induce_grammar: word_clusters:', word_clusters)
         print('induce_grammar: rules ~ categories:')
+
         display(html_table([['Code','Parent','Id','Quality','Words', 'Disjuncts', 'djs','Relevance','Children']] \
             + [x for i,x in enumerate(cats2list(rules)) if i < 4]))
 
@@ -211,16 +246,22 @@ def induce_grammar(categories, links, verbose='none'):
                         elif y[-1] == '-':
                             dj.append(-1 * word_clusters[y[:-1]])
                         else:
-                            print('no sign?', dj)  #TODO:ERROR?
+                            logger.error(f'no sign? {dj}')  #TODO:ERROR?
+
                 djs.append(tuple(dj))
-                if verbose == 'debug':
-                    print('induce_gramma: cluster', cluster, '::', rule, '⇒', tuple(dj))
+                # if verbose == 'debug':
+                #     print('induce_gramma: cluster', cluster, '::', rule, '⇒', tuple(dj))
+                logger.debug(f'induce_gramma: cluster {cluster} :: {rule} ⇒ {tuple(dj)}')
+
             #TODO? +elif type(rule) is tuple? connectors - tuples?
         rules['disjuncts'][cluster] = set(djs)
-        if verbose == 'debug':
-            print('induce_grammar: rules["disjuncts"]['+str(cluster)+']', rules['disjuncts'][cluster])
+        # if verbose == 'debug':
+        #     print('induce_grammar: rules["disjuncts"]['+str(cluster)+']', rules['disjuncts'][cluster])
+        logger.debug('induce_grammar: rules["disjuncts"][' + str(cluster) + f'] {rules["disjuncts"][cluster]}')
+
     #rules['djs'] = copy.deepcopy(rules['disjuncts'])  #TODO: check jaccard with tuples else replace with numbers
 
+    # TODO: Should be modified somehow for proper log output
     if verbose == 'debug':
         print('induce_grammar: updated disjuncts:')
         display(html_table([['Code','Parent','Id','Quality','Words', 'Disjuncts', 'djs','Relevance','Children']] \
@@ -234,6 +275,7 @@ def induce_grammar(categories, links, verbose='none'):
 '''Learn_Grammar :: Integration'''
 
 def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
+    logger = logging.getLogger(__name__ + ".learn_grammar")
     # input_parses - dir with .txt files
     # output_categories - path/file.ext / dir ⇒ auto file name
     # output_grammar    - path/file.ext / dir ⇒ auto file name
@@ -296,37 +338,45 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     log.update(re02)
     list2file(re02['corpus_stats'], prj_dir+'/corpus_stats.txt')
     log.update({'corpus_stats_file': prj_dir+'/corpus_stats.txt'})
-    if verbose in ['max','debug']:
-        print('\n', UTC(),':: files2links returns links', type(links), ':\n')
-        with pd.option_context('display.max_rows', 6): print(links, '\n')
-        print('learn_grammar: word_space/clustering:', \
-              word_space,'/', clustering, '⇒ category_learner')
+    # if verbose in ['max','debug']:
+    #     print('\n', UTC(),':: files2links returns links', type(links), ':\n')
+    #     with pd.option_context('display.max_rows', 6): print(links, '\n')
+    #     print('learn_grammar: word_space/clustering:', \
+    #           word_space,'/', clustering, '⇒ category_learner')
+    logger.info(f'\n{UTC()} :: files2links returns links {type(links)}:\n')
+    with pd.option_context('display.max_rows', 6): logger.info(f'{links}\n')
+    logger.info(f'learn_grammar: word_space/clustering: {word_space}/{clustering} ⇒ category_learner')
 
     # Learn categories #80619
     categories, re03 = category_learner(links, **kwargs)   #v.0.5 categories: {}
     log.update(re03)
-    if verbose in ['max','debug']:
-        print(UTC(),':: learn_grammar: category_learner returned', \
-              type(categories), 'categories')
+    # if verbose in ['max','debug']:
+    #     print(UTC(),':: learn_grammar: category_learner returned', \
+    #           type(categories), 'categories')
+    logger.info(f'{UTC()} :: learn_grammar: category_learner returned {type(categories)} categories')
 
     # Generalize categories   #TODO? "gen_cats" ⇒ "categories"? no new name
     if cats_gen == 'jaccard' or (cats_gen == 'auto' and clustering == 'group'):
-        if verbose in ['max','debug']:
-            print(UTC(),':: learn_grammar ⇒ generalize_categories (jaccard)')
+        # if verbose in ['max','debug']:
+        #     print(UTC(),':: learn_grammar ⇒ generalize_categories (jaccard)')
+        logger.info(f'{UTC()} :: learn_grammar ⇒ generalize_categories (jaccard)')
+
         gen_cats, re04 = generalize_categories(categories, **kwargs)
         log.update(re04)
     elif cats_gen == 'cosine' or (cats_gen == 'auto' and clustering == 'kmeans'):
         #TODO: vectors g12n
         gen_cats = categories
         log.update({'generalization': 'vector-similarity based - #TODO'})
-        if verbose == 'debug':
-            print('#TODO: categories generalization based on cosine similarity')
+        # if verbose == 'debug':
+        #     print('#TODO: categories generalization based on cosine similarity')
+        logger.debug('#TODO: categories generalization based on cosine similarity')
     else:
         gen_cats = categories
         log.update({'generalization': 'error: cats_gen = ' + str(cats_gen)})
-        if verbose in ['max','debug']:
-            print(UTC(),':: learn_grammar: generalization = else: cats_gen =', \
-                cats_gen, '⇒ gen_cats = categories')
+        # if verbose in ['max','debug']:
+        #     print(UTC(),':: learn_grammar: generalization = else: cats_gen =', \
+        #         cats_gen, '⇒ gen_cats = categories')
+        logger.info(f'{UTC()} :: learn_grammar: generalization = else: cats_gen = {cats_gen} ⇒ gen_cats = categories')
 
     # Save 1st cats_file = to control 2-step generalization #FIXME:DEL?   #80704
     #-re05 = save_cat_tree(gen_cats, output_categories, verbose)
@@ -339,8 +389,10 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
     if grammar_rules != context:
         context = kwargs['context']
         kwargs['context'] = kwargs['grammar_rules']
-        if verbose in ['max','debug']:
-            print(UTC(),':: learn_grammar ⇒ files2links(**kwargs)')
+        # if verbose in ['max','debug']:
+        #     print(UTC(),':: learn_grammar ⇒ files2links(**kwargs)')
+        logger.info(f'{UTC()} :: learn_grammar ⇒ files2links(**kwargs)')
+
         links, re06 = files2links(**kwargs)
         kwargs['context'] = context
 
@@ -388,14 +440,18 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
         fat_cats = add_disjuncts(gen_cats, links, verbose)
         #-with open(output_categories + '/fat_cats.pkl', 'wb') as f:
         #-    pickle.dump(fat_cats, f)
-        if verbose in ['max','debug']:
-            print(UTC(),':: learn_grammar: back from add_disjuncts')
+        # if verbose in ['max','debug']:
+        #     print(UTC(),':: learn_grammar: back from add_disjuncts')
+        logger.info(f'{UTC()} :: learn_grammar: back from add_disjuncts')
+
         #TODO: fat_cats['djs'] = djs(fat_cats[disjuncts], **kwargs)?
     else: fat_cats = gen_cats
 
     # Learn Grammar
     #TODO: from ? import induce_grammar
     rules, re07 = induce_grammar(fat_cats, links)
+
+    # TODO: Change to obtain appropriate log file output
     if verbose == 'debug':
         print('induce_grammar ⇒ rules:')
         display(html_table([['Code','Parent','Id','Quality','Words', 'Disjuncts', 'djs','Relevance','Children']] \
@@ -407,6 +463,8 @@ def learn_grammar(input_parses, output_categories, output_grammar, **kwargs):
         if kwargs['rules_generalization'] not in ['','off']:
             gen_rules, re08 = generalize_rules(rules, **kwargs)
             log.update(re08)
+
+            # TODO: Change to obtain appropriate log file output
             if verbose == 'debug':
                 print('generalize_rules ⇒ gen_rules:')
                 display(html_table([['Code','Parent','Id','Quality','Words', 'Disjuncts', 'djs','Relevance','Children']] \

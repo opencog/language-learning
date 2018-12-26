@@ -1,5 +1,6 @@
 # language-learning/src/grammar_learner/pqa_table.py                    # 81126
 # Test Grammar Learner to fill in ULL Project Plan Parses spreadshit
+import logging
 import os, sys, time
 from ..common import handle_path_string
 from ..grammar_tester import test_grammar
@@ -93,6 +94,7 @@ def pqa_meter(dict_path, output_path, corpus_path, reference_path, **kwargs):
 
 
 def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):  # 81021
+    logger = logging.getLogger(__name__ + ".table_rows")
     # cp,rp: corpus_path, rp: reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
@@ -176,8 +178,10 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):  # 81021
                     s = 0
                     s_str = ' --- '
             except:  # else: #
-                if kwargs['verbose'] not in ['none']:
-                    print('pqa_table.py table_rows: learn_grammar(**kwargs)', '⇒ exception:\n', sys.exc_info())
+                # if kwargs['verbose'] not in ['none']:
+                #     print('pqa_table.py table_rows: learn_grammar(**kwargs)', '⇒ exception:\n', sys.exc_info())
+                logger.critical(f'pqa_table.py table_rows: learn_grammar(**kwargs) ⇒ exception:\n{sys.exc_info()}')
+
                 pa.append(0.)
                 pq.append(0.)
                 rules.append(0)
@@ -254,6 +258,7 @@ def abrvlg(**kwargs):
 
 
 def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):           # 81214
+    logger = logging.getLogger(__name__ + ".wide_rows")
     # cp,rp: corpus_path, rp: reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
@@ -350,8 +355,10 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):           # 81214
                     s = 0
                     s_str = ' --- '
             except:  # else: #
-                if kwargs['verbose'] not in ['none']:
-                    print('pqa_table.py table_rows: learn_grammar(**kwargs)', '⇒ exception:\n', sys.exc_info())
+                # if kwargs['verbose'] not in ['none']:
+                #     print('pqa_table.py table_rows: learn_grammar(**kwargs)', '⇒ exception:\n', sys.exc_info())
+                logger.critical(f'pqa_table.py table_rows: learn_grammar(**kwargs) ⇒ exception:\n{sys.exc_info()}')
+
                 pa.append(0.)
                 pq.append(0.)
                 rules.append(0)

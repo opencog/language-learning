@@ -7,6 +7,7 @@ from src.grammar_tester.lginprocparser import LGInprocParser
 
 class LGAPITestCase(unittest.TestCase):
 
+    # @unittest.skip
     def test_parse_file_with_api(self):
         # Testing over poc-turtle corpus... 100% success is expected.
 

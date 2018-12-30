@@ -2,6 +2,7 @@ import sys
 import re
 
 from .optconst import *
+from .lgmisc import LGParseError
 
 """
     Utilities for parsing postscript notated tokens and links, returned by Link Grammar API method Linkage.postscript()
@@ -9,7 +10,8 @@ from .optconst import *
 """
 
 __all__ = ['strip_token', 'parse_tokens', 'parse_links', 'parse_postscript', 'skip_lines', 'trim_garbage',
-           'get_link_set', 'prepare_tokens', 'skip_command_response']
+           'get_link_set', 'prepare_tokens', 'skip_command_response', 'skip_linkage_header',
+           'PS_TIMEOUT_EXPIRED', 'PS_PANIC_DETECTED']
 
 __version__ = "1.0.0"
 
@@ -89,9 +91,6 @@ def parse_tokens(txt, opt) -> (list, int):
     # Skip the open brace
     start_pos = 1
 
-    # end_pos = txt.find(")")
-    # end_pos = find_end_of_token(txt, start_pos)
-
     end_pos = txt.find(")(")
 
     if end_pos < 0:
@@ -127,9 +126,6 @@ def parse_tokens(txt, opt) -> (list, int):
             tokens.append(token)
 
         start_pos = end_pos + 2
-        # end_pos = txt.find(")", start_pos + 1)
-        # end_pos = find_end_of_token(txt, start_pos)
-
         end_pos = txt.find(")(", start_pos + 1)
 
         if end_pos < 0:
@@ -219,13 +215,12 @@ def parse_links(txt: str, tokens: list, offset: int) -> list:
     return links
 
 
-def parse_postscript(text: str, options: int, ofile) -> ([], []):
+def parse_postscript(text: str, options: int) -> ([], []):
     """
     Parse postscript notation of the linkage.
 
     :param text:        Text string returned by Linkage.postscript() method.
     :param options      Bit mask, representing different parsing options. See `optconst.py` for details.
-    :param ofile:       Output file object reference.
     :return:            Tuple of two lists: (tokens, links).
     """
     p = re.compile('\[(\(.+?\)+?)\]\[(.*?)\]\[0\]', re.S)
@@ -238,11 +233,13 @@ def parse_postscript(text: str, options: int, ofile) -> ([], []):
 
         return tokens, links
 
-    else:
-        print("parse_postscript(): regex does not match!", file=sys.stderr)
-        print(text, file=sys.stderr)
+    raise LGParseError("parse_postscript(): regex does not match!")
 
-    return [], []
+    # else:
+    #     print("parse_postscript(): regex does not match!", file=sys.stderr)
+    #     print(text, file=sys.stderr)
+    #
+    # return [], []
 
 
 def get_link_set(tokens: list, links: list, options: int) -> set:
@@ -306,13 +303,11 @@ def skip_command_response(text: str) -> int:
      Skip specified number of lines from the beginning of a text string.
 
     :param text:            Text string with zero or many '\n' in.
-    :param lines_to_skip:   Number of lines to skip.
-    :return:                Return position of the first character after the specified number of lines is skipped.
+    :return:                Return position of the first character after the command response is skipped.
     """
     l = len(text)
 
-    pos = 0
-    old = 0
+    pos, old = 0, 0
 
     while l:
         if text[pos] == "\n":
@@ -325,7 +320,6 @@ def skip_command_response(text: str) -> int:
         pos += 1
 
     return pos
-
 
 
 def trim_garbage(text: str) -> int:
@@ -343,3 +337,43 @@ def trim_garbage(text: str) -> int:
         l -= 1
 
     return 0
+
+PS_TIMEOUT_EXPIRED    = BIT_EXCLUDE_TIMEOUTED
+PS_PANIC_DETECTED     = BIT_EXCLUDE_PANICED
+PS_EXPLOSION_DETECTED = BIT_EXCLUDE_EXPLOSION
+
+def skip_linkage_header(text: str) -> (int, int):
+    """
+     Skip linkage text header while checking timiouts and panic mode.
+
+    :param text:            Text string with zero or many '\n' in.
+    :return:                Return tuple:
+                                - position of the first character after the specified number of lines is skipped;
+                                - error bit mask.
+    """
+    l = len(text)
+
+    pos, old, err = 0, 0, 0
+
+    while pos < l:
+        if text[pos] == "\n":
+            line = text[old:pos]
+
+            # Check if the line is not empty
+            if len(line):
+
+                # Return starting position if postscript is detected (first character is '[')
+                if line.startswith("[("):
+                    return old, err
+
+                if line.find("Timer is expired!") >= 0:
+                    err |= PS_TIMEOUT_EXPIRED
+
+                if line.find('Entering "panic" mode...') >= 0:
+                    err |= PS_PANIC_DETECTED
+
+            old = pos + 1 if pos + 1 < l else pos
+
+        pos += 1
+
+    return pos, err

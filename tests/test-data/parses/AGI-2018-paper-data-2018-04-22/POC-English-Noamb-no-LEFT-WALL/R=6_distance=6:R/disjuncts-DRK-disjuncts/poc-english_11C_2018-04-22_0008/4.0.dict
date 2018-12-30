@@ -46,7 +46,7 @@
 "dad" "mom":
 (C06C11- & C11C01+) or (C06C11- & C11C04+) or (C11C01+) or (C11C04+) or (C11C08+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 11 word clusters, 11 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-Noamb-no-LEFT-WALL/R=6_distance=6:R/disjuncts-DRK-disjuncts/poc-english_11C_2018-04-22_0008.4.0.dict

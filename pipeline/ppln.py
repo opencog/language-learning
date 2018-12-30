@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
-# language-learning/pipeline/ppln.py :: CLI Grammar Learner + Tester    # 81217
+# language-learning/pipeline/ppln.py :: CLI Grammar Learner + Tester    # 81220
 
-import sys, getopt, os, platform, json
+import sys, time, getopt, os, platform, json
 from shutil import copy2 as copy
 module_path = os.path.abspath(os.path.join('..'))
 if module_path not in sys.path: sys.path.append(module_path)
-from src.grammar_learner.utl import UTC, test_stats
+from src.grammar_learner.learner import learn
+from src.grammar_learner.utl import UTC, test_stats, sec2string
 from src.grammar_learner.read_files import check_dir, check_corpus
-from src.grammar_learner.pqa_table import wide_rows
+from src.grammar_learner.pqa_table import wide_rows, pqa_meter
+from src.grammar_learner.write_files import list2file
+
 
 __version__ = '0.0.1'
+
 
 def main(argv):
     """ Usage: python ppln.py config.json """
@@ -26,20 +30,16 @@ def main(argv):
             sys.exit()
     else: config_json = args[0]
 
-    with open(config_json) as f:
-        kwargs = json.load(f)
+    with open(config_json) as f: kwargs = json.load(f)
 
     corpus = kwargs['corpus']; del kwargs['corpus']
     dataset = kwargs['dataset']; del kwargs['dataset']
     if 'input_parses' not in kwargs:
         kwargs['input_parses'] = '/data/' + corpus + '/' + dataset
 
-    line = [[0, corpus, dataset, 0, 0, kwargs['rules_generalization']]]
-    out_path = module_path + kwargs['out_path']
-    rp = module_path + kwargs['reference']
-    if 'test_corpus' in kwargs:
-        cp = module_path + kwargs['test_corpus']
-    else: cp = rp  # test corpus path = reference parses path
+    # 81217 prototype FIXME: extract code from pqa_table
+    # line = [[0, corpus, dataset, 0, 0, kwargs['rules_generalization']]]
+
     if 'tmpath' not in kwargs:
         kwargs['tmp_dir'] = ''
     else:
@@ -53,7 +53,33 @@ def main(argv):
                 kwargs['tmp_dir'] = tmpath
             else: kwargs['tmp_dir'] = ''
 
-    a, _, hdr, log, rules = wide_rows(line, out_path, cp, rp, (1, 1), **kwargs)
+    # 81217 prototype FIXME: replace with code extracted from pqa_table
+    # a, _, hdr, log, rules = wide_rows(line, out_path, cp, rp, (1, 1), **kwargs)
+    rules, re = learn(**kwargs)
+    if kwargs['linkage_limit'] > 0:
+        og = module_path + kwargs['out_path']
+        rp = module_path + kwargs['reference']
+        if 'test_corpus' in kwargs:
+            cp = module_path + kwargs['test_corpus']
+        else:
+            cp = rp  # test corpus path = reference parses path
+        start = time.time()
+        a, f1, precision, q = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
+    # else:  # avoid grammar_tester call
+
+    # TODO: save learner_stats  # 81213
+    re.update({'grammar_test_time': sec2string(time.time() - start)})  # string
+
+    stats = []
+    if 'cleaned_words' in re:
+        stats.append(['Clean corpus size ', re['cleaned_words']])
+    if 'grammar_learn_time' in re:
+        stats.append(['Grammar learn time', re['grammar_learn_time']])
+    if 'grammar_test_time' in re:
+        stats.append(['Grammar test time ', re['grammar_test_time']])
+    if len(stats) > 0:
+        x = re['corpus_stats_file']
+        list2file(stats, x[:x.rfind('/')] + '/learn_&_test_stats.txt')
 
     copy(config_json, log['project_directory'])
 

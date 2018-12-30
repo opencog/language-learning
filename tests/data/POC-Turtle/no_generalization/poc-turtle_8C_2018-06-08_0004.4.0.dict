@@ -34,7 +34,7 @@
 "isa":
 (C04C08- & C08C03+) or (C06C08- & C08C03+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 8 word clusters, 8 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/Generalization-Tests-2018-06-08/POC-Turtle/MST_fixed_manually/disjuncts-ILE-disjuncts/LEFT-WALL_period/no_generalization/poc-turtle_8C_2018-06-08_0004.4.0.dict

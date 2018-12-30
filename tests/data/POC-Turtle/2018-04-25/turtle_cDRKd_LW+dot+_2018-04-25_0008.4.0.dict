@@ -18,7 +18,7 @@
 "eagle" "herring" "parrot" "tuna":
 (C01C04- & C04C01+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 4 word clusters, 4 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/POC-Turtle-6-Tests-2018-04-25/MST_fixed_manually/connectors-DRK-disjuncts_LW+dot+/poc-turtle_4C_2018-04-25_0008.4.0.dict

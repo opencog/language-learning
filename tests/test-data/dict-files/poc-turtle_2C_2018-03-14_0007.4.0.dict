@@ -18,7 +18,7 @@
 "has" "isa":
 {C21C22-} & {C22C21+};
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 2 word clusters, 4 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/Turtle-4-2018-03-14/poc-turtle_2C_2018-03-14_0007.4.0.dict

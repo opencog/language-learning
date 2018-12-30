@@ -38,7 +38,7 @@
 "wing":
 (C06C09- & C09C01+) or (C09C04+) or (C09C07+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 9 word clusters, 9 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-Turtle-no-LEFT-WALL/R=6_Weight=6:R/disjuncts-ILE-disjuncts/poc-turtle_9C_2018-04-22_0008.4.0.dict

@@ -58,7 +58,7 @@
 "dad" "mom":
 ({C10C14-} & {C14C04+ or C14C08+ or C14C09+ or C14C10+ or C14C11+ or C14C13+});
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 14 word clusters, 14 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-Noamb-no-LEFT-WALL/R=6_distance=1/disjuncts-DRK-connectors/poc-english_14C_2018-04-22_0008.4.0.dict

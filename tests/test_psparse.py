@@ -1,7 +1,8 @@
 import unittest
 import sys
 
-from src.grammar_tester.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, prepare_tokens, skip_command_response
+from src.grammar_tester.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, \
+    prepare_tokens, skip_command_response, skip_linkage_header, PS_TIMEOUT_EXPIRED, PS_PANIC_DETECTED
 from src.grammar_tester.optconst import *
 from src.grammar_tester.parsestat import parse_metrics
 
@@ -103,6 +104,23 @@ holocaust survivors did not differ in the level of resilience from comparisons (
 [18 24 3 (Xc)][18 19 0 (Mp)][19 22 2 (Jp)][20 22 1 (AN)][21 22 0 (AN)]]
 [0]
 """
+
+timeout_linkage = \
+"""
+No complete linkages found.
+Timer is expired!
+Entering "panic" mode...
+Found 576744359 linkages (100 of 100 random linkages had no P.P. violations) at null count 4
+	Linkage 1, cost vector = (UNUSED=4 DIS= 0.00 LEN=19)
+[(but)([I])(have)(passed)(my)(royal)(word)([,])(and)([I])
+(cannot)(break)(it)([,])(so)(there)(is)(no)(help)(for)
+(you)(..y)(')]
+[[0 5 1 (FK)][0 2 0 (FF)][2 3 0 (FC)][3 4 0 (CJ)][5 10 1 (KG)][5 6 0 (KH)][8 10 0 (BG)]
+[10 12 1 (GE)][11 12 0 (CE)][12 14 0 (EF)][14 20 2 (FF)][18 20 1 (CF)][17 18 0 (JC)][16 17 0 (LJ)]
+[15 16 0 (EL)][18 19 0 (CB)][20 22 1 (FC)][21 22 0 (CC)]]
+[0]
+"""
+
 
 class TestPSParse(unittest.TestCase):
 
@@ -345,7 +363,7 @@ class TestPSParse(unittest.TestCase):
         options = 0
         options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
-        tokens, links = parse_postscript(self.post_all_walls, options, sys.stdout)
+        tokens, links = parse_postscript(self.post_all_walls, options)
         pm = parse_metrics(tokens)
         self.assertEqual(1.0, pm.completely_parsed_ratio)
         self.assertEqual(0.0, pm.completely_unparsed_ratio)
@@ -358,7 +376,7 @@ class TestPSParse(unittest.TestCase):
         options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(self.post_no_walls, options, sys.stdout)
+        tokens, links = parse_postscript(self.post_no_walls, options)
         pm = parse_metrics(tokens)
         self.assertEqual(1.0, pm.completely_parsed_ratio)
         self.assertEqual(0.0, pm.completely_unparsed_ratio)
@@ -371,7 +389,7 @@ class TestPSParse(unittest.TestCase):
         options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(self.post_no_links, options, sys.stdout)
+        tokens, links = parse_postscript(self.post_no_links, options)
         self.assertEqual(0, len(links))
 
     # @unittest.skip
@@ -381,7 +399,7 @@ class TestPSParse(unittest.TestCase):
         # options |= (BIT_RWALL | BIT_CAPS)
         # options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(gutenberg_children_bug, options, sys.stdout)
+        tokens, links = parse_postscript(gutenberg_children_bug, options)
 
         self.assertEqual(18, len(tokens))
 
@@ -399,7 +417,7 @@ class TestPSParse(unittest.TestCase):
 
         options = BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP
 
-        tokens, links = parse_postscript(gutenberg_children_bug_002, options, sys.stdout)
+        tokens, links = parse_postscript(gutenberg_children_bug_002, options)
 
         print(tokens)
 
@@ -423,7 +441,7 @@ class TestPSParse(unittest.TestCase):
         # options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(alice_bug_001, options, sys.stdout)
+        tokens, links = parse_postscript(alice_bug_001, options)
 
         self.assertEqual(15, len(tokens))
 
@@ -439,7 +457,7 @@ class TestPSParse(unittest.TestCase):
         # options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(alice_bug_002, options, sys.stdout)
+        tokens, links = parse_postscript(alice_bug_002, options)
 
         self.assertEqual(29, len(tokens), tokens)
 
@@ -451,7 +469,7 @@ class TestPSParse(unittest.TestCase):
         #                  "[4 5 0 (Ds**c)][5 6 0 (Mp)][7 8 0 (RW)]][0]"
         expected_set = {(1, 2), (2, 5), (2, 3), (4, 5), (5, 6)}
         options = BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_PARSE_QUALITY
-        tokens, links = parse_postscript(self.post_all_walls, options, sys.stdout)
+        tokens, links = parse_postscript(self.post_all_walls, options)
         result_set = get_link_set(tokens, links, options)
 
         self.assertTrue(result_set == expected_set)
@@ -510,6 +528,13 @@ class TestPSParse(unittest.TestCase):
 
         # print(text[pos:], sys.stderr)
         self.assertEqual(175, pos)
+
+    def test_skip_linkage_header(self):
+        pos, err = skip_linkage_header(timeout_linkage)
+        print(timeout_linkage[pos:])
+        self.assertEqual(219, pos)
+        self.assertEqual(PS_PANIC_DETECTED|PS_TIMEOUT_EXPIRED, err)
+
 
 if __name__ == '__main__':
     unittest.main()

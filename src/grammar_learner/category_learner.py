@@ -1,4 +1,5 @@
 # language-learning/src/category_learner.py                             # 81110
+import logging
 import numpy as np
 import pandas as pd
 from copy import deepcopy
@@ -51,6 +52,7 @@ def add_disjuncts(cats, links, **kwargs):  # 81204 as-is ⇒ grammar_inducer.py 
 
 
 def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
+    logger = logging.getLogger(__name__ + ".learn_categories")
     # links == pd.DataFrame(columns = ['word', 'link', 'count'])
     cats_file = kwa('/output', 'output_categories', **kwargs)  # to define tmpath
     tmpath = kwa('', 'tmpath', **kwargs)
@@ -63,8 +65,9 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
 
     log = OrderedDict()
     log.update({'category_learner': '80803-81110'})
-    if verbose in ['max', 'debug']:
-        print(UTC(), ':: category_learner: word_space/algorithm:', word_space, '/', algorithm)
+    # if verbose in ['max', 'debug']:
+    #     print(UTC(), ':: category_learner: word_space/algorithm:', word_space, '/', algorithm)
+    logger.info('{} :: category_learner: word_space/algorithm: {} / {}'.format(UTC(), word_space, algorithm))
 
     if tmpath == '' or tmpath == 'auto':
         if '.' not in cats_file:
@@ -73,8 +76,10 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
             tmpath = cats_file[:cats_file.rindex('/')]
         if tmpath[-1] != '/': tmpath += '/'
         tmpath += 'tmp/'
-        if verbose in ['max', 'debug']:
-            print(UTC(), ':: learn_categories: tmpath:', tmpath)
+        # if verbose in ['max', 'debug']:
+        #     print(UTC(), ':: learn_categories: tmpath:', tmpath)
+        logger.info('{} :: learn_categories: tmpath: {}'.format(UTC(), tmpath))
+
     if check_dir(tmpath, True, verbose):
         log.update({'tmpath': tmpath})
     # TODO:ERROR
@@ -89,29 +94,39 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
     # «ILE» ?elif word_space[0] in ['d','w']   # d,w: 'discrete'='word_vectors'
     elif algorithm == 'group' or word_space[0] == 'd':  # «ILE»: 'discrete' word_space
         log.update({'clustering': 'ILE'})
-        if verbose in ['max', 'debug']:
-            print(UTC(), ':: category_learner ⇒ ILE group_links: context =',
-                  str(context) + ', word_space: ' + str(word_space) + ', algorithm:', algorithm)
+        # if verbose in ['max', 'debug']:
+        #     print(UTC(), ':: category_learner ⇒ ILE group_links: context =',
+        #           str(context) + ', word_space: ' + str(word_space) + ', algorithm:', algorithm)
+        logger.info('{} :: category_learner ⇒ ILE group_links: context = {}, word_space: {}, algorithm: {}'.format(
+                    UTC(), str(context), str(word_space), algorithm))
+
         cdf = group_links(links, verbose)
 
     # «DRK» ?if word_space[0] in ['v','e'] or context == 1 or algorithm == 'kmeans':
     elif word_space[0] in ['v', 'e']:  # «DRK» legacy Grammar Learner 0.6
         # word_space :: v,e: 'vectors'='embeddings' | 'discrete', 'sparse'
-        if verbose in ['max', 'debug']:
-            print(UTC(), ':: category_learner: DRK: context =', str(context) + ',', 'dim_max:', dim_max, ', sv_min:',
-                  sv_min, ', word_space: ' + word_space + ', algorithm:', algorithm)
+        # if verbose in ['max', 'debug']:
+        #     print(UTC(), ':: category_learner: DRK: context =', str(context) + ',', 'dim_max:', dim_max, ', sv_min:',
+        #           sv_min, ', word_space: ' + word_space + ', algorithm:', algorithm)
+        logger.info('{} :: category_learner: DRK: context = {}, dim_max: {}, sv_min: {}, word_space: {}, '
+                    'algorithm: {}'.format(UTC(), str(context), dim_max, sv_min, word_space, algorithm))
+
         dict_path = tmpath  # dir to save vectors.txt   # 80420: = tmpath
         try:
             dim = vector_space_dim(links, dict_path, tmpath, dim_max, sv_min, verbose)
         except:
             dim = dim_max
         log.update({'vector_space_dim': dim})
-        if verbose in ['mid', 'max', 'debug']:
-            print(UTC(), ':: category_learner: vector space dimensionality:', dim, '⇒ pmisvd')
+        # if verbose in ['mid', 'max', 'debug']:
+        #     print(UTC(), ':: category_learner: vector space dimensionality:', dim, '⇒ pmisvd')
+        logger.warning('{} :: category_learner: vector space dimensionality: {} ⇒ pmisvd'.format(UTC(),  dim))
+
         vdf, sv, re01 = pmisvd(links, dict_path, tmpath, dim)
         log.update(re01)
-        if verbose in ['max', 'debug']:
-            print(UTC(), ':: category_learner: pmisvd ⇒ best_clusters')
+        # if verbose in ['max', 'debug']:
+        #     print(UTC(), ':: category_learner: pmisvd ⇒ best_clusters')
+        logger.info('{} :: category_learner: pmisvd ⇒ best_clusters'.format(UTC()))
+
         cdf, silhouette, inertia = best_clusters(vdf, **kwargs)
         log.update({'silhouette': silhouette, 'inertia': inertia})
 
@@ -120,30 +135,42 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
         log.update({'word_space': 'sparse'})
         linx, words, features = clean_links(links, **kwargs)
 
-        if verbose in ['max', 'debug']:
-            print(f'{len(links)} links: {len(set(links["word"].tolist()))} unique words, {len(set(links["link"].tolist()))} links')
-            print(f'words: len {len(words)}, min {min(words)}, max {max(words)}')
-            print(f'features: len {len(features)}, min {min(features)}, max {max(features)}')
-            # print(f'features: {features}')
-            print(f'linx: type {type(linx)}, shape {linx.shape} len {len(linx)}')
-            print(linx)
+        # if verbose in ['max', 'debug']:
+        #     print(f'{len(links)} links: {len(set(links["word"].tolist()))} unique words, {len(set(links["link"].tolist()))} links')
+        #     print(f'words: len {len(words)}, min {min(words)}, max {max(words)}')
+        #     print(f'features: len {len(features)}, min {min(features)}, max {max(features)}')
+        #     # print(f'features: {features}')
+        #     print(f'linx: type {type(linx)}, shape {linx.shape} len {len(linx)}')
+        #     print(linx)
+        logger.info(f'{len(links)} links: {len(set(links["word"].tolist()))} unique words, {len(set(links["link"].tolist()))} links')
+        logger.info(f'words: len {len(words)}, min {min(words)}, max {max(words)}')
+        logger.info(f'features: len {len(features)}, min {min(features)}, max {max(features)}')
+        # logger.info(f'features: {features}')
+        logger.info(f'linx: type {type(linx)}, shape {linx.shape} len {len(linx)}')
+        logger.info("{}".format(linx))
 
         log.update({'cleaned_words': len(sorted(np.unique(words))),
                     'clean_features': len(sorted(np.unique(features)))})
                     # 'links_array': linx.shape})
 
         counts = co_occurrence_matrix(linx, **kwargs)
-        if verbose in ['max', 'debug']:
-            print(f'counts: {counts}')
+        # if verbose in ['max', 'debug']:
+        #     print(f'counts: {counts}')
+        logger.info(f'counts: {counts}')
+
         cd = categorical_distribution(counts, **kwargs)
-        if verbose in ['max', 'debug']:
-            print(f'counts.shape {counts.shape},cd.shape {cd.shape}')
+        # if verbose in ['max', 'debug']:
+        #     print(f'counts.shape {counts.shape},cd.shape {cd.shape}')
+        logger.info(f'counts.shape {counts.shape},cd.shape {cd.shape}')
+
         labels, metrics, centroids = optimal_clusters(cd, **kwargs)  # skl_clustering.py
 
         # TODO check labels != [] ?  81114 check error via try learn_grammar
 
-        if verbose in ['max', 'debug']:
-            print(
+        # if verbose in ['max', 'debug']:
+        #     print(
+        #         f'\nlearn_categories ⇒ labels: {labels},\n{len(sorted(np.unique(labels)))} unique: {sorted(np.unique(labels))}')
+        logger.info(
                 f'\nlearn_categories ⇒ labels: {labels},\n{len(sorted(np.unique(labels)))} unique: {sorted(np.unique(labels))}')
 
         log.update(metrics)
@@ -157,8 +184,10 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
         cdf['cluster'] = cdf['cluster'].apply(lambda x: cluster_id(x, len(cdf)))
 
     else:  # random clusters
-        if verbose in ['max', 'debug']:
-            print(UTC(), ':: category_learner ⇒ else ⇒ random clusters')
+        # if verbose in ['max', 'debug']:
+        #     print(UTC(), ':: category_learner ⇒ else ⇒ random clusters')
+        logger.info('{} :: category_learner ⇒ else ⇒ random clusters'.format(UTC()))
+
         cdf = random_clusters(links, **kwargs)
         log.update({'clustering': 'random'})
 
@@ -166,7 +195,8 @@ def learn_categories(links, **kwargs):  # 80802 poc05 restructured learner.py
         cluster_sizes = Counter([len(x) for x in cdf['cluster_words'].tolist()])
         log.update({'n_clusters': len(cdf), 'cluster_sizes': dict(cluster_sizes)})
 
-    if verbose in ['max', 'debug']: print('\ncategory_learner: log:\n', log)
+    # if verbose in ['max', 'debug']: print('\ncategory_learner: log:\n', log)
+    logger.info('\ncategory_learner: log:\n{}'.format(log))
 
     return cdf2cats(cdf, **kwargs), log
 

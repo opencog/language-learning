@@ -1,5 +1,6 @@
 #Legacy Grammar Learner testL fill in ULL Project Plan Parses spreadshit
 #language-learning/src/grammar_learner/pqa_table.py 80725, renamed pqa05 #80802
+import logging
 import os
 import sys
 import time
@@ -111,6 +112,7 @@ def table_damb(lines, out_dir, cps=(0,0), rps=(0,0), runs=(1,1), **kwargs):  #-l
 
 
 def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
+    logger = logging.getLogger(__name__ + ".table_cds")
     # cp,rp: corpus_path, rp: reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
     # if module_path not in sys.path: sys.path.append(module_path)
@@ -168,7 +170,8 @@ def table_cds(lines, out_dir, cp, rp, runs=(1,1), **kwargs):
                         str(int(round(a,0)))+'%', str(int(round(q,0)))+'%']
                     details.append(dline)
             except:
-                print('try: re = learn_grammar(ip, oc, og, **kwargs) ⇒ except :(')
+                # print('try: re = learn_grammar(ip, oc, og, **kwargs) ⇒ except :(')
+                logger.error('try: re = learn_grammar(ip, oc, og, **kwargs) ⇒ except :(')
                 pa.append(0)
                 pq.append(0)
                 rules.append(0)

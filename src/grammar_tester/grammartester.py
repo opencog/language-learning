@@ -1,14 +1,17 @@
 import os
 import sys
+import logging
 from decimal import *
 from time import time
+from inspect import isclass
 
 from ..common.absclient import AbstractGrammarTestClient, AbstractStatEventHandler, AbstractFileParserClient, \
-    AbstractPipelineComponent
+    AbstractPipelineComponent, AbstractProgressClient
 from ..common.dirhelper import traverse_dir_tree, create_dir
 from ..common.parsemetrics import ParseMetrics, ParseQuality
 from ..common.fileconfman import JsonFileConfigManager
 from ..common.cliutils import handle_path_string
+from ..common.textprogress import TextProgress
 from .textfiledashb import TextFileDashboardConf  #, HTMLFileDashboard
 
 from .lgmisc import create_grammar_dir
@@ -16,7 +19,7 @@ from .optconst import *
 
 from .lginprocparser import LGInprocParser
 from .lgapiparser import LGApiParser
-
+from .sentencecount import get_sentence_count
 
 __all__ = ['test_grammar', 'test_grammar_cfg', 'GrammarTester', 'GrammarTestError', 'GrammarTesterComponent']
 
@@ -32,6 +35,7 @@ CONF_REFR_PATH = "ref_path"
 CONF_GRMR_PATH = "grammar_root"
 CONF_TMPL_PATH = "template_path"
 CONF_LNK_LIMIT = "linkage_limit"
+CONF_TIMEOUT   = "timeout"
 
 # on_corpus_file() argument list indexes
 # [dest_path, lang_path, dict_path, corpus_path, output_path, reference_path]
@@ -50,11 +54,11 @@ DICT_ARG_OUTP = 2
 DICT_ARG_REFF = 3
 
 
-def print_execution_time(title: str, duration):
-    hours = int(duration / 3600)
-    minutes = int((duration - hours * 3600) / 60)
-    seconds = duration % 60
-    print("{}: {}h {}m {}s".format(title, hours, minutes, seconds))
+# def print_execution_time(title: str, duration):
+#     hours = int(duration / 3600)
+#     minutes = int((duration - hours * 3600) / 60)
+#     seconds = duration % 60
+#     print("{}: {}h {}m {}s".format(title, hours, minutes, seconds))
 
 
 class GrammarTester(AbstractGrammarTestClient):
@@ -63,14 +67,15 @@ class GrammarTester(AbstractGrammarTestClient):
                  evt_handler: AbstractStatEventHandler=None):
 
         if parser is None:
-            raise GrammarTestError("GrammarTestError: 'parser' argument can not be None.")
+            raise AttributeError("'parser' argument can not be None.")
 
         if not isinstance(parser, AbstractFileParserClient):
-            raise GrammarTestError("GrammarTestError: 'parser' is not an instance of AbstractFileParserClient")
+            raise AttributeError("'parser' is not an instance of AbstractFileParserClient")
 
         if evt_handler is not None and not isinstance(evt_handler, AbstractStatEventHandler):
-            raise GrammarTestError("ArgumentError: 'evt_handler' is not an instance of AbstractStatEventHandler")
+            raise AttributeError("'evt_handler' is not an instance of AbstractStatEventHandler")
 
+        self._logger = logging.getLogger("GrammarTester")
         self._parser = parser
         self._event_handler = evt_handler
         self._grammar_root = grmr
@@ -83,32 +88,8 @@ class GrammarTester(AbstractGrammarTestClient):
         self._total_quality = ParseQuality()
         self._total_files = 0
         self._total_dicts = 0
-
-
-    # def __init__(self, grmr: str, tmpl: str, limit: int, parser: AbstractFileParserClient,
-    #              evt_handler: AbstractStatEventHandler=None):
-    #
-    #     if parser is None:
-    #         raise GrammarTestError("GrammarTestError: 'parser' argument can not be None.")
-    #
-    #     if not isinstance(parser, AbstractFileParserClient):
-    #         raise GrammarTestError("GrammarTestError: 'parser' is not an instance of AbstractFileParserClient")
-    #
-    #     if evt_handler is not None and not isinstance(evt_handler, AbstractStatEventHandler):
-    #         raise GrammarTestError("ArgumentError: 'evt_handler' is not an instance of AbstractStatEventHandler")
-    #
-    #     self._parser = parser
-    #     self._event_handler = evt_handler
-    #     self._grammar_root = grmr
-    #     self._template_dir = tmpl
-    #     self._linkage_limit = limit
-    #     self._options = 0  # options
-    #     self._is_dir_corpus = False
-    #     self._is_dir_dict = False
-    #     self._total_metrics = ParseMetrics()
-    #     self._total_quality = ParseQuality()
-    #     self._total_files = 0
-    #     self._total_dicts = 0
+        self._total_sentences = 0
+        self._progress = None
 
     @staticmethod
     def _save_stat(stat_path: str, metrics: ParseMetrics, quality: ParseQuality) -> None:
@@ -128,17 +109,14 @@ class GrammarTester(AbstractGrammarTestClient):
             print(ParseMetrics.text(metrics), file=stat_file_handle)
             print(ParseQuality.text(quality), file=stat_file_handle)
 
-        except IOError as err:
-            print("IOError: " + str(err))
-
-        except FileNotFoundError as err:
-            print("FileNotFoundError: " + str(err))
-
-        except OSError as err:
-            print("OSError: " + str(err))
-
-        except Exception as err:
-            print("Exception: " + str(err))
+        # except FileNotFoundError as err:
+        #     print("FileNotFoundError: " + str(err))
+        #
+        # except IOError as err:
+        #     print("IOError: " + str(err))
+        #
+        # except Exception as err:
+        #     print("Exception: " + str(err))
 
         finally:
             if stat_file_handle is not None and stat_file_handle != sys.stdout:
@@ -150,9 +128,9 @@ class GrammarTester(AbstractGrammarTestClient):
         Callback function that duplicates internal subdirectory structure of the dictionary folder
         in destination root directory.
 
-        :param dict_dir_path: Path to a directory in dictionary tree.
-        :param args: List of arguments.
-        :return: True if subdirectory in the destination path is successfully created, False otherwise.
+        :param dict_dir_path:   Path to a directory in dictionary tree.
+        :param args:            List of arguments.
+        :return:                True if subdirectory in the destination path is successfully created, False otherwise.
         """
         return create_dir(args[DICT_ARG_OUTP] + dict_dir_path[len(args[DICT_ARG_DICT]):])
 
@@ -162,9 +140,9 @@ class GrammarTester(AbstractGrammarTestClient):
         Callback function that duplicates internal subdirectory structure of the corpus folder
         in destination root directory.
 
-        :param corp_dir_path: Path to a directory in dictionary tree.
-        :param args: List of arguments.
-        :return: True if subdirectory in the destination path is successfully created, False otherwise.
+        :param corp_dir_path:   Path to a directory in dictionary tree.
+        :param args:            List of arguments.
+        :return:                True if subdirectory in the destination path is successfully created, False otherwise.
         """
         return create_dir(args[CORP_ARG_DEST] + corp_dir_path[len(args[CORP_ARG_CORP]):])
 
@@ -191,89 +169,90 @@ class GrammarTester(AbstractGrammarTestClient):
         """
         Callback method which is called for each corpus file in corpus root path.
 
-        :param corpus_file_path: Path to a corpus file.
-        :param args: List of arguments
-        :return: None
+        :param corpus_file_path:    Path to a corpus file.
+        :param args:                List of arguments
+        :return:                    None
         """
         dict_path = args[CORP_ARG_LANG]
 
-        try:
-            out_file = self._get_output_file_name(corpus_file_path, args)
-            ref_file = self._get_ref_file_name(corpus_file_path, args)
+        start_time = time()
+        out_file = self._get_output_file_name(corpus_file_path, args)
+        ref_file = self._get_ref_file_name(corpus_file_path, args)
 
-            file_metrics, file_quality = self._parser.parse(dict_path, corpus_file_path, out_file,
-                                                            ref_file, self._options)
+        file_metrics, file_quality = self._parser.parse(dict_path, corpus_file_path, out_file,
+                                                        ref_file, self._options, self._progress)
 
-            if self._options & (BIT_SEP_STAT | BIT_OUTPUT) == BIT_SEP_STAT:
-                stat_name = out_file + ".stat"
-                # stat_name += "2" if (self._options & BIT_LG_EXE) else ""
+        if self._options & (BIT_SEP_STAT | BIT_OUTPUT) == BIT_SEP_STAT:
+            stat_name = out_file + ".stat"
 
-                self._save_stat(stat_name, file_metrics, file_quality)
+            self._save_stat(stat_name, file_metrics, file_quality)
 
-            self._total_metrics += file_metrics
-            self._total_quality += file_quality
+        file_metrics.parse_time = time() - start_time
 
-            self._total_files += 1
+        self._total_metrics += file_metrics
+        self._total_quality += file_quality
 
-        except Exception as err:
-            print("_on_corpus_file(): " + str(err))
+        self._total_files += 1
+
+        if self._progress is None:
+            self._logger.info(os.path.split(out_file)[1] + " parse time: " + file_metrics.parse_time_str(file_metrics))
 
     def _on_dict_file(self, dict_file_path: str, args: list) -> None:
         """
         Callback method which is called for each dictionary file.
 
-        :param dict_file_path: Path to a .dict file.
-        :param args: Argument list.
-        :return: None
+        :param dict_file_path:      Path to a .dict file.
+        :param args:                Argument list.
+        :return:                    None
         """
         self._total_metrics, self._total_quality = ParseMetrics(), ParseQuality()
         self._total_files = 0
 
-        try:
-            start_time = time()
-            dict_path = os.path.split(dict_file_path)[0]
-            corp_path = args[DICT_ARG_CORP]
-            dest_path = args[DICT_ARG_OUTP]
+        # start_time = time()
+        dict_path = os.path.split(dict_file_path)[0]
+        corp_path = args[DICT_ARG_CORP]
+        dest_path = args[DICT_ARG_OUTP]
 
-            dest_path += str(dict_path[len(args[DICT_ARG_DICT]):])
+        dest_path += str(dict_path[len(args[DICT_ARG_DICT]):])
 
-            # If BIT_LOC_LANG is set the language subdirectory is created in destination directory
-            grmr_path = dest_path if self._options & BIT_LOC_LANG else self._grammar_root
+        # If BIT_LOC_LANG is set the language subdirectory is created in destination directory
+        grmr_path = dest_path if self._options & BIT_LOC_LANG else self._grammar_root
 
-            # Create new LG dictionary using .dict file and template directory with the rest of mandatory files.
-            lang_path = dict_file_path if self._options & BIT_EXISTING_DICT else \
-                create_grammar_dir(dict_file_path, grmr_path, self._template_dir, self._options)
+        # Create new LG dictionary using .dict file and template directory with the rest of mandatory files.
+        lang_path = dict_file_path if self._options & BIT_EXISTING_DICT else \
+            create_grammar_dir(dict_file_path, grmr_path, self._template_dir, self._options)
 
-            if os.path.isfile(corp_path):
-                self._on_corpus_file(corp_path, [dest_path, lang_path] + args)
+        if os.path.isfile(corp_path):
+            self._on_corpus_file(corp_path, [dest_path, lang_path] + args)
 
-            elif os.path.isdir(corp_path):
-                traverse_dir_tree(corp_path, "", [self._on_corpus_file, dest_path, lang_path] + args,
-                                                 [self._on_corp_dir, dest_path, lang_path] + args, True)
+        elif os.path.isdir(corp_path):
+            traverse_dir_tree(corp_path, "", [self._on_corpus_file, dest_path, lang_path] + args,
+                                             [self._on_corp_dir, dest_path, lang_path] + args, True)
 
-            # If output format is set to ULL
-            if not self._options & BIT_OUTPUT:
-                # stat_suffix = "2" if (self._options & BIT_LG_EXE) == BIT_LG_EXE else ""
-                stat_path = dest_path + "/" + os.path.split(corp_path)[1] + ".stat" #+ stat_suffix
+        # If output format is set to ULL
+        if not (self._options & BIT_OUTPUT):
+            stat_path = dest_path + "/" + os.path.split(corp_path)[1] + ".stat"  # + stat_suffix
 
-                # Write statistics summary to a file
-                self._save_stat(stat_path, self._total_metrics, self._total_quality)
+            # Write statistics summary to a file
+            self._save_stat(stat_path, self._total_metrics, self._total_quality)
 
-                # Invoke on_statistics() event handler
-                if self._is_dir_dict and self._event_handler is not None:
+            # Invoke on_statistics() event handler
+            if self._is_dir_dict and self._event_handler is not None:
 
-                    self._event_handler.on_statistics((dict_path.split("/"))[::-1],
-                                                      self._total_metrics, self._total_quality)
+                self._event_handler.on_statistics((dict_path.split("/"))[::-1],
+                                                  self._total_metrics, self._total_quality)
 
-                print_execution_time("Dictionary processing time", time() - start_time)
-
-        except Exception as err:
-            print("_on_dict_file(): "+str(type(err))+": "+str(err))
+            if self._progress is None:
+                self._logger.info(os.path.split(dict_file_path)[1] + " dictionary processing time: "
+                      + self._total_metrics.parse_time_str(self._total_metrics))
 
         self._total_dicts += 1
 
-    def test(self, dict_path: str, corpus_path: str, output_path: str, reference_path: str, options: int) \
-            -> (ParseMetrics, ParseQuality):
+    def _on_sentence_count(self, file: str, args: list) -> None:
+        self._total_sentences += get_sentence_count(file, self._options)
+
+    def test(self, dict_path: str, corpus_path: str, output_path: str, reference_path: str, options: int,
+             progress: AbstractProgressClient=None) -> (ParseMetrics, ParseQuality):
         """
         Main method to initiate grammar test.
 
@@ -284,6 +263,7 @@ class GrammarTester(AbstractGrammarTestClient):
                                 that it has the same internal structure with the same set of files in it as corpus
                                 root directory.
         :param options:         Bitmask with parse options.
+        :param progress:        Callback class reference derived from AbstractProgressClient to inform parse progress.
         :return:
         """
         self._options = options
@@ -292,60 +272,80 @@ class GrammarTester(AbstractGrammarTestClient):
         self._is_dir_dict = os.path.isdir(dict_path)
 
         if not (os.path.isfile(corpus_path) or os.path.isdir(corpus_path)):
-            raise GrammarTestError("GrammarTestError: path '" + corpus_path + "' does not exist.")
+            raise FileNotFoundError("Path '" + corpus_path + "' does not exist.")
 
         if not os.path.isdir(output_path):
-            raise GrammarTestError("GrammarTestError: path '" + output_path + "' does not exist.")
+            raise FileNotFoundError("Path '" + output_path + "' does not exist.")
 
         if reference_path is not None:
             if self._is_dir_corpus:
                 if not os.path.isdir(reference_path):
-                    raise GrammarTestError("GrammarTestError: If 'corpus_path' is a directory 'reference_path' "
+                    raise GrammarTestError("If 'corpus_path' is a directory 'reference_path' "
                                            "should be an existing directory path too.")
             else:
                 if not os.path.isfile(reference_path):
-                    raise GrammarTestError("GrammarTestError: If 'corpus_path' is a file 'reference_path' should be an "
+                    raise GrammarTestError("If 'corpus_path' is a file 'reference_path' should be an "
                                            "existing file path too.")
 
         # No need to duplicate subdirectory structure inside itself.
         if dict_path == output_path:
             self._options &= (~BIT_DPATH_CREATE)
 
-        try:
-            start_time = time()
+        # Count total number of sentences in all corpus files
+        self._total_sentences = 0
 
-            # Arguments for callback functions
-            parse_args = [dict_path, corpus_path, output_path, reference_path]
+        if self._is_dir_corpus:
+            traverse_dir_tree(corpus_path, "", [self._on_sentence_count], None, True)
 
-            # If dict_path is a directory then call on_dict_file for every .dict file found.
-            if self._is_dir_dict and not (self._options & BIT_EXISTING_DICT):
-                dir_arg_list = [self._on_dict_dir]+parse_args if self._options & BIT_DPATH_CREATE else None
+        else:
+            self._total_sentences = get_sentence_count(corpus_path, options)
 
-                traverse_dir_tree(dict_path, ".4.0.dict", [self._on_dict_file]+parse_args, dir_arg_list, True)
+        # Create and set progress bar if it was not previously created
+        if isclass(progress):
+            bar = progress(total=self._total_sentences, desc="Overal execution", miniters=1)
+            self._progress = bar
 
-            # Otherwise it can be either single .dict file name or name of LG preinstalled dictionary e.g. 'en'
+        # Set progress bar if it was passed as an instance reference
+        elif progress is not None:
+            self._progress = progress
+
+        start_time = time()
+
+        # Arguments for callback functions
+        parse_args = [dict_path, corpus_path, output_path, reference_path]
+
+        # If dict_path is a directory then call on_dict_file for every .dict file found.
+        if self._is_dir_dict and not (self._options & BIT_EXISTING_DICT):
+            dir_arg_list = [self._on_dict_dir]+parse_args if self._options & BIT_DPATH_CREATE else None
+
+            traverse_dir_tree(dict_path, ".4.0.dict", [self._on_dict_file]+parse_args, dir_arg_list, True)
+
+        # Otherwise it can be either single .dict file name or name of LG preinstalled dictionary e.g. 'en'
+        else:
+            # If dict_path points to a single file no need to duplicate subdirectory structure
+            if not self._is_dir_dict:
+                self._options &= (~BIT_DPATH_CREATE)
+
+            self._on_dict_file(dict_path, parse_args)
+
+        if self._parser is not None:
+            if progress is None:
+                self._logger.info("\n\n")
             else:
-                # If dict_path points to a single file no need to duplicate subdirectory structure
-                if not self._is_dir_dict:
-                    self._options &= (~BIT_DPATH_CREATE)
+                self._progress.write("\n\n")
 
-                self._on_dict_file(dict_path, parse_args)
+        if not self._total_dicts:
+            raise FileNotFoundError("No dictionary files found in '" + dict_path + "'")
 
-            print("Dictionaries processed: ", self._total_dicts)
-            print_execution_time("Overal execution time", time() - start_time)
+        if self._progress is None:
+            self._logger.info("Dictionaries processed: " + str(self._total_dicts))
+            self._logger.info("Overal execution time: " + self._total_metrics.parse_time_str(self._total_metrics))
 
-        except GrammarTestError as err:
-            raise GrammarTestError("GrammarTestError: " + str(err))
-
-        except Exception as err:
-            raise GrammarTestError("Exception: " + str(err))
-
-        finally:
-            return self._total_metrics, self._total_quality
+        return self._total_metrics, self._total_quality
 
 
 def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_path: str, template_path: str,
-                       linkage_limit: int, options: int, reference_path: str, timeout: int=300) \
+                       linkage_limit: int, options: int, reference_path: str, timeout: int=1) \
         -> (Decimal, Decimal, Decimal, Decimal):
     """
     Test grammar(s) over specified corpus providing numerical estimation of parsing quality.
@@ -368,7 +368,10 @@ def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_pat
 
     gt = GrammarTester(grammar_path, template_path, linkage_limit, parser)
 
-    pm, pq = gt.test(dict_path, corpus_path, output_path, reference_path, options)
+    # bar = TextProgress(total=100)
+
+    # pm, pq = gt.test(dict_path, corpus_path, output_path, reference_path, options, None)
+    pm, pq = gt.test(dict_path, corpus_path, output_path, reference_path, options, TextProgress)
 
     return \
         pm.parseability(pm), \
@@ -386,43 +389,37 @@ def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal, Decimal):
     """
     pm, pq = ParseMetrics(), ParseQuality()
 
-    try:
-        cfgman = JsonFileConfigManager(conf_path)
-        # dboard = HTMLFileDashboard(cfgman)
+    cfgman = JsonFileConfigManager(conf_path)
+    # dboard = HTMLFileDashboard(cfgman)
 
-        dboard = TextFileDashboardConf(cfgman) if len(cfgman.get_config("", "dash-board")) else None
+    dboard = TextFileDashboardConf(cfgman) if len(cfgman.get_config("", "dash-board")) else None
 
-        parser = LGInprocParser()
+    parser = LGInprocParser()
 
-        # Get configuration parameters
-        config = cfgman.get_config("", "grammar-tester")
+    # Get configuration parameters
+    config = cfgman.get_config("", "grammar-tester")
 
-        # Create GrammarTester instance
-        tester = GrammarTester(handle_path_string(config[0][CONF_GRMR_PATH]),
-                               handle_path_string(config[0][CONF_TMPL_PATH]),
-                               config[0][CONF_LNK_LIMIT], parser, dboard)
+    # Create GrammarTester instance
+    tester = GrammarTester(handle_path_string(config[0][CONF_GRMR_PATH]),
+                           handle_path_string(config[0][CONF_TMPL_PATH]),
+                           config[0][CONF_LNK_LIMIT], parser, dboard)
 
-        # Config file may have multiple configurations for one component
-        for cfg in config:
+    # Config file may have multiple configurations for one component
+    for cfg in config:
 
-            # Run grammar test
-            pm, pq = tester.test(handle_path_string(cfg[CONF_DICT_PATH]), handle_path_string(cfg[CONF_CORP_PATH]),
-                                 handle_path_string(cfg[CONF_DEST_PATH]), handle_path_string(cfg[CONF_REFR_PATH]),
-                                 get_options(cfg))
+        # Run grammar test
+        pm, pq = tester.test(handle_path_string(cfg[CONF_DICT_PATH]), handle_path_string(cfg[CONF_CORP_PATH]),
+                             handle_path_string(cfg[CONF_DEST_PATH]), handle_path_string(cfg[CONF_REFR_PATH]),
+                             get_options(cfg))
 
-        # Save dashboard data to whatever source the dashboard is bounded to
-        dboard.update_dashboard()
+    # Save dashboard data to whatever source the dashboard is bounded to
+    dboard.update_dashboard()
 
-        # print(pm.text(pm))
-
-    except Exception as err:
-        print(str(err))
-    finally:
-        return \
-            pm.parseability(pm), \
-            pq.f1(pq), \
-            pq.precision_val(pq), \
-            pq.recall_val(pq)
+    return \
+        pm.parseability(pm), \
+        pq.f1(pq), \
+        pq.precision_val(pq), \
+        pq.recall_val(pq)
 
 
 class GrammarTesterComponent(AbstractPipelineComponent):
@@ -430,12 +427,12 @@ class GrammarTesterComponent(AbstractPipelineComponent):
     def __init__(self, **kwargs):
 
         # Create parser instance
-        parser = LGInprocParser()
+        parser = LGInprocParser(kwargs.get(CONF_LNK_LIMIT, 100), kwargs.get(CONF_TIMEOUT, 1))
 
         # Create GrammarTester instance
         self.tester = GrammarTester(handle_path_string(kwargs.get(CONF_GRMR_PATH, r"~/data/dict")),
                                     handle_path_string(kwargs.get(CONF_TMPL_PATH)),
-                                    kwargs.get(CONF_LNK_LIMIT, 1000), parser)
+                                    kwargs.get(CONF_LNK_LIMIT, 100), parser)
 
     def validate_parameters(self, **kwargs) -> bool:
         """ Validate configuration parameters """
@@ -457,7 +454,7 @@ class GrammarTesterComponent(AbstractPipelineComponent):
                          handle_path_string(kwargs.get(CONF_CORP_PATH)),
                          handle_path_string(kwargs.get(CONF_DEST_PATH, os.environ['PWD'])),
                          ref_path,
-                         get_options(kwargs))
+                         get_options(kwargs), TextProgress)
 
         return {"parseability": pa.parseability_str(pa), "PA": pa.parseability_str(pa), "F1": pq.f1_str(pq),
-                "recall": pq.recall_str(pq), "precision": pq.precision_str(pq)}
+                "recall": pq.recall_str(pq), "precision": pq.precision_str(pq), "PT": pa.parse_time_str(pa)}

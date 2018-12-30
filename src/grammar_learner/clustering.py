@@ -1,4 +1,5 @@
 # language-learning/src/grammar_learner/clustering.py                   80925
+import logging
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
@@ -48,6 +49,8 @@ def cluster_words_kmeans(words_df, n_clusters, init='k-means++', n_init=10):
 
 
 def number_of_clusters(vdf, **kwargs):                                  #80809
+    logger = logging.getLogger(__name__ +  "number_of_clusters")
+
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     algorithm   = kwa('kmeans',     'clustering')
     criteria    = kwa('silhouette', 'cluster_criteria')
@@ -99,9 +102,15 @@ def number_of_clusters(vdf, **kwargs):                                  #80809
     for n in lst:
         if n in dct:
             dct[n] += 1
-        else:
-            dct[n] = 1
-    n_clusters = int(round(np.mean(lst), 0))
+        else: dct[n] = 1
+
+    if len(dct) <= 0:
+        logger.debug("Empty dictionary 'dct'")
+
+    #     'cannot convert float NaN to integer' fixed
+    f_mean: float = np.mean(lst)
+    n_clusters = 0 if np.isnan(f_mean) else int(round(f_mean,0))
+
     n2 = list(dct.keys())[list(dct.values()).index(max(list(dct.values())))]
     if n2 != n_clusters:
         if len(list(dct.values())) == len(set(list(dct.values()))):
@@ -110,10 +119,18 @@ def number_of_clusters(vdf, **kwargs):                                  #80809
             n3 = n_clusters
         n_clusters = int(round((n_clusters + n2 + n3)/3.0, 0))
 
+    # if verbose in ['max', 'debug']:
+    #     if len(dct) > 1:
+    #         print(UTC(),':: number_of_clusters:', sorted(lst), \
+    #             '⇒', n_clusters, 'clusters weighted average')
+    if len(dct) > 1:
+        logger.info('{} :: number_of_clusters: {} ⇒ {} clusters weighted average'.format(
+            UTC(), sorted(lst), n_clusters))
     return int(n_clusters)
 
 
 def best_clusters(vdf, **kwargs):                                       # 81220
+    logger = logging.getLogger(__name__ + ".best_clusters")
     def kwa(v,k): return kwargs[k] if k in kwargs else v
     algo        = kwa('kmeans',     'clustering')
     criteria    = kwa('silhouette', 'cluster_criteria')
@@ -128,6 +145,10 @@ def best_clusters(vdf, **kwargs):                                       # 81220
     #                                 with the same number of clusters
     if type(crange) is int:
         crange = [crange, crange]  # 81220
+
+    # if verbose in ['max','debug']:
+    #     print(UTC(),':: best_clusters started')
+    logger.info('{} :: best_clusters started'.format(UTC()))
 
     if type(algo) is str:
         if algo == 'kmeans':
@@ -202,11 +223,12 @@ def best_clusters(vdf, **kwargs):                                       # 81220
             try:
                 c, s, i = cluster_words_kmeans(vdf, max_clusters, init, n_init)
                 break
-            except:
-                max_clusters -= 1
-        if verbose in ['max', 'debug']:
-            print(UTC(), ':: best_clusters: max_clusters =', max_clusters)
-        n_clusters = max_clusters   # 80623: cure case max < crange.min
+            except: max_clusters -= 1
+        # if verbose in ['max', 'debug']:
+        #     print(UTC(),':: best_clusters: max_clusters =', max_clusters)
+        logger.info('{} :: best_clusters: max_clusters = {}'.format(UTC(), max_clusters))
+
+        n_clusters = max_clusters   #80623: cure case max < crange.min
 
         if level < 0.1:
             return c, s, i  # return max possible number of clusters
@@ -215,12 +237,15 @@ def best_clusters(vdf, **kwargs):                                       # 81220
             lst = []
             lst.append((0, max_clusters, c,s,i))
             min_clusters = min(crange[0], crange[1])
-            if verbose in ['max', 'debug']:
-                print(UTC(), ':: best_clusters: min_clusters =', min_clusters)
-            if min_clusters > max_clusters:  # FIXME: overkill?
-                if verbose in ['max', 'debug']:
-                    print(UTC(),':: best_clusters: min > max:',
-                          min_clusters, '>', max_clusters, '?')
+            # if verbose in ['max', 'debug']:
+            #     print(UTC(),':: best_clusters: min_clusters =', min_clusters)
+            logger.info('{} :: best_clusters: min_clusters = {}'.format(UTC(), min_clusters))
+
+            if min_clusters > max_clusters:  #overkill?
+                # if verbose in ['max', 'debug']:
+                #     print(UTC(),':: best_clusters: min > max:', \
+                #         min_clusters, '>', max_clusters, '?')
+                logger.info('{} :: best_clusters: min > max: {} > {} ?'.format(UTC(), min_clusters, max_clusters))
                 return c,s,i
             else:  # check min clusters, find min viable # FIXME: overkill?
                 while min_clusters < max_clusters:
@@ -229,18 +254,20 @@ def best_clusters(vdf, **kwargs):                                       # 81220
                         c, s, i = cluster_words_kmeans(vdf, min_clusters,
                                                        init, n_init)
                         break
-                    except:
-                        min_clusters += 1
-            if verbose in ['max', 'debug']:
-                print(UTC(), ':: best_clusters: checked min_clusters =',
-                      min_clusters)
-            lst.append((1, min_clusters, c, s, i))
+                    except: min_clusters += 1
+            # if verbose in ['max', 'debug']:
+            #     print(UTC(),':: best_clusters: checked min_clusters =', min_clusters)
+            logger.info('{} :: best_clusters: checked min_clusters = {}'.format(UTC(), min_clusters))
+
+            lst.append((1, min_clusters, c,s,i))
             middle = int((min_clusters + max_clusters)/2)
             c,s,i = cluster_words_kmeans(vdf, middle, init, n_init)
-            lst.append((2, middle, c, s, i))
-            if verbose in ['debug']:
-                print('\nstarting lst:')
-                for x in lst: print([x[i] for i in [0,1,3,4]])
+            lst.append((2, middle, c,s,i))
+            # if verbose in ['debug']:
+            #     print('\nstarting lst:')
+            #     for x in lst: print([x[i] for i in [0,1,3,4]])
+            logger.debug('\nstarting lst:')
+            for x in lst: logger.debug("{}".format([x[i] for i in [0,1,3,4]]))
             lst.sort(key=itemgetter(3), reverse=True)
 
             ntop = 1
@@ -274,6 +301,7 @@ def best_clusters(vdf, **kwargs):                                       # 81220
 
 
 def group_links(links, verbose):    # Group ILE                         # 80925
+    logger = logging.getLogger(__name__ + ".group_links")
     df = links.copy()
     df['links'] = [[x] for x in df['link']]
     del df['link']
@@ -286,8 +314,8 @@ def group_links(links, verbose):    # Group ILE                         # 80925
     df4 = df2.groupby('links')['words'].apply(sum).reset_index()
     if df4['links'].tolist() == df3['links'].tolist():
         df4['counts'] = df3['count']
-    else:
-        print('group_links: line 30 if df4... == df3... ERROR!')
+    # else: print('group_links: line 30 if df4... == df3... ERROR!')
+    else: logger.error('group_links: line 30 if df4... == df3... ERROR!')
     df4['words'] = df4['words'].apply(lambda x: sorted(list(x)))
     df4['links'] = df4['links'].apply(lambda x: sorted(list(x)))
     df4 = df4[['words', 'links', 'counts']] \

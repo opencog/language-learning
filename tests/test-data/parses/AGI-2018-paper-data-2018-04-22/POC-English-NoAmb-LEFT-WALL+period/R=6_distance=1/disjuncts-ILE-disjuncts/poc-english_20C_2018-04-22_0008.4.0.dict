@@ -82,7 +82,7 @@
 "was":
 (C02C20- & C05C20- & C20C04+ & C20C03+) or (C07C20- & C20C19+ & C20C04+) or (C14C20- & C20C08+ & C20C04+) or (C18C20- & C02C20- & C20C03+ & C20C04+) or (C20C15+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 20 word clusters, 20 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period/R=6_distance=1/disjuncts-ILE-disjuncts/poc-english_20C_2018-04-22_0008.4.0.dict

@@ -42,7 +42,7 @@
 "wing":
 (C02C10- & C10C05+) or (C02C10- & C10C08+) or (C07C10- & C10C01+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 10 word clusters, 10 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-Turtle-LEFT-WALL+period/R=6_Weight=6:R/disjuncts-ILE-disjuncts/poc-turtle_10C_2018-04-22_0008.4.0.dict

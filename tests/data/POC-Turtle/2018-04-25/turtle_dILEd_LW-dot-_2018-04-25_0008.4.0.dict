@@ -26,7 +26,7 @@
 "isa":
 (C02C06- & C06C01+) or (C04C06- & C06C01+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 6 word clusters, 6 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/POC-Turtle-6-Tests-2018-04-25/MST_fixed_manually/disjuncts-ILE-disjuncts_LW-dot-/poc-turtle_6C_2018-04-25_0008.4.0.dict

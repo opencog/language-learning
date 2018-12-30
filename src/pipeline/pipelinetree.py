@@ -1,4 +1,5 @@
 import os
+import logging
 from typing import Dict, List, Any, Union, Callable, NewType
 
 from ..common.absclient import AbstractPipelineComponent
@@ -11,6 +12,9 @@ from .pipelinetreenode import PipelineTreeNode2
 
 
 __all__ = ['build_tree', 'run_tree']
+
+
+logger = logging.getLogger(__name__)
 
 
 class PathCreatorComponent(AbstractPipelineComponent):
@@ -63,7 +67,7 @@ def get_component(name: str, params: dict) -> AbstractPipelineComponent:
         raise Exception("Error: '{}' is not a valid pipeline component name.".format(name))
 
     except Exception as err:
-        print(str(type(err)) + ": " + str(err))
+        logger.error(str(type(err)) + ": " + str(err))
         raise err
 
 
@@ -101,7 +105,7 @@ def single_proc_exec(node: PipelineTreeNode2) -> None:
             handle_request(node, {**req, **result})
 
     # Just for debug purposes
-    print(node._component_name + ": successfull execution")
+    logger.info(node._component_name + ": successfull execution")
 
 
 def handle_request(node: PipelineTreeNode2, req: dict) -> None:
@@ -115,7 +119,7 @@ def handle_request(node: PipelineTreeNode2, req: dict) -> None:
     obj = req.pop("obj", None)
 
     if obj is None:
-        raise Exception("Error: Mandatory parameter 'obj' does not exist.")
+        raise Exception("Error: Required parameter 'obj' does not exist.")
 
     pos = str(obj).find(".")
 
@@ -133,17 +137,19 @@ def handle_request(node: PipelineTreeNode2, req: dict) -> None:
     return getattr(inst, meth)(**req)
 
 
-def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, environment: dict, first_char="%") -> (dict, dict):
+def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, environment: dict, first_char="%",
+                       create_sub_dir: bool=True) -> (dict, dict):
     """
     Create built-in variables (PREV, RPREV, LEAF, RLEAF), substitute variables, starting with '%'
         with their real values.
 
-    :param parent:      Parent node of the execution tree.
-    :param common:      Common parameters dictionary.
-    :param specific:    Specific parameters dictionary.
-    :param environment: Environment dictionary.
-    :param first_char:  Character that delimits variables ('%' is default).
-    :return:            Tuple of two dictionaries: one for parameters, another for environment.
+    :param parent:          Parent node of the execution tree.
+    :param common:          Common parameters dictionary.
+    :param specific:        Specific parameters dictionary.
+    :param environment:     Environment dictionary.
+    :param first_char:      Character that delimits variables ('%' is default).
+    :param create_sub_dir   Boolean value forces the program to create subdirectory path based on specific dictionary.
+    :return:                Tuple of two dictionaries: one for parameters, another for environment.
     """
 
     # Merge two dictionaries 'common-parameters' and 'specific-parameters'
@@ -161,12 +167,17 @@ def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, 
                 if (not (isinstance(v, list) or isinstance(v, dict) or isinstance(v, str)))
                 or (isinstance(v, str) and v.find("/") < 0 and v.find("%") < 0)}
 
-    # Get subdir path based on specific parameters
-    rleaf = get_path_from_dict(non_path)
+    # Get subdir path based on specific parameters if requested
+    rleaf = get_path_from_dict(non_path, "_") if create_leaf else ""
+    # rleaf = get_path_from_dict(non_path, "_") if create_sub_dir else ""
+
+    logger.debug("RLEAF: " + rleaf)
 
     inherit_prev = all_parameters.get("inherit_prev_path", False)
 
     leaf = environment["PREV"] + "/" + rleaf if inherit_prev else environment["ROOT"] + "/" + rleaf
+
+    logger.debug("LEAF: " + leaf)
 
     new_environment = {**environment, **{"RLEAF": rleaf, "LEAF": leaf, "CREATE_LEAF": create_leaf}}
 
@@ -176,7 +187,7 @@ def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, 
     # Substitute derived path for LEAF, PREV and other variables
     all_parameters = subst_variables_in_dict2(all_parameters, scopes, True, first_char)
 
-    # print(all_parameters)
+    logger.debug("all_parameters: {}".format(all_parameters))
 
     return all_parameters, new_environment
 
@@ -215,13 +226,14 @@ def build_tree(config: List, globals: dict, first_char="%") -> List[PipelineTree
 
                 # Only if the previous component path should be followed
                 if parent._parameters.get("follow_exec_path", True):
+
                     for specific in spec:
 
                         # Create parameter and environment dictionaries
                         parameters, environment = prepare_parameters(
                             parent, comm, specific,
                             {**globals, **{"RPREV": parent._environment["RLEAF"], "PREV": parent._environment["LEAF"]}},
-                            first_char)
+                            first_char, len(spec) > 1)
 
                         children.append(PipelineTreeNode2(level, name, parameters, environment, parent))
 
@@ -229,7 +241,7 @@ def build_tree(config: List, globals: dict, first_char="%") -> List[PipelineTree
             for specific in spec:
 
                 # Create parameter and environment dictionaries
-                parameters, environment = prepare_parameters(None, comm, specific, globals, first_char)
+                parameters, environment = prepare_parameters(None, comm, specific, globals, first_char, len(spec) > 1)
 
                 children.append(PipelineTreeNode2(level, name, parameters, environment, None))
 

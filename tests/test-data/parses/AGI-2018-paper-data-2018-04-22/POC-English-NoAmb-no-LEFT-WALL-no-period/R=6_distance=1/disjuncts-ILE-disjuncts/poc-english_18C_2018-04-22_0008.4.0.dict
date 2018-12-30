@@ -74,7 +74,7 @@
 "was":
 (C03C18- & C18C02+ & C18C01+) or (C05C18- & C18C17+ & C18C02+) or (C12C18- & C18C06+ & C18C02+) or (C16C18- & C18C01+ & C18C02+) or (C18C13+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 18 word clusters, 18 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-no-LEFT-WALL-no-period/R=6_distance=1/disjuncts-ILE-disjuncts/poc-english_18C_2018-04-22_0008.4.0.dict

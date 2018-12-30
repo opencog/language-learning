@@ -26,7 +26,7 @@
 "isa":
 (BG- & GC+);
 
-<UNKNOWN-WORD>: XXX+;
+<<UNKNOWN-WORD>>: XXX+;
 
 % 6 word clusters, 6 Link Grammar rules.
 % Link Grammar file saved to: /home/obaskov/py/language-learning/output/test_grammar_learner_2018-10-03/turtle_lw_&_dot_generalized_categories/dict_6C_2018-10-03_0006.4.0.dict

@@ -5,14 +5,18 @@ from .clustering import cluster_id
 from .utl import kwa
 
 
-def aggregate(categories, threshold, similarity_function, verbose = 'none'):
+def aggregate(categories, threshold, similarity_function, verbose='none'):
+    logger = logging.getLogger(__name__ + ".aggregate")
     cats = deepcopy(categories)
-    cats.pop('dj_counts', None)  # 81101 TODO: list ⇒ dict? restructure cats?
-    if verbose == 'debug':
-        print('aggregate: len(cats)[cluster]:', len(cats['cluster']),
-              'cats[cluster][-1]:', cats['cluster'][-1])
-        print('aggregate: len(cats)[children]:', len(cats['children']))
-        print('aggregate: cats lengths:', set([len(x) for x in cats.values()]))
+    cats.pop('dj_counts', None)  # 81101 TODO: list ⇒ dict? restucture cats?
+    # if verbose == 'debug':
+    #     print('aggregate: len(cats)[cluster]:', len(cats['cluster']), 'cats[cluster][-1]:', cats['cluster'][-1])
+    #     print('aggregate: len(cats)[children]:', len(cats['children']))
+    #     print('aggregate: cats lengths:', set([len(x) for x in cats.values()]))
+    logger.debug('aggregate: len(cats)[cluster]: {} cats[cluster][-1]: {}'.format(len(cats['cluster']), cats['cluster'][-1]))
+    logger.debug('aggregate: len(cats)[children]: {}'.format(len(cats['children'])))
+    logger.debug('aggregate: cats lengths: {}'.format(set([len(x) for x in cats.values()])))
+
     similar_clusters = []
     similarities = []
     ncats = len(cats['words'])
@@ -30,6 +34,10 @@ def aggregate(categories, threshold, similarity_function, verbose = 'none'):
                 similar_clusters.append([i, j, similarity])
             # if similarity > aggregate and similarity < merge:
             similarities.append(round(similarity, 2))
+
+    # if verbose == 'debug':
+    #     print('aggregate: merge similar_clusters:', similar_clusters)
+    logger.debug('aggregate: merge similar_clusters: {}'.format(similar_clusters))
 
     merges = [{x[0], x[1]} for x in similar_clusters if x[2] > threshold]
     merged = []
@@ -73,7 +81,29 @@ def aggregate(categories, threshold, similarity_function, verbose = 'none'):
         cats['djs'] = [set([d[x] for x in y]) for y in cats['disjuncts']]
         # TODO? sort by frequency?
 
-    return cats, sorted(set(similarities), reverse = True)
+        # if verbose == 'debug':
+        #     print('aggregate: words[' + str(new_cluster_id) + ']:', cats['words'][new_cluster_id])
+        #     print('aggregate: disjuncts[' + str(new_cluster_id - 1) + ']:', cats['disjuncts'][new_cluster_id - 1])
+        #     print('aggregate: disjuncts[' + str(new_cluster_id) + ']:', cats['disjuncts'][new_cluster_id])
+        #     print('aggregate: djs[' + str(new_cluster_id - 1) + ']:', cats['djs'][new_cluster_id - 1])
+        #     print('aggregate: djs[' + str(new_cluster_id) + ']:', cats['djs'][new_cluster_id])
+        #     print('aggregate: similarities[' + str(new_cluster_id) + ']:', cats['similarities'][new_cluster_id])
+        #     if len(set([len(x) for x in cats.values()])) > 1:
+        #         print('aggregate: cats lengths:', ', '.join([k + ':' + str(len(v)) for k, v in cats.items()]))
+        #     else:
+        #         print('aggregate: cats lengths:', set([len(x) for x in cats.values()]))
+        logger.debug('aggregate: words[' + str(new_cluster_id) + ']: {}'.format(cats['words'][new_cluster_id]))
+        logger.debug('aggregate: disjuncts[' + str(new_cluster_id - 1)
+                     + ']: {}'.format(cats['disjuncts'][new_cluster_id - 1]))
+        logger.debug('aggregate: disjuncts[' + str(new_cluster_id) + '] {}:'.format(cats['disjuncts'][new_cluster_id]))
+        logger.debug('aggregate: djs[' + str(new_cluster_id - 1) + ']: {}'.format(cats['djs'][new_cluster_id - 1]))
+        logger.debug('aggregate: djs[' + str(new_cluster_id) + '] {}:'.format(cats['djs'][new_cluster_id]))
+        logger.debug('aggregate: similarities[' + str(new_cluster_id)
+                     + ']: {}'.format(cats['similarities'][new_cluster_id]))
+        if len(set([len(x) for x in cats.values()])) > 1:
+            logger.debug('aggregate: cats lengths: {}'.format(', '.join([k + ':' + str(len(v)) for k, v in cats.items()])))
+        else:
+            logger.debug('aggregate: cats lengths: {}'.format(set([len(x) for x in cats.values()])))
 
 
 def reorder(cats):
@@ -170,6 +200,7 @@ def squared(x, y):
 
 
 def generalize_categories(categories, **kwargs):  # 80717 [F] FIXME:DEL?
+    logger = logging.getLogger(__name__ + ".generalize_categories")
     # categories == {'cluster':[], 'words': [], 'disjuncts':[], ...}
     aggregation = kwa('off', 'categories_generalization', **kwargs)
     merge_threshold = kwa(0.8, 'categories_merge', **kwargs)
@@ -178,14 +209,17 @@ def generalize_categories(categories, **kwargs):  # 80717 [F] FIXME:DEL?
 
     if aggregation == 'jaccard':
 
-        if verbose in ['debug', 'max']:
-            print('generalize_categories: based on Jaccard index')
-            if len(set([len(x) for x in categories.values()])) > 1:
-                print('cats lengths:', ', '.join(
-                    [k + ':' + str(len(v)) for k, v in categories.items()]))
-            else:
-                print('cats lengths:',
-                      set([len(x) for x in categories.values()]))
+        # if verbose in ['debug', 'max']:
+        #     print('generalize_categories: based on Jaccard index')
+        #     if len(set([len(x) for x in categories.values()])) > 1:
+        #         print('cats lengths:', ', '.join([k + ':' + str(len(v)) for k, v in categories.items()]))
+        #     else:
+        #         print('cats lengths:', set([len(x) for x in categories.values()]))
+        logger.debug('generalize_categories: based on Jaccard index')
+        if len(set([len(x) for x in categories.values()])) > 1:
+            logger.debug('cats lengths: {}'.format(', '.join([k + ':' + str(len(v)) for k, v in categories.items()])))
+        else:
+            logger.debug('cats lengths: {}'.format(set([len(x) for x in categories.values()])))
 
         threshold = merge_threshold
         cats, similarities = aggregate(categories, threshold, jaccard, verbose)
@@ -195,11 +229,14 @@ def generalize_categories(categories, **kwargs):  # 80717 [F] FIXME:DEL?
         z = len(similarities)
         sims = similarities
         while z > 1 and threshold > aggr_threshold:
-            if verbose == 'debug': print('threshold:', threshold)
+            # if verbose == 'debug': print('threshold:', threshold)
+            logger.debug('threshold:'.format(threshold))
+
             cats, similarities = aggregate(cats, threshold, jaccard, verbose)
             sims = [x for x in similarities if x < threshold]
-            if verbose == 'debug': print('similarities:', similarities,
-                                         '\n- sims:', sims)
+            # if verbose == 'debug': print('similarities:', similarities, '\n- sims:', sims)
+            logger.debug('similarities: {} \n- sims: {}'.format(similarities, sims))
+
             threshold = max(sims) - 0.01  # 0.001 ?
             z = len(sims)
 
@@ -211,6 +248,7 @@ def generalize_categories(categories, **kwargs):  # 80717 [F] FIXME:DEL?
 
 
 def generalize_rules(categories, **kwargs):  # 80622
+    logger = logging.getLogger(__name__ + ".generalize_rules")
     # categories == {'cluster':[], 'words': [], 'disjuncts':[], ...}
     merge_threshold = kwa(0.8, 'rules_merge', **kwargs)
     aggr_threshold = kwa(0.2, 'rules_aggregation', **kwargs)
@@ -316,7 +354,8 @@ def generalise_rules(categories, **kwargs):                             # 81121
     return reorder(cats), {'rules_generalization': 'hierarchical'}
 
 
-def agglomerate(categories, threshold, similarity_function, verbose = 'none'):
+def agglomerate(categories, threshold, similarity_function, verbose='none'):
+    logger = logging.getLogger(__name__ + ".agglomerate")
     cats = deepcopy(categories)
     cats.pop('dj_counts', None)  # 81101 TODO: list ⇒ dict? restructure cats?
     cats.update({'top': deepcopy(cats['parent'])})  # 81123
@@ -387,7 +426,8 @@ def agglomerate(categories, threshold, similarity_function, verbose = 'none'):
     return cats, sorted(set(similarities), reverse = True)
 
 
-def add_upper_level(categories, **kwargs):  # 81121
+def add_upper_level(categories, **kwargs):                             # 81121
+    logger = logging.getLogger(__name__ + ".add_upper_level")
     # categories == {'cluster':[], 'words': [], 'disjuncts':[], ...}
     generalisation = kwa(None, 'rules_generalization', **kwargs)
     merge_threshold = kwa(0.8, 'rules_merge', **kwargs)

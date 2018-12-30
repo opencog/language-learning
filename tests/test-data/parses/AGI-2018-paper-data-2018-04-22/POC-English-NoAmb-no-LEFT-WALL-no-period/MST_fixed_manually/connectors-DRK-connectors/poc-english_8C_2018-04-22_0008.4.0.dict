@@ -34,7 +34,7 @@
 "dad" "mom":
 ({C01C08-} & {C08C01+ or C08C02+});
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 8 word clusters, 8 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-no-LEFT-WALL-no-period/MST_fixed_manually/connectors-DRK-connectors/poc-english_8C_2018-04-22_0008.4.0.dict

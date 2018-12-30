@@ -30,7 +30,7 @@
 "LEFT-WALL" "has":
 (C07C02+) or (C07C03+) or (C07C04+) or (C07C05+) or (C07C06+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 7 word clusters, 7 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-Turtle-LEFT-WALL+period/R=6_Weight=1/connectors-DRK-disjuncts/poc-turtle_7C_2018-04-22_0008.4.0.dict

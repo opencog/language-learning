@@ -12,7 +12,8 @@ def clean_links(links, **kwargs):
     min_link_frequency = kwa(0.0, 'min_word_frequency', **kwargs)
     max_words = kwa(1000000, 'max_words', **kwargs)  # SVS: max space dimension 1
     max_features = kwa(1000000, 'max_features', **kwargs)  # SVS: dimension 2: disjuncts/connectors
-    trash = ['.', ',', '+', '-', '?', ':', ';', '!', '"', '{', '}', '|', '[', ']', '(', ')', ')(', ')(,', ', ']  # $,&,'
+    # trash = ['.', ',', '+', '-', '?', ':', ';', '!', '"', '{', '}', '|','[', ']', '(', ')', ')(', ')(,', ', ']  # $,&,'
+    trash = []  # 81226 FIXME: return
     stop_words = kwa(trash, 'stop_words', **kwargs)
 
     wdf = links.groupby('word', as_index=False).sum().sort_values(by=['count', 'word'], ascending=[False, True])

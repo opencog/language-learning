@@ -12,7 +12,7 @@ from .generalization import generalize_categories, generalize_rules, \
                             generalise_rules, add_upper_level           # 81122
 from .write_files import list2file, save_link_grammar, save_cat_tree
 
-__all__ = ['learn_grammar']
+__all__ = ['learn_grammar', 'learn']
 
 
 def learn(**kwargs):

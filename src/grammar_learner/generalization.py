@@ -1,22 +1,15 @@
-# language-learning/src/grammar_learner/generalization.py               # 81220
+# language-learning/src/grammar_learner/generalization.py               # 81231
+import logging
 from copy import copy, deepcopy
 from operator import itemgetter
 from .clustering import cluster_id
 from .utl import kwa
 
 
-def aggregate(categories, threshold, similarity_function, verbose='none'):
+def aggregate(categories, threshold, similarity_function, verbose = 'none'):
     logger = logging.getLogger(__name__ + ".aggregate")
     cats = deepcopy(categories)
-    cats.pop('dj_counts', None)  # 81101 TODO: list ⇒ dict? restucture cats?
-    # if verbose == 'debug':
-    #     print('aggregate: len(cats)[cluster]:', len(cats['cluster']), 'cats[cluster][-1]:', cats['cluster'][-1])
-    #     print('aggregate: len(cats)[children]:', len(cats['children']))
-    #     print('aggregate: cats lengths:', set([len(x) for x in cats.values()]))
-    logger.debug('aggregate: len(cats)[cluster]: {} cats[cluster][-1]: {}'.format(len(cats['cluster']), cats['cluster'][-1]))
-    logger.debug('aggregate: len(cats)[children]: {}'.format(len(cats['children'])))
-    logger.debug('aggregate: cats lengths: {}'.format(set([len(x) for x in cats.values()])))
-
+    cats.pop('dj_counts', None)
     similar_clusters = []
     similarities = []
     ncats = len(cats['words'])
@@ -32,16 +25,11 @@ def aggregate(categories, threshold, similarity_function, verbose='none'):
             similarity = similarity_function(x, cats['djs'][j])
             if similarity > threshold:
                 similar_clusters.append([i, j, similarity])
-            # if similarity > aggregate and similarity < merge:
+            #? if similarity > aggregate and similarity < merge:
             similarities.append(round(similarity, 2))
-
-    # if verbose == 'debug':
-    #     print('aggregate: merge similar_clusters:', similar_clusters)
-    logger.debug('aggregate: merge similar_clusters: {}'.format(similar_clusters))
 
     merges = [{x[0], x[1]} for x in similar_clusters if x[2] > threshold]
     merged = []
-
     for m, mset in enumerate(merges):
         if m in merged:
             continue
@@ -52,8 +40,8 @@ def aggregate(categories, threshold, similarity_function, verbose='none'):
                 if mset | merges[k] not in merges:
                     merges.append(mset | merges[k])
                 merged.extend([m, k])
-
     merges = [x for i, x in enumerate(merges) if i not in merged]
+
     for mset in merges:
         new_cluster_id = len(cats['parent'])
         cats['cluster'].append(cluster_id(new_cluster_id, new_cluster_id))
@@ -65,7 +53,6 @@ def aggregate(categories, threshold, similarity_function, verbose='none'):
         cats['djs'].append(set())
         cats['counts'].append(0)
         cats['quality'].append(threshold)
-
         for cluster in mset:
             cats['parent'][cluster] = new_cluster_id
             cats['words'][new_cluster_id].update(cats['words'][cluster])
@@ -81,29 +68,7 @@ def aggregate(categories, threshold, similarity_function, verbose='none'):
         cats['djs'] = [set([d[x] for x in y]) for y in cats['disjuncts']]
         # TODO? sort by frequency?
 
-        # if verbose == 'debug':
-        #     print('aggregate: words[' + str(new_cluster_id) + ']:', cats['words'][new_cluster_id])
-        #     print('aggregate: disjuncts[' + str(new_cluster_id - 1) + ']:', cats['disjuncts'][new_cluster_id - 1])
-        #     print('aggregate: disjuncts[' + str(new_cluster_id) + ']:', cats['disjuncts'][new_cluster_id])
-        #     print('aggregate: djs[' + str(new_cluster_id - 1) + ']:', cats['djs'][new_cluster_id - 1])
-        #     print('aggregate: djs[' + str(new_cluster_id) + ']:', cats['djs'][new_cluster_id])
-        #     print('aggregate: similarities[' + str(new_cluster_id) + ']:', cats['similarities'][new_cluster_id])
-        #     if len(set([len(x) for x in cats.values()])) > 1:
-        #         print('aggregate: cats lengths:', ', '.join([k + ':' + str(len(v)) for k, v in cats.items()]))
-        #     else:
-        #         print('aggregate: cats lengths:', set([len(x) for x in cats.values()]))
-        logger.debug('aggregate: words[' + str(new_cluster_id) + ']: {}'.format(cats['words'][new_cluster_id]))
-        logger.debug('aggregate: disjuncts[' + str(new_cluster_id - 1)
-                     + ']: {}'.format(cats['disjuncts'][new_cluster_id - 1]))
-        logger.debug('aggregate: disjuncts[' + str(new_cluster_id) + '] {}:'.format(cats['disjuncts'][new_cluster_id]))
-        logger.debug('aggregate: djs[' + str(new_cluster_id - 1) + ']: {}'.format(cats['djs'][new_cluster_id - 1]))
-        logger.debug('aggregate: djs[' + str(new_cluster_id) + '] {}:'.format(cats['djs'][new_cluster_id]))
-        logger.debug('aggregate: similarities[' + str(new_cluster_id)
-                     + ']: {}'.format(cats['similarities'][new_cluster_id]))
-        if len(set([len(x) for x in cats.values()])) > 1:
-            logger.debug('aggregate: cats lengths: {}'.format(', '.join([k + ':' + str(len(v)) for k, v in cats.items()])))
-        else:
-            logger.debug('aggregate: cats lengths: {}'.format(set([len(x) for x in cats.values()])))
+    return cats, sorted(set(similarities), reverse = True)
 
 
 def reorder(cats):
@@ -112,7 +77,7 @@ def reorder(cats):
                     enumerate(cats['parent']) if x == 0 and i > 0]
     top = [0] + [x[0] for x in
                  sorted(top_clusters, key = itemgetter(1), reverse = True)]
-    ordnung = copy(top)  # deepcopy(top)?   # copy list objects as well
+    ordnung = copy(top)  # deepcopy(top)? - copy list objects as well
 
     # Children branches
     def branch(i, children):
@@ -164,7 +129,6 @@ def reorder(cats):
                 new_rule.append(tuple(new_dj))
             new_cats['disjuncts'][rule] = set(new_rule)
         else:  # 81130: prune clusters with empty dj sets  # TODO: update
-            # else...
             print(('rule', rule, '- 0 djs in new_cats[disjuncts][rule]:',
                    new_cats['disjuncts'][rule]))
 
@@ -200,59 +164,38 @@ def squared(x, y):
 
 
 def generalize_categories(categories, **kwargs):  # 80717 [F] FIXME:DEL?
+    # categories: {'cluster':[], 'words': [], 'disjuncts':[], ...}
     logger = logging.getLogger(__name__ + ".generalize_categories")
-    # categories == {'cluster':[], 'words': [], 'disjuncts':[], ...}
     aggregation = kwa('off', 'categories_generalization', **kwargs)
     merge_threshold = kwa(0.8, 'categories_merge', **kwargs)
     aggr_threshold = kwa(0.2, 'categories_aggregation', **kwargs)
     verbose = kwa('none', 'verbose', **kwargs)
 
     if aggregation == 'jaccard':
-
-        # if verbose in ['debug', 'max']:
-        #     print('generalize_categories: based on Jaccard index')
-        #     if len(set([len(x) for x in categories.values()])) > 1:
-        #         print('cats lengths:', ', '.join([k + ':' + str(len(v)) for k, v in categories.items()]))
-        #     else:
-        #         print('cats lengths:', set([len(x) for x in categories.values()]))
-        logger.debug('generalize_categories: based on Jaccard index')
-        if len(set([len(x) for x in categories.values()])) > 1:
-            logger.debug('cats lengths: {}'.format(', '.join([k + ':' + str(len(v)) for k, v in categories.items()])))
-        else:
-            logger.debug('cats lengths: {}'.format(set([len(x) for x in categories.values()])))
-
         threshold = merge_threshold
         cats, similarities = aggregate(categories, threshold, jaccard, verbose)
         # TODO: list of merged clusters - to delete
         # TODO: delete merged clusters
-
         z = len(similarities)
         sims = similarities
         while z > 1 and threshold > aggr_threshold:
-            # if verbose == 'debug': print('threshold:', threshold)
-            logger.debug('threshold:'.format(threshold))
-
             cats, similarities = aggregate(cats, threshold, jaccard, verbose)
             sims = [x for x in similarities if x < threshold]
-            # if verbose == 'debug': print('similarities:', similarities, '\n- sims:', sims)
-            logger.debug('similarities: {} \n- sims: {}'.format(similarities, sims))
-
             threshold = max(sims) - 0.01  # 0.001 ?
             z = len(sims)
 
         return reorder(cats), {'similarity_thresholds': sims}
         # !!! 81217 reorder [F] for (gen) cats (tests - Turtle) ⇒ [x]
-
     else:
         return categories, {'categories_generalization': 'none'}
 
 
 def generalize_rules(categories, **kwargs):  # 80622
+    # categories: {'cluster':[], 'words': [], 'disjuncts':[], ...}
     logger = logging.getLogger(__name__ + ".generalize_rules")
-    # categories == {'cluster':[], 'words': [], 'disjuncts':[], ...}
     merge_threshold = kwa(0.8, 'rules_merge', **kwargs)
     aggr_threshold = kwa(0.2, 'rules_aggregation', **kwargs)
-    verbose = kwa('none', 'verbose')
+    verbose = kwa('none', 'verbose', **kwargs)
 
     threshold = merge_threshold  # 0.8
     cats, similarities = aggregate(categories, threshold, jaccard, verbose)
@@ -317,8 +260,8 @@ def renumber(cats):  # 81121
     return cats
 
 
-def generalise_rules(categories, **kwargs):                             # 81121
-    # categories == {'cluster':[], 'words': [], 'disjuncts':[], ...}
+def generalise_rules(categories, **kwargs):  # 81121
+    # categories: {'cluster':[], 'words': [], 'disjuncts':[], ...}
     generalisation = kwa('jaccard', 'rules_generalization', **kwargs)
     merge_threshold = kwa(0.8, 'rules_merge', **kwargs)
     aggr_threshold = kwa(0.2, 'rules_aggregation', **kwargs)
@@ -354,7 +297,7 @@ def generalise_rules(categories, **kwargs):                             # 81121
     return reorder(cats), {'rules_generalization': 'hierarchical'}
 
 
-def agglomerate(categories, threshold, similarity_function, verbose='none'):
+def agglomerate(categories, threshold, similarity_function, verbose = 'none'):
     logger = logging.getLogger(__name__ + ".agglomerate")
     cats = deepcopy(categories)
     cats.pop('dj_counts', None)  # 81101 TODO: list ⇒ dict? restructure cats?
@@ -399,7 +342,6 @@ def agglomerate(categories, threshold, similarity_function, verbose='none'):
         cats['cluster'].append(None)  # 81123
         cats['top'].append(0)  # 81123
         cats['parent'].append(0)  # TODO? append(None) & use top?
-
         cats['children'].append(mset)
         cats['words'].append(set())
         cats['disjuncts'].append(set())
@@ -421,14 +363,12 @@ def agglomerate(categories, threshold, similarity_function, verbose='none'):
         d = {x: (i + 1) for i, x in
              enumerate(sorted(set([x for y in cats['disjuncts'] for x in y])))}
         cats['djs'] = [set([d[x] for x in y]) for y in cats['disjuncts']]
-        # TODO? sort by frequency?
 
     return cats, sorted(set(similarities), reverse = True)
 
 
-def add_upper_level(categories, **kwargs):                             # 81121
+def add_upper_level(categories, **kwargs):
     logger = logging.getLogger(__name__ + ".add_upper_level")
-    # categories == {'cluster':[], 'words': [], 'disjuncts':[], ...}
     generalisation = kwa(None, 'rules_generalization', **kwargs)
     merge_threshold = kwa(0.8, 'rules_merge', **kwargs)
     aggr_threshold = kwa(0.2, 'rules_aggregation', **kwargs)
@@ -455,7 +395,6 @@ def add_upper_level(categories, **kwargs):                             # 81121
     z = len(similarities)
     while z > 0 and threshold > group_threshold:
         cats, similarities = agglomerate(cats, threshold, jaccard, verbose)
-        # cats = renumber(cats)
         sims = [x for x in similarities if x < threshold]
         z = len(sims)
         if z > 0:
@@ -464,10 +403,6 @@ def add_upper_level(categories, **kwargs):                             # 81121
             threshold = 0.0
 
     return cats, {'category tree': 'v.2018-12-12'}
-
-    return cats, {'category tree': 'v.2018-12-12'}
-    # TODO? return reorder(cats)  # new reorder for 3-level category tree? -- no need
-
 
 # Notes:
 
@@ -479,3 +414,4 @@ def add_upper_level(categories, **kwargs):                             # 81121
 # 81121 generalise_rules
 # 81217 FIXME? generalize_categories [F] with new reorder (Turtle tests)
 # 81220 refactor, test
+# 81231 cleanup

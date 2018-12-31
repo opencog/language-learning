@@ -15,7 +15,7 @@ from .write_files import list2file
 
 
 def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81217
-    if 'input_parses' in kwargs:  # 81217
+    if 'input_parses' in kwargs:
         if module_path in kwargs['input_parses']:
             input_parses = kwargs['input_parses']
         else:
@@ -39,7 +39,7 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81217
             context = ''
             wtf = 'Random-clusters'
         else:
-            wtf = abrvlg(**kwargs)  # 81114
+            wtf = abrvlg(**kwargs)
 
         if kwargs['left_wall'] in ['', 'none']:
             left_wall = 'no-LW'
@@ -60,7 +60,7 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81217
                 gen += 2
 
         prj_dir = batch_dir + '_' + dataset + '_' + context + wtf + rules \
-                  + '_' + generalization[gen]                           # 81121
+                  + '_' + generalization[gen]
         if type(kwargs['cluster_range']) is int:
             prj_dir = prj_dir + '_' + str(kwargs['cluster_range']) + 'c'
 
@@ -69,12 +69,12 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81217
 
         if len(kwargs['clustering']) > 3 \
                 and type(kwargs['clustering'][3]) is int:
-            prj_dir = prj_dir + '_' + str(['clustering'][3]) + 'nn'     # 81116
+            prj_dir = prj_dir + '_' + str(['clustering'][3]) + 'nn'
             # number of nearest neighbors in connectivity constraints   # 81116
 
         if check_dir(prj_dir, create=True, verbose='none'):
             output_categories = prj_dir  # no file name ⇒ auto file name
-            output_grammar = prj_dir  # no file name ⇒ auto file name
+            output_grammar = prj_dir     # no file name ⇒ auto file name
             return input_parses, output_categories, output_grammar
         else:
             return input_parses, out_dir, out_dir
@@ -102,9 +102,9 @@ def pqa_meter(dict_path, output_path, corpus_path, reference_path, **kwargs):
     return pa, f1, precision, recall
 
 
-def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):  # 81021
+def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):
+    # cp: corpus_path, rp: reference_path for grammar tester
     logger = logging.getLogger(__name__ + ".table_rows")
-    # cp,rp: corpus_path, rp: reference_path for grammar tester
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
     header = ['Line', 'Corpus', 'Parsing', 'LW', 'RW', 'Gen.', 'Space', 'Rules',
@@ -164,11 +164,13 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):  # 81021
             kwargs['categories_generalization'] = 'jaccard'
         else:
             kwargs['categories_generalization'] = 'off'
-        if kwargs['grammar_rules'] == 1 and gen != 'none': continue
+        if kwargs['grammar_rules'] == 1 and gen != 'none':
+            continue
 
         corpus = line[1]
         dataset = line[2]
-        if 'input_parses' in kwargs: del kwargs['input_parses']         # 81220
+        if 'input_parses' in kwargs:
+            del kwargs['input_parses']
         ip, oc, og = params(corpus, dataset, module_path, out_dir, **kwargs)
         # ip, oc, og: input path, output categories, output grammar
         kwargs['input_parses'] = ip
@@ -189,10 +191,9 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):  # 81021
                     s = 0
                     s_str = ' --- '
             except:  # else: #
-                # if kwargs['verbose'] not in ['none']:
-                #     print('pqa_table.py table_rows: learn_grammar(**kwargs)', '⇒ exception:\n', sys.exc_info())
-                logger.critical(f'pqa_table.py table_rows: learn_grammar(**kwargs) ⇒ exception:\n{sys.exc_info()}')
-
+                logger.critical('pqa_table.py table_rows:',
+                                'learn_grammar(**kwargs) ⇒ exception:\n',
+                                sys.exc_info())
                 pa.append(0.)
                 pq.append(0.)
                 rules.append(0)
@@ -241,7 +242,8 @@ def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):  # 81021
         else:
             mean_rules = 'fail'
 
-        avg_line = [line[0], corpus, dataset, lw, dot, gen, spaces, mean_rules, sia_str, pa_str, pq_str, fm_str]
+        avg_line = [line[0], corpus, dataset, lw, dot, gen, spaces,
+                    mean_rules, sia_str, pa_str, pq_str, fm_str]
         average.append(avg_line)
 
     return average, details, header
@@ -268,7 +270,7 @@ def abrvlg(**kwargs):
         return '???'
 
 
-def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):           # 81220
+def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):
     # cp: (test) corpus_path, rp: reference_path for grammar tester
     logger = logging.getLogger(__name__ + ".wide_rows")
     module_path = os.path.abspath(os.path.join('..'))
@@ -281,8 +283,8 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):           # 81220
 
     linkage = '---'
     affinity = '---'
-    rgt = '---'  # rules_generalization_threshold  # 81121
-    knn = '---'  # k nearest neighbors for connectivity graph           # 81116
+    rgt = '---'  # rules_generalization_threshold
+    knn = '---'  # k nearest neighbors for connectivity graph
 
     clustering = kwa(['agglomerative', 'ward', 'euclidean'], 'clustering',
                      **kwargs)
@@ -324,9 +326,9 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):           # 81220
 
     if kwargs['grammar_rules'] == 1:
         spaces += 'c'
-    elif kwargs['grammar_rules'] == -1:  # 80825 interconnected connector-style
+    elif kwargs['grammar_rules'] == -1:  # interconnected connector-style
         spaces += 'ic'
-    elif kwargs['grammar_rules'] == -2:  # 80825 interconnected disjunct-style
+    elif kwargs['grammar_rules'] == -2:  # interconnected disjunct-style
         spaces += 'id'
     else:
         spaces += 'd'
@@ -352,7 +354,7 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):           # 81220
             if gen in ['rules', 'both', 'old', 'jaccard']:
                 kwargs['rules_generalization'] = 'jaccard'
             elif gen in ['updated', 'hierarchical', 'hier.', 'HDJ']:
-                kwargs['rules_generalization'] = 'hierarchical'         # 81121
+                kwargs['rules_generalization'] = 'hierarchical'
                 gen = 'HDJ'  # Hierarchical: Disjuncts Jaccard index similarity
             elif gen in ['new', 'fast']:
                 kwargs['rules_generalization'] = 'fast'
@@ -364,7 +366,8 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):           # 81220
             kwargs['categories_generalization'] = 'jaccard'
         else:
             kwargs['categories_generalization'] = 'off'
-        if kwargs['grammar_rules'] == 1 and gen != 'none': continue
+        if kwargs['grammar_rules'] == 1 and gen != 'none':
+            continue
 
         ip, oc, og = params(corpus, dataset, module_path, out_dir, **kwargs)
         # ip, oc, og: input path, output categories, output grammar
@@ -381,8 +384,7 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):           # 81220
         cluster_sizes = []
         for j in range(runs[0]):
             try:  # if True:  #
-                # re = learn_grammar(**kwargs)  # 81126 replaced:
-                rulez, re = learn(**kwargs)     # 81126
+                rulez, re = learn(**kwargs)
                 if 'rule_sizes' in re:
                     cluster_sizes = sorted(re['rule_sizes'].keys(),
                                            reverse=True)[:5]
@@ -396,10 +398,9 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):           # 81220
                     s = 0
                     s_str = ' --- '
             except:  # else: #
-                # if kwargs['verbose'] not in ['none']:
-                #     print('pqa_table.py table_rows: learn_grammar(**kwargs)', '⇒ exception:\n', sys.exc_info())
-                logger.critical(f'pqa_table.py table_rows: learn_grammar(**kwargs) ⇒ exception:\n{sys.exc_info()}')
-
+                logger.critical('pqa_table.py wide_rows:',
+                                'learn_grammar(**kwargs) ⇒ exception:\n',
+                                sys.exc_info())
                 pa.append(0.)
                 pq.append(0.)
                 rules.append(0)
@@ -411,7 +412,8 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):           # 81220
             if kwargs['linkage_limit'] > 0:
                 start = time.time()
                 for k in range(runs[1]):
-                    a, f1, precision, q = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
+                    a, f1, precision, q = pqa_meter(re['grammar_file'],
+                                                    og, cp, rp, **kwargs)
                     pa.append(a)
                     pq.append(q)
                     fm.append(f1)
@@ -461,7 +463,6 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):           # 81220
 
         average.append(avg_line)
 
-    # Save learner_stats                                                # 81213
     re.update({'grammar_test_time': sec2string(time.time() - start)})
 
     stats = []
@@ -475,7 +476,7 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):           # 81220
         x = re['corpus_stats_file']
         list2file(stats, x[:x.rfind('/')] + '/learn_&_test_stats.txt')
     # return average, details, header, re
-    return average, details, header, re, rulez  # 81120 tmp FIXME!
+    return average, details, header, re, rulez  # 81120 tmp FIXME:DEL rulez?
 
 
 def wide_table(lines, out_dir, cp, rp, **kwargs):           # 81222 FIXME: [»]
@@ -491,8 +492,8 @@ def wide_table(lines, out_dir, cp, rp, **kwargs):           # 81222 FIXME: [»]
 
     linkage = '---'
     affinity = '---'
-    rgt = '---'  # rules_generalization_threshold  # 81121
-    knn = '---'  # 81116 k nearest neighbors for connectivity graph
+    rgt = '---'  # rules_generalization_threshold
+    knn = '---'  # k nearest neighbors for connectivity graph
 
     clustering = kwa(['agglomerative', 'ward', 'euclidean'], 'clustering',
                      **kwargs)
@@ -532,9 +533,9 @@ def wide_table(lines, out_dir, cp, rp, **kwargs):           # 81222 FIXME: [»]
 
     if kwargs['grammar_rules'] == 1:
         spaces += 'c'
-    elif kwargs['grammar_rules'] == -1:  # 80825 interconnected connector-style
+    elif kwargs['grammar_rules'] == -1:  # interconnected connector-style
         spaces += 'ic'
-    elif kwargs['grammar_rules'] == -2:  # 80825 interconnected disjunct-style
+    elif kwargs['grammar_rules'] == -2:  # interconnected disjunct-style
         spaces += 'id'
     else: spaces += 'd'
 
@@ -556,7 +557,8 @@ def wide_table(lines, out_dir, cp, rp, **kwargs):           # 81222 FIXME: [»]
             dot = ' --- '
 
         gen = line[5]  # none | rules | categories | both | old | updated | new
-        if 'rules_aggregation' in kwargs and type(kwargs['rules_aggregation']) is float:
+        if 'rules_aggregation' in kwargs \
+                and type(kwargs['rules_aggregation']) is float:
             rgt = str(kwargs['rules_aggregation'])
             if gen in ['rules', 'both', 'old', 'jaccard']:
                 kwargs['rules_generalization'] = 'jaccard'
@@ -593,8 +595,9 @@ def wide_table(lines, out_dir, cp, rp, **kwargs):           # 81222 FIXME: [»]
                 s = 0
                 s_str = ' --- '
         else:  # except:  #
-            if kwargs['verbose'] not in ['none']:
-                print('pqa_table.py table_rows: learn_grammar(**kwargs)', '⇒ exception:\n', sys.exc_info())
+            logger.critical('pqa_table.py wide_table:',
+                            'learn_grammar(**kwargs) ⇒ exception:\n',
+                            sys.exc_info())
             dline = [line[0], corpus, dataset, spaces,
                      linkage, affinity, gen, ' ---', 'fail',
                      ' ---', ' ---', ' ---', ' ---', ' ---', ' ---']
@@ -621,7 +624,6 @@ def wide_table(lines, out_dir, cp, rp, **kwargs):           # 81222 FIXME: [»]
                      s_str, str(knn), ' ---', ' ---', ' ---']
         details.append(dline)
 
-    # Save learner_stats
     re.update({'grammar_test_time': sec2string(time.time() - start)})
     stats = []
     if 'grammar_learn_time' in re:
@@ -647,3 +649,4 @@ def wide_table(lines, out_dir, cp, rp, **kwargs):           # 81222 FIXME: [»]
 # 81120 wide_rows
 # 81210 wide_rows + min_word_count
 # 81220 wide_table ⇒ FIXME in 2019, replace wide_row in 2019 .ipynb tests.
+# 81231 cleanup

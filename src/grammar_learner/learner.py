@@ -70,7 +70,7 @@ def learn(**kwargs):
 
     categories, re03 = learn_categories(links, **kwargs)
     log.update(re03)
-    if 'corpus_stats' in log and 'cleaned_words' in re03:               # 81213
+    if 'corpus_stats' in log and 'cleaned_words' in re03:
         log['corpus_stats'].extend([
             ['Number of unique words after cleanup', re03['cleaned_words']],
             ['Number of unique features after cleanup', re03['clean_features']]])
@@ -82,7 +82,8 @@ def learn(**kwargs):
         categories, re04 = generalize_categories(categories, **kwargs)
         log.update(re04)
     elif cats_gen == 'cosine' or (cats_gen == 'auto' and clustering == 'kmeans'):
-        log.update({'generalization': 'none: vector-similarity based - maybe some day...'})
+        log.update({'generalization':
+                    'none: vector-similarity based - maybe some day...'})
     else:
         log.update({'generalization': 'none: ' + str(cats_gen)})
 
@@ -94,47 +95,47 @@ def learn(**kwargs):
         links, re06 = files2links(**kwargs)
         kwargs['context'] = context
 
-    if 'disjuncts' not in 'categories':  # k-means, sparse agglomerative clustering
+    if 'disjuncts' not in 'categories':  # k-means, agglomerative clustering
         categories = add_disjuncts(categories, links, **kwargs)
 
     # TODO: check every category has disjuncts          # 81204,  blocked 81207
     # categories = prune_cats(categories, **kwargs)  # [F] ⇒ implant in induce_grammar?
     # re = check_cats(categories, **kwargs)
 
-    # "fully connected rules": every cluster connected to all clusters  # 80825
+    # "fully connected rules": every cluster connected to all clusters
     if kwargs['grammar_rules'] < 0:
         rules = deepcopy(categories)
-        clusters = [i for i, x in enumerate(rules['cluster']) if i > 0 and x is not None]
-        rule_list = [tuple([-x]) for x in clusters] + [tuple([x]) for x in clusters]
+        clusters = [i for i, x in enumerate(rules['cluster'])
+                    if i > 0 and x is not None]
+        rule_list = [tuple([-x]) for x in clusters] + \
+                    [tuple([x]) for x in clusters]
         for cluster in clusters:
             rules['disjuncts'][cluster] = set(rule_list)
     else:
         rules, re07 = induce_grammar(categories, **kwargs)
 
     lengths = [len(x) for x in rules['disjuncts']]
-    # if verbose in ['max', 'debug']:
-    #     print('N clusters = len(rules[disjuncts]-1):', len(rules['disjuncts']) - 1)
-    #     print('Rule set lengths:', lengths)
-    logger.info(f'N clusters = len(rules[disjuncts]-1): {len(rules["disjuncts"]) - 1}')
-    logger.info(f'Rule set lengths: {lengths}')
 
-    '''Generalize grammar rules'''                                      # 81121
+    '''Generalize grammar rules'''
 
     if 'rules_generalization' in kwargs:
         if kwargs['rules_generalization'] in ['jaccard', 'legacy']:
             rules, re08 = generalize_rules(rules, **kwargs)
             log.update(re08)
-        elif kwargs['rules_generalization'] in ['hierarchical', 'fast', 'updated', 'new']:
-            rules, re08 = generalise_rules(rules, **kwargs)             # 81121
+        elif kwargs['rules_generalization'] in \
+                ['hierarchical', 'fast', 'updated', 'new']:
+            rules, re08 = generalise_rules(rules, **kwargs)
             log.update(re08)
 
     if 'log+' in verbose:
         log['rule_sizes'] = dict(Counter(
-            [len(x) for i, x in enumerate(rules['words']) if rules['parent'][i] == 0]))
+            [len(x) for i, x in enumerate(rules['words'])
+             if rules['parent'][i] == 0]))
 
     '''Save word category tree, Link Grammar files: cat_tree.txt, dict...dict'''
 
-    if 'top_level' in kwargs and kwargs['top_level'] > -1:  # 81126 3rd hierarchy level over rules
+    # 81126 3rd hierarchy level over rules:
+    if 'top_level' in kwargs and kwargs['top_level'] > -1:
         tree, _ = add_upper_level(rules, **kwargs)
         re09 = save_cat_tree(tree, output_categories, verbose='none')
     else:
@@ -144,21 +145,10 @@ def learn(**kwargs):
     re10 = save_link_grammar(rules, output_grammar, grammar_rules)
     log.update(re10)
     log.update({'finish': str(UTC())})
-
-    # TODO: elapsed execution time?  Save log?
-
     log.update({'grammar_learn_time': sec2string(time.time() - start)})
 
-    # 81120: check 2nd g12n   FIXME
-    # rules, re11 = generalize_rules(rules, **kwargs)
-    # re12 = save_cat_tree(rules, output_categories, verbose='none')
-    # re13 = save_link_grammar(rules, output_grammar, grammar_rules)
-    # log.update(re11)
-    # log.update(re12)
-    # log.update(re13)
-
     # return log
-    return rules, log  # 81126 FIXME?
+    return rules, log  # 81126 to count clusters in .ipynb tests  # muda
 
 
 def learn_grammar(**kwargs):  # Backwards compatibility with legacy calls
@@ -174,3 +164,4 @@ def learn_grammar(**kwargs):  # Backwards compatibility with legacy calls
 # 81102 sparse wordspace agglomerative clustering
 # 81126 def learn_grammar ⇒ def learn + decorator
 # 81204-07 test and block (snooze) data pruning with max_disjuncts, etc...
+# 71231 cleanup

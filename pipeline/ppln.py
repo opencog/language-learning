@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# language-learning/pipeline/ppln.py :: CLI Grammar Learner + Tester    # 81220
+# language-learning/pipeline/ppln.py :: CLI Grammar Learner + Tester    # 81231
 
 import sys, time, getopt, os, platform, json
 from shutil import copy2 as copy
@@ -28,18 +28,32 @@ def main(argv):
         if opt == '-h':
             print('''Usage: ppln <json-config-file>''')
             sys.exit()
-    else: config_json = args[0]
+    else:
+        config_json = args[0]
 
-    with open(config_json) as f: kwargs = json.load(f)
+    with open(config_json) as f:
+        kwargs = json.load(f)
 
-    corpus = kwargs['corpus']; del kwargs['corpus']
-    dataset = kwargs['dataset']; del kwargs['dataset']
+    corpus = kwargs['corpus']
+    del kwargs['corpus']
+    dataset = kwargs['dataset']
+    del kwargs['dataset']
     if 'input_parses' not in kwargs:
-        kwargs['input_parses'] = '/data/' + corpus + '/' + dataset
-
-    # 81217 prototype FIXME: extract code from pqa_table
-    # line = [[0, corpus, dataset, 0, 0, kwargs['rules_generalization']]]
-
+        kwargs['input_parses'] = module_path + '/data/' + corpus + '/' + dataset
+    else:
+        if '/home/' in kwargs['input_parses']:
+            kwargs['input_parses'] = kwargs['input_parses']
+        else:
+            kwargs['input_parses'] = module_path + kwargs['input_parses']
+    if 'output_grammar' not in kwargs:
+        if 'out_path' in kwargs:
+            if '/home/' in kwargs['out_path']:
+                kwargs['output_grammar'] = kwargs['out_path']
+            else:
+                kwargs['output_grammar'] = module_path + kwargs['out_path']
+        else:
+            print('Please set "output_grammar" or ""out_path in config.json')
+            sys.exit()
     if 'tmpath' not in kwargs:
         kwargs['tmp_dir'] = ''
     else:
@@ -48,14 +62,18 @@ def main(argv):
         else:
             if 'home' in kwargs['tmpath']:
                 tmpath = kwargs['tmpath']
-            else: tmpath = module_path + kwargs['tmpath']
+            else:
+                tmpath = module_path + kwargs['tmpath']
             if check_dir(tmpath, True, 'none'):
                 kwargs['tmp_dir'] = tmpath
-            else: kwargs['tmp_dir'] = ''
+            else:
+                kwargs['tmp_dir'] = ''
 
-    # 81217 prototype FIXME: replace with code extracted from pqa_table
-    # a, _, hdr, log, rules = wide_rows(line, out_path, cp, rp, (1, 1), **kwargs)
     rules, re = learn(**kwargs)
+    if 'error' in re:
+        print('Grammar Learner error log:\n', re)
+        sys.exit()
+
     if kwargs['linkage_limit'] > 0:
         og = module_path + kwargs['out_path']
         rp = module_path + kwargs['reference']
@@ -64,15 +82,10 @@ def main(argv):
         else:
             cp = rp  # test corpus path = reference parses path
         start = time.time()
-        a, f1, precision, q = pqa_meter(re['grammar_file'], og, cp, rp, **kwargs)
-    # else:  # avoid grammar_tester call
-
-    # TODO: save learner_stats  # 81213
-    re.update({'grammar_test_time': sec2string(time.time() - start)})  # string
+        a, f1, precision, q = pqa_meter(re['grammar_file'], og, cp,rp, **kwargs)
+        re.update({'grammar_test_time': sec2string(time.time() - start)})
 
     stats = []
-    if 'cleaned_words' in re:
-        stats.append(['Clean corpus size ', re['cleaned_words']])
     if 'grammar_learn_time' in re:
         stats.append(['Grammar learn time', re['grammar_learn_time']])
     if 'grammar_test_time' in re:
@@ -81,11 +94,13 @@ def main(argv):
         x = re['corpus_stats_file']
         list2file(stats, x[:x.rfind('/')] + '/learn_&_test_stats.txt')
 
-    copy(config_json, log['project_directory'])
+    copy(config_json, re['project_directory'])
+    with open(re['project_directory'] + '/grammar_learner_log.json', 'w') as f:
+        f.write(json.dumps(re))
 
     print('\nGrammar learning and the learned grammar test ended', UTC())
-    print(test_stats(log))
-    print('Output directory:', log['project_directory'], '\n')
+    print(test_stats(re))
+    print('Output directory:', re['project_directory'], '\n')
 
 
 if __name__ == "__main__":

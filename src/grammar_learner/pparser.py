@@ -165,8 +165,8 @@ def files2links(**kwargs):
     avg_seed_count = round(len(ddf) / len(unique_seeds), 1)
 
     ddf['djlen'] = ddf['link'].apply(lambda x: x.count('&') +1)
-    avg_disjunct_length = round(ddf['djlen'].mean(), 1)
-    max_disjunct_length = ddf['djlen'].max()
+    avg_disjunct_length = float(round(ddf['djlen'].mean(), 1))
+    max_disjunct_length = int(ddf['djlen'].max())
 
     response['corpus_stats'].extend([
         ['Unique connectors number', len(unique_connectors)],

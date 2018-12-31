@@ -105,11 +105,13 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
             labels = model.labels_
         # silhouette = metrics.silhouette_score(cd, labels, metric=silhouette_metric)
         try:
-            metrics['silhouette_index'] = silhouette_score(cd, labels, metric=clustering_metric[1])
+            metrics['silhouette_index'] = float(
+                silhouette_score(cd, labels, metric=clustering_metric[1]))
         except:
             metrics['silhouette_index'] = 0.0
         try:
-            metrics['variance_ratio'] = calinski_harabaz_score(cd, labels)
+            metrics['variance_ratio'] = float(
+                calinski_harabaz_score(cd, labels))
         except:
             metrics['variance_ratio'] = 0.0
         # try: metrics['davies_bouldin_score'] = davies_bouldin_score(cd, labels)

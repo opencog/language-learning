@@ -1,4 +1,4 @@
-# language-learning/src/learner.py                                      # 81213
+# language-learning/src/learner.py                                      # 81231
 import logging
 import os, time  # pickle, numpy as np, pandas as pd
 from copy import deepcopy
@@ -7,10 +7,10 @@ from collections import OrderedDict, Counter
 from .utl import UTC, kwa, sec2string
 from .read_files import check_dir, check_mst_files
 from .pparser import files2links
-from .category_learner import learn_categories, cats2list  #, add_disjuncts
-from .grammar_inducer import induce_grammar, check_cats, prune_cats, add_disjuncts
+from .category_learner import learn_categories, cats2list
+from .grammar_inducer import induce_grammar, add_disjuncts, check_cats
 from .generalization import generalize_categories, generalize_rules, \
-                            generalise_rules, add_upper_level           # 81122
+                            generalise_rules, add_upper_level
 from .write_files import list2file, save_link_grammar, save_cat_tree
 
 __all__ = ['learn_grammar', 'learn']
@@ -18,19 +18,26 @@ __all__ = ['learn_grammar', 'learn']
 
 def learn(**kwargs):
     logger = logging.getLogger(__name__ + ".learn")
-
     start = time.time()
-    log = OrderedDict({'start': str(UTC()), 'learn_grammar': 'v.0.7.81109'})
+    log = OrderedDict({'start': str(UTC()), 'learn_grammar': 'v.0.7.81231'})
     input_parses = kwargs['input_parses']
     output_grammar = kwargs['output_grammar']
     output_categories = kwa('', 'output_categories', **kwargs)
     output_statistics = kwa('', 'output_statistics', **kwargs)
     temp_dir = kwa('', 'temp_dir', **kwargs)
     if os.path.isdir(output_grammar):
+        print('os.path.isdir(output_grammar)')
         prj_dir = output_grammar
-    else:
+    elif os.path.isfile(output_grammar):
         prj_dir = os.path.dirname(output_grammar)
+        print('prj_dir = os.path.dirname(output_grammar)')
+    else:  # create prj_dir
+        if check_dir(output_grammar, True, 'max'):
+            prj_dir = output_grammar
+            print('prj_dir = output_grammar:\n', output_grammar)
+
     log.update({'project_directory': prj_dir})
+
     if output_categories == '':
         output_categories = prj_dir
     if output_statistics != '':         # TODO: check path: filename/dir?
@@ -49,11 +56,17 @@ def learn(**kwargs):
 
     files, re01 = check_mst_files(input_parses, verbose)
     log.update(re01)
+    if 'error' in re01:
+        print('learner.py » learn » check_mst_files » re01:\n', re01)
+        return {'error': 'input_files'}, log
     kwargs['input_files'] = files
     links, re02 = files2links(**kwargs)
     log.update(re02)
-    list2file(re02['corpus_stats'], corpus_stats_file)
-    log.update({'corpus_stats_file': corpus_stats_file})
+    if 'corpus_stats' in re02:
+        list2file(re02['corpus_stats'], corpus_stats_file)
+        log.update({'corpus_stats_file': corpus_stats_file})
+    else:
+        return {'error': 'input_files'}, log
 
     categories, re03 = learn_categories(links, **kwargs)
     log.update(re03)

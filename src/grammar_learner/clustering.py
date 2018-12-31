@@ -10,7 +10,7 @@ from operator import itemgetter
 from .utl import UTC, round1, round2, round3
 
 
-def cluster_id(n,nmax):
+def cluster_id(n, nmax):
     def int2az(n, l='ABCDEFGHJKLMNOPQRSTUVWXYZ'):
         return (int2az(n//25)+l[n%25]).lstrip("A") if n > 0 else "A"
     return int2az(n).zfill(len(int2az(nmax))).replace('0', 'A')
@@ -48,7 +48,7 @@ def cluster_words_kmeans(words_df, n_clusters, init='k-means++', n_init=10):
     return cdf, silhouette, inertia
 
 
-def number_of_clusters(vdf, **kwargs):                                  #80809
+def number_of_clusters(vdf, **kwargs):                                  # 80809
     logger = logging.getLogger(__name__ +  "number_of_clusters")
 
     def kwa(v,k): return kwargs[k] if k in kwargs else v
@@ -292,10 +292,10 @@ def best_clusters(vdf, **kwargs):                                       # 81220
                     if x[1] != lst[n+1][1]:
                         break
 
-            n_clusters = lst[0][1]
+            n_clusters = int(lst[0][1])
             clusters = lst[0][2]
-            silhouette = lst[0][3]
-            inertia = lst[0][4]
+            silhouette = float(lst[0][3])
+            inertia = float(lst[0][4])
 
             return clusters, silhouette, inertia
 

@@ -12,6 +12,7 @@ from .grammar_inducer import induce_grammar, check_cats, prune_cats, add_disjunc
 from .generalization import generalize_categories, generalize_rules, \
                             generalise_rules, add_upper_level           # 81122
 from .write_files import list2file, save_link_grammar, save_cat_tree
+from ..common.cliutils import handle_path_string
 
 __all__ = ['learn_grammar']
 
@@ -21,8 +22,11 @@ def learn(**kwargs):
 
     start = time.time()
     log = OrderedDict({'start': str(UTC()), 'learn_grammar': 'v.0.7.81109'})
-    input_parses = kwargs['input_parses']
-    output_grammar = kwargs['output_grammar']
+    # input_parses = kwargs['input_parses']
+    # output_grammar = kwargs['output_grammar']
+    input_parses = handle_path_string(kwargs['input_parses'])
+    output_grammar = handle_path_string(kwargs['output_grammar'])
+
     output_categories = kwa('', 'output_categories', **kwargs)
     output_statistics = kwa('', 'output_statistics', **kwargs)
     temp_dir = kwa('', 'temp_dir', **kwargs)

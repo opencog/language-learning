@@ -1,17 +1,18 @@
 # language-learning/src/grammar_learner/skl_clustering.py               # 81107
 import numpy as np
-import pandas as pd
-from sklearn.cluster import AgglomerativeClustering, KMeans, MeanShift, estimate_bandwidth
+from sklearn.cluster import AgglomerativeClustering, KMeans, MeanShift, \
+    estimate_bandwidth
 # from sklearn import metrics, pairwise_distances
 from sklearn.metrics import silhouette_score, calinski_harabaz_score
-from sklearn.neighbors import kneighbors_graph  # 81115
-# davies_bouldin_score -- next release? https://github.com/scikit-learn/scikit-learn/issues/11303
+from sklearn.neighbors import kneighbors_graph
+# davies_bouldin_score -- next scikit-learn release?
+# https://github.com/scikit-learn/scikit-learn/issues/11303
 from .utl import kwa
 from .clustering import cluster_id
 
 
 def skl_clustering(cd, n_clusters=10, **kwargs):
-    # cd == ndarray(words*disjuncts)
+    # cd: ndarray(words*disjuncts)
     clustering = kwa(('agglomerative', 'ward'), 'clustering', **kwargs)
     if type(clustering) is str:
         if clustering == 'kmeans':
@@ -26,10 +27,9 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
             print('Call random clustering from optimal_clusters?')
         else:
             clustering = ('agglomerative', 'ward')
-
     # linkage: ('ward', 'average', 'complete')
-    cluster_criteria = kwa('silhouette', 'cluster_criteria', **kwargs)  # GL.0.6 legacy
-    clustering_metric = kwa(('silhouette', 'euclidean'), 'clustering_metric', **kwargs)
+    clustering_metric = kwa(('silhouette', 'euclidean'),
+                            'clustering_metric', **kwargs)
     labels = np.asarray([[]])
     metrics = {'clustering': clustering}
     centroids = np.asarray([[]])
@@ -50,7 +50,8 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
                 if type(clustering[3]) is int and clustering[3] > 0:
                     neighbors = clustering[3]
                     # TODO: int / dict 
-                    connectivity = kneighbors_graph(cd, neighbors, include_self=False)
+                    connectivity = kneighbors_graph(cd, neighbors,
+                                                    include_self=False)
                     print(f'\nconnectivity: {connectivity}\n')
 
             if len(clustering) > 4:  # compute_full_tree
@@ -67,9 +68,6 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
             # TODO: centroids = ...
 
         elif clustering[0] in ['k-means', 'kmeans']:
-
-            print('skl_clustering ⇒ kmeans')  # FIXME:DEL
-
             if clustering[1] in ['k-means++']:  # 'random' - fails?
                 init = clustering[1]
             else:
@@ -85,9 +83,6 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
             centroids = np.asarray(model.cluster_centers_[:(max(labels) + 1)])
 
         elif clustering[0] in ['mean shift', 'mean_shift']:
-
-            print('skl_clustering ⇒ mean shift')  # FIXME:DEL
-
             if len(clustering) < 2:
                 bandwidth = None
             if type(clustering[1]) is int:
@@ -100,19 +95,24 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
             centroids = np.asarray(model.cluster_centers_[:(max(labels) + 1)])
 
         else:  # TODO: random clustering?
-            model = AgglomerativeClustering(linkage='ward', n_clusters=n_clusters)
+            model = AgglomerativeClustering(linkage='ward',
+                                            n_clusters=n_clusters)
             model.fit(cd)
             labels = model.labels_
-        # silhouette = metrics.silhouette_score(cd, labels, metric=silhouette_metric)
+
         try:
-            metrics['silhouette_index'] = silhouette_score(cd, labels, metric=clustering_metric[1])
+            metrics['silhouette_index'] = float(
+                silhouette_score(cd, labels, metric=clustering_metric[1]))
         except:
             metrics['silhouette_index'] = 0.0
         try:
-            metrics['variance_ratio'] = calinski_harabaz_score(cd, labels)
+            metrics['variance_ratio'] = float(
+                calinski_harabaz_score(cd, labels))
         except:
             metrics['variance_ratio'] = 0.0
-        # try: metrics['davies_bouldin_score'] = davies_bouldin_score(cd, labels)
+        # try:
+        #   metrics['davies_bouldin_score'] = float(
+        #       davies_bouldin_score(cd, labels))
         # except: metrics['davies_bouldin_score'] = 0.0
 
         return labels, metrics, centroids
@@ -146,11 +146,13 @@ def optimal_clusters(cd, **kwargs):
     if type(crange) in [tuple, list]:
         if len(crange) == 1:
             if type(crange[0]) is int:
-                labels, metrics, centroids = skl_clustering(cd, crange[0], **kwargs)
+                labels, metrics, centroids = skl_clustering(cd, crange[0],
+                                                            **kwargs)
                 print(f'{crange} clusters ⇒ {metrics}')
         elif len(crange) == 2:
             if type(crange[0]) is int and type(crange[1]) is int:
-                labels, metrics, centroids = skl_clustering(cd, crange[0], **kwargs)
+                labels, metrics, centroids = skl_clustering(cd, crange[0],
+                                                            **kwargs)
                 print(f'{crange} clusters ⇒ {metrics}')
                 for n in range(crange[1] - 1):
                     l, m, c = skl_clustering(cd, crange[0], **kwargs)
@@ -160,7 +162,8 @@ def optimal_clusters(cd, **kwargs):
         elif len(crange) == 3:  # TODO: replace with SGD
             n_min = min(crange[0], crange[1])
             n_max = max(crange[0], crange[1])
-            labels, metrics, centroids = skl_clustering(cd, int((n_min + n_max) / 2), **kwargs)
+            labels, metrics, centroids = \
+                skl_clustering(cd, int((n_min + n_max) / 2), **kwargs)
             print(f'min {n_min}, max {n_max} clusters: mid ⇒ {metrics}')
             for n_clusters in range(n_min, n_max + 1):
                 for n in range(kwargs['cluster_range'][2]):
@@ -171,7 +174,8 @@ def optimal_clusters(cd, **kwargs):
         elif len(crange) == 4:
             n_min = min(crange[0], crange[1])
             n_max = max(crange[0], crange[1])
-            labels, metrics, centroids = skl_clustering(cd, int((n_min + n_max) / 2), **kwargs)
+            labels, metrics, centroids = \
+                skl_clustering(cd, int((n_min + n_max) / 2), **kwargs)
             print(f'min {n_min}, max {n_max} clusters: mid ⇒ {metrics}')
             for n_clusters in range(n_min, n_max + 1, crange[2]):
                 for n in range(kwargs['cluster_range'][3]):
@@ -184,8 +188,10 @@ def optimal_clusters(cd, **kwargs):
 
     return labels, metrics, centroids  # return clusters, silhouette, m2, labels
 
+
 # Notes:
 
 # from sklearn.metrics import davies_bouldin_score -- next sklearn release?
     # https://github.com/scikit-learn/scikit-learn/issues/11303
 # 81107 k-means, mean_shift
+# 81203 cleanup

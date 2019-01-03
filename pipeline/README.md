@@ -1,17 +1,15 @@
-# SingularityNET Unsupervised Language Learning project
-
 ## "Mini-pipeline" `ppln.py`: CLI script to run Grammar Learner and Grammar Tester
-Prototype 2018-12-17 v.0.0.0 :)
 
-# Environment
+## Environment
 
 See **Anaconda virtual environment** section of the project [README](https://github.com/singnet/language-learning)
 
-### Usage
+## Usage
 
 ```
 $ cd cd ~/language-learning/pipeline
 $ python ppln.py config.json
 ```
-Samlple configuration files -- .json files in the /pipeline directory 
+Sample configuration files ⇒ .json files in the language-learning/pipeline directory.  
+Grammar Learner parameters ⇒ Grammar Learner [README](https://github.com/singnet/language-learning/src/grammar_learner) 
 

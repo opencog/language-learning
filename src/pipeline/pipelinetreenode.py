@@ -68,6 +68,9 @@ class PipelineTreeNode2:
                 job(node)
 
             # TODO: Recovery
+            except KeyError as err:
+                raise FatalPipelineException("Fatal error: argument " + str(err) + " is missing in kwargs.")
+
             except PipelineComponentException as err:
                 PipelineTreeNode2.logger.error(str(err))
                 return None

@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/clustering.py                   # 81231
+# language-learning/src/grammar_learner/clustering.py                   # 90104
 import logging
 import numpy as np
 import pandas as pd
@@ -21,6 +21,11 @@ def cluster_words_kmeans(words_df, n_clusters, init = 'k-means++', n_init = 10):
     # init: 'k-means++', 'random', ndarray with random seed
     # n_init: number of initializations (runs), default 10
     words_list = words_df['word'].tolist()
+
+    if n_clusters < 2:                                                  # 90104
+        return pd.DataFrame.from_dict(
+            {'cluster': 'B', 'cluster_words': [words_list]}), 0, 0
+
     df = words_df.copy()
     del df['word']
     # fails? = KMeans(init='random', n_clusters=n_clusters, n_init=30)
@@ -49,7 +54,7 @@ def cluster_words_kmeans(words_df, n_clusters, init = 'k-means++', n_init = 10):
     return cdf, silhouette, inertia
 
 
-def number_of_clusters(vdf, **kwargs):
+def number_of_clusters(vdf, **kwargs):                                  # 90104
     logger = logging.getLogger(__name__ + "number_of_clusters")
     algorithm = kwa('kmeans', 'clustering', **kwargs)
     criteria = kwa('silhouette', 'cluster_criteria', **kwargs)
@@ -97,6 +102,10 @@ def number_of_clusters(vdf, **kwargs):
                                                thresh]['Nc'].tolist())
             lst.append(int(n_clusters))
 
+    if len(lst) < 1:                                                    # 90104
+        logger.debug("number_of_clusters » empty lst")
+        return 1
+
     dct = dict()
     for n in lst:
         if n in dct:
@@ -104,8 +113,8 @@ def number_of_clusters(vdf, **kwargs):
         else:
             dct[n] = 1
 
-    if len(dct) <= 0:
-        logger.debug("Empty dictionary 'dct'")
+    #if len(dct) <= 0:                                                  # 90104
+    #    logger.debug("Empty dictionary 'dct'")
 
     f_mean: float = np.mean(lst)
     n_clusters = 0 if np.isnan(f_mean) else int(round(f_mean, 0))
@@ -121,7 +130,7 @@ def number_of_clusters(vdf, **kwargs):
     return int(n_clusters)
 
 
-def best_clusters(vdf, **kwargs):                                       # 81220
+def best_clusters(vdf, **kwargs):                                       # 90104
     logger = logging.getLogger(__name__ + ".best_clusters")
     algo = kwa('kmeans', 'clustering', **kwargs)
     criteria = kwa('silhouette', 'cluster_criteria', **kwargs)
@@ -180,8 +189,12 @@ def best_clusters(vdf, **kwargs):                                       # 81220
             else:
                 return 0, 0, 0
 
-    elif crange[1] > crange[0]:  # 80809 option: legacy search in range
+    elif crange[1] > crange[0]:  # 80809 option: legacy search in a given range
         n_clstrs = number_of_clusters(vdf, **kwargs)
+        if n_clstrs < 2:                                                # 90104
+            return pd.DataFrame.from_dict(
+                {'cluster': 'B', 'cluster_words': [vdf['word'].tolist()]}), 0, 0
+
         if len(crange) > 3 and crange[3] > 1:
             lst = []
             for n in range(crange[3]):
@@ -335,3 +348,4 @@ def random_clusters(links, **kwargs):
 # 81022 refactoring
 # TODO: n_clusters ⇒ best_clusters: return best clusters (word lists), centroids
 # 81231 cleanup
+# 90104 resolve Turtle MST LW crash: 1 cluster

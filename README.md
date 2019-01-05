@@ -102,9 +102,9 @@ Browser: `http://localhost:8000/?token=(token_copied_in_the_terminal)`
 
 ## Running "mini-pipeline": Grammar Learner & Tester
 ```
-$ cd cd ~/language-learning/pipeline
+$ cd ~/language-learning/pipeline
 $ python ppln.py config.json
 ```
-Details ⇒ [ppln README](https://github.com/singnet/language-learning/pipeline)
+Details ⇒ [ppln README](https://github.com/singnet/language-learning/tree/master/pipeline)
 
 ---

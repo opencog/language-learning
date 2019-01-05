@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/utl.py                          # 81231
+# language-learning/src/grammar_learner/utl.py                          # 90104
 import datetime, time
 
 
@@ -51,12 +51,20 @@ def sec2string(secs):
     return '%02d:%02d:%02d' % (hours, mins, secs)
 
 
-def test_stats(log):
-    return 'Cleaned dictionary: ' + str(log['cleaned_words']) \
-           + ' words, grammar learn time: ' + log['grammar_learn_time'] \
-           + ', test time: ' + log['grammar_test_time'] + ' (hh:mm:ss)'
+def test_stats(log):                                                    # 90104
+    if 'cleaned_words' in log:
+        re = 'Cleaned dictionary: ' + str(log['cleaned_words']) + ' words, '
+    else:
+        re = ''
+    if 'grammar_learn_time' in log:
+        re = re + 'grammar learn time: ' + str(log['grammar_learn_time'])
+    if 'grammar_test_time' in log:
+        re = re + 'grammar test time: ' + str(log['grammar_test_time'])
+
+    return re
 
 
 # Notes
 
 # 81231 cleanup
+# 90104 update test_stats

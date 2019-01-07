@@ -98,6 +98,13 @@ sh-4.3$ source activate ull
 [...NotebookApp] The Jupyter Notebook is running at:
 [...NotebookApp] http://localhost:8888/?token=(copy_this_token)  
 ```
-Browser: `http://localhost:8000/?token=(token_copied_in_the_terminal)`
+Browser: `http://localhost:8000/?token=(token_copied_in_the_terminal)`  
+
+## Running "mini-pipeline": Grammar Learner & Tester
+```
+$ cd ~/language-learning/pipeline
+$ python ppln.py config.json
+```
+Details ⇒ [ppln README](https://github.com/singnet/language-learning/tree/master/pipeline)
 
 ---

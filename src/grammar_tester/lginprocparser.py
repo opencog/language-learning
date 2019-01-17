@@ -151,10 +151,12 @@ class LGInprocParser(AbstractFileParserClient):
             sentences = self._parse_batch_ps_output(text, options)
 
             if options & BIT_PARSE_QUALITY and ref_path is not None:
+                len_ref, len_par = len(ref_parses), len(sentences)
+
                 if len(ref_parses) != len(sentences):
                     raise LGParseError("Number of sentences in corpus and reference files missmatch. "
                                        "Reference file '{}' does not match "
-                                       "its corpus counterpart.".format(ref_path))
+                                       "its corpus counterpart {} != {}.".format(ref_path, len_ref, len_par))
 
             sentence_count = 0
 
@@ -303,14 +305,6 @@ class LGInprocParser(AbstractFileParserClient):
                 if not (options & BIT_OUTPUT) and ret_metrics.sentences != sentence_count:
                     self._logger.warning("Number of sentences does not match. "
                           "Read: {}, Parsed: {}".format(sentence_count, ret_metrics.sentences))
-
-        # except FileNotFoundError as err:
-        #     print("FileNotFoundError: " + str(err))
-        #     raise ParserError(err)
-
-        # except LGParseError as err:
-        #     print("LGParseError: " + str(err))
-        #     raise ParserError(err)
 
         except AssertionError as err:
             raise ParserError("Invalid statistics result. " + str(err))

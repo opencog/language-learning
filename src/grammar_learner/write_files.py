@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/write_files.py                  # 81126
+# language-learning/src/grammar_learner/write_files.py                  # 90119
 import logging
 import os, linkgrammar
 from collections import OrderedDict
@@ -78,7 +78,6 @@ def save_link_grammar(rules, output_grammar, grammar_rules = 2,
                       header = '', footer = ''):  # legacy FIXME:DEL?
     # rules: [] or {}
     # grammar_rules = kwargs['grammar_rules']: 1 ⇒ connectors, 2+ ⇒ disjuncts
-
     if type(rules) is dict:
         rules = rules2list(rules, grammar_rules)
 
@@ -121,22 +120,21 @@ def save_link_grammar(rules, output_grammar, grammar_rules = 2,
 
     # TODO: Link Grammar 5.4.x ⇒ 5.5.1: delete 'if' statements:
     if header == '':
-        if linkgrammar.__version__ == '5.4.4':
-            header = '% Grammar Learner v.0.6 ' + str(UTC())
-        else:
-            header = '% Grammar Learner v.0.7 ' + str(UTC())
-    header = header + '\n' + '<dictionary-version-number>: V0v0v6+;\n' \
+        header = '% Grammar Learner v.0.7 ' + str(UTC())
+        # if linkgrammar.__version__ == '5.4.4':  # 90110: forget LG 5.4.4
+        #    header = '% Grammar Learner v.0.6 ' + str(UTC())
+    header = header + '\n' + '<dictionary-version-number>: V0v0v7+;\n' \
              + '<dictionary-locale>: EN4us+;'
 
-    if linkgrammar.__version__ == '5.4.4':
-        add_rules = 'UNKNOWN-WORD: XXX+;'
-    else:
-        add_rules = '<UNKNOWN-WORD>: XXX+;'
+    add_rules = '<UNKNOWN-WORD>: XXX+;'
+    # if linkgrammar.__version__ == '5.4.4':   # 90110: forget LG 5.4.4
+    #   add_rules = 'UNKNOWN-WORD: XXX+;'
 
     if footer == '':
         footer = '% ' + str(len(clusters)) + ' word clusters, ' \
-                 + str(len(rules)) + ' Link Grammar rules.\n' \
-                 + '% Link Grammar file saved to: ' + out_file
+                 + str(len(rules)) + ' Link Grammar rules.\n'  # \
+                # + '% Link Grammar file saved to: "' + out_file + '"'
+                # 90110: Link Grammar sometimes parses (commented) filename 
     lg = header + '\n\n' + '\n'.join(
         line_list) + '\n' + add_rules + '\n\n' + footer
     lg = lg.replace('@', '.')  # 80706 WSD: word@1 ⇒ word.1  FIXME:DEL?
@@ -186,8 +184,6 @@ def save_cat_tree(cats, output_categories, verbose = 'none'):
     tree_file = output_categories
     if '.' not in tree_file:  # received directory ⇒ auto file name
         if tree_file[-1] != '/': tree_file += '/'
-        # n_cats = len([x for i, x in enumerate(cats['parent'])
-        #               if i > 0 and x < 1])
         n_cats = len([x for i, x in enumerate(cats['cluster'])
                       if i > 0 and x is not None])
         tree_file += (str(n_cats) + '_cat_tree.txt')
@@ -223,4 +219,6 @@ def save_cat_tree(cats, output_categories, verbose = 'none'):
 # 81003 save_link_grammar: Link Grammar ⇒ 5.5.1: UNKNOWN-WORD ⇒ <UNKNOWN-WORD>
 # 81105 lines 121-123: ready to upgrade Link Grammar 5.4.4 ⇒ 5.5.1
 # 81108 lines 116-125: check Link Grammar version and adapt grammar rules
-# 81231 cleanup
+# 81231 cleanup, version = 0.7 (LG 5.5.1), 0.6 (LG 5.4.4)
+# 90110 remove filename
+# 90119 remove Link Grammar 5.4.4 options (v.0.6)

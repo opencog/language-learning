@@ -58,6 +58,8 @@ def test_stats(log):                                                    # 90104
         re = ''
     if 'grammar_learn_time' in log:
         re = re + 'grammar learn time: ' + str(log['grammar_learn_time'])
+        if 'grammar_test_time' in log:
+            re = re + ', '
     if 'grammar_test_time' in log:
         re = re + 'grammar test time: ' + str(log['grammar_test_time'])
 

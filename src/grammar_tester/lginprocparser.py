@@ -292,10 +292,10 @@ class LGInprocParser(AbstractFileParserClient):
                                        "and error message:\n'{2}'.".format(lgp_cmd[0], proc_pars.returncode,
                                                                            err.decode()))
 
-                with open(corpus_path+".raw", "w") as r:
+                with open(output_path + ".raw", "w") as r:
                     r.write(raw.decode("utf-8-sig"))
 
-                with open(corpus_path+".err", "w") as e:
+                with open(output_path + ".err", "w") as e:
                     e.write(err.decode("utf-8-sig"))
 
                 # Take an action depending on the output format specified by 'options'

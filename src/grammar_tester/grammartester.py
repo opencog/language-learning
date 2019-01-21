@@ -10,7 +10,7 @@ from ..common.absclient import AbstractGrammarTestClient, AbstractStatEventHandl
 from ..common.dirhelper import traverse_dir_tree, create_dir
 from ..common.parsemetrics import ParseMetrics, ParseQuality
 from ..common.fileconfman import JsonFileConfigManager
-from ..common.cliutils import handle_path_string
+from ..common.cliutils import handle_path_string, strip_quotes
 from ..common.textprogress import TextProgress
 from .textfiledashb import TextFileDashboardConf  #, HTMLFileDashboard
 
@@ -440,10 +440,11 @@ class GrammarTesterComponent(AbstractPipelineComponent):
 
     def run(self, **kwargs) -> dict:
         """ Execute component code """
-        dict_path = handle_path_string(kwargs.get(CONF_DICT_PATH))
+        options = get_options(kwargs)
+        dict_param = kwargs.get(CONF_DICT_PATH, None)
 
-        if dict_path is None:
-            dict_path = "en"
+        dict_path = "en" if dict_param is None \
+            else (handle_path_string(dict_param) if not (options & BIT_EXISTING_DICT) else strip_quotes(dict_param))
 
         ref_path = kwargs.get(CONF_REFR_PATH, None)
 
@@ -454,7 +455,7 @@ class GrammarTesterComponent(AbstractPipelineComponent):
                          handle_path_string(kwargs.get(CONF_CORP_PATH)),
                          handle_path_string(kwargs.get(CONF_DEST_PATH, os.environ['PWD'])),
                          ref_path,
-                         get_options(kwargs), TextProgress)
+                         options, TextProgress)
 
         return {"parseability": pa.parseability_str(pa), "PA": pa.parseability_str(pa), "F1": pq.f1_str(pq),
                 "recall": pq.recall_str(pq), "precision": pq.precision_str(pq), "PT": pa.parse_time_str(pa)}

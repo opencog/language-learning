@@ -154,6 +154,8 @@ class LGInprocParser(AbstractFileParserClient):
                 len_ref, len_par = len(ref_parses), len(sentences)
 
                 if len(ref_parses) != len(sentences):
+                    string = "\n".join([sent.text for sent in sentences])
+                    self._logger.debug(string)
                     raise LGParseError("Number of sentences in corpus and reference files missmatch. "
                                        "Reference file '{}' does not match "
                                        "its corpus counterpart {} != {}.".format(ref_path, len_ref, len_par))
@@ -249,7 +251,11 @@ class LGInprocParser(AbstractFileParserClient):
             else:
                 self._logger.info("Reference file name is not specified. Parse quality is not calculated.")
 
-        sed_cmd = ["sed", "-e", get_sed_regex(options), corpus_path]
+        sed_rex = get_sed_regex(options)
+        sed_cmd = ["sed", "-e", sed_rex, corpus_path]
+
+        self._logger.warning(get_sed_regex(options))
+        self._logger.warning(str(sed_cmd))
 
         out_stream = None
         ret_metrics = ParseMetrics()
@@ -286,11 +292,11 @@ class LGInprocParser(AbstractFileParserClient):
                                        "and error message:\n'{2}'.".format(lgp_cmd[0], proc_pars.returncode,
                                                                            err.decode()))
 
-                # with open(corpus_path+".raw", "w") as r:
-                #     r.write(raw.decode("utf-8-sig"))
-                #
-                # with open(corpus_path+".err", "w") as e:
-                #     e.write(err.decode("utf-8-sig"))
+                with open(corpus_path+".raw", "w") as r:
+                    r.write(raw.decode("utf-8-sig"))
+
+                with open(corpus_path+".err", "w") as e:
+                    e.write(err.decode("utf-8-sig"))
 
                 # Take an action depending on the output format specified by 'options'
                 ret_metrics, ret_quality = self._handle_stream_output(raw.decode("utf-8-sig"), options,

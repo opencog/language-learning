@@ -67,16 +67,19 @@ class PipelineTreeNode2:
             try:
                 job(node)
 
-            # TODO: Recovery
             except KeyError as err:
-                raise FatalPipelineException("Fatal error: argument " + str(err) + " is missing in kwargs.")
+                PipelineTreeNode2.logger.error("Fatal error: argument " + str(err) + " is missing in kwargs.")
+                return None
+                # raise FatalPipelineException("Fatal error: argument " + str(err) + " is missing in kwargs.")
 
             except PipelineComponentException as err:
                 PipelineTreeNode2.logger.error(str(err))
                 return None
 
             except Exception as err:
-                raise FatalPipelineException("Fatal error: " + str(err))
+                PipelineTreeNode2.logger.error("Fatal error: " + str(err))
+                return None
+                # raise FatalPipelineException("Fatal error: " + str(err))
 
         for sibling in node._siblings:
                 PipelineTreeNode2.traverse(job, sibling)

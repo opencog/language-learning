@@ -95,6 +95,7 @@ Usage:
 
     try:
         GLOBALS["ROOT"] = abs_config_path
+        GLOBALS["CONFIG"] = config_name
 
         # Read JSON pipe line configuration
         cfgman = JsonFileConfigManager(config_path)

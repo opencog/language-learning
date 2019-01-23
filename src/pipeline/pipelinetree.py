@@ -175,7 +175,8 @@ def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, 
 
     inherit_prev = all_parameters.get("inherit_prev_path", False)
 
-    leaf = environment["PREV"] + "/" + rleaf if inherit_prev else environment["ROOT"] + "/" + rleaf
+    leaf = (environment["PREV"] + "/" + rleaf if parent is not None else rleaf) if inherit_prev \
+        else environment["ROOT"] + "/" + rleaf
 
     logger.debug("LEAF: " + leaf)
 

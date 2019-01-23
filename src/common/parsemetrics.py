@@ -135,7 +135,7 @@ class ParseQuality():
 
     @staticmethod
     def f1_str(stat) -> str:
-        return "{0:6.2f}%".format(stat.f1(stat) * Decimal('100.0'))
+        return "{0:6.2f}".format(stat.f1(stat))
 
     @staticmethod
     def avg_total_links(stat) -> Decimal:

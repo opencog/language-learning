@@ -19,7 +19,7 @@ class LGAPITestCase(unittest.TestCase):
         dict = "en"
         corp = "tests/test-data/corpora/poc-english/poc_english.txt"
         # reff = "tests/test-data/corpora/poc-english/poc_english_parses_lg.txt"
-        outp = "tests/test-data/temp"
+        outp = "/var/tmp/temp"
         reff = None
 
         # dict = "test-data/dict/poc-turtle"

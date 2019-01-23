@@ -42,25 +42,25 @@ BIT_EXCLUDE_EXPLOSION   = (1<<22)           # Exclude linkage(s) from statistics
                                             #   explosion is detected.
 
 config_options = {
-    "keep_caps": BIT_CAPS,
-    "keep_rwall": BIT_RWALL,
-    "strip_suffix": BIT_STRIP,
-    "ull_input": BIT_ULL_IN,
-    "rm_grammar_dir": BIT_RM_DIR,
-    "dup_dict_path": BIT_DPATH_CREATE,
-    "use_link_parser": BIT_LG_EXE,
-    "ignore_left_wall": BIT_NO_LWALL,
-    "ignore_period": BIT_NO_PERIOD,
-    "separate_stat": BIT_SEP_STAT,
-    "store_dict_localy": BIT_LOC_LANG,
-    "calc_parse_quality": BIT_PARSE_QUALITY,
-    "no_left_wall_in_ull": BIT_ULL_NO_LWALL,
-    "lg_grammar_name": BIT_LG_GR_NAME,
-    "input_to_lcase": BIT_INPUT_TO_LCASE,
-    "existing_dict_dir": BIT_EXISTING_DICT,
-    "exclude_timeouted": BIT_EXCLUDE_TIMEOUTED,
-    "exclude_paniced": BIT_EXCLUDE_PANICED,
-    "exclude_explosion": BIT_EXCLUDE_EXPLOSION
+    "keep_caps": (BIT_CAPS, False),
+    "keep_rwall": (BIT_RWALL, False),
+    "strip_suffix": (BIT_STRIP, True),
+    "ull_input": (BIT_ULL_IN, False),
+    "rm_grammar_dir": (BIT_RM_DIR, False),
+    "dup_dict_path": (BIT_DPATH_CREATE, False),
+    "use_link_parser": (BIT_LG_EXE, True),
+    "ignore_left_wall": (BIT_NO_LWALL, True),
+    "ignore_period": (BIT_NO_PERIOD, True),
+    "separate_stat": (BIT_SEP_STAT, False),
+    "store_dict_localy": (BIT_LOC_LANG, False),
+    "calc_parse_quality": (BIT_PARSE_QUALITY, False),
+    "no_left_wall_in_ull": (BIT_ULL_NO_LWALL, False),
+    "lg_grammar_name": (BIT_LG_GR_NAME, False),
+    "input_to_lcase": (BIT_INPUT_TO_LCASE, False),
+    "existing_dict_dir": (BIT_EXISTING_DICT, False),
+    "exclude_timeouted": (BIT_EXCLUDE_TIMEOUTED, False),
+    "exclude_paniced": (BIT_EXCLUDE_PANICED, False),
+    "exclude_explosion": (BIT_EXCLUDE_EXPLOSION, False)
 }
 
 output_format = {
@@ -72,10 +72,16 @@ output_format = {
 def get_options(cfg_options: dict) -> int:
     opts = 0
 
+    # Set default values
+    for opt in config_options:
+        if opt[1] == True:
+            opts |= opt[0]
+
+    # Set configuration dictionary values
     for opt in cfg_options:
 
         if opt in config_options and cfg_options[opt] == True:
-            opts |= config_options[opt]
+            opts |= config_options[opt][0]
 
         if opt == "parse_format":
             frm = cfg_options[opt]

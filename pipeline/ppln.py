@@ -52,7 +52,7 @@ def main(argv):
             else:
                 kwargs['output_grammar'] = module_path + kwargs['out_path']
         else:
-            print('Please set "output_grammar" or ""out_path in config.json')
+            print('Please set "output_grammar" or "out_path" in config.json')
             sys.exit()
     if 'tmpath' not in kwargs:
         kwargs['tmp_dir'] = ''

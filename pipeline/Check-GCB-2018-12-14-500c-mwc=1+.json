@@ -1,0 +1,34 @@
+[
+  {
+    "component": "path-creator",
+    "type": "static",
+    "instance-name": "path",
+    "parameters": {
+    }
+  },
+  {
+    "component": "grammar-tester",
+    "common-parameters": {
+	"DATA_PATH": "/home/obaskov/94/language-learning",
+        "test_date": "2018-01-23 ~13:00++",
+        "test_time": "~1:18 (2018-12-14)",
+        "input_grammar": "%DATA_PATH/output/Gutenberg-Children-Books-2018-12-14/GCB_LG-English_cALWEd_no-gen_500c",
+        "input_corpus": "%DATA_PATH/data/GCB/LG-E-clean/GCB-LG-English-clean.ull",
+        "template_path": "%DATA_PATH/pipeline/tests/test-data/dict/poc-turtle",
+        "grammar_root": "%DATA_PATH/output/Check-GCB-2018-12-14-ALE-500C/GCB_LG-English_cALWEd_no-gen_500c/dict",
+        "output_path": "%DATA_PATH/output/Check-GCB-2018-12-14-ALE-500C/GCB_LG-English_cALWEd_no-gen_500c",
+        "#output_path": "%ROOT/GCB_LG-English_cALWEd_no-gen_500c",
+        "ref_path": "%DATA_PATH/data/GCB/LG-E-clean/GCB-LG-English-clean.ull",
+        "linkage_limit": "1000",
+        "rm_grammar_dir": true,
+        "use_link_parser": true,
+        "ull_input": true,
+        "ignore_left_wall": true,
+        "ignore_period": true,
+        "calc_parse_quality": true
+    },
+    "specific-parameters": [
+      { "parse_format": "ull", "pre-exec-req": [{ "obj": "path.create", "path": "%output_path"}] }
+    ]
+  }
+]

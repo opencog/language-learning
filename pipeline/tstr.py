@@ -17,16 +17,16 @@ __version__ = '0.0.1'
 
 def main(argv):
     """ Usage: python tstr.py config.json """
-    print('\nGrammar Tester ppln v.' + __version__, 'started', UTC(),
+    print('\nGrammar Tester v.' + __version__, 'started', UTC(),
           '| Python v.' + platform.python_version(), '\n')
     try:
         opts, args = getopt.getopt(argv, "h", ["help"])
     except getopt.GetoptError:
-        print('''Usage: ppln <json-config-file>''')
+        print('''Usage: tstr <json-config-file>''')
         sys.exit()
     for opt in opts:
         if opt == '-h':
-            print('''Usage: ppln <json-config-file>''')
+            print('''Usage: tstr <json-config-file>''')
             sys.exit()
     else:
         config_json = args[0]
@@ -34,50 +34,9 @@ def main(argv):
     with open(config_json) as f:
         kwargs = json.load(f)
 
-    #Grammar Learner Legacy:
-    #corpus = kwargs['corpus']
-    #del kwargs['corpus']
-    #dataset = kwargs['dataset']
-    #del kwargs['dataset']
-    #if 'input_parses' not in kwargs:
-    #   kwargs['input_parses'] = module_path + '/data/' + corpus + '/' + dataset
-    #else:
-    #    if '/home/' in kwargs['input_parses']:
-    #        kwargs['input_parses'] = kwargs['input_parses']
-    #    else:
-    #        kwargs['input_parses'] = module_path + kwargs['input_parses']
-    #if 'output_grammar' not in kwargs:
-    #    if 'out_path' in kwargs:
-    #        if '/home/' in kwargs['out_path']:
-    #            kwargs['output_grammar'] = kwargs['out_path']
-    #        else:
-    #            kwargs['output_grammar'] = module_path + kwargs['out_path']
-    #    else:
-    #        print('Please set "output_grammar" or "out_path" in config.json')
-    #        sys.exit()
-    if 'tmpath' not in kwargs:
-        kwargs['tmp_dir'] = ''
-    else:
-        if len(kwargs['tmpath']) == 0:
-            kwargs['tmp_dir'] = ''
-        else:
-            if 'home' in kwargs['tmpath']:
-                tmpath = kwargs['tmpath']
-            else:
-                tmpath = module_path + kwargs['tmpath']
-            if check_dir(tmpath, True, 'none'):
-                kwargs['tmp_dir'] = tmpath
-            else:
-                kwargs['tmp_dir'] = ''
-
-    #rules, re = learn(**kwargs)
     re = {}
-    if 'error' in re:
-        print('Grammar Learner error log:\n', re)
-        sys.exit()
 
-    #if kwargs['linkage_limit'] > 0:
-    if 'input_grammar' in kwargs:  # Test .dict file  # 90123
+    if 'input_grammar' in kwargs:  # Test .dict file    # 90123
         ig = module_path + kwargs['input_grammar']
         og = module_path + kwargs['out_path']           # og: output grammar
         rp = module_path + kwargs['reference']          # rp: reference path
@@ -86,7 +45,6 @@ def main(argv):
         else:
             cp = rp  # test corpus path = reference parses path
         print('Input grammar:', ig, '\nOutput directory:', og)
-        #a,f1,precision,q = pqa_meter(re['grammar_file'],og,cp,rp,**kwargs)
         if check_dir(og, True, 'max'):
             print('Grammar test started', UTC(), '\n')
             start = time.time()
@@ -99,16 +57,11 @@ def main(argv):
         sys.exit()
 
     stats = []
-    #if 'grammar_learn_time' in re:
-    #    stats.append(['Grammar learn time', re['grammar_learn_time']])
     if 'grammar_test_time' in re:
         stats.append(['Grammar test time ', re['grammar_test_time']])
     if len(stats) > 0:
-        #x = re['corpus_stats_file']
-        #list2file(stats, x[:x.rfind('/')] + '/learn_&_test_stats.txt')
         list2file(stats, og + '/test_stats.txt')
 
-    #copy(config_json, re['project_directory'])
     copy(config_json, og)
     #with open(re['project_directory'] + '/grammar_learner_log.json', 'w') as f:
     #    f.write(json.dumps(re))

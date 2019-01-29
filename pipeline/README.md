@@ -2,16 +2,22 @@
 
 ## Environment
 
-See **Anaconda virtual environment** section of the project [README](https://github.com/singnet/language-learning)
+See **Anaconda virtual environment** section of the project [README](https://github.com/singnet/language-learning#anaconda-virtual-environment)
 
 ## Usage
 
 ```
 $ cd ~/language-learning/pipeline
-$ python ppln.py config.json
+$ conda activate ull
+(ull) $ python ppln.py config.json
 ```
-Sample configuration files ⇒ .json files in the language-learning/pipeline directory.  
-Grammar Learner parameters ⇒ Grammar Learner [README](https://github.com/singnet/language-learning/tree/master/src/grammar_learner) 
+Sample configuration files ⇒ .json files in the [pipeline](https://github.com/singnet/language-learning/tree/master/pipeline) directory.  
+Grammar Learner parameters ⇒ Grammar Learner [README](https://github.com/singnet/language-learning/tree/master/src/grammar_learner#call-learner).    
+
+Fast test with [CDS-LG-E-Clean-11-50.json](https://github.com/singnet/language-learning/blob/master/pipeline/CDS-LG-E-Clean-11-50.json) configuration:  
+```
+(ull) $ python ppln.py CDS-LG-E-Clean-11-50.json
+``` 
 
 ## Grammar Tester CLI tests:
 

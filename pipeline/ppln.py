@@ -105,3 +105,9 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv[1:])
+
+
+# Comments:
+
+# 81231 v.0.01
+# 90129 2nd test with updated .dict: LG 5.4.4 & 5.5.1 options, no filename

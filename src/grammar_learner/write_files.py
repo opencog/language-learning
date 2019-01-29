@@ -110,25 +110,26 @@ def save_link_grammar(rules, output_grammar, grammar_rules = 2,
         out_file = output_grammar
     elif os.path.isdir(output_grammar):
         out_file = output_grammar
-        if out_file[-1] != '/':
-            out_file += '/'
+        if out_file[-1] != '/': out_file += '/'
         out_file += 'dict_'
-        out_file = out_file + str(len(clusters)) + 'C_' \
-                   + str(UTC())[:10] + '_0006.4.0.dict'
+        out_file = out_file + str(len(clusters)) + 'C_' + str(UTC())[:10]
+        if linkgrammar.__version__ == '5.4.4':  # 90128: restore LG 5.4.4 option
+            out_file = out_file + '_0006.4.0.dict'
+        else: out_file = out_file + '_0007.4.0.dict'
     else:
         raise FileNotFoundError('File not found', output_grammar)
 
-    # TODO: Link Grammar 5.4.x ⇒ 5.5.1: delete 'if' statements:
     if header == '':
-        header = '% Grammar Learner v.0.7 ' + str(UTC())
-        # if linkgrammar.__version__ == '5.4.4':  # 90110: forget LG 5.4.4
-        #    header = '% Grammar Learner v.0.6 ' + str(UTC())
-    header = header + '\n' + '<dictionary-version-number>: V0v0v7+;\n' \
-             + '<dictionary-locale>: EN4us+;'
+        header = '% Grammar Learner v.0.7 ' + str(UTC()) \
+                 + '\n<dictionary-version-number>: V0v0v7+;\n'
+        if linkgrammar.__version__ == '5.4.4':  # 90128: restore LG 5.4.4 option
+            header = '% Grammar Learner v.0.6 ' + str(UTC()) \
+            + '\n<dictionary-version-number>: V0v0v6+;\n'
+    header = header + '<dictionary-locale>: EN4us+;'
 
-    add_rules = '<UNKNOWN-WORD>: XXX+;'
-    # if linkgrammar.__version__ == '5.4.4':   # 90110: forget LG 5.4.4
-    #   add_rules = 'UNKNOWN-WORD: XXX+;'
+    unknown_word = '<UNKNOWN-WORD>: XXX+;'
+    if linkgrammar.__version__ == '5.4.4':  # 90128: restore LG 5.4.4 options
+        unknown_word = 'UNKNOWN-WORD: XXX+;'
 
     if footer == '':
         footer = '% ' + str(len(clusters)) + ' word clusters, ' \
@@ -136,14 +137,15 @@ def save_link_grammar(rules, output_grammar, grammar_rules = 2,
                 # + '% Link Grammar file saved to: "' + out_file + '"'
                 # 90110: Link Grammar sometimes parses (commented) filename 
     lg = header + '\n\n' + '\n'.join(
-        line_list) + '\n' + add_rules + '\n\n' + footer
+        line_list) + '\n' + unknown_word + '\n\n' + footer
     lg = lg.replace('@', '.')  # 80706 WSD: word@1 ⇒ word.1  FIXME:DEL?
-    with open(out_file, 'w') as f:
-        f.write(lg)
+
+    with open(out_file, 'w') as f: f.write(lg)
 
     response = OrderedDict({'grammar_file': out_file})
     response.update(
         {'grammar_clusters': len(clusters), 'grammar_rules': len(rules)})
+
     return response
 
 
@@ -222,3 +224,4 @@ def save_cat_tree(cats, output_categories, verbose = 'none'):
 # 81231 cleanup, version = 0.7 (LG 5.5.1), 0.6 (LG 5.4.4)
 # 90110 remove filename
 # 90119 remove Link Grammar 5.4.4 options (v.0.6)
+# 90128 restore Link Grammar 5.4.4 'UNKNOWN-WORD: XXX+;' option

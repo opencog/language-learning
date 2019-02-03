@@ -2,7 +2,7 @@
 # language-learning/pipeline/category_tagger.py :: CLI Category Tagger  # 90129
 
 import sys, time, getopt, os, platform, json, traceback, logging
-from shutil import copy2 as copy
+from shutil import copy2 as fcopy
 module_path = os.path.abspath(os.path.join('..'))
 if module_path not in sys.path: sys.path.append(module_path)
 from src.common import handle_path_string, strip_quotes, VERBOSITY_OPTIONS
@@ -85,13 +85,14 @@ def main(argv):
 
     # Process kwargs
     re = tag_files(**kwargs)
-    with open(re['output_path'] + '/log.json', 'w') as f:
+    #-with open(re['output_path'] + '/log.json', 'w') as f:
+    with open(kwargs['out_path'] + '/log.json', 'w') as f:              # 90130
         f.write(json.dumps(re))
     print('\nCategory tagging ended', UTC(), 'with response:')
     for k, v in re.items():
         print('-', k, ':', v)
     if config_path:
-        copy(config_path, re['output_path'])
+        fcopy(config_path, re['output_path'])
     # print('Output directory:', re['output_path'], '\n')
     print('\n')
 

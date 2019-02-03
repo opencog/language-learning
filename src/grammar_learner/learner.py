@@ -30,22 +30,26 @@ def learn(**kwargs):
     output_statistics = kwa('', 'output_statistics', **kwargs)
     temp_dir = kwa('', 'temp_dir', **kwargs)
     if os.path.isdir(output_grammar):
-        print('os.path.isdir(output_grammar)')
+        #-print('os.path.isdir(output_grammar)')
         prj_dir = output_grammar
     elif os.path.isfile(output_grammar):
         prj_dir = os.path.dirname(output_grammar)
-        print('prj_dir = os.path.dirname(output_grammar)')
+        #-print('prj_dir = os.path.dirname(output_grammar)')
     else:  # create prj_dir
         if check_dir(output_grammar, True, 'max'):
             prj_dir = output_grammar
-            print('prj_dir = output_grammar:\n', output_grammar)
-
+            #-print('prj_dir = output_grammar:\n', output_grammar)
     log.update({'project_directory': prj_dir})
 
     if output_categories == '':
         output_categories = prj_dir
     if output_statistics != '':         # TODO: check path: filename/dir?
-        corpus_stats_file = output_statistics
+        if os.path.isfile(output_statistics):
+            corpus_stats_file = output_statistics
+        elif os.path.isdir(output_statistics):
+            corpus_stats_file = output_statistics + '/corpus_stats.txt'
+        else:
+            corpus_stats_file = prj_dir + '/corpus_stats.txt'
     else:
         corpus_stats_file = prj_dir + '/corpus_stats.txt'
     if temp_dir != '':

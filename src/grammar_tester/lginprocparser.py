@@ -12,7 +12,7 @@ from .lgmisc import *
 from .parsevaluate import get_parses, load_ull_file
 from .commands import *
 from .sentencecount import get_sentence_count
-from .linkgrammarver import get_lg_version
+from .linkgrammarver import get_lg_version, get_lg_dict_version
 
 
 __all__ = ['LGInprocParser']
@@ -233,6 +233,13 @@ class LGInprocParser(AbstractFileParserClient):
             self._logger.info("Link Grammar version: {}\n"
                   "Link Grammar dictionaries: {}".format(self._lg_version, self._lg_dict_path))
 
+        if not (options & BIT_LG_GR_NAME):
+            dict_ver = get_lg_dict_version(dict_path)
+
+            if dict_ver != "0.0.0" and (self._lg_version < "5.5.0" and dict_ver >= "5.5.0" or
+                    self._lg_version >= "5.5.0" and dict_ver < "5.5.0"):
+                raise LGParseError(f"Wrong dictionary version: {dict_ver}, expected: {self._lg_version}")
+
         sentence_count = 0
 
         bar = None
@@ -258,6 +265,8 @@ class LGInprocParser(AbstractFileParserClient):
         ret_metrics = ParseMetrics()
         ret_quality = ParseQuality()
 
+        raw_stream, err_stream = None, None
+
         try:
             # Get number of sentences in input file
             sentence_count = get_sentence_count(corpus_path, options)
@@ -281,22 +290,16 @@ class LGInprocParser(AbstractFileParserClient):
                 proc_grep.stdout.close()
 
                 # Read pipes to get complete output returned by link-parser
-                raw, err = proc_pars.communicate()
+                raw_stream, err_stream = proc_pars.communicate()
 
                 # Check return code to make sure the process completed successfully.
                 if proc_pars.returncode != 0:
                     raise ParserError("Process '{0}' terminated with exit code: {1} "
                                        "and error message:\n'{2}'.".format(lgp_cmd[0], proc_pars.returncode,
-                                                                           err.decode()))
-
-                with open(output_path + ".raw", "w") as r:
-                    r.write(raw.decode("utf-8-sig"))
-
-                with open(output_path + ".err", "w") as e:
-                    e.write(err.decode("utf-8-sig"))
+                                                                           err_stream.decode()))
 
                 # Take an action depending on the output format specified by 'options'
-                ret_metrics, ret_quality = self._handle_stream_output(raw.decode("utf-8-sig"), options,
+                ret_metrics, ret_quality = self._handle_stream_output(raw_stream.decode("utf-8-sig"), options,
                                                                       out_stream, ref_file)
 
                 if progress is not None:
@@ -308,6 +311,17 @@ class LGInprocParser(AbstractFileParserClient):
                 if not (options & BIT_OUTPUT) and ret_metrics.sentences != sentence_count:
                     self._logger.warning("Number of sentences does not match. "
                           "Read: {}, Parsed: {}".format(sentence_count, ret_metrics.sentences))
+
+        except LGParseError as err:
+            self._logger.debug(err_stream.decode("utf-8-sig"))
+
+            with open(output_path + ".raw", "w") as r:
+                r.write(raw_stream.decode("utf-8-sig"))
+
+            with open(output_path + ".err", "w") as e:
+                e.write(err_stream.decode("utf-8-sig"))
+
+            raise
 
         except AssertionError as err:
             raise ParserError("Invalid statistics result. " + str(err))

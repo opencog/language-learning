@@ -4,7 +4,7 @@ import os, linkgrammar
 from collections import OrderedDict
 from copy import deepcopy
 from .utl import UTC
-
+from ..grammar_tester.linkgrammarver import get_lg_version
 
 def list2file(lst, out_file):
     string = ''
@@ -119,16 +119,18 @@ def save_link_grammar(rules, output_grammar, grammar_rules = 2,
     else:
         raise FileNotFoundError('File not found', output_grammar)
 
+    link_grammar_ver, _ = get_lg_version()
+
     # TODO: Link Grammar 5.4.x ⇒ 5.5.1: delete 'if' statements:
     if header == '':
-        if linkgrammar.__version__ == '5.4.4':
+        if link_grammar_ver < '5.0.0':
             header = '% Grammar Learner v.0.6 ' + str(UTC())
         else:
             header = '% Grammar Learner v.0.7 ' + str(UTC())
     header = header + '\n' + '<dictionary-version-number>: V0v0v6+;\n' \
              + '<dictionary-locale>: EN4us+;'
 
-    if linkgrammar.__version__ == '5.4.4':
+    if link_grammar_ver < '5.0.0':
         add_rules = 'UNKNOWN-WORD: XXX+;'
     else:
         add_rules = '<UNKNOWN-WORD>: XXX+;'

@@ -7,6 +7,7 @@ import platform
 import logging
 import traceback
 
+from json import JSONDecodeError
 from ull.common import JsonFileConfigManager, AbstractPipelineComponent, handle_path_string, setup_logging, \
     VERBOSITY_OPTIONS, strip_quotes
 from ull.pipeline import build_tree, run_tree, PipelineTreeNode2
@@ -112,6 +113,10 @@ Usage:
         run_tree()
 
         PipelineTreeNode2.free_static_components()
+
+    except JSONDecodeError as err:
+        logger.critical(config_name + ".json: " + str(err))
+        return 1
 
     except KeyboardInterrupt:
         logger.warning("Ctrl+C triggered.")

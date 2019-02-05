@@ -105,7 +105,7 @@ def single_proc_exec(node: PipelineTreeNode2) -> None:
             handle_request(node, {**req, **result})
 
     # Just for debug purposes
-    logger.info(node._component_name + ": successfull execution")
+    logger.debug(node._component_name + ": successfull execution")
 
 
 def handle_request(node: PipelineTreeNode2, req: dict) -> None:

@@ -1,5 +1,5 @@
 import unittest
-from src.grammar_tester.linkgrammarver import handle_version_response
+from src.grammar_tester.linkgrammarver import handle_version_response, get_lg_dict_version
 
 text = 'link-grammar-5.5.1 Compiled with: gcc __VERSION__="7.2.0"  OS: linux-gnu __unix__  ' \
        'Standards: __STDC_VERSION__=201112L Configuration (source code): 	CPPFLAGS= 	' \
@@ -22,6 +22,9 @@ class LGVersionTestCase(unittest.TestCase):
     def test_handle_version_response(self):
         self.assertEqual(("5.5.1", "/home/alex/miniconda3/envs/ull55/share/link-grammar"),
                          handle_version_response(text))
+
+    def test_get_lg_dict_version(self):
+        self.assertEqual("5.5.0", get_lg_dict_version("tests/test-data/dict/poc-turtle"))
 
 
 if __name__ == '__main__':

@@ -11,7 +11,8 @@ class LGAPITestCase(unittest.TestCase):
     def test_parse_file_with_api(self):
         # Testing over poc-turtle corpus... 100% success is expected.
 
-        options = BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_RM_DIR | BIT_LOC_LANG | BIT_PARSE_QUALITY
+        options = BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_RM_DIR | BIT_LOC_LANG | BIT_PARSE_QUALITY \
+                  | BIT_EXISTING_DICT
 
         lgp = LGInprocParser()
         api = LGApiParser()
@@ -30,12 +31,7 @@ class LGAPITestCase(unittest.TestCase):
         m1, q1 = lgp.parse(dict, corp, outp, reff, options)
         m2, q2 = api.parse(dict, corp, outp, reff, options)
 
-
         self.assertTrue(m1 == m2)
-
-        # print(q1.text(q1))
-        # print(q2.text(q2))
-
         self.assertTrue(q1 == q2)
 
 

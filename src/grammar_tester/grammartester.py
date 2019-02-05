@@ -413,7 +413,8 @@ def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal, Decimal):
                              get_options(cfg))
 
     # Save dashboard data to whatever source the dashboard is bounded to
-    dboard.update_dashboard()
+    if dboard is not None:
+        dboard.update_dashboard()
 
     return \
         pm.parseability(pm), \

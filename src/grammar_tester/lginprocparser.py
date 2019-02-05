@@ -233,7 +233,7 @@ class LGInprocParser(AbstractFileParserClient):
             self._logger.info("Link Grammar version: {}\n"
                   "Link Grammar dictionaries: {}".format(self._lg_version, self._lg_dict_path))
 
-        if not (options & BIT_LG_GR_NAME):
+        if not (options & BIT_EXISTING_DICT):
             dict_ver = get_lg_dict_version(dict_path)
 
             if dict_ver != "0.0.0" and (self._lg_version < "5.5.0" and dict_ver >= "5.5.0" or

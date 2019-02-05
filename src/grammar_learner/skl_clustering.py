@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/skl_clustering.py               # 81107
+# language-learning/src/grammar_learner/skl_clustering.py               # 90118
 import numpy as np
 from sklearn.cluster import AgglomerativeClustering, KMeans, MeanShift, \
     estimate_bandwidth
@@ -22,12 +22,15 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
         elif clustering == 'mean_shift':
             clustering = ('mean_shift', 'auto')
         elif clustering == 'group':  # TODO: call ILE clustering?
-            print('Call ILE clustering from optimal_clusters?')
+            return [], {'clustering': 'skl_clustering error',
+                        'clustering_error':
+                            'ILE grouping not supported in skl_clustering'}, []
         elif clustering == 'random':  # TODO: call random clustering?
-            print('Call random clustering from optimal_clusters?')
+            return [], {'clustering': 'skl_clustering error',
+                        'clustering_error':
+                            'random not supported in skl_clustering'}, []
         else:
             clustering = ('agglomerative', 'ward')
-    # linkage: ('ward', 'average', 'complete')
     clustering_metric = kwa(('silhouette', 'euclidean'),
                             'clustering_metric', **kwargs)
     labels = np.asarray([[]])
@@ -46,18 +49,14 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
                 if clustering[2] in ['euclidean', 'cosine', 'manhattan']:
                     affinity = clustering[2]
             if len(clustering) > 3:  # connectivity
-                print('skl_clustering: connectivity:', clustering[3])
                 if type(clustering[3]) is int and clustering[3] > 0:
                     neighbors = clustering[3]
                     # TODO: int / dict 
                     connectivity = kneighbors_graph(cd, neighbors,
                                                     include_self=False)
-                    print(f'\nconnectivity: {connectivity}\n')
-
             if len(clustering) > 4:  # compute_full_tree
                 if clustering[4] is bool:
                     compute_full_tree = clustering[4]
-                    print(f'compute_full_tree: {compute_full_tree}\n')
 
             model = AgglomerativeClustering(
                 n_clusters=n_clusters, linkage=linkage, affinity=affinity,
@@ -134,9 +133,13 @@ def optimal_clusters(cd, **kwargs):
         elif algo == 'agglomerative':
             algo = ('agglomerative', 'ward')
         elif algo == 'group':
-            print('Call ILE clustering from optimal_clusters?')
+            return [], {'clustering': 'skl_clustering error',
+                        'clustering_error':
+                            'ILE grouping not supported in skl_clustering'}, []
         elif algo == 'random':
-            print('Call random clustering from optimal_clusters?')
+            return [], {'clustering': 'skl_clustering error',
+                        'clustering_error':
+                            'ILE grouping not supported in skl_clustering'}, []
         else:
             algo = ('agglomerative', 'ward')
 
@@ -148,27 +151,22 @@ def optimal_clusters(cd, **kwargs):
             if type(crange[0]) is int:
                 labels, metrics, centroids = skl_clustering(cd, crange[0],
                                                             **kwargs)
-                print(f'{crange} clusters ⇒ {metrics}')
         elif len(crange) == 2:
             if type(crange[0]) is int and type(crange[1]) is int:
                 labels, metrics, centroids = skl_clustering(cd, crange[0],
                                                             **kwargs)
-                print(f'{crange} clusters ⇒ {metrics}')
                 for n in range(crange[1] - 1):
                     l, m, c = skl_clustering(cd, crange[0], **kwargs)
-                    print(f'{crange[0]} clusters ⇒ {m}')
                     if m['silhouette_index'] > metrics['silhouette_index']:
                         labels, metrics, centroids = l, m, c
-        elif len(crange) == 3:  # TODO: replace with SGD
+        elif len(crange) == 3:  # TODO: replace with SGD?
             n_min = min(crange[0], crange[1])
             n_max = max(crange[0], crange[1])
             labels, metrics, centroids = \
                 skl_clustering(cd, int((n_min + n_max) / 2), **kwargs)
-            print(f'min {n_min}, max {n_max} clusters: mid ⇒ {metrics}')
             for n_clusters in range(n_min, n_max + 1):
                 for n in range(kwargs['cluster_range'][2]):
                     l, m, c = skl_clustering(cd, n_clusters, **kwargs)
-                    print(f'{n_clusters} clusters ⇒ {m}')
                     if m['silhouette_index'] > metrics['silhouette_index']:
                         labels, metrics, centroids = l, m, c
         elif len(crange) == 4:
@@ -176,11 +174,9 @@ def optimal_clusters(cd, **kwargs):
             n_max = max(crange[0], crange[1])
             labels, metrics, centroids = \
                 skl_clustering(cd, int((n_min + n_max) / 2), **kwargs)
-            print(f'min {n_min}, max {n_max} clusters: mid ⇒ {metrics}')
             for n_clusters in range(n_min, n_max + 1, crange[2]):
                 for n in range(kwargs['cluster_range'][3]):
                     l, m, c = skl_clustering(cd, n_clusters, **kwargs)
-                    print(f'{n_clusters} clusters ⇒ {m}')
                     if m['silhouette_index'] > metrics['silhouette_index']:
                         labels, metrics, centroids = l, m, c
         else:
@@ -195,3 +191,4 @@ def optimal_clusters(cd, **kwargs):
     # https://github.com/scikit-learn/scikit-learn/issues/11303
 # 81107 k-means, mean_shift
 # 81203 cleanup
+# 90118 cleanup: remove debug printing

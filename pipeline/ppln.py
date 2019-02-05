@@ -52,7 +52,7 @@ def main(argv):
             else:
                 kwargs['output_grammar'] = module_path + kwargs['out_path']
         else:
-            print('Please set "output_grammar" or ""out_path in config.json')
+            print('Please set "output_grammar" or "out_path" in config.json')
             sys.exit()
     if 'tmpath' not in kwargs:
         kwargs['tmp_dir'] = ''
@@ -105,3 +105,9 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv[1:])
+
+
+# Comments:
+
+# 81231 v.0.01
+# 90129 2nd test with updated .dict: LG 5.4.4 & 5.5.1 options, no filename

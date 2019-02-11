@@ -62,8 +62,9 @@ def params(corpus_, dataset_, module_path_, out_dir, **kwargs):         # 90201
 
         prj_dir = batch_dir + '_' + dataset + '_' + context + wtf + rules \
                   + '_' + generalization[gen]
-        if type(kwargs['cluster_range']) is int:
-            prj_dir = prj_dir + '_' + str(kwargs['cluster_range']) + 'c'
+        if 'cluster_range' in kwargs:
+            if type(kwargs['cluster_range']) is int:
+                prj_dir = prj_dir + '_' + str(kwargs['cluster_range']) + 'c'
 
         if kwargs['min_word_count'] > 1:  # 81210 FIXME:DEL? after tests
             prj_dir = prj_dir + '_mwc=' + str(kwargs['min_word_count'])

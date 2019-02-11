@@ -30,20 +30,17 @@ def learn(**kwargs):
     output_statistics = kwa('', 'output_statistics', **kwargs)
     temp_dir = kwa('', 'temp_dir', **kwargs)
     if os.path.isdir(output_grammar):
-        #-print('os.path.isdir(output_grammar)')
         prj_dir = output_grammar
     elif os.path.isfile(output_grammar):
         prj_dir = os.path.dirname(output_grammar)
-        #-print('prj_dir = os.path.dirname(output_grammar)')
     else:  # create prj_dir
         if check_dir(output_grammar, True, 'max'):
             prj_dir = output_grammar
-            #-print('prj_dir = output_grammar:\n', output_grammar)
     log.update({'project_directory': prj_dir})
 
     if output_categories == '':
         output_categories = prj_dir
-    if output_statistics != '':         # TODO: check path: filename/dir?
+    if output_statistics != '':
         if os.path.isfile(output_statistics):
             corpus_stats_file = output_statistics
         elif os.path.isdir(output_statistics):
@@ -52,14 +49,15 @@ def learn(**kwargs):
             corpus_stats_file = prj_dir + '/corpus_stats.txt'
     else:
         corpus_stats_file = prj_dir + '/corpus_stats.txt'
+
     if temp_dir != '':
         if os.path.isdir(temp_dir):
             kwargs['tmpath'] = temp_dir
 
-    context = kwa(1, 'context', **kwargs)
+    context = kwa(2, 'context', **kwargs)
     clustering = kwa('kmeans', 'clustering', **kwargs)  # TODO: update
     cats_gen = kwa('off', 'categories_generalization', **kwargs)
-    grammar_rules = kwa(1, 'grammar_rules', **kwargs)
+    grammar_rules = kwa(2, 'grammar_rules', **kwargs)
     verbose = kwa('none', 'verbose', **kwargs)
 
     files, re01 = check_mst_files(input_parses, verbose)

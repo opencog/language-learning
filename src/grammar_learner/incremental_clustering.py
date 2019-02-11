@@ -16,16 +16,18 @@ if module_path not in sys.path: sys.path.append(module_path)
 # from src.grammar_learner.learner import learn
 
 
-def dict2dict(d):                                                       # 90128
+def dict2dict(d):                                                       # 90205
     # d :: list of strings read from Link Grammar .dict file
     dct = {}
     for i in range(1, len(d) - 1):
         if len(d[i]) == 0:
             continue
-        if d[i][0] == '%' and d[i + 1][-1] == ':':
+        elif d[i][0] == '%' and d[i + 1][-1] == ':':
             label = str(d[i].split()[1]).lower()                        # 90201
             for word in d[i + 1][:-1].split():
-                dct.update({word[1:-1]: label})
+                dct.update({word[1:-1]: label})  # 90128 v.0 + 90205:
+                dct.update({word[1:-1].replace('.', '@'): label})       # 90205
+                # '@' in tokens is replaced with '.' while learning grammar
     return dct
 
 
@@ -144,6 +146,42 @@ def decode_dict(d, kd):                                                 # 90131
     return '\n'.join(dcd)
 
 
+def decode_cat_tree(tree, lg_dict, **kwargs):
+    if type(lg_dict) is str: kd = lg_dict.split('\n')
+    elif type(lg_dict) is list: kd = lg_dict
+    # TODO: else raise error
+
+    #-print('kd:', kd)
+    prefix = kwa('###', 'tag_prefix', **kwargs)
+    suffix = kwa('###', 'tag_suffix', **kwargs)
+    dct = {}
+    for i in range(1, len(kd) - 1):
+        if len(kd[i]) == 0: continue
+        if kd[i][0] == '%' and kd[i+1][-1] == ':':
+            tag = prefix + kd[i].split()[1].lower() + suffix
+            tokens = [x[1:-1] for x in kd[i+1][:-1].split()]
+            #-print('tag:', tag, '= tokens:', tokens)
+            dct.update({tag: tokens})
+    #-print('\ndct:', dct)
+    tree_lines = tree.split('\n')
+    decoded_tree_lines = []
+    #-print('')
+    for line in tree_lines:
+        lst = line.split('\t')
+        dlst = lst[:4]
+        #-print('lst:', lst, '» dlst:', dlst)
+        #-decoded_cats = 'decode!'  # lst[4]      # TODO: decode
+        if lst[4] in dct:
+            dlst.append(' '.join(dct[lst[4]]))
+        else:
+            dlst.append(lst[4])
+        dlst.extend(lst[5:])
+        decoded_tree_lines.append('\t'.join(dlst))
+    decoded_tree = '\n'.join(decoded_tree_lines)
+    #-print('\ntree_lines:', tree_lines)
+    return decoded_tree
+
+
 def tag_learn_test(**kwargs):                                           # 90201
     # tag_files args:
     input_path: str = kwargs['input_parses']
@@ -176,33 +214,36 @@ def tag_learn_test(**kwargs):                                           # 90201
         #-kwargs['output_grammar'] = kwargs['out_path']
         rulez, re03 = learn(**kwargs)   # rulez: dict FIXME: return
         log.update(re03)
-        # print('re03[grammar_rules]:', re03['grammar_rules'])
-        # print('\nre03:', re03, '\n')
 
         # Decode .dict:
-        # print('decode', re03['grammar_file'], '\nwith', key_dict_path)
-        with open(key_dict_path, 'r') as f:
-            kd: list = f.read().splitlines()
-        # print('\nKey dict:', kd[-1])
-        lists: dict = dict2lists(kd, **kwargs)
-
         new_dict_path = re03['grammar_file']
         with open(new_dict_path, 'r') as f:
-            d: list = f.read().splitlines()
-        decoded_dict: str = decode_dict(d, lists)
-        # print('\nDecoded dict 1st 200 symbols:\n', decoded_dict[:200])
+            d: list = f.read().splitlines()  # TODO? split at dict2list?
+        tagged_dict_path = file_copy(new_dict_path, new_dict_path + '.tagged')
 
-        # Save files:
-        tagged_dict_copy_path = file_copy(new_dict_path,
-                                          new_dict_path + '.tagged')
-        # print('tagged_dict_copy_path:', tagged_dict_copy_path)
+        with open(key_dict_path, 'r') as f:
+            kd: list = f.read().splitlines()  # TODO? split at dict2list?
+        clusters: dict = dict2lists(kd, **kwargs)
+        with open(new_dict_path, 'w') as f:
+            f.write(decode_dict(d, clusters))
+        # TODO: single def to decode dict, input -- 2*strings:
+        # with open(key_dict_path, 'r') as f: kd = f.read()  # string
+        # with open(new_dict_path, 'r') as f: d = f.read()  # string
+        # decoded_dict: str = decode_dict_new(d, kd)
+        # decoded
 
-        with open(new_dict_path, 'w') as f: f.write(decoded_dict)
-        # check:
-        # with open(new_dict_path, 'r') as f: tmp = f.read().splitlines()
-        # print(tmp[-7:])
+        #-check:
+        #-with open(new_dict_path, 'r') as f: tmp = f.read().splitlines()
+        #-print(tmp[-7:])
 
         # TODO: decode cat_tree.txt
+        cat_tree_file = re03['cat_tree_file']
+        with open(cat_tree_file, 'r') as f:
+            tree = f.read()
+        tagged_cat_tree_path = file_copy(
+            cat_tree_file, cat_tree_file + '.tagged')
+        with open(cat_tree_file, 'w') as f:
+            f.write(decode_cat_tree(tree, kd, **kwargs))
 
     # TODO: Test Grammar with decoded .dict
     # pa, f1, p, pq: parse-ability, F-measure, precision, parse quality
@@ -217,7 +258,8 @@ def tag_learn_test(**kwargs):                                           # 90201
     return log['grammar_rules'], pa, f1, log  # rulez, log
 
 
-def iterate(**kwargs):                                                  # 90203
+def iterate(**kwargs):                                                  # 90204
+    re = {'iterate_started': UTC()[:10]}
     language_learning_dir = os.path.abspath(os.path.join('..'))
     print('language_learning_dir:', language_learning_dir)
     if language_learning_dir not in sys.path:
@@ -225,23 +267,29 @@ def iterate(**kwargs):                                                  # 90203
     module_path = kwa(language_learning_dir, 'module_path', **kwargs)
     corpus = kwa('POC-English-Amb', 'corpus', **kwargs)
     dataset = kwa('MST-fixed-manually', 'dataset', **kwargs)
-    input_path = kwa(None, 'input_path', **kwargs)   # TODO: check paths?
-    out_path = kwa(None, 'out_path', **kwargs)
+
     out_grmr = kwa(None, 'output_grammar', **kwargs)
-    inp_grmr = None
-    if 'input_grammar' in kwargs:
-        inp_grmr = kwargs['input_grammar']
-        del kwargs['input_grammar']
+    out_path = kwa(None, 'out_path', **kwargs)
     if out_path is None:
         if out_grmr is not None:
             out_path = out_grmr
         else: out_path = module_path
 
+    input_path = kwa(None, 'input_path', **kwargs)   # TODO: check paths?
+    inp_grmr = None
+    if 'input_grammar' in kwargs:
+        inp_grmr = kwargs['input_grammar']
+        del kwargs['input_grammar']
     ip, oc, prj_dir = params(corpus, dataset, module_path, out_path, **kwargs)
     if input_path is None: kwargs['input_parses'] = ip
     else: kwargs['input_parses'] = input_path
     #kwargs['out_path'] = prj_dir
     #kwargs['output_grammar'] = kwargs['out_path']
+
+    if 'reference_path' not in kwargs:
+        kwargs['reference_path'] = kwargs['input_parses']
+    if 'corpus_path' not in kwargs:
+        kwargs['corpus_path'] = kwargs['reference_path']
 
     table = [['Iteration', 'N clusters', 'PA', 'F1']]
     responses = {}  # FIXME: DEL or return?
@@ -261,7 +309,8 @@ def iterate(**kwargs):                                                  # 90203
             kwargs['input_grammar'] = re['grammar_file']
         except: break
         if n < 4: break
-        if n >= np: break
+        elif n == np:           # TODO '>=' ⇒ '==' 80209
+            return table, re
         else: np = n
 
     # TODO: copy last valid grammar to root dir

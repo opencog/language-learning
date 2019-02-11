@@ -46,9 +46,10 @@ def learn_categories(links, **kwargs):
     if algorithm == 'random':
         log.update({'clustering': 'random'})
         cdf = random_clusters(links, **kwargs)
+
     elif algorithm == 'group' or word_space[0] == 'd':  # «ILE»: discrete
         log.update({'clustering': 'ILE'})
-        cdf = group_links(links, verbose)
+        cdf = group_links(links, **kwargs)  # 90209 verbose » **kwargs
 
     elif word_space[0] in ['v', 'e']:  # «DRK» legacy Grammar Learner 0.6
         # word_space :: v,e: 'vectors'='embeddings' | 'discrete', 'sparse'

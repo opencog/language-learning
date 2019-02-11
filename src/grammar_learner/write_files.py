@@ -138,7 +138,7 @@ def save_link_grammar(rules, output_grammar, grammar_rules = 2,
                 # 90110: Link Grammar sometimes parses (commented) filename 
     lg = header + '\n\n' + '\n'.join(
         line_list) + '\n' + unknown_word + '\n\n' + footer
-    lg = lg.replace('@', '.')  # 80706 WSD: word@1 ⇒ word.1  FIXME:DEL?
+    lg = lg.replace('@', '.')  # 80706 WSD: word@1 ⇒ word.1  FIXME: keep @url@
 
     with open(out_file, 'w') as f: f.write(lg)
 

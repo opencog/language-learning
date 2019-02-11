@@ -279,14 +279,20 @@ def best_clusters(vdf, **kwargs):                                       # 90104
             return clusters, silhouette, inertia
 
 
-def group_links(links, verbose):  # Group «ILE»                         # 80925
+def group_links(links, **kwargs):  # Group «ILE»                        # 90209
     logger = logging.getLogger(__name__ + ".group_links")
+
+    thresh = kwa(1, 'min_word_count', **kwargs) - 1                     # 90209
+
     df = links.copy()
     df['links'] = [[x] for x in df['link']]
     del df['link']
     df = df.groupby('word').agg({'links': 'sum', 'count': 'sum'}).reset_index()
     df['words'] = [[x] for x in df['word']]
     del df['word']
+
+    if thresh > 0: df = df.loc[df['count'] > thresh]                    # 90209
+
     df2 = df.copy().reset_index()
     df2['links'] = df2['links'].apply(lambda x: tuple(sorted(x)))
     df3 = df2.groupby('links')['count'].apply(sum).reset_index()
@@ -349,3 +355,4 @@ def random_clusters(links, **kwargs):
 # TODO: n_clusters ⇒ best_clusters: return best clusters (word lists), centroids
 # 81231 cleanup
 # 90104 resolve Turtle MST LW crash: 1 cluster
+# 90209 group_links: add min_word_count to 80925 legacy version

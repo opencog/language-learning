@@ -177,8 +177,10 @@ def optimal_clusters(cd, **kwargs):
             for n_clusters in range(n_min, n_max + 1, crange[2]):
                 for n in range(kwargs['cluster_range'][3]):
                     l, m, c = skl_clustering(cd, n_clusters, **kwargs)
-                    if m['silhouette_index'] > metrics['silhouette_index']:
-                        labels, metrics, centroids = l, m, c
+                    if 'silhouette_index' in m \
+                            and 'silhouette_index' in metrics:
+                        if m['silhouette_index'] > metrics['silhouette_index']:
+                            labels, metrics, centroids = l, m, c
         else:
             labels, metrics, centroids = skl_clustering(cd, 10, **kwargs)
 

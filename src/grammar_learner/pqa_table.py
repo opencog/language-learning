@@ -14,14 +14,15 @@ from .learner import learn_grammar, learn  # 81126 learn returns rules, log
 from .write_files import list2file
 
 
-def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81217
+def params(corpus_, dataset_, module_path_, out_dir, **kwargs):         # 90201
+    corpus = kwargs['corpus'] if 'corpus' in kwargs else corpus_
+    dataset = kwargs['dataset'] if 'dataset' in kwargs else dataset_
+    module_path = kwargs['module_path'] if 'module_path' in kwargs else module_path_
     if 'input_parses' in kwargs:
         if module_path in kwargs['input_parses']:
             input_parses = kwargs['input_parses']
-        else:
-            input_parses = module_path + kwargs['input_parses']
-    else:
-        input_parses = module_path + '/data/' + corpus + '/' + dataset
+        else: input_parses = module_path + kwargs['input_parses']
+    else: input_parses = module_path + '/data/' + corpus + '/' + dataset
     if type(kwargs['clustering']) is str:
         clustering = kwargs['clustering']
     else:
@@ -61,8 +62,9 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81217
 
         prj_dir = batch_dir + '_' + dataset + '_' + context + wtf + rules \
                   + '_' + generalization[gen]
-        if type(kwargs['cluster_range']) is int:
-            prj_dir = prj_dir + '_' + str(kwargs['cluster_range']) + 'c'
+        if 'cluster_range' in kwargs:
+            if type(kwargs['cluster_range']) is int:
+                prj_dir = prj_dir + '_' + str(kwargs['cluster_range']) + 'c'
 
         if kwargs['min_word_count'] > 1:  # 81210 FIXME:DEL? after tests
             prj_dir = prj_dir + '_mwc=' + str(kwargs['min_word_count'])
@@ -83,9 +85,22 @@ def params(corpus, dataset, module_path, out_dir, **kwargs):            # 81217
         raise FileNotFoundError('File not found', input_parses)
 
 
-def pqa_meter(dict_path, output_path, corpus_path, reference_path, **kwargs):
-    grammar_path = output_path
-    template_path = handle_path_string("tests/test-data/dict/poc-turtle")
+def pqa_meter(dict_path, op, cp, rp, **kwargs):   # TODO: restore previous
+    # op,cp,rp: ex. output_path, corpus_path, reference_path - changed 90131:
+    corpus_path = cp if len(cp) > 0 else kwargs['corpus_path']
+    reference_path = rp if len(rp) > 0 else kwargs['reference_path']
+    if len(op) > 0:
+        output_path = op
+        grammar_path = op
+    else:
+        grammar_path = kwargs['output_grammar']
+        output_path = kwargs['out_path'] if 'out_path' in kwargs \
+            else kwargs['output_grammar']
+
+    #print('\npqa_meter grammar_path:\n', grammar_path,
+    #      '\noutput_path:\n', output_path, '\n')
+
+    template_path = handle_path_string("tests/test-data/dict/poc-turtle") #FIXME:WTF?
     linkage_limit = kwargs['linkage_limit'] \
                     if 'linkage_limit' in kwargs else 1000
     if kwargs['linkage_limit'] == 0:
@@ -97,9 +112,7 @@ def pqa_meter(dict_path, output_path, corpus_path, reference_path, **kwargs):
                                              dict_path, grammar_path,
                                              template_path, linkage_limit,
                                              options, reference_path)
-    pa = float(pa)
-    recall = float(recall)
-    return pa, f1, precision, recall
+    return float(pa), float(f1), float(precision), float(recall)
 
 
 def table_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):

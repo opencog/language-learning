@@ -309,8 +309,11 @@ class LGInprocParser(AbstractFileParserClient):
                     bar.update(sentence_count)
 
                 if not (options & BIT_OUTPUT) and ret_metrics.sentences != sentence_count:
+                    path_len =len(corpus_path)
                     self._logger.warning("Number of sentences does not match. "
-                          "Read: {}, Parsed: {}".format(sentence_count, ret_metrics.sentences))
+                          "Read: {}, Parsed: {}".format(sentence_count, ret_metrics.sentences,
+                                                        corpus_path if path_len < 31 else
+                                                        "..." + corpus_path[path_len-27:]))
 
         except LGParseError as err:
             self._logger.debug(err_stream.decode("utf-8-sig"))

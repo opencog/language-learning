@@ -1,0 +1,25 @@
+[
+  {
+    "component": "grammar-tester",
+    "parameters": [
+      {
+        "test_date": "2018-01-23 ~13:00++",
+        "test_time": "~1:18 (2018-12-14)",
+        "input_grammar": "~/94/language-learning/output/Gutenberg-Children-Books-2018-12-14/GCB_LG-English_cALWEd_no-gen_500c",
+        "input_corpus": "~/94/language-learning/data/GCB/LG-E-clean/GCB-LG-English-clean.ull",
+        "template_path": "~/94/language-learning/pipeline/tests/test-data/dict/poc-turtle",
+        "grammar_root": "~/94/language-learning/output/Check-GCB-2018-12-14-ALE-500C/GCB_LG-English_cALWEd_no-gen_500c/dict",
+        "output_path": "~/94/language-learning/output/Check-GCB-2018-12-14-ALE-500C/GCB_LG-English_cALWEd_no-gen_500c",
+        "ref_path": "~/94/language-learning/data/GCB/LG-E-clean/GCB-LG-English-clean.ull",
+        "parse_format": "ull",
+        "linkage_limit": "1000",
+        "rm_grammar_dir": true,
+        "use_link_parser": true,
+        "ull_input": true,
+        "ignore_left_wall": true,
+        "ignore_period": true,
+        "calc_parse_quality": true
+      }
+    ]
+  }
+]

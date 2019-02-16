@@ -3,7 +3,7 @@
   "dataset": "LG-English",
   "input_parses": "/data/CDS/LG-E-clean",
   "reference": "/data/CDS/LG-E-clean/CDS-LG-English-clean.ull",
-  "out_path": "/output/tmp-2018-12-14",
+  "out_path": "/output/_ppln_CDS-LG-E-clean-11-50_90129",
   "context": 1,
   "min_word_count": 11,
   "word_space": "sparse",

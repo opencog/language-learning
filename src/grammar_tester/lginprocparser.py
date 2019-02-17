@@ -169,6 +169,12 @@ class LGInprocParser(AbstractFileParserClient):
 
                 sent_metrics, sent_quality = ParseMetrics(), ParseQuality()
 
+                # If sentence, for some reason, can not be parsed
+                if not len(sent.linkages):
+                    # Print original sentence with no links in order for the sentence numbers
+                    #   in corpus and reference files to be exactly the same.
+                    print(sent.text + "\n", file=out_stream)
+
                 # Parse and calculate statistics for each linkage
                 for lnkg in sent.linkages:
 
@@ -180,7 +186,7 @@ class LGInprocParser(AbstractFileParserClient):
 
                     prepared = None
 
-                    # If sentence can not be parsed
+                    # If sentence, for some reason, can not be parsed
                     if not len(tokens):
                         # Print original sentence with no links in order for the sentence numbers
                         #   in corpus and reference files to be exactly the same.

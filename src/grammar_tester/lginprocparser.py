@@ -304,6 +304,12 @@ class LGInprocParser(AbstractFileParserClient):
                 # Read pipes to get complete output returned by link-parser
                 raw_stream, err_stream = proc_pars.communicate()
 
+                with open(output_path + ".raw", "w") as r:
+                    r.write(raw_stream.decode("utf-8-sig"))
+
+                with open(output_path + ".err", "w") as e:
+                    e.write(err_stream.decode("utf-8-sig"))
+
                 # Check return code to make sure the process completed successfully.
                 if proc_pars.returncode != 0:
                     raise ParserError("Process '{0}' terminated with exit code: {1} "

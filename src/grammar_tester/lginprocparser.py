@@ -180,8 +180,14 @@ class LGInprocParser(AbstractFileParserClient):
 
                     prepared = None
 
-                    # Print out links in ULL-format
-                    print_output(tokens, links, options, out_stream)
+                    # If sentence can not be parsed
+                    if not len(tokens):
+                        # Print original sentence with no links in order for the sentence numbers
+                        #   in corpus and reference files to be exactly the same.
+                        print(sent.text + "\n", file=out_stream)
+                    else:
+                        # Print out links in ULL-format
+                        print_output(tokens, links, options, out_stream)
 
                     if not sent.valid:
                         sent_metrics.skipped_sentences += 1

@@ -6,7 +6,8 @@ from shutil import copy2 as copy
 from collections import OrderedDict, Counter
 from .utl import UTC, kwa, sec2string
 from .read_files import check_dir, check_mst_files
-from .pparser import files2links
+from .pparser import files2links, lines2links, filter_lines
+from .corpus_stats import corpus_stats
 from .category_learner import learn_categories, cats2list
 from .grammar_inducer import induce_grammar, add_disjuncts, check_cats
 from .generalization import generalize_categories, generalize_rules, \
@@ -54,6 +55,7 @@ def learn(**kwargs):
         if os.path.isdir(temp_dir):
             kwargs['tmpath'] = temp_dir
 
+    parse_mode = kwa('lower',  'parse_mode', **kwargs)  # 'casefold' » default?
     context = kwa(2, 'context', **kwargs)
     clustering = kwa('kmeans', 'clustering', **kwargs)  # TODO: update
     cats_gen = kwa('off', 'categories_generalization', **kwargs)
@@ -62,17 +64,51 @@ def learn(**kwargs):
 
     files, re01 = check_mst_files(input_parses, verbose)
     log.update(re01)
-    if 'error' in re01:
+    if 'error' in re01:  # FIXME: assert ?
         print('learner.py » learn » check_mst_files » re01:\n', re01)
         return {'error': 'input_files'}, log
     kwargs['input_files'] = files
-    links, re02 = files2links(**kwargs)
+
+    '''Read parses, extract links to DataFrame (2018), + filter sentences'''
+
+    if 'max_sentence_length' not in kwargs \
+            and 'max_unparsed_words' not in kwargs:
+        links, re02 = files2links(**kwargs)                       # legacy 2018
+        # links: pd.DataFrame(columns=['word', 'link', 'count'])
+    else:  # filter sentences with 'max_sentence_length', 'max_unparsed_words'
+        lines = []
+        for i, file in enumerate(files):
+            with open(file, 'r') as f:
+                lines.extend(f.readlines())
+            if len(lines[-1]) > 0:  # 90211
+                lines.append('')
+        if parse_mode == 'lower':
+            lines = [' '.join([y.lower() if y != '###LEFT-WALL###'
+                               else y for y in x.split()]) for x in lines]
+        elif parse_mode == 'casefold':
+            lines = [' '.join([y.casefold() if y != '###LEFT-WALL###'
+                               else y for y in x.split()]) for x in lines]
+
+        if 'corpus_stats' in corpus_stats(lines):
+            raw_corpus_stats = corpus_stats(lines)['corpus_stats']
+            if type(raw_corpus_stats) is list:
+                log.update({'raw_corpus_stats': raw_corpus_stats})
+                list2file(raw_corpus_stats, prj_dir + '/raw_corpus_stats.txt')
+                log.update({'raw_corpus_stats_file':
+                            prj_dir + '/raw_corpus_stats.txt'})
+        #-print('\nlog["raw_corpus_stats"]:\n', log['raw_corpus_stats'])
+        links, re02 = lines2links(lines, **kwargs)                      # 90216
+        #-print('\nfiltered corpus: re02:\n', re02['corpus_stats'])
+
     log.update(re02)
-    if 'corpus_stats' in re02:
-        list2file(re02['corpus_stats'], corpus_stats_file)
+    #-print('\nlog["corpus_stats"]:\n', log['corpus_stats'])
+    if 'corpus_stats' in log:
+        list2file(log['corpus_stats'], corpus_stats_file)
         log.update({'corpus_stats_file': corpus_stats_file})
-    else:
+    else:  # FIXME: raise error / assert ?
         return {'error': 'input_files'}, log
+
+    '''Learn word categories'''
 
     categories, re03 = learn_categories(links, **kwargs)
     log.update(re03)
@@ -101,7 +137,7 @@ def learn(**kwargs):
         links, re06 = files2links(**kwargs)
         kwargs['context'] = context
 
-    if 'disjuncts' not in 'categories':  # k-means, agglomerative clustering
+    if 'disjuncts' not in categories:  # k-means, agglomerative clustering
         categories = add_disjuncts(categories, links, **kwargs)
 
     # TODO: check every category has disjuncts          # 81204,  blocked 81207

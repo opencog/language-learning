@@ -137,14 +137,12 @@ def learn(**kwargs):
         links, re06 = files2links(**kwargs)
         kwargs['context'] = context
 
-    if 'disjuncts' not in categories:  # k-means, agglomerative clustering
-        categories = add_disjuncts(categories, links, **kwargs)
+    categories = add_disjuncts(categories, links, **kwargs)
+    # TODO: check every category has disjuncts?         # 81204,  blocked 81207
+    #  ? categories = prune_cats(categories, **kwargs)  # [F] ⇒ induce_grammar?
+    #  ? re = check_cats(categories, **kwargs)
 
-    # TODO: check every category has disjuncts          # 81204,  blocked 81207
-    # categories = prune_cats(categories, **kwargs)  # [F] ⇒ implant in induce_grammar?
-    # re = check_cats(categories, **kwargs)
-
-    # "fully connected rules": every cluster connected to all clusters
+    # "Fully connected rules": every cluster connected to all clusters
     if kwargs['grammar_rules'] < 0:
         rules = deepcopy(categories)
         clusters = [i for i, x in enumerate(rules['cluster'])

@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/pparser.py                      # 81024
+# language-learning/src/grammar_learner/pparser.py                      # 90217
 import logging
 import pandas as pd
 from .corpus_stats import corpus_stats
@@ -108,21 +108,13 @@ def mst2disjuncts(lines, **kwargs):
     return df
 
 
-def files2links(**kwargs):
-    logger = logging.getLogger(__name__ + ".files2links")
-    parse_mode = kwa('lower',  'parse_mode', **kwargs)    # 'casefold'?
-    # parse_mode: 'given'~ as parsed, 'lower', 'casefold', 'explode' ⇒ ...
+def files2links(**kwargs):  # 2018 legacy, 2019-02: » filter_lines, lines2links
+    # kwargs['input_files'] » read files » return links DataFrame
+    parse_mode = kwa('lower', 'parse_mode', **kwargs)
+    # parse_mode: 'given'~ as parsed, 'lower', 'casefold'
     context = kwa(2, 'context', **kwargs)
-    group = True  # always? » kwa(True, 'group', **kwargs)? FIXME:DEL?
+    group = True  # always? » kwa(True, 'group', **kwargs) ?
     verbose = kwa('none', 'verbose', **kwargs)
-    #?window    = kwa('mst',  'window')    # not used
-    #?weighting = kwa('ppmi', 'weighting') # not used
-    #?distance  = kwa(??,     'distance')  # not used
-    #TODO? Old ideas:
-    #? level =   0: word pairs: ab » a:b
-    #?           1: connectors: ab » a:b+, b:a-
-    #?           2: disjuncts: abc » a:b+, b:a-, b:a-&c+ ...
-    #?           n>1 disjuncts up to n connectors per germ
 
     df = pd.DataFrame(columns=['word', 'link', 'count'])
 
@@ -131,7 +123,6 @@ def files2links(**kwargs):
         return df, {'parsed_links': 0, 'error': 'files2links: files = []'}
     lines = []
     for i, file in enumerate(files):
-        # TODO?: check file
         with open(file, 'r') as f:
             lines.extend(f.readlines())
 
@@ -143,8 +134,7 @@ def files2links(**kwargs):
                  else y for y in x.split()]) for x in lines]
 
     response = corpus_stats(lines)
-    ordnung = ['word','link','count']
-    # wdf = mst2words(lines, **kwargs)[ordnung]
+    ordnung = ['word', 'link', 'count']
     cdf = mst2connectors(lines, **kwargs)[ordnung]
     ddf = mst2disjuncts(lines, **kwargs)[ordnung]
 
@@ -201,6 +191,98 @@ def files2links(**kwargs):
     return df, response
 
 
+def filter_lines(lines, **kwargs):                                      # 90216
+    # TODO: logger = logging.getLogger(__name__ + ".filter_lines")
+    max_sentence_length = kwa(99, 'max_sentence_length', **kwargs) + 1
+    max_unparsed_words = kwa(0, 'max_unparsed_words', **kwargs) + 1
+    #-print(f'filter lines: max_sentence_length {max_sentence_length}, '
+    #-      f'max_unparsed_words {max_unparsed_words}')
+    if lines[-1] != '': lines.append('')
+    filtered_lines = []   # list of lines to return
+    parsed_sentence = []  # list of lines: sentence + parses
+    linked_words = set()  # linked words numbers
+    parsed_words = set()  # "parsed" (not [...]) word numbers in the sentence
+    for line in lines:
+        x = line.split()
+        if len(x) in [4, 5] and x[0].isdigit() and x[2].isdigit():
+            parsed_sentence.append(line)
+            if int(x[0]) > 0 and x[3] != '.':
+                linked_words.add(int(x[0]))
+                linked_words.add(int(x[2]))
+        else:  # empty line or new sentence
+            if len(parsed_sentence) > 0:
+                if len(parsed_words) < max_sentence_length:
+                    if non_parsed_words + len(parsed_words - linked_words) \
+                            < max_unparsed_words:
+                        filtered_lines.extend(parsed_sentence)
+                        filtered_lines.append('')
+                parsed_sentence = []
+            if len(x) > 0:  # else:  # new sentence:
+                parsed_sentence = [line]
+                if x[-1] == '.': x = x[:-1]
+                parsed_words = set([i+1 for i, y in enumerate(x)
+                                    if y[0] != '[' and y[-1] != ']'])
+                non_parsed_words = len(x) - len(parsed_words)
+                linked_words = set()
+            else: continue
+
+    return filtered_lines, corpus_stats(filtered_lines)
+
+
+def lines2links(lines, **kwargs):                                       # 90217
+    # TODO: logger = logging.getLogger(__name__ + "lines2links")
+    context = kwa(2, 'context', **kwargs)
+    group = True  # always? » kwa(True, 'group', **kwargs)? FIXME:DEL?
+    #-print(f'lines2links: {len(lines)} unfiltered lines')
+    lines, re = filter_lines(lines, **kwargs)
+    #-print(f'lines2links: {len(lines)} filtered lines')
+    # df = pd.DataFrame(columns=['word', 'link', 'count'])
+    if context > 1:  # ddf - disjuncts DataFrame
+        df = mst2disjuncts(lines, **kwargs)[['word', 'link', 'count']]
+        unique_djs = df.groupby('link', as_index = False).sum()
+        avg_disjunct_count = round(len(df) / len(unique_djs), 1)
+        df['djlen'] = df['link'].apply(lambda x: x.count('&') + 1)
+        avg_disjunct_length = float(round(df['djlen'].mean(), 1))
+        max_disjunct_length = int(df['djlen'].max())
+        re['corpus_stats'].extend([
+            ['Unique disjuncts number', len(unique_djs)],
+            ['Total  disjuncts count ', len(df)],         # FIXME!
+            ['Average disjunct count ', avg_disjunct_count],
+            ['Average disjunct length', avg_disjunct_length],
+            ['Maximum disjunct length', max_disjunct_length]])
+
+    elif context == 1:  # cdf - connectors DataFrame
+        df = mst2connectors(lines, **kwargs)[['word', 'link', 'count']]  # cdf
+        unique_connectors = df.groupby('link', as_index = False).sum()
+        avg_connector_count = round(len(df) / len(unique_connectors), 1)
+        re['corpus_stats'].extend([
+            ['Unique connectors number', len(unique_connectors)],
+            ['Total  connectors count ', len(df)],
+            ['Average connector count ', avg_connector_count]])
+
+    else:  # unused legacy: wdf - words DataFrame - word-based word space
+        df = mst2words(lines, **kwargs)
+        unique_words = df.groupby('word', as_index = False).sum()
+        avg_word_count = round(len(df) / len(unique_words), 1)
+        re['corpus_stats'].extend([
+            ['Unique words number', len(unique_words)],
+            ['Total  words count ', len(df)],
+            ['Average word count ', avg_word_count]])
+
+    unique_seeds = df.groupby(['word', 'link'], as_index = False).sum()
+    avg_seed_count = round(len(df) / len(unique_seeds), 1)
+    re['corpus_stats'].extend([
+        ['Unique seeds number', len(unique_seeds)],
+        ['Average seed count ', avg_seed_count]])
+
+    if group:  # Always True?  # FIXME:DEL?
+        df = df.groupby(['word', 'link'], as_index=False).sum() \
+            .sort_values(by=['count', 'word', 'link'],
+                         ascending=[False, True, True]) \
+            .reset_index(drop=True)
+
+    return df, re
+
 # Notes:
 
 # 80725 POC 0.5 restructured - this module was src/space/poc05.py
@@ -208,3 +290,4 @@ def files2links(**kwargs):
 # 80829 files2links: Average, max disjunct lengths
 # 81024 line 24: cure case of MST parses file last line not ending with CR
 # 81231 cleanup
+# 90217 filter_lines, lines2links

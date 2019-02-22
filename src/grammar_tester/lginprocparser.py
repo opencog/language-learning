@@ -196,6 +196,9 @@ class LGInprocParser(AbstractFileParserClient):
 
                     # prepared = None
 
+                    if not len(tokens):
+                        self._logger.warning(f"No tokens for sentence: '{lnkg.text}'")
+
                     # # If sentence, for some reason, can not be parsed
                     # if not len(tokens):
                     #     # Print original sentence with no links in order for the sentence numbers

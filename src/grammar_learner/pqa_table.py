@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/pqa_table.py                    # 81222
+# language-learning/src/grammar_learner/pqa_table.py                    # 90221
 # Test Grammar Learner to fill in ULL Project Plan Parses spreadshit
 import logging
 
@@ -66,7 +66,7 @@ def params(corpus_, dataset_, module_path_, out_dir, **kwargs):         # 90201
             if type(kwargs['cluster_range']) is int:
                 prj_dir = prj_dir + '_' + str(kwargs['cluster_range']) + 'c'
 
-        if kwargs['min_word_count'] > 1:  # 81210 FIXME:DEL? after tests
+        if 'min_word_count' in kwargs and kwargs['min_word_count'] > 1:
             prj_dir = prj_dir + '_mwc=' + str(kwargs['min_word_count'])
 
         if len(kwargs['clustering']) > 3 \
@@ -663,3 +663,4 @@ def wide_table(lines, out_dir, cp, rp, **kwargs):           # 81222 FIXME: [»]
 # 81210 wide_rows + min_word_count
 # 81220 wide_table ⇒ FIXME in 2019, replace wide_row in 2019 .ipynb tests.
 # 81231 cleanup
+# 90221 tweak min_word_count (line 69)

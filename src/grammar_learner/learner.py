@@ -1,4 +1,4 @@
-# language-learning/src/learner.py                                      # 81231
+# language-learning/src/learner.py                                      # 90221
 import logging
 import os, time  # pickle, numpy as np, pandas as pd
 from copy import deepcopy
@@ -20,6 +20,7 @@ __all__ = ['learn_grammar', 'learn']
 
 def learn(**kwargs):
     logger = logging.getLogger(__name__ + ".learn")
+    verbose = kwa('none', 'verbose', **kwargs)
     start = time.time()
     log = OrderedDict({'start': str(UTC()), 'learn_grammar': 'v.0.7.81231'})
     # input_parses = kwargs['input_parses']
@@ -29,13 +30,12 @@ def learn(**kwargs):
 
     output_categories = kwa('', 'output_categories', **kwargs)
     output_statistics = kwa('', 'output_statistics', **kwargs)
-    temp_dir = kwa('', 'temp_dir', **kwargs)
     if os.path.isdir(output_grammar):
         prj_dir = output_grammar
     elif os.path.isfile(output_grammar):
         prj_dir = os.path.dirname(output_grammar)
     else:  # create prj_dir
-        if check_dir(output_grammar, True, 'max'):
+        if check_dir(output_grammar, True, verbose):
             prj_dir = output_grammar
     log.update({'project_directory': prj_dir})
 
@@ -51,11 +51,22 @@ def learn(**kwargs):
     else:
         corpus_stats_file = prj_dir + '/corpus_stats.txt'
 
+    temp_dir = kwa('', 'temp_dir', **kwargs)        # FIXME: WTF?       # 90221
+    tmpath = kwa('', 'tmpath', **kwargs)  # legacy
     if temp_dir != '':
-        if os.path.isdir(temp_dir):
-            kwargs['tmpath'] = temp_dir
+        # if os.path.isdir(temp_dir):
+        if check_dir(temp_dir, False, verbose):
+            tmpath = temp_dir
+        else: tmpath = os.path.abspath(os.path.join('..')) + '/tmp'
+    elif tmpath == '':                              # FIXME: stub!      # 90221
+        # if check_dir(prj_dir + '/tmp', True, verbose):
+        #    tmpath = prj_dir + '/tmp'
+        tmpath = os.path.abspath(os.path.join('..')) + '/tmp'           # 90221
+    if check_dir(tmpath, True, verbose):
+        kwargs['tmpath'] = tmpath
+        temp_dir = tmpath
 
-    parse_mode = kwa('lower',  'parse_mode', **kwargs)  # 'casefold' » default?
+    parse_mode = kwa('lower', 'parse_mode', **kwargs)  # 'casefold' » default?
     context = kwa(2, 'context', **kwargs)
     clustering = kwa('kmeans', 'clustering', **kwargs)  # TODO: update
     cats_gen = kwa('off', 'categories_generalization', **kwargs)
@@ -143,7 +154,7 @@ def learn(**kwargs):
     #  ? re = check_cats(categories, **kwargs)
 
     # "Fully connected rules": every cluster connected to all clusters
-    if kwargs['grammar_rules'] < 0:
+    if grammar_rules < 0:
         rules = deepcopy(categories)
         clusters = [i for i, x in enumerate(rules['cluster'])
                     if i > 0 and x is not None]
@@ -204,4 +215,5 @@ def learn_grammar(**kwargs):  # Backwards compatibility with legacy calls
 # 81102 sparse wordspace agglomerative clustering
 # 81126 def learn_grammar ⇒ def learn + decorator
 # 81204-07 test and block (snooze) data pruning with max_disjuncts, etc...
-# 71231 cleanup
+# 81231 cleanup
+# 90221 tweak temp_dir, tmpath for Grammar Learner tutorial

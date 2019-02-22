@@ -166,5 +166,5 @@ dependencies:
   - link-grammar-minisat-bundled=5.5.1=0
   - sparsesvd=0.2.2=0
   - tqdm=4.28.1=py36h28b3542_0
-prefix: /home/obaskov/miniconda3/envs/ull-old
+prefix: /home/obaskov/miniconda3/envs/ull
 

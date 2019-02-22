@@ -376,4 +376,4 @@ def skip_linkage_header(text: str) -> (int, int):
 
         pos += 1
 
-    return pos, err
+    return -1, err

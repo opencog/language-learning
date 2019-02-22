@@ -7,6 +7,7 @@ from src.common.textprogress import TextProgress
 from src.grammar_tester import load_ull_file
 from src.grammar_tester.lgmisc import ParserError, LGParseError
 
+
 lg_post_output = """
 echo set to 1
 postscript set to 1
@@ -91,8 +92,65 @@ holocaust survivors did not differ in the level of resilience from comparisons (
 [0]
 """
 
+sharp_sign_linkage = \
+"""
+postscript set to 1
+graphics set to 0
+echo set to 1
+verbosity set to 1
+link-grammar: Info: Dictionary found at /home/aglushchenko/anaconda3/envs/ull-lg551/share/link-grammar/en/4.0.dict
+link-grammar: Info: Dictionary version 5.5.1, locale en_US.UTF-8
+link-grammar: Info: Library version link-grammar-5.5.1. Enter "!help" for help.
+But there still remained all the damage that had been done that day , and the king had nothing with which to pay for this.
+No complete linkages found.
+Found 8706604 linkages (4 of 1000 random linkages had no P.P. violations) at null count 3
+	Linkage 1, cost vector = (UNUSED=3 DIS= 7.85 LEN=84)
+[(LEFT-WALL)(but.ij)(there.#their)(still.n)(remained.v-d)(all.a)(the)(damage.n-u)(that.j-p)(had.v-d)
+(been.v)([done])(that.j-r)(day.r)(,)(and.ij)(the)(king.n)(had.v-d)(nothing)
+([with])([which])(to.r)(pay.v)(for.p)(this.p)(.)]
+[[0 26 6 (Xp)][0 23 5 (WV)][0 15 4 (Xx)][0 10 3 (WV)][0 1 0 (Wc)][1 4 2 (WV)][1 3 1 (Wdc)]
+[3 4 0 (Ss*s)][2 3 0 (Ds**c)][4 5 0 (O)][5 7 1 (Ju)][7 10 1 (Bs*t)][5 6 0 (ALx)][6 7 0 (Dmu)]
+[7 8 0 (Rn)][8 9 0 (Ss*b)][9 10 0 (PPf)][10 13 1 (MVpn)][12 13 0 (DTn)][14 15 0 (Xd)][15 18 2 (WV)]
+[15 17 1 (Wdc)][17 18 0 (Ss*s)][16 17 0 (Ds**c)][18 22 1 (MVi)][22 23 0 (I)][18 19 0 (Os)][23 24 0 (MVp)]
+[24 25 0 (Js)]]
+[0]
+"""
+
+explosion_no_linkages = \
+"""
+echo set to 1
+postscript set to 1
+graphics set to 0
+verbosity set to 1
+timeout set to 1
+limit set to 100
+But there still remained all the damage that had been done that day , and the king had nothing with which to pay for this.
+No complete linkages found.
+Timer is expired!
+Entering "panic" mode...
+link-grammar: Warning: Combinatorial explosion! nulls=5 cnt=27061933
+Consider retrying the parse with the max allowed disjunct cost set lower.
+At the command line, use !cost-max
+Found 27061933 linkages (0 of 100 random linkages had no P.P. violations) at null count 5
+Bye.
+"""
 
 class LGInprocParserTestCase(unittest.TestCase):
+    # @unittest.skip
+    def test_parse_batch_ps_output_explosion(self):
+        # """ Test postscript parsing for total number of parsed sentences """
+        pr = LGInprocParser()
+
+        print(explosion_no_linkages)
+
+        sentences = pr._parse_batch_ps_output(explosion_no_linkages, 0)
+
+        self.assertEqual(1, len(sentences))
+        self.assertEqual("But there still remained all the damage that had been done that day , and the king "
+                         "had nothing with which to pay for this.",
+                         sentences[0].text)
+        self.assertEqual(1, len(sentences[0].linkages))
+
     # @unittest.skip
     def test_parse_batch_ps_output(self):
         """ Test postscript parsing for total number of parsed sentences """
@@ -100,12 +158,24 @@ class LGInprocParserTestCase(unittest.TestCase):
         num_sent = len(pr._parse_batch_ps_output(lg_post_output, 0))
         self.assertEqual(num_sent, 12, "'parse_batch_ps_output()' returns '{}' instead of '{}'".format(num_sent, 12))
 
+    # # @unittest.skip
+    # def test_parse_batch_ps_output_explosion(self):
+    #     """ Test for 'combinatorial explosion' """
+    #     pr = LGInprocParser(verbosity=0)
+    #     num_sent = len(pr._parse_batch_ps_output(lg_post_explosion, 0))
+    #     self.assertEqual(num_sent, 4, "'parse_batch_ps_output()' returns '{}' instead of '{}'".format(num_sent, 4))
+
     # @unittest.skip
-    def test_parse_batch_ps_output_explosion(self):
-        """ Test for 'combinatorial explosion' """
-        pr = LGInprocParser(verbosity=0)
-        num_sent = len(pr._parse_batch_ps_output(lg_post_explosion, 0))
-        self.assertEqual(num_sent, 4, "'parse_batch_ps_output()' returns '{}' instead of '{}'".format(num_sent, 4))
+    def test_parse_batch_ps_output_sharp(self):
+        """ Test for 'sharp sign token suffix' """
+        pr = LGInprocParser(verbosity=1)
+        sentences = pr._parse_batch_ps_output(sharp_sign_linkage, 0)
+        num_sent = len(sentences)
+        self.assertEqual(num_sent, 1, "'parse_batch_ps_output()' returns '{}' instead of '{}'".format(num_sent, 1))
+
+        print(sentences[0].text)
+        print(sentences[0].linkages)
+
 
     def test_parse_sent_count(self):
         pr = LGInprocParser()
@@ -128,9 +198,9 @@ class LGInprocParserTestCase(unittest.TestCase):
 
         # self.assertEqual("list index out of range", str(ctx.exception))
 
+    # @unittest.skip
     def test_parse_file_not_found(self):
         with self.assertRaises(FileNotFoundError) as ctx:
-            # TestClass().test_func()
             pr = LGInprocParser()
             pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
                      "/var/tmp/parse", "tests/test-data/corpora/poc-turtle/poc-horse.txt", BIT_PARSE_QUALITY)
@@ -140,10 +210,17 @@ class LGInprocParserTestCase(unittest.TestCase):
     # @unittest.skip
     def test_parse_invalid_file_format(self):
 
+        # from subprocess import Popen, PIPE
+        #
+        # with Popen(["conda", "env", "list"], stdout=PIPE, stderr=PIPE) as wh:
+        #
+        #     raw, err = wh.communicate()
+        #     print(raw.decode("utf-8-sig"))
+
         with self.assertRaises(LGParseError) as ctx:
             pr = LGInprocParser()
             pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
-                     "/var/tmp/parse", "tests/test-data/corpora/poc-turtle/poc-turtle.txt", BIT_PARSE_QUALITY)
+                 "/var/tmp/parse", "tests/test-data/corpora/poc-turtle/poc-turtle.txt", BIT_PARSE_QUALITY)
 
         # self.assertEqual("list index out of range", str(ctx.exception))
 

@@ -205,6 +205,9 @@ class LGInprocParser(AbstractFileParserClient):
                     #     # Print out links in ULL-format
                     #     print_output(tokens, links, options, out_stream)
 
+                    # Print out links in ULL-format
+                    print_output(tokens, links, options, out_stream)
+
                     if not sent.valid:
                         sent_metrics.skipped_sentences += 1
                         continue

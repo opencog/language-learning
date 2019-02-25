@@ -135,7 +135,39 @@ Found 27061933 linkages (0 of 100 random linkages had no P.P. violations) at nul
 Bye.
 """
 
+
+merged_ps_parses = \
+"""
+There the train was coming mother was holding Jem's hand Dog Monday was licking it everybody was saying good-bye the train was in !
+No complete linkages found.
+Found 38230999 linkages (0 of 1000 random linkages had no P.P. violations) at null count 2
+They had gone.
+Found 2 linkages (2 had no P.P. violations)
+        Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=5)
+[(LEFT-WALL)(they)(had.v-d)(gone.v)(.)]
+[[0 4 2 (Xp)][0 3 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp)][2 3 0 (PP)]]
+[0]
+"""
+
+
 class LGInprocParserTestCase(unittest.TestCase):
+    # @unittest.skip
+    def test_parse_batch_ps_output_explosion_merged_sentences(self):
+        # """ Test postscript parsing for total number of parsed sentences """
+        pr = LGInprocParser()
+
+        print(merged_ps_parses)
+
+        sentences = pr._parse_batch_ps_output(merged_ps_parses, 0)
+
+        self.assertEqual(2, len(sentences))
+        self.assertEqual("There the train was coming mother was holding Jem's hand Dog Monday was licking it everybody "
+                         "was saying good-bye the train was in !",
+                         sentences[0].text)
+        self.assertEqual("They had gone.", sentences[1].text)
+        self.assertEqual(1, len(sentences[0].linkages))
+        self.assertEqual(1, len(sentences[1].linkages))
+
     # @unittest.skip
     def test_parse_batch_ps_output_explosion(self):
         # """ Test postscript parsing for total number of parsed sentences """
@@ -151,7 +183,7 @@ class LGInprocParserTestCase(unittest.TestCase):
                          sentences[0].text)
         self.assertEqual(1, len(sentences[0].linkages))
 
-    # @unittest.skip
+    @unittest.skip
     def test_parse_batch_ps_output(self):
         """ Test postscript parsing for total number of parsed sentences """
         pr = LGInprocParser()

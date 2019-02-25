@@ -69,65 +69,39 @@ class LGInprocParser(AbstractFileParserClient):
         validity_mask = (options & (BIT_EXCLUDE_TIMEOUTED | BIT_EXCLUDE_PANICED | BIT_EXCLUDE_EXPLOSION))
 
         # Parse output to get sentences and linkages in postscript notation
-        for sent in text[pos:end].split("\n\n"):
+        for block in text[pos:end].split("\n\n"):
 
-            sent = sent.strip()
+            block = block.strip()
 
-            # Get postscript starting position after parsing LG error and warning messages
-            post_start, post_errors = skip_linkage_header(sent)
+            # Check if the LG output block contains only one parse
+            parses = split_ps_parses(block)
 
-            # is_valid = post_start >= 0
+            for sent in parses:
 
-            # Get input sentence(s) echoed by link-parser
-            echo_text = sent if post_start < 0 else sent[:post_start-1]
+                # Get echoed sentence out of postscript output parse
+                sentence = get_sentence_text(sent)
 
-            # There might be many sentences followed by single postscript if one or several sentences are not parsed
-            #   because of so called 'combinatorial explosion'.
-            lines = echo_text.split("\n")
+                # Get postscript starting position after parsing LG error and warning messages
+                post_start, post_errors = skip_linkage_header(sent)
 
-            num_lines = len(lines)
+                # Check if the postscript linkage is valid
+                is_valid = not (post_errors & validity_mask)
 
-            # If verbosity is set to 0
-            if self._lg_verbosity == 0:
+                # Successfully parsed sentence is added here
+                cur_sent = PSSentence(sentence)
 
-                # None of the unparsed by link-parser sentences, if any, should be missed
-                for i in range(0, num_lines-1):
-                    sent_text = lines[i]
-                    sent_obj = PSSentence(sent_text)
+                cur_sent.valid = is_valid
 
-                    # Separate periond with space if not already separated
-                    sent_text = sent_text[:-1] + " ." if sent_text[-1:] == r"." else sent_text
+                # Separate period with space if not already separated
+                sentence = sentence[:-1] + " ." if sentence[-1:] == r"." else sentence
 
-                    tokens = sent_text.split(" ")
+                postscript = sent[post_start:].replace("\n", "") if is_valid \
+                    else r"[([" + r"])([".join(sentence.split(" ")) + r"])][][0]"
 
-                    # Produce fake postscript in order for proper statistic estimation
-                    post_text = r"[([" + r"])([".join(tokens) + r"])][][0]"
-                    sent_obj.linkages.append(post_text)
-                    sentences.append(sent_obj)
+                cur_sent.linkages.append(postscript)
+                sentences.append(cur_sent)
 
-                sentence = lines[num_lines-1]
-
-            else:
-                sentence = lines[0]
-
-            # Check if the postscript linkage is valid
-            is_valid = not (post_errors & validity_mask)
-
-            # Successfully parsed sentence is added here
-            cur_sent = PSSentence(sentence)
-
-            cur_sent.valid = is_valid
-
-            # Separate periond with space if not already separated
-            sentence = sentence[:-1] + " ." if sentence[-1:] == r"." else sentence
-
-            postscript = sent[post_start:].replace("\n", "") if is_valid \
-                else r"[([" + r"])([".join(sentence.split(" ")) + r"])][][0]"
-
-            cur_sent.linkages.append(postscript)
-            sentences.append(cur_sent)
-
-            sent_count += 1
+                sent_count += 1
 
         return sentences
 

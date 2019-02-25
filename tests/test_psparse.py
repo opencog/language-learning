@@ -2,7 +2,8 @@ import unittest
 import sys
 
 from src.grammar_tester.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, \
-    prepare_tokens, skip_command_response, skip_linkage_header, PS_TIMEOUT_EXPIRED, PS_PANIC_DETECTED
+    prepare_tokens, skip_command_response, skip_linkage_header, PS_TIMEOUT_EXPIRED, PS_PANIC_DETECTED, \
+    get_sentence_text, split_ps_parses, trim_garbage
 from src.grammar_tester.optconst import *
 from src.grammar_tester.parsestat import parse_metrics
 
@@ -268,6 +269,46 @@ sharp_sign_links = {
 # """
 
 
+merged_ps_parses = \
+"""
+here the train was coming mother was holding Jem's hand Dog Monday was licking it everybody was saying good-bye the train was in !
+No complete linkages found.
+Found 38230999 linkages (0 of 1000 random linkages had no P.P. violations) at null count 2
+They had gone.
+Found 2 linkages (2 had no P.P. violations)
+        Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=5)
+[(LEFT-WALL)(they)(had.v-d)(gone.v)(.)]
+[[0 4 2 (Xp)][0 3 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp)][2 3 0 (PP)]]
+[0]
+"""
+
+merged_ps_parses2 = \
+"""
+There the train was coming mother was holding Jem's hand Dog Monday was licking it everybody was saying good-bye the train was in !
+No complete linkages found.
+Found 38230999 linkages (0 of 1000 random linkages had no P.P. violations) at null count 2
+Here comes the sun, here comes the sun, it's alright !
+No complete linkages found.
+Found 38230999 linkages (0 of 1000 random linkages had no P.P. violations) at null count 2
+They had gone.
+Found 2 linkages (2 had no P.P. violations)
+        Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=5)
+[(LEFT-WALL)(they)(had.v-d)(gone.v)(.)]
+[[0 4 2 (Xp)][0 3 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp)][2 3 0 (PP)]]
+[0]
+"""
+
+merged_ps_parses3 = \
+"""
+They had gone.
+Found 2 linkages (2 had no P.P. violations)
+        Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=5)
+[(LEFT-WALL)(they)(had.v-d)(gone.v)(.)]
+[[0 4 2 (Xp)][0 3 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp)][2 3 0 (PP)]]
+[0]
+"""
+
+
 
 
 # """
@@ -305,6 +346,105 @@ At the command line, use !cost-max
 Found 27061933 linkages (0 of 100 random linkages had no P.P. violations) at null count 5
 """
 
+tuna_isa_fish_ps = \
+"""
+tuna isa fish.
+Found 1 linkage (1 had no P.P. violations)
+	Unique linkage, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(tuna.sff)(isa)(fish.of)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wa)][1 2 0 (Sff)][2 3 0 (Of)]]
+[0]
+"""
+
+
+lg_post_output = """
+echo set to 1
+postscript set to 1
+graphics set to 0
+verbosity set to 0
+tuna has fin .
+[(LEFT-WALL)(tuna)(has)(fin)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+eagle isa bird .
+[(LEFT-WALL)(eagle)(isa)(bird)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+fin isa extremity .
+[(LEFT-WALL)(fin)(isa)(extremity)(.)]
+[[0 1 0 (C05C04)][1 2 0 (C04C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+tuna isa fish .
+[(LEFT-WALL)(tuna)(isa)(fish)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+fin has scale .
+[(LEFT-WALL)(fin)([has])(scale)(.)]
+[[0 1 0 (C05C04)][1 3 0 (C04C04)][3 4 0 (C04C03)]]
+[0]
+
+eagle has wing .
+[(LEFT-WALL)(eagle)(has)(wing)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+wing has feather .
+[(LEFT-WALL)(wing)([has])(feather)(.)]
+[[0 1 0 (C05C04)][1 3 0 (C04C04)][3 4 0 (C04C03)]]
+[0]
+
+wing isa extremity .
+[(LEFT-WALL)(wing)(isa)(extremity)(.)]
+[[0 1 0 (C05C04)][1 2 0 (C04C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+herring isa fish .
+[(LEFT-WALL)(herring)(isa)(fish)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+herring has fin .
+[(LEFT-WALL)(herring)(has)(fin)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+parrot isa bird .
+[(LEFT-WALL)(parrot)(isa)(bird)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+parrot has wing .
+[(LEFT-WALL)(parrot)(has)(wing)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+Bye.
+"""
+
+explosion_no_linkages_full = \
+"""
+echo set to 1
+postscript set to 1
+graphics set to 0
+verbosity set to 1
+timeout set to 1
+limit set to 100
+But there still remained all the damage that had been done that day , and the king had nothing with which to pay for this.
+No complete linkages found.
+Timer is expired!
+Entering "panic" mode...
+link-grammar: Warning: Combinatorial explosion! nulls=5 cnt=27061933
+Consider retrying the parse with the max allowed disjunct cost set lower.
+At the command line, use !cost-max
+Found 27061933 linkages (0 of 100 random linkages had no P.P. violations) at null count 5
+Bye.
+"""
+
+
 class TestPSParse(unittest.TestCase):
 
     post_all_walls = "[(LEFT-WALL)(Dad[!])(was.v-d)(not.e)(a)(parent.n)(before)(.)(RIGHT-WALL)]" \
@@ -318,6 +458,35 @@ class TestPSParse(unittest.TestCase):
     tokens_all_walls = "(LEFT-WALL)(Dad[!])(was.v-d)(not.e)(a)(parent.n)(before)(.)(RIGHT-WALL)"
     tokens_no_walls = "(eagle)(has)(wing)(.)"
     tokens_no_walls_no_period = "(eagle)(has)(wing)"
+
+    def test_trim_garbage(self):
+        self.assertTrue(0 < trim_garbage(lg_post_output))
+        self.assertTrue(0 < trim_garbage(explosion_no_linkages_full))
+        self.assertTrue(0 < trim_garbage(explosion_no_linkages))
+
+    def test_split_ps_parses(self):
+        parses = split_ps_parses(merged_ps_parses)
+        self.assertEqual(2, len(parses))
+
+        parses = split_ps_parses(merged_ps_parses2)
+        self.assertEqual(3, len(parses))
+
+        parses = split_ps_parses(merged_ps_parses3)
+        self.assertEqual(1, len(parses))
+
+    def test_get_sentence_text(self):
+        parses = split_ps_parses(merged_ps_parses2)
+        self.assertEqual(3, len(parses))
+
+        self.assertEqual("There the train was coming mother was holding Jem's hand Dog Monday was licking it everybody "
+                         "was saying good-bye the train was in !", get_sentence_text(parses[0]))
+
+        self.assertEqual("Here comes the sun, here comes the sun, it's alright !", get_sentence_text(parses[1]))
+
+        self.assertEqual("They had gone.", get_sentence_text(parses[2]))
+
+        self.assertEqual("tuna isa fish.", get_sentence_text(tuna_isa_fish_ps))
+
 
     def test_new_tokenizer(self):
 

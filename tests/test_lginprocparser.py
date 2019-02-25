@@ -164,6 +164,10 @@ class LGInprocParserTestCase(unittest.TestCase):
         self.assertEqual("There the train was coming mother was holding Jem's hand Dog Monday was licking it everybody "
                          "was saying good-bye the train was in !",
                          sentences[0].text)
+        self.assertEqual("[([There])([the])([train])([was])([coming])([mother])([was])([holding])([Jem's])([hand])"
+                         "([Dog])([Monday])([was])([licking])([it])([everybody])([was])([saying])([good-bye])([the])"
+                         "([train])([was])([in])([!])][][0]",
+                         sentences[0].linkages[0])
         self.assertEqual("They had gone.", sentences[1].text)
         self.assertEqual(1, len(sentences[0].linkages))
         self.assertEqual(1, len(sentences[1].linkages))

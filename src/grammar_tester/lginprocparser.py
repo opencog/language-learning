@@ -85,7 +85,7 @@ class LGInprocParser(AbstractFileParserClient):
                 post_start, post_errors = skip_linkage_header(sent)
 
                 # Check if the postscript linkage is valid
-                is_valid = not (post_errors & validity_mask)
+                is_valid = not (post_errors & validity_mask) and post_start > 0
 
                 # Successfully parsed sentence is added here
                 cur_sent = PSSentence(sentence)
@@ -134,10 +134,10 @@ class LGInprocParser(AbstractFileParserClient):
             # Parse output into sentences and assotiate a list of linkages for each one of them.
             sentences = self._parse_batch_ps_output(text, options)
 
-            with open("sentences.txt", "w") as file:
-                for sentence in sentences:
-                    print(sentence.text, file=file)
-                    print(sentence.linkages, file=file)
+            # with open("sentences.txt", "w") as file:
+            #     for sentence in sentences:
+            #         print(sentence.text, file=file)
+            #         print(sentence.linkages, file=file)
 
             if options & BIT_PARSE_QUALITY and ref_path is not None:
                 len_ref, len_par = len(ref_parses), len(sentences)

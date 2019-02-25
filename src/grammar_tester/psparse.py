@@ -234,7 +234,7 @@ def parse_postscript(text: str, options: int) -> ([], []):
 
         return tokens, links
 
-    raise LGParseError("parse_postscript(): regex does not match!")
+    raise LGParseError(f"parse_postscript(): regex does not match for:\n{text}")
 
 
 def get_link_set(tokens: list, links: list, options: int) -> set:

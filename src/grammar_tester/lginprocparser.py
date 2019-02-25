@@ -137,7 +137,7 @@ class LGInprocParser(AbstractFileParserClient):
             with open("sentences.txt", "w") as file:
                 for sentence in sentences:
                     print(sentence.text, file=file)
-                    # print(sentence.linkages, file=file)
+                    print(sentence.linkages, file=file)
 
             if options & BIT_PARSE_QUALITY and ref_path is not None:
                 len_ref, len_par = len(ref_parses), len(sentences)

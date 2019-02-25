@@ -134,11 +134,6 @@ class LGInprocParser(AbstractFileParserClient):
             # Parse output into sentences and assotiate a list of linkages for each one of them.
             sentences = self._parse_batch_ps_output(text, options)
 
-            # with open("sentences.txt", "w") as file:
-            #     for sentence in sentences:
-            #         print(sentence.text, file=file)
-            #         print(sentence.linkages, file=file)
-
             if options & BIT_PARSE_QUALITY and ref_path is not None:
                 len_ref, len_par = len(ref_parses), len(sentences)
 
@@ -158,12 +153,6 @@ class LGInprocParser(AbstractFileParserClient):
 
                 sent_metrics, sent_quality = ParseMetrics(), ParseQuality()
 
-                # # If sentence, for some reason, can not be parsed
-                # if not len(sent.linkages):
-                #     # Print original sentence with no links in order for the sentence numbers
-                #     #   in corpus and reference files to be exactly the same.
-                #     print(sent.text + "\n", file=out_stream)
-
                 # Parse and calculate statistics for each linkage
                 for lnkg in sent.linkages:
 
@@ -173,19 +162,8 @@ class LGInprocParser(AbstractFileParserClient):
                     # Parse postscript notated linkage and get two lists with tokens and links in return.
                     tokens, links = parse_postscript(lnkg, options)
 
-                    # prepared = None
-
                     if not len(tokens):
-                        self._logger.warning(f"No tokens for sentence: '{lnkg.text}'")
-
-                    # # If sentence, for some reason, can not be parsed
-                    # if not len(tokens):
-                    #     # Print original sentence with no links in order for the sentence numbers
-                    #     #   in corpus and reference files to be exactly the same.
-                    #     print(sent.text + "\n", file=out_stream)
-                    # else:
-                    #     # Print out links in ULL-format
-                    #     print_output(tokens, links, options, out_stream)
+                        raise LGParseError(f"No tokens for sentence: '{lnkg.text}'")
 
                     # Print out links in ULL-format
                     print_output(tokens, links, options, out_stream)

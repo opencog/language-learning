@@ -331,8 +331,6 @@ def trim_garbage(text: str) -> int:
             return l+1
         l -= 1
 
-    # return 0
-
     pos = text.rfind("Bye.")
 
     if pos > 0:
@@ -415,7 +413,6 @@ def get_sentence_text(text: str) -> str:
         return text[:pos].replace("\n", "")
 
     pattern = re.compile(r"^Found \d+ linkages?.+$", re.M)
-    # pattern = re.compile(r"^Found \d+ linkages? \(\d+ had no P.P. violations\)$", re.M)
     match = pattern.search(text)
 
     if match:

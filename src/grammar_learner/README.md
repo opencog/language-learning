@@ -52,8 +52,8 @@ kwargs = {                              # defaults:
     'rules_aggregation'     : 0.2   ,   # aggregate rules similarity > this criteria
     # miscellaneous:
     'temp_dir'              : ''    ,   # temporary files = language-learning/tmp/ if '' or not set
-    'linkage_limit'         : 1000  ,   # Link Grammar parameter for tests
     'tmpath' : module_path + '/tmp/',   # temporary files directory (legacy)
+    'linkage_limit'         : 1000  ,   # Link Grammar parameter for tests
     'verbose': 'min'    # display intermediate results: 'none', 'min', 'mid', 'max'
 }
 response = learn_grammar(**kwargs)
@@ -112,8 +112,7 @@ optimal number of clusters: minimal, providing `clustering_metric` better than s
 - x = 0.1-0.99 -- clustering with minimal number of clusters, providing x * max value of `clustering_metric`;
 - 0 / 0.0  -- return clustering with maxi,al possible number of clusters
 
-**'rules_generalization'**: 'off' / 'jaccard' / 'hierarchical' / 'new'
+**'rules_generalization'**: 'off' / 'jaccard' / 'hierarchical' / 'fast'
 - 'jaccard' -- group ILE-based rules by jaccard similarity (mid-2018 legacy),  
 - 'hierarchical' -- updated 'jaccard' with rules renumbering in each loop (Nov 2018),  
-- 'new' -- experimental iterative jaccard with rules renumbering (Nov 2018),  
-- 'classification' (idea to test) -- classify smaller clusters and merge with the best fit
+- 'fast' -- experimental iterative jaccard with rules renumbering (Nov 2018),  

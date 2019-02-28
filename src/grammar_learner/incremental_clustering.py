@@ -356,4 +356,7 @@ def new_pqa_meter(dict_path, op, cp, rp, **kwargs):  # TODO
 # Comments:
 
 # 90129-30 dict2dict, tag_cats, tag_files » pipeline/category_tagger
-# 90201
+'''ATTN: This is still a stub result of 2 days idea check'''
+# FIXME: There is an issue somewhere in tagging or filtering or input parses
+#  - tagged dictionaries contain non-tagged words
+#  - http://langlearn.singularitynet.io/data/clustering_2019/html/Iterative-Clustering-ILE-POCE-CDS-2019-02-28.html

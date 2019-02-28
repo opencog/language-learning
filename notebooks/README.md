@@ -23,5 +23,12 @@ sh-4.3$ source activate ull
 ```
 Browser: `http://localhost:8000/?token=(token_copied_in_the_terminal)`
 
+## Archive:  
+
+ 2018: [static html copies of notebooks](http://langlearn.singularitynet.io/data/clustering_2018/html/), 
+ [data](http://langlearn.singularitynet.io/data/clustering_2018/)    
+ 2019: [static html copies of notebooks](http://langlearn.singularitynet.io/data/clustering_2019/html/), 
+ [data](http://langlearn.singularitynet.io/data/clustering_2019/) 
+         
 ---
 

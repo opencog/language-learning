@@ -15,12 +15,12 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
     # cd: ndarray(words*disjuncts)
     clustering = kwa(('agglomerative', 'ward'), 'clustering', **kwargs)
     if type(clustering) is str:
-        if clustering == 'kmeans':
-            clustering = ('kmeans', 'k-means++', 10)
-        elif clustering == 'agglomerative':
+        if clustering == 'agglomerative':
             clustering = ('agglomerative', 'ward')
-        elif clustering == 'mean_shift':
-            clustering = ('mean_shift', 'auto')
+        elif clustering == 'kmeans':
+            clustering = ('kmeans', 'k-means++', 10)
+        elif clustering in ['mean_shift', 'mean shift', 'meanshift']:
+            clustering = ('mean_shift', 2)  # TODO: check (..., 'auto)
         elif clustering == 'group':  # TODO: call ILE clustering?
             return [], {'clustering': 'skl_clustering error',
                         'clustering_error':
@@ -31,6 +31,7 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
                             'random not supported in skl_clustering'}, []
         else:
             clustering = ('agglomerative', 'ward')
+
     clustering_metric = kwa(('silhouette', 'euclidean'),
                             'clustering_metric', **kwargs)
     labels = np.asarray([[]])
@@ -88,9 +89,12 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
                 bandwidth = clustering[1]
             else:
                 bandwidth = None  # TODO: auto ⇒ estimate_bandwidth
+                bandwidth = 'auto'
+
             model = MeanShift(bandwidth=bandwidth)
             model.fit(cd)
             labels = model.labels_
+
             centroids = np.asarray(model.cluster_centers_[:(max(labels) + 1)])
 
         else:  # TODO: random clustering?
@@ -102,12 +106,12 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
         try:
             metrics['silhouette_index'] = float(
                 silhouette_score(cd, labels, metric=clustering_metric[1]))
-        except:
+        except:  # FIXME
             metrics['silhouette_index'] = 0.0
         try:
             metrics['variance_ratio'] = float(
                 calinski_harabaz_score(cd, labels))
-        except:
+        except:  # FIXME
             metrics['variance_ratio'] = 0.0
         # try:
         #   metrics['davies_bouldin_score'] = float(
@@ -115,23 +119,26 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
         # except: metrics['davies_bouldin_score'] = 0.0
 
         return labels, metrics, centroids
-    except:  # else:  #
+    except:  # else:  # FIXME
+        print('except: skl_clustering error')
         return [], {'clustering': 'skl_clustering error'}, []
 
 
 def optimal_clusters(cd, **kwargs):
     # cluster_range = kwa((2,48,1), 'cluster_range')
-    algo = kwa('kmeans', 'clustering', **kwargs)
+    algo = kwa('agglomerative', 'clustering', **kwargs)
     criteria = kwa('silhouette', 'cluster_criteria', **kwargs)
     level = kwa(1.0, 'cluster_level', **kwargs)
     verbose = kwa('none', 'verbose', **kwargs)
-    crange = kwa((2, 50, 2), 'cluster_range', **kwargs)
+    crange = kwa(10, 'cluster_range', **kwargs)                         # 90206
 
     if type(algo) is str:
-        if algo == 'kmeans':
-            algo = ('kmeans', 'k-means++', 10)
-        elif algo == 'agglomerative':
+        if algo == 'agglomerative':
             algo = ('agglomerative', 'ward')
+        elif algo == 'kmeans':
+            algo = ('kmeans', 'k-means++', 10)
+        elif algo in ['mean_shift', 'mean shift', 'meanshift']:
+            algo = ('mean_shift', 2)  # ('mean_shift', 'auto')?
         elif algo == 'group':
             return [], {'clustering': 'skl_clustering error',
                         'clustering_error':
@@ -143,7 +150,7 @@ def optimal_clusters(cd, **kwargs):
         else:
             algo = ('agglomerative', 'ward')
 
-    if type(crange) is int:
+    if type(crange) is int or algo[0] in ['mean_shift', 'mean shift', 'meanshift']:
         labels, metrics, centroids = skl_clustering(cd, crange, **kwargs)
 
     if type(crange) in [tuple, list]:
@@ -184,7 +191,7 @@ def optimal_clusters(cd, **kwargs):
         else:
             labels, metrics, centroids = skl_clustering(cd, 10, **kwargs)
 
-    return labels, metrics, centroids  # return clusters, silhouette, m2, labels
+    return labels, metrics, centroids
 
 
 # Notes:
@@ -194,3 +201,4 @@ def optimal_clusters(cd, **kwargs):
 # 81107 k-means, mean_shift
 # 81203 cleanup
 # 90118 cleanup: remove debug printing
+# FIXME: try...except

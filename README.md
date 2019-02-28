@@ -98,17 +98,19 @@ sh-4.3$ source activate ull
 ```
 Browser: `http://localhost:8000/?token=(token_copied_in_the_terminal)`  
 
+## Grammar Learner:
+
+Source code -- [/src/grammar_learner](https://github.com/singnet/language-learning/tree/master/src/grammar_learner), 
+key parameters described in [README](https://github.com/singnet/language-learning/blob/master/src/grammar_learner/README.md).   
+Tutorial v.0.1: [video](https://singularitynet.zoom.us/recording/play/k9detja9ZtZif4RrHzIgsiA7FwjFyGRPkV9zNamanliVYLh6Rq0zGTRh8nbS8xsI?continueMode=true), 
+[notebook](https://github.com/singnet/language-learning/blob/master/notebooks/Grammar_Learner_Tutorial_01_2019-02-22_.ipynb), 
+[static html copy of the notebook](http://langlearn.singularitynet.io/data/clustering_2019/html/Grammar_Learner_Tutorial_01_2019-02-22.html) 
+
 ## Running "mini-pipeline": Grammar Learner & Tester
 ```
 $ cd ~/language-learning/pipeline
 $ python ppln.py config.json
 ```
 Details ⇒ [ppln README](https://github.com/singnet/language-learning/tree/master/pipeline)
-
-## Grammar Learner:
-
-Source code -- 
-README --
-Video Tutorial -- [singularitynet.zoom.us](https://singularitynet.zoom.us/recording/play/k9detja9ZtZif4RrHzIgsiA7FwjFyGRPkV9zNamanliVYLh6Rq0zGTRh8nbS8xsI?continueMode=true)
 
 ---

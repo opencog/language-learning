@@ -51,7 +51,7 @@ def learn(**kwargs):
     else:
         corpus_stats_file = prj_dir + '/corpus_stats.txt'
 
-    temp_dir = kwa('', 'temp_dir', **kwargs)        # FIXME: WTF?       # 90221
+    temp_dir = kwa('', 'temp_dir', **kwargs)  # FIXME: temp_dir/tmpath  # 90221
     tmpath = kwa('', 'tmpath', **kwargs)  # legacy
     if temp_dir != '':
         # if os.path.isdir(temp_dir):
@@ -107,12 +107,10 @@ def learn(**kwargs):
                 list2file(raw_corpus_stats, prj_dir + '/raw_corpus_stats.txt')
                 log.update({'raw_corpus_stats_file':
                             prj_dir + '/raw_corpus_stats.txt'})
-        #-print('\nlog["raw_corpus_stats"]:\n', log['raw_corpus_stats'])
-        links, re02 = lines2links(lines, **kwargs)                      # 90216
-        #-print('\nfiltered corpus: re02:\n', re02['corpus_stats'])
 
+        links, re02 = lines2links(lines, **kwargs)                      # 90216
     log.update(re02)
-    #-print('\nlog["corpus_stats"]:\n', log['corpus_stats'])
+
     if 'corpus_stats' in log:
         list2file(log['corpus_stats'], corpus_stats_file)
         log.update({'corpus_stats_file': corpus_stats_file})
@@ -129,8 +127,8 @@ def learn(**kwargs):
             ['Number of unique features after cleanup', re03['clean_features']]])
         list2file(log['corpus_stats'], corpus_stats_file)
 
-    '''Generalize word categories'''
-
+    '''Generalize word categories'''  # FIXME: issues with add_upper_level
+    '''
     if cats_gen == 'jaccard' or (cats_gen == 'auto' and clustering == 'group'):
         categories, re04 = generalize_categories(categories, **kwargs)
         log.update(re04)
@@ -139,6 +137,7 @@ def learn(**kwargs):
                     'none: vector-similarity based - maybe some day...'})
     else:
         log.update({'generalization': 'none: ' + str(cats_gen)})
+    #'''
 
     '''Learn grammar'''
 
@@ -178,10 +177,14 @@ def learn(**kwargs):
             rules, re08 = generalise_rules(rules, **kwargs)
             log.update(re08)
 
-    if 'log+' in verbose:
+    if 'log+' in verbose:                   # FIXME
         log['rule_sizes'] = dict(Counter(
             [len(x) for i, x in enumerate(rules['words'])
              if rules['parent'][i] == 0]))
+
+    # TODO: replace @ in words: xxx@yyy » xxx.yyy | NOT @...@
+    #  - here, not in write_files.py save_cat_tree, save_link_grammar
+    #  ?! check xx@yy & xx.yy are not in different clusters
 
     '''Save word category tree, Link Grammar files: cat_tree.txt, dict...dict'''
 
@@ -199,7 +202,7 @@ def learn(**kwargs):
     log.update({'grammar_learn_time': sec2string(time.time() - start)})
 
     # return log
-    return rules, log  # 81126 to count clusters in .ipynb tests  # muda
+    return rules, log  # 81126 to count clusters in .ipynb tests  FIXME:DEL?
 
 
 def learn_grammar(**kwargs):  # Backwards compatibility with legacy calls
@@ -216,4 +219,4 @@ def learn_grammar(**kwargs):  # Backwards compatibility with legacy calls
 # 81126 def learn_grammar ⇒ def learn + decorator
 # 81204-07 test and block (snooze) data pruning with max_disjuncts, etc...
 # 81231 cleanup
-# 90221 tweak temp_dir, tmpath for Grammar Learner tutorial
+# 90221 tweak temp_dir, tmpath for Grammar Learner tutorial - FIXME line 54...

@@ -3,6 +3,7 @@ import re
 
 from .optconst import *
 from .lgmisc import LGParseError
+from typing import List
 
 """
     Utilities for parsing postscript notated tokens and links, returned by Link Grammar API method Linkage.postscript()
@@ -10,8 +11,8 @@ from .lgmisc import LGParseError
 """
 
 __all__ = ['strip_token', 'parse_tokens', 'parse_links', 'parse_postscript', 'skip_lines', 'trim_garbage',
-           'get_link_set', 'prepare_tokens', 'skip_command_response', 'skip_linkage_header',
-           'PS_TIMEOUT_EXPIRED', 'PS_PANIC_DETECTED']
+           'get_link_set', 'prepare_tokens', 'skip_command_response', 'skip_linkage_header', 'split_ps_parses',
+           'get_sentence_text', 'PS_TIMEOUT_EXPIRED', 'PS_PANIC_DETECTED']
 
 __version__ = "1.0.0"
 
@@ -233,13 +234,7 @@ def parse_postscript(text: str, options: int) -> ([], []):
 
         return tokens, links
 
-    raise LGParseError("parse_postscript(): regex does not match!")
-
-    # else:
-    #     print("parse_postscript(): regex does not match!", file=sys.stderr)
-    #     print(text, file=sys.stderr)
-    #
-    # return [], []
+    raise LGParseError(f"parse_postscript(): regex does not match for:\n{text}")
 
 
 def get_link_set(tokens: list, links: list, options: int) -> set:
@@ -329,18 +324,29 @@ def trim_garbage(text: str) -> int:
     :param text:    Text string.
     :return:        Return position of a character following ']' or zero in case of a null string.
     """
-    l = len(text)-1
+    l = len(text) - 1
 
     while l:
         if text[l] == "]":
             return l+1
         l -= 1
 
-    return 0
+    pos = text.rfind("Bye.")
+
+    if pos > 0:
+        return pos
+
+    l = len(text) - 1
+
+    while text[l] == " " or text[l] == "\n":
+        l -= 1
+
+    return l
 
 PS_TIMEOUT_EXPIRED    = BIT_EXCLUDE_TIMEOUTED
 PS_PANIC_DETECTED     = BIT_EXCLUDE_PANICED
 PS_EXPLOSION_DETECTED = BIT_EXCLUDE_EXPLOSION
+
 
 def skip_linkage_header(text: str) -> (int, int):
     """
@@ -376,4 +382,40 @@ def skip_linkage_header(text: str) -> (int, int):
 
         pos += 1
 
-    return pos, err
+    return -1, err
+
+
+def split_ps_parses(text: str) -> List[str]:
+    """
+    Split postscript parses if they are merged together because of the combinatorial explosion of
+        first N-1 sentenses, where N is the number of merged sentences.
+
+    :param text:    Postscript notated string variable.
+    :return:        List of splitted postscript parses.
+    """
+    text = text.strip("\n")
+    pattern = re.compile(r"^Found\s\d+\slinkages\s\(0\sof.+$", re.M)
+    parses = re.split(pattern, text)
+
+    return parses[:-1] if parses[-1] == "" else parses
+
+
+def get_sentence_text(text: str) -> str:
+    """
+    Retrieve echoed sentence from postscript notated parse string.
+
+    :param text:    Postscript notated string variable.
+    :return:        List of splitted postscript parses.
+    """
+    pos = text.find("No complete linkages found.")
+
+    if pos > 0:
+        return text[:pos].replace("\n", "")
+
+    pattern = re.compile(r"^Found \d+ linkages?.+$", re.M)
+    match = pattern.search(text)
+
+    if match:
+        return text[:match.start()].replace("\n", "")
+
+    raise LGParseError(f"Unable to find echoed sentence in postscript parse:\n{text}")

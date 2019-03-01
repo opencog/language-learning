@@ -5,7 +5,6 @@ from collections import OrderedDict
 from copy import deepcopy
 from .utl import UTC
 
-
 def list2file(lst, out_file):
     string = ''
     for i, line in enumerate(lst):

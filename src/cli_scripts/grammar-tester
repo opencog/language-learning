@@ -229,6 +229,11 @@ Usage:
         logger.debug(traceback.print_exc())
         return 2
 
+    except LGParseError as err:
+        logger.critical(str(err))
+        logger.debug(traceback.print_exc())
+        return 2
+
     except ParserError as err:
         logger.critical(str(err))
         logger.debug(traceback.print_exc())

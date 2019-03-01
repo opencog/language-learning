@@ -15,7 +15,8 @@ def get_sed_regex(options: int) -> str:
         return r"/^$/d;s/.*/\L\0/g" if options & BIT_INPUT_TO_LCASE else r"/^$/d"
 
 
-def get_linkparser_command(options: int, dict_path: str, limit: int, timeout: int, verb: int=1) -> List[str]:
+def get_linkparser_command(options: int, dict_path: str, limit: int, timeout: int, verb: int=1, num_linkages: int=1) \
+        -> List[str]:
 
     verbosity = "-verbosity={}".format(verb)
 
@@ -29,5 +30,8 @@ def get_linkparser_command(options: int, dict_path: str, limit: int, timeout: in
     else:
         lgp_cmd = ["link-parser", dict_path, "-echo=1", "-graphics=1", verbosity,
                    "-limit=" + str(limit), "-timeout=" + str(timeout)]
+
+    if num_linkages > 1:
+        lgp_cmd.append("-test=auto-next-linkage:" + str(num_linkages).strip())
 
     return lgp_cmd

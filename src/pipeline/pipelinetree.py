@@ -9,9 +9,10 @@ from ..text_parser import TextParserComponent
 from ..dash_board.textdashboard import TextFileDashboardComponent
 from .varhelper import get_path_from_dict, subst_variables_in_str, subst_variables_in_dict, subst_variables_in_dict2
 from .pipelinetreenode import PipelineTreeNode2
+from .pipelineexceptions import *
 
 
-__all__ = ['build_tree', 'run_tree']
+__all__ = ['build_tree', 'run_tree', 'check_config']
 
 
 logger = logging.getLogger(__name__)
@@ -251,6 +252,60 @@ def build_tree(config: List, globals: dict, first_char="%") -> List[PipelineTree
         children = None
 
     return PipelineTreeNode2.roots
+
+
+def check_config(config: List) -> None:
+    """
+    Check/validate configuration structure.
+
+    :param config:      List with each component configuration dictionary. At least it should be that.
+    :return:            None
+    """
+    ret = True
+
+    if not isinstance(config, list):
+        raise FatalPipelineException("Top level element of the pipeline configuration should be a list of pipeline "
+                                     "component configurations.")
+
+    for comp_no, comp_cfg in enumerate(config):
+        if not isinstance(comp_cfg, dict):
+            logger.error("Each pipeline component configuration must be specified by a dictionary.")
+            ret = False
+            continue
+
+        component = comp_cfg.get("component", None)
+
+        if component is None:
+            logger.error(f"Required parameter 'component' is missing in component #{comp_no} configuration.")
+            ret = False
+            continue
+
+        type = comp_cfg.get("type", None)
+
+        if type is None or type != "static":
+
+            spec_params = comp_cfg.get("specific-parameters", None)
+
+            if spec_params is None:
+                logger.error(f"Required parameter 'specific-parameters' is missing in {component}'s configuration "
+                             f"(component #{comp_no}).")
+                ret = False
+                continue
+
+            if not isinstance(spec_params, list):
+                logger.error(f"'{component}' component (#{comp_no}) configuration's 'specific-parameters' "
+                             f"must be a list.")
+                ret = False
+                continue
+
+            for no, param in enumerate(spec_params):
+                if not isinstance(param, dict):
+                    logger.error(f"{component}'s 'specific-parameters' element {no} must be a dictionary.")
+                    ret = False
+                    continue
+
+    if not ret:
+        raise FatalPipelineException("Configuration error(s) found.")
 
 
 def run_tree() -> None:

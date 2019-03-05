@@ -10,7 +10,7 @@ import traceback
 from json import JSONDecodeError
 from ull.common import JsonFileConfigManager, AbstractPipelineComponent, handle_path_string, setup_logging, \
     VERBOSITY_OPTIONS, strip_quotes
-from ull.pipeline import build_tree, run_tree, PipelineTreeNode2
+from ull.pipeline import build_tree, run_tree, PipelineTreeNode2, check_config, FatalPipelineException
 
 __version__ = "1.0.0"
 
@@ -106,6 +106,9 @@ Usage:
 
         logger.debug("config: {}".format(config))
 
+        # Check the structure of the configuration
+        check_config(config)
+
         execution_tree = build_tree(config, GLOBALS)
 
         logger.info("Execution tree has been built.")
@@ -114,8 +117,16 @@ Usage:
 
         PipelineTreeNode2.free_static_components()
 
+    except FatalPipelineException as err:
+        logger.critical(str(err))
+        return 1
+
     except JSONDecodeError as err:
         logger.critical(config_name + ".json: " + str(err))
+        return 1
+
+    except NameError as err:
+        logger.critical(str(err))
         return 1
 
     except KeyboardInterrupt:
@@ -124,7 +135,6 @@ Usage:
 
     except FileNotFoundError as err:
         logger.critical(str(err))
-        # logger.debug(traceback.print_exc())
         return 1
 
     except Exception as err:

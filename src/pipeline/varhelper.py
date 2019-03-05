@@ -83,11 +83,12 @@ def get_referenced_variable_value(line: str, scopes: Dict[str, Dict[str, object]
         if key is not None:
             return key, value
 
-        print("\n\n")
-        print(scopes["THIS"])
+        # print("\n\n")
+        # print(scopes["THIS"])
 
         # Raise exception if not found in current scope
-        raise ValueError(__name__ + ": Error '{}' is unknown within the scope '{}'.".format(line, key))
+        raise NameError("Variable '{}' is unknown within the scope.".format(line))
+        # raise NameError(__name__ + ": Error '{}' is unknown within the scope '{}'.".format(line, key))
 
     key_len = len(key)
 
@@ -101,8 +102,8 @@ def get_referenced_variable_value(line: str, scopes: Dict[str, Dict[str, object]
     key, value = get_variable_value(line[key_len+1:], values)
 
     if key is None:
-        raise ValueError(__name__ + ": Error: variable '{}' is unknown within the scope '{}'.".format(line[key_len+1:],
-                                                                                                      scope))
+        # raise NameError(__name__ + ": Error: variable '{}' is unknown within the scope '{}'.".format(line[key_len+1:],
+        raise NameError("Variable '{}' is unknown within the scope '{}'.".format(line[key_len + 1:], scope))
 
     return scope + "." + key, value
 

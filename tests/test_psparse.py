@@ -647,6 +647,7 @@ class TestPSParse(unittest.TestCase):
         self.assertEqual(strip_token("strange[!]"), "strange")
         self.assertEqual(strip_token("strange.a"), "strange")
         self.assertEqual(strip_token("[strange]"), "[strange]")
+        self.assertEqual(strip_token("..y"), ".")
 
     # @unittest.skip
     def test_parse_tokens_alice_003(self):

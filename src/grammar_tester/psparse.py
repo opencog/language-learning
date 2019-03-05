@@ -23,16 +23,16 @@ def strip_token(token) -> str:
     :param token: token string
     :return: stripped token if a suffix found, the same token otherwise
     """
-    if token.startswith(".") or token.startswith("["):
+    if token.startswith("["):
         return token
 
     pos = token.find("[")
 
-    # If "." is not found
+    # If "[" is not found
     if pos < 0:
-        pos = token.find(".")
+        pos = token.find(".", 0 if token[0] != "." else 1)
 
-        # If "[" is not found or token starts with "[" return token as is.
+        # If "." is not found return token as is.
         if pos <= 0:
             return token
 

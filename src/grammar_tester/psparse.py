@@ -394,7 +394,7 @@ def split_ps_parses(text: str) -> List[str]:
     :return:        List of splitted postscript parses.
     """
     text = text.strip("\n")
-    pattern = re.compile(r"^Found\s\d+\slinkages\s\(0\sof.+$", re.M)
+    pattern = re.compile(r"^Found\s\d+\slinkages\s\(0\sof.+$|^Panic timer is expired!$", re.M)
     parses = re.split(pattern, text)
 
     return parses[:-1] if parses[-1] == "" else parses

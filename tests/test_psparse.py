@@ -425,6 +425,46 @@ parrot has wing .
 Bye.
 """
 
+sticky_parses_01 = \
+"""
+but if Kilmeny says she will not marry you I am afraid she 'll stick to it . "
+No complete linkages found.
+Timer is expired!
+Entering "panic" mode...
+Panic timer is expired!
+" no , Master , it wouldn't be any use .
+No complete linkages found.
+Found 125746 linkages (100 of 100 random linkages had no P.P. violations) at null count 1
+	Linkage 1, cost vector = (UNUSED=1 DIS= 0.00 LEN=8)
+[(")(no)(,)([Master])(,)(it)(wouldn't)(be)(any)(use)
+(.)]
+[[0 6 1 (LG)][0 1 0 (LK)][1 2 0 (KN)][5 6 0 (DG)][4 5 0 (ND)][6 9 2 (GE)][6 8 1 (GK)]
+[8 9 0 (KE)][7 8 0 (DK)][9 10 0 (EE)]]
+[0]
+"""
+
+
+sticky_parses_02 = \
+"""
+but if Mahbub Ali did not know this , it would be very unsafe to tell him so .
+No complete linkages found.
+Timer is expired!
+Entering "panic" mode...
+Panic timer is expired!
+Mahbub Ali was hard upon boys who knew , or thought they knew , too much .
+No complete linkages found.
+Timer is expired!
+Found 13780061 linkages (15 of 16 random linkages had no P.P. violations) at null count 1
+	Linkage 1, cost vector = (UNUSED=1 DIS= 0.00 LEN=26)
+[(mahbub)([Ali])(was)(hard)(upon)(boys)(who)(knew)(,)(or)
+(thought)(they)(knew)(,)(too)(much)(..y)]
+[[0 15 3 (HL)][0 6 2 (HD)][4 6 1 (LD)][3 4 0 (EL)][2 3 0 (SE)][4 5 0 (LP)][6 11 2 (DD)]
+[9 11 1 (DD)][8 9 0 (ND)][7 8 0 (GN)][9 10 0 (DG)][13 15 1 (NL)][12 13 0 (GN)][13 14 0 (NG)]
+[15 16 0 (LF)]]
+[0]
+"""
+
+
 explosion_no_linkages_full = \
 """
 echo set to 1
@@ -463,6 +503,8 @@ class TestPSParse(unittest.TestCase):
         self.assertTrue(0 < trim_garbage(lg_post_output))
         self.assertTrue(0 < trim_garbage(explosion_no_linkages_full))
         self.assertTrue(0 < trim_garbage(explosion_no_linkages))
+        self.assertTrue(0 < trim_garbage(sticky_parses_01))
+        self.assertTrue(0 < trim_garbage(sticky_parses_02))
 
     def test_split_ps_parses(self):
         parses = split_ps_parses(merged_ps_parses)
@@ -473,6 +515,12 @@ class TestPSParse(unittest.TestCase):
 
         parses = split_ps_parses(merged_ps_parses3)
         self.assertEqual(1, len(parses))
+
+        parses = split_ps_parses(sticky_parses_01)
+        self.assertEqual(2, len(parses))
+
+        parses = split_ps_parses(sticky_parses_02)
+        self.assertEqual(2, len(parses))
 
     def test_get_sentence_text(self):
         parses = split_ps_parses(merged_ps_parses2)
@@ -486,6 +534,23 @@ class TestPSParse(unittest.TestCase):
         self.assertEqual("They had gone.", get_sentence_text(parses[2]))
 
         self.assertEqual("tuna isa fish.", get_sentence_text(tuna_isa_fish_ps))
+
+        parses = split_ps_parses(sticky_parses_01)
+        self.assertEqual(2, len(parses))
+
+        self.assertEqual('but if Kilmeny says she will not marry you I am afraid she \'ll stick to it . "',
+                         get_sentence_text(parses[0]))
+
+        self.assertEqual('" no , Master , it wouldn\'t be any use .', get_sentence_text(parses[1]))
+
+        parses = split_ps_parses(sticky_parses_02)
+        self.assertEqual(2, len(parses))
+
+        self.assertEqual('but if Mahbub Ali did not know this , it would be very unsafe to tell him so .',
+                         get_sentence_text(parses[0]))
+
+        self.assertEqual('Mahbub Ali was hard upon boys who knew , or thought they knew , too much .',
+                         get_sentence_text(parses[1]))
 
 
     def test_new_tokenizer(self):

@@ -354,7 +354,7 @@ def skip_linkage_header(text: str) -> (int, int):
 
     :param text:            Text string with zero or many '\n' in.
     :return:                Return tuple:
-                                - position of the first character after the specified number of lines is skipped;
+                                - position of the first character of postscript notated link-parser output
                                 - error bit mask.
     """
     l = len(text)

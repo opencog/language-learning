@@ -85,7 +85,7 @@ class LGInprocParser(AbstractFileParserClient):
                 post_start, post_errors = skip_linkage_header(sent)
 
                 # Check if the postscript linkage is valid
-                is_valid = not (post_errors & validity_mask) and post_start > 0
+                is_valid = (not (post_errors & validity_mask)) and post_start > 0
 
                 # Successfully parsed sentence is added here
                 cur_sent = PSSentence(sentence)
@@ -221,7 +221,7 @@ class LGInprocParser(AbstractFileParserClient):
         if not (options & BIT_EXISTING_DICT):
             dict_ver = get_lg_dict_version(dict_path)
 
-            self._logger.warning(f"Dictionary version: {dict_ver}, link-parser version: {self._lg_version}")
+            self._logger.debug(f"Dictionary version: {dict_ver}, link-parser version: {self._lg_version}")
 
             if dict_ver != "0.0.0" and (self._lg_version < "5.5.0" and dict_ver >= "5.5.0" or
                     self._lg_version >= "5.5.0" and dict_ver < "5.5.0"):
@@ -279,12 +279,6 @@ class LGInprocParser(AbstractFileParserClient):
                 # Read pipes to get complete output returned by link-parser
                 raw_stream, err_stream = proc_pars.communicate()
 
-                # with open(output_path + ".raw", "w") as r:
-                #     r.write(raw_stream.decode("utf-8-sig"))
-                #
-                # with open(output_path + ".err", "w") as e:
-                #     e.write(err_stream.decode("utf-8-sig"))
-
                 # Check return code to make sure the process completed successfully.
                 if proc_pars.returncode != 0:
                     raise ParserError("Process '{0}' terminated with exit code: {1} "
@@ -308,11 +302,6 @@ class LGInprocParser(AbstractFileParserClient):
                           "Read: {}, Parsed: {}, File: {}".format(sentence_count, ret_metrics.sentences,
                                                         corpus_path if path_len < 31 else
                                                         "..." + corpus_path[path_len-27:]))
-
-                    # self._logger.warning("Number of sentences does not match. "
-                    #       "Read: {}, Parsed: {}, File: {}".format(sentence_count, ret_metrics.sentences,
-                    #                                     corpus_path if path_len < 31 else
-                    #                                     "..." + corpus_path[path_len-27:]))
 
         except LGParseError as err:
             self._logger.debug(err_stream.decode("utf-8-sig"))

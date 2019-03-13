@@ -80,7 +80,7 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
 
     # if filter, we'll print to file accepted ref parses
     if filter:
-        fa = open("./accepted_parses.ull", w)
+        fa = open("./accepted_parses.ull", "w")
 
     for ref_parse, test_parse, ref_sent, test_sent in zip(ref_parses, test_parses, ref_sents, test_sents):
 

@@ -41,6 +41,9 @@ def Get_Parses(data):
             continue
         if new_flag:
             new_flag = False
+            curr_sent = line.split()
+            if curr_sent[0] == "###LEFT-WALL###":
+                curr_sent.pop(0)
             sentences.append(line.split())
             parses.append([])
             parse_num += 1
@@ -135,7 +138,6 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
         if filter:
             fa.write(joint_ref_sent)
             for link in ref_parse:
-                print(link)
                 fa.write(" ".join(link))
             fa.write("\n")
 

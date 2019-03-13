@@ -135,6 +135,7 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
         if filter:
             fa.write(joint_ref_sent)
             for link in ref_parses:
+                print(link)
                 fa.write(" ".join(link))
             fa.write("\n")
 

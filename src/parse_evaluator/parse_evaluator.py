@@ -144,6 +144,7 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
     print("\nAvg Precision: {:.2%}".format(precision))
     print("Avg Recall: {:.2%}".format(recall))
     print("Avg Fscore: {:.2%}\n".format(2 * precision * recall / (precision + recall)))
+    print("A total of {} sentences filtered, {:.2%} of reference file".format(filtered_sents, float(filtered_sents) / len(ref_parses)))
     print("A total of {} parses evaluated, {:.2%} of reference file".format(evaluated_parses, float(evaluated_parses) / len(ref_parses)))
     print("{:.2f} ignored links per evaluated parse".format(ignored_links / evaluated_parses))
     if filter:

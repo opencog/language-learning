@@ -44,7 +44,7 @@ def Get_Parses(data):
             curr_sent = line.split()
             if curr_sent[0] == "###LEFT-WALL###":
                 curr_sent.pop(0)
-            sentences.append(line.split())
+            sentences.append(curr_sent)
             parses.append([])
             parse_num += 1
             continue

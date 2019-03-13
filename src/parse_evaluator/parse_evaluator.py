@@ -147,7 +147,7 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
     print("A total of {} parses evaluated, {:.2%} of reference file".format(evaluated_parses, float(evaluated_parses) / len(ref_parses)))
     print("{:.2f} ignored links per evaluated parse".format(ignored_links / evaluated_parses))
     if filter:
-        close(fa) # close output file if opened
+        fa.close() # close output file if opened
     
 def Make_Sequential(sents):
     """

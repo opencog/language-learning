@@ -136,9 +136,9 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
 
         # print to file the processed parses
         if filter:
-            fa.write(joint_ref_sent)
+            fa.write(joint_ref_sent + "\n")
             for link in ref_parse:
-                fa.write(" ".join(link))
+                fa.write(" ".join(link) + "\n")
             fa.write("\n")
 
     precision = sum_precision / evaluated_parses # averages precision

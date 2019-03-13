@@ -130,7 +130,7 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
             print("Extra links: {}".format(false_pos))
 
         # print to file the processed parses
-        if filtered:
+        if filter:
             fa.write(joint_ref_sent)
             for link in ref_parses:
                 fa.write(" ".join(link))

@@ -94,6 +94,8 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
             joint_test_sent = " ".join(test_sent).lower()
             joint_ref_sent = " ".join(ref_sent).lower()
             count_quotes = ref_sent[1:-1].count('"')
+            print(joint_ref_sent)
+            print(joint_test_sent)
             if joint_ref_sent != joint_test_sent or count_quotes > 0:
                 filtered_sents += 1
                 continue

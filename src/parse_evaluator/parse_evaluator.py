@@ -134,7 +134,7 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
         # print to file the processed parses
         if filter:
             fa.write(joint_ref_sent)
-            for link in ref_parses:
+            for link in ref_parse:
                 print(link)
                 fa.write(" ".join(link))
             fa.write("\n")

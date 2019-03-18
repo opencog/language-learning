@@ -464,6 +464,22 @@ Found 13780061 linkages (15 of 16 random linkages had no P.P. violations) at nul
 [0]
 """
 
+sticky_parses_03 = \
+"""
+when the horse saw this it changed itself to a dove , and flew up into the air .
+No complete linkages found.
+Timer is expired!
+Entering "panic" mode...
+Panic timer is expired!
+Found 2147483647 linkages (15 of 16 random linkages had no P.P. violations) at null count 1
+        Linkage 1, cost vector = (UNUSED=1 DIS= 0.00 LEN=20)
+[(when)(the)(horse)(saw)(this)(it)(changed)([itself])(to)(a)
+(dove)(,)(and)(flew)(up.'and)(into)(the)(air)(.)]
+[[0 6 2 (DE)][0 4 1 (DK)][3 4 0 (GK)][2 3 0 (PG)][1 2 0 (TP)][5 6 0 (DE)][6 11 2 (EN)]
+[6 8 0 (EQ)][8 10 1 (QH)][9 10 0 (VH)][11 14 1 (NU)][13 14 0 (EU)][12 13 0 (RE)][14 18 2 (UE)]
+[17 18 0 (PE)][15 17 1 (MP)][16 17 0 (TP)]]
+[0]
+"""
 
 explosion_no_linkages_full = \
 """
@@ -521,6 +537,9 @@ class TestPSParse(unittest.TestCase):
 
         parses = split_ps_parses(sticky_parses_02)
         self.assertEqual(2, len(parses))
+
+        parses = split_ps_parses(sticky_parses_03)
+        self.assertEqual(1, len(parses))
 
     def test_get_sentence_text(self):
         parses = split_ps_parses(merged_ps_parses2)

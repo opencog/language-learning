@@ -109,15 +109,6 @@ class GrammarTester(AbstractGrammarTestClient):
             print(ParseMetrics.text(metrics), file=stat_file_handle)
             print(ParseQuality.text(quality), file=stat_file_handle)
 
-        # except FileNotFoundError as err:
-        #     print("FileNotFoundError: " + str(err))
-        #
-        # except IOError as err:
-        #     print("IOError: " + str(err))
-        #
-        # except Exception as err:
-        #     print("Exception: " + str(err))
-
         finally:
             if stat_file_handle is not None and stat_file_handle != sys.stdout:
                 stat_file_handle.close()

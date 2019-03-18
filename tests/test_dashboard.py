@@ -29,6 +29,63 @@ conf =   {
     }
   }
 
+
+less_headers =   {
+    "component": "dash-board",
+    "type": "static",
+    "instance-name": "stat",
+    "parameters": {
+        "board_type": "file",
+        "file_path":  "/var/tmp/AGI-2018.txt",
+        "board_name": "AGI-2018",
+        "row_count": 17,
+        "col_count": 10,
+        "col_headers": [
+          [
+            {"title": "Corpus"},
+            {"title": "Parsing/MI counting"},
+            {"title": "Connectors/DRK/Connectors"},
+            {"title": "Connectors/DRK/Disjuncts"},
+            {"title": "Disjuncts/DRK/Disjuncts"},
+            {"title": "Disjuncts/ILE/Disjuncts"},
+            {"title": "Connectors/DRK/Connectors"},
+            {"title": "Connectors/DRK/Disjuncts"}
+          ]
+        ]
+    }
+  }
+
+more_headers =   {
+    "component": "dash-board",
+    "type": "static",
+    "instance-name": "stat",
+    "parameters": {
+        "board_type": "file",
+        "file_path":  "/var/tmp/AGI-2018.txt",
+        "board_name": "AGI-2018",
+        "row_count": 17,
+        "col_count": 10,
+        "col_headers": [
+          [
+            {"title": "Corpus"},
+            {"title": "Parsing/MI counting"},
+            {"title": "Connectors/DRK/Connectors"},
+            {"title": "Connectors/DRK/Disjuncts"},
+            {"title": "Disjuncts/DRK/Disjuncts"},
+            {"title": "Disjuncts/ILE/Disjuncts"},
+            {"title": "Connectors/DRK/Connectors"},
+            {"title": "Connectors/DRK/Disjuncts"},
+            {"title": "Disjuncts/DRK/Disjuncts"},
+            {"title": "Disjuncts/ILE/Disjuncts"},
+            {"title": "Extra 1"},
+            {"title": "Extra 2"}
+          ]
+        ]
+    }
+  }
+
+
+
 class DashboardTestCase(unittest.TestCase):
 
     def test_something(self):
@@ -70,6 +127,14 @@ class DashboardTestCase(unittest.TestCase):
 
     def test_component(self):
         board = get_component("dash-board", conf["parameters"])
+        self.assertTrue(True, True)
+
+    def test_less_headers(self):
+        board = get_component("dash-board", less_headers["parameters"])
+        self.assertTrue(True, True)
+
+    def test_more_headers(self):
+        board = get_component("dash-board", more_headers["parameters"])
         self.assertTrue(True, True)
 
 

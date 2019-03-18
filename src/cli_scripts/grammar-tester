@@ -153,7 +153,9 @@ Usage:
                 reference_path = handle_path_string(arg)
                 options |= BIT_PARSE_QUALITY
             elif opt in ("-C", "--config"):
-                config_path = handle_path_string(arg)
+                # config_path = handle_path_string(arg)
+                raise getopt.GetoptError("'-C' option is no longer supported. Use 'ull-cli' script instead "
+                                         "if you need to run grammar-tester with JSON configuration file.")
             elif opt in ("-D", "--language"):
                 dict_path = strip_quotes(arg)
                 options |= BIT_EXISTING_DICT
@@ -221,8 +223,8 @@ Usage:
         if config_path is None:
             test_grammar(input_path, output_path, dict_path, grammar_path, template_path,
                                linkage_limit, options, reference_path, timeout)
-        else:
-            test_grammar_cfg(config_path)
+        # else:
+        #     test_grammar_cfg(config_path)
 
     except GrammarTestError as err:
         logger.critical(str(err))

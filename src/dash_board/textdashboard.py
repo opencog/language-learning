@@ -45,7 +45,8 @@ class TextFileDashboard(AbstractDashboardClient):
 
         if headers is not None:
             for row in range(0, len(headers)):
-                for col in range(0, self._col_count):
+                cols_to_set = min(self._col_count, len(headers[row]))
+                for col in range(0, cols_to_set):
                     self._dashboard[row][col] = headers[row][col]["title"]
 
     @staticmethod
@@ -165,16 +166,13 @@ class TextFileDashboardComponent(AbstractPipelineComponent):
         self._board.update_dashboard()
 
     def set(self, **kwargs):
-        # try:
+
         row = int(kwargs["row"])
         col = int(kwargs["col"])
         val = kwargs["val"]
         val = str(val).format(**kwargs)
 
         self._board.set_cell_by_indexes(row, col, val)
-
-        # except Exception as err:
-        #     print(str(err))
 
     def validate_parameters(self, **kwargs) -> bool:
         return True

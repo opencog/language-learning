@@ -25,11 +25,11 @@ parse_with_wall = """tuna isa fish .
 
 class TestEvalMethods(unittest.TestCase):
 
-    @unittest.skip
+    # @unittest.skip
     def test_get_parses(self):
         """ Test evaluation """
         ref_data = load_ull_file("tests/test-data/parses/poc-turtle-mst/one-parse-expected.txt")
-        test_data = load_ull_file("tests/test-data/parses/poc-turtle-mst/one-parse-expected.txt")
+        test_data = load_ull_file("tests/test-data/parses/poc-turtle-mst/one-parse-expected-mi.txt")
         # test_data = Load_File("test-data/parses/poc-turtle-mst/one-parse-no-wall.txt")
         print("ref_data='", ref_data, "'", file=sys.stderr)
         print("test_data='", test_data, "'", file=sys.stderr)

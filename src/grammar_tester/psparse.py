@@ -354,7 +354,7 @@ def skip_linkage_header(text: str) -> (int, int):
 
     :param text:            Text string with zero or many '\n' in.
     :return:                Return tuple:
-                                - position of the first character after the specified number of lines is skipped;
+                                - position of the first character of postscript notated link-parser output
                                 - error bit mask.
     """
     l = len(text)
@@ -394,7 +394,7 @@ def split_ps_parses(text: str) -> List[str]:
     :return:        List of splitted postscript parses.
     """
     text = text.strip("\n")
-    pattern = re.compile(r"^Found\s\d+\slinkages\s\(0\sof.+$|^Panic timer is expired!$", re.M)
+    pattern = re.compile(r"^Found\s\d+\slinkages\s\(0\sof.+$|^Panic timer is expired!(?:\n|\r\n?)+(?!Found \d+)", re.M)
     parses = re.split(pattern, text)
 
     return parses[:-1] if parses[-1] == "" else parses

@@ -464,6 +464,22 @@ Found 13780061 linkages (15 of 16 random linkages had no P.P. violations) at nul
 [0]
 """
 
+sticky_parses_03 = \
+"""
+when the horse saw this it changed itself to a dove , and flew up into the air .
+No complete linkages found.
+Timer is expired!
+Entering "panic" mode...
+Panic timer is expired!
+Found 2147483647 linkages (15 of 16 random linkages had no P.P. violations) at null count 1
+        Linkage 1, cost vector = (UNUSED=1 DIS= 0.00 LEN=20)
+[(when)(the)(horse)(saw)(this)(it)(changed)([itself])(to)(a)
+(dove)(,)(and)(flew)(up.'and)(into)(the)(air)(.)]
+[[0 6 2 (DE)][0 4 1 (DK)][3 4 0 (GK)][2 3 0 (PG)][1 2 0 (TP)][5 6 0 (DE)][6 11 2 (EN)]
+[6 8 0 (EQ)][8 10 1 (QH)][9 10 0 (VH)][11 14 1 (NU)][13 14 0 (EU)][12 13 0 (RE)][14 18 2 (UE)]
+[17 18 0 (PE)][15 17 1 (MP)][16 17 0 (TP)]]
+[0]
+"""
 
 explosion_no_linkages_full = \
 """
@@ -522,6 +538,9 @@ class TestPSParse(unittest.TestCase):
         parses = split_ps_parses(sticky_parses_02)
         self.assertEqual(2, len(parses))
 
+        parses = split_ps_parses(sticky_parses_03)
+        self.assertEqual(1, len(parses))
+
     def test_get_sentence_text(self):
         parses = split_ps_parses(merged_ps_parses2)
         self.assertEqual(3, len(parses))
@@ -551,85 +570,6 @@ class TestPSParse(unittest.TestCase):
 
         self.assertEqual('Mahbub Ali was hard upon boys who knew , or thought they knew , too much .',
                          get_sentence_text(parses[1]))
-
-
-    def test_new_tokenizer(self):
-
-        def find_end_of_token(text, pos: int) -> int:
-
-            # Assume the open brace is already skipped
-            braces = 1
-            brackets = 0
-
-            text_len = len(text)
-
-            while pos < text_len:
-
-                current = text[pos]
-
-                if current == r"(":
-                    # If not "[(]"
-                    if not brackets:
-                        braces += 1
-
-                elif current == r")":
-                    # if not "[)]"
-                    if not brackets:
-                        braces -= 1
-
-                    if not braces:
-                        return pos
-
-                elif current == r"[":
-                    brackets += 1
-
-                elif current == r"]":
-                    brackets -= 1
-
-                pos += 1
-
-            return pos
-
-        def tokenizer(text: str) -> list:
-            tokens = []
-            pos = 0
-            old = -1
-
-            while pos < len(text):
-                if pos == old:
-                    print("Infinite loop detected...")
-                    break
-
-                # To avoid infinite loop in case of errors in postscript string
-                old = pos
-
-                if text[pos] == r"(":
-                    pos += 1
-
-                end = find_end_of_token(text, pos)
-
-                if end > pos:
-                    tokens.append(text[pos:end])
-
-                pos = end + 1
-
-            return tokens
-
-        self.assertEqual(["eagle", "has", "wing", "."], tokenizer("(eagle)(has)(wing)(.)"))
-
-        self.assertEqual(["LEFT-WALL", "Dad[!]", "was.v-d", "not.e", "a", "parent.n", "before", ".", "RIGHT-WALL"],
-                         tokenizer("(LEFT-WALL)(Dad[!])(was.v-d)(not.e)(a)(parent.n)(before)(.)(RIGHT-WALL)"))
-
-        post = "(LEFT-WALL)([(])(alice[?].n)(had.v-d)(no.misc-d)(idea.n)(what)(latitude.n-u)(was.v-d)(,)(or.ij)" \
-               "(longitude.n-u)(either.r)(,)([but])(thought.q-d)(they)(were.v-d)(nice.a)(grand.a)(words.n)(to.r)(say.v)" \
-               "(.)([)])"
-        ref = ["LEFT-WALL", "[(]", "alice[?].n", "had.v-d", "no.misc-d", "idea.n", "what", "latitude.n-u", "was.v-d",
-               ",", "or.ij", "longitude.n-u", "either.r", ",", "[but]", "thought.q-d", "they", "were.v-d", "nice.a",
-               "grand.a", "words.n", "to.r", "say.v", ".", "[)]"]
-
-        # print(tokenizer(post))
-
-        self.assertEqual(ref, tokenizer(post))
 
     @staticmethod
     def cmp_lists(list1: [], list2: []) -> bool:

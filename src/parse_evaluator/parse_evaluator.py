@@ -92,11 +92,12 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
         false_pos = 0
 
         # when filter is active, ignore sentence if they're not equal
-        # or it contains internal quotes (for dialogue sentences)
+        # or it contains any quotes (for dialogue sentences)
         if filter:
             joint_test_sent = " ".join(test_sent)
             joint_ref_sent = " ".join(ref_sent)
-            count_quotes = ref_sent[1:-1].count('"')
+            #count_quotes = ref_sent[1:-1].count('"') # only internal quotes
+            count_quotes = ref_sent.count('"') # any quotes
             if joint_ref_sent.lower() != joint_test_sent.lower() or count_quotes > 0:
                 filtered_sents += 1
                 continue

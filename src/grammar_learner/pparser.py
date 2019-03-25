@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/pparser.py                      # 90217
+# language-learning/src/grammar_learner/pparser.py                      # 190325
 import logging
 import pandas as pd
 from .corpus_stats import corpus_stats
@@ -13,7 +13,7 @@ def mst2words(lines, **kwargs):
         if len(line) > 1:
             if line[0].isdigit():
                 x = line.split()
-                if len(x) == 4 and x[0].isdigit() and x[2].isdigit():
+                if len(x) in [4, 5] and x[0].isdigit() and x[2].isdigit():  # 190325
                     if x[1] == '###LEFT-WALL###':
                         if lw in ['', 'none']:
                             continue
@@ -71,7 +71,7 @@ def mst2disjuncts(lines, **kwargs):
         if len(line) > 1:
             if line[0].isdigit():
                 x = line.split()
-                if len(x) == 4 and x[0].isdigit() and x[2].isdigit():
+                if len(x) in [4, 5] and x[0].isdigit() and x[2].isdigit():  # 190325
                     if x[1] == '###LEFT-WALL###':
                         if lw in ['', 'none']:
                             continue
@@ -291,3 +291,4 @@ def lines2links(lines, **kwargs):                                       # 90217
 # 81024 line 24: cure case of MST parses file last line not ending with CR
 # 81231 cleanup
 # 90217 filter_lines, lines2links
+# 190325 `== 4` » `in [4, 5]` :: allow for parses with addded "statistical information"

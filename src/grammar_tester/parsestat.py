@@ -1,12 +1,16 @@
 from decimal import *
-
 from ..common.parsemetrics import ParseQuality, ParseMetrics
 
 """
     Statistics estimation set of functions
 """
 
-__all__ = ['calc_stat', 'parse_metrics', 'calc_parse_quality', 'parse_quality']
+__all__ = [
+    'calc_stat',
+    'calc_parse_quality',
+    'parse_metrics',
+    'parse_quality'
+]
 
 def calc_stat(tokens: list) -> (int, int, Decimal):
     """
@@ -40,6 +44,23 @@ def calc_stat(tokens: list) -> (int, int, Decimal):
             unlinked += 1
 
     return unlinked == 0, total == unlinked, (1.0 if unlinked == 0 else Decimal("1.0") - Decimal(unlinked) / Decimal(total))
+
+
+def calc_parse_quality(test_set: set, ref_set: set) -> (int, int, Decimal):
+    """
+    Estimate parse quality
+
+    :param test_set: Set of links being tested.
+    :param ref_set: Reference set of links
+    :return: Tuple (m, e, a) where  m - number of links missing in test set, e - number of extra links in test set,
+                                    a - match links to total links ratio
+    """
+    len_ref = len(ref_set)
+
+    if len_ref > 0:
+        return len(ref_set - test_set), len(test_set - ref_set), Decimal(len(test_set & ref_set)) / Decimal(len_ref)
+
+    return 0, 0, Decimal("0.0")
 
 
 def parse_metrics(tokens: list) -> ParseMetrics:
@@ -78,23 +99,6 @@ def parse_metrics(tokens: list) -> ParseMetrics:
         pm.completely_unparsed_ratio = Decimal("1.0")
 
     return pm
-
-
-def calc_parse_quality(test_set: set, ref_set: set) -> (int, int, Decimal):
-    """
-    Estimate parse quality
-
-    :param test_set: Set of links being tested.
-    :param ref_set: Reference set of links
-    :return: Tuple (m, e, a) where  m - number of links missing in test set, e - number of extra links in test set,
-                                    a - match links to total links ratio
-    """
-    len_ref = len(ref_set)
-
-    if len_ref > 0:
-        return len(ref_set - test_set), len(test_set - ref_set), Decimal(len(test_set & ref_set)) / Decimal(len_ref)
-
-    return 0, 0, Decimal("0.0")
 
 
 def parse_quality(test_set: set, ref_set: set) -> ParseQuality:

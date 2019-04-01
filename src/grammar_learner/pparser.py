@@ -13,7 +13,8 @@ def mst2words(lines, **kwargs):
         if len(line) > 1:
             if line[0].isdigit():
                 x = line.split()
-                if len(x) == 4 and x[0].isdigit() and x[2].isdigit():
+                # Fixed to support both old and new .ull formats
+                if len(x) in [4, 5] and x[0].isdigit() and x[2].isdigit():
                     if x[1] == '###LEFT-WALL###':
                         if lw in ['', 'none']:
                             continue
@@ -71,7 +72,8 @@ def mst2disjuncts(lines, **kwargs):
         if len(line) > 1:
             if line[0].isdigit():
                 x = line.split()
-                if len(x) == 4 and x[0].isdigit() and x[2].isdigit():
+                # Fixed to support both old and new .ull formats
+                if len(x) in [4, 5] and x[0].isdigit() and x[2].isdigit():
                     if x[1] == '###LEFT-WALL###':
                         if lw in ['', 'none']:
                             continue

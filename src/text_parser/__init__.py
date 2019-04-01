@@ -2,7 +2,7 @@ from typing import Union
 from ..common.absclient import AbstractPipelineComponent, AbstractFileParserClient
 from ..common.cliutils import handle_path_string
 from ..grammar_tester.lginprocparser import LGInprocParser
-from ..grammar_tester.optconst import get_options
+from ..common.optconst import get_options
 
 __all__ = ['TextParserComponent']
 

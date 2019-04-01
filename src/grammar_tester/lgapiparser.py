@@ -2,7 +2,7 @@ import re
 import sys
 from linkgrammar import LG_DictionaryError, LG_Error, ParseOptions, Dictionary, Sentence
 
-from .optconst import *
+from ..common.optconst import *
 from ..common.parsemetrics import ParseMetrics, ParseQuality
 from .parsestat import parse_metrics, parse_quality
 from .psparse import parse_postscript, prepare_tokens, get_link_set

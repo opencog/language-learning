@@ -1,10 +1,9 @@
-import platform
 import sys
 import random
 
-from linkgrammar import LG_DictionaryError, LG_Error, ParseOptions, Dictionary, Sentence, Linkage
+from linkgrammar import ParseOptions, Dictionary, Sentence, Linkage
 from ..grammar_tester.psparse import parse_postscript
-from ..grammar_tester.optconst import *
+from ..common.optconst import *
 
 __all__ = ['Evaluate_Alternative']
 

@@ -1,9 +1,8 @@
 import unittest
 import os
-from src.grammar_tester.grammartester import GrammarTester, test_grammar, test_grammar_cfg, GrammarTestError
+from src.grammar_tester.grammartester import GrammarTester
 from src.grammar_tester.lginprocparser import LGInprocParser
-from src.grammar_tester.lgapiparser import LGApiParser
-from src.grammar_tester.optconst import *
+from src.common.optconst import *
 
 
 class GTInputTestCase(unittest.TestCase):

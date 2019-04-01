@@ -7,8 +7,8 @@ import logging
 import os, sys, time
 from ..common import handle_path_string
 from ..grammar_tester import test_grammar
-from ..grammar_tester.optconst import *
-from .utl import UTC, sec2string, kwa
+from ..common.optconst import *
+from .utl import sec2string, kwa
 from .read_files import check_dir
 from .learner import learn_grammar, learn  # 81126 learn returns rules, log
 from .write_files import list2file

@@ -1,5 +1,11 @@
 from subprocess import PIPE, Popen
-from .commands import *
+from ..common.sedcommands import *
+
+
+__all__ = [
+    'SentCountError',
+    'get_sentence_count'
+]
 
 
 class SentCountError(Exception):

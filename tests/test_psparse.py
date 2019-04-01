@@ -1,10 +1,9 @@
 import unittest
-import sys
 
 from src.grammar_tester.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, \
     prepare_tokens, skip_command_response, skip_linkage_header, PS_TIMEOUT_EXPIRED, PS_PANIC_DETECTED, \
     get_sentence_text, split_ps_parses, trim_garbage
-from src.grammar_tester.optconst import *
+from src.common.optconst import *
 from src.grammar_tester.parsestat import parse_metrics
 
 
@@ -588,6 +587,7 @@ class TestPSParse(unittest.TestCase):
         self.assertEqual(strip_token("strange.a"), "strange")
         self.assertEqual(strip_token("[strange]"), "[strange]")
         self.assertEqual(strip_token("..y"), ".")
+        self.assertEqual(strip_token("Lewis.b"), "Lewis")
 
     # @unittest.skip
     def test_parse_tokens_alice_003(self):

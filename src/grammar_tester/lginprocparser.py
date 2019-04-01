@@ -4,14 +4,14 @@ import logging
 from subprocess import PIPE, Popen
 
 from ..common.absclient import AbstractFileParserClient, AbstractProgressClient
-from .optconst import *
+from ..common.sentencecount import get_sentence_count
+from ..common.sedcommands import get_sed_regex
 from .psparse import *
 from .parsestat import *
 from ..common.parsemetrics import *
 from .lgmisc import *
 from .parsevaluate import get_parses, load_ull_file
-from .commands import *
-from .sentencecount import get_sentence_count
+from .lgpcommands import *
 from .linkgrammarver import get_lg_version, get_lg_dict_version
 
 
@@ -44,6 +44,10 @@ class LGInprocParser(AbstractFileParserClient):
         self._counter = 0
         self._lg_version, self._lg_dict_path = get_lg_version()
         self._lg_verbosity = verbosity
+        self._stop_tokens_set = None
+        self._min_word_count = 0
+        self._max_sentence_len = 99999
+        self._token_counts = None
 
     def _parse_batch_ps_output(self, text: str, options: int) -> list:
         """
@@ -105,6 +109,18 @@ class LGInprocParser(AbstractFileParserClient):
 
         return sentences
 
+    def _check_token_counts(self, tokens: List[str]) -> bool:
+        if self._token_counts is None:
+            return True
+
+        # The sentence is considered invalid if any of the sentence tokens appears less then 'min_word_count' times.
+        for token in tokens:
+            if not token.startswith(r"###") and self._token_counts.get(token, 0) < self._min_word_count:
+                self._logger.debug(f"{token}")
+                return False
+
+        return True
+
     def _handle_stream_output(self, text: str, options: int, out_stream, ref_path: str) -> (ParseMetrics, ParseQuality):
         """
         Handle link-parser output stream text depending on options' BIT_OUTPUT field.
@@ -149,39 +165,52 @@ class LGInprocParser(AbstractFileParserClient):
             # Parse linkages and make statistics estimation
             for sent in sentences:
 
-                linkage_count = 0
-
                 sent_metrics, sent_quality = ParseMetrics(), ParseQuality()
 
-                # Parse and calculate statistics for each linkage
-                for lnkg in sent.linkages:
+                if not len(sent.linkages):  # or not sent.valid:
+                    total_metrics.skipped_sentences += 1
+                    continue
 
-                    if linkage_count == 1:  # Only the first linkage is taken into account so far
-                        break
+                # Only the first linkage is being handled
+                lnkg = sent.linkages[0]
 
-                    # Parse postscript notated linkage and get two lists with tokens and links in return.
-                    tokens, links = parse_postscript(lnkg, options)
+                # Parse postscript notated linkage and get two lists with tokens and links in return.
+                tokens, links = parse_postscript(lnkg, options)
 
-                    if not len(tokens):
-                        raise LGParseError(f"No tokens for sentence: '{lnkg.text}'")
+                if not len(tokens):
+                    raise LGParseError(f"No tokens for sentence: '{lnkg.text}'")
 
-                    # Print out links in ULL-format
-                    print_output(tokens, links, options, out_stream)
+                # Print out links in ULL-format
+                print_output(tokens, links, options, out_stream)
 
-                    if not sent.valid:
-                        sent_metrics.skipped_sentences += 1
-                        continue
+                if not sent.valid:
+                    total_metrics.skipped_sentences += 1
+                    continue
 
-                    # Calculate parseability statistics
-                    prepared = prepare_tokens(tokens, options)
-                    sent_metrics += parse_metrics(prepared)
+                # Calculate parseability statistics
+                prepared = prepare_tokens(tokens, options)
 
-                    # Calculate parse quality if the option is set
-                    if sent.valid and (options & BIT_PARSE_QUALITY) and len(ref_parses):
-                        sent_quality += parse_quality(get_link_set(tokens, links, options),
-                                                      ref_parses[sentence_count][1])
+                # Strip suffixes, convert to lower case and make a set out of token list
+                lcased_token_set = set(prepared)
+                # lcased_token_set = { strip_token(token.lower()) for token in tokens }
 
-                    linkage_count += 1
+                # The sentence is skipped if one of the following is true:
+                #   - stop token list is not empty and the sentence contains at least one of the stop tokens
+                #   - sentence length exceeds 'max_sentence_len' value
+                #   - one of the sentence tokens has count less then specified by 'min_word_count'
+                if self._stop_tokens_set is not None and len(lcased_token_set & self._stop_tokens_set) or \
+                        len(prepared) > self._max_sentence_len or not self._check_token_counts(prepared):
+
+                    # Increment skipped sentence counter and continue with the next sentence
+                    total_metrics.skipped_sentences += 1
+                    continue
+
+                sent_metrics += parse_metrics(prepared)
+
+                # Calculate parse quality if the option is set
+                if (options & BIT_PARSE_QUALITY) and len(ref_parses):
+                    sent_quality += parse_quality(get_link_set(tokens, links, options),
+                                                  ref_parses[sentence_count][1])
 
                 assert sent_metrics.average_parsed_ratio <= 1.0, "sent_metrics.average_parsed_ratio > 1.0"
                 assert sent_quality.quality <= 1.0, "sent_quality.quality > 1.0"
@@ -201,7 +230,7 @@ class LGInprocParser(AbstractFileParserClient):
         return total_metrics, total_quality
 
     def parse(self, dict_path: str, corpus_path: str, output_path: str, ref_file: str, options: int,
-              progress: AbstractProgressClient=None) \
+              progress: AbstractProgressClient=None, **kwargs) \
             -> (ParseMetrics, ParseQuality):
         """
         Link parser invocation routine. Runs link-parser executable in a separate process.
@@ -223,9 +252,27 @@ class LGInprocParser(AbstractFileParserClient):
 
             self._logger.debug(f"Dictionary version: {dict_ver}, link-parser version: {self._lg_version}")
 
-            if dict_ver != "0.0.0" and (self._lg_version < "5.5.0" and dict_ver >= "5.5.0" or
-                    self._lg_version >= "5.5.0" and dict_ver < "5.5.0"):
-                raise LGParseError(f"Wrong dictionary version: {dict_ver}, expected: {self._lg_version}")
+            # if dict_ver != "0.0.0" and (self._lg_version < "5.5.0" and dict_ver >= "5.5.0" or
+            #         self._lg_version >= "5.5.0" and dict_ver < "5.5.0"):
+            #     raise LGParseError(f"Wrong dictionary version: {dict_ver}, expected: {self._lg_version}")
+
+        self._logger.debug(kwargs)
+
+        # Issue #184 modifications
+        stop_tokens = kwargs.get("stop_tokens", None)
+
+        self._stop_tokens_set = set([token.strip() for token in stop_tokens.split(" ")]) if stop_tokens is not None \
+            else None
+
+        # if stop_tokens is not None:
+        #     print(self._stop_tokens_set)
+
+        self._max_sentence_len = kwargs.get("max_sentence_len", 99999)
+        self._min_word_count = kwargs.get("min_word_count", 0)
+        self._token_counts = kwargs.get("token_counts", None)
+
+        self._logger.debug(f"self._min_word_count={self._min_word_count}")
+        self._logger.debug(f"self._token_counts={self._token_counts}")
 
         sentence_count = 0
 
@@ -295,13 +342,16 @@ class LGInprocParser(AbstractFileParserClient):
                 if bar is not None:
                     bar.update(sentence_count)
 
-                if not (options & BIT_OUTPUT) and ret_metrics.sentences != sentence_count:
+                if not (options & BIT_OUTPUT) \
+                        and ret_metrics.sentences + ret_metrics.skipped_sentences != sentence_count:
+
                     path_len = len(corpus_path)
 
                     raise LGParseError("Number of sentences does not match. "
-                          "Read: {}, Parsed: {}, File: {}".format(sentence_count, ret_metrics.sentences,
-                                                        corpus_path if path_len < 31 else
-                                                        "..." + corpus_path[path_len-27:]))
+                          "Read: {}, Parsed: {}, File: {}".format(sentence_count,
+                                                                  ret_metrics.sentences + ret_metrics.skipped_sentences,
+                                                                  corpus_path if path_len < 31
+                                                                                else "..." + corpus_path[path_len-27:]))
 
         except LGParseError as err:
             self._logger.debug(err_stream.decode("utf-8-sig"))

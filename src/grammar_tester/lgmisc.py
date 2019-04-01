@@ -3,7 +3,7 @@ import os
 import shutil
 import logging
 
-from .optconst import *
+from ..common.optconst import *
 
 __all__ = ['get_output_suffix', 'print_output', 'LGParseError', 'LG_DICT_PATH', 'create_grammar_dir', 'get_dir_name',
            'ParserError']

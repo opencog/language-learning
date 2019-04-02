@@ -35,6 +35,8 @@ class PSSentence:
 
 class LGInprocParser(AbstractFileParserClient):
 
+    MAX_SENTENCE_LENGTH = 99999
+
     def __init__(self, limit: int=100, timeout=1, verbosity=1):
         self._logger = logging.getLogger("LGInprocParser")
         self._linkage_limit = limit
@@ -46,7 +48,7 @@ class LGInprocParser(AbstractFileParserClient):
         self._lg_verbosity = verbosity
         self._stop_tokens_set = None
         self._min_word_count = 0
-        self._max_sentence_len = 99999
+        self._max_sentence_len = LGInprocParser.MAX_SENTENCE_LENGTH
         self._token_counts = None
 
     def _parse_batch_ps_output(self, text: str, options: int) -> list:
@@ -267,7 +269,12 @@ class LGInprocParser(AbstractFileParserClient):
         # if stop_tokens is not None:
         #     print(self._stop_tokens_set)
 
-        self._max_sentence_len = kwargs.get("max_sentence_len", 99999)
+        self._max_sentence_len = kwargs.get("max_sentence_len", LGInprocParser.MAX_SENTENCE_LENGTH)
+
+        # Zero max_sentence_len means unlimited sentence length
+        if not self._max_sentence_len:
+            self._max_sentence_len = LGInprocParser.MAX_SENTENCE_LENGTH
+
         self._min_word_count = kwargs.get("min_word_count", 0)
         self._token_counts = kwargs.get("token_counts", None)
 

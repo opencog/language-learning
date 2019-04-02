@@ -455,7 +455,14 @@ class GrammarTesterComponent(AbstractPipelineComponent):
 
     def run(self, **kwargs) -> dict:
         """ Execute component code """
+        logger = logging.getLogger("GrammarTesterComponent.run")
+
+        logger.debug(f"kwargs={kwargs}")
+
         options = get_options(kwargs)
+
+        logger.debug(f"options=0x{hex(options)}")
+
         dict_param = kwargs.get(CONF_DICT_PATH, None)
 
         dict_path = "en" if dict_param is None \
@@ -470,7 +477,7 @@ class GrammarTesterComponent(AbstractPipelineComponent):
                          handle_path_string(kwargs.get(CONF_CORP_PATH)),
                          handle_path_string(kwargs.get(CONF_DEST_PATH, os.environ['PWD'])),
                          ref_path,
-                         options, TextProgress)
+                         options, TextProgress, **kwargs)
 
         return {"parseability": pa.parseability_str(pa), "PA": pa.parseability_str(pa), "F1": pq.f1_str(pq),
                 "recall": pq.recall_str(pq), "precision": pq.precision_str(pq), "PT": pa.parse_time_str(pa)}

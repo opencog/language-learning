@@ -474,8 +474,8 @@ class GrammarTesterComponent(AbstractPipelineComponent):
             ref_path = handle_path_string(ref_path)
 
         pa, pq = self.tester.test(dict_path,
-                         handle_path_string(kwargs.get(CONF_CORP_PATH)),
-                         handle_path_string(kwargs.get(CONF_DEST_PATH, os.environ['PWD'])),
+                         handle_path_string(kwargs.pop(CONF_CORP_PATH)),
+                         handle_path_string(kwargs.pop(CONF_DEST_PATH, os.environ['PWD'])),
                          ref_path,
                          options, TextProgress, **kwargs)
 

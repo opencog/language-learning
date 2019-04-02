@@ -208,8 +208,10 @@ def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, 
     ref_parses, ref_sents = Get_Parses(ref_data) 
     if sequential:
         test_parses = Make_Sequential(ref_sents)
+        test_sents = ref_sents
     elif random_flag:
         test_parses = Make_Random(ref_sents)
+        test_sents = ref_sents
     else:
         test_data = Load_File(test_file)
         test_parses, test_sents = Get_Parses(test_data) 

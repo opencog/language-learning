@@ -7,6 +7,12 @@ from src.common.optconst import *
 
 class TokenCountTestCase(unittest.TestCase):
 
+    output_dir = "/var/tmp/parse"
+
+    def setUp(self) -> None:
+        if not os.path.isdir(self.output_dir):
+            os.mkdir(self.output_dir)
+
     def test_get_token_counts(self):
         token_counts, total_counts = {}, 0
 
@@ -23,9 +29,9 @@ class TokenCountTestCase(unittest.TestCase):
 
         corpus = "tests/test-data/corpora/poc-turtle/poc-turtle.txt"
 
-        dump_token_counts(corpus, "/var/tmp/parse", options)
+        dump_token_counts(corpus, self.output_dir, options)
 
-        self.assertTrue(os.path.exists("/var/tmp/parse/poc-turtle.txt.cnt"))
+        self.assertTrue(os.path.exists(self.output_dir + "/poc-turtle.txt.cnt"))
 
     @unittest.skip
     def test_count_tokens_multi(self):
@@ -34,11 +40,11 @@ class TokenCountTestCase(unittest.TestCase):
         corpus_1 = "tests/test-data/corpora/poc-english/poc_english.txt"
         corpus_2 = "tests/test-data/corpora/poc-english-multi"
 
-        dump_token_counts(corpus_1, "/var/tmp/parse", options)
-        dump_token_counts(corpus_2, "/var/tmp/parse", options)
+        dump_token_counts(corpus_1, self.output_dir, options)
+        dump_token_counts(corpus_2, self.output_dir, options)
 
-        output_1 = "/var/tmp/parse/poc_english.txt.cnt"
-        output_2 = "/var/tmp/parse/poc-english-multi.cnt"
+        output_1 = self.output_dir + "/poc_english.txt.cnt"
+        output_2 = self.output_dir + "/poc-english-multi.cnt"
 
         self.assertTrue(os.path.exists(output_1))
         self.assertTrue(os.path.exists(output_2))
@@ -49,11 +55,11 @@ class TokenCountTestCase(unittest.TestCase):
 
         corpus_1 = "tests/test-data/corpora/poc-english/poc_english.txt"
 
-        dump_token_counts(corpus_1, "/var/tmp/parse", options)
+        dump_token_counts(corpus_1, self.output_dir, options)
 
         token_counts_1 = count_tokens(corpus_1, options)
 
-        output_1 = "/var/tmp/parse/poc_english.txt.cnt"
+        output_1 = self.output_dir + "/poc_english.txt.cnt"
 
         token_counts_2 = load_token_counts(output_1)
 

@@ -1,4 +1,4 @@
-# language-learning/src/learner.py                                      # 81231
+# language-learning/src/learner.py                                      # 90221
 import logging
 import os, time  # pickle, numpy as np, pandas as pd
 from copy import deepcopy
@@ -6,7 +6,8 @@ from shutil import copy2 as copy
 from collections import OrderedDict, Counter
 from .utl import UTC, kwa, sec2string
 from .read_files import check_dir, check_mst_files
-from .pparser import files2links
+from .pparser import files2links, lines2links, filter_lines
+from .corpus_stats import corpus_stats
 from .category_learner import learn_categories, cats2list
 from .grammar_inducer import induce_grammar, add_disjuncts, check_cats
 from .generalization import generalize_categories, generalize_rules, \
@@ -19,6 +20,7 @@ __all__ = ['learn_grammar', 'learn']
 
 def learn(**kwargs):
     logger = logging.getLogger(__name__ + ".learn")
+    verbose = kwa('none', 'verbose', **kwargs)
     start = time.time()
     log = OrderedDict({'start': str(UTC()), 'learn_grammar': 'v.0.7.81231'})
     # input_parses = kwargs['input_parses']
@@ -28,49 +30,94 @@ def learn(**kwargs):
 
     output_categories = kwa('', 'output_categories', **kwargs)
     output_statistics = kwa('', 'output_statistics', **kwargs)
-    temp_dir = kwa('', 'temp_dir', **kwargs)
     if os.path.isdir(output_grammar):
-        print('os.path.isdir(output_grammar)')
         prj_dir = output_grammar
     elif os.path.isfile(output_grammar):
         prj_dir = os.path.dirname(output_grammar)
-        print('prj_dir = os.path.dirname(output_grammar)')
     else:  # create prj_dir
-        if check_dir(output_grammar, True, 'max'):
+        if check_dir(output_grammar, True, verbose):
             prj_dir = output_grammar
-            print('prj_dir = output_grammar:\n', output_grammar)
-
     log.update({'project_directory': prj_dir})
 
     if output_categories == '':
         output_categories = prj_dir
-    if output_statistics != '':         # TODO: check path: filename/dir?
-        corpus_stats_file = output_statistics
+    if output_statistics != '':
+        if os.path.isfile(output_statistics):
+            corpus_stats_file = output_statistics
+        elif os.path.isdir(output_statistics):
+            corpus_stats_file = output_statistics + '/corpus_stats.txt'
+        else:
+            corpus_stats_file = prj_dir + '/corpus_stats.txt'
     else:
         corpus_stats_file = prj_dir + '/corpus_stats.txt'
-    if temp_dir != '':
-        if os.path.isdir(temp_dir):
-            kwargs['tmpath'] = temp_dir
 
-    context = kwa(1, 'context', **kwargs)
+    temp_dir = kwa('', 'temp_dir', **kwargs)  # FIXME: temp_dir/tmpath  # 90221
+    tmpath = kwa('', 'tmpath', **kwargs)  # legacy
+    if temp_dir != '':
+        # if os.path.isdir(temp_dir):
+        if check_dir(temp_dir, False, verbose):
+            tmpath = temp_dir
+        else: tmpath = os.path.abspath(os.path.join('..')) + '/tmp'
+    elif tmpath == '':                              # FIXME: stub!      # 90221
+        # if check_dir(prj_dir + '/tmp', True, verbose):
+        #    tmpath = prj_dir + '/tmp'
+        tmpath = os.path.abspath(os.path.join('..')) + '/tmp'           # 90221
+    if check_dir(tmpath, True, verbose):
+        kwargs['tmpath'] = tmpath
+        temp_dir = tmpath
+
+    parse_mode = kwa('lower', 'parse_mode', **kwargs)  # 'casefold' » default?
+    context = kwa(2, 'context', **kwargs)
     clustering = kwa('kmeans', 'clustering', **kwargs)  # TODO: update
     cats_gen = kwa('off', 'categories_generalization', **kwargs)
-    grammar_rules = kwa(1, 'grammar_rules', **kwargs)
+    grammar_rules = kwa(2, 'grammar_rules', **kwargs)
     verbose = kwa('none', 'verbose', **kwargs)
 
     files, re01 = check_mst_files(input_parses, verbose)
     log.update(re01)
-    if 'error' in re01:
+    if 'error' in re01:  # FIXME: assert ?
         print('learner.py » learn » check_mst_files » re01:\n', re01)
         return {'error': 'input_files'}, log
     kwargs['input_files'] = files
-    links, re02 = files2links(**kwargs)
+
+    '''Read parses, extract links to DataFrame (2018), + filter sentences'''
+
+    if 'max_sentence_length' not in kwargs \
+            and 'max_unparsed_words' not in kwargs:
+        links, re02 = files2links(**kwargs)                       # legacy 2018
+        # links: pd.DataFrame(columns=['word', 'link', 'count'])
+    else:  # filter sentences with 'max_sentence_length', 'max_unparsed_words'
+        lines = []
+        for i, file in enumerate(files):
+            with open(file, 'r') as f:
+                lines.extend(f.readlines())
+            if len(lines[-1]) > 0:  # 90211
+                lines.append('')
+        if parse_mode == 'lower':
+            lines = [' '.join([y.lower() if y != '###LEFT-WALL###'
+                               else y for y in x.split()]) for x in lines]
+        elif parse_mode == 'casefold':
+            lines = [' '.join([y.casefold() if y != '###LEFT-WALL###'
+                               else y for y in x.split()]) for x in lines]
+
+        if 'corpus_stats' in corpus_stats(lines):
+            raw_corpus_stats = corpus_stats(lines)['corpus_stats']
+            if type(raw_corpus_stats) is list:
+                log.update({'raw_corpus_stats': raw_corpus_stats})
+                list2file(raw_corpus_stats, prj_dir + '/raw_corpus_stats.txt')
+                log.update({'raw_corpus_stats_file':
+                            prj_dir + '/raw_corpus_stats.txt'})
+
+        links, re02 = lines2links(lines, **kwargs)                      # 90216
     log.update(re02)
-    if 'corpus_stats' in re02:
-        list2file(re02['corpus_stats'], corpus_stats_file)
+
+    if 'corpus_stats' in log:
+        list2file(log['corpus_stats'], corpus_stats_file)
         log.update({'corpus_stats_file': corpus_stats_file})
-    else:
+    else:  # FIXME: raise error / assert ?
         return {'error': 'input_files'}, log
+
+    '''Learn word categories'''
 
     categories, re03 = learn_categories(links, **kwargs)
     log.update(re03)
@@ -80,8 +127,8 @@ def learn(**kwargs):
             ['Number of unique features after cleanup', re03['clean_features']]])
         list2file(log['corpus_stats'], corpus_stats_file)
 
-    '''Generalize word categories'''
-
+    '''Generalize word categories'''  # FIXME: issues with add_upper_level
+    '''
     if cats_gen == 'jaccard' or (cats_gen == 'auto' and clustering == 'group'):
         categories, re04 = generalize_categories(categories, **kwargs)
         log.update(re04)
@@ -90,6 +137,7 @@ def learn(**kwargs):
                     'none: vector-similarity based - maybe some day...'})
     else:
         log.update({'generalization': 'none: ' + str(cats_gen)})
+    #'''
 
     '''Learn grammar'''
 
@@ -99,15 +147,13 @@ def learn(**kwargs):
         links, re06 = files2links(**kwargs)
         kwargs['context'] = context
 
-    if 'disjuncts' not in 'categories':  # k-means, agglomerative clustering
-        categories = add_disjuncts(categories, links, **kwargs)
+    categories = add_disjuncts(categories, links, **kwargs)
+    # TODO: check every category has disjuncts?         # 81204,  blocked 81207
+    #  ? categories = prune_cats(categories, **kwargs)  # [F] ⇒ induce_grammar?
+    #  ? re = check_cats(categories, **kwargs)
 
-    # TODO: check every category has disjuncts          # 81204,  blocked 81207
-    # categories = prune_cats(categories, **kwargs)  # [F] ⇒ implant in induce_grammar?
-    # re = check_cats(categories, **kwargs)
-
-    # "fully connected rules": every cluster connected to all clusters
-    if kwargs['grammar_rules'] < 0:
+    # "Fully connected rules": every cluster connected to all clusters
+    if grammar_rules < 0:
         rules = deepcopy(categories)
         clusters = [i for i, x in enumerate(rules['cluster'])
                     if i > 0 and x is not None]
@@ -131,10 +177,14 @@ def learn(**kwargs):
             rules, re08 = generalise_rules(rules, **kwargs)
             log.update(re08)
 
-    if 'log+' in verbose:
+    if 'log+' in verbose:                   # FIXME
         log['rule_sizes'] = dict(Counter(
             [len(x) for i, x in enumerate(rules['words'])
              if rules['parent'][i] == 0]))
+
+    # TODO: replace @ in words: xxx@yyy » xxx.yyy | NOT @...@
+    #  - here, not in write_files.py save_cat_tree, save_link_grammar
+    #  ?! check xx@yy & xx.yy are not in different clusters
 
     '''Save word category tree, Link Grammar files: cat_tree.txt, dict...dict'''
 
@@ -152,7 +202,7 @@ def learn(**kwargs):
     log.update({'grammar_learn_time': sec2string(time.time() - start)})
 
     # return log
-    return rules, log  # 81126 to count clusters in .ipynb tests  # muda
+    return rules, log  # 81126 to count clusters in .ipynb tests  FIXME:DEL?
 
 
 def learn_grammar(**kwargs):  # Backwards compatibility with legacy calls
@@ -168,4 +218,5 @@ def learn_grammar(**kwargs):  # Backwards compatibility with legacy calls
 # 81102 sparse wordspace agglomerative clustering
 # 81126 def learn_grammar ⇒ def learn + decorator
 # 81204-07 test and block (snooze) data pruning with max_disjuncts, etc...
-# 71231 cleanup
+# 81231 cleanup
+# 90221 tweak temp_dir, tmpath for Grammar Learner tutorial - FIXME line 54...

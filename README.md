@@ -20,22 +20,20 @@ We use Ubuntu 16.04 LTS and `miniconda3`version of Anaconda. Please check [Anaco
 ### Create virtual environment
 ```
 $ cd ~/language-learning
-$ conda env create -f conda-env-ull.yml
+$ conda env create
 ```
 
-`ull` environment includes necessary packages, matplotlib and Jupyter notebook.  
+Default `ull` environment created from `environment.yml` file 
+includes necessary packages, matplotlib and Jupyter notebook.  
 You can add packages and update environment at your own risk.  
 
-### Other environments:
-* `conda-env-ull-cli.yml` -- simplified for CLI: no Jupyter notebook, matplotlib.  
-* `conda-env-ull-dev.yml` -- development environment with extended package set.
-
 ### Update environment:
-Update with new environment file from [Github repository](https://github.com/singnet/language-learning) recommended:
+Update with new `environment.yml` file pulled from 
+[Github repository](https://github.com/singnet/language-learning) recommended:
 ```
 $ cd ~/language-learning
 $ git pull
-$ conda env update -n ull -f conda-env-ull.yml --prune
+$ conda env update -n ull --prune
 ```
 The `--prune` key would force remove packages not specified in the `.yml` file.
 If you have added come packages to the environment, you would rather let them prune and add after the update. Otherwise vwrsion conflicts might occur.  
@@ -70,7 +68,7 @@ $ pip uninstall opencog-ull
 Command line scripts (which are located in `src/cli-scripts`) can be run from any location. In activated virtual
 environment type the name of the script you need to run.
 
-### Calling library functions from within your code
+### Calling Grammar Tester library functions from within your code
 
 If you are going to use grammar tester from within your own code see `src/samples` for use cases.
 
@@ -99,6 +97,14 @@ sh-4.3$ source activate ull
 [...NotebookApp] http://localhost:8888/?token=(copy_this_token)  
 ```
 Browser: `http://localhost:8000/?token=(token_copied_in_the_terminal)`  
+
+## Grammar Learner:
+
+Source code -- [/src/grammar_learner](https://github.com/singnet/language-learning/tree/master/src/grammar_learner), 
+key parameters described in [README](https://github.com/singnet/language-learning/blob/master/src/grammar_learner/README.md).   
+Tutorial v.0.1: [video](https://singularitynet.zoom.us/recording/play/k9detja9ZtZif4RrHzIgsiA7FwjFyGRPkV9zNamanliVYLh6Rq0zGTRh8nbS8xsI?continueMode=true), 
+[notebook](https://github.com/singnet/language-learning/blob/master/notebooks/Grammar_Learner_Tutorial_01_2019-02-22_.ipynb), 
+[static html copy of the notebook](http://langlearn.singularitynet.io/data/clustering_2019/html/Grammar_Learner_Tutorial_01_2019-02-22.html) 
 
 ## Running "mini-pipeline": Grammar Learner & Tester
 ```

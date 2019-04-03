@@ -31,7 +31,9 @@ Fast test with [CDS-LG-E-Clean-11-50.json](https://github.com/singnet/language-l
 ```
 
 ## Category tagger: alpha v.0.0.1 2019-01-29 
-Replace words in .ull files with relevant categories from Link Grammar .dict. 
+Replace words in .ull files with relevant categories from Link Grammar .dict.  
+
+***ATTENTION! Just an experimental stub, issues found processing larger corpora :(***
 
 ### Usage:
 ```

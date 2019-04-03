@@ -42,6 +42,7 @@ def main(argv):
         -a              use alternative parse_evaluator
         -s              evaluate sequential parses (only in alternative evaluator)
         -z              evaluate random parses (only in alternative evaluator)
+        -f              filter sentences not matching in ref and test, or have internal dialogue (only in alternative)
 
     """
     test_file = ''
@@ -52,16 +53,17 @@ def main(argv):
     sequential = False
     random = False
     alternative_parser = False
+    filter_sentences = False
 
     try:
         app_name = str(os.path.split(__file__)[1]).split(".")[0]
 
-        opts, args = getopt.getopt(argv, "ht:r:v:isza", ["test=", "reference=", "verbosity=", "ignore", "sequential",
-                                                         "random", "alternative"])
+        opts, args = getopt.getopt(argv, "ht:r:v:iszaf", ["test=", "reference=", "verbosity=", "ignore", "sequential",
+                                                         "random", "alternative", "filter"])
 
         for opt, arg in opts:
             if opt == '-h':
-                print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a]")
+                print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s] [-z] [-a] [-f]")
                 sys.exit()
             elif opt in ("-t", "--test"):
                 test_file = arg
@@ -83,9 +85,11 @@ def main(argv):
                 random = True
             elif opt in ("-a", "--alternative"):
                 alternative_parser = True
+            elif opt in ("-f", "--filter"):
+                filter_sentences = True
 
     except getopt.GetoptError:
-        print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a]")
+        print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a] [-f]")
         sys.exit(2)
 
 
@@ -111,7 +115,7 @@ def main(argv):
             raise EvalError("Error: Incorrect test_file.")
 
         if alternative_parser:
-            Evaluate_Alternative(ref_file, test_file, verbose, ignore_wall, sequential, random)
+            Evaluate_Alternative(ref_file, test_file, verbose, ignore_wall, sequential, random, filter_sentences)
 
         else:
             compare_ull_files(test_file, ref_file, verbose, ignore_wall)

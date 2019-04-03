@@ -40,7 +40,10 @@ def Get_Parses(data):
             continue
         if new_flag:
             new_flag = False
-            sentences.append(line.split())
+            curr_sent = line.split()
+            if curr_sent[0] == "###LEFT-WALL###":
+                curr_sent.pop(0)
+            sentences.append(curr_sent)
             parses.append([])
             parse_num += 1
             continue
@@ -66,21 +69,37 @@ def MakeSets(parse, sent_len, ignore_WALL):
     links_set = set(map(frozenset, link_list))
     return links_set, current_ignored
 
-def Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore):
+def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore, filter):
     """
-        Compares test_parses against ref_parses link by link
-        counting errors
+        Compares test_parses against ref_parses link by link,
+        counting errors, 
     """
+    filtered_sents = 0 # sentences filtered if filter is active
     evaluated_parses = 0
     ignored_links = 0   # ignored links from ref, if ignore is active
     sum_precision = 0
     sum_recall = 0
 
-    for ref_parse, test_parse, ref_sent in zip(ref_parses, test_parses, ref_sents):
+    # if filter, we'll print to file accepted ref parses
+    if filter:
+        fa = open("./accepted_parses.ull", "w")
+
+    for ref_parse, test_parse, ref_sent, test_sent in zip(ref_parses, test_parses, ref_sents, test_sents):
 
         true_pos = 0
         false_neg = 0
         false_pos = 0
+
+        # when filter is active, ignore sentence if they're not equal
+        # or it contains any quotes (for dialogue sentences)
+        if filter:
+            joint_test_sent = " ".join(test_sent)
+            joint_ref_sent = " ".join(ref_sent)
+            #count_quotes = ref_sent[1:-1].count('"') # only internal quotes
+            count_quotes = ref_sent.count('"') # any quotes
+            if joint_ref_sent.lower() != joint_test_sent.lower() or count_quotes > 0:
+                filtered_sents += 1
+                continue
 
         # using sets to ignore link directions
         ref_sets, current_ignored = MakeSets(ref_parse, len(ref_sent), ignore)
@@ -113,13 +132,23 @@ def Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore):
             print("Missing links: {}".format(false_neg))
             print("Extra links: {}".format(false_pos))
 
+        # print to file the processed parses
+        if filter:
+            fa.write(joint_ref_sent + "\n")
+            for link in ref_parse:
+                fa.write(" ".join(link) + "\n")
+            fa.write("\n")
+
     precision = sum_precision / evaluated_parses # averages precision
     recall = sum_recall / evaluated_parses # averages recall
     print("\nAvg Precision: {:.2%}".format(precision))
     print("Avg Recall: {:.2%}".format(recall))
     print("Avg Fscore: {:.2%}\n".format(2 * precision * recall / (precision + recall)))
+    print("A total of {} sentences filtered, {:.2%} of reference file".format(filtered_sents, float(filtered_sents) / len(ref_parses)))
     print("A total of {} parses evaluated, {:.2%} of reference file".format(evaluated_parses, float(evaluated_parses) / len(ref_parses)))
     print("{:.2f} ignored links per evaluated parse".format(ignored_links / evaluated_parses))
+    if filter:
+        fa.close() # close output file if opened
     
 def Make_Sequential(sents):
     """
@@ -172,17 +201,19 @@ def Make_Random(sents):
 
     return random_parses
 
-def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag):
+def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag, filter_sentences):
 
     ref_data = Load_File(ref_file)
     ref_parses, ref_sents = Get_Parses(ref_data) 
     if sequential:
         test_parses = Make_Sequential(ref_sents)
+        test_sents = ref_sents
     elif random_flag:
         test_parses = Make_Random(ref_sents)
+        test_sents = ref_sents
     else:
         test_data = Load_File(test_file)
-        test_parses, dummy = Get_Parses(test_data) 
+        test_parses, test_sents = Get_Parses(test_data) 
     if len(test_parses) != len(ref_parses):
         sys.exit("ERROR: Number of parses differs in files: ", len(test_parses), ", ", len(ref_parses))
-    Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore_WALL)
+    Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore_WALL, filter_sentences)

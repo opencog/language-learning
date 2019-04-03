@@ -1,4 +1,4 @@
-# language-learning/src/category_learner.py                             # 81231
+# language-learning/src/category_learner.py                             # 90221
 import logging
 import numpy as np
 import pandas as pd
@@ -19,26 +19,14 @@ def learn_categories(links, **kwargs):
     cats_file = kwa('/output', 'output_categories', **kwargs)
     tmpath = kwa('', 'tmpath', **kwargs)
     context = kwa(1, 'context', **kwargs)
-    word_space = kwa('vectors', 'word_space', **kwargs)
+    word_space = kwa('embeddings', 'word_space', **kwargs)
     dim_max = kwa(100, 'dim_max', **kwargs)
     sv_min = kwa(0.1, 'sv_min', **kwargs)
     algorithm = kwa('kmeans', 'clustering', **kwargs)
     verbose = kwa('none', 'verbose', **kwargs)
 
-    log = OrderedDict()
+    log = OrderedDict()  # FIXME: log » response
     log.update({'category_learner': 'v.0.7.81231'})
-
-    if tmpath == '' or tmpath == 'auto':
-        if '.' not in cats_file:
-            tmpath = cats_file
-        else:
-            tmpath = cats_file[:cats_file.rindex('/')]
-        if tmpath[-1] != '/': tmpath += '/'
-        tmpath += 'tmp/'
-
-    if check_dir(tmpath, True, verbose):
-        log.update({'tmpath': tmpath})
-    # TODO:ERROR
 
     cdf = pd.DataFrame(columns = ['cluster', 'cluster_words'])
 
@@ -46,12 +34,14 @@ def learn_categories(links, **kwargs):
     if algorithm == 'random':
         log.update({'clustering': 'random'})
         cdf = random_clusters(links, **kwargs)
-    elif algorithm == 'group' or word_space[0] == 'd':  # «ILE»: discrete
-        log.update({'clustering': 'ILE'})
-        cdf = group_links(links, verbose)
 
-    elif word_space[0] in ['v', 'e']:  # «DRK» legacy Grammar Learner 0.6
-        # word_space :: v,e: 'vectors'='embeddings' | 'discrete', 'sparse'
+    # «ILE» -- "Identical Lexical Entries"
+    elif algorithm == 'group' or word_space[0] == 'd':  # 'discrete' word space
+        log.update({'word_space': 'discrete', 'clustering': 'ILE'})
+        cdf = group_links(links, **kwargs)
+
+    # «DRK» -- "Dimensionality Reduction (SVD) & K-means clustering"
+    elif word_space[0] in ['e', 'v']:  # 'embeddings' / 'vectors' - 0.6 legacy
         dict_path = tmpath
         try:
             dim = vector_space_dim(links, dict_path, tmpath, dim_max, sv_min,
@@ -61,12 +51,12 @@ def learn_categories(links, **kwargs):
         log.update({'vector_space_dim': dim})
 
         vdf, sv, re01 = pmisvd(links, dict_path, tmpath, dim)
-        log.update(re01)
+        #-log.update(re01)  # {'vectors_file': out_file} -- no need
         cdf, silhouette, inertia = best_clusters(vdf, **kwargs)
         log.update({'silhouette': silhouette, 'inertia': inertia})
 
-    # Sparse word space, agglomerative clustering 81021, ... ⇒ any clustering
-    elif word_space[0] == 's':  # sparse
+    # Sparse word space, agglomerative clustering 2018-10-21, mean shift, ...
+    elif word_space[0] == 's':  # 'sparse'
         log.update({'word_space': 'sparse'})
         linx, words, features = clean_links(links, **kwargs)
         log.update({'cleaned_words': len(sorted(np.unique(words))),
@@ -76,10 +66,9 @@ def learn_categories(links, **kwargs):
         counts = co_occurrence_matrix(linx, **kwargs)
         cd = categorical_distribution(counts, **kwargs)
         labels, metrics, centroids = optimal_clusters(cd, **kwargs)
-
         # TODO check labels != [] ?  81114 check error via try learn_grammar
-
         log.update(metrics)
+
         # labels ⇒ cdf (legacy, extracted from agglomerative_clustering:
         cdf['cluster'] = sorted(np.unique(labels))  # set(labels)
         clusters = {x: [] for x in cdf['cluster'].tolist()}
@@ -142,7 +131,9 @@ def cdf2cats(clusters, **kwargs):
                        for y in cats['disjuncts']]
     if 'counts' in clusters:
         cats['counts'] = [0] + clusters['counts'].tolist()
-    if kwargs['word_space'] == 'discrete' or kwargs['clustering'] == 'group':
+
+    if ('word_space' in kwargs and kwargs['word_space'] == 'discrete') or \
+            ('clustering' in kwargs and kwargs['clustering'] == 'group'):
         cats['quality'] = [1 for x in cats['words']]
         cats['quality'][0] = 0
         cats['similarities'] = [[1 for y in x] for x in cats['words']]
@@ -153,6 +144,7 @@ def cdf2cats(clusters, **kwargs):
     cats['children'] = [0 for x in cats['words']]
 
     return cats
+
 
 # Notes:
 
@@ -165,3 +157,4 @@ def cdf2cats(clusters, **kwargs):
 # 81012 cdf2cats
 # 81102 sparse wordspace agglomerative clustering
 # 81231 cleanup after upstream merge and conflicts resolution (FIXME: 2nd check)
+# 90221 tmpath defined in learn, tweaks removed here

@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/clustering.py                   # 90104
+# language-learning/src/grammar_learner/clustering.py                   # 90221
 import logging
 import numpy as np
 import pandas as pd
@@ -137,14 +137,18 @@ def best_clusters(vdf, **kwargs):                                       # 90104
     level = kwa(1.0, 'cluster_level', **kwargs)
     verbose = kwa('none', 'verbose', **kwargs)
     crange = kwa([2, 50, 2], 'cluster_range', **kwargs)
+    # crange = kwa(10, 'cluster_range', **kwargs)
     # crange :: cluster range:
-    # (10) = (10,10) = (10,10,n) :: 10 clusters, n tests
-    # (10,40,5) :: min, max, step ⇒ number_of_clusters
-    # (10,40,5,n) :: min, max, step, n tests for each step ⇒ number_of_clusters
-    # (40,10,m) :: max, min, optimum: max of m top results
-    #                                 with the same number of clusters
+    # [10], [10,10] :: 10 clusters
+    # [10,10,n]     :: 10 clusters, n tests
+    # [10,40,5]     :: min, max, step ⇒ number_of_clusters
+    # [10,40,5,n]   :: min, max, step, n tests for each step ⇒ number_of_clusters
+    # [40,10,m]     :: max, min, optimum: max of m top results
+    #                                     with the same number of clusters
     if type(crange) is int:
         crange = [crange, crange]
+    init = 'k-means++'
+    n_init = 10
     if type(algo) is str:
         if algo == 'kmeans':
             algorithm = 'kmeans'
@@ -153,26 +157,13 @@ def best_clusters(vdf, **kwargs):                                       # 90104
     elif type(algo) in [tuple, list]:
         if algo[0] == 'kmeans':
             algorithm = 'kmeans'
-            if len(algo) > 1:
-                if algo[1][0] == 'r':
-                    init = 'random'
-                else:
-                    init = 'k-means++'
-            else:
-                init = 'k-means++'
+            if len(algo) > 1 and algo[1][0] == 'r': init = 'random'
             if len(algo) > 2:
-                try:
-                    n_init = int(algo[2])
-                except:
-                    n_init = 10
-            else:
-                n_init = 10
+                try: n_init = int(algo[2])
+                except: n_init = 10
 
-    if crange[0] == crange[1] or len(crange) < 2:  # given n_clusters
-        if len(crange) < 2 or crange[2] < 2:
-            clusters, silhouette, inertia = cluster_words_kmeans(vdf, crange[0])
-            return clusters, silhouette, inertia
-        else:  # run crange[2] times to define the best
+    if crange[0] == crange[1]:  # given n_clusters
+        if len(crange) > 2 and crange[2] > 1:  # run crange[2] times
             lst = []
             for n in range(crange[2]):
                 try:
@@ -188,6 +179,9 @@ def best_clusters(vdf, **kwargs):                                       # 90104
                 return lst[0][2], lst[0][3], lst[0][4]
             else:
                 return 0, 0, 0
+        else:  # run once
+            clusters, silhouette, inertia = cluster_words_kmeans(vdf, crange[0])
+            return clusters, silhouette, inertia
 
     elif crange[1] > crange[0]:  # 80809 option: legacy search in a given range
         n_clstrs = number_of_clusters(vdf, **kwargs)
@@ -279,14 +273,20 @@ def best_clusters(vdf, **kwargs):                                       # 90104
             return clusters, silhouette, inertia
 
 
-def group_links(links, verbose):  # Group «ILE»                         # 80925
+def group_links(links, **kwargs):  # Group «ILE»                        # 90209
     logger = logging.getLogger(__name__ + ".group_links")
+
+    thresh = kwa(1, 'min_word_count', **kwargs) - 1                     # 90209
+
     df = links.copy()
     df['links'] = [[x] for x in df['link']]
     del df['link']
     df = df.groupby('word').agg({'links': 'sum', 'count': 'sum'}).reset_index()
     df['words'] = [[x] for x in df['word']]
     del df['word']
+
+    if thresh > 0: df = df.loc[df['count'] > thresh]                    # 90209
+
     df2 = df.copy().reset_index()
     df2['links'] = df2['links'].apply(lambda x: tuple(sorted(x)))
     df3 = df2.groupby('links')['count'].apply(sum).reset_index()
@@ -349,3 +349,5 @@ def random_clusters(links, **kwargs):
 # TODO: n_clusters ⇒ best_clusters: return best clusters (word lists), centroids
 # 81231 cleanup
 # 90104 resolve Turtle MST LW crash: 1 cluster
+# 90209 group_links: add min_word_count to 80925 legacy version
+# 90221 kmeans defaults updated for Grammar Learner tutorial

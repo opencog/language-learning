@@ -4,17 +4,19 @@
 ```
 from src.grammar_learner.learner import learn_grammar
 kwargs = {                              # defaults:
-    # parsing:
+    # input and output files and paths:
     'input_parses'      : <input>   ,   # path to directory with input parses
     'output_grammar'    : <output>  ,   # filename or path to store Link Grammar .dict file
     'output_categories' :    ''     ,   # category tree path = output_grammar if '' or not given
     'output_statistics' :    ''     ,   # input file stats = output_grammar if '' or not given
-    'temp_dir'          :    ''     ,   # temporary files = language-learning/tmp/ if '' or not set
+    # parsing:
+    'max_sentence_length'   :   99  ,   # filter: max number of parsed words in sentences used for learning
+    'max_unparsed_words'    :   0   ,   # filter: max number of not parsed words allowed in a sentence
     'parse_mode'    :   'given'     ,   # 'given' (default) / 'explosive' (next)
     'left_wall'     :   ''          ,   # '','none' - don't use / 'LEFT-WALL' - replace ###LEFT-WALL### tag with 'LEFT-WALL'
     'period'        :   False       ,   # use full stop - end of sentence in links learning
     # word (vector) space:
-    'word_space'    :   'vectors'  ,    # 'embeddings' / 'discrete' / sparse
+    'word_space'    :   'embeddings',    # 'embeddings' / 'discrete' / sparse -- see comments below
     'context'       :   2           ,   # 1: connectors / 2: disjuncts; 
     'window'        :   'mst'       ,   # 'mst' / reserved options for «explosive» parsing
     'group'         :   True        ,   # group items after link parsing / False reserved
@@ -40,17 +42,18 @@ kwargs = {                              # defaults:
     'clustering_metric' : ['silhouette', 'cosine'], # new setting (October 2018) -- comments below
     'cluster_level' :   1.0         ,   # level = 0, 1, 0.-0.99..: 0 - max number of clusters
     # word categories generalization:
-    'categories_generalization': 'off', # 'off' / 'jaccard'
-    'categories_merge'      :   0.8 ,   # merge categories with similarity > this 'merge' criteria
-    'categories_aggregation':   0.2 ,   # aggregate categories with similarity > this criteria
+    'categories_generalization': 'off', # 'off' / 'jaccard' -- legacy option, discontinued
+    'categories_merge'      : 0.8   ,   # merge categories with similarity > this 'merge' criteria
+    'categories_aggregation': 0.2   ,   # aggregate categories with similarity > this criteria
     # grammar induction and generalization:
-    'grammar_rules' :   2           ,   # 1: 'connectors' / 2 - 'disjuncts'
-    'rules_generalization'  :  'off',   # 'off' / 'hierarchical' / 'jaccard' -- see comments below 
-    'rules_merge'           :   0.8 ,   # merge rules with similarity > this 'merge' criteria
-    'rules_aggregation'     :   0.2 ,   # aggregate rules similarity > this criteria
+    'grammar_rules'         : 2     ,   # 1: 'connectors' / 2 - 'disjuncts'
+    'rules_generalization'  : 'off' ,   # 'off' / 'hierarchical' / 'jaccard' -- see comments below 
+    'rules_merge'           : 0.8   ,   # merge rules with similarity > this 'merge' criteria
+    'rules_aggregation'     : 0.2   ,   # aggregate rules similarity > this criteria
     # miscellaneous:
-    'linkage_limit' : 1000          ,   # Link Grammar parameter for tests
+    'temp_dir'              : ''    ,   # temporary files = language-learning/tmp/ if '' or not set
     'tmpath' : module_path + '/tmp/',   # temporary files directory (legacy)
+    'linkage_limit'         : 1000  ,   # Link Grammar parameter for tests
     'verbose': 'min'    # display intermediate results: 'none', 'min', 'mid', 'max'
 }
 response = learn_grammar(**kwargs)
@@ -62,6 +65,15 @@ response = learn_grammar(**kwargs)
   in case of directory the grammar file is saved with auto file name `dict<...>.dict`;
 - default stats and category tree files are saved to output_grammar directory  
   as `corpus_stats.txt` and `cat_tree.txt`.  
+
+**word_space** -- string:
+- `embeddings` (or `vectors` in older notebooks) -- 
+  dense vector space created by singular value decomposition 
+  of a pointwise mutual information matrix between words and connectors or disjuncts 
+  derived from input parsing data;     
+- `discrete` -- sparse vector space for 'group' clustering 
+  represented by a pandas DataFrame of links between words and sets of connectors or disjuncts;   
+- `sparse` -- sparse numpy ndarray for mean shift, agglomerative, K-means clustering.  
 
 **'clustering'** -- string or list:  
 - `'kmeans'` or `['kmeans', 'kmeans++', 10]` -- default settings for k-means clustering 
@@ -100,8 +112,7 @@ optimal number of clusters: minimal, providing `clustering_metric` better than s
 - x = 0.1-0.99 -- clustering with minimal number of clusters, providing x * max value of `clustering_metric`;
 - 0 / 0.0  -- return clustering with maxi,al possible number of clusters
 
-**'rules_generalization'**: 'off' / 'jaccard' / 'hierarchical' / 'new'
+**'rules_generalization'**: 'off' / 'jaccard' / 'hierarchical' / 'fast'
 - 'jaccard' -- group ILE-based rules by jaccard similarity (mid-2018 legacy),  
 - 'hierarchical' -- updated 'jaccard' with rules renumbering in each loop (Nov 2018),  
-- 'new' -- experimental iterative jaccard with rules renumbering (Nov 2018),  
-- 'classification' (idea to test) -- classify smaller clusters and merge with the best fit  
+- 'fast' -- experimental iterative jaccard with rules renumbering (Nov 2018),  

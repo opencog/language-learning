@@ -1,7 +1,6 @@
-import sys
 import re
 
-from .optconst import *
+from ..common.optconst import *
 from .lgmisc import LGParseError
 from typing import List
 

@@ -3,6 +3,11 @@ from tqdm import tqdm
 from .absclient import AbstractProgressClient
 
 
+__all__ = [
+    'TextProgress'
+]
+
+
 class TqdmFile(object):
     """Dummy file-like that will write to tqdm"""
     file = None

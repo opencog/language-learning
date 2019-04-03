@@ -12,14 +12,15 @@ from ..common.parsemetrics import ParseMetrics, ParseQuality
 from ..common.fileconfman import JsonFileConfigManager
 from ..common.cliutils import handle_path_string, strip_quotes
 from ..common.textprogress import TextProgress
+from ..common.sentencecount import get_sentence_count
+from ..common.tokencount import *
 from .textfiledashb import TextFileDashboardConf  #, HTMLFileDashboard
 
 from .lgmisc import create_grammar_dir
-from .optconst import *
+from ..common.optconst import *
 
 from .lginprocparser import LGInprocParser
-from .lgapiparser import LGApiParser
-from .sentencecount import get_sentence_count
+
 
 __all__ = ['test_grammar', 'test_grammar_cfg', 'GrammarTester', 'GrammarTestError', 'GrammarTesterComponent']
 
@@ -36,6 +37,11 @@ CONF_GRMR_PATH = "grammar_root"
 CONF_TMPL_PATH = "template_path"
 CONF_LNK_LIMIT = "linkage_limit"
 CONF_TIMEOUT   = "timeout"
+CONF_MIN_WORD_CNT = "min_word_count"
+CONF_MAX_SENT_LEN = "max_sentence_len"
+CONF_STOP_TOKENS = "stop_tokens"
+CONF_WORD_CNT_PATH = "word_count_path"
+
 
 # on_corpus_file() argument list indexes
 # [dest_path, lang_path, dict_path, corpus_path, output_path, reference_path]
@@ -90,6 +96,8 @@ class GrammarTester(AbstractGrammarTestClient):
         self._total_dicts = 0
         self._total_sentences = 0
         self._progress = None
+        self._token_counts = {}
+        self._test_kwargs = None
 
     @staticmethod
     def _save_stat(stat_path: str, metrics: ParseMetrics, quality: ParseQuality) -> None:
@@ -171,7 +179,7 @@ class GrammarTester(AbstractGrammarTestClient):
         ref_file = self._get_ref_file_name(corpus_file_path, args)
 
         file_metrics, file_quality = self._parser.parse(dict_path, corpus_file_path, out_file,
-                                                        ref_file, self._options, self._progress)
+                                                        ref_file, self._options, self._progress, **self._test_kwargs)
 
         if self._options & (BIT_SEP_STAT | BIT_OUTPUT) == BIT_SEP_STAT:
             stat_name = out_file + ".stat"
@@ -243,7 +251,7 @@ class GrammarTester(AbstractGrammarTestClient):
         self._total_sentences += get_sentence_count(file, self._options)
 
     def test(self, dict_path: str, corpus_path: str, output_path: str, reference_path: str, options: int,
-             progress: AbstractProgressClient=None) -> (ParseMetrics, ParseQuality):
+             progress: AbstractProgressClient=None, **kwargs) -> (ParseMetrics, ParseQuality):
         """
         Main method to initiate grammar test.
 
@@ -261,6 +269,8 @@ class GrammarTester(AbstractGrammarTestClient):
         self._total_dicts = 0
         self._is_dir_corpus = os.path.isdir(corpus_path)
         self._is_dir_dict = os.path.isdir(dict_path)
+        self._token_counts.clear()
+        self._test_kwargs = kwargs
 
         if not (os.path.isfile(corpus_path) or os.path.isdir(corpus_path)):
             raise FileNotFoundError("Path '" + corpus_path + "' does not exist.")
@@ -290,6 +300,15 @@ class GrammarTester(AbstractGrammarTestClient):
 
         else:
             self._total_sentences = get_sentence_count(corpus_path, options)
+
+        cnt_path = self._test_kwargs.get(CONF_WORD_CNT_PATH, None)
+
+        self._token_counts = count_tokens(corpus_path, self._options) if cnt_path is None \
+            else load_token_counts(cnt_path)
+
+        self._logger.debug(self._token_counts)
+
+        self._test_kwargs["token_counts"] = self._token_counts
 
         # Create and set progress bar if it was not previously created
         if isclass(progress):
@@ -336,7 +355,7 @@ class GrammarTester(AbstractGrammarTestClient):
 
 
 def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_path: str, template_path: str,
-                       linkage_limit: int, options: int, reference_path: str, timeout: int=1) \
+                       linkage_limit: int, options: int, reference_path: str, timeout: int=1, **kwargs) \
         -> (Decimal, Decimal, Decimal, Decimal):
     """
     Test grammar(s) over specified corpus providing numerical estimation of parsing quality.
@@ -361,8 +380,12 @@ def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_pat
 
     # bar = TextProgress(total=100)
 
+    logger = logging.getLogger("test_grammar")
+
+    logger.debug(kwargs)
+
     # pm, pq = gt.test(dict_path, corpus_path, output_path, reference_path, options, None)
-    pm, pq = gt.test(dict_path, corpus_path, output_path, reference_path, options, TextProgress)
+    pm, pq = gt.test(dict_path, corpus_path, output_path, reference_path, options, TextProgress, **kwargs)
 
     return \
         pm.parseability(pm), \
@@ -432,7 +455,14 @@ class GrammarTesterComponent(AbstractPipelineComponent):
 
     def run(self, **kwargs) -> dict:
         """ Execute component code """
+        logger = logging.getLogger("GrammarTesterComponent.run")
+
+        logger.debug(f"kwargs={kwargs}")
+
         options = get_options(kwargs)
+
+        logger.debug(f"options=0x{hex(options)}")
+
         dict_param = kwargs.get(CONF_DICT_PATH, None)
 
         dict_path = "en" if dict_param is None \
@@ -444,10 +474,10 @@ class GrammarTesterComponent(AbstractPipelineComponent):
             ref_path = handle_path_string(ref_path)
 
         pa, pq = self.tester.test(dict_path,
-                         handle_path_string(kwargs.get(CONF_CORP_PATH)),
-                         handle_path_string(kwargs.get(CONF_DEST_PATH, os.environ['PWD'])),
+                         handle_path_string(kwargs.pop(CONF_CORP_PATH)),
+                         handle_path_string(kwargs.pop(CONF_DEST_PATH, os.environ['PWD'])),
                          ref_path,
-                         options, TextProgress)
+                         options, TextProgress, **kwargs)
 
         return {"parseability": pa.parseability_str(pa), "PA": pa.parseability_str(pa), "F1": pq.f1_str(pq),
                 "recall": pq.recall_str(pq), "precision": pq.precision_str(pq), "PT": pa.parse_time_str(pa)}

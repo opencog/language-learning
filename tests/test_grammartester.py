@@ -1,17 +1,12 @@
 import unittest
 import os
-import sys
 from decimal import Decimal
-from subprocess import Popen, PIPE
 
 from src.grammar_tester.grammartester import GrammarTester, test_grammar, test_grammar_cfg
 from src.grammar_tester.lginprocparser import LGInprocParser
-from src.grammar_tester.lgapiparser import LGApiParser
-from src.grammar_tester.optconst import *
+from src.common.optconst import *
 
-from src.common.fileconfman import JsonFileConfigManager
 from src.common.cliutils import handle_path_string
-from src.grammar_tester.textfiledashb import TextFileDashboard
 
 tmpl = "tests/test-data/dict/poc-turtle"
 grmr = "tests/test-data/dict"

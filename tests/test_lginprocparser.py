@@ -1,12 +1,11 @@
 import unittest
-import sys
 
-from src.grammar_tester.optconst import *
+from src.common.optconst import *
 from src.grammar_tester.lginprocparser import LGInprocParser
 from src.common.textprogress import TextProgress
 from src.grammar_tester import load_ull_file
-from src.grammar_tester.lgmisc import ParserError, LGParseError
-
+from src.grammar_tester.lgmisc import LGParseError
+from src.common.tokencount import update_token_counts
 
 lg_post_output = """
 echo set to 1
@@ -263,14 +262,71 @@ class LGInprocParserTestCase(unittest.TestCase):
     # @unittest.skip
     def test_parse_invalid_ref_file(self):
 
-        # with self.assertRaises(LGParseError) as ctx:
-        try:
+        with self.assertRaises(LGParseError) as ctx:
             pr = LGInprocParser()
             pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-english/poc_english.txt",
                      "/var/tmp/parse", "tests/test-data/parses/poc-turtle-mst/poc-turtle-parses-expected.txt",
                      BIT_PARSE_QUALITY)
-        except Exception as err:
-            print(str(type(err)) + ": " + str(err), file=sys.stderr)
+
+    # @unittest.skip
+    def test_stop_tokens(self):
+        pr = LGInprocParser()
+        pm, pq = pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
+                 "/var/tmp/parse", "tests/test-data/parses/poc-turtle-mst/poc-turtle-parses-expected.txt",
+                 BIT_PARSE_QUALITY | BIT_EXISTING_DICT | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP)
+
+        self.assertEqual(12, pm.sentences)
+        self.assertEqual(0, pm.skipped_sentences)
+
+        pm, pq = pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
+                 "/var/tmp/parse", "tests/test-data/parses/poc-turtle-mst/poc-turtle-parses-expected.txt",
+                 BIT_PARSE_QUALITY | BIT_EXISTING_DICT | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP, stop_tokens="isa")
+
+        self.assertEqual(6, pm.sentences)
+        self.assertEqual(6, pm.skipped_sentences)
+
+        pm, pq = pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
+                 "/var/tmp/parse", "tests/test-data/parses/poc-turtle-mst/poc-turtle-parses-expected.txt",
+                 BIT_PARSE_QUALITY | BIT_EXISTING_DICT | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP, stop_tokens="tuna herring")
+
+        self.assertEqual(8, pm.sentences)
+        self.assertEqual(4, pm.skipped_sentences)
+
+    # @unittest.skip
+    def test_max_sentence_len(self):
+        pr = LGInprocParser()
+        pm, pq = pr.parse("en", "tests/test-data/sentence-skip-test/issue-184.txt", "/var/tmp/parse", None,
+                          BIT_EXISTING_DICT | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP, max_sentence_len=3)
+
+        self.assertEqual(2, pm.sentences)
+        self.assertEqual(19, pm.skipped_sentences)
+
+    # @unittest.skip
+    def test_min_word_count(self):
+        token_counts, total_count = {}, 0
+        corpus_file_path = "tests/test-data/corpora/poc-turtle/poc-turtle-dot-separated.txt"
+
+        options = BIT_EXISTING_DICT | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP
+
+        total_count = update_token_counts(corpus_file_path, token_counts, options)
+
+        self.assertEqual(48, total_count)
+        self.assertEqual(6, token_counts.get("isa", 0))
+        self.assertEqual(6, token_counts.get("has", 0))
+        self.assertEqual(2, token_counts.get("tuna", 0))
+
+        pr = LGInprocParser()
+        pm, pq = pr.parse("tests/test-data/dict/poc-turtle", corpus_file_path,
+                          "/var/tmp/parse", None, options, min_word_count=1, token_counts=token_counts)
+
+        self.assertEqual(12, pm.sentences)
+        self.assertEqual(0, pm.skipped_sentences)
+
+        pm, pq = pr.parse("tests/test-data/dict/poc-turtle", corpus_file_path,
+                          "/var/tmp/parse", None, options, min_word_count=2, token_counts=token_counts)
+
+        self.assertEqual(10, pm.sentences)
+        self.assertEqual(2, pm.skipped_sentences)
 
 
 if __name__ == '__main__':

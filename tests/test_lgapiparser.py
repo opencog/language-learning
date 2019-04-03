@@ -1,7 +1,7 @@
 import unittest
 
 from src.grammar_tester.lgapiparser import *
-from src.grammar_tester.optconst import *
+from src.common.optconst import *
 from src.grammar_tester.lginprocparser import LGInprocParser
 
 

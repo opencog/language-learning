@@ -186,9 +186,6 @@ class LGInprocParser(AbstractFileParserClient):
                 #     total_metrics.skipped_sentences += 1
                 #     continue
 
-                # Print out links in ULL-format
-                print_output(tokens, links, options, out_stream)
-
                 # Calculate parseability statistics
                 prepared = prepare_tokens(tokens, options)
 
@@ -206,6 +203,9 @@ class LGInprocParser(AbstractFileParserClient):
                     # Increment skipped sentence counter and continue with the next sentence
                     total_metrics.skipped_sentences += 1
                     continue
+
+                # Print out links in ULL-format
+                print_output(tokens, links, options, out_stream)
 
                 sent_metrics += parse_metrics(prepared)
 

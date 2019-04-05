@@ -67,38 +67,72 @@ def parse_metrics(tokens: list) -> ParseMetrics:
     """
     Calculate percentage of successfully linked tokens. Token in square brackets considered to be unlinked.
 
-    :param tokens: List of tokens.
-    :return: ParseMetrics
+    :param tokens:      List of tokens.
+    :return:            ParseMetrics
     """
     pm = ParseMetrics()
 
-    end_token = len(tokens)
+    total = len(tokens)
 
     # Nothing to calculate if no tokens found
-    if end_token == 0:
+    if not total:
         return pm
-
-    total = end_token
-
-    start_token = 0  # if not tokens[0].startswith("###") else 1
 
     # Initialize number of unlinked tokens
     unlinked = 0
 
-    for i in range(start_token, end_token, 1):
-        if tokens[i].startswith("["):
+    for token in tokens:
+        if token.startswith("["):
             unlinked += 1
 
     if unlinked == 0:
         pm.completely_parsed_ratio = Decimal("1.0")
         pm.average_parsed_ratio = Decimal("1.0")
     else:
-        pm.average_parsed_ratio = Decimal("1.0") - Decimal(unlinked) / Decimal(total)
+        pm.average_parsed_ratio = Decimal(total - unlinked) / Decimal(total)
+        # pm.average_parsed_ratio = Decimal("1.0") - Decimal(unlinked) / Decimal(total)
 
     if total == unlinked:
         pm.completely_unparsed_ratio = Decimal("1.0")
 
     return pm
+
+# def parse_metrics(tokens: list) -> ParseMetrics:
+#     """
+#     Calculate percentage of successfully linked tokens. Token in square brackets considered to be unlinked.
+#
+#     :param tokens: List of tokens.
+#     :return: ParseMetrics
+#     """
+#     pm = ParseMetrics()
+#
+#     end_token = len(tokens)
+#
+#     # Nothing to calculate if no tokens found
+#     if end_token == 0:
+#         return pm
+#
+#     total = end_token
+#
+#     start_token = 0  # if not tokens[0].startswith("###") else 1
+#
+#     # Initialize number of unlinked tokens
+#     unlinked = 0
+#
+#     for i in range(start_token, end_token, 1):
+#         if tokens[i].startswith("["):
+#             unlinked += 1
+#
+#     if unlinked == 0:
+#         pm.completely_parsed_ratio = Decimal("1.0")
+#         pm.average_parsed_ratio = Decimal("1.0")
+#     else:
+#         pm.average_parsed_ratio = Decimal("1.0") - Decimal(unlinked) / Decimal(total)
+#
+#     if total == unlinked:
+#         pm.completely_unparsed_ratio = Decimal("1.0")
+#
+#     return pm
 
 
 def parse_quality(test_set: set, ref_set: set) -> ParseQuality:

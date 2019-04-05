@@ -169,7 +169,7 @@ class LGInprocParser(AbstractFileParserClient):
 
                 sent_metrics, sent_quality = ParseMetrics(), ParseQuality()
 
-                if not len(sent.linkages):  # or not sent.valid:
+                if not len(sent.linkages) or not sent.valid:
                     total_metrics.skipped_sentences += 1
                     continue
 
@@ -182,12 +182,12 @@ class LGInprocParser(AbstractFileParserClient):
                 if not len(tokens):
                     raise LGParseError(f"No tokens for sentence: '{lnkg.text}'")
 
+                # if not sent.valid:
+                #     total_metrics.skipped_sentences += 1
+                #     continue
+
                 # Print out links in ULL-format
                 print_output(tokens, links, options, out_stream)
-
-                if not sent.valid:
-                    total_metrics.skipped_sentences += 1
-                    continue
 
                 # Calculate parseability statistics
                 prepared = prepare_tokens(tokens, options)

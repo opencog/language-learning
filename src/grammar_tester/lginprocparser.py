@@ -209,6 +209,8 @@ class LGInprocParser(AbstractFileParserClient):
 
                 sent_metrics += parse_metrics(prepared)
 
+                self._logger.debug(prepared)
+
                 # Calculate parse quality if the option is set
                 if (options & BIT_PARSE_QUALITY) and len(ref_parses):
                     sent_quality += parse_quality(get_link_set(tokens, links, options),

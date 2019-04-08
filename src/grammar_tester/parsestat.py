@@ -1,3 +1,4 @@
+import logging
 from decimal import *
 from ..common.parsemetrics import ParseQuality, ParseMetrics
 
@@ -143,6 +144,9 @@ def parse_quality(test_set: set, ref_set: set) -> ParseQuality:
     :param ref_set: Reference set of links
     :return: ParseQuality instance filled with calculated values.
     """
+    logger = logging.getLogger(__name__ + ".parse_quality")
+    logger.debug(ref_set)
+
     pq = ParseQuality()
 
     len_ref = len(ref_set)

@@ -145,7 +145,9 @@ def parse_quality(test_set: set, ref_set: set) -> ParseQuality:
     :return: ParseQuality instance filled with calculated values.
     """
     logger = logging.getLogger(__name__ + ".parse_quality")
-    logger.debug(ref_set)
+
+    logger.debug(f"tst_set={ref_set}")
+    logger.debug(f"ref_set={ref_set}")
 
     pq = ParseQuality()
 

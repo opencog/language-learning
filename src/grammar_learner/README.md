@@ -12,9 +12,10 @@ kwargs = {                              # defaults:
     # parsing:
     'max_sentence_length'   :   99  ,   # filter: max number of parsed words in sentences used for learning
     'max_unparsed_words'    :   0   ,   # filter: max number of not parsed words allowed in a sentence
-    'parse_mode'    :   'given'     ,   # 'given' (default) / 'explosive' (next)
-    'left_wall'     :   ''          ,   # '','none' - don't use / 'LEFT-WALL' - replace ###LEFT-WALL### tag with 'LEFT-WALL'
+    'parse_mode'    :   'given'     ,   # 'given' / 'lower' / 'casefold'
+    'left_wall'     :   ''          ,   # '','none': don't use / 'str': replace ###LEFT-WALL### tag with 'str'
     'period'        :   False       ,   # use full stop - end of sentence in links learning
+    'wsd_symbol'    :   ''          ,   # '': no word sense disambiquation / '@': convert '@' ⇒ '.'
     # word (vector) space:
     'word_space'    :   'embeddings',    # 'embeddings' / 'discrete' / sparse -- see comments below
     'context'       :   2           ,   # 1: connectors / 2: disjuncts; 

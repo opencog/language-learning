@@ -5,7 +5,7 @@ from subprocess import PIPE, Popen
 
 from ..common.absclient import AbstractFileParserClient, AbstractProgressClient
 from ..common.sentencecount import get_sentence_count
-from ..common.sedcommands import get_sed_regex
+from ..common.sedcommands import get_sed_cmd_common_part
 from .psparse import *
 from .parsestat import *
 from ..common.parsemetrics import *
@@ -301,8 +301,7 @@ class LGInprocParser(AbstractFileParserClient):
             else:
                 self._logger.info("Reference file name is not specified. Parse quality is not calculated.")
 
-        sed_rex = get_sed_regex(options)
-        sed_cmd = ["sed", "-e", sed_rex, corpus_path]
+        sed_cmd = get_sed_cmd_common_part(options) + [corpus_path]
 
         out_stream = None
         ret_metrics = ParseMetrics()

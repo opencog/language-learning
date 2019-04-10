@@ -22,7 +22,7 @@ def get_sentence_count(corpus_path, options: int) -> int:
     """
     sentence_count = 0
 
-    sed_cmd = ["sed", "-e", get_sed_regex(options), corpus_path]
+    sed_cmd = get_sed_cmd_common_part(options) + [corpus_path]
 
     try:
         # Get number of sentences in input file

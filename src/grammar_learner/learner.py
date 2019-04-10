@@ -1,4 +1,4 @@
-# language-learning/src/learner.py                                      # 190409
+# language-learning/src/learner.py                                      # 190410
 import logging
 import os, time  # pickle, numpy as np, pandas as pd
 from copy import deepcopy
@@ -84,8 +84,7 @@ def learn(**kwargs):
 
     '''Read parses, extract links to DataFrame (2018), + filter sentences'''
 
-    if 'max_sentence_length' not in kwargs \
-            and 'max_unparsed_words' not in kwargs:
+    if 'max_sentence_length' not in kwargs and 'max_unparsed_words' not in kwargs:
         links, re02 = files2links(**kwargs)                       # legacy 2018
         # links: pd.DataFrame(columns=['word', 'link', 'count'])
     else:  # filter sentences with 'max_sentence_length', 'max_unparsed_words'
@@ -115,7 +114,11 @@ def learn(**kwargs):
                 log.update({'raw_corpus_stats_file':
                             prj_dir + '/raw_corpus_stats.txt'})
 
-        links, re02 = lines2links(lines, **kwargs)                      # 90216
+        links, re02 = lines2links(lines, **kwargs)                      # 190216
+        # Empty filtered df with 'max_sentence_length', 'max_unparsed_words'
+        if len(links) < 1:                                              # 190410
+            return {}, {'filtering error': 'empty_filtered_dataset'}
+
     log.update(re02)
 
     if 'corpus_stats' in log:
@@ -204,8 +207,7 @@ def learn(**kwargs):
     log.update({'finish': str(UTC())})
     log.update({'grammar_learn_time': sec2string(time.time() - start)})
 
-    # return log
-    return rules, log  # 81126 to count clusters in .ipynb tests  FIXME:DEL?
+    return rules, log  # 81126 + rules to count clusters in .ipynb tests  FIXME:DEL?
 
 
 def learn_grammar(**kwargs):  # Backwards compatibility with legacy calls
@@ -223,4 +225,5 @@ def learn_grammar(**kwargs):  # Backwards compatibility with legacy calls
 # 81204-07 test and block (snooze) data pruning with max_disjuncts, etc...
 # 81231 cleanup
 # 190221 tweak temp_dir, tmpath for Grammar Learner tutorial - FIXME line 54...
-# Optional WSD, kwargs['wsd_symbol']
+# 190409 Optional WSD, kwargs['wsd_symbol']
+# 190410 resolved empty filtered parses dataset issue

@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/pqa_table.py                    # 90221
+# language-learning/src/grammar_learner/pqa_table.py                    # 190410
 # Test Grammar Learner to fill in ULL Project Plan Parses spreadshit
 import logging
 
@@ -97,21 +97,18 @@ def pqa_meter(dict_path, op, cp, rp, **kwargs):   # TODO: restore previous
         output_path = kwargs['out_path'] if 'out_path' in kwargs \
             else kwargs['output_grammar']
 
-    #print('\npqa_meter grammar_path:\n', grammar_path,
-    #      '\noutput_path:\n', output_path, '\n')
-
-    template_path = handle_path_string("tests/test-data/dict/poc-turtle") #FIXME:WTF?
-    linkage_limit = kwargs['linkage_limit'] \
-                    if 'linkage_limit' in kwargs else 1000
+    template_path = handle_path_string("tests/test-data/dict/poc-turtle") # FIXME:WTF?
+    linkage_limit = kwargs['linkage_limit'] if 'linkage_limit' in kwargs else 1000
     if 'linkage_limit' == 0:
         return 0.0, 0.0, 0.0, 0.0  # table_rows: get grammar for further tests
     options = BIT_SEP_STAT | BIT_LG_EXE | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_RM_DIR | BIT_DPATH_CREATE | BIT_LOC_LANG | BIT_PARSE_QUALITY | BIT_ULL_IN  # | BIT_OUTPUT_DIAGRAM #| BIT_SEP_STAT
     # BIT_ULL_IN :: use ull parses as test corpus
     # BIT_CAPS  :: preserve caps in parses, process inside Grammar Learner
-    pa, f1, precision, recall = test_grammar(corpus_path, output_path,
-                                             dict_path, grammar_path,
-                                             template_path, linkage_limit,
-                                             options, reference_path)
+
+    pa, f1, precision, recall = \
+        test_grammar(corpus_path, output_path, dict_path, grammar_path,
+                     template_path, linkage_limit, options, reference_path)
+
     return float(pa), float(f1), float(precision), float(recall)
 
 
@@ -285,6 +282,7 @@ def abrvlg(**kwargs):
 
 def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):
     # cp: (test) corpus_path, rp: reference_path for grammar tester
+    start = time.time()
     logger = logging.getLogger(__name__ + ".wide_rows")
     module_path = os.path.abspath(os.path.join('..'))
     if module_path not in sys.path: sys.path.append(module_path)
@@ -299,8 +297,7 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):
     rgt = '---'  # rules_generalization_threshold
     knn = '---'  # k nearest neighbors for connectivity graph
 
-    clustering = kwa(['agglomerative', 'ward', 'euclidean'], 'clustering',
-                     **kwargs)
+    clustering = kwa(['agglomerative', 'ward', 'euclidean'], 'clustering', **kwargs)
     if type(clustering) is str:
         if clustering == 'kmeans':
             clustering = ['kmeans', 'k-means++', 10]
@@ -398,6 +395,12 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):
         for j in range(runs[0]):
             try:  # if True:  #
                 rulez, re = learn(**kwargs)
+
+                if len(rulez) < 1:  # empty filtered dataset            # 190410
+                    msg = [['Error:', 'empty', 'filtered', 'parses', 'dataset', '⇒',
+                            'check', 'max_unparsed_words', 'in', 'kwargs']]
+                    return msg, msg, header, re, rulez
+
                 if 'rule_sizes' in re:
                     cluster_sizes = sorted(re['rule_sizes'].keys(),
                                            reverse=True)[:5]
@@ -438,7 +441,7 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):
                              str(kwargs['min_word_count']), s_str,
                              str(knn), str(round(a * 100)) + '%',
                              str(round(q * 100)) + '%', str(round(f1, 2))]
-                    if 'log+' in kwargs['verbose']:
+                    if '+' in kwargs['verbose']:
                         dline.append(cluster_sizes)
                     details.append(dline)
             else:  # kwargs['linkage_limit'] = 0 :: avoid grammar_tester call
@@ -663,4 +666,5 @@ def wide_table(lines, out_dir, cp, rp, **kwargs):           # 81222 FIXME: [»]
 # 81210 wide_rows + min_word_count
 # 81220 wide_table ⇒ FIXME in 2019, replace wide_row in 2019 .ipynb tests.
 # 81231 cleanup
-# 90221 tweak min_word_count (line 69)
+# 190221 tweak min_word_count (line 69)
+# 190410 fix empty filtered dataset issue

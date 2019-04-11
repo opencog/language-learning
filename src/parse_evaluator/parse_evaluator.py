@@ -17,6 +17,26 @@ def Load_File(filename):
 
     return data
 
+def Print_parses(sentences, parses, filename):
+    """
+        Prints parses to file (for sequential and random eval methods)
+    """
+    print("writing parses file to '{}'".format(filename))
+    with open(filename, 'w') as fo:
+        for sent, parse in zip(sentences, parses):
+            fo.write(" ".join(sent) + "\n")
+            # Remove brackets from LG-unparsed words
+            for link in parse:
+                if link[1][0] == "[" and link[1][-1] == "]":
+                    link[1] = link[1][1:-1]
+                if link[3][0] == "[" and link[3][-1] == "]":
+                    link[3] = link[3][1:-1]
+                fo.write(" ".join(link) + "\n")
+            fo.write("\n")
+
+    print("Finished writing parses file")
+
+
 def Get_Parses(data):
     """
         Reads parses from data, counting number of parses by newlines
@@ -163,6 +183,8 @@ def Make_Sequential(sents):
         #parse.append([str(i), sent[i - 1], str(i + 1), sent[i]] for i in range(1, len(sent)))
         sequential_parses.append(parse)
 
+    Print_parses(sents, sequential_parses, "sequential_parses.ull")
+
     return sequential_parses
 
 def Make_Random(sents):
@@ -178,12 +200,11 @@ def Make_Random(sents):
     random_parses = []
     for sent in sents:
         num_words = len(sent)
+        curr_sent = sent[:]
+        curr_sent.insert(0, "###LEFT-WALL###")
         curr_parse = []
-        # subtitute words with numbers, as we only care about the parse tree
+        # subtitute words with numbers, to avoid token-splitting by LG "any"
         fake_words = ["w{}".format(x) for x in range(1, num_words + 1)]
-        # restore final dot to maintain --ignore functionality
-        if sent[-1] == ".": 
-            fake_words[-1] = "."
         sent_string = " ".join(fake_words)
         sentence = Sentence(sent_string, any_dict, po)
         linkages = sentence.parse()
@@ -195,9 +216,12 @@ def Make_Random(sents):
             for link in links:
                 llink = link[0]
                 rlink = link[1]
-                curr_parse.append([str(llink), tokens[llink], str(rlink), tokens[rlink]])
+                # attach words from sent, which are the actual words
+                curr_parse.append([str(llink), curr_sent[llink], str(rlink), curr_sent[rlink]])
 
             random_parses.append(curr_parse)
+
+    Print_parses(sents, random_parses, "random_parses.ull")
 
     return random_parses
 

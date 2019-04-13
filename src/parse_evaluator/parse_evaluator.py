@@ -221,7 +221,9 @@ def Compare_Tokenization(ref_sentences, test_sentences):
                     token_test = token_test[1:-1]
                 new_test.append(token_test)
             if new_ref != new_test:
-                ft.write("Sents Differ:\n{}\n{}\n".format(new_ref, new_test))
+                set_ref = set(new_ref)
+                set_test = set(new_test)
+                ft.write("Sentence Differs:\n{}\nin tokens:{}---{}\n".format(" ".join(ref_sent), set_ref - set_test, set_test - set_ref))
 
 def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag, filter_sentences):
 

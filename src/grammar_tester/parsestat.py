@@ -79,6 +79,8 @@ def parse_metrics(tokens: list) -> ParseMetrics:
     if not total:
         return pm
 
+    pm.sentences = 1
+
     # Initialize number of unlinked tokens
     unlinked = 0
 
@@ -138,18 +140,20 @@ def parse_metrics(tokens: list) -> ParseMetrics:
 
 def parse_quality(test_set: set, ref_set: set) -> ParseQuality:
     """
-    Estimate parse quality
+    Calculate parse quality
 
-    :param test_set: Set of links being tested.
-    :param ref_set: Reference set of links
-    :return: ParseQuality instance filled with calculated values.
+    :param test_set:    Set of links being tested.
+    :param ref_set:     Reference set of links
+    :return:            ParseQuality instance filled with calculated values.
     """
-    logger = logging.getLogger(__name__ + ".parse_quality")
-
-    logger.debug(f"tst_set={ref_set}")
-    logger.debug(f"ref_set={ref_set}")
+    # logger = logging.getLogger(__name__ + ".parse_quality")
+    #
+    # logger.debug(f"tst_set={ref_set}")
+    # logger.debug(f"ref_set={ref_set}")
 
     pq = ParseQuality()
+
+    pq.sentences = 1
 
     len_ref = len(ref_set)
     len_test = len(test_set)

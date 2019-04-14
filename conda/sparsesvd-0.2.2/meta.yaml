@@ -1,0 +1,38 @@
+package:
+  name: sparsesvd
+  version: "0.2.2"
+
+source:
+  url: https://pypi.python.org/packages/source/s/sparsesvd/sparsesvd-0.2.2.tar.gz
+
+build:
+  number: 0
+
+requirements:
+  host:
+    - python==3.6.6
+    - setuptools
+    - numpy
+    - scipy
+    - cython
+  build:
+#    - make
+#    - m4
+#    - gcc
+#    - autoconf
+##    - autoconf-archive
+#    - pkg-config
+#    - flex
+#    - ant
+#    - graphviz
+  run:
+    -  libgcc
+#    -  geos
+#    -  proj4
+#    -  json-c
+#    -  libxml2
+#    -  postgresql >=9.1
+
+about:
+  home: https://pypi.org/project/sparsesvd/
+  license: BSD

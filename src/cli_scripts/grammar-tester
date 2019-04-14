@@ -4,10 +4,12 @@ import sys
 import os
 import getopt
 import platform
+import traceback
+import logging
 
-from ull.common import handle_path_string, strip_quotes
-from ull.grammartest import test_grammar, test_grammar_cfg, GrammarTestError, LG_DICT_PATH  # , LGParseError
-from ull.grammartest.optconst import *
+from ull.common import handle_path_string, strip_quotes, setup_logging, VERBOSITY_OPTIONS
+from ull.grammar_tester import test_grammar, test_grammar_cfg, GrammarTestError, LG_DICT_PATH, LGParseError, ParserError
+from ull.common.optconst import *
 
 __version__ = "3.0.0"
 
@@ -16,7 +18,6 @@ def main(argv):
     """
 Usage:
     grammar-tester -i <input_path> [-o <output_path> -d <dict_path>]  [OPTIONS]
-    grammar-tester -C <json-config-file>
 
     dict_path           Path to grammar definition file (or directory with multiple such files) to be tested.
                         The files should be in proper Link Grammar .dict format. Language short name such as 'en' or
@@ -31,7 +32,6 @@ Usage:
                         The output file format depends on '-f' option specified. ULL format used if ommited.
                         If directory path is specified as <input_path>, the whole subdirectory tree is recreated
                         inside <output_path>/<dict_name>/ where each output file corresponds to the same input one.
-    json-config-file    JSON configuration file path.
 
     OPTIONS:
         -h  --help              Print usage info.
@@ -55,40 +55,60 @@ Usage:
         -R  --reference         Path to reference file if single file specified by option '-i' as input corpus or path
                                 to a directory with a number of reference files. In later case files with the same names
                                 are being compared.
-        -C  <json-config-file>  Force the script to use configuration data from JSON configuration file. If this option
-                                is set, other options passed to the script are ignored.
+        -L  --local-lang-dir    Create Link Grammar dictionary localy in directory, specified by '-o' parameter.
         -D  <lang-short-name>   Language short name used by Link Grammar such as 'en' or 'ru'. One should avoid using
                                 '-D' option along with '-d'. If both options are specified the latest one occurered in
                                 the command line is used.
         -I  --input-to-lcase    Convert input stream characters to lower case.
         -T  <timeout-value>     Timeout value used by Link Grammar to restrict maximum amount of time spent for parsing
                                 one sentence.
+        -E --exclude-timeouted  Exclude linkages with exceeded timeout from statistics estimation.
+        -P --exclude-paniced    Exclude linkages with panic timeout from statistics estimation.
+        -X --exclude-explosion  Exclude linkages with 'combinatorial explosion' timeout from statistics estimation.
+        -v --verbosity          Verbosity level options: [none, debug, info, warning, error, critical]
+        -z --logging            File logging level options: [none, debug, info, warning, error, critical]
+        -S --stop-tokens        Space separated list of stop tokens included in quotes or double quotes.
+                                Forces grammar-tester to exclude the sentence from estimation if one or more words appear
+                                in the sentence.
+        -m --min-word-count     Minimum word count parameter which makes grammar tester to count only sentences where
+                                each token appear 'min-word-count' or more times in the corpus.
+        -M --max-sentence-len   Maximum sentence length parameter makes grammar-tester to count only sentences with
+                                sentence length less or equal to 'max-sentence-len' value.
+        -W <word-count-path>    Path to a word appearance data file (*.cnt)
     """
-
     dict_path       = None
     input_path      = None
     output_path     = None
-    options         = 0x00000000 | BIT_STRIP #| BIT_ULL_IN
+    options         = 0x00000000 | BIT_STRIP
     linkage_limit   = None
     grammar_path    = None
     template_path   = None
     reference_path  = None
     config_path     = None
-    timeout         = 300
-
-    print("grammar-tester ver." + __version__)
-    print("Python v." + platform.python_version())
+    timeout         = 1
+    verbosity_level = logging.WARNING
+    logging_level   = logging.NOTSET
+    stop_tokens     = None
+    min_word_count  = None
+    max_sentence_len= None
+    word_count_path = None
 
     try:
-        opts, args = getopt.getopt(argv, "hcwrnubqexsLId:i:o:l:g:t:f:R:C:D:T:", ["help", "caps", "right-wall", "rm-dir",
-                                                                        "no-strip", "ull-input", "best-linkage",
-                                                                        "dict-path-recreate", "link-parser-exe",
-                                                                        "no-left-wall", "separate-stat",
-                                                                        "local-lang-dir", "input-to-lcase",
-                                                                        "dictionary=", "input=",
-                                                                        "output=", "linkage-limit=", "grammar-dir=",
-                                                                        "template-dir=", "output-format", "reference=",
-                                                                        "config=", "language=", "lg-timeout="])
+        app_name = str(os.path.split(__file__)[1]).split(".")[0]
+
+        opts, args = getopt.getopt(argv, "hcwrnuqexsLId:i:o:l:g:t:f:R:C:D:T:EPXv:z:S:m:M:W:",
+                                   ["help", "caps", "right-wall", "rm-dir",
+                                    "no-strip", "ull-input",
+                                    "dict-path-recreate", "link-parser-exe",
+                                    "no-left-wall", "separate-stat",
+                                    "local-lang-dir", "input-to-lcase",
+                                    "dictionary=", "input=",
+                                    "output=", "linkage-limit=", "grammar-dir=",
+                                    "template-dir=", "output-format", "reference=",
+                                    "config=", "language=", "lg-timeout=",
+                                    "exclude-timeouted", "exclude-paniced", "exclude-explosion", "verbosity=",
+                                    "logging=", "stop-tokens=", "min-word-count=", "max-sentence-len=",
+                                    "word-count-path"])
 
         for opt, arg in opts:
             if opt in ("-h", "--help"):
@@ -102,8 +122,6 @@ Usage:
                 options |= BIT_RM_DIR
             elif opt in ("-n", "--no-strip"):
                 options &= (~BIT_STRIP)
-            # elif opt in ("-b", "--best-linkage"):
-            #     options |= BIT_BEST_LINKAGE
             elif opt in ("-q", "--dict-path-recreate"):
                 options |= BIT_DPATH_CREATE
             elif opt in ("-u", "--ull-input"):
@@ -141,13 +159,43 @@ Usage:
             elif opt in ("-R", "--reference"):
                 reference_path = handle_path_string(arg)
                 options |= BIT_PARSE_QUALITY
-            elif opt in ("-C", "--reference"):
-                config_path = handle_path_string(arg)
+            elif opt in ("-C", "--config"):
+                # config_path = handle_path_string(arg)
+                raise getopt.GetoptError("'-C' option is no longer supported. Use 'ull-cli' script instead "
+                                         "if you need to run grammar-tester with JSON configuration file.")
             elif opt in ("-D", "--language"):
                 dict_path = strip_quotes(arg)
                 options |= BIT_EXISTING_DICT
             elif opt in ("-T", "--lg-timeout"):
                 timeout = int(arg)
+            elif opt in ("-E", "--exclude-timeouted"):
+                options |= BIT_EXCLUDE_TIMEOUTED
+            elif opt in ("-P", "--exclude-paniced"):
+                options |= BIT_EXCLUDE_PANICED
+            elif opt in ("-X", "--exclude-explosion"):
+                options |= BIT_EXCLUDE_EXPLOSION
+            elif opt in ("-v", "--verbosity"):
+                verb_key = strip_quotes(arg)
+
+                if verb_key not in VERBOSITY_OPTIONS.keys():
+                    raise getopt.GetoptError("Wrong verbosity argument value: ()".format(verb_key))
+
+                verbosity_level = VERBOSITY_OPTIONS[verb_key]
+            elif opt in ("-z", "--logging"):
+                log_key = strip_quotes(arg)
+
+                if log_key not in VERBOSITY_OPTIONS.keys():
+                    raise getopt.GetoptError("Wrong logging argument value: ()".format(log_key))
+
+                logging_level = VERBOSITY_OPTIONS[log_key]
+            elif opt in ("-S", "--stop-tokens"):
+                stop_tokens = strip_quotes(arg)
+            elif opt in ("-m", "--min-word-count"):
+                min_word_count = int(arg)
+            elif opt in ("-M", "--max-sentence-len"):
+                max_sentence_len = int(arg)
+            elif opt in ("-W", "--word-count-path"):
+                word_count_path = strip_quotes(arg)
 
         # print("options=" + bin(options) + " (" + hex(options) + ")")
 
@@ -165,7 +213,7 @@ Usage:
             return 1
 
         if linkage_limit is None:
-            linkage_limit = 1000
+            linkage_limit = 100
 
         if template_path is None:
             template_path = "en"
@@ -179,24 +227,58 @@ Usage:
         if dict_path is None:
             dict_path = "en"
 
+    setup_logging(verbosity_level, logging_level, output_path + "/" + app_name + ".log", "w")
+
+    logger = logging.getLogger(app_name)
+
+    logger.warning(app_name + " ver." + __version__)
+    logger.warning("Python v." + platform.python_version())
+
     try:
+        kwargs = {}
+
+        if stop_tokens is not None:
+            kwargs["stop_tokens"] = stop_tokens
+
+        if min_word_count is not None:
+            kwargs["min_word_count"] = min_word_count
+
+        if max_sentence_len is not None:
+            kwargs["max_sentence_len"] = max_sentence_len
+
+        if word_count_path is not None:
+            kwargs["word_count_path"] = word_count_path
+
         if config_path is None:
+            logger.debug(kwargs)
             test_grammar(input_path, output_path, dict_path, grammar_path, template_path,
-                               linkage_limit, options, reference_path, timeout)
-        else:
-            test_grammar_cfg(config_path)
+                               linkage_limit, options, reference_path, timeout, **kwargs)
+        # else:
+        #     test_grammar_cfg(config_path)
 
     except GrammarTestError as err:
-        print(str(err))
+        logger.critical(str(err))
+        logger.debug(traceback.print_exc())
         return 2
 
-    except OSError as err:
-        print(str(err))
-        return 3
+    except LGParseError as err:
+        logger.critical(str(err))
+        logger.debug(traceback.print_exc())
+        return 2
+
+    except ParserError as err:
+        logger.critical(str(err))
+        logger.debug(traceback.print_exc())
+        return 2
+
+    except KeyboardInterrupt:
+        logger.warning("Ctrl+C triggered. User abort.")
+        return 4
 
     except Exception as err:
-        print(str(err))
-        return 4
+        logger.critical(str(type(err)) + ": " + str(err))
+        logger.debug(traceback.print_exc())
+        return 5
 
     return 0
 

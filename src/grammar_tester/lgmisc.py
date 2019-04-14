@@ -1,10 +1,12 @@
 import re
 import os
 import shutil
+import logging
 
-from .optconst import *
+from ..common.optconst import *
 
-__all__ = ['get_output_suffix', 'print_output', 'LGParseError', 'LG_DICT_PATH', 'create_grammar_dir', 'get_dir_name']
+__all__ = ['get_output_suffix', 'print_output', 'LGParseError', 'LG_DICT_PATH', 'create_grammar_dir', 'get_dir_name',
+           'ParserError']
 
 
 LG_DICT_PATH = "/usr/local/share/link-grammar"
@@ -12,8 +14,12 @@ LG_DICT_PATH = "/usr/local/share/link-grammar"
 LINK_1ST_TOKEN_INDEX = 0
 LINK_2ND_TOKEN_INDEX = 1
 
+logger = logging.getLogger(__name__)
 
-class LGParseError(Exception):
+class ParserError(Exception):
+    pass
+
+class LGParseError(ParserError):
     pass
 
 
@@ -42,38 +48,42 @@ def get_dir_name(file_name: str) -> (str, str):
     return (None, None) if m is None else (m.group(4), m.group(3))
 
 
-def create_grammar_dir(dict_file_path, grammar_path, template_path, options) -> str:
+def create_grammar_dir(dict_file_path: str, grammar_path: str, template_path: str, options: int) -> str:
     """
     Create grammar directory using specified .dict file and other files from template directory.
 
-    :param dict_file_path: Path to .dict file.
-    :param grammar_path: Path to a directory where newly created grammar should be stored.
-    :param template_path: Path to template directory or language name installed with LG.
-    :param options: Bit field that specifies multiple parsing options.
-    :return: Path to newly created grammar directory.
+    :param dict_file_path:  Path to .dict file.
+    :param grammar_path:    Path to a directory where newly created grammar should be stored.
+    :param template_path:   Path to template directory or language name installed with LG.
+    :param options:         Bit field that specifies multiple parsing options.
+    :return:                Path to newly created grammar directory.
+    :raises:                FileNotFoundError
     """
 
     if len(dict_file_path) == 0:
-        raise LGParseError("Dictionary file name should not be empty.")
+        raise FileNotFoundError("Dictionary file name should not be empty.")
 
     if not os.path.isfile(dict_file_path):
         # The path is not specified correctly.
         if dict_file_path.find("/") >= 0:
-            raise LGParseError("Dictionary path '" + dict_file_path + "' does not exist.")
+            raise FileNotFoundError("Dictionary path '" + dict_file_path + "' does not exist.")
 
         # If 'dict_file_path' is LG language short name such as 'en' then there must be a dictionary folder with the
         #   same name. If that's the case there is no need to create grammar folder, simply return the same name.
         #   Let LG handle it.
-        elif os.path.isdir(LG_DICT_PATH + "/" + dict_file_path):
+        elif options & BIT_LG_GR_NAME:  # os.path.isdir(LG_DICT_PATH + "/" + dict_file_path):
             return dict_file_path
         else:
-            raise LGParseError("Dictionary path does not exist.")
+            raise FileNotFoundError("Dictionary path does not exist.")
 
     # Extract grammar name and a name of the new grammar directory from the file name
     (template_dict_name, dict_path) = get_dir_name(dict_file_path)
 
     if dict_path is None:
-        raise LGParseError("Dictionary file name is expected to have proper notation." + dict_file_path)
+        raise FileNotFoundError("Dictionary file name is expected to have proper notation." + dict_file_path)
+
+    if not os.path.isdir(grammar_path):
+        raise FileNotFoundError("Grammar root path '{}' does not exist.".format(grammar_path))
 
     dict_path = grammar_path + "/" + dict_path if dict_path is not None else dict_file_path
 
@@ -89,37 +99,29 @@ def create_grammar_dir(dict_file_path, grammar_path, template_path, options) -> 
     if not os.path.isdir(template_path):
         raise FileNotFoundError("Directory '{0}' does not exist.".format(template_path))
 
-    try:
-        if os.path.isdir(dict_path):
-            print("Info: Directory '" + dict_path + "' already exists.")
+    # Raise exctption if any of required LG dictionary files does not exist.
+    if not (os.path.isfile(template_path + "/4.0.affix") and os.path.isfile(template_path + "/4.0.knowledge")
+            and os.path.isfile(template_path + "/4.0.regex") ):
+        raise FileNotFoundError("Template directory '{0}' does not appear to be a proper Link Grammar dictionary."
+                                .format(template_path))
 
-            if options & BIT_RM_DIR > 0:
-                shutil.rmtree(dict_path, True)
-                print("Info: Directory '" + dict_path + "' has been removed. Option '-r' was specified.")
+    if os.path.isdir(dict_path):
+        logger.info("Directory '" + dict_path + "' already exists.")
 
-        if not os.path.isdir(dict_path):
-            # Create dictionary directory using existing one as a template
-            shutil.copytree(template_path, dict_path)
-            print("Info: Directory '" + dict_path + "' with template files has been created.")
+        if options & BIT_RM_DIR > 0:
+            shutil.rmtree(dict_path, True)
+            logger.info("Directory '" + dict_path + "' has been removed. Option '-r' was specified.")
 
-            # Replace dictionary file '4.0.dict' with a new one
-            shutil.copy(dict_file_path, dict_path + "/4.0.dict")
-            print("Info: Dictionary file has been replaced with '" + dict_file_path + "'.")
+    if not os.path.isdir(dict_path):
+        # Create dictionary directory using existing one as a template
+        shutil.copytree(template_path, dict_path)
+        logger.info("Directory '" + dict_path + "' with template files has been created.")
 
-    except IOError as err:
-        print("IOError: " + str(err))
-        return ""
+        # Replace dictionary file '4.0.dict' with a new one
+        shutil.copy(dict_file_path, dict_path + "/4.0.dict")
+        logger.info("Dictionary file has been replaced with '" + dict_file_path + "'.")
 
-    except FileNotFoundError as err:
-        print("FileNotFoundError: " + str(err))
-        return ""
-
-    except OSError as err:
-        print("OSError: " + str(err))
-        return ""
-
-    else:
-        return dict_path
+    return dict_path
 
 
 def get_output_suffix(options: int) -> str:
@@ -182,7 +184,8 @@ def print_output(tokens: list, raw_links: list, options: int, ofl) -> None:
         if index1 < token_count and index2 < token_count:
             print(index1, tokens[index1], index2, tokens[index2], file=ofl)
         else:
-            print(tokens)
-            print(token_count, (index1, index2))
+            logging.error("print_output(): something went wrong...")
+            logger.debug(tokens)
+            logger.debug(str(token_count) + ", (" + str(index1) + ", " + str(index2) + ")")
 
     print('', file=ofl)

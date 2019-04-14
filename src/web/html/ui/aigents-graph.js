@@ -304,7 +304,7 @@ var AigentsSVG = {
 				}
 			});
 		}
-
+		
 		var halo = document.createElementNS("http://www.w3.org/2000/svg", "circle");
 		halo.setAttribute("cx",svg.radius);
 		halo.setAttribute("cy",svg.radius);
@@ -331,7 +331,11 @@ var AigentsSVG = {
 			var image = document.createElementNS("http://www.w3.org/2000/svg", "image");
 			var size = 3 * svg.radius / 5;
 			var halfsize = size / 2;
-			image.setAttribute("href",imageUrl);
+			//https://stackoverflow.com/questions/27245673/svg-image-element-not-displaying-in-safari
+			if (isSafari())
+				image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', imageUrl);
+			else
+				image.setAttribute("href",imageUrl);
 			image.setAttribute("x",svg.radius - halfsize);
 			image.setAttribute("y",svg.radius + halfsize);
 			image.setAttribute("width",size);
@@ -347,6 +351,12 @@ var AigentsSVG = {
 			group.appendChild(title);
 		}
 		svg.appendChild(group);
+
+		if (svg.menu){
+			group.id = name;
+			$(group).contextmenu(svg.menu);
+			$(group).on("taphold",svg.menu);
+		}
 
 		return point;
 	},
@@ -525,6 +535,7 @@ var GraphOrder = {
 
 	//Treat all links directed, given number of hops, regardless of type, with optional account of weight
 	directed : function(links,weighted,linktypes,iterations){
+		var log = true;
 		//ensure link belongs to one of allowed types, if provided
 		function acceptable(link){
 			return !linktypes || link.length < 4 || linktypes[link[3]];
@@ -544,7 +555,7 @@ var GraphOrder = {
 	
 		var orders = {};
 		build_graph_orders_default(orders,links,1);//let every node be ranked with 1 at start
-		counter_normalize(orders);
+		counter_normalize(orders,log);
 	
 		for (var pass = 0; pass < iterations; pass++){//sanity check limit
 			//iterate all links and make every node i rated by node j according to rank of j and weight of rating j made to i
@@ -558,7 +569,7 @@ var GraphOrder = {
 				counter_add(new_orders, link[1], orders[link[0]] * weight);//left-to-right
 			}
 			counter_extend(new_orders,orders);//add low-rank orphans
-			counter_normalize(new_orders);
+			counter_normalize(new_orders,log);
 			//if distribution of ranks is not changed since previous iteration, stop
 			var stddev = counter_stddev(orders,new_orders);
 			if (stddev < 0.001)
@@ -581,8 +592,8 @@ var GraphCustom = {
 			var line = lines[l].trim();
 			if (AL.empty(line))
 				continue;
-			//read phrase
-			var terms = line.split(' ');
+			//var terms = line.split(' ');
+			var terms = parse(line);//read phrase
 			if (terms.length < 3)
 				continue;
 			if (props && this.mapmap_read_terms(props,terms))//try to parse special properties
@@ -611,17 +622,16 @@ var GraphCustom = {
 		return {nodes:nodes,links:links,orders:orders,config:config};
 	},
 	
-	// Megres link strengths in typles [from,to,strength,type] if from/to/type are the same
-	//TODO: anticipate that link names may have spaces
+	// Megres link strengths in tuples [from,to,strength,type] if from/to/type are the same
 	merge_links : function(links){
 		var merged = {};
 		for (var l = 0; l < links.length; l++){
 			var link = links[l];
-			counter_add(merged,link[0]+' '+link[1]+' '+link[3],link[2]);//merge strength on from+to+type
+			counter_add(merged,link[0]+'\t'+link[1]+'\t'+link[3],link[2]);//merge strength on from+to+type
 		}
 		var merged_links = [];//rewrite
 		for (var key in merged) if (merged.hasOwnProperty(key)) {
-			var terms = key.split(' ');
+			var terms = key.split('\t');
 			merged_links.push([terms[0],terms[1],merged[key],terms[2]]);
 		}
 		return merged_links;
@@ -685,6 +695,18 @@ var GraphUI = {
 			}
 		},
 
+		graph_popup_setup : function () {
+			var widgets = $("#graph_popup_widgets");
+			return {
+				slicing : widgets.children('#custom_slicing').val(),
+				node_radius : widgets.children('#custom_node_radius').val(),
+				layout_threshold : widgets.children('#custom_layout_threshold').val(),
+				layout_directions : widgets.children('#custom_layout_directions').val(),
+				layout_balance : widgets.children('#custom_layout_balance').val(),
+				filter_range : widgets.children('#custom_filter_range').val()
+			};
+		},
+		
 		//request graph launch in popup window
 		request_graph_popup : function(title,graph_id,setup){
 			var height = $( window ).height() - 30;
@@ -710,6 +732,7 @@ var GraphUI = {
 					widgets.children('#custom_layout_threshold').val(setup.layout_threshold != null ? setup.layout_threshold : template.children('#custom_layout_threshold').val());
 					widgets.children('#custom_layout_directions').val(setup.layout_directions ? setup.layout_directions : template.children('#custom_layout_directions').val());
 					widgets.children('#custom_layout_balance').val(setup.layout_balance ? setup.layout_balance : template.children('#custom_layout_balance').val());
+					widgets.children('#custom_filter_range').val(setup.filter_range ? setup.filter_range : template.children('#custom_filter_range').val());
 				}
 			} else
 				widgets.hide();
@@ -794,6 +817,13 @@ var GraphUI = {
 				});
 			}
 
+			//setup menu
+			if (config && config.menu) {
+				svg.menu = config.menu;
+				$(svg).contextmenu(config.menu);
+				$(svg).on("taphold",config.menu);
+			}
+			
 			//setup renderer
 			if (config && config.background)
 				svg.background = config.background;
@@ -811,11 +841,12 @@ var GraphUI = {
 					widgets.children('#custom_node_filter').val(),
 					config ? config.colors : null,
 					parseInt(widgets.children('#custom_node_radius').val()),
-					null,//no default image
+					config.image ? config.image : null,//default image
 					props,
 					//svg.slicing != 0 && config ? config.slicing : null,
 					svg.slicing == 0 ? null : config && config.slicing ? config.slicing : {},
-					types);
+					types,
+					widgets.children('#custom_filter_range').val());
 			}
 			widgets.children('#custom_node_filter').on("search",function() { draw(); });
 			widgets.children('.graph_changer').on("change",function() { draw(); });
@@ -825,11 +856,15 @@ var GraphUI = {
 		},
 
 		// draw graph made of links with optional order of nodes and bunch of currently set parameters
-		draw_graph : function(svg,orders,links,spread_threshold,spread_balance,filter,colors,radius,image,props,slices,types){
+		draw_graph : function(svg,orders,links,spread_threshold,spread_balance,filter,colors,radius,image,props,slices,types,range){
 			//initialize
 			if (radius && radius > 0)
 				svg.padding = svg.radius = radius;
+			if (range < 1)
+				range = 1;
 
+			var regex = filter ? new RegExp(filter,'i') : null;
+			
 			//create slices
 			svg.nodes = {};//all nodes
 			svg.types = {};//all types
@@ -881,7 +916,8 @@ var GraphUI = {
 		//TODO: remember type calculation in the node property?
 					if (filter){
 						var text = node.label != undefined ? node.label : node.name;
-						if (text.indexOf(filter) != -1)//found
+						//if (text.indexOf(filter) != -1)//found (case-sensitive)
+						if (text.search(regex) != -1)//found (case-insensitive)
 							node.found = true;
 						else
 							node.invisible = true;//hide if not found
@@ -901,9 +937,37 @@ var GraphUI = {
 				range_update(s,link[2]);
 			}
 
+			if (filter) {
+				for (var r = 1; r <= range; r++){
+					var visibles = new Set();
+					for (var i = 0; i < links.length; i++){
+						var link = links[i];
+						var v1 = svg.nodes[link[0]];
+						var v2 = svg.nodes[link[1]];
+						if (v1 && v2){
+							if (types && types.links && !types.links[link[3]])
+								continue;//skip edge by type
+							if (filter){//if filter is set
+								//enable both if both are found or one is found and another is not made invisible by type
+								if ((v1.found && v2.found)
+										||(!v1.invisible && !(types && types.nodes && !types.nodes[get_type(v2,props)]))
+										||(!v2.invisible && !(types && types.nodes && !types.nodes[get_type(v1,props)]))){
+									//v1.invisible = v2.invisible = false;
+									visibles.add(v1);
+									visibles.add(v2);
+								}
+							}
+						}
+					}
+					for (var v of visibles)
+						v.invisible = false;
+				}
+			}
+			
 			//create edges and update node visibitily along the way
 			svg.reverses = mapmap_init();
 			svg.edges = [];
+			var interlinked = new Set();//used to track interlinked nodes if filterting by link types
 			for (var i = 0; i < links.length; i++){
 				var link = links[i];
 				var v1 = svg.nodes[link[0]];
@@ -912,6 +976,7 @@ var GraphUI = {
 					if (types && types.links && !types.links[link[3]])
 						continue;//skip edge by type
 					if (filter){//if filter is set
+						/*TODO: remove 2018-09-07
 						//enable both if both are found or one is found and another is not made invisible by type
 						if ((v1.found && v2.found)
 								||(v1.found && !(types && types.nodes && !types.nodes[get_type(v2,props)]))
@@ -919,9 +984,16 @@ var GraphUI = {
 							v1.invisible = v2.invisible = false;
 						else
 							continue;//skip adding edge
+						*/
+						if (v1.invisible || v2.invisible)
+							continue;
 					}else//if no filter is set
 					if (v1.invisible || v2.invisible)//hide links between nodes made invisible by type
 						continue;
+					if (types && types.links){
+						interlinked.add(v1);
+						interlinked.add(v2);
+					}
 					var strength = s.max == s.min ? 2 : 1 + (link[2] - s.min) * 5 / (s.max - s.min);//keep real scale of strengths
 					if (strength < 0.1)
 						strength = 0.1;
@@ -947,18 +1019,28 @@ var GraphUI = {
 				for (var i = 0; i < svg.vertices.length; i++){
 					for (var j = 0; j < svg.vertices[i].length; j++){
 						var node = svg.vertices[i][j];
+						if (types && types.links && !interlinked.has(node))
+							node.invisible = true;
+						if (node.invisible)
+							continue;
 						node.rank = (node.rank - rank.min) * 100 / (rank.max - rank.min);
 						range_update(svg.ranges[i],node.rank);
 					}
+					//make log distribution centered!?
+					range_center(svg.ranges[i]);
 				}
 				ranked = true;
 			} else {//use order for y
 				for (var i = 0; i < svg.vertices.length; i++){
 					for (var j = 0; j < svg.vertices[i].length; j++){
 						var node = svg.vertices[i][j];
+						if (node.invisible)
+							continue;
 						node.order = node.order * 100 / svg.vertices.length;
 						range_update(svg.ranges[i],node.rank);
 					}
+					//make log distribution centered!?
+					range_center(svg.ranges[i]);
 				}
 			}
 

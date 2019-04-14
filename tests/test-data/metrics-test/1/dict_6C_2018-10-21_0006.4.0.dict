@@ -1,0 +1,32 @@
+% Grammar Learner v.0.6 2018-10-21 08:33:45 UTC
+<dictionary-version-number>: V0v0v6+;
+<dictionary-locale>: EN4us+;
+
+% B
+"bird" "extremity" "fish":
+(GB-);
+
+% C
+"eagle" "herring" "parrot" "tuna":
+(CF+) or (CG+);
+
+% D
+"feather" "scale":
+(FD-);
+
+% E
+"fin" "wing":
+(EF+) or (EG+) or (FE-);
+
+% F
+"has":
+(CF- & FE+) or (EF- & FD+);
+
+% G
+"isa":
+(CG- & GB+) or (EG- & GB+);
+
+<UNKNOWN-WORD>: XXX+;
+
+% 6 word clusters, 6 Link Grammar rules.
+% Link Grammar file saved to: /home/obaskov/py/language-learning/output/POC-Turtle-2018-10-21/POC-Turtle_MST-fixed-manually_dILEd_no-LW_no-RW_no-gen/dict_6C_2018-10-21_0006.4.0.dict

@@ -1,0 +1,108 @@
+#! /usr/bin/env python3
+# language-learning/pipeline/category_tagger.py :: CLI Category Tagger  # 90129
+
+import sys, time, getopt, os, platform, json, traceback, logging
+from shutil import copy2 as fcopy
+module_path = os.path.abspath(os.path.join('..'))
+if module_path not in sys.path: sys.path.append(module_path)
+from src.common import handle_path_string, strip_quotes, VERBOSITY_OPTIONS
+from src.grammar_learner.utl import UTC, test_stats, sec2string
+from src.grammar_learner.incremental_clustering import tag_files
+
+__version__ = '0.0.1'  # alpha 2018-01-29
+
+
+def main(argv):
+    """ Usage:
+    category_tagger -d <dict_path> -i <input_path> -o <output_path>  [OPTIONS]
+    category_tagger -C <json-config-file>
+
+    dict_path           Path to grammar file in Link Grammar .dict format.
+    input_path          Input corpus file or directory path.
+    output_path         Output directory path to store tagged .dict files.
+    json-config-file    JSON configuration file path.
+
+    OPTIONS:
+        -h --help       Print usage info.
+        -v --verbosity  Verbosity level options:
+                        [none, debug, info, warning, error, critical]
+        -C <json-config-file> All parameters set exclusively in the .json file
+                        Other parameters and options ignored.
+    """
+    dict_path = None
+    input_path = None
+    output_path = None
+    verbosity_level = logging.WARNING
+    logging_level = logging.NOTSET
+    config_path = None
+    # module_path = os.path.abspath(os.path.join('..')) # FIXME: outer scope?
+
+    print('\nCategory Tagger v.' + __version__, 'started', UTC(),
+          '| Python v.' + platform.python_version(), '\n')
+    try:
+        app_name = str(os.path.split(__file__)[1]).split(".")[0]
+        opts, args = getopt.getopt(argv, "d:i:o:C:h:v:",
+                                   ['dictionary', 'input', 'output', 'config',
+                                    'help', 'verbosity'])
+    except getopt.GetoptError as err:
+        print('getopt.GetoptError:', str(err))
+        print(main.__doc__)
+        return 1  # sys.exit()
+    if len(opts) == 0 and len(args) == 0:
+        config_path = 'CT-CDS-LG-E-clean.json'
+        print('No input parameters ⇒ self-test with',
+              config_path, 'configuration\n')
+    else:
+        kwargs = {'module_path': module_path}
+        for opt, arg in opts:
+            if opt == '-h':
+                print(main.__doc__)
+                return 0  # sys.exit()
+            elif opt in ("-C", "--config"):
+                config_path = arg
+            elif opt in ("-d", "--dictionary"):
+                kwargs.update({'input_grammar': arg})
+            elif opt in ("-i", "--input"):
+                kwargs.update({'input_parses': arg})
+            elif opt in ("-o", "--output"):
+                kwargs.update({'out_path': arg})
+            elif opt in ("-v", "--verbosity"):
+                verb_key = strip_quotes(arg)
+                if verb_key not in VERBOSITY_OPTIONS.keys():
+                    raise getopt.GetoptError(
+                        "Wrong verbosity argument value: ()".format(verb_key))
+                verbosity_level = VERBOSITY_OPTIONS[verb_key]
+                kwargs.update({'verbosity': VERBOSITY_OPTIONS[verb_key]})
+                print('verbosity_level:', verbosity_level)
+
+    if config_path is not None:
+        with open(config_path) as f:
+            kwargs = json.load(f)
+        kwargs.update({'module_path': module_path})
+        print('Processing configuration file', config_path, '\n', kwargs)
+    else:
+        print('Processing CLI parameters', '\n', kwargs)
+
+    # Process kwargs
+    re = tag_files(**kwargs)
+    #-with open(re['output_path'] + '/log.json', 'w') as f:
+    with open(kwargs['out_path'] + '/log.json', 'w') as f:              # 90130
+        f.write(json.dumps(re))
+    print('\nCategory tagging ended', UTC(), 'with response:')
+    for k, v in re.items():
+        print('-', k, ':', v)
+    if config_path:
+        fcopy(config_path, re['output_path'])
+    # print('Output directory:', re['output_path'], '\n')
+    print('\n')
+
+
+if __name__ == "__main__":
+    # sys.exit(main(sys.argv[1:]))
+    main(sys.argv[1:])
+
+# Comments:
+
+# 90128 start
+# 90129 restruct: tag_files » incremental_clustering, check_path » read_files
+# TODO: logging

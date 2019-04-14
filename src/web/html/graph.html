@@ -6,8 +6,8 @@
   <link rel="stylesheet" href="ui/jquery-ui-1.11.4.custom/jquery-ui.css">
   <script src="ui/jquery-1.11.1.js"></script>
   <script src="ui/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
-  <script type="text/javascript" src="ui/aigents-al.js?4"></script>
-  <script type="text/javascript" src="ui/aigents-graph.js?4"></script>
+  <script type="text/javascript" src="ui/aigents-al.js?5"></script>
+  <script type="text/javascript" src="ui/aigents-graph.js?5"></script>
 </head>
 
 <style>
@@ -136,100 +136,22 @@ function cat_build_links(data){
 		if (AL.empty(line))
 			break;
 		var link = line.trim().split("\t");
-		if (!AL.empty(link) && (link.length == 6 || (link.length == 5 && line.substring(0,1) == '\t'))){
-			if (link.length == 5)
+		if (!AL.empty(link)){
+			if (line.substring(0,1) == '\t')//id missed category label
 				link.unshift('');
-			var label = link[0];
-			var parent = link[1];
-			var child = link[2];
-			link[0] = child;
-			link[1] = parent;
-			link[2] = label;
-			links.push(link);
+			if (link.length >= 5){
+				var label = link[0];
+				var parent = link[1];
+				var child = link[2];
+				link[0] = child;
+				link[1] = parent;
+				link[2] = label;
+				links.push(link);
+			}
 		}
 	}
 	return links;
 }
-
-//TODO: remove
-/*
-function cat_draw_graph(svg,orders,links,labels,keys,root,spread_threshold,spread_balance){
-	var sorted = [];
-	var nodes = {};
-	var ranks = range_init();
-	for (var p in orders)
-		if (orders.hasOwnProperty(p) && !(!root && p == "0")) {
-			var r = orders[p];
-			var node = {name:p,rank:r};
-			if (keys)
-				node.key = keys[p];
-			sorted.push(node);
-			nodes[p] = node;
-			range_update(ranks,node.rank);
-		}
-
-	var y = range_init();
-	for (var i = 0; i < sorted.length; i++){
-		var node = sorted[i];
-		node.rank = node.rank * 100 / ranks.max;
-		range_update(y,node.rank);
-	}
-
-	if (y.min == y.max)//hack to get some scaling if no vertical diversity
-		y.max += y.max; 
-	
-	var s = range_init();
-	for (var i = 0; i < links.length; i++){
-		var link = links[i];
-		range_update(s,link[2]);
-	}
-		
-	sorted.sort(function(a,b){
-		var str1 = a.key ? a.key : a.name;
-		var str2 = b.key ? b.key : b.name;
-		return str1 < str2 ? -1 : str1 > str2;
-	});
-
-	for (var i = 0; i < sorted.length; i++){
-		var node = sorted[i];
-		node.point = AigentsSVG.getSvgPoint(svg, i, sorted.length - 1, node.rank, y.min, y.max);//dontmove=false,max_rank==100
-	}
-	
-	var edges = [];
-	for (var i = 0; i < links.length; i++){
-		var link = links[i];
-		var v1 = nodes[link[0]];
-		var v2 = nodes[link[1]];
-		if (v1 && v2){
-			//TODO:
-			//var strength = (link[2] - s.min) * 5 / (s.max - s.min);
-			//if (strength == 0) 
-			//	strength = 1;
-			strength = 3;
-			edges.push({v1:v1,v2:v2,strength:strength});
-		}
-	}
-	
-	var d = 0;
-	if (spread_threshold > 0)
-	for (var i = 0; i < 10000; i++){
-		var d = AigentsSVG.spread(svg, sorted, edges, spread_balance);
-		if (d < spread_threshold)
-			break;
-	}
-	
-	for (var i = 0; i < edges.length; i++){
-		var e = edges[i];
-		AigentsSVG.addSvgArrows(svg, svg.padding + e.v1.point.x, svg.padding + e.v1.point.y, svg.padding + e.v2.point.x, svg.padding + e.v2.point.y, e.strength, 0, e.strength, 0);
-	}
-
-	for (var i = 0; i < sorted.length; i++){
-		var node = sorted[i];
-		var name = labels ? (labels[node.name] ? labels[node.name] : ""): node.name;
-		AigentsSVG.addSvgGroupPoint(svg, name, node.point, node.rank/5, 100-node.rank, 2);
-	}
-}
-*/
 
 //////////////// grammar graph builder
 function grammar_build_links(data){
@@ -242,11 +164,11 @@ function grammar_build_links(data){
 		if (AL.empty(line))
 			continue;
 		//get code
-		if (line.substring(0,3) == '% C'){//% CXX
+		if (line.substring(0,2) == '% ' && line.toUpperCase() == line){//% ABCD
 			var split = line.split(' ');
 			if (!split || split.length < 2)
 				continue;
-			var code = split[1];//CXX
+			var code = split[1];//ABCD
 			//get words
 			if (++l >= lines.length || AL.empty(line = lines[l]))//get next line
 				break;
@@ -282,6 +204,75 @@ function grammar_build_links(data){
 			}
 			for (var i = 0; i < words.length; i++)
 				links.push([words[i],code,'wc']);//word->category
+		}
+	}
+	return links;
+}
+
+////////////////grammar category connectivity graph builder
+function grammar_build_catconnect_links(data){
+	var lines = data.split("\n");
+	var links = [];
+	if (AL.empty(lines))
+		return null;
+	for (var l = 0; l < lines.length; l++){
+		var line = lines[l];
+		if (AL.empty(line))
+			continue;
+		//get code
+		if (line.substring(0,3) == '% C'){//% CXX
+			var split = line.split(' ');
+			if (!split || split.length < 2)
+				continue;
+			var code = split[1];//CXX
+			//get words
+			if (++l >= lines.length || AL.empty(line = lines[l]))//get next line
+				break;
+			var colon = line.indexOf(':');
+			if (colon == -1)
+				break;
+			line = line.substring(0,colon);
+			var words = line.split(' ');
+			if (!words || words.length < 1)
+				break;
+			for (var i = 0; i < words.length; i++)//remove quotes
+				words[i] = words[i].substring(0,words[i].length-1).substring(1);
+			//get rules
+			if (++l >= lines.length || AL.empty(line = lines[l]))//get next line
+				break;
+			var semicolon = line.indexOf(';');
+			if (semicolon == -1)
+				break;
+			line = line.substring(0,semicolon);
+			var rules = line.split(' or ');
+			var catcounts = {};
+			for (var i = 0; i < rules.length; i++){//remove parentheses
+				//TODO: fix this quck hack which just extracts all conector names
+				var rule = replace_all(rules[i],'{','');
+				rule = replace_all(rule,'}','');
+				rule = replace_all(rule,'(','');
+				rule = replace_all(rule,')','');
+				rule = replace_all(rule,'&','|');
+				rule = replace_all(rule,'or','|');
+				var connectors = rule.split('|');
+				if (!connectors || connectors.length < 1)
+					;//TODO: OOPS!
+				for (var j = 0; j < connectors.length; j++){
+					var connector = connectors[j].trim();
+					var sign = connector.substring(connector.length - 1);
+					var word = connector.substring(0,connector.length - 1);
+					var cats = [word.substring(0,3),word.substring(3,6)];
+					var other = sign == '-' ? cats[0] : cats[1];
+					console.log(code+"|"+rules[i]+"|"+word+"|"+sign+"|"+cats+"|"+other);
+					//links.push([rules[i],word,sign]);//word->category
+					//links.push([code,other,'cc']);
+					counter_add(catcounts,other,1);
+				}
+			}
+			//for (var i = 0; i < words.length; i++)
+				//links.push([words[i],code,'wc']);//word->category
+			for (var cat in catcounts)
+				links.push([code,cat,catcounts[cat],'cc']);//cattocat
 		}
 	}
 	return links;
@@ -479,38 +470,6 @@ function do_cat_graph(){
 	});
 }
 
-//TODO:remove
-/*
-function do_cat_graph_old(){
-	requestGraph($('#cat_file_path').val(),function (svg,data){
-		var links = cat_build_links(data);
-		//build labels
-		var labels = {};
-		for (var i = 0; i < links.length; i++){
-			counter_put(labels,links[i][0],links[i][4]);
-		}
-		//build order keys
-		var parents = {};
-		for (var i = 0; i < links.length; i++)
-			counter_put(parents,links[i][0],links[i][1]);
-		var keys = {};
-		for (var i = 0; i < links.length; i++){
-			var key = links[i][4].substring(0,10);
-			var e = parents[links[i][0]]; 
-			for (;;){
-				if (!e || e == "0")
-					break;
-				key = labels[e].substring(0,10) + '/' + key;
-				e = parents[e];
-			}
-			counter_put(keys,links[i][0],key);
-		}
-		var orders = GraphOrder.directed(links);//directed and iterative
-		cat_draw_graph(svg,orders,links,labels,keys,$('#cat_root_check').prop('checked'),$('#cat_layout_threshold').val(),parseInt($('#cat_layout_balance').val()));
-	},"Language Learning Categories");
-}
-*/
-
 function do_grammar_graph(){
 	GraphUI.request_graph_popup("Language Learning Link Grammar Dictionary", "svg_popup", {
 		path : $('#grammar_file_path').val(),
@@ -555,6 +514,47 @@ function do_grammar_graph(){
 		},
 		slicing:1,
 		layout_threshold:0
+	});
+}
+
+//TODO:
+function do_catconnect_graph(){
+	GraphUI.request_graph_popup("Language Learning Category Connectivity", "svg_popup", {
+		path : $('#grammar_file_path').val(),
+		builder : function(text) {
+			var config = {
+					//colors:{'-':"#0000FF",'+':"#FF0000",cc:'#000000'},
+					//labeled_links:true
+			};
+			//TODO:
+			var links = grammar_build_catconnect_links(text);//returns [from,to,type]
+			var orders = GraphOrder.directed(links,false,null,2);//directed and iterative
+			var nodes = {};
+			for (var i = 0; i < links.length; i++){
+				var link = links[i];
+				var left = link[0];
+				var right = link[1];
+				var type = link[3];
+				//TODO: what is that!?
+				//hacky fix!:
+				//link.push(link[2]);
+				//link[2] = 1;
+				if (type == 'cc'){//category->category
+					mapmap_put(nodes,left,'is','category');
+					mapmap_put(nodes,right,'is','category');
+				}
+			}
+			console.log(links);
+			return {
+				nodes:nodes,
+				links:links,
+				orders:orders,
+				config:config
+			};
+		},
+		layout_directions:3,
+		layout_balance:99,
+		layout_threshold:1
 	});
 }
 
@@ -676,7 +676,7 @@ function page_onload(){
 
 Click to <button id="do_atoms_graph" onclick="do_atoms_graph()">Explore OpenCog Atoms</button> from script<br> 
 <input id="atoms_script_path" type="search" placeholder="Atom Types script path" style="width:100%" value="/test/nlp/atom_types.script"></input><br>
-(copy of <a href="https://github.com/opencog/atomspace/blob/master/opencog/atoms/proto/atom_types.script" target="_blank">https://github.com/opencog/atomspace/blob/master/opencog/atoms/proto/atom_types.script</a>)
+(copy of <a href="https://github.com/opencog/atomspace/blob/master/opencog/atoms/value/atom_types.script" target="_blank">https://github.com/opencog/atomspace/blob/master/opencog/atoms/value/atom_types.script</a>)
 <p>
 
 Click to <button id="do_mi_graph" onclick="do_mi_graph()">View Mutual Information</button> from file<br> 
@@ -687,7 +687,7 @@ Click to <button id="do_senses_graph" onclick="do_senses_graph()">View Word Sens
 <input id="senses_file_path" type="search" placeholder="Senses file path" style="width:100%" value="/test/nlp/senses_demo.txt"></input>
 <p> 
 
-Click to <button id="do_grammar_graph" onclick="do_grammar_graph()">View Link Grammar</button> from file <br> 
+Click to <button id="do_grammar_graph" onclick="do_grammar_graph()">View Link Grammar</button> or <button id="do_catconnect_graph" onclick="do_catconnect_graph()">View Category Connectivity</button> from file <br> 
 <input id="grammar_file_path" type="search" placeholder="Grammar file path" style="width:100%" value="/test/nlp/poc-english_5C_2018-06-06_0004.4.0.dict.txt"></input>
 <p>
 
@@ -779,7 +779,16 @@ directions:
   <option value="2">Vertical</option>
  </select>&nbsp;
 <br>
-Filter:<input title="Node name filtering option" id="custom_node_filter" type="search" placeholder="Node filter" size="60" value=""></input><br>
+Filter:<input title="Node name filtering option" id="custom_node_filter" type="search" placeholder="Node filter" size="60" value=""></input>
+<span>Range:</span>
+ <select title="Filter range" class="graph_changer" id="custom_filter_range">
+  <option value="1" selected="selected">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+ </select>&nbsp;
+<br>
 <span id="node_types"></span><span id="link_types"></span>
 </span>
  

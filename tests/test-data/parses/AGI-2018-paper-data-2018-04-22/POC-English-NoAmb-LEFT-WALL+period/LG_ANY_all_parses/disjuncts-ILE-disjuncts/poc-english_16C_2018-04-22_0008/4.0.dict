@@ -66,7 +66,7 @@
 "was":
 (C05C16- & C16C04+) or (C07C16- & C16C04+ & C16C03+) or (C07C16- & C16C13+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 16 word clusters, 16 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/AGI-2018-paper-data-2018-04-22/POC-English-NoAmb-LEFT-WALL+period/LG_ANY_all_parses/disjuncts-ILE-disjuncts/poc-english_16C_2018-04-22_0008.4.0.dict

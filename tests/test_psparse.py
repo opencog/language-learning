@@ -1,8 +1,9 @@
 import unittest
-import sys
 
-from src.grammar_tester.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, prepare_tokens
-from src.grammar_tester.optconst import *
+from src.grammar_tester.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, \
+    prepare_tokens, skip_command_response, skip_linkage_header, PS_TIMEOUT_EXPIRED, PS_PANIC_DETECTED, \
+    get_sentence_text, split_ps_parses, trim_garbage
+from src.common.optconst import *
 from src.grammar_tester.parsestat import parse_metrics
 
 
@@ -104,6 +105,401 @@ holocaust survivors did not differ in the level of resilience from comparisons (
 [0]
 """
 
+timeout_linkage = \
+"""
+No complete linkages found.
+Timer is expired!
+Entering "panic" mode...
+Found 576744359 linkages (100 of 100 random linkages had no P.P. violations) at null count 4
+	Linkage 1, cost vector = (UNUSED=4 DIS= 0.00 LEN=19)
+[(but)([I])(have)(passed)(my)(royal)(word)([,])(and)([I])
+(cannot)(break)(it)([,])(so)(there)(is)(no)(help)(for)
+(you)(..y)(')]
+[[0 5 1 (FK)][0 2 0 (FF)][2 3 0 (FC)][3 4 0 (CJ)][5 10 1 (KG)][5 6 0 (KH)][8 10 0 (BG)]
+[10 12 1 (GE)][11 12 0 (CE)][12 14 0 (EF)][14 20 2 (FF)][18 20 1 (CF)][17 18 0 (JC)][16 17 0 (LJ)]
+[15 16 0 (EL)][18 19 0 (CB)][20 22 1 (FC)][21 22 0 (CC)]]
+[0]
+"""
+
+sharp_sign_ps_tokens = \
+"""
+(LEFT-WALL)(but.ij)(there.#their)(still.n)(remained.v-d)(all.a)(the)(damage.n-u)(that.j-p)(had.v-d)
+(been.v)([done])(that.j-r)(day.r)(,)(and.ij)(the)(king.n)(had.v-d)(nothing)
+([with])([which])(to.r)(pay.v)(for.p)(this.p)(.)
+"""
+
+# [[0 26 6 (Xp)][0 23 5 (WV)][0 15 4 (Xx)][0 10 3 (WV)][0 1 0 (Wc)][1 4 2 (WV)][1 3 1 (Wdc)]
+# [3 4 0 (Ss*s)][2 3 0 (Ds**c)][4 5 0 (O)][5 7 1 (Ju)][7 10 1 (Bs*t)][5 6 0 (ALx)][6 7 0 (Dmu)]
+# [7 8 0 (Rn)][8 9 0 (Ss*b)][9 10 0 (PPf)][10 13 1 (MVpn)][12 13 0 (DTn)][14 15 0 (Xd)][15 18 2 (WV)]
+# [15 17 1 (Wdc)][17 18 0 (Ss*s)][16 17 0 (Ds**c)][18 22 1 (MVi)][22 23 0 (I)][18 19 0 (Os)][23 24 0 (MVp)]
+# [24 25 0 (Js)]]
+# [0]
+# """
+
+sharp_sign_tokens = \
+["###LEFT-WALL###", "but", "there", "still", "remained", "all", "the", "damage", "that", "had",
+"been", "[done]", "that", "day", ",", "and", "the", "king", "had", "nothing", "[with]", "[which]",
+ "to", "pay", "for", "this", "."]
+
+sharp_sign_ps_linkages = \
+"""
+[(LEFT-WALL)(but.ij)(there.#their)(still.n)(remained.v-d)(all.a)(the)(damage.n-u)(that.j-p)(had.v-d)
+(been.v)([done])(that.j-r)(day.r)(,)(and.ij)(the)(king.n)(had.v-d)(nothing)
+([with])([which])(to.r)(pay.v)(for.p)(this.p)(.)]
+[[0 26 6 (Xp)][0 23 5 (WV)][0 15 4 (Xx)][0 10 3 (WV)][0 1 0 (Wc)][1 4 2 (WV)][1 3 1 (Wdc)]
+[3 4 0 (Ss*s)][2 3 0 (Ds**c)][4 5 0 (O)][5 7 1 (Ju)][7 10 1 (Bs*t)][5 6 0 (ALx)][6 7 0 (Dmu)]
+[7 8 0 (Rn)][8 9 0 (Ss*b)][9 10 0 (PPf)][10 13 1 (MVpn)][12 13 0 (DTn)][14 15 0 (Xd)][15 18 2 (WV)]
+[15 17 1 (Wdc)][17 18 0 (Ss*s)][16 17 0 (Ds**c)][18 22 1 (MVi)][22 23 0 (I)][18 19 0 (Os)][23 24 0 (MVp)]
+[24 25 0 (Js)]]
+[0]
+"""
+
+sharp_sign_links = {
+    (0, 26), (0, 23), (0, 15), (0, 10), (0, 1), (1, 4), (1, 3), (3, 4), (2, 3), (4, 5), (5, 7), (7, 10), (5, 6), (6, 7),
+    (7, 8), (8, 9), (9, 10), (10, 13), (12, 13), (14, 15), (15, 18), (15, 17), (17, 18), (16, 17), (18, 22), (22, 23),
+    (18, 19), (23, 24), (24, 25)
+}
+
+# panic_linkage_01 = \
+# """
+# ' No , ' said Gerda , and she told all that had happened to her , and how dearly she loved little Kay.
+# No complete linkages found.
+# Timer is expired!
+# Entering "panic" mode...
+# Found 11038 linkages (16 of 100 random linkages had no P.P. violations) at null count 7
+#         Linkage 1, cost vector = (UNUSED=7 DIS=12.10 LEN=25)
+# [(LEFT-WALL)(['])([No])(,)(['])(said.q-d)(Gerda.f)(,)(and.ij)(she)
+# (told.v-d)(all.a)(that.j-r)(had.v-d)(happened.v-d)(to.r)(her)([,])([and])(how)
+# (dearly)(she)(loved.v-d)(little.i)(Kay.f)([.])(RIGHT-WALL)]
+# [[0 8 2 (Wc)][7 8 0 (Xd)][5 7 1 (Xc)][3 5 0 (Xd)][5 6 0 (SIsj)][8 10 1 (WV)][8 9 0 (Wdc)]
+# [9 10 0 (Ss)][10 19 3 (QI*d)][10 15 2 (MVp)][10 11 0 (O)][11 13 1 (B)][11 12 0 (R)][12 13 0 (RS)]
+# [13 14 0 (PPf)][15 16 0 (J)][19 20 0 (EEh)][20 22 1 (CV)][20 21 0 (Ca)][21 22 0 (Ss)][22 24 1 (Osne)]
+# [22 23 0 (MVa)]]
+# [0]
+# """
+#
+# panic_linkage_02 = \
+# """
+# He was getting on well with his learning , but another hundred dollars were needed , as they must have more books.
+# No complete linkages found.
+# Timer is expired!
+# Entering "panic" mode...
+# Found 27 linkages (27 had no P.P. violations) at null count 3
+#         Linkage 1, cost vector = (UNUSED=3 DIS=14.72 LEN=41)
+# [(LEFT-WALL)(he)(was.v-d)(getting.v)(on)(well.n-u)(with)(his)(learning.q)(,)
+# (but.ij)(another)([hundred])([dollars])(were.v-d)(needed.v-d)([,])(as.#while)(they)(must.v)
+# (have.v)(more)(books.n)(.)]
+# [[0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (Pg*b)][3 15 4 (MVg)][3 6 2 (MVp)][3 5 1 (Oun)]
+# [3 4 0 (K)][6 8 1 (Pg)][8 15 3 (Xd)][6 7 0 (J)][8 14 2 (WV)][8 10 1 (Wc)][8 9 0 (Xca)]
+# [9 10 0 (Xd)][10 11 0 (Wdc)][11 14 0 (Ss*s)][15 23 2 (Xc)][15 17 0 (MVs)][17 20 1 (CV)][17 18 0 (Cs)]
+# [18 19 0 (Sp)][19 20 0 (If)][20 22 1 (Op)][21 22 0 (Dmcm)]]
+# [0]
+# """
+#
+# panic_linkage_03 = \
+# """
+# But there still remained all the damage that had been done that day , and the king had nothing with which to pay for this.
+# No complete linkages found.
+# Timer is expired!
+# Entering "panic" mode...
+# Found 27061933 linkages (0 of 100 random linkages had no P.P. violations) at null count 5
+# There was nothing else to be done than to try to answer the troll's riddles.
+# Found 9901 linkages (226 of 1000 random linkages had no P.P. violations)
+#         Linkage 1, cost vector = (UNUSED=0 DIS= 4.80 LEN=39)
+# [(LEFT-WALL)(there.r)(was.v-d)(nothing)(else)(to.r)(be.v)(done.a)(than.#then-r)(to.r)
+# (try.v)(to.r)(answer.v)(the)(troll.n)('s.v)(riddles.n)(.)]
+# [[0 17 4 (Xp)][0 8 2 (Xs)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SFst)][2 5 1 (MVi)][2 3 0 (Ost)]
+# [3 4 0 (EL)][5 6 0 (Ix)][6 7 0 (Pa)][7 8 0 (MVs)][8 15 3 (CV)][8 9 0 (Cs)][9 15 2 (SFsx)]
+# [9 10 0 (I)][10 12 1 (IV)][10 11 0 (TO)][11 12 0 (I*t)][12 14 1 (Os)][13 14 0 (Ds**c)][15 16 0 (Opt)]]
+# [0]
+# """
+#
+# panic_linkage_04 = \
+# """
+# She remembered Aveline's warning , and tried to turn her horse , but it stood as still as if it had been marble.
+# No complete linkages found.
+# Timer is expired!
+# Entering "panic" mode...
+# Found 4056 linkages (38 of 100 random linkages had no P.P. violations) at null count 2
+#         Linkage 1, cost vector = (UNUSED=2 DIS=10.46 LEN=42)
+# [(LEFT-WALL)(she)(remembered.v-d)(Aveline[!])('s.p)(warning.g)(,)(and.j-v)(tried.v-d)(to.r)
+# (turn.v)(her)(horse.n-m)(,)(but.misc-ex)(it)(stood.v-d)(as.e)(still.n)([as])
+# ([if])(it)(had.v-d)(been.v)(marble.v)(.)]
+# [[0 7 4 (WV)][0 1 0 (Wd)][1 7 3 (Ss)][2 7 2 (VJlsi)][2 5 1 (Os)][4 5 0 (Dmu)][3 4 0 (YS)]
+# [6 7 0 (Xd)][7 8 0 (VJrsi)][8 10 1 (IV)][8 9 0 (TO)][9 10 0 (I*t)][10 14 2 (MVx)][10 12 1 (Os)]
+# [11 12 0 (Ds**c)][13 14 0 (Xd)][14 25 2 (Xc)][14 18 1 (Jk)][17 18 0 (Js)][16 17 0 (MVp)][15 16 0 (Ss)]
+# [18 24 1 (Bsd)][18 21 0 (Rn)][21 22 0 (Ss)][22 23 0 (PPf)][23 24 0 (I*v)]]
+# [0]
+# """
+#
+# panic_linkage_05 = \
+# """
+# ' Do you think so ? ' said the carpenter ; ' I can well believe it , for I am indeed very poorly. '
+# No complete linkages found.
+# Timer is expired!
+# Entering "panic" mode...
+# Found 100 linkages (15 had no P.P. violations) at null count 5
+#         Linkage 1, cost vector = (UNUSED=5 DIS= 9.73 LEN=50)
+# [(LEFT-WALL)(['])(Do[!])(you)(think.v)(so.e)(?)(['])(said.q-d)(the)
+# (carpenter.n)(;)(['])(I.p)(can.v)(well.e)(believe.q)([it])(,)(for.r)
+# (I.p)(am.v)(indeed)(very.e)(poorly.e)(.)(['])]
+# [[0 11 4 (Xx)][0 8 3 (CPx)][8 11 2 (Xca)][0 4 2 (WV)][0 3 1 (Wd)][3 4 0 (Sp)][2 3 0 (COa)]
+# [4 5 0 (O)][6 8 0 (Xq)][8 10 1 (SIsj)][9 10 0 (Ds**c)][11 16 2 (WV)][11 13 0 (Wd)][13 14 0 (Sp*i)]
+# [14 16 1 (I)][15 16 0 (E)][16 25 3 (Xp)][16 21 2 (WV)][16 19 1 (Wc)][16 18 0 (Xc)][19 20 0 (Wd)]
+# [20 21 0 (SX)][21 24 1 (MVa)][21 22 0 (MVa)][23 24 0 (EE)]]
+# [0]
+# """
+#
+# panic_linkage_06 = \
+# """
+# ' You must have a bath set in your room , O queen , ' said she , ' and filled with running water.
+# No complete linkages found.
+# Timer is expired!
+# Entering "panic" mode...
+# Found 19931 linkages (78 of 100 random linkages had no P.P. violations) at null count 5
+# <------>Linkage 1, cost vector = (UNUSED=5 DIS= 8.66 LEN=34)
+# [(LEFT-WALL)(['])(You[!])(must.v)(have.v)(a)(bath.n)(set.v-d)(in.r)(your)
+# (room.s)([,])(O.id)(queen.n)(,)(['])(said.q-d)(she)(,)(['])
+# ([and])(filled.v-d)(with)(running.v)(water.n-u)(.)]
+# [[0 7 3 (WV)][0 2 0 (Wd)][2 3 0 (Ss*s)][3 4 0 (If)][4 7 2 (Pv)][4 6 1 (Os)][5 6 0 (Ds**c)]
+# [7 8 0 (MVp)][8 13 3 (Js)][9 13 2 (Ds**x)][10 13 1 (AN)][10 12 0 (NMa)][13 21 2 (MXsp)][18 21 0 (Xd)]
+# [16 18 1 (Xc)][14 16 0 (Xd)][16 17 0 (SIsj)][21 25 1 (Xc)][21 22 0 (MVp)][22 23 0 (Mgp)][23 24 0 (Ou)]]
+# [0]
+# """
+
+
+merged_ps_parses = \
+"""
+here the train was coming mother was holding Jem's hand Dog Monday was licking it everybody was saying good-bye the train was in !
+No complete linkages found.
+Found 38230999 linkages (0 of 1000 random linkages had no P.P. violations) at null count 2
+They had gone.
+Found 2 linkages (2 had no P.P. violations)
+        Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=5)
+[(LEFT-WALL)(they)(had.v-d)(gone.v)(.)]
+[[0 4 2 (Xp)][0 3 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp)][2 3 0 (PP)]]
+[0]
+"""
+
+merged_ps_parses2 = \
+"""
+There the train was coming mother was holding Jem's hand Dog Monday was licking it everybody was saying good-bye the train was in !
+No complete linkages found.
+Found 38230999 linkages (0 of 1000 random linkages had no P.P. violations) at null count 2
+Here comes the sun, here comes the sun, it's alright !
+No complete linkages found.
+Found 38230999 linkages (0 of 1000 random linkages had no P.P. violations) at null count 2
+They had gone.
+Found 2 linkages (2 had no P.P. violations)
+        Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=5)
+[(LEFT-WALL)(they)(had.v-d)(gone.v)(.)]
+[[0 4 2 (Xp)][0 3 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp)][2 3 0 (PP)]]
+[0]
+"""
+
+merged_ps_parses3 = \
+"""
+They had gone.
+Found 2 linkages (2 had no P.P. violations)
+        Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=5)
+[(LEFT-WALL)(they)(had.v-d)(gone.v)(.)]
+[[0 4 2 (Xp)][0 3 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp)][2 3 0 (PP)]]
+[0]
+"""
+
+
+
+
+# """
+# postscript set to 1
+# graphics set to 0
+# echo set to 1
+# verbosity set to 1
+# link-grammar: Info: Dictionary found at /home/aglushchenko/anaconda3/envs/ull-lg551/share/link-grammar/en/4.0.dict
+# link-grammar: Info: Dictionary version 5.5.1, locale en_US.UTF-8
+# link-grammar: Info: Library version link-grammar-5.5.1. Enter "!help" for help.
+# But there still remained all the damage that had been done that day , and the king had nothing with which to pay for this.
+# No complete linkages found.
+# Found 8706604 linkages (4 of 1000 random linkages had no P.P. violations) at null count 3
+# 	Linkage 1, cost vector = (UNUSED=3 DIS= 7.85 LEN=84)
+# [(LEFT-WALL)(but.ij)(there.#their)(still.n)(remained.v-d)(all.a)(the)(damage.n-u)(that.j-p)(had.v-d)
+# (been.v)([done])(that.j-r)(day.r)(,)(and.ij)(the)(king.n)(had.v-d)(nothing)
+# ([with])([which])(to.r)(pay.v)(for.p)(this.p)(.)]
+# [[0 26 6 (Xp)][0 23 5 (WV)][0 15 4 (Xx)][0 10 3 (WV)][0 1 0 (Wc)][1 4 2 (WV)][1 3 1 (Wdc)]
+# [3 4 0 (Ss*s)][2 3 0 (Ds**c)][4 5 0 (O)][5 7 1 (Ju)][7 10 1 (Bs*t)][5 6 0 (ALx)][6 7 0 (Dmu)]
+# [7 8 0 (Rn)][8 9 0 (Ss*b)][9 10 0 (PPf)][10 13 1 (MVpn)][12 13 0 (DTn)][14 15 0 (Xd)][15 18 2 (WV)]
+# [15 17 1 (Wdc)][17 18 0 (Ss*s)][16 17 0 (Ds**c)][18 22 1 (MVi)][22 23 0 (I)][18 19 0 (Os)][23 24 0 (MVp)]
+# [24 25 0 (Js)]]
+# [0]
+# """
+
+explosion_no_linkages = \
+"""
+But there still remained all the damage that had been done that day , and the king had nothing with which to pay for this.
+No complete linkages found.
+Timer is expired!
+Entering "panic" mode...
+link-grammar: Warning: Combinatorial explosion! nulls=5 cnt=27061933
+Consider retrying the parse with the max allowed disjunct cost set lower.
+At the command line, use !cost-max
+Found 27061933 linkages (0 of 100 random linkages had no P.P. violations) at null count 5
+"""
+
+tuna_isa_fish_ps = \
+"""
+tuna isa fish.
+Found 1 linkage (1 had no P.P. violations)
+	Unique linkage, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(tuna.sff)(isa)(fish.of)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wa)][1 2 0 (Sff)][2 3 0 (Of)]]
+[0]
+"""
+
+
+lg_post_output = """
+echo set to 1
+postscript set to 1
+graphics set to 0
+verbosity set to 0
+tuna has fin .
+[(LEFT-WALL)(tuna)(has)(fin)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+eagle isa bird .
+[(LEFT-WALL)(eagle)(isa)(bird)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+fin isa extremity .
+[(LEFT-WALL)(fin)(isa)(extremity)(.)]
+[[0 1 0 (C05C04)][1 2 0 (C04C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+tuna isa fish .
+[(LEFT-WALL)(tuna)(isa)(fish)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+fin has scale .
+[(LEFT-WALL)(fin)([has])(scale)(.)]
+[[0 1 0 (C05C04)][1 3 0 (C04C04)][3 4 0 (C04C03)]]
+[0]
+
+eagle has wing .
+[(LEFT-WALL)(eagle)(has)(wing)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+wing has feather .
+[(LEFT-WALL)(wing)([has])(feather)(.)]
+[[0 1 0 (C05C04)][1 3 0 (C04C04)][3 4 0 (C04C03)]]
+[0]
+
+wing isa extremity .
+[(LEFT-WALL)(wing)(isa)(extremity)(.)]
+[[0 1 0 (C05C04)][1 2 0 (C04C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+herring isa fish .
+[(LEFT-WALL)(herring)(isa)(fish)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+herring has fin .
+[(LEFT-WALL)(herring)(has)(fin)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+parrot isa bird .
+[(LEFT-WALL)(parrot)(isa)(bird)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C06)][3 4 0 (C06C03)]]
+[0]
+
+parrot has wing .
+[(LEFT-WALL)(parrot)(has)(wing)(.)]
+[[0 1 0 (C05C02)][1 2 0 (C02C01)][2 3 0 (C01C04)][3 4 0 (C04C03)]]
+[0]
+
+Bye.
+"""
+
+sticky_parses_01 = \
+"""
+but if Kilmeny says she will not marry you I am afraid she 'll stick to it . "
+No complete linkages found.
+Timer is expired!
+Entering "panic" mode...
+Panic timer is expired!
+" no , Master , it wouldn't be any use .
+No complete linkages found.
+Found 125746 linkages (100 of 100 random linkages had no P.P. violations) at null count 1
+	Linkage 1, cost vector = (UNUSED=1 DIS= 0.00 LEN=8)
+[(")(no)(,)([Master])(,)(it)(wouldn't)(be)(any)(use)
+(.)]
+[[0 6 1 (LG)][0 1 0 (LK)][1 2 0 (KN)][5 6 0 (DG)][4 5 0 (ND)][6 9 2 (GE)][6 8 1 (GK)]
+[8 9 0 (KE)][7 8 0 (DK)][9 10 0 (EE)]]
+[0]
+"""
+
+
+sticky_parses_02 = \
+"""
+but if Mahbub Ali did not know this , it would be very unsafe to tell him so .
+No complete linkages found.
+Timer is expired!
+Entering "panic" mode...
+Panic timer is expired!
+Mahbub Ali was hard upon boys who knew , or thought they knew , too much .
+No complete linkages found.
+Timer is expired!
+Found 13780061 linkages (15 of 16 random linkages had no P.P. violations) at null count 1
+	Linkage 1, cost vector = (UNUSED=1 DIS= 0.00 LEN=26)
+[(mahbub)([Ali])(was)(hard)(upon)(boys)(who)(knew)(,)(or)
+(thought)(they)(knew)(,)(too)(much)(..y)]
+[[0 15 3 (HL)][0 6 2 (HD)][4 6 1 (LD)][3 4 0 (EL)][2 3 0 (SE)][4 5 0 (LP)][6 11 2 (DD)]
+[9 11 1 (DD)][8 9 0 (ND)][7 8 0 (GN)][9 10 0 (DG)][13 15 1 (NL)][12 13 0 (GN)][13 14 0 (NG)]
+[15 16 0 (LF)]]
+[0]
+"""
+
+sticky_parses_03 = \
+"""
+when the horse saw this it changed itself to a dove , and flew up into the air .
+No complete linkages found.
+Timer is expired!
+Entering "panic" mode...
+Panic timer is expired!
+Found 2147483647 linkages (15 of 16 random linkages had no P.P. violations) at null count 1
+        Linkage 1, cost vector = (UNUSED=1 DIS= 0.00 LEN=20)
+[(when)(the)(horse)(saw)(this)(it)(changed)([itself])(to)(a)
+(dove)(,)(and)(flew)(up.'and)(into)(the)(air)(.)]
+[[0 6 2 (DE)][0 4 1 (DK)][3 4 0 (GK)][2 3 0 (PG)][1 2 0 (TP)][5 6 0 (DE)][6 11 2 (EN)]
+[6 8 0 (EQ)][8 10 1 (QH)][9 10 0 (VH)][11 14 1 (NU)][13 14 0 (EU)][12 13 0 (RE)][14 18 2 (UE)]
+[17 18 0 (PE)][15 17 1 (MP)][16 17 0 (TP)]]
+[0]
+"""
+
+explosion_no_linkages_full = \
+"""
+echo set to 1
+postscript set to 1
+graphics set to 0
+verbosity set to 1
+timeout set to 1
+limit set to 100
+But there still remained all the damage that had been done that day , and the king had nothing with which to pay for this.
+No complete linkages found.
+Timer is expired!
+Entering "panic" mode...
+link-grammar: Warning: Combinatorial explosion! nulls=5 cnt=27061933
+Consider retrying the parse with the max allowed disjunct cost set lower.
+At the command line, use !cost-max
+Found 27061933 linkages (0 of 100 random linkages had no P.P. violations) at null count 5
+Bye.
+"""
+
+
 class TestPSParse(unittest.TestCase):
 
     post_all_walls = "[(LEFT-WALL)(Dad[!])(was.v-d)(not.e)(a)(parent.n)(before)(.)(RIGHT-WALL)]" \
@@ -118,83 +514,61 @@ class TestPSParse(unittest.TestCase):
     tokens_no_walls = "(eagle)(has)(wing)(.)"
     tokens_no_walls_no_period = "(eagle)(has)(wing)"
 
-    def test_new_tokenizer(self):
+    def test_trim_garbage(self):
+        self.assertTrue(0 < trim_garbage(lg_post_output))
+        self.assertTrue(0 < trim_garbage(explosion_no_linkages_full))
+        self.assertTrue(0 < trim_garbage(explosion_no_linkages))
+        self.assertTrue(0 < trim_garbage(sticky_parses_01))
+        self.assertTrue(0 < trim_garbage(sticky_parses_02))
 
-        def find_end_of_token(text, pos: int) -> int:
+    def test_split_ps_parses(self):
+        parses = split_ps_parses(merged_ps_parses)
+        self.assertEqual(2, len(parses))
 
-            # Assume the open brace is already skipped
-            braces = 1
-            brackets = 0
+        parses = split_ps_parses(merged_ps_parses2)
+        self.assertEqual(3, len(parses))
 
-            text_len = len(text)
+        parses = split_ps_parses(merged_ps_parses3)
+        self.assertEqual(1, len(parses))
 
-            while pos < text_len:
+        parses = split_ps_parses(sticky_parses_01)
+        self.assertEqual(2, len(parses))
 
-                current = text[pos]
+        parses = split_ps_parses(sticky_parses_02)
+        self.assertEqual(2, len(parses))
 
-                if current == r"(":
-                    # If not "[(]"
-                    if not brackets:
-                        braces += 1
+        parses = split_ps_parses(sticky_parses_03)
+        self.assertEqual(1, len(parses))
 
-                elif current == r")":
-                    # if not "[)]"
-                    if not brackets:
-                        braces -= 1
+    def test_get_sentence_text(self):
+        parses = split_ps_parses(merged_ps_parses2)
+        self.assertEqual(3, len(parses))
 
-                    if not braces:
-                        return pos
+        self.assertEqual("There the train was coming mother was holding Jem's hand Dog Monday was licking it everybody "
+                         "was saying good-bye the train was in !", get_sentence_text(parses[0]))
 
-                elif current == r"[":
-                    brackets += 1
+        self.assertEqual("Here comes the sun, here comes the sun, it's alright !", get_sentence_text(parses[1]))
 
-                elif current == r"]":
-                    brackets -= 1
+        self.assertEqual("They had gone.", get_sentence_text(parses[2]))
 
-                pos += 1
+        self.assertEqual("tuna isa fish.", get_sentence_text(tuna_isa_fish_ps))
 
-            return pos
+        parses = split_ps_parses(sticky_parses_01)
+        self.assertEqual(2, len(parses))
 
-        def tokenizer(text: str) -> list:
-            tokens = []
-            pos = 0
-            old = -1
+        self.assertEqual('but if Kilmeny says she will not marry you I am afraid she \'ll stick to it . "',
+                         get_sentence_text(parses[0]))
 
-            while pos < len(text):
-                if pos == old:
-                    print("Infinite loop detected...")
-                    break
+        self.assertEqual('" no , Master , it wouldn\'t be any use .', get_sentence_text(parses[1]))
 
-                # To avoid infinite loop in case of errors in postscript string
-                old = pos
+        parses = split_ps_parses(sticky_parses_02)
+        self.assertEqual(2, len(parses))
 
-                if text[pos] == r"(":
-                    pos += 1
+        self.assertEqual('but if Mahbub Ali did not know this , it would be very unsafe to tell him so .',
+                         get_sentence_text(parses[0]))
 
-                end = find_end_of_token(text, pos)
-
-                if end > pos:
-                    tokens.append(text[pos:end])
-
-                pos = end + 1
-
-            return tokens
-
-        self.assertEqual(["eagle", "has", "wing", "."], tokenizer("(eagle)(has)(wing)(.)"))
-
-        self.assertEqual(["LEFT-WALL", "Dad[!]", "was.v-d", "not.e", "a", "parent.n", "before", ".", "RIGHT-WALL"],
-                         tokenizer("(LEFT-WALL)(Dad[!])(was.v-d)(not.e)(a)(parent.n)(before)(.)(RIGHT-WALL)"))
-
-        post = "(LEFT-WALL)([(])(alice[?].n)(had.v-d)(no.misc-d)(idea.n)(what)(latitude.n-u)(was.v-d)(,)(or.ij)" \
-               "(longitude.n-u)(either.r)(,)([but])(thought.q-d)(they)(were.v-d)(nice.a)(grand.a)(words.n)(to.r)(say.v)" \
-               "(.)([)])"
-        ref = ["LEFT-WALL", "[(]", "alice[?].n", "had.v-d", "no.misc-d", "idea.n", "what", "latitude.n-u", "was.v-d",
-               ",", "or.ij", "longitude.n-u", "either.r", ",", "[but]", "thought.q-d", "they", "were.v-d", "nice.a",
-               "grand.a", "words.n", "to.r", "say.v", ".", "[)]"]
-
-        # print(tokenizer(post))
-
-        self.assertEqual(ref, tokenizer(post))
+        self.assertEqual('Mahbub Ali was hard upon boys who knew , or thought they knew , too much .',
+                         get_sentence_text(parses[1]))
 
     @staticmethod
     def cmp_lists(list1: [], list2: []) -> bool:
@@ -212,6 +586,8 @@ class TestPSParse(unittest.TestCase):
         self.assertEqual(strip_token("strange[!]"), "strange")
         self.assertEqual(strip_token("strange.a"), "strange")
         self.assertEqual(strip_token("[strange]"), "[strange]")
+        self.assertEqual(strip_token("..y"), ".")
+        self.assertEqual(strip_token("Lewis.b"), "Lewis")
 
     # @unittest.skip
     def test_parse_tokens_alice_003(self):
@@ -242,6 +618,19 @@ class TestPSParse(unittest.TestCase):
 
         tokens = parse_tokens(post, options)[0]
         self.assertEqual(ref, tokens)
+
+    # @unittest.skip
+    def test_parse_tokens_sharp(self):
+        """ Test for proper parsing of sharp sign prefixes """
+        options = BIT_STRIP  # | BIT_NO_LWALL | BIT_NO_PERIOD
+
+        # tokens = parse_tokens(sharp_sign_ps_tokens.replace("\n", ""), options)[0]
+
+        tokens, links = parse_postscript(sharp_sign_ps_linkages, options)
+
+        self.assertEqual(len(sharp_sign_tokens), len(tokens))
+        self.assertEqual(sharp_sign_tokens, tokens)
+        self.assertEqual(sharp_sign_links, set(links))
 
     # @unittest.skip
     def test_parse_tokens(self):
@@ -312,7 +701,7 @@ class TestPSParse(unittest.TestCase):
         options |= BIT_STRIP | BIT_NO_PERIOD | BIT_RWALL
         tokens = parse_tokens(self.tokens_no_walls, options)[0]
 
-        # print(tokens)
+        print(tokens)
 
         self.assertTrue(self.cmp_lists(tokens, ['###LEFT-WALL###', 'eagle', 'has', 'wing']))
 
@@ -345,7 +734,7 @@ class TestPSParse(unittest.TestCase):
         options = 0
         options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
-        tokens, links = parse_postscript(self.post_all_walls, options, sys.stdout)
+        tokens, links = parse_postscript(self.post_all_walls, options)
         pm = parse_metrics(tokens)
         self.assertEqual(1.0, pm.completely_parsed_ratio)
         self.assertEqual(0.0, pm.completely_unparsed_ratio)
@@ -358,7 +747,7 @@ class TestPSParse(unittest.TestCase):
         options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(self.post_no_walls, options, sys.stdout)
+        tokens, links = parse_postscript(self.post_no_walls, options)
         pm = parse_metrics(tokens)
         self.assertEqual(1.0, pm.completely_parsed_ratio)
         self.assertEqual(0.0, pm.completely_unparsed_ratio)
@@ -371,17 +760,17 @@ class TestPSParse(unittest.TestCase):
         options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(self.post_no_links, options, sys.stdout)
+        tokens, links = parse_postscript(self.post_no_links, options)
         self.assertEqual(0, len(links))
 
-    # @unittest.skip
+    @unittest.skip
     def test_parse_postscript_gutenchildren_bug(self):
         """ Test for number of tokens (bug from Gutenberg Children corpus) """
         options = 0
         # options |= (BIT_RWALL | BIT_CAPS)
         # options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(gutenberg_children_bug, options, sys.stdout)
+        tokens, links = parse_postscript(gutenberg_children_bug, options)
 
         self.assertEqual(18, len(tokens))
 
@@ -394,12 +783,12 @@ class TestPSParse(unittest.TestCase):
 
         self.assertEqual(tokens, gutenberg_children_bug_002tr)
 
-    @unittest.skip
+    # @unittest.skip
     def test_parse_postscript_gutenchildren_bug_002(self):
 
         options = BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP
 
-        tokens, links = parse_postscript(gutenberg_children_bug_002, options, sys.stdout)
+        tokens, links = parse_postscript(gutenberg_children_bug_002, options)
 
         print(tokens)
 
@@ -423,7 +812,7 @@ class TestPSParse(unittest.TestCase):
         # options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(alice_bug_001, options, sys.stdout)
+        tokens, links = parse_postscript(alice_bug_001, options)
 
         self.assertEqual(15, len(tokens))
 
@@ -439,7 +828,7 @@ class TestPSParse(unittest.TestCase):
         # options |= (BIT_RWALL | BIT_CAPS)
         options &= ~BIT_STRIP
 
-        tokens, links = parse_postscript(alice_bug_002, options, sys.stdout)
+        tokens, links = parse_postscript(alice_bug_002, options)
 
         self.assertEqual(29, len(tokens), tokens)
 
@@ -451,7 +840,7 @@ class TestPSParse(unittest.TestCase):
         #                  "[4 5 0 (Ds**c)][5 6 0 (Mp)][7 8 0 (RW)]][0]"
         expected_set = {(1, 2), (2, 5), (2, 3), (4, 5), (5, 6)}
         options = BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP | BIT_PARSE_QUALITY
-        tokens, links = parse_postscript(self.post_all_walls, options, sys.stdout)
+        tokens, links = parse_postscript(self.post_all_walls, options)
         result_set = get_link_set(tokens, links, options)
 
         self.assertTrue(result_set == expected_set)
@@ -501,6 +890,43 @@ class TestPSParse(unittest.TestCase):
         options = 0 | BIT_NO_LWALL | BIT_NO_PERIOD
         result_list = prepare_tokens(seven_dots, options)
         self.assertEqual(['[.]', '[.]', '[.]', '[.]', '[.]', '[.]'], result_list, "Lists are not the same!!!")
+
+    def test_skip_command_response(self):
+        with open("tests/test-data/raw/debug-msg.txt") as file:
+            text = file.read()
+
+        pos = skip_command_response(text)
+
+        # print(text[pos:], sys.stderr)
+        self.assertEqual(175, pos)
+
+    def test_skip_linkage_header(self):
+        pos, err = skip_linkage_header(timeout_linkage)
+        print(timeout_linkage[pos:])
+        self.assertEqual(219, pos)
+        self.assertEqual(PS_PANIC_DETECTED|PS_TIMEOUT_EXPIRED, err)
+
+    def test_skip_linkage_header_explosion(self):
+        pos, err = skip_linkage_header(explosion_no_linkages)
+        print(explosion_no_linkages[pos:])
+        # self.assertEqual(len(explosion_no_linkages), pos)
+        self.assertEqual(-1, pos)
+        self.assertEqual(PS_PANIC_DETECTED|PS_TIMEOUT_EXPIRED, err)
+        # self.assertTrue(err)
+
+    @unittest.skip
+    def test_parse_postscript_explosion_no_linkages(self):
+
+        options = BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP
+
+        tokens, links = parse_postscript(explosion_no_linkages.replace("\n", ""), options)
+
+        print(tokens)
+        print(links)
+
+        self.assertEqual(27, len(tokens))
+        self.assertEqual(0, len(links))
+
 
 
 if __name__ == '__main__':

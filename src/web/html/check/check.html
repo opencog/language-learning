@@ -1,0 +1,196 @@
+<html>
+<head>
+
+<title>SingluarityNET & OpenCog Link Grammar Checker</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="ui/jquery-ui-1.11.4.custom/jquery-ui.css">
+  <script src="ui/jquery-1.11.1.js"></script>
+  <script src="ui/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+  <script type="text/javascript" src="ui/aigents-al.js?4"></script>
+  <script type="text/javascript" src="ui/aigents-graph.js?4"></script>
+</head>
+
+<style>
+
+body {background:#eaf1fc !important;margin:0 !important;}
+.menu-bar {background:#2191c0;padding: 6px 4px 2px 4px;overflow:auto;}
+.menu-item {cursor:pointer;color:#ffffff;display:inline;padding: 4px 4px 4px 4px;white-space: nowrap;}
+.menu-hover {cursor:pointer;background:#77d5f7;color:#04398e;display:inline;padding: 4px 4px 4px 4px;white-space: nowrap;}
+.menu-check {cursor:pointer;background:#0871A0;color:#ffffff;display:inline;padding: 4px 4px 4px 4px;white-space: nowrap;}
+.menu-toolbar {display:inline;float:right;padding: 0px 0px 0px 0px;}
+.menu-button {display:inline;}
+.input-bar {display:inline-block;height:36;width:100%;background:#2191c0;}
+.input-text {display:inline;width:100%;margin-top:3px;}
+.input-button {display:inline;float:right;height:32px;width:32px;}
+#pane_areas {float:left;width:15%;}
+#pane_areas .list {overflow:auto;}
+#pane_areas .list ol {padding:0px;margin:0px;}
+#pane_areas .list ol li {white-space:normal;margin:3px;overflow:hidden;white-space:nowrap;}
+#pane_aigents {width:85%;}
+#pane_aigents .list ol {padding:0px;margin:0px;}
+#pane_aigents .list ol li {white-space:normal;margin:3px;}
+#pane_aigents .list ol li iframe {float:left;margin:2px;}
+#pane_aigents .list ol li img {float:left;margin:2px;}
+#pane_things .list ol {padding:0px;margin:0px;}
+
+.map-label {text-anchor:middle;font-size:18;}
+.map-text-middle {text-anchor:middle;}
+.map-bar {background:#2191c0;padding: 6px 4px 2px 4px;overflow:auto;}
+.map-item {cursor:pointer;color:#ffffff;display:inline;padding: 4px 4px 4px 4px;}
+.map-hover {cursor:pointer;background:#77d5f7;color:#04398e;display:inline;padding: 4px 4px 4px 4px;}
+.map-check {cursor:pointer;background:#0871A0;color:#ffffff;display:inline;padding: 4px 4px 4px 4px;}
+.map-toolbar {display:inline;float:right;padding: 0px 0px 0px 0px;}
+.map-button {display:inline;}
+
+</style>
+
+<!-- test comment -->
+
+<script>
+
+/*
+Copyright 2018 SinglarityNET Foundation
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+function ajax_request_uri_method_graph(uri,callback,onerror,method,data) {
+	$.ajax({
+		type: method,
+		data: data,
+		cache: false, 
+		crossDomain : true, 
+		url: uri,
+		dataType : 'text',
+		xhrFields: { withCredentials: true },
+		success: function(data, textStatus, jqXHR) { 
+			if (callback)
+				callback(data);
+		},
+		error: function(jqXHR, textStatus, errorThrown) { 
+			console.log(textStatus+": "+(errorThrown ? errorThrown : "possibly no connection")+".");
+			if (onerror){
+				onerror();
+			}
+		},
+		beforeSend: function(xhr){ 
+			xhr.withCredentials = true; 
+		}
+	});
+}
+
+function render_parse(parse){
+	var split = parse.split(' ');
+	var html = '';
+	if (split && split.length > 0){
+		for (var i = 0; i < split.length; i++){
+			var token = split[i];
+			if (i > 0)
+				html += ' ';
+			if (token.charAt(0) == '['){
+				html += '<span style="color:red;">'+token.substr(1,token.length-2)+'</span>';
+			} else
+				html += token;
+		}
+	}
+	$('#parse_output').html(html);
+}
+
+function render_tree(tree){
+    $('#parse_tree').html(tree);
+}
+
+/*
+ TODO:
+	1. Host Link Grammar Checker WEB REST API service at http://langlearn.singularitynet.io:<some_port_except_80_or_9XXX>
+	2. Let Link Grammar Checker WEB REST API to accept parameters "lang" (to be ignored for now) and "text" (to contain input text)
+	3. Change Apache HTTP server config so its url http://langlearn.singularitynet.io/check points to service at port <some_port_except_80_or_9XXX> on the same server,
+    for example - here is how I was doign this for Apache config on CentOS: 
+	
+    Header always set Access-Control-Allow-Origin "http://langlearn.singularitynet.io:<some_port_except_80_or_9XXX>"
+    Header always set Access-Control-Allow-Methods "POST, GET"
+    Header always set Access-Control-Max-Age "1000"
+    Header always set Access-Control-Allow-Headers "x-requested-with, Content-Type, origin, authorization, accept, client-security-token"
+    Header always set Cache-Control "max-age=86400, must-revalidate"
+    ProxyPass /al http://127.0.0.1:<some_port_except_80_or_9XXX>
+    ProxyPassReverse /al http://127.0.0.1:<some_port_except_80_or_9XXX>
+    
+    (but it may be different for Ubuntu)
+*/
+
+
+function do_check(){
+	var text = $('#parse_input').val();
+	var limit = $('#parse_limit').val();
+	if (!limit || !(limit >0))
+	    limit = 1000;
+	console.log(text);
+	ajax_request_uri_method_graph('http://langlearn.singularitynet.io/linkparser?lang=en&mode=3&text='+encodeURIComponent(text),function(parse){
+		console.log(parse);
+		var dict = JSON.parse(parse)
+		console.log(dict.linkages[0])
+		render_parse(dict.linkages[0]);
+
+		ajax_request_uri_method_graph('http://langlearn.singularitynet.io/linkparser?lang=en&mode=0&limit='+limit+'&text='+encodeURIComponent(text),function(parse){
+		    console.log(parse);
+		    var obj = JSON.parse(parse)
+		    console.log(obj.linkages[0])
+		    render_tree(obj.linkages[0]);
+		},function(){
+		    render_tree('');
+		},'GET',"");
+	},function(){
+		render_parse('Intelligence [are] the ability to achieve complex and not so complex goals in [compex] environments using resources [limited] .');
+	},'GET',"");
+}
+
+
+function page_onload(){
+	//TODO: maybe later, ignore for now!
+	/*
+	var cmd = window.location.hash.substring(1);
+	console.log(window.location);
+	if (!AL.empty(window.location.search)){
+		var query = parseQuery(window.location.search.substring(1));
+		if (query.cmd)
+			cmd = cmd;
+	}
+	if (!AL.empty(cmd))
+		cmd = cmd.toLowerCase();
+	switch (cmd){
+	case "atoms": do_atoms_graph();break;
+	case "mi": do_mi_graph();break; 
+	case "senses": do_senses_graph();break;
+	case "grammar": do_grammar_graph();break;
+	case "cats": do_cat_graph();break;
+	case "parses": do_parses_graph();break;
+	}
+	*/
+}
+
+
+</script>
+
+<body class="ui-widget" onload="page_onload();">
+<h2>SingluarityNET & OpenCog Link Grammar Checker</h2>
+
+Input:<br>
+<textarea rows="2" id="parse_input" style="font-size:16;width:100%;">
+Intelligence are the ability to achieve complex goals in compex environments using resources limited.
+</textarea><br>
+Limit:<br>
+<input type="text" id="parse_limit" value="1000"><br>
+<button id="do_parse" onclick="do_check()" style="margin:5px;">Check</button><br>
+Output:<br>
+<div id="parse_output" style="font-size:16;"></div><br>
+<pre id="parse_tree" style="font-size:12;font-family:courier;></pre><br>
+<p> 
+ 
+<p>
+<span style="font-size:8px;">Copyright © 2018 OpenCog Foundation, SingularityNET</span>
+</body>
+</html>

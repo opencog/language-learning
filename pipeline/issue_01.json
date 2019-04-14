@@ -1,0 +1,17 @@
+{
+  "left_wall": "LW",
+  "corpus": "POC-Turtle",
+  "dataset": "R=6-Weight=6:R-mst-weight=+1:R",
+  "input_parses": "/data/POC-Turtle/R=6-Weight=6:R-mst-weight=+1:R",
+  "reference": "/data/POC-Turtle/poc-turtle-parses-expected.txt",
+  "out_path": "/output/Turtle-dDRKd-MST-issue-2019-01-04",
+  "context": 2,
+  "word_space": "vectors",
+  "clustering": ["kmeans", "kmeans++", 10],
+  "cluster_range": [2, 50, 9],
+  "grammar_rules": 2,
+  "rules_generalization": "off",
+  "tmpath": "/tmp/",
+  "verbose": "debug",
+  "linkage_limit": 1000
+}

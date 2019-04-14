@@ -106,11 +106,12 @@ ENV/
 # tests
 .pytest_cache
 
-# Output, temporary, archive, big data (local) files
+# Output, temporary, local data, archive
 /output
 /tmp
-/archive
 /bigdata
+/data_
+/archive
 
 # Test driven development files and notebooks, extra files
 /tdd
@@ -118,3 +119,4 @@ ENV/
 /xtraz
 .ftpconfig
 .ftpignore
+/trash

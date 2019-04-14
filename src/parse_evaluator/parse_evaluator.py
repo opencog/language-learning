@@ -1,18 +1,11 @@
-#!/usr/bin/env python
+import sys
+import random
 
-# ASuMa, Mar 2018
-# Read parse data in MST-parser format, from reference and test files
-# and evaluate the accuracy of the test parses.
-# See main() documentation below for usage details
+from linkgrammar import ParseOptions, Dictionary, Sentence, Linkage
+from ..grammar_tester.psparse import parse_postscript
+from ..common.optconst import *
 
-import platform
-import getopt, sys
-
-def version():
-    """
-        Prints Python version used
-    """
-    print("Code writen for Python3.6.4. Using: %s"%platform.python_version())
+__all__ = ['Evaluate_Alternative']
 
 def Load_File(filename):
     """
@@ -23,6 +16,26 @@ def Load_File(filename):
     print("Finished loading")
 
     return data
+
+def Print_parses(sentences, parses, filename):
+    """
+        Prints parses to file (for sequential and random eval methods)
+    """
+    print("writing parses file to '{}'".format(filename))
+    with open(filename, 'w') as fo:
+        for sent, parse in zip(sentences, parses):
+            fo.write(" ".join(sent) + "\n")
+            # Remove brackets from LG-unparsed words
+            for link in parse:
+                if link[1][0] == "[" and link[1][-1] == "]":
+                    link[1] = link[1][1:-1]
+                if link[3][0] == "[" and link[3][-1] == "]":
+                    link[3] = link[3][1:-1]
+                fo.write(" ".join(link) + "\n")
+            fo.write("\n")
+
+    print("Finished writing parses file")
+
 
 def Get_Parses(data):
     """
@@ -47,7 +60,10 @@ def Get_Parses(data):
             continue
         if new_flag:
             new_flag = False
-            sentences.append(line.split())
+            curr_sent = line.split()
+            if curr_sent[0] == "###LEFT-WALL###":
+                curr_sent.pop(0)
+            sentences.append(curr_sent)
             parses.append([])
             parse_num += 1
             continue
@@ -73,21 +89,37 @@ def MakeSets(parse, sent_len, ignore_WALL):
     links_set = set(map(frozenset, link_list))
     return links_set, current_ignored
 
-def Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore):
+def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore, filter):
     """
-        Compares test_parses against ref_parses link by link
-        counting errors
+        Compares test_parses against ref_parses link by link,
+        counting errors, 
     """
+    filtered_sents = 0 # sentences filtered if filter is active
     evaluated_parses = 0
     ignored_links = 0   # ignored links from ref, if ignore is active
     sum_precision = 0
     sum_recall = 0
 
-    for ref_parse, test_parse, ref_sent in zip(ref_parses, test_parses, ref_sents):
+    # if filter, we'll print to file accepted ref parses
+    if filter:
+        fa = open("./accepted_parses.ull", "w")
+
+    for ref_parse, test_parse, ref_sent, test_sent in zip(ref_parses, test_parses, ref_sents, test_sents):
 
         true_pos = 0
         false_neg = 0
         false_pos = 0
+
+        # when filter is active, ignore sentence if they're not equal
+        # or it contains any quotes (for dialogue sentences)
+        if filter:
+            joint_test_sent = " ".join(test_sent)
+            joint_ref_sent = " ".join(ref_sent)
+            #count_quotes = ref_sent[1:-1].count('"') # only internal quotes
+            count_quotes = ref_sent.count('"') # any quotes
+            if joint_ref_sent.lower() != joint_test_sent.lower() or count_quotes > 0:
+                filtered_sents += 1
+                continue
 
         # using sets to ignore link directions
         ref_sets, current_ignored = MakeSets(ref_parse, len(ref_sent), ignore)
@@ -120,86 +152,28 @@ def Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore):
             print("Missing links: {}".format(false_neg))
             print("Extra links: {}".format(false_pos))
 
+        # print to file the processed parses
+        if filter:
+            fa.write(joint_ref_sent + "\n")
+            for link in ref_parse:
+                fa.write(" ".join(link) + "\n")
+            fa.write("\n")
+
     precision = sum_precision / evaluated_parses # averages precision
     recall = sum_recall / evaluated_parses # averages recall
     print("\nAvg Precision: {:.2%}".format(precision))
     print("Avg Recall: {:.2%}".format(recall))
     print("Avg Fscore: {:.2%}\n".format(2 * precision * recall / (precision + recall)))
+    print("A total of {} sentences filtered, {:.2%} of reference file".format(filtered_sents, float(filtered_sents) / len(ref_parses)))
     print("A total of {} parses evaluated, {:.2%} of reference file".format(evaluated_parses, float(evaluated_parses) / len(ref_parses)))
     print("{:.2f} ignored links per evaluated parse".format(ignored_links / evaluated_parses))
-
-def main(argv):
-    """
-        Evaluates parses compared to given reference.
-        For each parse, loops through all links in reference and checks if those
-        2 word-instances are also connected in parse to evaluate.
-
-        Parses must be in format:
-        Sentence to evaluate
-        # word1 # word2
-        # word2 # word3
-        ...
-
-        Another sentence to evaluate
-        # word1 # word2
-        ...
-
-        Usage: ./parse_evaluator.py -t <testfile> -r <reffile> [-v] [-i]
-
-        testfile        file with parses to evaluate
-        goldfile        file with reference (gold standard) parses
-        -v              verbose
-        -i              don't ignore LEFT-WALL and end-of-sentence dot, if any
-        -s              evaluate sequential parses (benchmark)
-
-    """
-
-    version()
-
-    test_file = ''
-    ref_file = ''
-    verbose = False
-    ignore_WALL = True
-    sequential = False
-
-    try:
-        opts, args = getopt.getopt(argv, "ht:r:vis", ["test=", "reference=", "verbose", "ignore", "sequential"])
-    except getopt.GetoptError:
-        print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s]")
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-h':
-            print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s]")
-            sys.exit()
-        elif opt in ("-t", "--test"):
-            test_file = arg
-        elif opt in ("-r", "--reference"):
-            ref_file = arg
-        elif opt in ("-v", "--verbose"):
-            verbose = True
-        elif opt in ("-i", "--ignore"):
-            ignore_WALL = False
-        elif opt in ("-s", "--sequential"):
-            sequential = True
-
-    ref_data = Load_File(ref_file)
-    ref_parses, ref_sents = Get_Parses(ref_data) 
-    if sequential:
-        test_parses = Make_Sequential(ref_sents)
-    else:
-        test_data = Load_File(test_file)
-        test_parses, dummy = Get_Parses(test_data) 
-    if len(test_parses) != len(ref_parses):
-        sys.exit("ERROR: Number of parses differs in files")
-    # for rs, ts in zip(ref_sents, dummy):
-    #     print("Sentence pair:")
-    #     print(rs, ts)
-    Evaluate_Parses(test_parses, ref_parses, ref_sents, verbose, ignore_WALL)
-
+    if filter:
+        fa.close() # close output file if opened
+    
 def Make_Sequential(sents):
     """
         Make sequential parses (each word simply linked to the next one), 
-        to use as a benchmark
+        to use as baseline
     """
     sequential_parses = []
     for sent in sents:
@@ -209,8 +183,91 @@ def Make_Sequential(sents):
         #parse.append([str(i), sent[i - 1], str(i + 1), sent[i]] for i in range(1, len(sent)))
         sequential_parses.append(parse)
 
+    Print_parses(sents, sequential_parses, "sequential_parses.ull")
+
     return sequential_parses
 
+def Make_Random(sents):
+    """
+        Make random parses (from LG-parser "any"), to use as baseline
+    """
+    any_dict = Dictionary('any') # Opens dictionary only once
+    po = ParseOptions(min_null_count=0, max_null_count=999)
+    po.linkage_limit = 100
+    options = 0x00000000 | BIT_STRIP #| BIT_ULL_IN
+    options |= BIT_CAPS
 
-if __name__ == '__main__':
-    main(sys.argv[1:])
+    random_parses = []
+    for sent in sents:
+        num_words = len(sent)
+        curr_sent = sent[:]
+        curr_sent.insert(0, "###LEFT-WALL###")
+        curr_parse = []
+        # subtitute words with numbers, to avoid token-splitting by LG "any"
+        fake_words = ["w{}".format(x) for x in range(1, num_words + 1)]
+        sent_string = " ".join(fake_words)
+        sentence = Sentence(sent_string, any_dict, po)
+        linkages = sentence.parse()
+        num_parses = len(linkages) # check nbr of linkages in sentence
+        if num_parses > 0:
+            idx = random.randint(0, num_parses - 1) # choose a random linkage index
+            linkage = Linkage(idx, sentence, po._obj) # get the random linkage
+            tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options)
+            for link in links:
+                llink = link[0]
+                rlink = link[1]
+                # attach words from sent, which are the actual words
+                curr_parse.append([str(llink), curr_sent[llink], str(rlink), curr_sent[rlink]])
+
+            random_parses.append(curr_parse)
+
+    Print_parses(sents, random_parses, "random_parses.ull")
+
+    return random_parses
+
+def Compare_Tokenization(ref_sentences, test_sentences):
+    """
+        Compares tokenization differences between parse files. Ignores caps
+        and LG-unparsed (bracketed) tokens.
+        Writes tok_diff.txt file with sentences that have different tokenization, and
+        shows the different tokens
+    """
+    with open("tok_diff.txt", "w") as ft:
+        for ref_sent, test_sent in zip(ref_sentences, test_sentences):
+            new_ref = []
+            new_test = []
+            for token_ref in ref_sent:
+                token_ref = token_ref.lower()
+                if token_ref[0] == "[" and token_ref[-1] == "]":
+                    token_ref = token_ref[1:-1]
+                new_ref.append(token_ref)
+            for token_test in test_sent:
+                token_test = token_test.lower()
+                if token_test[0] == "[" and token_test[-1] == "]":
+                    token_test = token_test[1:-1]
+                new_test.append(token_test)
+            if new_ref != new_test:
+                set_ref = set(new_ref)
+                set_test = set(new_test)
+                ft.write("Sentence Differs:\n{}\nin tokens:{}<--->{}\n".format(" ".join(ref_sent), set_ref - set_test, set_test - set_ref))
+
+def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag, filter_sentences, compare_tokenization):
+
+    ref_data = Load_File(ref_file)
+    ref_parses, ref_sents = Get_Parses(ref_data) 
+    if sequential:
+        test_parses = Make_Sequential(ref_sents)
+        test_sents = ref_sents
+    elif random_flag:
+        test_parses = Make_Random(ref_sents)
+        test_sents = ref_sents
+    else:
+        test_data = Load_File(test_file)
+        test_parses, test_sents = Get_Parses(test_data) 
+    if len(test_parses) != len(ref_parses):
+        sys.exit("ERROR: Number of parses differs in files: ", len(test_parses), ", ", len(ref_parses))
+    if compare_tokenization:
+        print("Comparing tokenization only...")
+        Compare_Tokenization(ref_sents, test_sents)
+        return # exit
+    Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore_WALL, filter_sentences)

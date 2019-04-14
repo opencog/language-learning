@@ -34,7 +34,7 @@
 "fin" "wing":
 {C01C08- or C04C08-} & {C08C01+ or C08C02+ or C08C03+};
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 8 word clusters, 8 Link Grammar rules.
 % Link Grammar file saved to: /home/oleg/language-learning/output/Turtle-4-2018-03-14/poc-turtle_8C_2018-03-14_0007.4.0.dict

@@ -1,0 +1,19 @@
+{
+  "corpus": "CDS",
+  "dataset": "LG-English",
+  "input_parses": "/data/CDS/LG-E-clean",
+  "reference": "/data/CDS/LG-E-clean/CDS-LG-English-clean.ull",
+  "out_path": "/output/ppln_test_with_sample_config-2018-12-31",
+  "context": 1,
+  "min_word_count": 1,
+  "word_space": "sparse",
+  "clustering": ["agglomerative", "ward"],
+  "clustering_metric": ["silhouette", "cosine"],
+  "cluster_range": 50,
+  "top_level": 0.01,
+  "grammar_rules": 2,
+  "rules_generalization": "none",
+  "tmpath": "/tmp",
+  "verbose": "min",
+  "linkage_limit": 1000
+}

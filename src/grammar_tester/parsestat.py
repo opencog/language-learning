@@ -1,12 +1,16 @@
 from decimal import *
-
 from ..common.parsemetrics import ParseQuality, ParseMetrics
 
 """
     Statistics estimation set of functions
 """
 
-__all__ = ['calc_stat', 'parse_metrics', 'calc_parse_quality', 'parse_quality']
+__all__ = [
+    'calc_stat',
+    'calc_parse_quality',
+    'parse_metrics',
+    'parse_quality'
+]
 
 def calc_stat(tokens: list) -> (int, int, Decimal):
     """
@@ -42,6 +46,23 @@ def calc_stat(tokens: list) -> (int, int, Decimal):
     return unlinked == 0, total == unlinked, (1.0 if unlinked == 0 else Decimal("1.0") - Decimal(unlinked) / Decimal(total))
 
 
+def calc_parse_quality(test_set: set, ref_set: set) -> (int, int, Decimal):
+    """
+    Estimate parse quality
+
+    :param test_set: Set of links being tested.
+    :param ref_set: Reference set of links
+    :return: Tuple (m, e, a) where  m - number of links missing in test set, e - number of extra links in test set,
+                                    a - match links to total links ratio
+    """
+    len_ref = len(ref_set)
+
+    if len_ref > 0:
+        return len(ref_set - test_set), len(test_set - ref_set), Decimal(len(test_set & ref_set)) / Decimal(len_ref)
+
+    return 0, 0, Decimal("0.0")
+
+
 def parse_metrics(tokens: list) -> ParseMetrics:
     """
     Calculate percentage of successfully linked tokens. Token in square brackets considered to be unlinked.
@@ -61,15 +82,6 @@ def parse_metrics(tokens: list) -> ParseMetrics:
 
     start_token = 0  # if not tokens[0].startswith("###") else 1
 
-    # # All filtering is done in prepare_tokens
-    # while tokens[end_token-1].startswith("###") or tokens[end_token-1] == "." or tokens[end_token-1] == "[.]":
-    #     end_token -= 1
-
-    # total = end_token - start_token
-    #
-    # if not total:
-    #     return pm
-
     # Initialize number of unlinked tokens
     unlinked = 0
 
@@ -86,26 +98,7 @@ def parse_metrics(tokens: list) -> ParseMetrics:
     if total == unlinked:
         pm.completely_unparsed_ratio = Decimal("1.0")
 
-    # print(pm.text(pm))
-
     return pm
-
-
-def calc_parse_quality(test_set: set, ref_set: set) -> (int, int, Decimal):
-    """
-    Estimate parse quality
-
-    :param test_set: Set of links being tested.
-    :param ref_set: Reference set of links
-    :return: Tuple (m, e, a) where  m - number of links missing in test set, e - number of extra links in test set,
-                                    a - match links to total links ratio
-    """
-    len_ref = len(ref_set)
-
-    if len_ref > 0:
-        return len(ref_set - test_set), len(test_set - ref_set), Decimal(len(test_set & ref_set)) / Decimal(len_ref)
-
-    return 0, 0, Decimal("0.0")
 
 
 def parse_quality(test_set: set, ref_set: set) -> ParseQuality:
@@ -119,11 +112,20 @@ def parse_quality(test_set: set, ref_set: set) -> ParseQuality:
     pq = ParseQuality()
 
     len_ref = len(ref_set)
+    len_test = len(test_set)
+
+    expected = Decimal(len(ref_set))
+    obtained = Decimal(len(test_set))
+
+    overlapped = Decimal(len(test_set & ref_set))
 
     if len_ref > 0:
-        pq.total = len_ref
+        pq.total = expected
         pq.missing = len(ref_set - test_set)
         pq.extra = len(test_set - ref_set)
-        pq.quality = Decimal(len(test_set & ref_set)) / Decimal(len_ref)
+
+        pq.quality = pq.recall = overlapped / expected
+
+    pq.precision = overlapped / obtained if len_test > 0 else Decimal("0.00")
 
     return pq

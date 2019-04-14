@@ -1,0 +1,32 @@
+% Grammar Learner v.0.6 2018-09-29 13:50:58 UTC
+<dictionary-version-number>: V0v0v5+;
+<dictionary-locale>: EN4us+;
+
+% B
+"eagle" "feather" "fin" "herring" "parrot" "scale" "tuna" "wing":
+(EB- & BF+) or (EB- & BG+) or (FB- & BD+);
+
+% C
+"bird" "extremity" "fish":
+(GC- & CD+);
+
+% D
+".":
+(BD-) or (CD-);
+
+% E
+"LEFT-WALL":
+(EB+);
+
+% F
+"has":
+(BF- & FB+);
+
+% G
+"isa":
+(BG- & GC+);
+
+<UNKNOWN-WORD>: XXX+;
+
+% 6 word clusters, 6 Link Grammar rules.
+% Link Grammar file saved to: /home/obaskov/py/language-learning/output/test_grammar_learner_2018-09-29/turtle_lw_&_dot_generalized_categories_and_rules/dict_6C_2018-09-29_0006.4.0.dict

@@ -2,7 +2,7 @@ import re
 import sys
 from linkgrammar import LG_DictionaryError, LG_Error, ParseOptions, Dictionary, Sentence
 
-from .optconst import *
+from ..common.optconst import *
 from ..common.parsemetrics import ParseMetrics, ParseQuality
 from .parsestat import parse_metrics, parse_quality
 from .psparse import parse_postscript, prepare_tokens, get_link_set
@@ -103,8 +103,7 @@ class LGApiParser(AbstractFileParserClient):
 
                     elif not (options & BIT_OUTPUT):
 
-                        tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options,
-                                                         output_file_handle)
+                        tokens, links = parse_postscript(linkage.postscript().replace("\n", ""), options)
 
                         # Print ULL formated parses
                         print_output(tokens, links, options, output_file_handle)

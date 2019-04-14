@@ -26,7 +26,7 @@
 "tuna" "herring" "parrot" "eagle":
 (C66C61+) or (C66C62+);
 
-UNKNOWN-WORD: XXX+;
+<UNKNOWN-WORD>: XXX+;
 
 % 6 word clusters, 6 Link Grammar rules.
 % Link Grammar file saved to: /home/obaskov/language-learning/output/Turtle-4-2018-03-14/poc-turtle_6C_2018-03-15_0007.4.0.dict

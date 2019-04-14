@@ -1,0 +1,52 @@
+% Grammar Learner v.0.6 2018-10-21 08:33:45 UTC
+<dictionary-version-number>: V0v0v6+;
+<dictionary-locale>: EN4us+;
+
+% B
+"bird":
+(KB- & CB-);
+
+% C
+"eagle" "parrot":
+(CB+) or (CM+);
+
+% D
+"extremity":
+(KD- & FD-) or (KD- & MD-);
+
+% E
+"feather":
+(HE- & ME-);
+
+% F
+"fin":
+(FD+) or (FL+) or (HF- & JF-);
+
+% G
+"fish":
+(KG- & JG-);
+
+% H
+"has":
+(HE+) or (HF+) or (HL+) or (HM+);
+
+% J
+"herring" "tuna":
+(JF+) or (JG+);
+
+% K
+"isa":
+(KB+) or (KD+) or (KG+);
+
+% L
+"scale":
+(HL- & FL-);
+
+% M
+"wing":
+(HM- & CM-) or (MD+) or (ME+);
+
+<UNKNOWN-WORD>: XXX+;
+
+% 11 word clusters, 11 Link Grammar rules.
+% Link Grammar file saved to: /home/obaskov/py/language-learning/output/POC-Turtle-2018-10-21/POC-Turtle_R=6-Weight=1-no-mst-weighting_dILEd_no-LW_no-RW_no-gen/dict_11C_2018-10-21_0006.4.0.dict

@@ -1,10 +1,15 @@
 #language-learning/src/grammar_learner/kmeans.py POC.0.5 80725 as-was tmp
+import logging
 import numpy as np
 import pandas as pd
+from sklearn.cluster import KMeans
+from sklearn.metrics import pairwise_distances, silhouette_score
+from statistics import mode
+from .utl import round1, round2, round3
+# -from kmeans import cluster_words_kmeans   #this module
+
 
 def cluster_words_kmeans(words_df, n_clusters):
-    from sklearn.cluster import KMeans
-    from sklearn.metrics import pairwise_distances, silhouette_score
     words_list = words_df['word'].tolist()
     df = words_df.copy()
     del df['word']
@@ -36,17 +41,18 @@ def cluster_words_kmeans(words_df, n_clusters):
 
 def number_of_clusters(vdf, cluster_range, algorithm='kmeans', \
         criteria='silhouette', level=0.9, verbose='none'):
-    from statistics import mode
-    from utl import round1, round2, round3
-    #-from kmeans import cluster_words_kmeans   #this module
+
+    logger = logging.getLogger(__name__ + ".number_of_clusters")
 
     if(len(cluster_range) < 2 or cluster_range[2] < 1):
         return cluster_range[0]
 
     sil_range = pd.DataFrame(columns=['Np','Nc','Silhouette','Inertia'])
-    if verbose == 'debug':
-        print('clustering/poc.py/number_of_clusters: vdf:\n', \
-            vdf.applymap(round2).sort_values(by=[1,2], ascending=[True,True]))
+    # if verbose == 'debug':
+    #     print('clustering/poc.py/number_of_clusters: vdf:\n', \
+    #         vdf.applymap(round2).sort_values(by=[1,2], ascending=[True,True]))
+    logger.debug('clustering/poc.py/number_of_clusters: vdf:\n{}'.format(
+        vdf.applymap(round2).sort_values(by=[1,2], ascending=[True,True])))
 
     # Check number of clusters <= word vector dimensionality
     max_clusters = min(cluster_range[1], len(vdf), \
@@ -54,11 +60,14 @@ def number_of_clusters(vdf, cluster_range, algorithm='kmeans', \
     #?if max([x for x in list(vdf) if isinstance(x,int)]) < cluster_range[0]+1:
     #?    max_clusters = min(cluster_range[1], len(vdf))  #FIXME: hack 80420!
     if max([x for x in list(vdf) if isinstance(x,int)]) == 2:
-        if verbose in ['max','debug']: print('2 dim word space -- 4 clusters')
+        # if verbose in ['max','debug']: print('2 dim word space -- 4 clusters')
+        logger.info('2 dim word space -- 4 clusters')
         return 4  #FIXME: hack 80420!
 
-    if verbose in ['max', 'debug']:
-        print('number_of_clusters: max_clusters =', max_clusters)
+    # if verbose in ['max', 'debug']:
+    #     print('number_of_clusters: max_clusters =', max_clusters)
+    logger.info('number_of_clusters: max_clusters = {}'.format(max_clusters))
+
     n_clusters = max_clusters   #80623: cure case max < range.min
 
     #FIXME: unstable number of clusters #80422
@@ -67,8 +76,10 @@ def number_of_clusters(vdf, cluster_range, algorithm='kmeans', \
     for k in range(attempts):
         for i,j in enumerate(range(cluster_range[0], max_clusters, cluster_range[2])):
             cdf, silhouette, inertia = cluster_words_kmeans(vdf, j)
-            if verbose in ['debug']:
-                print(j, 'clusters ⇒ silhouette =', silhouette)
+            # if verbose in ['debug']:
+            #     print(j, 'clusters ⇒ silhouette =', silhouette)
+            logger.debug(f'{j} clusters ⇒ silhouette = {silhouette}')
+
             sil_range.loc[i] = [j, len(cdf), round(silhouette,4), round(inertia,2)]
             if level > 0.9999:   # 1 - max Silhouette index
                 n_clusters = sil_range.loc[sil_range['Silhouette'].idxmax()]['Nc']
@@ -92,9 +103,11 @@ def number_of_clusters(vdf, cluster_range, algorithm='kmeans', \
         else: n3 = n_clusters
         n_clusters = int(round((n_clusters + n2 + n3)/3.0, 0))
 
-    if verbose in ['max', 'debug']:
-        if len(dct) > 1:
-            print('Clusters:', sorted(lst), '⇒', n_clusters)
+    # if verbose in ['max', 'debug']:
+    #     if len(dct) > 1:
+    #         print('Clusters:', sorted(lst), '⇒', n_clusters)
+    if len(dct) > 1:
+        logger.info(f'Clusters: {sorted(lst)} ⇒ {n_clusters}')
     return int(n_clusters)
 
 

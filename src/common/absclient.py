@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+from typing import List, Set, Tuple, Optional, Union
 
 """
     Abstract classes for service client definitions.
@@ -9,7 +10,8 @@ from .parsemetrics import ParseMetrics, ParseQuality
 
 
 __all__ = ['DashboardError', 'AbstractDashboardClient', 'AbstractConfigClient', 'AbstractGrammarTestClient',
-           'AbstractFileParserClient', 'AbstractStatEventHandler']
+           'AbstractFileParserClient', 'AbstractStatEventHandler', 'AbstractPipelineComponent',
+           'AbstractProgressClient']
 
 DASH_UPDATE_PARSEABILITY = 1
 DASH_UPDATE_PARSEQUALITY = 2
@@ -67,13 +69,26 @@ class AbstractConfigClient(metaclass=ABCMeta):
         pass
 
 
+class AbstractProgressClient(metaclass=ABCMeta):
+    """
+    Base class for progress reporting client
+    """
+    @abstractmethod
+    def update(self, increment: int) -> None:
+        pass
+
+    @abstractmethod
+    def set_total(self, total: int) -> None:
+        pass
+
+
 class AbstractGrammarTestClient(metaclass=ABCMeta):
     """
     Base class responsible for induced grammar testing.
     """
     @abstractmethod
-    def test(self, dict_path: str, corpus_path: str, output_path: str, reference_path: str, options: int) \
-            -> (ParseMetrics, ParseQuality):
+    def test(self, dict_path: str, corpus_path: str, output_path: str, reference_path: str, options: int,
+             progress: AbstractProgressClient = None) -> (ParseMetrics, ParseQuality):
         pass
 
 
@@ -82,8 +97,8 @@ class AbstractFileParserClient(metaclass=ABCMeta):
     Base class for parsers
     """
     @abstractmethod
-    def parse(self, dict_path: str, corpus_path: str, output_path: str, ref_file: str, options: int) \
-            -> (ParseMetrics, ParseQuality):
+    def parse(self, dict_path: str, corpus_path: str, output_path: str, ref_file: str, options: int,
+              progress: AbstractProgressClient = None, **kwargs) -> (ParseMetrics, ParseQuality):
         pass
 
 
@@ -94,3 +109,58 @@ class AbstractStatEventHandler(metaclass=ABCMeta):
     @abstractmethod
     def on_statistics(self, nodes: list, metrics: ParseMetrics, quality: ParseQuality) -> None:
         pass
+
+
+class AbstractPipelineComponent(metaclass=ABCMeta):
+    """
+    Base class for pipe line components
+    """
+    @abstractmethod
+    def validate_parameters(self, **kwargs) -> bool:
+        """ This is a place holder for parameter checking and validation. Exceptions should not be generated in case
+            of invalid parameter in order to let other components to check their parameters during a single run. The
+            method should check all of the parameters print error messages and return False if at least one parameter
+            is invalid.
+        """
+        pass
+
+    @abstractmethod
+    def run(self, **kwargs) -> dict:
+        """ Run component execution. In case of severe errors exceptions should be raised to stop pipeline execution """
+        pass
+
+
+class AbstractSerializer(metaclass=ABCMeta):
+    """
+    Base class for serialization to be used by LG parsers
+    """
+    @abstractmethod
+    def open(self):
+        """ Open data storage """
+        pass
+
+    @abstractmethod
+    def close(self):
+        """ Close data storage """
+        pass
+
+    @abstractmethod
+    def read(self):
+        """ Read a single record/datum """
+        pass
+
+    @abstractmethod
+    def write(self, record):
+        """ Write a single record/datum """
+        pass
+
+    @abstractmethod
+    def load(self):
+        """ Deserialize data from a storage """
+        pass
+
+    @abstractmethod
+    def dump(self, data_structure):
+        """ Serialize data to a storage """
+        pass
+

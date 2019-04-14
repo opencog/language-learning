@@ -1,0 +1,9 @@
+{
+  "#test_date": "2018-01-23 ~12:07",
+  "reference": "/data/CDS/LG-E-clean/CDS-LG-English-clean.ull",
+  "input_grammar": "/output/Child-Directed-Speech-2019-01-19/CDS_LG-E-551_cDRKc_no-gen",
+  "out_path": "/output/GT-CDS-2019-01-19/CDS_LG-E-551_cDRKc_no-gen",
+  "tmpath": "/tmp",
+  "verbose": "max",
+  "linkage_limit": 1000
+}

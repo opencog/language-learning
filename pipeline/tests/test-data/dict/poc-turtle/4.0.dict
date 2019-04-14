@@ -1,0 +1,32 @@
+% POC-Turtle grammar modified to support partial parses 2018-03-12
+
+<dictionary-version-number>: V0v0v4+;
+<dictionary-locale>: EN4us+;
+
+% Subjects
+"tuna.sff" "herring.sff":	(Wa- & Sff+); 
+"eagle.sbb" "parrot.sbb":	(Wa- & Sbb+);
+"fin.sfx":			(Wa- & Sfx+);
+"wing.sbx":			(Wa- & Sbx+);
+
+% Category Objects
+"fish.of":			(Of-);
+"bird.ob":			(Ob-);
+"extremity.oxx":		(Oxx-);
+
+% Extremity Objects
+"fin.ofx":			(Ofx-);
+"wing.obx":			(Obx-);
+
+% Extremity Attribute Objects
+"scale.oxf":			(Oxf-);
+"feather.oxb":			(Oxb-);
+
+"isa":				({Sff-} & WV- & {Of+})  or ({Sbb-} & WV- & {Ob+})  or ({(Sfx- or Sbx-)} & WV- & {Oxx+});
+"has":				({Sff-} & WV- & {Ofx+}) or ({Sbb-} & WV- & {Obx+}) or ({Sfx-} & WV- & {Oxf+}) or ({Sbx-} & WV- & {Oxb+});
+
+".": Xp-;
+
+LEFT-WALL: {Wa+} & {WV+} & {Xp+};
+
+UNKNOWN-WORD: XXX+;

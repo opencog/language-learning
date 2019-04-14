@@ -1,0 +1,7 @@
+{
+  "corpus": "CDS",
+  "dataset": "LG-English",
+  "input_parses": "/data/CDS/LG-E-551",
+  "input_grammar": "/output/Child-Directed-Speech-2019-01-25/CDS_LG-E-551_dDRKd_gen-rules/dict_34C_2019-01-25_0006.4.0.dict",
+  "out_path": "/output/_category_tagger_test_CDS-LG-E-551"
+}

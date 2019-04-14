@@ -23,6 +23,9 @@ class JsonFileConfigManager(AbstractConfigClient):
             with open(self._file_path, "r") as json_data_file:
                 self._data = json.load(json_data_file)
 
+        if comp_name is None or len(comp_name) == 0:
+            return self._data
+
         for cfg in self._data:
             if cfg["component"] == comp_name:
                 return cfg['parameters']

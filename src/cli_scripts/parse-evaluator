@@ -33,16 +33,17 @@ def main(argv):
         # word1 # word2
         ...
 
-        Usage: parse_evaluator -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a]
+        Usage: parse_evaluator -r <reffile> -t <testfile> [-v] [-i] [-s] [-z] [-a] [-o]
 
         testfile        file with parses to evaluate
-        goldfile        file with reference (gold standard) parses
+        reffile         file with reference (gold standard) parses
         -v              Verbosity level options: [none, debug, info, warning, error, critical]
         -i              ignore LEFT-WALL and end-of-sentence dot, if any
         -a              use alternative parse_evaluator
         -s              evaluate sequential parses (only in alternative evaluator)
         -z              evaluate random parses (only in alternative evaluator)
         -f              filter sentences not matching in ref and test, or have internal dialogue (only in alternative)
+        -o              compare tokenization between two given parse files. Output file with diffs
 
     """
     test_file = ''
@@ -54,16 +55,17 @@ def main(argv):
     random = False
     alternative_parser = False
     filter_sentences = False
+    compare_tokenization = False
 
     try:
         app_name = str(os.path.split(__file__)[1]).split(".")[0]
 
-        opts, args = getopt.getopt(argv, "ht:r:v:iszaf", ["test=", "reference=", "verbosity=", "ignore", "sequential",
-                                                         "random", "alternative", "filter"])
+        opts, args = getopt.getopt(argv, "ht:r:v:iszafo", ["test=", "reference=", "verbosity=", "ignore", "sequential",
+                                                         "random", "alternative", "filter", "tokenization"])
 
         for opt, arg in opts:
             if opt == '-h':
-                print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s] [-z] [-a] [-f]")
+                print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s] [-z] [-a] [-f] [-o]")
                 sys.exit()
             elif opt in ("-t", "--test"):
                 test_file = arg
@@ -87,9 +89,11 @@ def main(argv):
                 alternative_parser = True
             elif opt in ("-f", "--filter"):
                 filter_sentences = True
+            elif opt in ("-o", "--tokenization"):
+                compare_tokenization = True
 
     except getopt.GetoptError:
-        print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a] [-f]")
+        print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a] [-f] [-o]")
         sys.exit(2)
 
 
@@ -115,7 +119,7 @@ def main(argv):
             raise EvalError("Error: Incorrect test_file.")
 
         if alternative_parser:
-            Evaluate_Alternative(ref_file, test_file, verbose, ignore_wall, sequential, random, filter_sentences)
+            Evaluate_Alternative(ref_file, test_file, verbose, ignore_wall, sequential, random, filter_sentences, compare_tokenization)
 
         else:
             compare_ull_files(test_file, ref_file, verbose, ignore_wall)

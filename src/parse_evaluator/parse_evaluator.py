@@ -204,7 +204,9 @@ def Make_Random(sents):
 def Compare_Tokenization(ref_sentences, test_sentences):
     """
         Compares tokenization differences between parse files. Ignores caps
-        and LG-unparsed (bracketed) tokens
+        and LG-unparsed (bracketed) tokens.
+        Writes tok_diff.txt file with sentences that have different tokenization, and
+        shows the different tokens
     """
     with open("tok_diff.txt", "w") as ft:
         for ref_sent, test_sent in zip(ref_sentences, test_sentences):
@@ -223,11 +225,10 @@ def Compare_Tokenization(ref_sentences, test_sentences):
             if new_ref != new_test:
                 set_ref = set(new_ref)
                 set_test = set(new_test)
-                ft.write("Sentence Differs:\n{}\nin tokens:{}---{}\n".format(" ".join(ref_sent), set_ref - set_test, set_test - set_ref))
+                ft.write("Sentence Differs:\n{}\nin tokens:{}<--->{}\n".format(" ".join(ref_sent), set_ref - set_test, set_test - set_ref))
 
-def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag, filter_sentences):
+def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag, filter_sentences, compare_tokenization):
 
-    compare_tokenization=True # temporarily run comparison always
     ref_data = Load_File(ref_file)
     ref_parses, ref_sents = Get_Parses(ref_data) 
     if sequential:

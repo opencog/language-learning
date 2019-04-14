@@ -225,7 +225,33 @@ def Make_Random(sents):
 
     return random_parses
 
-def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag, filter_sentences):
+def Compare_Tokenization(ref_sentences, test_sentences):
+    """
+        Compares tokenization differences between parse files. Ignores caps
+        and LG-unparsed (bracketed) tokens.
+        Writes tok_diff.txt file with sentences that have different tokenization, and
+        shows the different tokens
+    """
+    with open("tok_diff.txt", "w") as ft:
+        for ref_sent, test_sent in zip(ref_sentences, test_sentences):
+            new_ref = []
+            new_test = []
+            for token_ref in ref_sent:
+                token_ref = token_ref.lower()
+                if token_ref[0] == "[" and token_ref[-1] == "]":
+                    token_ref = token_ref[1:-1]
+                new_ref.append(token_ref)
+            for token_test in test_sent:
+                token_test = token_test.lower()
+                if token_test[0] == "[" and token_test[-1] == "]":
+                    token_test = token_test[1:-1]
+                new_test.append(token_test)
+            if new_ref != new_test:
+                set_ref = set(new_ref)
+                set_test = set(new_test)
+                ft.write("Sentence Differs:\n{}\nin tokens:{}<--->{}\n".format(" ".join(ref_sent), set_ref - set_test, set_test - set_ref))
+
+def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag, filter_sentences, compare_tokenization):
 
     ref_data = Load_File(ref_file)
     ref_parses, ref_sents = Get_Parses(ref_data) 
@@ -240,4 +266,8 @@ def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, 
         test_parses, test_sents = Get_Parses(test_data) 
     if len(test_parses) != len(ref_parses):
         sys.exit("ERROR: Number of parses differs in files: ", len(test_parses), ", ", len(ref_parses))
+    if compare_tokenization:
+        print("Comparing tokenization only...")
+        Compare_Tokenization(ref_sents, test_sents)
+        return # exit
     Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore_WALL, filter_sentences)

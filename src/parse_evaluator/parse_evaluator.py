@@ -243,6 +243,7 @@ def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, 
     if len(test_parses) != len(ref_parses):
         sys.exit("ERROR: Number of parses differs in files: ", len(test_parses), ", ", len(ref_parses))
     if compare_tokenization:
+        print("Comparing tokenization only...")
         Compare_Tokenization(ref_sents, test_sents)
         return # exit
     Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore_WALL, filter_sentences)

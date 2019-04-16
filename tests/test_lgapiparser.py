@@ -31,6 +31,9 @@ class LGAPITestCase(unittest.TestCase):
         m1, q1 = lgp.parse(dict, corp, outp, reff, options)
         m2, q2 = api.parse(dict, corp, outp, reff, options)
 
+        print(f"q1=\n{q1.parse_quality_str(q1)}\n")
+        print(f"q2=\n{q2.parse_quality_str(q2)}\n")
+
         self.assertTrue(m1 == m2)
         self.assertTrue(q1 == q2)
 

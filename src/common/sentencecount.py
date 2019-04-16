@@ -1,5 +1,5 @@
 from subprocess import PIPE, Popen
-from ..common.sedcommands import *
+from .sedcommands import *
 
 
 __all__ = [

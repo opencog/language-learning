@@ -404,7 +404,7 @@ def get_sentence_text(text: str) -> str:
     Retrieve echoed sentence from postscript notated parse string.
 
     :param text:    Postscript notated string variable.
-    :return:        List of splitted postscript parses.
+    :return:        Echoed sentence.
     """
     pos = text.find("No complete linkages found.")
 

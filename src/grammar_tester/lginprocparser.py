@@ -408,6 +408,8 @@ class LGInprocParser(AbstractFileParserClient):
 
             lgp_cmd = get_linkparser_command(options, dict_path, self._linkage_limit, self._timeout, self._lg_verbosity)
 
+            self._logger.debug(str(lgp_cmd))
+
             out_stream = sys.stdout if output_path is None \
                 else open(output_path+get_output_suffix(options), "w", encoding="utf-8")
 

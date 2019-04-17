@@ -87,6 +87,9 @@ class LGInprocParser(AbstractFileParserClient):
                 # Get echoed sentence out of postscript output parse
                 sentence = get_sentence_text(sent)
 
+                # If sentence is not found in the output stream then check if the next bulk of text is another linkage
+                #   of the same sentence. Otherwise exception is in order.
+
                 # Get postscript starting position after parsing LG error and warning messages
                 post_start, post_errors = skip_linkage_header(sent)
 

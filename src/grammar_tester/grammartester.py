@@ -60,13 +60,6 @@ DICT_ARG_OUTP = 2
 DICT_ARG_REFF = 3
 
 
-# def print_execution_time(title: str, duration):
-#     hours = int(duration / 3600)
-#     minutes = int((duration - hours * 3600) / 60)
-#     seconds = duration % 60
-#     print("{}: {}h {}m {}s".format(title, hours, minutes, seconds))
-
-
 class GrammarTester(AbstractGrammarTestClient):
 
     def __init__(self, grmr: str, tmpl: str, limit: int, parser: AbstractFileParserClient,

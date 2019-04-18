@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/pparser.py                      # 190325
+# language-learning/src/grammar_learner/pparser.py                      # 190410
 import logging
 import pandas as pd
 from .corpus_stats import corpus_stats
@@ -42,8 +42,7 @@ def mst2connectors(lines, **kwargs):
 def mst2disjuncts(lines, **kwargs):
     lw = kwa('', 'left_wall', **kwargs)
     dot = kwa(False, 'period', **kwargs)
-    if len(lines[-1]) > 0:
-        lines.append([])
+    if len(lines[-1]) > 0: lines.append([])
     pairs = []
     links = dict()
     words = dict()
@@ -195,8 +194,6 @@ def filter_lines(lines, **kwargs):                                      # 90216
     # TODO: logger = logging.getLogger(__name__ + ".filter_lines")
     max_sentence_length = kwa(99, 'max_sentence_length', **kwargs) + 1
     max_unparsed_words = kwa(0, 'max_unparsed_words', **kwargs) + 1
-    #-print(f'filter lines: max_sentence_length {max_sentence_length}, '
-    #-      f'max_unparsed_words {max_unparsed_words}')
     if lines[-1] != '': lines.append('')
     filtered_lines = []   # list of lines to return
     parsed_sentence = []  # list of lines: sentence + parses
@@ -220,8 +217,8 @@ def filter_lines(lines, **kwargs):                                      # 90216
             if len(x) > 0:  # else:  # new sentence:
                 parsed_sentence = [line]
                 if x[-1] == '.': x = x[:-1]
-                parsed_words = set([i+1 for i, y in enumerate(x)
-                                    if y[0] != '[' and y[-1] != ']'])
+                parsed_words = set([i+1 for i, w in enumerate(x)
+                                    if w[0] != '[' and w[-1] != ']'])
                 non_parsed_words = len(x) - len(parsed_words)
                 linked_words = set()
             else: continue
@@ -229,13 +226,16 @@ def filter_lines(lines, **kwargs):                                      # 90216
     return filtered_lines, corpus_stats(filtered_lines)
 
 
-def lines2links(lines, **kwargs):                                       # 90217
+def lines2links(lines, **kwargs):                                       # 190410
     # TODO: logger = logging.getLogger(__name__ + "lines2links")
     context = kwa(2, 'context', **kwargs)
     group = True  # always? » kwa(True, 'group', **kwargs)? FIXME:DEL?
-    #-print(f'lines2links: {len(lines)} unfiltered lines')
+
     lines, re = filter_lines(lines, **kwargs)
-    #-print(f'lines2links: {len(lines)} filtered lines')
+    if len(lines) < 1:                                                  # 190410
+        df = pd.DataFrame(columns=['word','link'])
+        return df, {'filter_lines_error': 'empty_filtered_set'}
+
     # df = pd.DataFrame(columns=['word', 'link', 'count'])
     if context > 1:  # ddf - disjuncts DataFrame
         df = mst2disjuncts(lines, **kwargs)[['word', 'link', 'count']]
@@ -290,5 +290,6 @@ def lines2links(lines, **kwargs):                                       # 90217
 # 80829 files2links: Average, max disjunct lengths
 # 81024 line 24: cure case of MST parses file last line not ending with CR
 # 81231 cleanup
-# 90217 filter_lines, lines2links
-# 190325 `== 4` » `in [4, 5]` :: allow for parses with addded "statistical information"
+# 190217 filter_lines, lines2links
+# 190325 `== 4` » `in [4, 5]` :: allow for parses with added "statistical information"
+# 190410 lines2links: check length of filtered dataset > 0

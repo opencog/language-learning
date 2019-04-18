@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/incremental_clustering.py       # 90201
+# language-learning/src/grammar_learner/incremental_clustering.py       # 190409
 import sys, time, getopt, os, platform, json, traceback, logging
 from copy import copy
 from shutil import copy2 as file_copy
@@ -26,8 +26,9 @@ def dict2dict(d):                                                       # 90205
             label = str(d[i].split()[1]).lower()                        # 90201
             for word in d[i + 1][:-1].split():
                 dct.update({word[1:-1]: label})  # 90128 v.0 + 90205:
-                dct.update({word[1:-1].replace('.', '@'): label})       # 90205
-                # '@' in tokens is replaced with '.' while learning grammar
+                # dct.update({word[1:-1].replace('.', '@'): label})     # 190408
+                # '@' is replaced with '.' while learning grammar (WSD)
+                # 190408: WSD ⇒ optional, not to be used soon ⇒ snooze...
     return dct
 
 
@@ -355,7 +356,8 @@ def new_pqa_meter(dict_path, op, cp, rp, **kwargs):  # TODO
 
 # Comments:
 
-# 90129-30 dict2dict, tag_cats, tag_files » pipeline/category_tagger
+# 1901 29-30 dict2dict, tag_cats, tag_files » pipeline/category_tagger
+# 190409 WSD off: [x] dct.update({word[1:-1].replace('.', '@'): label})
 '''ATTN: This is still a stub result of 2 days idea check'''
 # FIXME: There is an issue somewhere in tagging or filtering or input parses
 #  - tagged dictionaries contain non-tagged words

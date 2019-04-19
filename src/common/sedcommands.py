@@ -30,11 +30,6 @@ def get_sed_cmd_common_part(options: int) -> list:
     """
     return ["sed", "-Ee", get_sed_regex(options)]
 
-# grep -Pv '(?:^$)|(?:^\d+\s+.+\s+\d+(?:\s+.+){1,2}$)' pg27567.txt.ull | wc -l
-#  sed -En '/(^$)|(^([0-9]+[[:space:]]+.+){2}$)/!p' pg27567.txt.ull | wc -l
-#  sed -En '/(^$)|(^([0-9]+[[:space:]]+.+){2}([[:space:]]+[-+0-9.e]+)?$)/!p' pg27567.txt.ull | wc -l
-#  sed -Ee '/((^$)|(^([0-9]+[[:space:]]+.+){2}([[:space:]]+[-+0-9.e]+)?$))/d;s/.*/\L&/g' pg27567.txt.ull | wc -l
-
 
 # def get_sed_regex(options: int) -> str:
 #

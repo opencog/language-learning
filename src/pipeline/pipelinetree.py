@@ -229,24 +229,23 @@ def build_tree(config: List, globals: dict, first_char="%") -> List[PipelineTree
                 # Only if the previous component path should be followed
                 if parent._parameters.get("follow_exec_path", True):
 
-                    for specific in spec:
+                    for count, specific in enumerate(spec):
 
                         # Create parameter and environment dictionaries
                         parameters, environment = prepare_parameters(
                             parent, comm, specific,
-                            {**globals, **{"RPREV": parent._environment["RLEAF"], "PREV": parent._environment["LEAF"]}},
-                            first_char, len(spec) > 1)
+                            {**globals, **{"RPREV": parent._environment["RLEAF"], "PREV": parent._environment["LEAF"]},
+                             **{"RUN_COUNT": count + 1}}, first_char, len(spec) > 1)
 
                         children.append(PipelineTreeNode2(level, name, parameters, environment, parent))
 
         else:
             for count, specific in enumerate(spec):
 
-                # Extend environment with more variable
-                env = {**globals, **{"RUN_COUNT": count + 1}}
-
                 # Create parameter and environment dictionaries
-                parameters, environment = prepare_parameters(None, comm, specific, env, first_char, len(spec) > 1)
+                parameters, environment = prepare_parameters(None, comm, specific,
+                                                             {**globals, **{"RUN_COUNT": count + 1}},
+                                                             first_char, len(spec) > 1)
 
                 children.append(PipelineTreeNode2(level, name, parameters, environment, None))
 

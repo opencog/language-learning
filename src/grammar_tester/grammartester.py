@@ -12,7 +12,7 @@ from ..common.parsemetrics import ParseMetrics, ParseQuality
 from ..common.fileconfman import JsonFileConfigManager
 from ..common.cliutils import handle_path_string, strip_quotes
 from ..common.textprogress import TextProgress
-from ..common.sentencecount import get_sentence_count
+from ..common.sentencecount import get_sentence_count, get_corpus_sentence_count
 from ..common.tokencount import *
 from .textfiledashb import TextFileDashboardConf  #, HTMLFileDashboard
 
@@ -240,9 +240,6 @@ class GrammarTester(AbstractGrammarTestClient):
 
         self._total_dicts += 1
 
-    def _on_sentence_count(self, file: str, args: list) -> None:
-        self._total_sentences += get_sentence_count(file, self._options)
-
     def test(self, dict_path: str, corpus_path: str, output_path: str, reference_path: str, options: int,
              progress: AbstractProgressClient=None, **kwargs) -> (ParseMetrics, ParseQuality):
         """
@@ -285,14 +282,8 @@ class GrammarTester(AbstractGrammarTestClient):
         if dict_path == output_path:
             self._options &= (~BIT_DPATH_CREATE)
 
-        # Count total number of sentences in all corpus files
-        self._total_sentences = 0
-
-        if self._is_dir_corpus:
-            traverse_dir_tree(corpus_path, "", [self._on_sentence_count], None, True)
-
-        else:
-            self._total_sentences = get_sentence_count(corpus_path, options)
+        # Count total number of sentences across all corpus files
+        self._total_sentences = get_corpus_sentence_count(corpus_path, self._options)
 
         cnt_path = self._test_kwargs.get(CONF_WORD_CNT_PATH, None)
 
@@ -312,7 +303,7 @@ class GrammarTester(AbstractGrammarTestClient):
         elif progress is not None:
             self._progress = progress
 
-        start_time = time()
+        # start_time = time()
 
         # Arguments for callback functions
         parse_args = [dict_path, corpus_path, output_path, reference_path]

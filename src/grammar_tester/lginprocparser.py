@@ -134,7 +134,7 @@ class LGInprocParser(AbstractFileParserClient):
         # The sentence is considered invalid if any of the sentence tokens appears less then 'min_word_count' times.
         for token in tokens:
             if not token.startswith(r"###") and self._token_counts.get(token, 0) < self._min_word_count:
-                self._logger.debug(f"{token}")
+                # self._logger.debug(f"{token}")
                 return False
 
         return True
@@ -215,7 +215,7 @@ class LGInprocParser(AbstractFileParserClient):
                 # Calculate parse ability etc.
                 total_metrics += parse_metrics(prepared)
 
-                self._logger.debug(prepared)
+                # self._logger.debug(prepared)
 
                 # Calculate parse quality if the option is set
                 if (options & BIT_PARSE_QUALITY) and len(ref_parses):
@@ -362,7 +362,7 @@ class LGInprocParser(AbstractFileParserClient):
                     self._lg_version >= "5.5.0" and dict_ver < "5.5.0"):
                 raise LGParseError(f"Wrong dictionary version: {dict_ver}, expected: {self._lg_version}")
 
-        self._logger.debug(kwargs)
+        # self._logger.debug(kwargs)
 
         # Issue #184 modifications
         stop_tokens = kwargs.get("stop_tokens", None)

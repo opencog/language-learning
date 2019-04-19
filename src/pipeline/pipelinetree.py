@@ -1,6 +1,13 @@
-import os
 import logging
-from typing import Dict, List, Any, Union, Callable, NewType
+from typing import Dict, List, Any, Union, Callable, NewType, Optional
+from time import time
+
+import os
+# from ..common.absclient import AbstractPipelineComponent
+from ..common.cliutils import handle_path_string
+from ..common.optconst import *
+from ..common.tokencount import *
+
 
 from ..common.absclient import AbstractPipelineComponent
 from ..grammar_tester.grammartester import GrammarTesterComponent
@@ -10,15 +17,22 @@ from ..dash_board.textdashboard import TextFileDashboardComponent
 from .varhelper import get_path_from_dict, subst_variables_in_str, subst_variables_in_dict, subst_variables_in_dict2
 from .pipelinetreenode import PipelineTreeNode2
 from .pipelineexceptions import *
-
+# from . import PathCreatorComponent, TokenCounterComponent
 
 __all__ = ['build_tree', 'run_tree', 'check_config']
 
 
 logger = logging.getLogger(__name__)
 
+PARAM_INPUT_PATH            = 'input_path'
+PARAM_OUTPUT_PATH           = 'output_path'
+
 
 class PathCreatorComponent(AbstractPipelineComponent):
+    """
+    Path Creator Component responsible for creating directory structures
+
+    """
     def __init__(self):
         pass
 
@@ -38,12 +52,57 @@ class PathCreatorComponent(AbstractPipelineComponent):
         return {"path": path}
 
 
+class TokenCounterComponent(AbstractPipelineComponent):
+    """
+    Token Counter Component is responsible for counting token appearances in the corpus.
+
+    """
+    def __init__(self, **kwargs):
+        # check_kwargs(**kwargs)
+        pass
+
+    def validate_parameters(self, **kwargs):
+        """ Validate configuration parameters """
+        ret_val = True
+
+        if kwargs.get(PARAM_INPUT_PATH, None) is None:
+            print("Error: parameter '{}' is not specified.".format(PARAM_INPUT_PATH))
+            ret_val = False
+
+        if kwargs.get(PARAM_OUTPUT_PATH, None) is None:
+            print("Error: parameter '{}' is not specified.".format(PARAM_OUTPUT_PATH))
+            ret_val = False
+
+        return ret_val
+
+    def run(self, **kwargs):
+        """ Execute component code """
+
+        options = get_options(kwargs)
+
+        input_path = kwargs.get(PARAM_INPUT_PATH, None)
+
+        if input_path:
+            input_path = handle_path_string(input_path)
+
+        output_path = kwargs.get(PARAM_OUTPUT_PATH, None)
+
+        if output_path:
+            output_path = handle_path_string(output_path)
+
+        # Run Token Counter
+        dump_token_counts(input_path, output_path, options)
+
+        return {}
+
+
 PIPELINE_COMPONENTS = {
     "path-creator": PathCreatorComponent,
     "grammar-tester": GrammarTesterComponent,
     "grammar-learner": GrammarLearnerComponent,
     "text-parser": TextParserComponent,
-    "dash-board": TextFileDashboardComponent
+    "dash-board": TextFileDashboardComponent,
+    "token-counter": TokenCounterComponent
 }
 
 
@@ -67,9 +126,9 @@ def get_component(name: str, params: dict) -> AbstractPipelineComponent:
     except KeyError:
         raise Exception("Error: '{}' is not a valid pipeline component name.".format(name))
 
-    except Exception as err:
-        logger.error(str(type(err)) + ": " + str(err))
-        raise err
+    # except Exception as err:
+    #     logger.error(str(type(err)) + ": " + str(err))
+    #     raise err
 
 
 def single_proc_exec(node: PipelineTreeNode2) -> None:
@@ -138,8 +197,8 @@ def handle_request(node: PipelineTreeNode2, req: dict) -> None:
     return getattr(inst, meth)(**req)
 
 
-def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, environment: dict, first_char="%",
-                       create_sub_dir: bool=True) -> (dict, dict):
+def prepare_parameters(parent: Optional[PipelineTreeNode2], common: dict, specific: dict, environment: dict,
+                       first_char="%", create_sub_dir: bool=True) -> (dict, dict):
     """
     Create built-in variables (PREV, RPREV, LEAF, RLEAF), substitute variables, starting with '%'
         with their real values.
@@ -170,7 +229,6 @@ def prepare_parameters(parent: PipelineTreeNode2, common: dict, specific: dict, 
 
     # Get subdir path based on specific parameters if requested
     rleaf = get_path_from_dict(non_path, "_") if create_leaf else ""
-    # rleaf = get_path_from_dict(non_path, "_") if create_sub_dir else ""
 
     logger.debug("RLEAF: " + rleaf)
 
@@ -229,21 +287,23 @@ def build_tree(config: List, globals: dict, first_char="%") -> List[PipelineTree
                 # Only if the previous component path should be followed
                 if parent._parameters.get("follow_exec_path", True):
 
-                    for specific in spec:
+                    for count, specific in enumerate(spec):
 
                         # Create parameter and environment dictionaries
                         parameters, environment = prepare_parameters(
                             parent, comm, specific,
-                            {**globals, **{"RPREV": parent._environment["RLEAF"], "PREV": parent._environment["LEAF"]}},
-                            first_char, len(spec) > 1)
+                            {**globals, **{"RPREV": parent._environment["RLEAF"], "PREV": parent._environment["LEAF"]},
+                             **{"RUN_COUNT": count + 1}}, first_char, len(spec) > 1)
 
                         children.append(PipelineTreeNode2(level, name, parameters, environment, parent))
 
         else:
-            for specific in spec:
+            for count, specific in enumerate(spec):
 
                 # Create parameter and environment dictionaries
-                parameters, environment = prepare_parameters(None, comm, specific, globals, first_char, len(spec) > 1)
+                parameters, environment = prepare_parameters(None, comm, specific,
+                                                             {**globals, **{"RUN_COUNT": count + 1}},
+                                                             first_char, len(spec) > 1)
 
                 children.append(PipelineTreeNode2(level, name, parameters, environment, None))
 
@@ -308,5 +368,17 @@ def check_config(config: List) -> None:
         raise FatalPipelineException("Configuration error(s) found.")
 
 
+def parse_time_str(parse_time) -> str:
+    hours = int(parse_time / 3600)
+    minutes = int((parse_time - hours * 3600) / 60)
+    seconds = int(parse_time % 60)
+    millis  = int((parse_time % 60 - seconds) * 1000)
+    return "{}h {}m {}s {}ms".format(hours, minutes, seconds, millis)
+
+
 def run_tree() -> None:
+    start_time = time()
+
     PipelineTreeNode2.traverse_all(single_proc_exec)
+
+    logger.warning("Overal pipeline execution time: " + parse_time_str(time() - start_time))

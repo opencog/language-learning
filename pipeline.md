@@ -78,6 +78,7 @@ specified "dynamic" is used by default.
 |%RLEAF| Target path relative to %ROOT based on 'specific-parameters'|
 |%PREV[.var]| Reference to previous component scope variable. When `.var` is not specified `%PREV.LEAF` is used.|  
 |%RPREV| Relative target path of the previous component scope.|
+|%RUN_COUNT| Sequential component run count number starting from 1 and incrementing with every single configuration defined in 'specific-parameters' section.|
 
 You can refer any previously defined parameter of the current scope simply by specifying '%' followed
 by parameter name e.g. `%input_grammar`. To refer any variable of the previous scope one can specify 

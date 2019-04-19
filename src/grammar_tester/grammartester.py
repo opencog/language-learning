@@ -12,7 +12,7 @@ from ..common.parsemetrics import ParseMetrics, ParseQuality
 from ..common.fileconfman import JsonFileConfigManager
 from ..common.cliutils import handle_path_string, strip_quotes
 from ..common.textprogress import TextProgress
-from ..common.sentencecount import get_sentence_count
+from ..common.sentencecount import get_sentence_count, get_corpus_sentence_count
 from ..common.tokencount import *
 from .textfiledashb import TextFileDashboardConf  #, HTMLFileDashboard
 
@@ -58,13 +58,6 @@ DICT_ARG_DICT = 0       # original dict_path
 DICT_ARG_CORP = 1
 DICT_ARG_OUTP = 2
 DICT_ARG_REFF = 3
-
-
-# def print_execution_time(title: str, duration):
-#     hours = int(duration / 3600)
-#     minutes = int((duration - hours * 3600) / 60)
-#     seconds = duration % 60
-#     print("{}: {}h {}m {}s".format(title, hours, minutes, seconds))
 
 
 class GrammarTester(AbstractGrammarTestClient):
@@ -247,9 +240,6 @@ class GrammarTester(AbstractGrammarTestClient):
 
         self._total_dicts += 1
 
-    def _on_sentence_count(self, file: str, args: list) -> None:
-        self._total_sentences += get_sentence_count(file, self._options)
-
     def test(self, dict_path: str, corpus_path: str, output_path: str, reference_path: str, options: int,
              progress: AbstractProgressClient=None, **kwargs) -> (ParseMetrics, ParseQuality):
         """
@@ -292,23 +282,19 @@ class GrammarTester(AbstractGrammarTestClient):
         if dict_path == output_path:
             self._options &= (~BIT_DPATH_CREATE)
 
-        # Count total number of sentences in all corpus files
-        self._total_sentences = 0
+        # Count total number of sentences across all corpus files
+        self._total_sentences = get_corpus_sentence_count(corpus_path, self._options)
 
-        if self._is_dir_corpus:
-            traverse_dir_tree(corpus_path, "", [self._on_sentence_count], None, True)
+        # Either count or load token appearance data if min_word_count is specified
+        if self._test_kwargs.get("min_word_count", 0) > 1:
 
-        else:
-            self._total_sentences = get_sentence_count(corpus_path, options)
+            cnt_path = self._test_kwargs.get(CONF_WORD_CNT_PATH, None)
 
-        cnt_path = self._test_kwargs.get(CONF_WORD_CNT_PATH, None)
+            self._token_counts = count_tokens(corpus_path, self._options) if cnt_path is None \
+                else load_token_counts(cnt_path)
 
-        self._token_counts = count_tokens(corpus_path, self._options) if cnt_path is None \
-            else load_token_counts(cnt_path)
-
-        self._logger.debug(self._token_counts)
-
-        self._test_kwargs["token_counts"] = self._token_counts
+            # self._logger.debug(self._token_counts)
+            self._test_kwargs["token_counts"] = self._token_counts
 
         # Create and set progress bar if it was not previously created
         if isclass(progress):
@@ -318,8 +304,6 @@ class GrammarTester(AbstractGrammarTestClient):
         # Set progress bar if it was passed as an instance reference
         elif progress is not None:
             self._progress = progress
-
-        start_time = time()
 
         # Arguments for callback functions
         parse_args = [dict_path, corpus_path, output_path, reference_path]

@@ -1,8 +1,10 @@
 import unittest
+import sys
+from decimal import Decimal
 
 from src.grammar_tester.psparse import strip_token, parse_tokens, parse_links, parse_postscript, get_link_set, \
     prepare_tokens, skip_command_response, skip_linkage_header, PS_TIMEOUT_EXPIRED, PS_PANIC_DETECTED, \
-    get_sentence_text, split_ps_parses, trim_garbage
+    get_sentence_text, split_ps_parses, trim_garbage, get_linkage_cost
 from src.common.optconst import *
 from src.grammar_tester.parsestat import parse_metrics
 
@@ -927,6 +929,21 @@ class TestPSParse(unittest.TestCase):
         self.assertEqual(27, len(tokens))
         self.assertEqual(0, len(links))
 
+    def test_get_linkage_cost(self):
+        linkage = \
+"""
+        Linkage 1, cost vector = (UNUSED=0 DIS=-0.61 LEN=16)
+[(LEFT-WALL)(the)(old.a)(beast.n)(was.v-d)(whinnying.v)(on)(his)(shoulder.n)(.)]
+[[0 9 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (Ds**x)][2 3 0 (A)][4 6 1 (MVp)]
+[4 5 0 (Ost)][5 6 0 (Mp)][6 8 1 (Js)][7 8 0 (Ds**c)]]
+[0]
+"""
+        lnk_no, lnk_cost = get_linkage_cost(linkage)
+
+        # print(f"Linkage #{lnk_no}, cost = {lnk_cost}", file=sys.stderr)
+
+        self.assertEqual(1, lnk_no)
+        self.assertEqual((0, Decimal("-0.61"), 16), lnk_cost)
 
 
 if __name__ == '__main__':

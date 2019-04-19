@@ -328,6 +328,17 @@ class LGInprocParserTestCase(unittest.TestCase):
         self.assertEqual(10, pm.sentences)
         self.assertEqual(2, pm.skipped_sentences)
 
+    def test_second_linkage_issue(self):
+        with open("tests/test-data/second-linkage-test/GCB-NQ.txt.raw") as file:
+            raw = file.read()
+
+        options = BIT_EXISTING_DICT | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP
+
+        lg_parser = LGInprocParser()
+        sentenses = lg_parser._parse_batch_ps_output(raw, options)
+
+        self.assertEqual(229, len(sentenses))
+
 
 if __name__ == '__main__':
     unittest.main()

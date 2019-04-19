@@ -1,4 +1,3 @@
-import os
 import logging
 from typing import Dict, List, Any, Union, Callable, NewType, Optional
 from time import time
@@ -11,7 +10,7 @@ from ..dash_board.textdashboard import TextFileDashboardComponent
 from .varhelper import get_path_from_dict, subst_variables_in_str, subst_variables_in_dict, subst_variables_in_dict2
 from .pipelinetreenode import PipelineTreeNode2
 from .pipelineexceptions import *
-
+from . import PathCreatorComponent, TokenCounterComponent
 
 __all__ = ['build_tree', 'run_tree', 'check_config']
 
@@ -19,32 +18,13 @@ __all__ = ['build_tree', 'run_tree', 'check_config']
 logger = logging.getLogger(__name__)
 
 
-class PathCreatorComponent(AbstractPipelineComponent):
-    def __init__(self):
-        pass
-
-    def validate_parameters(self, **kwargs):
-        return True
-
-    def run(self, **kwargs):
-        return {}
-
-    @staticmethod
-    def create(**kwargs):
-        path = kwargs.get("path", None)
-
-        if path is not None and not os.path.isdir(path):
-            os.makedirs(path)
-
-        return {"path": path}
-
-
 PIPELINE_COMPONENTS = {
     "path-creator": PathCreatorComponent,
     "grammar-tester": GrammarTesterComponent,
     "grammar-learner": GrammarLearnerComponent,
     "text-parser": TextParserComponent,
-    "dash-board": TextFileDashboardComponent
+    "dash-board": TextFileDashboardComponent,
+    "token-counter": TokenCounterComponent
 }
 
 

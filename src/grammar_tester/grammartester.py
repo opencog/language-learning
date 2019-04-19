@@ -285,14 +285,16 @@ class GrammarTester(AbstractGrammarTestClient):
         # Count total number of sentences across all corpus files
         self._total_sentences = get_corpus_sentence_count(corpus_path, self._options)
 
-        cnt_path = self._test_kwargs.get(CONF_WORD_CNT_PATH, None)
+        # Either count or load token appearance data if min_word_count is specified
+        if self._test_kwargs.get("min_word_count", 0) > 1:
 
-        self._token_counts = count_tokens(corpus_path, self._options) if cnt_path is None \
-            else load_token_counts(cnt_path)
+            cnt_path = self._test_kwargs.get(CONF_WORD_CNT_PATH, None)
 
-        self._logger.debug(self._token_counts)
+            self._token_counts = count_tokens(corpus_path, self._options) if cnt_path is None \
+                else load_token_counts(cnt_path)
 
-        self._test_kwargs["token_counts"] = self._token_counts
+            # self._logger.debug(self._token_counts)
+            self._test_kwargs["token_counts"] = self._token_counts
 
         # Create and set progress bar if it was not previously created
         if isclass(progress):
@@ -302,8 +304,6 @@ class GrammarTester(AbstractGrammarTestClient):
         # Set progress bar if it was passed as an instance reference
         elif progress is not None:
             self._progress = progress
-
-        # start_time = time()
 
         # Arguments for callback functions
         parse_args = [dict_path, corpus_path, output_path, reference_path]

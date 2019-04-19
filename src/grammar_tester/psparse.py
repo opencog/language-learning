@@ -1,8 +1,9 @@
 import re
-
+import logging
 from ..common.optconst import *
 from .lgmisc import LGParseError
-from typing import List
+from typing import List, Optional, Tuple
+from decimal import Decimal
 
 """
     Utilities for parsing postscript notated tokens and links, returned by Link Grammar API method Linkage.postscript()
@@ -11,7 +12,7 @@ from typing import List
 
 __all__ = ['strip_token', 'parse_tokens', 'parse_links', 'parse_postscript', 'skip_lines', 'trim_garbage',
            'get_link_set', 'prepare_tokens', 'skip_command_response', 'skip_linkage_header', 'split_ps_parses',
-           'get_sentence_text', 'PS_TIMEOUT_EXPIRED', 'PS_PANIC_DETECTED']
+           'get_sentence_text', 'get_linkage_cost', 'PS_TIMEOUT_EXPIRED', 'PS_PANIC_DETECTED']
 
 __version__ = "1.0.0"
 
@@ -399,7 +400,7 @@ def split_ps_parses(text: str) -> List[str]:
     return parses[:-1] if parses[-1] == "" else parses
 
 
-def get_sentence_text(text: str) -> str:
+def get_sentence_text(text: str) -> Optional[str]:
     """
     Retrieve echoed sentence from postscript notated parse string.
 
@@ -417,4 +418,30 @@ def get_sentence_text(text: str) -> str:
     if match:
         return text[:match.start()].replace("\n", "")
 
-    raise LGParseError(f"Unable to find echoed sentence in postscript parse:\n{text}")
+    # raise LGParseError(f"Unable to find echoed sentence in postscript parse:\n{text}")
+
+    logging.getLogger(__name__ + "get_sentence_text").debug(f"Unable to find echoed sentence in postscript "
+                                                            f"parse:\n{text}")
+
+    return None
+
+
+def get_linkage_cost(text: str):  # -> Optional[int, Tuple[int, str, int]]:
+    """
+    Retrieve linkage number and cost vector
+
+    :param text:    Linkage text block.
+    :return:        A tuple of linkage number and cost vector (UNUSED, DIS, LEN)
+    """
+    pattern = re.compile(r"^\s*(?:L|Unique l){1}inkage (\d+), cost vector = \(UNUSED=(\d+) DIS=\s*([-+.0-9]+) LEN=(\d+)\)$", re.M)
+    data = pattern.findall(text)
+
+    if data is None or len(data) < 1:
+        return None
+
+    if len(data) > 1:
+        raise LGParseError(f"Found more than one linkage in: {text}")
+
+    # print(data if data is not None else "No matches found")
+
+    return int(data[0][0]), (int(data[0][1]), Decimal(data[0][2]), int(data[0][3]))

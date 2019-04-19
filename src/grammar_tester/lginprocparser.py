@@ -70,9 +70,9 @@ class LGInprocParser(AbstractFileParserClient):
         if pos > end:
             end = text.rfind("No complete linkages found.")
 
-        sent_count = 0
-
         validity_mask = (options & (BIT_EXCLUDE_TIMEOUTED | BIT_EXCLUDE_PANICED | BIT_EXCLUDE_EXPLOSION))
+
+        prev_sent = None
 
         # Parse output to get sentences and linkages in postscript notation
         for block in text[pos:end].split("\n\n"):
@@ -89,6 +89,7 @@ class LGInprocParser(AbstractFileParserClient):
 
                 # If sentence is not found in the output stream then check if the next bulk of text is another linkage
                 #   of the same sentence. Otherwise exception is in order.
+                lnk_data = get_linkage_cost(sent)
 
                 # Get postscript starting position after parsing LG error and warning messages
                 post_start, post_errors = skip_linkage_header(sent)
@@ -96,21 +97,33 @@ class LGInprocParser(AbstractFileParserClient):
                 # Check if the postscript linkage is valid
                 is_valid = (not (post_errors & validity_mask)) and post_start > 0
 
-                # Successfully parsed sentence is added here
-                cur_sent = PSSentence(sentence)
+                if is_valid and (sentence is None and lnk_data is None):
+                    raise LGParseError(f"Neither sentence nor linkage were found in '{sent}'")
 
-                cur_sent.valid = is_valid
+                # Check if it's a new sentence or just another linkage
+                if sentence is not None:
+                    # If the text block is a sentence then add another sentence to the sentence list.
+                    #   The linkage will be added to the newly created sentence.
+                    cur_sent = PSSentence(sentence)
+                    cur_sent.valid = is_valid
+                    sentences.append(cur_sent)
+
+                else:
+                    # If the text block is another linkage then it will be added to the previous sentence
+                    cur_sent = prev_sent
 
                 # Separate period with space if not already separated
-                sentence = sentence[:-1] + " ." if sentence[-1:] == r"." else sentence
+                sentence = sentence[:-1] + " ." if sentence is not None and sentence[-1:] == r"." else sentence
 
                 postscript = sent[post_start:].replace("\n", "") if is_valid \
                     else r"[([" + r"])([".join(sentence.split(" ")) + r"])][][0]"
 
-                cur_sent.linkages.append(postscript)
-                sentences.append(cur_sent)
+                if cur_sent is None:
+                    raise LGParseError(f"Empty list element for text block: {sent}")
 
-                sent_count += 1
+                cur_sent.linkages.append(postscript)
+
+                prev_sent = cur_sent
 
         return sentences
 

@@ -1,0 +1,3232 @@
+echo set to 1
+postscript set to 1
+graphics set to 0
+verbosity set to 1
+limit set to 100
+timeout set to 1
+the old beast was whinnying on his shoulder .
+Found 28 linkages (28 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.61 LEN=16)
+[(LEFT-WALL)(the)(old.a)(beast.n)(was.v-d)(whinnying.v)(on)(his)(shoulder.n)(.)]
+[[0 9 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (Ds**x)][2 3 0 (A)][4 6 1 (MVp)]
+[4 5 0 (Ost)][5 6 0 (Mp)][6 8 1 (Js)][7 8 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS=-0.61 LEN=16)
+[(LEFT-WALL)(the)(old.a)(beast.n)(was.v-d)(whinnying.v)(on)(his)(shoulder.n)(.)]
+[[0 9 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (Ds**x)][2 3 0 (A)][4 6 1 (MVp)]
+[4 5 0 (Osm)][5 6 0 (Mp)][6 8 1 (Js)][7 8 0 (Ds**c)]]
+[0]
+
+Jims lifted his miserable eyes .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=9)
+[(LEFT-WALL)(Jims[!])(lifted.v-d)(his)(miserable.a)(eyes.n)(.)]
+[[0 6 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (S)][2 5 2 (Op)][3 5 1 (Dmc)][4 5 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 4.00 LEN=8)
+[(LEFT-WALL)(Jims[!])(lifted.v-d)(his)(miserable.a)(eyes.n)(.)]
+[[0 6 3 (Xp)][0 1 0 (Wd)][1 2 0 (S)][2 5 2 (Op)][3 5 1 (Dmc)][4 5 0 (A)]]
+[0]
+
+Faith carried a heavy heart to bed with her that night .
+Found 244 linkages (79 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.20 LEN=32)
+[(LEFT-WALL)(Faith.f)(carried.v-d)(a)(heavy.a)(heart.s)(to)(bed)(with)(her)
+(that.j-r)(night.r)(.)]
+[[0 12 6 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 11 5 (MVpn)][2 8 4 (MVp)][2 7 3 (MVa)]
+[2 5 2 (Os)][3 5 1 (Ds**x)][4 5 0 (A)][6 7 0 (IDBXD)][8 9 0 (J)][10 11 0 (DTn)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.90 LEN=26)
+[(LEFT-WALL)(Faith.f)(carried.v-d)(a)(heavy.a)(heart.s)(to)(bed)(with)(her)
+(that.j-r)(night.r)(.)]
+[[0 12 5 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 8 4 (MVp)][2 7 3 (MVa)][2 5 2 (Os)]
+[3 5 1 (Ds**x)][3 4 0 (PHc)][4 5 0 (A)][6 7 0 (IDBXD)][8 11 1 (Pp)][8 9 0 (J)][10 11 0 (DTn)]]
+[0]
+
+Dick turned to the beach .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=7)
+[(LEFT-WALL)(Dick.m)(turned.v-d)(to.r)(the)(beach.n)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 3 0 (MVp)][3 5 1 (Js)][4 5 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=7)
+[(LEFT-WALL)(dick.n-u)(turned.v-d)(to.r)(the)(beach.n)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVp)][3 5 1 (Js)][4 5 0 (Ds**c)]]
+[0]
+
+uncle Alec came striding down the orchard .
+Found 12 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 3.00 LEN=11)
+[(LEFT-WALL)(uncle.m)(Alec.m)(came.v-d)(striding.v)(down.r)(the)(orchard.n)(.)]
+[[0 8 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 4 0 (Pg)][4 5 0 (MVa)]
+[5 7 1 (Js)][6 7 0 (Ds**v)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=12)
+[(LEFT-WALL)(uncle.m)(Alec.m)(came.v-d)(striding.v)(down.r)(the)(orchard.n)(.)]
+[[0 8 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 5 1 (MVa)][3 4 0 (Pg)]
+[5 7 1 (Js)][6 7 0 (Ds**v)]]
+[0]
+
+the lama snuffed blandly .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=7)
+[(LEFT-WALL)(the)(lama[?].n)(snuffed.v-d)(blandly)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (D*u)][3 4 0 (MVa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.04 LEN=7)
+[(LEFT-WALL)(the)(lama[?].a)(snuffed.v-d)(blandly)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Sp)][1 2 0 (DD)][3 4 0 (MVa)]]
+[0]
+
+Felix shook his head .
+Found 3 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(Felix.m)(shook.v-d)(his)(head.n)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (Os)][3 4 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=5)
+[(LEFT-WALL)(Felix.m)(shook.v-d)(his)(head.n)(.)]
+[[0 5 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (Os)][3 4 0 (Ds**c)]]
+[0]
+
+Mr White was satisfied .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=7)
+[(LEFT-WALL)(Mr.x)(White.m)(was.v-d)(satisfied.a)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 4 0 (Pa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.10 LEN=8)
+[(LEFT-WALL)(Mr.x)(White.m)(was.v-d)(satisfied.v-d)(.)]
+[[0 5 3 (Xp)][0 4 2 (WV)][0 2 1 (Wd)][1 2 0 (G)][2 3 0 (Ss*s)][3 4 0 (Pv)]]
+[0]
+
+you understand ?
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=3)
+[(LEFT-WALL)(you)(understand.v)(?)]
+[[0 3 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=2)
+[(LEFT-WALL)(you)(understand.v)(?)]
+[[0 3 1 (Xp)][0 1 0 (Wd)][1 2 0 (Sp)]]
+[0]
+
+it wasn't because he had any hope .
+Found 222 linkages (24 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.67 LEN=10)
+[(LEFT-WALL)(it)(wasn't.v-d)(because)(he)(had.v-d)(any)(hope.n)(.)]
+[[0 8 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVs)][3 5 1 (CV)][3 4 0 (Cs)]
+[4 5 0 (Ss)][5 7 1 (Os)][6 7 0 (D*u*c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.67 LEN=10)
+[(LEFT-WALL)(it)(wasn't.v-d)(because)(he)(had.v-d)(any)(hope.n)(.)]
+[[0 8 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVs)][3 5 1 (CV)][3 4 0 (Cs)]
+[4 5 0 (Ss)][5 7 1 (Os)][6 7 0 (D*u*c)]]
+[0]
+
+Willard named the sum .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.00 LEN=6)
+[(LEFT-WALL)(Willard.m)(named.v-d)(the)(sum.n)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (Os)][3 4 0 (Ds)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 5.00 LEN=5)
+[(LEFT-WALL)(Willard.m)(named.v-d)(the)(sum.n)(.)]
+[[0 5 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (Os)][3 4 0 (Ds)]]
+[0]
+
+a late September wind from the northwest was sweeping over the waters of Racicot Harbour .
+Found 216 linkages (100 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.51 LEN=35)
+[(LEFT-WALL)(a)(late.a)(September.i)(wind.s)(from)(the)(northwest.a)(was.v-d)(sweeping.g)
+(over)(the)(waters.n)(of)(Racicot[!])(Harbour[!])(.)]
+[[0 16 5 (Xp)][0 8 4 (WV)][0 4 3 (Wd)][4 8 2 (Ss*s)][1 4 2 (Ds**x)][1 2 0 (PHc)][2 4 1 (A)]
+[3 4 0 (AN)][4 5 0 (Mp)][5 7 1 (Jp)][6 7 0 (DD)][8 10 1 (MVp)][8 9 0 (Ost)][9 10 0 (Mp)]
+[10 12 1 (Jp)][11 12 0 (Dmc)][12 13 0 (Mf)][13 15 1 (Js)][14 15 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.51 LEN=35)
+[(LEFT-WALL)(a)(late.a)(September.i)(wind.s)(from)(the)(northwest.a)(was.v-d)(sweeping.g)
+(over)(the)(waters.n)(of)(Racicot[!])(Harbour[!])(.)]
+[[0 16 5 (Xp)][0 8 4 (WV)][0 4 3 (Wd)][4 8 2 (Ss*s)][1 4 2 (Ds**x)][1 2 0 (PHc)][2 4 1 (A)]
+[3 4 0 (AN)][4 5 0 (Mp)][5 7 1 (Jp)][6 7 0 (DD)][8 10 1 (MVp)][8 9 0 (Osm)][9 10 0 (Mp)]
+[10 12 1 (Jp)][11 12 0 (Dmc)][12 13 0 (Mp)][13 15 1 (Js)][14 15 0 (G)]]
+[0]
+
+I just stood there , my hand on the knob , trembling like a leaf .
+Found 18 linkages (18 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 5.00 LEN=31)
+[(LEFT-WALL)(I.p)(just.e)(stood.v-d)(there.r)(,)(my.ij)(hand.v)(on)(the)
+(knob.n)(,)(trembling.v)(like.p)(a)(leaf.n)(.)]
+[[0 16 4 (Xp)][0 5 3 (Xx)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Sp*i)][2 3 0 (E)][3 4 0 (MVp)]
+[5 7 1 (Wi)][6 7 0 (COa)][7 13 2 (MVp)][7 8 0 (MVp)][8 11 1 (J)][10 11 0 (SJls)][9 10 0 (Ds**c)]
+[11 12 0 (SJru)][13 15 1 (Js)][14 15 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 5.39 LEN=31)
+[(LEFT-WALL)(I.p)(just.e)(stood.v-d)(there.r)(,)(my.ij)(hand.v)(on)(the)
+(knob.n)(,)(trembling.v)(like.p)(a)(leaf.n)(.)]
+[[0 16 4 (Xp)][0 5 3 (Xx)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Sp*i)][2 3 0 (E)][3 4 0 (MVp)]
+[5 7 1 (Wi)][6 7 0 (COa)][7 13 2 (MVp)][7 8 0 (MVp)][8 11 1 (J)][10 11 0 (SJls)][9 10 0 (Ds**c)]
+[11 12 0 (SJru)][12 13 0 (Mp)][13 15 1 (Js)][14 15 0 (Ds**c)]]
+[0]
+
+the wedded couple lived in London .
+Found 3 linkages (3 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.50 LEN=12)
+[(LEFT-WALL)(the)(wedded.v-d)(couple.n)(lived.v-d)(in.r)(London.l)(.)]
+[[0 7 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (Ds)][2 3 0 (A)][4 5 0 (MVp)]
+[5 6 0 (Js)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 5.45 LEN=14)
+[(LEFT-WALL)(the)(wedded.v-d)(couple.n)(lived)(in)(London.l)(.)]
+[[0 7 4 (Xp)][0 5 3 (CPu)][0 3 2 (Wd)][3 5 1 (Ss*s)][1 3 1 (Ds)][2 3 0 (A)][4 5 0 (IDBEN)]
+[5 6 0 (Os)]]
+[0]
+
+Sammy Jay , sitting on a fence post , saw him coming .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.30 LEN=38)
+[(LEFT-WALL)(Sammy.b)(Jay.b)(,)(sitting.g)(on)(a)(fence.n)(post.s)(,)
+(saw.v-d)(him)(coming.v)(.)]
+[[0 13 6 (Xp)][0 10 5 (WV)][0 2 1 (Wd)][2 10 4 (Ss*s)][1 2 0 (G)][2 4 1 (MX*p)][3 4 0 (Xd)]
+[4 9 3 (Xc)][4 5 0 (MVp)][5 8 2 (Js)][6 8 1 (Ds**x)][7 8 0 (AN)][10 12 1 (Pg)][10 11 0 (Ox)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.30 LEN=29)
+[(LEFT-WALL)(Sammy.b)(Jay.b)(,)(sitting.g)(on)(a)(fence.n)(post.s)(,)
+(saw.v-d)(him)(coming.v)(.)]
+[[0 13 5 (Xp)][0 2 1 (Wd)][1 2 0 (G)][2 10 4 (Ss*s)][2 4 1 (MX*p)][3 4 0 (Xd)][4 9 3 (Xc)]
+[4 5 0 (MVp)][5 8 2 (Js)][6 8 1 (Ds**x)][7 8 0 (AN)][10 12 1 (Pg)][10 11 0 (Ox)]]
+[0]
+
+I 'm ashamed of you .
+Found 14 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(I.p)('m)(ashamed.a)(of)(you)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SX)][2 3 0 (Pa)][3 4 0 (OFj)][4 5 0 (Ju)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(I.p)('m)(ashamed.a)(of)(you)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SX)][2 3 0 (Pa)][3 4 0 (OFw)][4 5 0 (Js)]]
+[0]
+
+his proud heart was nearly bursting .
+Found 40 linkages (40 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=13)
+[(LEFT-WALL)(his)(proud.a)(heart.n-u)(was.v-d)(nearly)(bursting.v)(.)]
+[[0 7 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss)][1 3 1 (Dmu)][2 3 0 (A)][4 6 1 (Pg*b)]
+[5 6 0 (Em)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=13)
+[(LEFT-WALL)(his)(proud.a)(heart.s)(was.v-d)(nearly)(bursting.v)(.)]
+[[0 7 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (Ds**x)][2 3 0 (A)][4 6 1 (Pg*b)]
+[5 6 0 (Em)]]
+[0]
+
+it was a thrilling idea .
+Found 16 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.70 LEN=9)
+[(LEFT-WALL)(it)(was.v-d)(a)(thrilling.g)(idea.n)(.)]
+[[0 6 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 2 (Osm)][3 5 1 (Ds**x)][4 5 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.70 LEN=9)
+[(LEFT-WALL)(it)(was.v-d)(a)(thrilling.g)(idea.n)(.)]
+[[0 6 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 2 (Ost)][3 5 1 (Ds**x)][4 5 0 (A)]]
+[0]
+
+Miss Sally did wonders with his money .
+Found 26 linkages (26 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.61 LEN=12)
+[(LEFT-WALL)(Miss.f)(Sally.f)(did.v-d)(wonders.n)(with)(his)(money.n-u)(.)]
+[[0 8 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 5 1 (MVp)][3 4 0 (Op)]
+[4 5 0 (Mp)][5 7 1 (Ju)][6 7 0 (Dmu)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=12)
+[(LEFT-WALL)(Miss.f)(Sally.f)(did.v-d)(wonders.n)(with)(his)(money.n-u)(.)]
+[[0 8 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 5 1 (MVp)][3 4 0 (Op)]
+[5 7 1 (Ju)][6 7 0 (Dmu)]]
+[0]
+
+it is so with Sammy Jay .
+Found 20 linkages (10 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=9)
+[(LEFT-WALL)(it)(is.v)(so.e)(with)(Sammy.b)(Jay.b)(.)]
+[[0 7 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Pp)][3 4 0 (EAxk)][4 6 1 (Js)]
+[5 6 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=9)
+[(LEFT-WALL)(it)(is.v)(so.e)(with)(Sammy.b)(Jay.b)(.)]
+[[0 7 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (MVp)][2 3 0 (O*t)][4 6 1 (Js)]
+[5 6 0 (G)]]
+[0]
+
+he hasn't any relations here .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.39 LEN=9)
+[(LEFT-WALL)(he)(hasn't)(any)(relations.n)(here)(.)]
+[[0 6 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 2 (MVp)][2 4 1 (Op)][4 5 0 (Mp)]
+[3 4 0 (Dmc)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=9)
+[(LEFT-WALL)(he)(hasn't)(any)(relations.n)(here)(.)]
+[[0 6 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 2 (MVp)][2 4 1 (Op)][3 4 0 (Dmc)]]
+[0]
+
+Mary seldom lost a chance of tooting her own horn .
+Found 188 linkages (88 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=17)
+[(LEFT-WALL)(Mary.b)(seldom)(lost.v-d)(a)(chance.n)(of)(tooting.v)(her)(own.a)
+(horn.n)(.)]
+[[0 11 3 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Ss*s)][2 3 0 (E)][3 5 1 (Os)][4 5 0 (Dsu*c)]
+[5 6 0 (Mp)][6 7 0 (Mgp)][7 10 2 (Os)][8 10 1 (Ds**c)][8 9 0 (La)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.20 LEN=17)
+[(LEFT-WALL)(Mary.b)(seldom)(lost.v-d)(a)(chance.n)(of)(tooting.v)(her)(own.a)
+(horn.n)(.)]
+[[0 11 3 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Ss*s)][2 3 0 (E)][3 5 1 (Os)][4 5 0 (Dsu*x)]
+[5 6 0 (Mp)][6 7 0 (Mgp)][7 10 2 (Os)][8 10 1 (Ds**c)][8 9 0 (La)]]
+[0]
+
+Mr Campbell chuckled .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.06 LEN=6)
+[(LEFT-WALL)(Mr.x)(Campbell[!])(chuckled.v-d)(.)]
+[[0 4 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 4.06 LEN=4)
+[(LEFT-WALL)(Mr.x)(Campbell[!])(chuckled.v-d)(.)]
+[[0 4 2 (Xp)][0 2 1 (Wd)][1 2 0 (G)][2 3 0 (Ss*s)]]
+[0]
+
+the plain dotted itself with tents that seemed to rise , all spread , from the carts .
+Found 298 linkages (84 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.89 LEN=46)
+[(LEFT-WALL)(the)(plain.n)(dotted.v-d)(itself)(with)(tents.n)(that.j-r)(seemed.v-d)(to.r)
+(rise.v)(,)(all.a)(spread.v-d)(,)(from)(the)(carts.n)(.)]
+[[0 18 5 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 15 4 (MVp)][3 5 1 (MVp)]
+[3 4 0 (O)][5 6 0 (Jp)][6 15 3 (Mp)][6 8 1 (Bp)][6 7 0 (R)][7 8 0 (RS)][8 10 1 (IV)]
+[8 9 0 (TOf)][9 10 0 (I*t)][10 13 2 (MVg)][11 13 1 (Xd)][12 13 0 (E)][13 14 0 (Xc)][15 17 1 (Jp)]
+[16 17 0 (Dmc)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.50 LEN=24)
+[(LEFT-WALL)(the)(plain.n)(dotted.v-d)(itself)(with)(tents.n)(that.j-r)(seemed.v-d)(to.r)
+(rise.v)(,)(all.a)(spread.v-d)(,)(from)(the)(carts.n)(.)]
+[[0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 13 2 (MVg)][3 5 1 (MVp)][3 4 0 (O)]
+[5 6 0 (Jp)][6 8 1 (Bp)][6 7 0 (R)][7 8 0 (RS)][8 10 1 (IV)][8 9 0 (TOf)][9 10 0 (I*t)]
+[11 13 1 (Xd)][12 13 0 (E)][13 18 3 (Xc)][13 15 1 (MVx)][15 18 2 (Xca)][14 15 0 (Xd)][15 17 1 (Jp)]
+[16 17 0 (Dmc)]]
+[0]
+
+the final name on the list of wedding guests was the name of David Spencer .
+Found 496 linkages (44 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.40 LEN=39)
+[(LEFT-WALL)(the)(final.a)(name.n)(on)(the)(list.n)(of)(wedding.v)(guests.n)
+(was.v-d)(the)(name.n)(of)(David.b)(Spencer.m)(.)]
+[[0 16 5 (Xp)][0 10 4 (WV)][0 3 2 (Wd)][3 10 3 (Ss*s)][1 3 1 (Ds**x)][2 3 0 (A)][3 7 2 (Mf)]
+[3 4 0 (Mp)][4 6 1 (Js)][5 6 0 (Ds**c)][7 8 0 (Mgp)][8 9 0 (Op)][10 12 1 (Ost)][11 12 0 (Ds**c)]
+[12 13 0 (Mf)][13 15 1 (Js)][14 15 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.40 LEN=39)
+[(LEFT-WALL)(the)(final.a)(name.n)(on)(the)(list.n)(of)(wedding.v)(guests.n)
+(was.v-d)(the)(name.n)(of)(David.b)(Spencer.m)(.)]
+[[0 16 5 (Xp)][0 10 4 (WV)][0 3 2 (Wd)][3 10 3 (Ss*s)][1 3 1 (Ds**x)][2 3 0 (A)][3 7 2 (Mf)]
+[3 4 0 (Mp)][4 6 1 (Js)][5 6 0 (Ds**c)][7 8 0 (Mgp)][8 9 0 (Op)][10 12 1 (Ost)][11 12 0 (Ds**c)]
+[12 13 0 (Mp)][13 15 1 (Js)][14 15 0 (G)]]
+[0]
+
+Mrs Jonas heaved a sigh of relief .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=11)
+[(LEFT-WALL)(Mrs.x)(Jonas.m)(heaved.v-d)(a)(sigh.n)(of)(relief.n)(.)]
+[[0 8 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 5 1 (Os)][4 5 0 (Ds**c)]
+[5 6 0 (Mf)][6 7 0 (Jp)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=11)
+[(LEFT-WALL)(Mrs.x)(Jonas.m)(heaved.v-d)(a)(sigh.n)(of)(relief.n)(.)]
+[[0 8 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 5 1 (Os)][4 5 0 (Ds**c)]
+[5 6 0 (Mp)][6 7 0 (Jp)]]
+[0]
+
+Mrs Bell winced .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=6)
+[(LEFT-WALL)(Mrs.x)(Bell.b)(winced.v-d)(.)]
+[[0 4 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 4.00 LEN=4)
+[(LEFT-WALL)(Mrs.x)(Bell.b)(winced.v-d)(.)]
+[[0 4 2 (Xp)][0 2 1 (Wd)][1 2 0 (G)][2 3 0 (Ss*s)]]
+[0]
+
+his coming was so unexpected .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=9)
+[(LEFT-WALL)(his)(coming.v)(was.v-d)(so.e)(unexpected.a)(.)]
+[[0 6 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (Dmu)][3 5 1 (Pa)][4 5 0 (EAxk)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=9)
+[(LEFT-WALL)(his)(coming.v)(was.v-d)(so.e)(unexpected.a)(.)]
+[[0 6 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*g)][1 2 0 (DP)][3 5 1 (Pa)][4 5 0 (EAxk)]]
+[0]
+
+Pivi said not one word .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.06 LEN=8)
+[(LEFT-WALL)(Pivi[!])(said.v-d)(not)(one)(word.n)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (Os)][4 5 0 (Ds**c)][3 4 0 (IDQC)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.06 LEN=7)
+[(LEFT-WALL)(Pivi[!])(said.v-d)(not)(one)(word.n)(.)]
+[[0 6 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (Os)][4 5 0 (Ds**c)][3 4 0 (IDQC)]]
+[0]
+
+the big chamber was the scene of many innocent revels .
+Found 28 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=20)
+[(LEFT-WALL)(the)(big.a)(chamber.n)(was.v-d)(the)(scene.n)(of)(many)(innocent.a)
+(revels.n)(.)]
+[[0 11 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (Ds**x)][2 3 0 (A)][4 6 1 (Osm)]
+[5 6 0 (Ds**c)][6 7 0 (Mf)][7 10 2 (Jp)][8 10 1 (Dmc)][9 10 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=20)
+[(LEFT-WALL)(the)(big.a)(chamber.n)(was.v-d)(the)(scene.n)(of)(many)(innocent.a)
+(revels.n)(.)]
+[[0 11 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (Ds**x)][2 3 0 (A)][4 6 1 (Osm)]
+[5 6 0 (Ds**c)][6 7 0 (Mp)][7 10 2 (Jp)][8 10 1 (Dmc)][9 10 0 (A)]]
+[0]
+
+he bent down a little .
+Found 10 linkages (10 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=8)
+[(LEFT-WALL)(he)(bent.v-d)(down.e)(a)(little)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 1 (MVa)][2 3 0 (MVa)][4 5 0 (IDPL)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=8)
+[(LEFT-WALL)(he)(bent.v-d)(down.r)(a)(little)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 1 (MVa)][2 3 0 (K)][4 5 0 (IDPL)]]
+[0]
+
+this was an especially enjoyable one .
+Found 12 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.10 LEN=12)
+[(LEFT-WALL)(this.p)(was.v-d)(an)(especially)(enjoyable.a)(one)(.)]
+[[0 7 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*b)][2 6 2 (Ost)][3 6 1 (Ds**x)][3 4 0 (PHv)]
+[4 5 0 (EA)][5 6 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS=-0.10 LEN=12)
+[(LEFT-WALL)(this.p)(was.v-d)(an)(especially)(enjoyable.a)(one)(.)]
+[[0 7 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*b)][2 6 2 (Osm)][3 6 1 (Ds**x)][3 4 0 (PHv)]
+[4 5 0 (EA)][5 6 0 (A)]]
+[0]
+
+Tommy laughed .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=3)
+[(LEFT-WALL)(Tommy.b)(laughed.v-d)(.)]
+[[0 3 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=2)
+[(LEFT-WALL)(Tommy.b)(laughed.v-d)(.)]
+[[0 3 1 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)]]
+[0]
+
+the child was delighted .
+Found 18 linkages (18 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=7)
+[(LEFT-WALL)(the)(child.s)(was.v-d)(delighted.a)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (DG)][3 4 0 (Pa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=7)
+[(LEFT-WALL)(the)(child.n)(was.v-d)(delighted.a)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 4 0 (Pa)]]
+[0]
+
+the watch was all forward looking out for the island .
+Found 37 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.10 LEN=17)
+[(LEFT-WALL)(the)(watch.n)(was.v-d)(all.a)(forward.n)(looking.v)(out.a)(for.p)(the)
+(island.n)(.)]
+[[0 11 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 6 2 (Osm)][4 6 1 (Dmu)]
+[5 6 0 (AN)][6 7 0 (Ma)][7 8 0 (MVp)][8 10 1 (Js)][9 10 0 (Ds**v)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.10 LEN=17)
+[(LEFT-WALL)(the)(watch.n)(was.v-d)(all.a)(forward.n)(looking.v)(out.a)(for.p)(the)
+(island.n)(.)]
+[[0 11 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 6 2 (Ost)][4 6 1 (Dmu)]
+[5 6 0 (AN)][6 7 0 (Ma)][7 8 0 (MVp)][8 10 1 (Js)][9 10 0 (Ds**v)]]
+[0]
+
+he chuckled drearily .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(he)(chuckled.v-d)(drearily)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=3)
+[(LEFT-WALL)(he)(chuckled.v-d)(drearily)(.)]
+[[0 4 1 (Xp)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVa)]]
+[0]
+
+Miss Salome went on .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=7)
+[(LEFT-WALL)(Miss.f)(Salome.f)(went.v-d)(on)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 4 0 (K)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=5)
+[(LEFT-WALL)(Miss.f)(Salome.f)(went.v-d)(on)(.)]
+[[0 5 2 (Xp)][0 2 1 (Wd)][1 2 0 (G)][2 3 0 (Ss*s)][3 4 0 (K)]]
+[0]
+
+I wish we hadn't parted in anger .
+Found 3 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=10)
+[(LEFT-WALL)(I.p)(wish.v)(we)(hadn't.v-d)(parted.v-d)(in.r)(anger.n-u)(.)]
+[[0 8 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp*i)][2 5 1 (CV)][2 3 0 (Ce)][3 4 0 (Sp)]
+[4 5 0 (PP)][5 6 0 (MVp)][6 7 0 (Ju)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=9)
+[(LEFT-WALL)(I.p)(wish.v)(we)(hadn't.v-d)(parted.v-d)(in.r)(anger.n-u)(.)]
+[[0 8 2 (Xp)][0 1 0 (Wd)][1 2 0 (Sp*i)][2 5 1 (CV)][2 3 0 (Ce)][3 4 0 (Sp)][4 5 0 (PP)]
+[5 6 0 (MVp)][6 7 0 (Ju)]]
+[0]
+
+Tom asked him about water-babies .
+Found 22 linkages (22 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.10 LEN=7)
+[(LEFT-WALL)(Tom.m)(asked.v-d)(him)(about)(water-babies[!].n)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (MVp)][2 3 0 (Ox)][4 5 0 (Jp)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.10 LEN=5)
+[(LEFT-WALL)(Tom.m)(asked.q-d)(him)(about)(water-babies[!].n)(.)]
+[[0 2 1 (CPa)][1 2 0 (Ss*s)][2 6 2 (Xp)][2 4 1 (MVp)][2 3 0 (Ox)][4 5 0 (Jp)]]
+[0]
+
+I was staring at Miss Armstrong like a man bewitched .
+Found 134 linkages (100 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.16 LEN=18)
+[(LEFT-WALL)(I.p)(was.v-d)(staring.g)(at)(Miss.f)(Armstrong[!])(like.p)(a)(man.n)
+(bewitched.v-d)(.)]
+[[0 11 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SX)][2 7 2 (MVp)][2 4 1 (MVp)][2 3 0 (Osm)]
+[3 4 0 (Mp)][4 6 1 (Js)][6 7 0 (Mp)][5 6 0 (G)][7 9 1 (Js)][8 9 0 (Ds**c)][9 10 0 (Mv)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.45 LEN=18)
+[(LEFT-WALL)(I.p)(was.v-d)(staring.g)(at)(Miss.f)(Armstrong[!])(like.p)(a)(man.n)
+(bewitched.v-d)(.)]
+[[0 11 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SX)][2 7 2 (MVp)][2 4 1 (MVp)][2 3 0 (Ost)]
+[3 4 0 (Mp)][4 6 1 (Js)][5 6 0 (G)][7 9 1 (Js)][8 9 0 (Ds**c)][9 10 0 (Mv)]]
+[0]
+
+Tim simply adores her .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=7)
+[(LEFT-WALL)(Tim.m)(simply.e)(adores.v)(her)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Ss*s)][2 3 0 (Em)][3 4 0 (Ox)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=7)
+[(LEFT-WALL)(Tim.m)(simply.ee)(adores.v)(her)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Ss*s)][2 3 0 (E)][3 4 0 (Ox)]]
+[0]
+
+THERE was a great rush of feet across the deck .
+Found 432 linkages (100 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.71 LEN=20)
+[(LEFT-WALL)(THERE[!])(was.v-d)(a)(great.a)(rush.s)(of)(feet.p)(across)(the)
+(deck.n)(.)]
+[[0 11 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 8 3 (MVp)][2 5 2 (Osm)][3 5 1 (Ds**x)]
+[3 4 0 (PHc)][4 5 0 (A)][5 6 0 (Mp)][6 7 0 (Jp)][7 8 0 (Mp)][8 10 1 (Js)][9 10 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS=-0.71 LEN=20)
+[(LEFT-WALL)(THERE[!])(was.v-d)(a)(great.a)(rush.s)(of)(feet.p)(across)(the)
+(deck.n)(.)]
+[[0 11 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 8 3 (MVp)][2 5 2 (Osm)][3 5 1 (Ds**x)]
+[3 4 0 (PHc)][4 5 0 (A)][5 6 0 (Mf)][6 7 0 (Jp)][7 8 0 (Mp)][8 10 1 (Js)][9 10 0 (Ds**c)]]
+[0]
+
+the dwarf stood gazing at the plant .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.61 LEN=12)
+[(LEFT-WALL)(the)(dwarf.n)(stood.v-d)(gazing.v)(at)(the)(plant.n)(.)]
+[[0 8 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 5 1 (MVp)][3 4 0 (Os)]
+[4 5 0 (Mp)][5 7 1 (Js)][6 7 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=12)
+[(LEFT-WALL)(the)(dwarf.n)(stood.v-d)(gazing.v)(at)(the)(plant.n)(.)]
+[[0 8 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 5 1 (MVp)][3 4 0 (Os)]
+[5 7 1 (Js)][6 7 0 (Ds**c)]]
+[0]
+
+Jane Lavinia sighed in luxurious renunciation .
+Found 24 linkages (21 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=10)
+[(LEFT-WALL)(Jane.f)(Lavinia.f)(sighed.v-d)(in.r)(luxurious.a)(renunciation.n-u)(.)]
+[[0 7 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 4 0 (MVp)][4 6 1 (Ju)]
+[5 6 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=6)
+[(LEFT-WALL)(Jane.f)(Lavinia.f)(sighed.q-d)(in.r)(luxurious.a)(renunciation.n-u)(.)]
+[[0 3 1 (CPa)][2 3 0 (Ss*s)][1 2 0 (G)][3 7 2 (Xp)][3 4 0 (MVp)][4 6 1 (Ju)][5 6 0 (A)]]
+[0]
+
+I 'm surprised at you .
+Found 5 linkages (5 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(I.p)('m)(surprised.v-d)(at)(you)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SX)][2 3 0 (Pv)][3 4 0 (MVp)][4 5 0 (J)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(I.p)('m)(surprised.a)(at)(you)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SX)][2 3 0 (Pa)][3 4 0 (MVp)][4 5 0 (J)]]
+[0]
+
+the sound of that voice almost broke his heart .
+Found 16 linkages (16 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=22)
+[(LEFT-WALL)(the)(sound.n-u)(of)(that.j-d)(voice.n)(almost)(broke.v-d)(his)(heart.n-u)
+(.)]
+[[0 10 4 (Xp)][0 7 3 (WV)][0 2 1 (Wd)][2 7 2 (Ss)][1 2 0 (Dmu)][2 3 0 (Mp)][3 5 1 (Js)]
+[4 5 0 (Dsu*c)][6 7 0 (Em)][7 9 1 (Ou)][8 9 0 (Dmu)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=22)
+[(LEFT-WALL)(the)(sound.n-u)(of)(that.j-d)(voice.n)(almost)(broke.v-d)(his)(heart.n-u)
+(.)]
+[[0 10 4 (Xp)][0 7 3 (WV)][0 2 1 (Wd)][2 7 2 (Ss)][1 2 0 (Dmu)][2 3 0 (Mf)][3 5 1 (Js)]
+[4 5 0 (Dsu*c)][6 7 0 (Em)][7 9 1 (Ou)][8 9 0 (Dmu)]]
+[0]
+
+he found this just as muddy as the other .
+Found 24 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=14)
+[(LEFT-WALL)(he)(found.v-d)(this.p)(just.e)(as.e-y)(muddy.a)(as.e-c)(the)(other)
+(.)]
+[[0 10 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 6 1 (Pa)][2 3 0 (Os)][5 6 0 (EAy)]
+[4 5 0 (EZ)][6 7 0 (MVz)][7 9 1 (Osc)][8 9 0 (DD)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=14)
+[(LEFT-WALL)(he)(found.v-d)(this.p)(just.e)(as.e-y)(muddy.a)(as.e)(the)(other)
+(.)]
+[[0 10 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 6 1 (Pa)][2 3 0 (Os)][5 6 0 (EAy)]
+[4 5 0 (EZ)][6 7 0 (MVp)][7 9 1 (Js)][8 9 0 (DD)]]
+[0]
+
+it was such a beautiful evening .
+Found 16 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.10 LEN=11)
+[(LEFT-WALL)(it)(was.v-d)(such)(a)(beautiful.a)(evening.s)(.)]
+[[0 7 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 6 2 (Osm)][4 6 1 (Ds*kx)][3 4 0 (IDOQ)]
+[4 5 0 (PHc)][5 6 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS=-0.10 LEN=11)
+[(LEFT-WALL)(it)(was.v-d)(such)(a)(beautiful.a)(evening.s)(.)]
+[[0 7 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 6 2 (Ost)][4 6 1 (Ds*kx)][3 4 0 (IDOQ)]
+[4 5 0 (PHc)][5 6 0 (A)]]
+[0]
+
+that child is a cross between a duck and an imp .
+Found 64 linkages (64 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.39 LEN=20)
+[(LEFT-WALL)(that.j-d)(child.n)(is.v)(a)(cross.n)(between)(a)(duck.s)(and.j-n)
+(an)(imp.n)(.)]
+[[0 12 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Dsu*c)][3 6 2 (MVp)][3 5 1 (Osm)]
+[5 6 0 (Mp)][4 5 0 (Ds**c)][6 9 1 (Ju)][8 9 0 (SJls)][7 8 0 (Ds**c)][9 11 1 (SJrs)][10 11 0 (Ds**v)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.39 LEN=20)
+[(LEFT-WALL)(that.j-d)(child.n)(is.v)(a)(cross.n)(between)(a)(duck.s)(and.j-n)
+(an)(imp.n)(.)]
+[[0 12 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Dsu*c)][3 6 2 (MVp)][3 5 1 (Ost)]
+[5 6 0 (Mp)][4 5 0 (Ds**c)][6 9 1 (Ju)][8 9 0 (SJls)][7 8 0 (Ds**c)][9 11 1 (SJrs)][10 11 0 (Ds**v)]]
+[0]
+
+this dauntless example fired Zara .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.06 LEN=11)
+[(LEFT-WALL)(this.d)(dauntless.a)(example.n)(fired.v-d)(Zara[!])(.)]
+[[0 6 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (Dsu*x)][2 3 0 (A)][4 5 0 (Os)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.56 LEN=9)
+[(LEFT-WALL)(this.p)(dauntless.a)(example.n)(fired.v-d)(Zara[!])(.)]
+[[0 6 2 (Xp)][0 5 1 (Wa)][4 5 0 (A)][3 4 0 (AN)][2 3 0 (A)][1 2 0 (EA)]]
+[0]
+
+this flattered Wendy immensely .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(this.p)(flattered.v-d)(Wendy.f)(immensely)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*b)][2 4 1 (MVa)][2 3 0 (Os*e)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=5)
+[(LEFT-WALL)(this.p)(flattered.v-d)(Wendy.f)(immensely)(.)]
+[[0 5 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*b)][2 4 1 (MVa)][2 3 0 (Os*e)]]
+[0]
+
+Miss Sally coloured .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(Miss.f)(Sally.f)(coloured.v-d)(.)]
+[[0 4 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=4)
+[(LEFT-WALL)(Miss.f)(Sally.f)(coloured.v-d)(.)]
+[[0 4 2 (Xp)][0 2 1 (Wd)][1 2 0 (G)][2 3 0 (Ss*s)]]
+[0]
+
+begin at the beginning .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=5)
+[(LEFT-WALL)(begin.v)(at)(the)(beginning.n)(.)]
+[[0 5 2 (Xp)][0 1 0 (Wi)][1 2 0 (MVp)][2 4 1 (Js)][3 4 0 (Ds)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=5)
+[(LEFT-WALL)(begin.v)(at)(the)(beginning.g)(.)]
+[[0 5 2 (Xp)][0 1 0 (Wi)][1 2 0 (MVp)][2 4 1 (J)][3 4 0 (Dmu)]]
+[0]
+
+no cradle is so comfortable as the long , rocking swell of the Pacific .
+Found 76 linkages (24 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.56 LEN=28)
+[(LEFT-WALL)(no.misc-d)(cradle.n)(is.v)(so.e)(comfortable.a)(as.e)(the)(long.a)(,)
+(rocking.g)(swell.n)(of)(the)(Pacific[!])(.)]
+[[0 15 4 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 5 1 (Pa)][4 5 0 (EAxk)]
+[5 6 0 (MVp)][6 11 3 (Js)][7 11 2 (Ds**x)][8 11 1 (A)][8 9 0 (Xc)][10 11 0 (A)][11 12 0 (Mp)]
+[12 14 1 (Js)][13 14 0 (DG)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.56 LEN=28)
+[(LEFT-WALL)(no.misc-d)(cradle.n)(is.v)(so.e)(comfortable.a)(as.e)(the)(long.a)(,)
+(rocking.g)(swell.n)(of)(the)(Pacific[!])(.)]
+[[0 15 4 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 5 1 (Pa)][4 5 0 (EAxk)]
+[5 6 0 (MVp)][6 11 3 (Js)][7 11 2 (Ds**x)][8 11 1 (A)][8 9 0 (Xc)][10 11 0 (A)][11 12 0 (Mf)]
+[12 14 1 (Js)][13 14 0 (DG)]]
+[0]
+
+it only hurt his mouth cruelly .
+Found 3 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=12)
+[(LEFT-WALL)(it)(only)(hurt.v-d)(his)(mouth.n)(cruelly)(.)]
+[[0 7 3 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Ss)][2 3 0 (E)][3 6 2 (MVa)][3 5 1 (Os)]
+[4 5 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=10)
+[(LEFT-WALL)(it)(only)(hurt.v-d)(his)(mouth.n)(cruelly)(.)]
+[[0 7 3 (Xp)][0 1 0 (Wd)][1 3 1 (Ss)][2 3 0 (E)][3 6 2 (MVa)][3 5 1 (Os)][4 5 0 (Ds**c)]]
+[0]
+
+Anne shook her head doubtfully .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=9)
+[(LEFT-WALL)(Anne.f)(shook.v-d)(her)(head.n)(doubtfully)(.)]
+[[0 6 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 2 (MVa)][2 4 1 (Os)][3 4 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=8)
+[(LEFT-WALL)(Anne.f)(shook.v-d)(her)(head.n)(doubtfully)(.)]
+[[0 6 3 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 2 (MVa)][2 4 1 (Os)][3 4 0 (Ds**c)]]
+[0]
+
+old Jed Thumper went into a terrible rage .
+Found 8 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.96 LEN=17)
+[(LEFT-WALL)(old.a)(Jed.m)(Thumper[!])(went.v-d)(into)(a)(terrible.a)(rage.s)(.)]
+[[0 9 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (A)][2 3 0 (G)][4 5 0 (MVp)]
+[5 8 2 (Js)][6 8 1 (Ds**x)][6 7 0 (PHc)][7 8 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.26 LEN=17)
+[(LEFT-WALL)(old.a)(Jed.m)(Thumper[!])(went.v-d)(into)(a)(terrible.a)(rage.s)(.)]
+[[0 9 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (A)][2 3 0 (G)][4 5 0 (MVp)]
+[5 8 2 (Js)][6 8 1 (Ds**x)][7 8 0 (A)]]
+[0]
+
+we held a council in the cabin .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.61 LEN=12)
+[(LEFT-WALL)(we)(held.v-d)(a)(council.s)(in.r)(the)(cabin.n)(.)]
+[[0 8 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp)][2 5 2 (MVp)][2 4 1 (Os)][4 5 0 (Mp)]
+[3 4 0 (Ds**c)][5 7 1 (Js)][6 7 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=12)
+[(LEFT-WALL)(we)(held.v-d)(a)(council.s)(in.r)(the)(cabin.n)(.)]
+[[0 8 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp)][2 5 2 (MVp)][2 4 1 (Os)][3 4 0 (Ds**c)]
+[5 7 1 (Js)][6 7 0 (Ds**c)]]
+[0]
+
+perhaps there is a hole .
+Found 12 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.15 LEN=9)
+[(LEFT-WALL)(perhaps)(there.r)(is.v)(a)(hole.n)(.)]
+[[0 6 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (SFst)][1 2 0 (CO)][3 5 1 (Ost)][4 5 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.15 LEN=7)
+[(LEFT-WALL)(perhaps)(there.r)(is.v)(a)(hole.n)(.)]
+[[0 6 2 (Xp)][0 2 1 (Wd)][1 2 0 (CO)][2 3 0 (SFst)][3 5 1 (Ost)][4 5 0 (Ds**c)]]
+[0]
+
+she borrows them from the cook .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=9)
+[(LEFT-WALL)(she)(borrows.v)(them)(from)(the)(cook.n)(.)]
+[[0 7 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (MVp)][2 3 0 (Ox)][4 6 1 (Js)]
+[5 6 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=8)
+[(LEFT-WALL)(she)(borrows.v)(them)(from)(the)(cook.n)(.)]
+[[0 7 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (MVp)][2 3 0 (Ox)][4 6 1 (Js)][5 6 0 (Ds**c)]]
+[0]
+
+the stallion bounded wildly .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=7)
+[(LEFT-WALL)(the)(stallion.n)(bounded.v-d)(wildly)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 4 0 (MVa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=5)
+[(LEFT-WALL)(the)(stallion.n)(bounded.v-d)(wildly)(.)]
+[[0 5 2 (Xp)][0 2 1 (Wd)][1 2 0 (Ds**c)][2 3 0 (Ss*s)][3 4 0 (MVa)]]
+[0]
+
+Kim laughed .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=3)
+[(LEFT-WALL)(Kim.b)(laughed.v-d)(.)]
+[[0 3 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=2)
+[(LEFT-WALL)(Kim.b)(laughed.v-d)(.)]
+[[0 3 1 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)]]
+[0]
+
+I haven't .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.00 LEN=3)
+[(LEFT-WALL)(I.p)(haven't)(.)]
+[[0 3 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp*i)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 5.00 LEN=2)
+[(LEFT-WALL)(I.p)(haven't)(.)]
+[[0 3 1 (Xp)][0 1 0 (Wd)][1 2 0 (Sp*i)]]
+[0]
+
+he was a born tyrant .
+Found 8 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=9)
+[(LEFT-WALL)(he)(was.v-d)(a)(born.a)(tyrant.n)(.)]
+[[0 6 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 2 (Osm)][3 5 1 (Ds**x)][3 4 0 (PHc)]
+[4 5 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=9)
+[(LEFT-WALL)(he)(was.v-d)(a)(born.a)(tyrant.n)(.)]
+[[0 6 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 2 (Ost)][3 5 1 (Ds**x)][3 4 0 (PHc)]
+[4 5 0 (A)]]
+[0]
+
+he jumped once .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(he)(jumped.v-d)(once.e)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVs)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=3)
+[(LEFT-WALL)(he)(jumped.v-d)(once.e)(.)]
+[[0 4 1 (Xp)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVs)]]
+[0]
+
+everything was wrong .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(everything)(was.v-d)(wrong.a)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 3 0 (Paf)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.67 LEN=4)
+[(LEFT-WALL)(everything)(was.v-d)(wrong.e)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 3 0 (MVa)]]
+[0]
+
+Miss Sally turned very pale .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=9)
+[(LEFT-WALL)(Miss.f)(Sally.f)(turned.v-d)(very.e)(pale.a)(.)]
+[[0 6 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 5 1 (Pa)][4 5 0 (EA)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=7)
+[(LEFT-WALL)(Miss.f)(Sally.f)(turned.v-d)(very.e)(pale.a)(.)]
+[[0 6 2 (Xp)][0 2 1 (Wd)][1 2 0 (G)][2 3 0 (Ss*s)][3 5 1 (Pa)][4 5 0 (EA)]]
+[0]
+
+the horses are there .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=7)
+[(LEFT-WALL)(the)(horses.n)(are.v)(there.r)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Spx)][1 2 0 (Dmc)][3 4 0 (Pp)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.67 LEN=7)
+[(LEFT-WALL)(the)(horses.n)(are.v)(there.r)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Spx)][1 2 0 (Dmc)][3 4 0 (MVp)]]
+[0]
+
+we scampered joyously away through the moonlit dusk .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=15)
+[(LEFT-WALL)(we)(scampered.v-d)(joyously)(away)(through.r)(the)(moonlit.a)(dusk.n-u)(.)]
+[[0 9 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp)][2 5 2 (MVp)][2 4 1 (MVp)][2 3 0 (MVa)]
+[5 8 2 (Ju)][6 8 1 (Dmu)][7 8 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=14)
+[(LEFT-WALL)(we)(scampered.v-d)(joyously)(away)(through.r)(the)(moonlit.a)(dusk.n-u)(.)]
+[[0 9 3 (Xp)][0 1 0 (Wd)][1 2 0 (Sp)][2 5 2 (MVp)][2 4 1 (MVp)][2 3 0 (MVa)][5 8 2 (Ju)]
+[6 8 1 (Dmu)][7 8 0 (A)]]
+[0]
+
+Anne laughed merrily .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(Anne.f)(laughed.v-d)(merrily)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 3 0 (MVa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=3)
+[(LEFT-WALL)(Anne.f)(laughed.v-d)(merrily)(.)]
+[[0 4 1 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 3 0 (MVa)]]
+[0]
+
+quote me correctly .
+Found 1 linkage (1 had no P.P. violations)
+	Unique linkage, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(quote.v)(me)(correctly)(.)]
+[[0 4 2 (Xp)][0 1 0 (Wi)][1 3 1 (MVa)][1 2 0 (Ox)]]
+[0]
+
+she made three futile attempts to call him .
+Found 44 linkages (21 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=13)
+[(LEFT-WALL)(she)(made.v-d)(three)(futile.a)(attempts.n)(to.r)(call.v)(him)(.)]
+[[0 9 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 2 (Op)][3 5 1 (Dmcn)][4 5 0 (A)]
+[5 7 1 (IV)][5 6 0 (TOn)][6 7 0 (I*t)][7 8 0 (Ox)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=12)
+[(LEFT-WALL)(she)(made.v-d)(three)(futile.a)(attempts.n)(to.r)(call.v)(him)(.)]
+[[0 9 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 1 (Opn)][2 3 0 (Op)][4 5 0 (A)]
+[5 7 1 (IV)][5 6 0 (TOn)][6 7 0 (I*t)][7 8 0 (Ox)]]
+[0]
+
+he put up an internal prayer .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.10 LEN=11)
+[(LEFT-WALL)(he)(put.v-d)(up.r)(an)(internal.a)(prayer.s)(.)]
+[[0 7 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 6 2 (Osn)][2 3 0 (K)][4 6 1 (Ds**x)]
+[4 5 0 (PHv)][5 6 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.20 LEN=11)
+[(LEFT-WALL)(he)(put.v-d)(up.r)(an)(internal.a)(prayer.s)(.)]
+[[0 7 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 6 2 (Osn)][2 3 0 (K)][4 6 1 (Ds**x)]
+[5 6 0 (A)]]
+[0]
+
+Dick never came near Owlwood .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.06 LEN=8)
+[(LEFT-WALL)(dick.n-u)(never.e)(came.v-d)(near.p)(Owlwood[!])(.)]
+[[0 6 3 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Ss)][2 3 0 (E)][3 4 0 (MVp)][4 5 0 (Js)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.06 LEN=8)
+[(LEFT-WALL)(Dick.m)(never.e)(came.v-d)(near.p)(Owlwood[!])(.)]
+[[0 6 3 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Ss*s)][2 3 0 (E)][3 4 0 (MVp)][4 5 0 (Js)]]
+[0]
+
+the appearance of the house amazed me .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=17)
+[(LEFT-WALL)(the)(appearance.n)(of)(the)(house.n)(amazed.v-d)(me)(.)]
+[[0 8 4 (Xp)][0 6 3 (WV)][0 2 1 (Wd)][2 6 2 (Ss*s)][1 2 0 (Ds**v)][2 3 0 (Mp)][3 5 1 (Js)]
+[4 5 0 (Ds**c)][6 7 0 (Ox)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=17)
+[(LEFT-WALL)(the)(appearance.n)(of)(the)(house.n)(amazed.v-d)(me)(.)]
+[[0 8 4 (Xp)][0 6 3 (WV)][0 2 1 (Wd)][2 6 2 (Ss*s)][1 2 0 (Ds**v)][2 3 0 (Mf)][3 5 1 (Js)]
+[4 5 0 (Ds**c)][6 7 0 (Ox)]]
+[0]
+
+he was worrying about Peter Rabbit .
+Found 18 linkages (18 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.55 LEN=9)
+[(LEFT-WALL)(he)(was.v-d)(worrying.g)(about)(Peter.b)(Rabbit[!])(.)]
+[[0 7 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (MVp)][2 3 0 (Ost)][3 4 0 (Mp)]
+[4 6 1 (Js)][5 6 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS=-0.55 LEN=9)
+[(LEFT-WALL)(he)(was.v-d)(worrying.g)(about)(Peter.b)(Rabbit[!])(.)]
+[[0 7 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (MVp)][2 3 0 (Osm)][3 4 0 (Mp)]
+[4 6 1 (Js)][5 6 0 (G)]]
+[0]
+
+the wonderful beauty frightened her .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=11)
+[(LEFT-WALL)(the)(wonderful.a)(beauty.n-u)(frightened.v-d)(her)(.)]
+[[0 6 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss)][1 3 1 (D*u)][2 3 0 (A)][4 5 0 (Ox)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=11)
+[(LEFT-WALL)(the)(wonderful.a)(beauty.s)(frightened.v-d)(her)(.)]
+[[0 6 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (Ds**x)][2 3 0 (A)][4 5 0 (Ox)]]
+[0]
+
+men are strange creatures .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(men.p)(are.v)(strange.a)(creatures.n)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Spx)][2 4 1 (Opt)][3 4 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=5)
+[(LEFT-WALL)(men.p)(are.v)(strange.a)(creatures.n)(.)]
+[[0 5 2 (Xp)][0 1 0 (Wd)][1 2 0 (Spx)][2 4 1 (Opt)][3 4 0 (A)]]
+[0]
+
+Carry surveyed her with pleasure .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=7)
+[(LEFT-WALL)(Carry.f)(surveyed.v-d)(her)(with)(pleasure.n-u)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (MVp)][2 3 0 (Ox)][4 5 0 (Ju)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=6)
+[(LEFT-WALL)(Carry.f)(surveyed.v-d)(her)(with)(pleasure.n-u)(.)]
+[[0 6 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (MVp)][2 3 0 (Ox)][4 5 0 (Ju)]]
+[0]
+
+I never heard them so clearly .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=11)
+[(LEFT-WALL)(I.p)(never.e)(heard.v-d)(them)(so.e)(clearly.e)(.)]
+[[0 7 3 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Sp*i)][2 3 0 (E)][3 6 1 (MVa)][3 4 0 (Ox)]
+[5 6 0 (EExk)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=9)
+[(LEFT-WALL)(I.p)(never.e)(heard.v-d)(them)(so.e)(clearly.e)(.)]
+[[0 7 2 (Xp)][0 1 0 (Wd)][1 3 1 (Sp*i)][2 3 0 (E)][3 6 1 (MVa)][3 4 0 (Ox)][5 6 0 (EExk)]]
+[0]
+
+Anne choked up .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(Anne.f)(choked.v-d)(up.r)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 3 0 (K)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(Anne.f)(choked.v-d)(up.e)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 3 0 (MVa)]]
+[0]
+
+I was a stranger in Broughton .
+Found 12 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.45 LEN=10)
+[(LEFT-WALL)(I.p)(was.v-d)(a)(stranger.n)(in.r)(Broughton[!])(.)]
+[[0 7 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SX)][2 5 2 (MVp)][2 4 1 (Osm)][4 5 0 (Mp)]
+[3 4 0 (Ds**c)][5 6 0 (Js)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.45 LEN=10)
+[(LEFT-WALL)(I.p)(was.v-d)(a)(stranger.n)(in.r)(Broughton[!])(.)]
+[[0 7 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SX)][2 5 2 (MVp)][2 4 1 (Ost)][4 5 0 (Mp)]
+[3 4 0 (Ds**c)][5 6 0 (Js)]]
+[0]
+
+Miss Madeline held out her letter with a trembling hand .
+Found 316 linkages (75 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.09 LEN=21)
+[(LEFT-WALL)(Miss.f)(Madeline.f)(held.v-d)(out.r)(her)(letter.n)(with)(a)(trembling.v)
+(hand.n)(.)]
+[[0 11 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 7 2 (MVp)][3 6 1 (Osn)]
+[6 7 0 (Mp)][3 4 0 (K)][5 6 0 (Ds**c)][7 10 2 (Js)][8 10 1 (Ds**x)][9 10 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.09 LEN=20)
+[(LEFT-WALL)(miss.v)(Madeline.f)(held.v-d)(out.r)(her)(letter.n)(with)(a)(trembling.v)
+(hand.n)(.)]
+[[0 11 3 (Xp)][0 1 0 (Wi)][1 7 2 (MVp)][6 7 0 (Mp)][3 6 1 (Osn)][2 3 0 (Ss*s)][3 4 0 (K)]
+[5 6 0 (Ds**c)][7 10 2 (Js)][8 10 1 (Ds**x)][9 10 0 (A)]]
+[0]
+
+she 's so afraid of being sent to another hard place .
+Found 126 linkages (87 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.39 LEN=20)
+[(LEFT-WALL)(she)('s.v)(so.e)(afraid.a)(of)(being.v)(sent.v-d)(to.r)(another)
+(hard.a)(place.n)(.)]
+[[0 12 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Pa)][3 4 0 (EAxk)][4 8 2 (MVp)]
+[4 5 0 (OFj)][5 6 0 (Jp)][6 8 1 (Mp)][6 7 0 (Mv)][8 11 2 (Js)][9 11 1 (Ds)][10 11 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.39 LEN=20)
+[(LEFT-WALL)(she)('s.v)(so.e)(afraid.a)(of)(being.v)(sent.v-d)(to.r)(another)
+(hard.a)(place.n)(.)]
+[[0 12 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Pa)][3 4 0 (EAxk)][4 8 2 (MVp)]
+[4 5 0 (OFj)][5 6 0 (Js)][6 8 1 (Mp)][6 7 0 (Mv)][8 11 2 (Js)][9 11 1 (Ds)][10 11 0 (A)]]
+[0]
+
+that reverend gentleman looked gravely at him .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=14)
+[(LEFT-WALL)(that.j-d)(reverend.a)(gentleman.n-m)(looked.v-d)(gravely)(at)(him)(.)]
+[[0 8 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (Dsu*x)][2 3 0 (A)][4 6 1 (MVp)]
+[4 5 0 (MVa)][6 7 0 (J)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.10 LEN=14)
+[(LEFT-WALL)(that.j-d)(reverend.n)(gentleman.n-m)(looked.v-d)(gravely)(at)(him)(.)]
+[[0 8 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (Dsu*x)][2 3 0 (AN)][4 6 1 (MVp)]
+[4 5 0 (MVa)][6 7 0 (J)]]
+[0]
+
+the tall chimney which over-topped the remainder of the ruins rose right above their hiding-place .
+Found 16 linkages (16 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.10 LEN=40)
+[(LEFT-WALL)(the)(tall.a)(chimney.n)(which)(over-topped[!].v-d)(the)(remainder.n)(of)(the)
+(ruins.n)(rose.v-d)(right.e)(above)(their.p)(hiding-place[!].n)(.)]
+[[0 16 4 (Xp)][0 11 3 (WV)][0 3 2 (Wd)][3 11 2 (Ss*s)][1 3 1 (Ds**x)][2 3 0 (A)][3 5 1 (Bs)]
+[3 4 0 (R)][4 5 0 (RS)][5 7 1 (Os)][6 7 0 (Ds**c)][7 8 0 (Mf)][8 10 1 (Jp)][9 10 0 (Dmc)]
+[11 13 1 (MVp)][11 12 0 (MVa)][13 15 1 (J)][14 15 0 (D)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.10 LEN=40)
+[(LEFT-WALL)(the)(tall.a)(chimney.n)(which)(over-topped[!].v-d)(the)(remainder.n)(of)(the)
+(ruins.n)(rose.v-d)(right.e)(above)(their.p)(hiding-place[!].n)(.)]
+[[0 16 4 (Xp)][0 11 3 (WV)][0 3 2 (Wd)][3 11 2 (Ss*s)][1 3 1 (Ds**x)][2 3 0 (A)][3 5 1 (Bs)]
+[3 4 0 (R)][4 5 0 (RS)][5 7 1 (Os)][6 7 0 (Ds**c)][7 8 0 (Mp)][8 10 1 (Jp)][9 10 0 (Dmc)]
+[11 13 1 (MVp)][11 12 0 (MVa)][13 15 1 (J)][14 15 0 (D)]]
+[0]
+
+he felt a little dazed .
+Found 9 linkages (9 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.50 LEN=8)
+[(LEFT-WALL)(he)(felt.v-d)(a)(little)(dazed.v-d)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 1 (Pa)][4 5 0 (EA)][3 4 0 (IDPL)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.50 LEN=9)
+[(LEFT-WALL)(he)(felt.v-d)(a)(little)(dazed.v-d)(.)]
+[[0 6 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 2 (Pa)][2 4 1 (MVa)][3 4 0 (IDPL)]]
+[0]
+
+an hysterical catch rose in his throat .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.20 LEN=14)
+[(LEFT-WALL)(an)(hysterical.a)(catch.n)(rose.v-d)(in.r)(his)(throat.s)(.)]
+[[0 8 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (Ds**x)][2 3 0 (A)][4 5 0 (MVp)]
+[5 7 1 (Js)][6 7 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.20 LEN=11)
+[(LEFT-WALL)(an)(hysterical.a)(catch.n)(rose.v-d)(in.r)(his)(throat.s)(.)]
+[[0 8 3 (Xp)][0 3 2 (Wd)][1 3 1 (Ds**x)][2 3 0 (A)][3 4 0 (Ss*s)][4 5 0 (MVp)][5 7 1 (Js)]
+[6 7 0 (Ds**c)]]
+[0]
+
+it is flagrantly unfair .
+Found 8 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(it)(is.v)(flagrantly)(unfair.a)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Paf)][2 3 0 (MVa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=5)
+[(LEFT-WALL)(it)(is.v)(flagrantly)(unfair.a)(.)]
+[[0 5 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Paf)][2 3 0 (MVa)]]
+[0]
+
+her birthday is Friday .
+Found 8 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=7)
+[(LEFT-WALL)(her)(birthday.n)(is.v)(Friday)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 4 0 (Pp)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.67 LEN=7)
+[(LEFT-WALL)(her)(birthday.n)(is.v)(Friday)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 4 0 (MVpn)]]
+[0]
+
+he was very sorry .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(he)(was.v-d)(very.e)(sorry.a)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Pa)][3 4 0 (EA)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=5)
+[(LEFT-WALL)(he)(was.v-d)(very.e)(sorry.a)(.)]
+[[0 5 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Pa)][3 4 0 (EA)]]
+[0]
+
+common nonsense takes possession of my soul .
+Found 8 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=11)
+[(LEFT-WALL)(common.a)(nonsense.n-u)(takes.v)(possession.n-u)(of)(my.p)(soul.s)(.)]
+[[0 8 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (A)][3 4 0 (Ou)][4 5 0 (Mf)]
+[5 7 1 (Js)][6 7 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=11)
+[(LEFT-WALL)(common.a)(nonsense.n-u)(takes.v)(possession.n-u)(of)(my.p)(soul.n-u)(.)]
+[[0 8 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (A)][3 4 0 (Ou)][4 5 0 (Mp)]
+[5 7 1 (Ju)][6 7 0 (Dmu)]]
+[0]
+
+he was still smiling .
+Found 28 linkages (28 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(he)(was.v-d)(still.e)(smiling.v)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Pg*b)][3 4 0 (E)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(he)(was.v-d)(still.e)(smiling.v)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Osm)][2 3 0 (EBm)]]
+[0]
+
+my Holy One was sick , too .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 4.12 LEN=7)
+[(LEFT-WALL)(my.p)(Holy[!])(One[!])(was.v-d)(sick.a)(,)(too)(.)]
+[[0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (D)][2 3 0 (G)][4 5 0 (Pa)][5 7 1 (MVa)]
+[6 7 0 (Xd)][7 8 0 (Xc)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 5.12 LEN=7)
+[(LEFT-WALL)(my.ij)(Holy[!])(One[!])(was.v-d)(sick.a)(,)(too)(.)]
+[[0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (COa)][2 3 0 (G)][4 5 0 (Pa)][5 7 1 (MVa)]
+[6 7 0 (Xd)][7 8 0 (Xc)]]
+[0]
+
+Mrs Shelby was very glad .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=9)
+[(LEFT-WALL)(Mrs.x)(Shelby.b)(was.v-d)(very.e)(glad.a)(.)]
+[[0 6 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 5 1 (Pa)][4 5 0 (EA)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=7)
+[(LEFT-WALL)(Mrs.x)(Shelby.b)(was.v-d)(very.e)(glad.a)(.)]
+[[0 6 2 (Xp)][0 2 1 (Wd)][1 2 0 (G)][2 3 0 (Ss*s)][3 5 1 (Pa)][4 5 0 (EA)]]
+[0]
+
+two scrambled up on his back .
+Found 26 linkages (24 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=8)
+[(LEFT-WALL)(two)(scrambled.v-d)(up.a)(on)(his)(back.n)(.)]
+[[0 7 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp)][2 3 0 (Pa)][3 4 0 (MVp)][4 6 1 (Js)]
+[5 6 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=9)
+[(LEFT-WALL)(two)(scrambled.v-d)(up.e)(on)(his)(back.n)(.)]
+[[0 7 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp)][2 4 1 (MVp)][2 3 0 (MVa)][4 6 1 (Js)]
+[5 6 0 (Ds**c)]]
+[0]
+
+the others dared not feel exultant .
+Found 7 linkages (7 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=10)
+[(LEFT-WALL)(the)(others)(dared.v-d)(not.e)(feel.v)(exultant.a)(.)]
+[[0 7 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Sp)][1 2 0 (Dmc)][3 5 1 (I)][3 4 0 (N)]
+[4 5 0 (En)][5 6 0 (Pa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=10)
+[(LEFT-WALL)(the)(others)(dared.v-d)(not.e)(feel.v)(exultant.a)(.)]
+[[0 7 2 (Xp)][0 5 1 (Wi)][4 5 0 (En)][3 4 0 (N)][2 3 0 (Sp)][1 2 0 (Dmc)][5 6 0 (Pa)]]
+[0]
+
+she remembered everything now .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.09 LEN=6)
+[(LEFT-WALL)(she)(remembered.v-d)(everything)(now.r)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (MVp)][2 3 0 (Os)][3 4 0 (Mp)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(she)(remembered.v-d)(everything)(now.r)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (MVp)][2 3 0 (Os)]]
+[0]
+
+Mr Perkins was an exceedingly strict disciplinarian .
+Found 8 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.90 LEN=15)
+[(LEFT-WALL)(Mr.x)(Perkins[!])(was.v-d)(an)(exceedingly)(strict.a)(disciplinarian.n)(.)]
+[[0 8 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (G)][3 7 2 (Osm)][4 7 1 (Ds**x)]
+[4 5 0 (PHv)][5 6 0 (EA)][6 7 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.90 LEN=15)
+[(LEFT-WALL)(Mr.x)(Perkins[!])(was.v-d)(an)(exceedingly)(strict.a)(disciplinarian.n)(.)]
+[[0 8 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (G)][3 7 2 (Ost)][4 7 1 (Ds**x)]
+[4 5 0 (PHv)][5 6 0 (EA)][6 7 0 (A)]]
+[0]
+
+it hung over the sea like a shallop of ruddy gold moored to a star in the harbour of the night .
+Found 35952 linkages (100 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.22 LEN=48)
+[(LEFT-WALL)(it)(hung.v-d)(over)(the)(sea.s)(like.p)(a)(shallop[?].n)(of)
+(ruddy.a)(gold.n-u)(moored.v-d)(to.r)(a)(star.n)(in.r)(the)(harbour.n)(of)
+(the)(night.n)(.)]
+[[0 22 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 16 3 (MVp)][2 6 2 (MVp)][2 5 1 (Osn)]
+[5 6 0 (Mp)][2 3 0 (K)][4 5 0 (Ds**c)][6 8 1 (Jp)][7 8 0 (Dsu*c)][8 12 2 (Mv)][8 9 0 (Mf)]
+[9 11 1 (Ju)][10 11 0 (A)][12 13 0 (MVp)][13 15 1 (Js)][15 16 0 (Mp)][14 15 0 (Ds**c)][16 18 1 (Js)]
+[17 18 0 (Ds**c)][18 19 0 (Mp)][19 21 1 (Jp)][20 21 0 (D*u)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.38 LEN=46)
+[(LEFT-WALL)(it)(hung.v-d)(over)(the)(sea.s)(like.p)(a)(shallop[?].n)(of)
+(ruddy.a)(gold.n-u)(moored.v-d)(to.r)(a)(star.n)(in.r)(the)(harbour.n)(of)
+(the)(night.n)(.)]
+[[0 22 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 13 3 (MVp)][2 6 2 (MVp)][2 5 1 (Osn)]
+[5 6 0 (Mp)][2 3 0 (K)][4 5 0 (Ds**c)][6 8 1 (Jp)][7 8 0 (Dsu*x)][8 9 0 (Mp)][9 11 1 (Ju)]
+[11 13 1 (Mp)][10 11 0 (A)][11 12 0 (Mv)][13 15 1 (Js)][14 15 0 (Ds**c)][15 19 2 (Mf)][15 16 0 (Mp)]
+[16 18 1 (Js)][17 18 0 (Ds**c)][19 21 1 (Jp)][20 21 0 (D*u)]]
+[0]
+
+Mahbub gave the money .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.06 LEN=6)
+[(LEFT-WALL)(Mahbub[!])(gave.v-d)(the)(money.n-u)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (Ou)][3 4 0 (Dmu)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.06 LEN=5)
+[(LEFT-WALL)(Mahbub[!])(gave.v-d)(the)(money.n-u)(.)]
+[[0 5 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (Ou)][3 4 0 (Dmu)]]
+[0]
+
+the lama held his peace .
+Found 8 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=9)
+[(LEFT-WALL)(the)(lama[?].n)(held.v-d)(his)(peace.s)(.)]
+[[0 6 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (D*u)][3 5 1 (Os)][4 5 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=9)
+[(LEFT-WALL)(the)(lama[?].n)(held.v-d)(his)(peace.n-u)(.)]
+[[0 6 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (D*u)][3 5 1 (Ou)][4 5 0 (Dmu)]]
+[0]
+
+Prickly Porky wiped the tears from his eyes .
+Found 18 linkages (18 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.49 LEN=15)
+[(LEFT-WALL)(Prickly[!])(Porky[!])(wiped.v-d)(the)(tears.n)(from)(his)(eyes.n)(.)]
+[[0 9 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 6 2 (MVp)][3 5 1 (Op)]
+[5 6 0 (Mp)][4 5 0 (Dmc)][6 8 1 (Jp)][7 8 0 (Dmc)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.12 LEN=13)
+[(LEFT-WALL)(Prickly[!])(Porky[!])(wiped.v-d)(the)(tears.n)(from)(his)(eyes.n)(.)]
+[[0 9 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 5 1 (Op)][4 5 0 (Dmc)]
+[5 6 0 (Mp)][6 8 1 (Jp)][7 8 0 (Dmc)]]
+[0]
+
+Eunice obeyed her noiselessly .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.10 LEN=6)
+[(LEFT-WALL)(Eunice.f)(obeyed.v-d)(her)(noiselessly[!].e)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (MVa)][2 3 0 (Ox)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.10 LEN=5)
+[(LEFT-WALL)(Eunice.f)(obeyed.v-d)(her)(noiselessly[!].e)(.)]
+[[0 5 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (MVa)][2 3 0 (Ox)]]
+[0]
+
+it was like sliding down on the air .
+Found 344 linkages (46 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=11)
+[(LEFT-WALL)(it)(was.v-d)(like.p)(sliding.v)(down.r)(on)(the)(air.s)(.)]
+[[0 9 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (Pp)][3 4 0 (Mgp)][4 6 1 (MVp)]
+[4 5 0 (K)][6 8 1 (Js)][7 8 0 (Ds**v)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=12)
+[(LEFT-WALL)(it)(was.v-d)(like.p)(sliding.g)(down.a)(on)(the)(air.s)(.)]
+[[0 9 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 1 (Pa)][2 3 0 (MVp)][3 4 0 (J)]
+[5 6 0 (MVp)][6 8 1 (Js)][7 8 0 (Ds**v)]]
+[0]
+
+Bobby Coon went on down to the Laughing Brook .
+Found 24 linkages (24 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.12 LEN=18)
+[(LEFT-WALL)(Bobby.b)(Coon[!])(went.v-d)(on)(down.e)(to.r)(the)(Laughing[!])(Brook.f)
+(.)]
+[[0 10 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 6 2 (MVp)][3 5 1 (MVa)]
+[3 4 0 (K)][6 9 2 (Js)][7 9 1 (DG)][8 9 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.12 LEN=16)
+[(LEFT-WALL)(Bobby.b)(Coon[!])(went.v-d)(on)(down.r)(to.r)(the)(Laughing[!])(Brook.f)
+(.)]
+[[0 10 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 5 1 (MVa)][3 4 0 (K)]
+[5 6 0 (MVp)][6 9 2 (Js)][7 9 1 (DG)][8 9 0 (G)]]
+[0]
+
+Peter looked as surprised as he felt .
+Found 18 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.15 LEN=10)
+[(LEFT-WALL)(Peter.b)(looked.v-d)(as.e-y)(surprised.a)(as.#that)(he)(felt.v-d)(.)]
+[[0 8 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (Pa)][3 4 0 (EAy)][4 5 0 (TH)]
+[5 7 1 (CV)][5 6 0 (Cet)][6 7 0 (Ss)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.10 LEN=10)
+[(LEFT-WALL)(Peter.b)(looked.v-d)(as.e-y)(surprised.a)(as.e-c)(he)(felt.v-d)(.)]
+[[0 8 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (Pa)][3 4 0 (EAy)][4 5 0 (MVza)]
+[5 7 1 (AFd)][5 6 0 (Cta)][6 7 0 (Ss)]]
+[0]
+
+they shunned him .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(they)(shunned.v-d)(him)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp)][2 3 0 (Ox)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=3)
+[(LEFT-WALL)(they)(shunned.v-d)(him)(.)]
+[[0 4 1 (Xp)][0 1 0 (Wd)][1 2 0 (Sp)][2 3 0 (Ox)]]
+[0]
+
+she threw her broom at the bird , who was perched on a bracket high up on the wall .
+Found 480 linkages (48 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.49 LEN=39)
+[(LEFT-WALL)(she)(threw.v-d)(her)(broom.n)(at)(the)(bird.n)(,)(who)
+(was.v-d)(perched.v-d)(on)(a)(bracket.n)(high.a)(up.e)(on)(the)(wall.n)
+(.)]
+[[0 20 4 (Xp)][0 8 3 (Xx)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 2 (MVp)][2 4 1 (Os)]
+[4 5 0 (Mp)][3 4 0 (Ds**c)][5 7 1 (Js)][6 7 0 (Ds**c)][8 11 1 (WV)][8 9 0 (Ws)][9 10 0 (Ss*w)]
+[10 11 0 (Pv)][11 15 2 (Pa)][11 12 0 (MVp)][12 14 1 (Js)][13 14 0 (Ds**c)][15 17 1 (MVp)][15 16 0 (MVa)]
+[17 19 1 (Js)][18 19 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.79 LEN=37)
+[(LEFT-WALL)(she)(threw.v-d)(her)(broom.n)(at)(the)(bird.n)(,)(who)
+(was.v-d)(perched.v-d)(on)(a)(bracket.n)(high.n)(up.a)(on)(the)(wall.n)
+(.)]
+[[0 20 4 (Xp)][0 8 3 (Xx)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 2 (MVp)][2 4 1 (Os)]
+[4 5 0 (Mp)][3 4 0 (Ds**c)][5 7 1 (Js)][6 7 0 (Ds**c)][8 11 1 (WV)][8 9 0 (Ws)][9 10 0 (Ss*w)]
+[10 11 0 (Pv)][11 12 0 (MVp)][12 15 2 (Js)][13 15 1 (Ds**x)][14 15 0 (AN)][15 16 0 (Ma)][16 17 0 (MVp)]
+[17 19 1 (Js)][18 19 0 (Ds**c)]]
+[0]
+
+there is a sickness of the sea which for three days is pure death !
+Found 912 linkages (44 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.10 LEN=26)
+[(LEFT-WALL)(there.r)(is.v)(a)(sickness.s)(of)(the)(sea.s)(which)(for.p)
+(three)(days.u)(is.v)(pure.a)(death.n-u)(!)]
+[[0 15 4 (Xp)][0 2 1 (WV)][0 1 0 (Wp)][1 2 0 (PFb)][2 4 1 (SIs*b)][3 4 0 (Ds**c)][4 5 0 (Mf)]
+[5 7 1 (Js)][6 7 0 (Ds**c)][7 12 3 (Bs)][7 8 0 (R)][8 12 2 (RS)][8 9 0 (MVp)][9 11 1 (Jp)]
+[10 11 0 (ND)][12 14 1 (Out)][13 14 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.10 LEN=26)
+[(LEFT-WALL)(there.r)(is.v)(a)(sickness.s)(of)(the)(sea.n-u)(which)(for.p)
+(three)(days.u)(is.v)(pure.a)(death.n-u)(!)]
+[[0 15 4 (Xp)][0 2 1 (WV)][0 1 0 (Wp)][1 2 0 (PFb)][2 4 1 (SIs*x)][3 4 0 (Ds**c)][4 5 0 (Mp)]
+[5 7 1 (Ju)][6 7 0 (Dmu)][7 12 3 (Bs)][7 8 0 (R)][8 12 2 (RS)][8 9 0 (MVp)][9 11 1 (Jp)]
+[10 11 0 (ND)][12 14 1 (Out)][13 14 0 (A)]]
+[0]
+
+that was why he was afraid to go home .
+Found 20 linkages (19 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=12)
+[(LEFT-WALL)(that.j-p)(was.v-d)(why)(he)(was.v-d)(afraid.a)(to.r)(go.v)(home.r)
+(.)]
+[[0 10 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*b)][2 3 0 (BIq)][3 5 1 (CV)][3 4 0 (Cs)]
+[4 5 0 (Ss)][5 6 0 (Pa)][6 8 1 (IV)][6 7 0 (TO)][7 8 0 (I*t)][8 9 0 (MVp)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=18)
+[(LEFT-WALL)(that.j-p)(was.v-d)(why)(he)(was.v-d)(afraid.a)(to.r)(go.v)(home.r)
+(.)]
+[[0 10 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*b)][2 9 2 (MVp)][2 3 0 (BIq)][3 5 1 (CV)]
+[3 4 0 (Cs)][4 5 0 (Ss)][5 6 0 (Pa)][6 8 1 (IV)][6 7 0 (TO)][7 8 0 (I*t)]]
+[0]
+
+everybody knows the voice of Sammy Jay .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=10)
+[(LEFT-WALL)(everybody)(knows.v)(the)(voice.n)(of)(Sammy.b)(Jay.b)(.)]
+[[0 8 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (Os)][3 4 0 (Ds**c)][4 5 0 (Mf)]
+[5 7 1 (Js)][6 7 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=10)
+[(LEFT-WALL)(everybody)(knows.v)(the)(voice.n)(of)(Sammy.b)(Jay.b)(.)]
+[[0 8 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (Os)][3 4 0 (Ds**c)][4 5 0 (Mp)]
+[5 7 1 (Js)][6 7 0 (G)]]
+[0]
+
+it was Mrs Brown carrying Bowser 's dinner out to him .
+Found 358 linkages (30 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.12 LEN=15)
+[(LEFT-WALL)(it)(was.v-d)(Mrs.x)(Brown[!])(carrying.v)(Bowser[!])('s.p)(dinner.s)(out.a)
+(to.r)(him)(.)]
+[[0 12 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Ost)][3 4 0 (G)][4 5 0 (Mg)]
+[5 8 1 (Os)][7 8 0 (Ds**c)][6 7 0 (YS)][8 9 0 (Ma)][9 10 0 (MVp)][10 11 0 (J)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 4.12 LEN=21)
+[(LEFT-WALL)(it)(was.v-d)(Mrs.x)(Brown[!])(carrying.v)(Bowser[!])('s.p)(dinner.s)(out.r)
+(to.r)(him)(.)]
+[[0 12 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 9 2 (MVa)][2 4 1 (Osm)][3 4 0 (G)]
+[4 5 0 (Mg)][5 8 1 (Os)][7 8 0 (Ds**c)][6 7 0 (YS)][9 10 0 (MVp)][10 11 0 (J)]]
+[0]
+
+there was no doubt about that .
+Found 78 linkages (24 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.54 LEN=10)
+[(LEFT-WALL)(there.r)(was.v-d)(no.misc-d)(doubt.n)(about)(that.j-p)(.)]
+[[0 7 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SFst)][2 5 2 (MVp)][2 4 1 (Ost)][4 5 0 (Mp)]
+[3 4 0 (D*u*x)][5 6 0 (Js)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.54 LEN=10)
+[(LEFT-WALL)(there.r)(was.v-d)(no.misc-d)(doubt.n)(about)(that.j-p)(.)]
+[[0 7 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SFst)][2 5 2 (MVp)][2 4 1 (Ost)][4 5 0 (Mp)]
+[3 4 0 (D*u*c)][5 6 0 (Js)]]
+[0]
+
+the Caliph fell into deep thought on hearing this story of the Princess .
+Found 64 linkages (64 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.55 LEN=22)
+[(LEFT-WALL)(the)(Caliph[!])(fell.v-d)(into)(deep.a)(thought.n)(on)(hearing.v)(this.d)
+(story.n)(of)(the)(Princess.f)(.)]
+[[0 14 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (DG)][3 7 2 (MVp)][3 4 0 (MVp)]
+[4 6 1 (Jp)][6 7 0 (Mp)][5 6 0 (A)][7 8 0 (Mgp)][8 10 1 (Os)][9 10 0 (Dsu*c)][10 11 0 (Mf)]
+[11 13 1 (Js)][12 13 0 (DG)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS=-0.55 LEN=22)
+[(LEFT-WALL)(the)(Caliph[!])(fell.v-d)(into)(deep.a)(thought.n)(on)(hearing.v)(this.d)
+(story.n)(of)(the)(Princess.f)(.)]
+[[0 14 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (DG)][3 7 2 (MVp)][3 4 0 (MVp)]
+[4 6 1 (Jp)][6 7 0 (Mp)][5 6 0 (A)][7 8 0 (Mgp)][8 10 1 (Os)][9 10 0 (Dsu*c)][10 11 0 (Mp)]
+[11 13 1 (Js)][12 13 0 (DG)]]
+[0]
+
+my heart sank .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(my.p)(heart.s)(sank.v-d)(.)]
+[[0 4 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(my.p)(heart.n-u)(sank.v-d)(.)]
+[[0 4 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (Dmu)]]
+[0]
+
+her life was quiet and lonely .
+Found 56 linkages (56 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=10)
+[(LEFT-WALL)(her)(life.s)(was.v-d)(quiet.a)(and.j-a)(lonely.a)(.)]
+[[0 7 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 5 1 (Pa)][4 5 0 (AJla)]
+[5 6 0 (AJra)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=10)
+[(LEFT-WALL)(her)(life.n-u)(was.v-d)(quiet.a)(and.j-a)(lonely.a)(.)]
+[[0 7 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (Dmu)][3 5 1 (Pa)][4 5 0 (AJla)]
+[5 6 0 (AJra)]]
+[0]
+
+Nelly looked at him wickedly .
+Found 3 linkages (3 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=8)
+[(LEFT-WALL)(Nelly.f)(looked.v-d)(at)(him)(wickedly)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (MVa)][2 3 0 (MVp)][3 4 0 (J)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.95 LEN=9)
+[(LEFT-WALL)(Nelly.f)(looked)(at)(him)(wickedly)(.)]
+[[0 6 3 (Xp)][0 3 2 (CPu)][0 1 0 (Wd)][1 3 1 (Ss*s)][2 3 0 (IDBEM)][3 5 1 (MVa)][3 4 0 (Ox)]]
+[0]
+
+Heatherton folks gossiped a great deal .
+Found 16 linkages (16 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.16 LEN=11)
+[(LEFT-WALL)(Heatherton[!])(folks.n)(gossiped.v-d)(a)(great)(deal)(.)]
+[[0 7 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Sp)][1 2 0 (AN)][3 6 1 (MVa)][5 6 0 (IDPM)]
+[4 5 0 (IDPN)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.06 LEN=11)
+[(LEFT-WALL)(Heatherton[!])(folks.n)(gossiped.v-d)(a)(great)(deal)(.)]
+[[0 7 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Sp)][1 2 0 (COa)][3 6 1 (MVa)][5 6 0 (IDPM)]
+[4 5 0 (IDPN)]]
+[0]
+
+both girls bailed energetically .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=7)
+[(LEFT-WALL)(both.d)(girls.n)(bailed.v-d)(energetically)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Sp)][1 2 0 (Dmc)][3 4 0 (MVa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=5)
+[(LEFT-WALL)(both.d)(girls.n)(bailed.v-d)(energetically)(.)]
+[[0 5 2 (Xp)][0 2 1 (Wd)][1 2 0 (Dmc)][2 3 0 (Sp)][3 4 0 (MVa)]]
+[0]
+
+I 'm just as safe as if he were miles away .
+No complete linkages found.
+Found 335 linkages (11 of 100 random linkages had no P.P. violations) at null count 1
+	Linkage 1, cost vector = (UNUSED=1 DIS= 3.67 LEN=22)
+[(LEFT-WALL)(I.p)('m)(just.e)([as])(safe.a)(as)(if)(he)(were.v-d)
+(miles.i)(away)(.)]
+[[0 12 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SX)][2 5 1 (Paf)][2 3 0 (EBm)][3 5 0 (EA)]
+[5 11 2 (MVp)][5 7 1 (MVs)][6 7 0 (IDBRI)][7 9 1 (CV)][7 8 0 (Cs)][8 9 0 (Ss)][10 11 0 (Yd)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=1 DIS= 4.00 LEN=17)
+[(LEFT-WALL)(I.p)('m)(just.e)([as])(safe.a)(as)(if)(he)(were.v-d)
+(miles.i)(away)(.)]
+[[0 12 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SX)][2 5 1 (Paf)][2 3 0 (EBm)][5 7 1 (MVs)]
+[6 7 0 (IDBRI)][7 9 1 (CV)][7 8 0 (Cs)][8 9 0 (Ss)][9 11 1 (Pp)][10 11 0 (Yd)]]
+[0]
+
+he simply sat and stared at those four squirming babies .
+Found 204 linkages (100 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.50 LEN=20)
+[(LEFT-WALL)(he)(simply.ee)(sat.v-d)(and.j-v)(stared.v-d)(at)(those)(four)(squirming.v)
+(babies.n)(.)]
+[[0 11 3 (Xp)][0 4 2 (WV)][0 1 0 (Wd)][1 4 1 (Ss)][3 4 0 (VJlsi)][2 3 0 (E)][4 6 1 (MVp)]
+[4 5 0 (VJrsi)][6 10 2 (Jp)][8 10 1 (Dmcn)][7 8 0 (DD)][9 10 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.50 LEN=20)
+[(LEFT-WALL)(he)(simply.e)(sat.v-d)(and.j-v)(stared.v-d)(at)(those)(four)(squirming.v)
+(babies.n)(.)]
+[[0 11 3 (Xp)][0 4 2 (WV)][0 1 0 (Wd)][1 4 1 (Ss)][3 4 0 (VJlsi)][2 3 0 (Em)][4 6 1 (MVp)]
+[4 5 0 (VJrsi)][6 10 2 (Jp)][8 10 1 (Dmcn)][7 8 0 (DD)][9 10 0 (A)]]
+[0]
+
+all children , except one , grow up .
+Found 15 linkages (15 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.00 LEN=21)
+[(LEFT-WALL)(all.a)(children.p)(,)(except)(one)(,)(grow.v)(up.r)(.)]
+[[0 9 4 (Xp)][0 7 3 (WV)][0 2 1 (Wd)][2 7 2 (Sp)][1 2 0 (Dmc)][2 4 1 (MXpx)][3 4 0 (Xd)]
+[4 6 1 (Xc)][4 5 0 (Js)][7 8 0 (K)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=21)
+[(LEFT-WALL)(all.a)(children.p)(,)(except)(one)(,)(grow.v)(up.e)(.)]
+[[0 9 4 (Xp)][0 7 3 (WV)][0 2 1 (Wd)][2 7 2 (Sp)][1 2 0 (Dmc)][2 4 1 (MXpx)][3 4 0 (Xd)]
+[4 6 1 (Xc)][4 5 0 (Js)][7 8 0 (MVa)]]
+[0]
+
+it floated beautifully .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(it)(floated.v-d)(beautifully)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=3)
+[(LEFT-WALL)(it)(floated.v-d)(beautifully)(.)]
+[[0 4 1 (Xp)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVa)]]
+[0]
+
+Mr Harrison chuckled .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=6)
+[(LEFT-WALL)(Mr.x)(Harrison.m)(chuckled.v-d)(.)]
+[[0 4 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 4.00 LEN=4)
+[(LEFT-WALL)(Mr.x)(Harrison.m)(chuckled.v-d)(.)]
+[[0 4 2 (Xp)][0 2 1 (Wd)][1 2 0 (G)][2 3 0 (Ss*s)]]
+[0]
+
+their worst reception , however , was at Simon Fletcher 's .
+Found 8 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.00 LEN=26)
+[(LEFT-WALL)(their.p)(worst.a-s)(reception.n-u)(,)(however.e)(,)(was.v-d)(at)(Simon.m)
+(Fletcher.m)('s.p)(.)]
+[[0 12 4 (Xp)][0 7 3 (WV)][0 3 2 (Wd)][3 7 2 (Ss)][1 3 1 (Dmu)][1 2 0 (La)][5 7 1 (E)]
+[4 5 0 (Xd)][5 6 0 (Xc)][7 8 0 (Pp)][8 11 1 (J)][10 11 0 (YS)][9 10 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=26)
+[(LEFT-WALL)(their.p)(worst.a-s)(reception.s)(,)(however.e)(,)(was.v-d)(at)(Simon.m)
+(Fletcher.m)('s.p)(.)]
+[[0 12 4 (Xp)][0 7 3 (WV)][0 3 2 (Wd)][3 7 2 (Ss*s)][1 3 1 (Ds**c)][1 2 0 (La)][5 7 1 (E)]
+[4 5 0 (Xd)][5 6 0 (Xc)][7 8 0 (Pp)][8 11 1 (J)][10 11 0 (YS)][9 10 0 (G)]]
+[0]
+
+others were decidedly original .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(others)(were.v-d)(decidedly)(original.a)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Spx)][2 4 1 (Paf)][3 4 0 (EA)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=5)
+[(LEFT-WALL)(others)(were.v-d)(decidedly)(original.a)(.)]
+[[0 5 2 (Xp)][0 1 0 (Wd)][1 2 0 (Spx)][2 4 1 (Paf)][3 4 0 (EA)]]
+[0]
+
+Anne nodded .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=3)
+[(LEFT-WALL)(Anne.f)(nodded.v-d)(.)]
+[[0 3 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=2)
+[(LEFT-WALL)(Anne.f)(nodded.v-d)(.)]
+[[0 3 1 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)]]
+[0]
+
+the mail came late with ill tidings from all over the province .
+Found 332 linkages (52 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.41 LEN=21)
+[(LEFT-WALL)(the)(mail.n-u)(came.v-d)(late.a)(with)(ill.n-u)(tidings[!].n)(from)(all)
+(over)(the)(province.n)(.)]
+[[0 13 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (Dmu)][3 4 0 (Pa)][4 8 2 (MVp)]
+[4 5 0 (MVp)][5 7 1 (Jp)][7 8 0 (Mp)][6 7 0 (AN)][8 10 1 (FM)][9 10 0 (IDBIO)][10 12 1 (Js)]
+[11 12 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.49 LEN=28)
+[(LEFT-WALL)(the)(mail.n-u)(came.v-d)(late.e)(with)(ill.a)(tidings[!].n)(from)(all.a)
+(over)(the)(province.n)(.)]
+[[0 13 4 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (Dmu)][3 10 3 (MVp)][3 8 2 (MVp)]
+[3 5 1 (MVp)][3 4 0 (MVa)][5 7 1 (Jp)][6 7 0 (A)][8 9 0 (J)][9 10 0 (Mp)][10 12 1 (Js)]
+[11 12 0 (Ds**c)]]
+[0]
+
+she had had her reward .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=8)
+[(LEFT-WALL)(she)(had.v-d)(had.v-d)(her)(reward.s)(.)]
+[[0 6 2 (Xp)][0 3 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (PPf)][3 5 1 (Os)][4 5 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=8)
+[(LEFT-WALL)(she)(had.v-d)(had.v-d)(her)(reward.n-u)(.)]
+[[0 6 2 (Xp)][0 3 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (PPf)][3 5 1 (Ou)][4 5 0 (Dmu)]]
+[0]
+
+she trembled violently and put one of her small brown hands up to her throat .
+Found 550 linkages (63 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.20 LEN=42)
+[(LEFT-WALL)(she)(trembled.v-d)(violently)(and.j-v)(put.v-d)(one)(of)(her)(small.a)
+(brown.a)(hands.n)(up.r)(to.r)(her)(throat.s)(.)]
+[[0 16 6 (Xp)][0 4 3 (WV)][0 1 0 (Wd)][1 4 2 (Ss)][2 4 1 (VJlsi)][2 3 0 (MVa)][4 13 5 (MVp)]
+[4 5 0 (VJrsi)][5 12 4 (Pp)][5 6 0 (Os)][6 7 0 (Mp)][7 11 3 (Jp)][8 11 2 (Dmc)][9 11 1 (A)]
+[10 11 0 (A)][13 15 1 (Js)][14 15 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.40 LEN=33)
+[(LEFT-WALL)(she)(trembled.v-d)(violently)(and.j-v)(put.v-d)(one)(of)(her)(small.a)
+(brown.a)(hands.n)(up.e)(to.r)(her)(throat.s)(.)]
+[[0 16 4 (Xp)][0 4 3 (WV)][0 1 0 (Wd)][1 4 2 (Ss)][2 4 1 (VJlsi)][2 3 0 (MVa)][4 5 0 (VJrsi)]
+[5 12 3 (Pp)][5 6 0 (Os)][6 7 0 (Mf)][7 11 2 (Jp)][8 11 1 (Dmc)][10 11 0 (A)][9 10 0 (A)]
+[12 13 0 (Pp)][13 15 1 (Js)][14 15 0 (Ds**c)]]
+[0]
+
+he wondered if he were simply having a beautiful dream .
+Found 104 linkages (94 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.90 LEN=16)
+[(LEFT-WALL)(he)(wondered.v-d)(if.r)(he)(were.v-d)(simply.e)(having.v)(a)(beautiful.a)
+(dream.n)(.)]
+[[0 11 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVs)][3 5 1 (CV)][3 4 0 (Cs)]
+[4 5 0 (Ss)][5 7 1 (Pg*b)][6 7 0 (Em)][7 10 2 (Os)][8 10 1 (Ds**x)][8 9 0 (PHc)][9 10 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.90 LEN=16)
+[(LEFT-WALL)(he)(wondered.v-d)(if.r)(he)(were.v-d)(simply.e)(having.v)(a)(beautiful.a)
+(dream.n)(.)]
+[[0 11 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVs)][3 5 1 (CV)][3 4 0 (Cs)]
+[4 5 0 (Ss)][5 7 1 (Pg*b)][6 7 0 (Em)][7 10 2 (Os)][8 10 1 (Ds**x)][8 9 0 (PHc)][9 10 0 (A)]]
+[0]
+
+Jims ' fingers tingled to stroke him .
+Found 4 linkages (3 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=12)
+[(LEFT-WALL)(Jims[!])(')(fingers.n)(tingled.v-d)(to.r)(stroke.v)(him)(.)]
+[[0 8 3 (Xp)][0 4 2 (WV)][0 3 1 (Wd)][3 4 0 (Sp)][2 3 0 (Dmc)][1 2 0 (YP)][4 5 0 (MVi)]
+[5 6 0 (I)][6 7 0 (Ox)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=14)
+[(LEFT-WALL)(Jims[!])(')(fingers.n)(tingled.v-d)(to.r)(stroke.v)(him)(.)]
+[[0 8 3 (Xp)][0 6 2 (WV)][0 3 1 (Wd)][2 3 0 (Dmc)][1 2 0 (YP)][3 4 0 (Sp)][4 5 0 (MVi)]
+[5 6 0 (I)][6 7 0 (Ox)]]
+[0]
+
+Little Joyce nodded .
+Found 8 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.06 LEN=6)
+[(LEFT-WALL)(Little[!])(Joyce.f)(nodded.v-d)(.)]
+[[0 4 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=6)
+[(LEFT-WALL)(little.i)(Joyce.f)(nodded.v-d)(.)]
+[[0 4 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Dmu)]]
+[0]
+
+she screamed .
+Found 10 linkages (10 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=3)
+[(LEFT-WALL)(she)(screamed.v-d)(.)]
+[[0 3 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=1)
+[(LEFT-WALL)(she)(screamed.q-d)(.)]
+[[0 2 1 (CPa)][1 2 0 (Ss)][2 3 0 (Xp)]]
+[0]
+
+Janet had heard all this before and could not understand it .
+Found 48 linkages (48 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.61 LEN=28)
+[(LEFT-WALL)(Janet.f)(had.v-d)(heard.v-d)(all)(this)(before)(and.j-v)(could.v)(not.e)
+(understand.v)(it)(.)]
+[[0 12 6 (Xp)][0 7 5 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 7 4 (PP)][3 7 3 (VJlhi)][3 6 2 (MVp)]
+[3 5 1 (Os)][5 6 0 (Mp)][4 5 0 (IDON)][7 8 0 (VJrh)][8 10 1 (I)][8 9 0 (N)][9 10 0 (En)]
+[10 11 0 (Osm)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS=-0.61 LEN=30)
+[(LEFT-WALL)(Janet.f)(had.v-d)(heard.v-d)(all)(this)(before)(and.j-v)(could.v)(not.e)
+(understand.v)(it)(.)]
+[[0 12 6 (Xp)][0 7 5 (WV)][0 1 0 (Wd)][1 7 4 (Ss*s)][2 7 3 (VJlsi)][2 3 0 (PP)][3 6 2 (MVp)]
+[3 5 1 (Os)][5 6 0 (Mp)][4 5 0 (IDON)][7 8 0 (VJrsi)][8 10 1 (I)][8 9 0 (N)][9 10 0 (En)]
+[10 11 0 (Osm)]]
+[0]
+
+tell me that !
+Found 1 linkage (1 had no P.P. violations)
+	Unique linkage, cost vector = (UNUSED=0 DIS= 1.00 LEN=4)
+[(LEFT-WALL)(tell.v)(me)(that.j-p)(!)]
+[[0 4 2 (Xp)][0 1 0 (Wi)][1 3 1 (Osn)][1 2 0 (Ox)]]
+[0]
+
+he mentioned the matter to Johnny Chuck .
+Found 12 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.39 LEN=12)
+[(LEFT-WALL)(he)(mentioned.v-d)(the)(matter.n-u)(to.r)(Johnny.b)(Chuck.m)(.)]
+[[0 8 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 2 (MVp)][2 4 1 (Ou)][4 5 0 (Mp)]
+[3 4 0 (Dmu)][5 7 1 (Js)][6 7 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.39 LEN=12)
+[(LEFT-WALL)(he)(mentioned.v-d)(the)(matter.s)(to.r)(Johnny.b)(Chuck.m)(.)]
+[[0 8 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 2 (MVp)][2 4 1 (Os)][4 5 0 (Mp)]
+[3 4 0 (Ds**c)][5 7 1 (Js)][6 7 0 (G)]]
+[0]
+
+it was one of Grandfather Frog 's little jokes .
+Found 68 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.12 LEN=15)
+[(LEFT-WALL)(it)(was.v-d)(one)(of)(Grandfather[!])(Frog[!])('s.p)(little.a)(jokes.n)
+(.)]
+[[0 10 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (Osm)][3 4 0 (Mp)][4 9 2 (Jp)]
+[7 9 1 (Dmc)][6 7 0 (YS)][5 6 0 (G)][8 9 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.12 LEN=15)
+[(LEFT-WALL)(it)(was.v-d)(one)(of)(Grandfather[!])(Frog[!])('s.p)(little.a)(jokes.n)
+(.)]
+[[0 10 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (Osm)][3 4 0 (Mf)][4 9 2 (Jp)]
+[7 9 1 (Dmc)][6 7 0 (YS)][5 6 0 (G)][8 9 0 (A)]]
+[0]
+
+the Story Girl shook her long brown curls .
+Found 51 linkages (21 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.12 LEN=20)
+[(LEFT-WALL)(the)(Story[!])(Girl[!])(shook.v-d)(her)(long.a)(brown.a)(curls.n)(.)]
+[[0 9 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (DG)][2 3 0 (G)][4 8 3 (Op)]
+[5 8 2 (Dmc)][6 8 1 (A)][7 8 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.32 LEN=18)
+[(LEFT-WALL)(the)(Story[!])(Girl[!])(shook.v-d)(her)(long.a)(brown.a)(curls.n)(.)]
+[[0 9 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (DG)][2 3 0 (G)][4 8 2 (Op)]
+[7 8 0 (A)][5 7 1 (Ds)][6 7 0 (A)]]
+[0]
+
+Peter tried hard not to look too self-consciously delighted .
+Found 33 linkages (33 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.10 LEN=15)
+[(LEFT-WALL)(Peter.b)(tried.v-d)(hard.e)(not.e)(to.r)(look.v)(too)(self-consciously)(delighted.a)
+(.)]
+[[0 10 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (MVi)][2 3 0 (MVa)][4 5 0 (NT)]
+[5 6 0 (I)][6 9 2 (Pa)][6 8 1 (MVa)][7 8 0 (EE)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.10 LEN=15)
+[(LEFT-WALL)(Peter.b)(tried.v-d)(hard.e)(not.e)(to.r)(look.v)(too)(self-consciously)(delighted.a)
+(.)]
+[[0 10 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (MVi)][2 3 0 (MVa)][4 5 0 (NT)]
+[5 6 0 (I)][6 9 2 (Pa)][6 8 1 (MVa)][6 7 0 (MVa)]]
+[0]
+
+the matron of the asylum made them for me .
+Found 8 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=20)
+[(LEFT-WALL)(the)(matron.n)(of)(the)(asylum.n-u)(made.v-d)(them)(for.p)(me)
+(.)]
+[[0 10 4 (Xp)][0 6 3 (WV)][0 2 1 (Wd)][2 6 2 (Ss*s)][1 2 0 (Ds**c)][2 3 0 (Mf)][3 5 1 (Ju)]
+[4 5 0 (Dmu)][6 8 1 (MVp)][6 7 0 (Ox)][8 9 0 (J)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=20)
+[(LEFT-WALL)(the)(matron.n)(of)(the)(asylum.s)(made.v-d)(them)(for.p)(me)
+(.)]
+[[0 10 4 (Xp)][0 6 3 (WV)][0 2 1 (Wd)][2 6 2 (Ss*s)][1 2 0 (Ds**c)][2 3 0 (Mp)][3 5 1 (Js)]
+[4 5 0 (Ds**v)][6 8 1 (MVp)][6 7 0 (Ox)][8 9 0 (J)]]
+[0]
+
+she had twins three times .
+Found 11 linkages (11 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=8)
+[(LEFT-WALL)(she)(had.v-d)(twins.n)(three)(times.i)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 1 (MVp)][2 3 0 (Op)][4 5 0 (ND)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=8)
+[(LEFT-WALL)(she)(had.v-d)(twins.n)(three)(times.n)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 1 (MVa)][2 3 0 (Op)][3 4 0 (NMw)]]
+[0]
+
+both Marilla and Mrs Lynde recognized its unmistakable ring .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.06 LEN=23)
+[(LEFT-WALL)(both.d)(Marilla.f)(and.j-n)(Mrs.x)(Lynde[!])(recognized.v-d)(its)(unmistakable.a)(ring.n)
+(.)]
+[[0 10 4 (Xp)][0 6 3 (WV)][0 3 2 (Wd)][3 6 2 (Spx)][1 3 1 (XJa)][2 3 0 (SJls)][3 5 1 (SJrs)]
+[4 5 0 (G)][6 9 2 (Os)][7 9 1 (Ds**x)][8 9 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.06 LEN=22)
+[(LEFT-WALL)(both.d)(Marilla.f)(and.j-n)(Mrs.x)(Lynde[!])(recognized.v-d)(its)(unmistakable.a)(ring.n)
+(.)]
+[[0 10 4 (Xp)][0 6 3 (WV)][0 3 1 (Wd)][3 6 2 (Spx)][2 3 0 (SJls)][1 2 0 (Dmc)][3 5 1 (SJrs)]
+[4 5 0 (G)][6 9 2 (Os)][7 9 1 (Ds**x)][8 9 0 (A)]]
+[0]
+
+I wish I had something to give Diana .
+Found 13 linkages (7 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=11)
+[(LEFT-WALL)(I.p)(wish.v)(I.p)(had.v-d)(something)(to.r)(give.v)(Diana.f)(.)]
+[[0 9 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp*i)][2 4 1 (CV)][2 3 0 (Ce)][3 4 0 (Sp*i)]
+[4 6 1 (MVi)][4 5 0 (Os)][6 7 0 (I)][7 8 0 (Os*e)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=11)
+[(LEFT-WALL)(I.p)(wish.v)(I.p)(had.v-d)(something)(to.r)(give.v)(Diana.f)(.)]
+[[0 9 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp*i)][2 4 1 (CV)][2 3 0 (Ce)][3 4 0 (Sp*i)]
+[4 5 0 (Os)][5 7 1 (Bs)][5 6 0 (R)][6 7 0 (I)][7 8 0 (Os*e)]]
+[0]
+
+Mr Phillips paid no heed to Gilbert .
+Found 12 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.39 LEN=13)
+[(LEFT-WALL)(Mr.x)(Phillips[!])(paid.v-d)(no.misc-d)(heed.n-u)(to.r)(Gilbert.m)(.)]
+[[0 8 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (S)][1 2 0 (G)][3 6 2 (MVp)][3 5 1 (Ou)]
+[5 6 0 (Mp)][4 5 0 (Dmu)][6 7 0 (Js)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=13)
+[(LEFT-WALL)(Mr.x)(Phillips[!])(paid.v-d)(no.misc-d)(heed.n-u)(to.r)(Gilbert.m)(.)]
+[[0 8 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (S)][1 2 0 (G)][3 6 2 (MVp)][3 5 1 (Ou)]
+[4 5 0 (Dmu)][6 7 0 (Js)]]
+[0]
+
+Anne dissolved into tears under this double disgrace .
+Found 38 linkages (36 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.61 LEN=13)
+[(LEFT-WALL)(Anne.f)(dissolved.v-d)(into)(tears.n)(under)(this.p)(double.a)(disgrace.n-u)(.)]
+[[0 9 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (MVp)][2 3 0 (MVp)][3 4 0 (Jp)]
+[4 5 0 (Mp)][5 8 1 (Ju)][7 8 0 (A)][6 7 0 (EA)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS=-0.61 LEN=14)
+[(LEFT-WALL)(Anne.f)(dissolved.v-d)(into)(tears.n)(under)(this.d)(double.a)(disgrace.n-u)(.)]
+[[0 9 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (MVp)][2 3 0 (MVp)][3 4 0 (Jp)]
+[4 5 0 (Mp)][5 8 2 (Ju)][6 8 1 (Dmu)][7 8 0 (A)]]
+[0]
+
+most of the good folks , not knowing about Marilla 's eyes , thought she was foolish .
+Found 751 linkages (20 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.40 LEN=76)
+[(LEFT-WALL)(most)(of)(the)(good.a)(folks.n)(,)(not.e)(knowing.g)(about)
+(Marilla.f)('s.p)(eyes.n)(,)(thought.n)(she)(was.v-d)(foolish.a)(.)]
+[[0 18 7 (Xp)][0 16 6 (WV)][0 15 5 (Wd)][15 16 0 (Ss)][1 15 4 (CO)][1 6 3 (Xc)][1 2 0 (OFw)]
+[2 5 2 (Jp)][3 5 1 (Dmc)][4 5 0 (A)][7 15 2 (COc)][7 8 0 (Osc)][8 9 0 (Mp)][9 13 1 (J)]
+[12 13 0 (SJlp)][11 12 0 (Dmc)][10 11 0 (YS)][13 14 0 (SJru)][16 17 0 (Paf)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=55)
+[(LEFT-WALL)(most)(of)(the)(good.a)(folks.n)(,)(not.e)(knowing.a)(about)
+(Marilla.f)('s.p)(eyes.n)(,)(thought.v-d)(she)(was.v-d)(foolish.a)(.)]
+[[0 18 5 (Xp)][0 14 4 (WV)][0 1 0 (Wd)][1 14 3 (S)][1 2 0 (Mf)][2 5 2 (Jp)][3 5 1 (Dmc)]
+[4 5 0 (A)][5 8 2 (MXpa)][6 8 1 (Xd)][6 7 0 (EBx)][8 13 2 (Xc)][8 9 0 (MVp)][9 12 1 (Jp)]
+[11 12 0 (Dmc)][10 11 0 (YS)][14 16 1 (CV)][14 15 0 (Ce)][15 16 0 (Ss)][16 17 0 (Paf)]]
+[0]
+
+their loveliness was of every kind .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.00 LEN=10)
+[(LEFT-WALL)(their.p)(loveliness.n-u)(was.v-d)(of)(every.d)(kind.n)(.)]
+[[0 7 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (Dmu)][3 4 0 (OFj)][4 6 1 (Js)]
+[5 6 0 (Ds)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=10)
+[(LEFT-WALL)(their.p)(loveliness.n-u)(was.v-d)(of)(every.d)(kind.n)(.)]
+[[0 7 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (Dmu)][3 4 0 (OFw)][4 6 1 (Js)]
+[5 6 0 (Ds)]]
+[0]
+
+he thought this time it was all up with him .
+Found 1664 linkages (17 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 6.80 LEN=16)
+[(LEFT-WALL)(he)(thought.q-d)(this.d)(time.n)(it)(was.v-d)(all.a)(up.v)(with)
+(him)(.)]
+[[0 11 3 (Xp)][0 2 1 (CPu)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (MVa)][3 4 0 (D*u)][4 8 2 (Bsw)]
+[4 5 0 (Rn)][5 6 0 (Ss)][6 8 1 (I*v)][7 8 0 (E)][8 9 0 (MVp)][9 10 0 (J)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 6.80 LEN=22)
+[(LEFT-WALL)(he)(thought.q-d)(this.d)(time.n)(it)(was.v-d)(all.a)(up.v)(with)
+(him)(.)]
+[[0 11 4 (Xp)][0 2 1 (CPu)][0 1 0 (Wd)][1 2 0 (Ss)][2 9 3 (MVp)][2 4 1 (MVa)][3 4 0 (D*u)]
+[4 8 2 (Bsw)][4 5 0 (Rn)][5 6 0 (Ss)][6 8 1 (I*v)][7 8 0 (E)][9 10 0 (J)]]
+[0]
+
+the Newburys were sitting on the verandah at dusk , too tired and too happy to talk .
+Found 11276 linkages (60 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 4.35 LEN=34)
+[(LEFT-WALL)(the)(Newburys[!])(were.v-d)(sitting.v)(on)(the)(verandah.n)(at)(dusk.n-u)
+(,)(too)(tired.e)(and.j-a)(too)(happy.a)(to.r)(talk.v)(.)]
+[[0 18 4 (Xp)][0 2 1 (Wd)][1 2 0 (DG)][2 3 0 (Ss*s)][3 4 0 (Pg*b)][4 13 3 (Pa)][4 8 2 (MVp)]
+[4 5 0 (MVp)][5 7 1 (Js)][7 8 0 (Mp)][6 7 0 (Ds**c)][8 9 0 (Ju)][10 13 1 (Xd)][12 13 0 (AJla)]
+[11 12 0 (EE)][13 15 1 (AJra)][14 15 0 (EA)][15 17 1 (IV)][15 16 0 (TO)][16 17 0 (I*t)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 5.86 LEN=22)
+[(LEFT-WALL)(the)(Newburys[!])(were.v-d)(sitting.g)(on)(the)(verandah.n)(at)(dusk.n-u)
+(,)(too)(tired.a)(and.j-m)(too)(happy.a)(to.r)(talk.n-u)(.)]
+[[0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (DG)][3 4 0 (Ost)][4 13 3 (MXsa)][4 8 2 (Mp)]
+[4 5 0 (Mp)][5 7 1 (Js)][6 7 0 (Ds**c)][8 9 0 (Ju)][10 13 1 (Xd)][12 13 0 (MJla)][11 12 0 (EA)]
+[13 18 2 (Xc)][13 15 1 (MJra)][14 15 0 (EA)][15 16 0 (MVp)][16 17 0 (Ju)]]
+[0]
+
+the Reed girls flushed .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.10 LEN=10)
+[(LEFT-WALL)(the)(Reed.m)(girls.n)(flushed.v-d)(.)]
+[[0 5 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Sp)][1 3 1 (Dmc)][2 3 0 (AN)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.10 LEN=7)
+[(LEFT-WALL)(the)(Reed.m)(girls.n)(flushed.v-d)(.)]
+[[0 5 3 (Xp)][0 3 2 (Wd)][1 3 1 (Dmc)][2 3 0 (AN)][3 4 0 (Sp)]]
+[0]
+
+Roger came .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=3)
+[(LEFT-WALL)(Roger.m)(came.v-d)(.)]
+[[0 3 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=2)
+[(LEFT-WALL)(Roger.m)(came.v-d)(.)]
+[[0 3 1 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)]]
+[0]
+
+this suited Harrington .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.06 LEN=4)
+[(LEFT-WALL)(this.p)(suited.v-d)(Harrington[!])(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*b)][2 3 0 (Os)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.56 LEN=5)
+[(LEFT-WALL)(this.p)(suited.v-d)(Harrington[!])(.)]
+[[0 4 2 (Xp)][0 3 1 (Wa)][2 3 0 (A)][1 2 0 (EA)]]
+[0]
+
+Baloo snorted .
+Found 10 linkages (10 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.06 LEN=3)
+[(LEFT-WALL)(Baloo[!])(snorted.v-d)(.)]
+[[0 3 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.06 LEN=1)
+[(LEFT-WALL)(Baloo[!])(snorted.q-d)(.)]
+[[0 2 1 (CPa)][1 2 0 (Ss*s)][2 3 0 (Xp)]]
+[0]
+
+at last the port was reached .
+Found 20 linkages (20 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.60 LEN=13)
+[(LEFT-WALL)(at)(last.a)(the)(port.s)(was.v-d)(reached.v-d)(.)]
+[[0 7 3 (Xp)][0 5 2 (WV)][0 1 0 (Wp)][1 5 1 (PFb)][1 2 0 (Jp)][4 5 0 (Ss*s)][3 4 0 (Ds**c)]
+[5 6 0 (Pa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.60 LEN=13)
+[(LEFT-WALL)(at)(last.a)(the)(port.n-u)(was.v-d)(reached.v-d)(.)]
+[[0 7 3 (Xp)][0 5 2 (WV)][0 1 0 (Wp)][1 5 1 (PFb)][1 2 0 (Jp)][4 5 0 (Ss)][3 4 0 (Dmu)]
+[5 6 0 (Pa)]]
+[0]
+
+he knew that the gate had been latched when he entered the henyard that morning .
+Found 15 linkages (10 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.10 LEN=26)
+[(LEFT-WALL)(he)(knew.v-d)(that.j-c)(the)(gate.n)(had.v-d)(been.v)(latched.v-d)(when)
+(he)(entered.v-d)(the)(henyard[?].n)(that.j-r)(morning.r)(.)]
+[[0 16 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (TH)][3 8 2 (CV)][3 5 1 (Cet)]
+[4 5 0 (Ds**c)][5 6 0 (Ss*s)][6 7 0 (PPf)][7 8 0 (Pv)][8 9 0 (MVs)][9 11 1 (CV)][9 10 0 (Cs)]
+[10 11 0 (Ss)][11 15 2 (MVpn)][11 13 1 (Os)][12 13 0 (D*u)][14 15 0 (DTn)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.10 LEN=29)
+[(LEFT-WALL)(he)(knew.v-d)(that.j-c)(the)(gate.n)(had.v-d)(been.v)(latched.v-d)(when)
+(he)(entered.v-d)(the)(henyard[?].n)(that.j-r)(morning.r)(.)]
+[[0 16 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (TH)][3 8 2 (CV)][3 5 1 (Cet)]
+[4 5 0 (Ds**c)][5 6 0 (Ss*s)][6 7 0 (PPf)][7 8 0 (Pv)][8 15 2 (MVpn)][8 9 0 (MVs)][9 11 1 (CV)]
+[9 10 0 (Cs)][10 11 0 (Ss)][11 13 1 (Os)][12 13 0 (D*u)][14 15 0 (DTn)]]
+[0]
+
+it 's no sin .
+Found 12 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.00 LEN=6)
+[(LEFT-WALL)(it)('s.v)(no.misc-d)(sin.s)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Ost)][3 4 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=6)
+[(LEFT-WALL)(it)('s.v)(no.misc-d)(sin.n-u)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Out)][3 4 0 (Dmu)]]
+[0]
+
+you are as particular as your aunt .
+Found 24 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=10)
+[(LEFT-WALL)(you)(are.v)(as.e-y)(particular.a)(as.e-c)(your)(aunt.n-f)(.)]
+[[0 8 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Spx)][2 4 1 (Pa)][3 4 0 (EAy)][4 5 0 (MVz)]
+[5 7 1 (Osc)][6 7 0 (Ds**v)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=10)
+[(LEFT-WALL)(you)(are.v)(as.e-y)(particular.a)(as.e)(your)(aunt.n-f)(.)]
+[[0 8 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Spx)][2 4 1 (Pa)][3 4 0 (EAy)][4 5 0 (MVp)]
+[5 7 1 (Js)][6 7 0 (Ds**v)]]
+[0]
+
+he took the greatest care to make no sound .
+Found 36 linkages (30 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=17)
+[(LEFT-WALL)(he)(took.v-d)(the)(greatest.a-s)(care.n-u)(to.r)(make.v)(no.misc-d)(sound.n-u)
+(.)]
+[[0 10 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 6 3 (MVi)][2 5 2 (Ou)][3 5 1 (Dmu)]
+[3 4 0 (La)][6 7 0 (I)][7 9 1 (Ou)][8 9 0 (Dmu)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=17)
+[(LEFT-WALL)(he)(took.v-d)(the)(greatest.a-s)(care.s)(to.r)(make.v)(no.misc-d)(sound.n-u)
+(.)]
+[[0 10 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 6 3 (MVi)][2 5 2 (Os)][3 5 1 (Ds**c)]
+[3 4 0 (La)][6 7 0 (I)][7 9 1 (Ou)][8 9 0 (Dmu)]]
+[0]
+
+those two specks were the hounds who had driven him into the Big River .
+Found 72 linkages (64 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.12 LEN=25)
+[(LEFT-WALL)(those)(two)(specks.n)(were.v-d)(the)(hounds.n)(who)(had.v-d)(driven.v)
+(him)(into)(the)(Big[!])(River[!])(.)]
+[[0 15 3 (Xp)][0 4 2 (WV)][0 3 1 (Wd)][3 4 0 (Spx)][2 3 0 (Dmcn)][1 2 0 (DD)][4 6 1 (Opm)]
+[5 6 0 (Dmc)][6 8 1 (Bp)][6 7 0 (R)][7 8 0 (RS)][8 9 0 (PP)][9 11 1 (MVp)][9 10 0 (Ox)]
+[11 14 2 (Js)][12 14 1 (DG)][13 14 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.12 LEN=25)
+[(LEFT-WALL)(those)(two)(specks.n)(were.v-d)(the)(hounds.n)(who)(had.v-d)(driven.v)
+(him)(into)(the)(Big[!])(River[!])(.)]
+[[0 15 3 (Xp)][0 4 2 (WV)][0 3 1 (Wd)][3 4 0 (Spx)][2 3 0 (Dmcn)][1 2 0 (DD)][4 6 1 (Opt)]
+[5 6 0 (Dmc)][6 8 1 (Bp)][6 7 0 (R)][7 8 0 (RS)][8 9 0 (PP)][9 11 1 (MVp)][9 10 0 (Ox)]
+[11 14 2 (Js)][12 14 1 (DG)][13 14 0 (G)]]
+[0]
+
+it was far away in the Green Forest .
+Found 32 linkages (16 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.06 LEN=13)
+[(LEFT-WALL)(it)(was.v-d)(far.a)(away)(in.r)(the)(Green[!])(Forest.m)(.)]
+[[0 9 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (Pa)][3 5 1 (MVp)][3 4 0 (MVp)]
+[5 8 2 (Js)][6 8 1 (DG)][7 8 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.06 LEN=15)
+[(LEFT-WALL)(it)(was.v-d)(far.e)(away)(in.r)(the)(Green[!])(Forest.m)(.)]
+[[0 9 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 5 2 (MVp)][2 4 1 (Pp)][3 4 0 (Yd)]
+[5 8 2 (Js)][6 8 1 (DG)][7 8 0 (G)]]
+[0]
+
+then he hunted up Bobby Coon and told him .
+Found 15 linkages (15 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.26 LEN=25)
+[(LEFT-WALL)(then.r)(he)(hunted.v-d)(up.r)(Bobby.b)(Coon[!])(and.j-v)(told.v-d)(him)
+(.)]
+[[0 10 5 (Xp)][0 7 4 (WV)][0 2 1 (Wd)][2 7 3 (Ss)][1 2 0 (CO)][3 7 2 (VJlsi)][3 6 1 (Osn)]
+[3 4 0 (K)][5 6 0 (G)][7 8 0 (VJrsi)][8 9 0 (Ox)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.26 LEN=24)
+[(LEFT-WALL)(then.r)(he)(hunted.v-d)(up.r)(Bobby.b)(Coon[!])(and.j-v)(told.v-d)(him)
+(.)]
+[[0 10 5 (Xp)][0 7 4 (WV)][0 2 1 (Wd)][2 7 3 (Ss)][1 2 0 (CO)][3 7 2 (VJlsi)][3 4 0 (MVa)]
+[4 6 1 (Js)][5 6 0 (G)][7 8 0 (VJrsi)][8 9 0 (Ox)]]
+[0]
+
+he knew what that tree meant perfectly well .
+Found 16 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 3.00 LEN=13)
+[(LEFT-WALL)(he)(knew.v-d)(what)(that.j-d)(tree.n)(meant.v-d)(perfectly)(well.e)(.)]
+[[0 9 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (Os)][3 6 2 (Bsd)][3 5 1 (Rn)]
+[5 6 0 (Ss*s)][4 5 0 (Dsu*c)][6 8 1 (MVa)][6 7 0 (MVa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=13)
+[(LEFT-WALL)(he)(knew.v-d)(what)(that.j-d)(tree.n)(meant.v-d)(perfectly)(well.e)(.)]
+[[0 9 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (QI*d)][3 6 2 (Bsw)][3 5 1 (Rn)]
+[5 6 0 (Ss*s)][4 5 0 (Dsu*c)][6 8 1 (MVa)][6 7 0 (MVa)]]
+[0]
+
+little Mrs Peter noticed it .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 3.00 LEN=11)
+[(LEFT-WALL)(little.a)(Mrs.x)(Peter.b)(noticed.v-d)(it)(.)]
+[[0 6 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (A)][2 3 0 (G)][4 5 0 (Osm)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=11)
+[(LEFT-WALL)(little.i)(Mrs.x)(Peter.b)(noticed.v-d)(it)(.)]
+[[0 6 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (Dmu)][2 3 0 (G)][4 5 0 (Osm)]]
+[0]
+
+they were all sitting on one now .
+Found 122 linkages (100 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.70 LEN=15)
+[(LEFT-WALL)(they)(were.v-d)(all.a)(sitting.g)(on)(one)(now.r)(.)]
+[[0 8 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Spx)][2 7 3 (MVp)][2 5 2 (MVp)][2 4 1 (Osm)]
+[4 5 0 (Mp)][3 4 0 (Dmu)][5 6 0 (Js)][6 7 0 (Mp)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS=-0.61 LEN=15)
+[(LEFT-WALL)(they)(were.v-d)(all.a)(sitting.g)(on)(one)(now.r)(.)]
+[[0 8 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Spx)][2 7 3 (MVp)][2 5 2 (MVp)][2 4 1 (Ost)]
+[4 5 0 (Mp)][3 4 0 (Dmu)][5 6 0 (Js)]]
+[0]
+
+rosemary quivered .
+Found 10 linkages (10 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=3)
+[(LEFT-WALL)(rosemary.n-u)(quivered.v-d)(.)]
+[[0 3 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=1)
+[(LEFT-WALL)(rosemary.n-u)(quivered.q-d)(.)]
+[[0 2 1 (CPa)][1 2 0 (Ss)][2 3 0 (Xp)]]
+[0]
+
+the minister 's face fell .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=12)
+[(LEFT-WALL)(the)(minister.n)('s.p)(face.n)(fell.v-d)(.)]
+[[0 6 3 (Xp)][0 5 2 (WV)][0 4 1 (Wd)][4 5 0 (Ss*s)][3 4 0 (Ds**c)][2 3 0 (YS)][1 2 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=8)
+[(LEFT-WALL)(the)(minister.n)('s.p)(face.n)(fell.v-d)(.)]
+[[0 6 2 (Xp)][0 4 1 (Wd)][3 4 0 (Ds**c)][2 3 0 (YS)][1 2 0 (Ds**c)][4 5 0 (Ss*s)]]
+[0]
+
+she was the best of companions .
+Found 10 linkages (10 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=8)
+[(LEFT-WALL)(she)(was.v-d)(the)(best.a-s)(of)(companions.n)(.)]
+[[0 7 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (O*m)][3 4 0 (DD)][4 5 0 (Mf)]
+[5 6 0 (Jp)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=8)
+[(LEFT-WALL)(she)(was.v-d)(the)(best.a-s)(of)(companions.n)(.)]
+[[0 7 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (O*m)][3 4 0 (DD)][4 5 0 (Mp)]
+[5 6 0 (Jp)]]
+[0]
+
+Anne bent over the daffodils to hide a smile .
+Found 20 linkages (18 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=15)
+[(LEFT-WALL)(Anne.f)(bent.v-d)(over)(the)(daffodils.n)(to.r)(hide.v)(a)(smile.n)
+(.)]
+[[0 10 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 6 2 (MVi)][2 3 0 (MVp)][3 5 1 (Jp)]
+[4 5 0 (Dmc)][6 7 0 (I)][7 9 1 (Os)][8 9 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=16)
+[(LEFT-WALL)(Anne.f)(bent.v-d)(over)(the)(daffodils.n)(to.r)(hide.v)(a)(smile.n)
+(.)]
+[[0 10 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 6 2 (MVi)][2 5 1 (Opn)][2 3 0 (K)]
+[4 5 0 (Dmc)][6 7 0 (I)][7 9 1 (Os)][8 9 0 (Ds**c)]]
+[0]
+
+Jem spent his evenings now studying for his entrance examination in the Ingleside garret .
+Found 448 linkages (79 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.10 LEN=37)
+[(LEFT-WALL)(Jem[!])(spent.v-d)(his)(evenings.n)(now.r)(studying.v)(for.p)(his)(entrance.s)
+(examination.s)(in.r)(the)(Ingleside[!])(garret.n)(.)]
+[[0 15 5 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 11 4 (MVp)][2 7 3 (MVp)][2 4 1 (Op)]
+[4 7 2 (Mp)][3 4 0 (Dmc)][4 6 1 (Mg)][5 6 0 (E)][7 10 2 (Js)][10 11 0 (Mp)][8 10 1 (Ds**x)]
+[9 10 0 (AN)][11 14 2 (Js)][12 14 1 (Ds**x)][13 14 0 (AN)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.71 LEN=37)
+[(LEFT-WALL)(Jem[!])(spent.v-d)(his)(evenings.n)(now.r)(studying.v)(for.p)(his)(entrance.n-u)
+(examination.s)(in.r)(the)(Ingleside[!])(garret.n)(.)]
+[[0 15 5 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 11 4 (MVp)][2 7 3 (MVp)][2 4 1 (Op)]
+[4 7 2 (Mp)][3 4 0 (Dmc)][4 6 1 (Mg)][5 6 0 (E)][7 10 2 (Js)][8 10 1 (Ds**x)][9 10 0 (AN)]
+[11 14 2 (Js)][12 14 1 (Ds**x)][13 14 0 (AN)]]
+[0]
+
+there was a sound as of stealthy passing footsteps all over the graveyard .
+Found 60 linkages (18 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 3.25 LEN=22)
+[(LEFT-WALL)(there.r)(was.v-d)(a)(sound.s)(as.e)(of)(stealthy.a)(passing.g)(footsteps.n)
+(all)(over)(the)(graveyard.n)(.)]
+[[0 14 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SFst)][2 5 2 (MVp)][2 4 1 (Ost)][3 4 0 (Ds**c)]
+[5 6 0 (Mp)][6 9 2 (Jp)][7 9 1 (A)][8 9 0 (AN)][9 11 1 (Mp)][10 11 0 (IDBIO)][11 13 1 (Js)]
+[12 13 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.25 LEN=23)
+[(LEFT-WALL)(there.r)(was.v-d)(a)(sound.s)(as)(of)(stealthy.a)(passing.g)(footsteps.n)
+(all)(over)(the)(graveyard.n)(.)]
+[[0 14 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SFst)][2 6 2 (MVp)][2 4 1 (Ost)][3 4 0 (Ds**c)]
+[5 6 0 (IDBHM)][6 9 2 (Jp)][7 9 1 (A)][8 9 0 (AN)][9 11 1 (Mp)][10 11 0 (IDBIO)][11 13 1 (Js)]
+[12 13 0 (Ds**c)]]
+[0]
+
+Mr Meredith groaned .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=6)
+[(LEFT-WALL)(Mr.x)(Meredith.f)(groaned.v-d)(.)]
+[[0 4 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 4.00 LEN=4)
+[(LEFT-WALL)(Mr.x)(Meredith.f)(groaned.v-d)(.)]
+[[0 4 2 (Xp)][0 2 1 (Wd)][1 2 0 (G)][2 3 0 (Ss*s)]]
+[0]
+
+Farmer Brown 's boy was angry .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.12 LEN=13)
+[(LEFT-WALL)(Farmer[!])(Brown[!])('s.p)(boy.n)(was.v-d)(angry.a)(.)]
+[[0 7 3 (Xp)][0 5 2 (WV)][0 4 1 (Wd)][4 5 0 (Ss*s)][3 4 0 (Ds**c)][2 3 0 (YS)][1 2 0 (G)]
+[5 6 0 (Pa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.12 LEN=9)
+[(LEFT-WALL)(Farmer[!])(Brown[!])('s.p)(boy.n)(was.v-d)(angry.a)(.)]
+[[0 7 2 (Xp)][0 4 1 (Wd)][3 4 0 (Ds**c)][2 3 0 (YS)][1 2 0 (G)][4 5 0 (Ss*s)][5 6 0 (Pa)]]
+[0]
+
+it was the last of the cannonade .
+Found 32 linkages (16 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=10)
+[(LEFT-WALL)(it)(was.v-d)(the)(last.a)(of)(the)(cannonade[?].n)(.)]
+[[0 8 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (O*m)][3 4 0 (DD)][4 5 0 (Mf)]
+[5 7 1 (Jp)][6 7 0 (D*u)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=10)
+[(LEFT-WALL)(it)(was.v-d)(the)(last.a)(of)(the)(cannonade[?].n)(.)]
+[[0 8 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (O*m)][3 4 0 (DD)][4 5 0 (Mp)]
+[5 7 1 (Jp)][6 7 0 (D*u)]]
+[0]
+
+it became plain to me that nobody was steering .
+Found 24 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=13)
+[(LEFT-WALL)(it)(became.v-d)(plain.a)(to.r)(me)(that.j-c)(nobody)(was.v-d)(steering.g)
+(.)]
+[[0 10 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SFsi)][2 3 0 (Paf)][3 6 1 (THi)][3 4 0 (MVp)]
+[4 5 0 (J)][6 8 1 (CV)][6 7 0 (Cet)][7 8 0 (Ss*s)][8 9 0 (Ost)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=13)
+[(LEFT-WALL)(it)(became.v-d)(plain.a)(to.r)(me)(that.j-c)(nobody)(was.v-d)(steering.v)
+(.)]
+[[0 10 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SFsi)][2 3 0 (Paf)][3 6 1 (THi)][3 4 0 (MVp)]
+[4 5 0 (J)][6 8 1 (CV)][6 7 0 (Cet)][7 8 0 (Ss*s)][8 9 0 (Pg*b)]]
+[0]
+
+Dick bounded to his side and raised him .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.20 LEN=21)
+[(LEFT-WALL)(Dick.m)(bounded.v-d)(to.r)(his)(side.n)(and.j-v)(raised.v-d)(him)(.)]
+[[0 9 5 (Xp)][0 6 4 (WV)][0 1 0 (Wd)][1 6 3 (Ss*s)][2 6 2 (VJlsi)][2 3 0 (MVp)][3 5 1 (Js)]
+[4 5 0 (Ds**c)][6 7 0 (VJrsi)][7 8 0 (Ox)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.20 LEN=21)
+[(LEFT-WALL)(dick.n-u)(bounded.v-d)(to.r)(his)(side.n)(and.j-v)(raised.v-d)(him)(.)]
+[[0 9 5 (Xp)][0 6 4 (WV)][0 1 0 (Wd)][1 6 3 (Ss)][2 6 2 (VJlsi)][2 3 0 (MVp)][3 5 1 (Js)]
+[4 5 0 (Ds**c)][6 7 0 (VJrsi)][7 8 0 (Ox)]]
+[0]
+
+he opened one and found a very uncommon herb in it .
+Found 20 linkages (20 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.49 LEN=26)
+[(LEFT-WALL)(he)(opened.v-d)(one)(and.j-v)(found.v-d)(a)(very.e)(uncommon.a)(herb.s)
+(in.r)(it)(.)]
+[[0 12 4 (Xp)][0 4 3 (WV)][0 1 0 (Wd)][1 4 2 (Ss)][2 4 1 (VJlsi)][2 3 0 (Os)][4 5 0 (VJrsi)]
+[5 10 3 (MVp)][5 9 2 (Os)][9 10 0 (Mp)][6 9 1 (Ds**x)][6 7 0 (PHc)][7 8 0 (EA)][8 9 0 (A)]
+[10 11 0 (J)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.49 LEN=27)
+[(LEFT-WALL)(he)(opened.v-d)(one)(and.j-v)(found.v-d)(a)(very.e)(uncommon.a)(herb.s)
+(in.r)(it)(.)]
+[[0 12 4 (Xp)][0 4 3 (WV)][0 1 0 (Wd)][1 4 2 (Ss)][2 4 1 (VJlsi)][2 3 0 (Os)][4 10 3 (MVp)]
+[4 5 0 (VJrsi)][5 9 2 (Os)][9 10 0 (Mp)][6 9 1 (Ds**x)][6 7 0 (PHc)][7 8 0 (EA)][8 9 0 (A)]
+[10 11 0 (J)]]
+[0]
+
+the other Ida cut a generous slice from the cake and passed it to her guest .
+Found 240 linkages (100 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.88 LEN=50)
+[(LEFT-WALL)(the)(other)(Ida.f)(cut.v-d)(a)(generous.a)(slice.n)(from)(the)
+(cake.s)(and.j-v)(passed.v-d)(it)(to.r)(her)(guest.n)(.)]
+[[0 17 7 (Xp)][0 11 6 (WV)][0 3 1 (Wd)][3 11 5 (Ss*s)][2 3 0 (Ds)][1 2 0 (DD)][4 11 4 (VJlsi)]
+[4 8 3 (MVp)][4 7 2 (Os)][7 8 0 (Mp)][5 7 1 (Ds**x)][5 6 0 (PHc)][6 7 0 (A)][8 10 1 (Js)]
+[9 10 0 (Ds**c)][11 12 0 (VJrsi)][12 14 1 (MVp)][12 13 0 (Osm)][13 14 0 (Mp)][14 16 1 (Js)][15 16 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.88 LEN=50)
+[(LEFT-WALL)(the)(other)(Ida.f)(cut.v-d)(a)(generous.a)(slice.n)(from)(the)
+(cake.s)(and.j-v)(passed.v-d)(it)(to.r)(her)(guest.n)(.)]
+[[0 17 7 (Xp)][0 11 6 (WV)][0 3 1 (Wd)][3 11 5 (Ss*s)][2 3 0 (Ds)][1 2 0 (DD)][4 11 4 (VJlsi)]
+[4 8 3 (MVp)][4 7 2 (Os)][7 8 0 (Mp)][5 7 1 (Ds**x)][5 6 0 (PHc)][6 7 0 (A)][8 10 1 (Js)]
+[9 10 0 (Ds**c)][11 12 0 (VJrsi)][12 14 1 (MVp)][12 13 0 (Osm)][13 14 0 (Mp)][14 16 1 (Js)][15 16 0 (Ds**c)]]
+[0]
+
+the word is cheap and tawdry .
+Found 12 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=10)
+[(LEFT-WALL)(the)(word.n)(is.v)(cheap.a)(and.j-a)(tawdry.a)(.)]
+[[0 7 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 5 1 (Pa)][4 5 0 (AJla)]
+[5 6 0 (AJra)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.67 LEN=10)
+[(LEFT-WALL)(the)(word.n)(is.v)(cheap.a)(and.j-a)(tawdry.a)(.)]
+[[0 7 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (Ds**c)][3 5 1 (MVa)][4 5 0 (AJla)]
+[5 6 0 (AJra)]]
+[0]
+
+Joscelyn went on the stage .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.06 LEN=7)
+[(LEFT-WALL)(Joscelyn[!])(went.v-d)(on)(the)(stage.n)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 3 0 (MVp)][3 5 1 (Js)][4 5 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.06 LEN=6)
+[(LEFT-WALL)(Joscelyn[!])(went.v-d)(on)(the)(stage.n)(.)]
+[[0 6 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 3 0 (MVp)][3 5 1 (Js)][4 5 0 (Ds**c)]]
+[0]
+
+I got it from Peg Bowen .
+Found 12 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.55 LEN=9)
+[(LEFT-WALL)(I.p)(got.v-d)(it)(from)(Peg.f)(Bowen[!])(.)]
+[[0 7 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp*i)][2 4 1 (MVp)][2 3 0 (Osm)][3 4 0 (Mp)]
+[4 6 1 (Js)][5 6 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.06 LEN=8)
+[(LEFT-WALL)(I.p)(got.v-d)(it)(from)(Peg.f)(Bowen[!])(.)]
+[[0 7 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp*i)][2 3 0 (Osm)][3 4 0 (Mp)][4 6 1 (Js)]
+[5 6 0 (G)]]
+[0]
+
+he isn't here .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(he)(isn't)(here)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (Pp)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.67 LEN=4)
+[(LEFT-WALL)(he)(isn't)(here)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVp)]]
+[0]
+
+the excitement was quite tremendous .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=9)
+[(LEFT-WALL)(the)(excitement.n-u)(was.v-d)(quite)(tremendous.a)(.)]
+[[0 6 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (Dmu)][3 5 1 (Pa)][4 5 0 (EA)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=7)
+[(LEFT-WALL)(the)(excitement.n-u)(was.v-d)(quite)(tremendous.a)(.)]
+[[0 6 2 (Xp)][0 2 1 (Wd)][1 2 0 (Dmu)][2 3 0 (Ss)][3 5 1 (Pa)][4 5 0 (EA)]]
+[0]
+
+I wonder what Aunt Janet will say then .
+Found 41 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.06 LEN=13)
+[(LEFT-WALL)(I.p)(wonder.v)(what)(Aunt[!])(Janet.f)(will.v)(say.v)(then.r)(.)]
+[[0 9 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp*i)][2 3 0 (QI*d)][3 7 2 (Bsw)][3 5 1 (Rn)]
+[4 5 0 (G)][5 6 0 (Ss*s)][6 7 0 (I)][7 8 0 (MVp)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.06 LEN=8)
+[(LEFT-WALL)(I.p)(wonder.v)(what)(Aunt[!])(Janet.f)(will.v)(say.q)(then.r)(.)]
+[[0 7 2 (CPx)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Sp*i)][2 3 0 (QI)][6 7 0 (I)][5 6 0 (Ss*s)]
+[4 5 0 (G)][7 9 1 (Xp)][7 8 0 (MVp)]]
+[0]
+
+that was Uncle Edward Ward 's present .
+Found 13 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.06 LEN=12)
+[(LEFT-WALL)(that.j-p)(was.v-d)(Uncle[!])(Edward.b)(Ward.m)('s.p)(present.n)(.)]
+[[0 8 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*b)][2 7 1 (Osm)][6 7 0 (Ds**c)][5 6 0 (YS)]
+[4 5 0 (G)][3 4 0 (G)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.06 LEN=12)
+[(LEFT-WALL)(that.j-p)(was.v-d)(Uncle[!])(Edward.b)(Ward.m)('s.p)(present.n)(.)]
+[[0 8 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*b)][2 7 1 (Ost)][6 7 0 (Ds**c)][5 6 0 (YS)]
+[4 5 0 (G)][3 4 0 (G)]]
+[0]
+
+it goes swiftly .
+Found 4 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(it)(goes.v)(swiftly)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=3)
+[(LEFT-WALL)(it)(goes.v)(swiftly)(.)]
+[[0 4 1 (Xp)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVa)]]
+[0]
+
+he paved the streets of Jullundur and built a great tank near Umballa .
+Found 40 linkages (40 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.39 LEN=35)
+[(LEFT-WALL)(he)(paved.v-d)(the)(streets.n)(of)(Jullundur[!])(and.j-v)(built.v-d)(a)
+(great.a)(tank.n)(near.p)(Umballa[!])(.)]
+[[0 14 5 (Xp)][0 7 4 (WV)][0 1 0 (Wd)][1 7 3 (Ss)][2 7 2 (VJlsi)][2 4 1 (Op)][3 4 0 (Dmc)]
+[4 5 0 (Mf)][5 6 0 (Js)][7 8 0 (VJrsi)][8 12 3 (MVp)][8 11 2 (Os)][11 12 0 (Mp)][9 11 1 (Ds**x)]
+[9 10 0 (PHc)][10 11 0 (A)][12 13 0 (Js)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS=-0.39 LEN=35)
+[(LEFT-WALL)(he)(paved.v-d)(the)(streets.n)(of)(Jullundur[!])(and.j-v)(built.v-d)(a)
+(great.a)(tank.n)(near.p)(Umballa[!])(.)]
+[[0 14 5 (Xp)][0 7 4 (WV)][0 1 0 (Wd)][1 7 3 (Ss)][2 7 2 (VJlsi)][2 4 1 (Op)][3 4 0 (Dmc)]
+[4 5 0 (Mp)][5 6 0 (Js)][7 8 0 (VJrsi)][8 12 3 (MVp)][8 11 2 (Os)][11 12 0 (Mp)][9 11 1 (Ds**x)]
+[9 10 0 (PHc)][10 11 0 (A)][12 13 0 (Js)]]
+[0]
+
+Kim saw the trap at once .
+Found 3 linkages (3 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=11)
+[(LEFT-WALL)(Kim.b)(saw.v-d)(the)(trap.n)(at)(once)(.)]
+[[0 7 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 6 2 (MVa)][2 4 1 (Os)][3 4 0 (Ds**c)]
+[5 6 0 (IDBXG)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=10)
+[(LEFT-WALL)(Kim.b)(saw.v-d)(the)(trap.n)(at)(once)(.)]
+[[0 7 3 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 6 2 (MVa)][2 4 1 (Os)][3 4 0 (Ds**c)][5 6 0 (IDBXG)]]
+[0]
+
+you are the first that ever saved himself .
+Found 68 linkages (64 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=13)
+[(LEFT-WALL)(you)(are.v)(the)(first.a)(that.j-r)(ever)(saved.v-d)(himself)(.)]
+[[0 9 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Spx)][2 4 1 (Opt)][3 4 0 (DD)][4 7 2 (B)]
+[4 5 0 (R)][5 7 1 (RS)][6 7 0 (E)][7 8 0 (O)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=13)
+[(LEFT-WALL)(you)(are.v)(the)(first.a)(that.j-r)(ever)(saved.v-d)(himself)(.)]
+[[0 9 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Spx)][2 4 1 (Ost)][3 4 0 (DD)][4 7 2 (B)]
+[4 5 0 (R)][5 7 1 (RS)][6 7 0 (E)][7 8 0 (O)]]
+[0]
+
+the lama beamed in the background upon his hosts of three years .
+Found 312 linkages (100 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.61 LEN=21)
+[(LEFT-WALL)(the)(lama[?].n)(beamed.v-d)(in.r)(the)(background.n)(upon)(his)(hosts.n)
+(of)(three)(years.u)(.)]
+[[0 13 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (D*u)][3 7 2 (MVp)][3 4 0 (MVp)]
+[4 6 1 (Js)][6 7 0 (Mp)][5 6 0 (Ds**c)][7 9 1 (Jp)][8 9 0 (Dmc)][9 10 0 (Mp)][10 12 1 (Jp)]
+[11 12 0 (ND)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS=-0.61 LEN=21)
+[(LEFT-WALL)(the)(lama[?].n)(beamed.v-d)(in.r)(the)(background.n)(upon)(his)(hosts.n)
+(of)(three)(years.n)(.)]
+[[0 13 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (D*u)][3 7 2 (MVp)][3 4 0 (MVp)]
+[4 6 1 (Js)][6 7 0 (Mp)][5 6 0 (Ds**c)][7 9 1 (Jp)][8 9 0 (Dmc)][9 10 0 (Mp)][10 12 1 (Jp)]
+[11 12 0 (Dmcn)]]
+[0]
+
+the lama raises a hand toward the rampart of the Himalayas .
+Found 198 linkages (100 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.39 LEN=19)
+[(LEFT-WALL)(the)(lama[?].n)(raises.v)(a)(hand.n)(toward)(the)(rampart.n)(of)
+(the)(Himalayas[!])(.)]
+[[0 12 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (D*u)][3 6 2 (MVp)][3 5 1 (Os)]
+[5 6 0 (Mp)][4 5 0 (Ds**c)][6 8 1 (Js)][7 8 0 (Ds**c)][8 9 0 (Mf)][9 11 1 (Js)][10 11 0 (DG)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.39 LEN=19)
+[(LEFT-WALL)(the)(lama[?].n)(raises.v)(a)(hand.n)(toward)(the)(rampart.n)(of)
+(the)(Himalayas[!])(.)]
+[[0 12 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss)][1 2 0 (D*u)][3 6 2 (MVp)][3 5 1 (Os)]
+[5 6 0 (Mp)][4 5 0 (Ds**c)][6 8 1 (Js)][7 8 0 (Ds**c)][8 9 0 (Mf)][9 11 1 (Ju)][10 11 0 (DG)]]
+[0]
+
+Naomi cowered and moaned .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=7)
+[(LEFT-WALL)(Naomi.f)(cowered.v-d)(and.j-v)(moaned.v-d)(.)]
+[[0 5 3 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Ss*s)][2 3 0 (VJlsi)][3 4 0 (VJrsi)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=5)
+[(LEFT-WALL)(Naomi.f)(cowered.v-d)(and.j-v)(moaned.v-d)(.)]
+[[0 5 2 (Xp)][0 1 0 (Wd)][1 3 1 (Ss*s)][2 3 0 (VJlsi)][3 4 0 (VJrsi)]]
+[0]
+
+she complained of nothing but great weariness .
+Found 16 linkages (16 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=12)
+[(LEFT-WALL)(she)(complained.v-d)(of)(nothing)(but.j-c)(great.a)(weariness.n-u)(.)]
+[[0 8 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (OFj)][3 7 2 (Ju)][5 7 1 (Am)]
+[4 5 0 (SJls)][5 6 0 (AJrc)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=12)
+[(LEFT-WALL)(she)(complained.v-d)(of)(nothing)(but.j-c)(great.a)(weariness.n-u)(.)]
+[[0 8 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (OFw)][3 7 2 (Ju)][5 7 1 (Am)]
+[4 5 0 (SJls)][5 6 0 (AJrc)]]
+[0]
+
+it wasn't my fault .
+Found 8 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(it)(wasn't.v-d)(my.p)(fault.n)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Ost)][3 4 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(it)(wasn't.v-d)(my.p)(fault.n)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Osm)][3 4 0 (Ds**c)]]
+[0]
+
+he watched Sammy disappear through the trees .
+Found 3 linkages (3 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=10)
+[(LEFT-WALL)(he)(watched.v-d)(Sammy.b)(disappear.v)(through.r)(the)(trees.n)(.)]
+[[0 8 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (I*j)][2 3 0 (Os*e)][4 5 0 (MVp)]
+[5 7 1 (Jp)][6 7 0 (Dmc)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=12)
+[(LEFT-WALL)(he)(watched.v-d)(Sammy.b)(disappear.v)(through.r)(the)(trees.n)(.)]
+[[0 8 3 (Xp)][0 4 2 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (I*j)][2 3 0 (Os*e)][4 5 0 (MVp)]
+[5 7 1 (Jp)][6 7 0 (Dmc)]]
+[0]
+
+there were nine .
+Found 6 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.15 LEN=4)
+[(LEFT-WALL)(there.r)(were.v-d)(nine)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SFp)][2 3 0 (Opt)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.10 LEN=4)
+[(LEFT-WALL)(there.r)(were.v-d)(nine)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wp)][1 2 0 (PFb)][2 3 0 (SIpx)]]
+[0]
+
+Tegumai drew a hank of deer-sinews from his mendy-bag and began to mend his spear .
+Found 4008 linkages (88 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.40 LEN=38)
+[(LEFT-WALL)(Tegumai[!])(drew.v-d)(a)(hank[?].n)(of)(deer-sinews[!].v)(from)(his)(mendy-bag[!].a)
+(and.j-v)(began.v-d)(to.r)(mend.v)(his)(spear.n)(.)]
+[[0 16 5 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 15 4 (Osn)][2 4 1 (Os)][3 4 0 (Dsu*c)]
+[4 5 0 (Mp)][5 10 3 (Jp)][6 10 2 (VJlgi)][6 7 0 (MVp)][7 9 1 (Jp)][8 9 0 (DD)][10 11 0 (VJrgi)]
+[11 13 1 (IV)][11 12 0 (TO)][12 13 0 (I*t)][14 15 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.40 LEN=43)
+[(LEFT-WALL)(Tegumai[!])(drew.v-d)(a)(hank[?].n)(of)(deer-sinews[!].n)(from)(his)(mendy-bag[!].a)
+(and.j-v)(began.v-d)(to.r)(mend.v)(his)(spear.n)(.)]
+[[0 16 5 (Xp)][0 10 4 (WV)][0 1 0 (Wd)][1 10 3 (Ss*s)][2 10 2 (VJlsi)][2 4 1 (Os)][3 4 0 (Dsu*c)]
+[4 5 0 (Mp)][5 6 0 (Jp)][6 7 0 (Mp)][7 9 1 (Jp)][8 9 0 (DD)][10 11 0 (VJrsi)][11 13 1 (IV)]
+[11 12 0 (TO)][12 13 0 (I*t)][13 15 1 (Os)][14 15 0 (Ds**c)]]
+[0]
+
+he just loved to dig in it and make tunnels .
+Found 19 linkages (19 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.20 LEN=22)
+[(LEFT-WALL)(he)(just.e)(loved.v-d)(to.r)(dig.v)(in.r)(it)(and.j-v)(make.v)
+(tunnels.n)(.)]
+[[0 11 4 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Ss)][2 3 0 (E)][3 8 3 (IV)][3 4 0 (TO)]
+[4 8 2 (I*t)][5 8 1 (VJlpi)][5 6 0 (MVp)][6 7 0 (J)][8 9 0 (VJrpi)][9 10 0 (Op)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.20 LEN=22)
+[(LEFT-WALL)(he)(just.e)(loved.v-d)(to.r)(dig.v)(in.r)(it)(and.j-v)(make.v)
+(tunnels.n)(.)]
+[[0 11 4 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Ss)][2 3 0 (E)][3 8 3 (IV)][3 4 0 (TO)]
+[4 8 2 (I*t)][5 8 1 (VJlp)][5 6 0 (MVp)][6 7 0 (J)][8 9 0 (VJrp)][9 10 0 (Op)]]
+[0]
+
+she becomes his boyish ideal of all that is good and true .
+Found 600 linkages (41 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 3.67 LEN=25)
+[(LEFT-WALL)(she)(becomes.v)(his)(boyish.a)(ideal.n)(of)(all.a)(that.j-r)(is.v)
+(good.a)(and.j-a)(true.a)(.)]
+[[0 13 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 11 3 (MVa)][2 5 2 (Os)][3 5 1 (Ds**x)]
+[4 5 0 (A)][5 6 0 (Mp)][6 7 0 (Jp)][7 9 1 (Bs)][7 8 0 (R)][8 9 0 (RS)][10 11 0 (AJla)]
+[11 12 0 (AJra)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.67 LEN=25)
+[(LEFT-WALL)(she)(becomes.v)(his)(boyish.a)(ideal.n)(of)(all.a)(that.j-r)(is.v)
+(good.a)(and.j-a)(true.a)(.)]
+[[0 13 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 11 3 (MVa)][2 5 2 (Os)][3 5 1 (Ds**x)]
+[4 5 0 (A)][5 6 0 (Mf)][6 7 0 (Jp)][7 9 1 (Bs)][7 8 0 (R)][8 9 0 (RS)][10 11 0 (AJla)]
+[11 12 0 (AJra)]]
+[0]
+
+Telford sprang over the gate and rushed up the slope like a madman .
+Found 432 linkages (100 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.35 LEN=32)
+[(LEFT-WALL)(Telford[!])(sprang.v-d)(over)(the)(gate.n)(and.j-v)(rushed.v-d)(up.r)(the)
+(slope.s)(like.p)(a)(madman[?].n)(.)]
+[[0 14 5 (Xp)][0 6 4 (WV)][0 1 0 (Wd)][1 6 3 (Ss*s)][2 6 2 (VJlsi)][2 3 0 (MVp)][3 5 1 (Js)]
+[4 5 0 (Ds**c)][6 7 0 (VJrsi)][7 11 2 (MVp)][7 10 1 (Osn)][10 11 0 (Mp)][7 8 0 (K)][9 10 0 (Ds**c)]
+[11 13 1 (Jp)][12 13 0 (Dsu*c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS=-0.15 LEN=32)
+[(LEFT-WALL)(Telford[!])(sprang.v-d)(over)(the)(gate.n)(and.j-v)(rushed.v-d)(up.r)(the)
+(slope.s)(like.p)(a)(madman[?].n)(.)]
+[[0 14 5 (Xp)][0 6 4 (WV)][0 1 0 (Wd)][1 6 3 (Ss*s)][2 6 2 (VJlsi)][2 3 0 (MVp)][3 5 1 (Js)]
+[4 5 0 (Ds**c)][6 7 0 (VJrsi)][7 11 2 (MVp)][7 10 1 (Osn)][10 11 0 (Mp)][7 8 0 (K)][9 10 0 (Ds**c)]
+[11 13 1 (Jp)][12 13 0 (Dsu*x)]]
+[0]
+
+I 'm tired of being a cross old bachelor .
+Found 12 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.30 LEN=16)
+[(LEFT-WALL)(I.p)('m)(tired.a)(of)(being.v)(a)(cross.n)(old.n)(bachelor.n-m)
+(.)]
+[[0 10 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SX)][2 3 0 (Pa)][3 4 0 (OFj)][4 5 0 (Mgp)]
+[5 9 3 (Ost)][6 9 2 (Ds**x)][7 9 1 (AN)][8 9 0 (AN)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.30 LEN=16)
+[(LEFT-WALL)(I.p)('m)(tired.a)(of)(being.v)(a)(cross.n)(old.n)(bachelor.n-m)
+(.)]
+[[0 10 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SX)][2 3 0 (Pa)][3 4 0 (OFw)][4 5 0 (Mgp)]
+[5 9 3 (Ost)][6 9 2 (Ds**x)][7 9 1 (AN)][8 9 0 (AN)]]
+[0]
+
+the Gordons never did anything half-heartedly .
+Found 12 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=12)
+[(LEFT-WALL)(the)(Gordons[!])(never.e)(did.v-d)(anything)(half-heartedly)(.)]
+[[0 7 3 (Xp)][0 4 2 (WV)][0 2 1 (Wd)][2 4 1 (Sp)][1 2 0 (DG)][3 4 0 (E)][4 6 1 (MVa)]
+[4 5 0 (Os)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=12)
+[(LEFT-WALL)(the)(Gordons[!])(never.e)(did.v-d)(anything)(half-heartedly)(.)]
+[[0 7 3 (Xp)][0 4 2 (WV)][0 2 1 (Wd)][2 4 1 (Ss)][1 2 0 (DG)][3 4 0 (E)][4 6 1 (MVa)]
+[4 5 0 (Os)]]
+[0]
+
+little Mrs Peter looked a bit discomfited .
+Found 8 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 3.60 LEN=15)
+[(LEFT-WALL)(little.a)(Mrs.x)(Peter.b)(looked.v-d)(a)(bit)(discomfited.v-d)(.)]
+[[0 8 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (A)][2 3 0 (G)][4 7 1 (Pa)]
+[6 7 0 (EA)][5 6 0 (IDBVN)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.60 LEN=15)
+[(LEFT-WALL)(little.i)(Mrs.x)(Peter.b)(looked.v-d)(a)(bit)(discomfited.v-d)(.)]
+[[0 8 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Ss*s)][1 3 1 (Dmu)][2 3 0 (G)][4 7 1 (Pa)]
+[6 7 0 (EA)][5 6 0 (IDBVN)]]
+[0]
+
+there was no way out there .
+Found 82 linkages (10 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.15 LEN=8)
+[(LEFT-WALL)(there.r)(was.v-d)(no.misc-d)(way.n)(out.a)(there.r)(.)]
+[[0 7 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SFst)][2 4 1 (Ost)][3 4 0 (Ds)][4 5 0 (Ma)]
+[5 6 0 (MVp)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.10 LEN=8)
+[(LEFT-WALL)(there.r)(was.v-d)(no.misc-d)(way.n)(out.a)(there.r)(.)]
+[[0 7 2 (Xp)][0 2 1 (WV)][0 1 0 (Wp)][1 2 0 (PFb)][2 4 1 (SIs)][3 4 0 (Ds)][4 5 0 (Ma)]
+[5 6 0 (MVp)]]
+[0]
+
+there was a row of nesting boxes along one side close to the floor .
+Found 6810 linkages (46 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.54 LEN=32)
+[(LEFT-WALL)(there.r)(was.v-d)(a)(row.n)(of)(nesting.v)(boxes.n)(along)(one)
+(side.n)(close)(to)(the)(floor.n)(.)]
+[[0 15 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SFst)][2 12 3 (MVp)][2 8 2 (MVp)][2 4 1 (Ost)]
+[3 4 0 (Ds**c)][4 5 0 (Mp)][5 6 0 (Mgp)][6 7 0 (Op)][7 8 0 (Mp)][8 10 1 (Js)][9 10 0 (Ds**c)]
+[11 12 0 (IDBIX)][12 14 1 (Js)][13 14 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.15 LEN=32)
+[(LEFT-WALL)(there.r)(was.v-d)(a)(row.n)(of)(nesting.v)(boxes.n)(along)(one)
+(side.n)(close)(to)(the)(floor.n)(.)]
+[[0 15 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SFst)][2 12 3 (MVp)][2 8 2 (MVp)][2 4 1 (Ost)]
+[3 4 0 (Ds**c)][4 5 0 (Mp)][5 6 0 (Mgp)][6 7 0 (Op)][8 10 1 (Js)][9 10 0 (Ds**c)][11 12 0 (IDBIX)]
+[12 14 1 (Js)][13 14 0 (Ds**c)]]
+[0]
+
+he 's just pretending .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=6)
+[(LEFT-WALL)(he)('s.v)(just.e)(pretending.v)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Pg)][3 4 0 (E)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=6)
+[(LEFT-WALL)(he)('s.v)(just.a)(pretending.v)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Ost)][3 4 0 (A)]]
+[0]
+
+it was very difficult .
+Found 4 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(it)(was.v-d)(very.e)(difficult.a)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Paf)][3 4 0 (EA)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=5)
+[(LEFT-WALL)(it)(was.v-d)(very.e)(difficult.a)(.)]
+[[0 5 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Paf)][3 4 0 (EA)]]
+[0]
+
+Daisy clasped her hands at this delicious spectacle , and wanted to skim it immediately .
+Found 57 linkages (54 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.41 LEN=47)
+[(LEFT-WALL)(Daisy.f)(clasped.v-d)(her)(hands.n)(at)(this.d)(delicious.a)(spectacle.n)(,)
+(and.j-v)(wanted.v-d)(to.r)(skim.v)(it)(immediately)(.)]
+[[0 16 6 (Xp)][0 10 5 (WV)][0 1 0 (Wd)][1 10 4 (Ss*s)][2 10 3 (VJlsi)][2 5 2 (MVp)][2 4 1 (Op)]
+[4 5 0 (Mp)][3 4 0 (Dmc)][5 8 2 (Js)][6 8 1 (Dsu*x)][7 8 0 (A)][9 10 0 (Xd)][10 11 0 (VJrsi)]
+[11 13 1 (IV)][11 12 0 (TO)][12 13 0 (I*t)][13 15 1 (MVa)][13 14 0 (Osm)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS=-0.41 LEN=50)
+[(LEFT-WALL)(Daisy.f)(clasped.v-d)(her)(hands.n)(at)(this.d)(delicious.a)(spectacle.n)(,)
+(and.j-v)(wanted.v-d)(to.r)(skim.v)(it)(immediately)(.)]
+[[0 16 6 (Xp)][0 10 5 (WV)][0 1 0 (Wd)][1 10 4 (Ss*s)][2 10 3 (VJlsi)][2 5 2 (MVp)][2 4 1 (Op)]
+[4 5 0 (Mp)][3 4 0 (Dmc)][5 8 2 (Js)][6 8 1 (Dsu*x)][7 8 0 (A)][9 10 0 (Xd)][10 15 2 (MVa)]
+[10 11 0 (VJrsi)][11 13 1 (IV)][11 12 0 (TO)][12 13 0 (I*t)][13 14 0 (Osm)]]
+[0]
+
+Little Joe made a good-natured face at Billy Mink and shook his head .
+Found 144 linkages (76 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.09 LEN=44)
+[(LEFT-WALL)(Little[!])(Joe.b)(made.v-d)(a)(good-natured.a)(face.n)(at)(Billy.b)(Mink[!])
+(and.j-v)(shook.v-d)(his)(head.n)(.)]
+[[0 14 7 (Xp)][0 10 6 (WV)][0 2 1 (Wd)][2 10 5 (Ss*s)][1 2 0 (G)][3 10 4 (VJlsi)][3 7 3 (MVp)]
+[3 6 2 (Os)][6 7 0 (Mp)][4 6 1 (Ds**x)][5 6 0 (A)][7 9 1 (Js)][8 9 0 (G)][10 11 0 (VJrsi)]
+[11 13 1 (Os)][12 13 0 (Ds**c)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.62 LEN=45)
+[(LEFT-WALL)(Little[!])(Joe.b)(made.v-d)(a)(good-natured.a)(face.n)(at)(Billy.b)(Mink[!])
+(and.j-v)(shook.v-d)(his)(head.n)(.)]
+[[0 14 7 (Xp)][0 10 6 (WV)][0 2 1 (Wd)][2 10 5 (Ss*s)][1 2 0 (G)][3 10 4 (VJlsi)][3 9 3 (Osn)]
+[3 6 2 (Os)][4 6 1 (Ds**x)][4 5 0 (PHc)][5 6 0 (A)][6 7 0 (Mp)][7 8 0 (Js)][10 11 0 (VJrsi)]
+[11 13 1 (Os)][12 13 0 (Ds**c)]]
+[0]
+
+she always liked to see me neat and dainty .
+Found 69 linkages (69 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=15)
+[(LEFT-WALL)(she)(always)(liked.v-d)(to.r)(see.v)(me)(neat.a)(and.j-a)(dainty.a)
+(.)]
+[[0 10 3 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Ss)][2 3 0 (E)][3 5 1 (IV)][3 4 0 (TO)]
+[4 5 0 (I*t)][5 8 1 (MVa)][5 6 0 (Ox)][7 8 0 (AJla)][8 9 0 (AJra)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=14)
+[(LEFT-WALL)(she)(always)(liked.v-d)(to.r)(see.v)(me)(neat.a)(and.j-a)(dainty.a)
+(.)]
+[[0 10 3 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Ss)][2 3 0 (E)][3 4 0 (TO)][4 5 0 (I*t)]
+[5 8 1 (MVa)][5 6 0 (Ox)][7 8 0 (AJla)][8 9 0 (AJra)]]
+[0]
+
+it taught her the right thing to do now .
+Found 126 linkages (82 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=24)
+[(LEFT-WALL)(it)(taught.v-d)(her)(the)(right.a)(thing.n)(to.r)(do.v)(now.r)
+(.)]
+[[0 10 5 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 9 4 (MVp)][2 7 3 (MVi)][2 6 2 (Osn)]
+[2 3 0 (Ox)][4 6 1 (Ds**x)][5 6 0 (A)][7 8 0 (I*d)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.00 LEN=24)
+[(LEFT-WALL)(it)(taught.v-d)(her)(the)(right.a)(thing.n)(to.r)(do.v)(now.r)
+(.)]
+[[0 10 5 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 9 4 (MVp)][2 7 3 (MVi)][2 6 2 (Osn)]
+[2 3 0 (Ox)][4 6 1 (Ds**x)][5 6 0 (A)][7 8 0 (I*d)]]
+[0]
+
+I was glad .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(I.p)(was.v-d)(glad.a)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SX)][2 3 0 (Pa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=3)
+[(LEFT-WALL)(I.p)(was.v-d)(glad.a)(.)]
+[[0 4 1 (Xp)][0 1 0 (Wd)][1 2 0 (SX)][2 3 0 (Pa)]]
+[0]
+
+David Bell hung his head like a shamed schoolboy .
+Found 14 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.09 LEN=18)
+[(LEFT-WALL)(David.b)(Bell.b)(hung.v-d)(his)(head.n)(like.p)(a)(shamed.v-d)(schoolboy.n)
+(.)]
+[[0 10 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 6 2 (MVp)][3 5 1 (Os)]
+[5 6 0 (Mp)][4 5 0 (Ds**c)][6 9 2 (Js)][7 9 1 (Ds**x)][8 9 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.70 LEN=18)
+[(LEFT-WALL)(David.b)(Bell.b)(hung.v-d)(his)(head.n)(like.p)(a)(shamed.v-d)(schoolboy.n)
+(.)]
+[[0 10 3 (Xp)][0 3 2 (WV)][0 2 1 (Wd)][2 3 0 (Ss*s)][1 2 0 (G)][3 6 2 (MVp)][3 5 1 (Os)]
+[4 5 0 (Ds**c)][6 9 2 (Js)][7 9 1 (Ds**x)][8 9 0 (A)]]
+[0]
+
+his long legs took him over the ground very fast .
+Found 12 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=23)
+[(LEFT-WALL)(his)(long.a)(legs.n)(took.v-d)(him)(over)(the)(ground.s)(very.e)
+(fast.e)(.)]
+[[0 11 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Sp)][1 3 1 (Dmc)][2 3 0 (A)][4 10 2 (MVa)]
+[4 6 1 (MVp)][4 5 0 (Ox)][6 8 1 (Js)][7 8 0 (Ds**c)][9 10 0 (EE)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=23)
+[(LEFT-WALL)(his)(long.a)(legs.n)(took.v-d)(him)(over)(the)(ground.n-u)(very.e)
+(fast.e)(.)]
+[[0 11 4 (Xp)][0 4 3 (WV)][0 3 2 (Wd)][3 4 0 (Sp)][1 3 1 (Dmc)][2 3 0 (A)][4 10 2 (MVa)]
+[4 6 1 (MVp)][4 5 0 (Ox)][6 8 1 (Ju)][7 8 0 (Dmu)][9 10 0 (EE)]]
+[0]
+
+Peter tickled the other ear .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=8)
+[(LEFT-WALL)(Peter.b)(tickled.v-d)(the)(other)(ear.n)(.)]
+[[0 6 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (Os)][4 5 0 (Ds**v)][3 4 0 (DD)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=7)
+[(LEFT-WALL)(Peter.b)(tickled.v-d)(the)(other)(ear.n)(.)]
+[[0 6 2 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 1 (Os)][4 5 0 (Ds**v)][3 4 0 (DD)]]
+[0]
+
+he became dangerously sarcastic .
+Found 4 linkages (4 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=6)
+[(LEFT-WALL)(he)(became.v-d)(dangerously)(sarcastic.a)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Pa)][2 3 0 (MVa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.00 LEN=6)
+[(LEFT-WALL)(he)(became.v-d)(dangerously)(sarcastic.a)(.)]
+[[0 5 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Pa)][3 4 0 (EA)]]
+[0]
+
+the thought of the little sister quelled the storm in Marcella 's soul .
+Found 364 linkages (100 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.61 LEN=32)
+[(LEFT-WALL)(the)(thought.n)(of)(the)(little.a)(sister.n-f)(quelled.v-d)(the)(storm.n)
+(in.r)(Marcella.f)('s.p)(soul.n-u)(.)]
+[[0 14 5 (Xp)][0 7 4 (WV)][0 2 1 (Wd)][2 7 3 (Ss*t)][1 2 0 (D*u*x)][2 3 0 (Mp)][3 6 2 (Js)]
+[4 6 1 (Ds**x)][5 6 0 (A)][7 10 2 (MVp)][7 9 1 (Os)][9 10 0 (Mp)][8 9 0 (Ds**c)][10 13 1 (Ju)]
+[12 13 0 (Dmu)][11 12 0 (YS)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS=-0.61 LEN=32)
+[(LEFT-WALL)(the)(thought.n)(of)(the)(little.a)(sister.n-f)(quelled.v-d)(the)(storm.n)
+(in.r)(Marcella.f)('s.p)(soul.n-u)(.)]
+[[0 14 5 (Xp)][0 7 4 (WV)][0 2 1 (Wd)][2 7 3 (Ss*t)][1 2 0 (D*u*c)][2 3 0 (Mf)][3 6 2 (Js)]
+[4 6 1 (Ds**x)][5 6 0 (A)][7 10 2 (MVp)][7 9 1 (Os)][9 10 0 (Mp)][8 9 0 (Ds**c)][10 13 1 (Ju)]
+[12 13 0 (Dmu)][11 12 0 (YS)]]
+[0]
+
+Labakan soon got plenty of customers .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.06 LEN=12)
+[(LEFT-WALL)(Labakan[!])(soon)(got.v-d)(plenty)(of)(customers.n)(.)]
+[[0 7 3 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Ss*s)][2 3 0 (E)][3 6 2 (Op)][4 6 1 (Dmc)]
+[4 5 0 (OFd)][5 6 0 (Jd)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 1.06 LEN=9)
+[(LEFT-WALL)(Labakan[!])(soon)(got.v-d)(plenty)(of)(customers.n)(.)]
+[[0 7 3 (Xp)][0 3 2 (WV)][0 1 0 (Wd)][1 3 1 (Ss*s)][2 3 0 (E)][3 4 0 (O)][4 5 0 (Mp)]
+[5 6 0 (Jp)]]
+[0]
+
+he put all his belongings into their charge , and fastened his horse in their out-house .
+Found 152 linkages (64 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.69 LEN=49)
+[(LEFT-WALL)(he)(put.v-d)(all.a)(his)(belongings[!].n)(into)(their.p)(charge.s)(,)
+(and.j-v)(fastened.v-d)(his)(horse.n-m)(in.r)(their.p)(out-house[!].n)(.)]
+[[0 17 6 (Xp)][0 10 5 (WV)][0 1 0 (Wd)][1 10 4 (Ss)][2 10 3 (VJlsi)][2 6 2 (Pp)][2 3 0 (O)]
+[3 5 1 (Jp)][3 4 0 (ALx)][4 5 0 (Dmc)][6 8 1 (Js)][7 8 0 (Ds**c)][9 10 0 (Xd)][10 11 0 (VJrsi)]
+[11 14 2 (MVp)][11 13 1 (Os)][13 14 0 (Mp)][12 13 0 (Ds**c)][14 16 1 (J)][15 16 0 (D)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 2.69 LEN=50)
+[(LEFT-WALL)(he)(put.v-d)(all.a)(his)(belongings[!].n)(into)(their.p)(charge.s)(,)
+(and.j-v)(fastened.v-d)(his)(horse.n-m)(in.r)(their.p)(out-house[!].n)(.)]
+[[0 17 6 (Xp)][0 10 5 (WV)][0 1 0 (Wd)][1 10 4 (Ss)][2 10 3 (VJlsi)][2 6 2 (Pp)][2 3 0 (O)]
+[3 5 1 (Jp)][3 4 0 (ALx)][4 5 0 (Dmc)][6 8 1 (Js)][7 8 0 (Ds**c)][9 10 0 (Xd)][10 14 2 (MVp)]
+[10 11 0 (VJrsi)][11 13 1 (Os)][13 14 0 (Mp)][12 13 0 (Ds**c)][14 16 1 (J)][15 16 0 (D)]]
+[0]
+
+mother 's eyes never laugh now .
+Found 2 linkages (2 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=13)
+[(LEFT-WALL)(mother.f)('s.p)(eyes.n)(never.e)(laugh.v)(now.r)(.)]
+[[0 7 3 (Xp)][0 5 2 (WV)][0 3 1 (Wd)][3 5 1 (Sp)][2 3 0 (Dmc)][1 2 0 (YS)][4 5 0 (E)]
+[5 6 0 (MVp)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=9)
+[(LEFT-WALL)(mother.f)('s.p)(eyes.n)(never.e)(laugh.v)(now.r)(.)]
+[[0 7 2 (Xp)][0 3 1 (Wd)][2 3 0 (Dmc)][1 2 0 (YS)][3 5 1 (Sp)][4 5 0 (E)][5 6 0 (MVp)]]
+[0]
+
+it 's a miracle that isn't likely to happen again .
+Found 290 linkages (37 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.00 LEN=20)
+[(LEFT-WALL)(it)('s.v)(a)(miracle.n)(that.j-r)(isn't)(likely.a)(to.r)(happen.v)
+(again)(.)]
+[[0 11 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (SFsi)][2 6 3 (Bs)][2 5 2 (R)][5 6 0 (RS)]
+[2 4 1 (Osi)][3 4 0 (Ds**c)][6 9 2 (IV)][6 8 1 (TO)][8 9 0 (Ift)][7 8 0 (E)][9 10 0 (MVa)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=16)
+[(LEFT-WALL)(it)('s.v)(a)(miracle.n)(that.j-r)(isn't)(likely.a)(to.r)(happen.v)
+(again)(.)]
+[[0 11 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 4 1 (Ost)][3 4 0 (Ds**c)][4 6 1 (Bs)]
+[4 5 0 (R)][5 6 0 (RS)][6 9 2 (IV)][6 8 1 (TO)][8 9 0 (Ift)][7 8 0 (E)][9 10 0 (MVa)]]
+[0]
+
+Morgan says so .
+Found 8 linkages (8 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=4)
+[(LEFT-WALL)(Morgan.b)(says.v)(so.e)(.)]
+[[0 4 2 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 3 0 (O)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 3.00 LEN=2)
+[(LEFT-WALL)(Morgan.b)(says.q)(so.e)(.)]
+[[0 2 1 (CPa)][1 2 0 (Ss*s)][2 4 1 (Xc)][2 3 0 (MVp)][3 4 0 (Xca)]]
+[0]
+
+he trots about on all fours and carries things in his mouth like a little dog .
+Found 8464 linkages (87 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS=-0.72 LEN=43)
+[(LEFT-WALL)(he)(trots.v)(about)(on)(all.a)(fours[!].n)(and.j-v)(carries.v)(things.n)
+(in.r)(his)(mouth.n)(like.p)(a)(little.a)(dog.n)(.)]
+[[0 17 5 (Xp)][0 7 4 (WV)][0 1 0 (Wd)][1 7 3 (Ss)][2 7 2 (VJlsi)][2 3 0 (MVl)][3 4 0 (MVp)]
+[4 6 1 (Jp)][5 6 0 (Dmc)][7 13 2 (MVp)][7 10 1 (MVp)][7 8 0 (VJrsi)][8 9 0 (Op)][9 10 0 (Mp)]
+[10 12 1 (Js)][12 13 0 (Mp)][11 12 0 (Ds**c)][13 16 2 (Js)][14 16 1 (Ds**x)][15 16 0 (A)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.09 LEN=33)
+[(LEFT-WALL)(he)(trots.v)(about)(on)(all.a)(fours[!].v)(and.v-fill)(carries.v)(things.n)
+(in.r)(his)(mouth.n)(like.p)(a)(little.a)(dog.n)(.)]
+[[0 17 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 3 0 (MVl)][3 4 0 (MVp)][4 7 1 (Mgp)]
+[6 7 0 (VJlgi)][5 6 0 (E)][7 13 3 (MVp)][7 12 2 (Osn)][12 13 0 (Mp)][7 10 1 (K)][7 8 0 (VJrgi)]
+[8 9 0 (Op)][11 12 0 (Ds**c)][13 16 2 (Js)][14 16 1 (Ds**x)][14 15 0 (PHc)][15 16 0 (A)]]
+[0]
+
+it rang on an average every ten minutes at Ingleside .
+Found 30 linkages (30 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.06 LEN=22)
+[(LEFT-WALL)(it)(rang.v-d)(on)(an)(average.n)(every.i)(ten)(minutes.i)(at)
+(Ingleside[!])(.)]
+[[0 11 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 9 3 (MVp)][2 6 2 (MVpn)][2 3 0 (MVp)]
+[3 5 1 (Js)][4 5 0 (Ds**v)][6 8 1 (Ye)][7 8 0 (ND)][9 10 0 (Js)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.06 LEN=23)
+[(LEFT-WALL)(it)(rang.v-d)(on)(an)(average.n)(every.i)(ten)(minutes.i)(at)
+(Ingleside[!])(.)]
+[[0 11 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss)][2 9 3 (MVp)][2 6 2 (MVpn)][2 5 1 (Osn)]
+[2 3 0 (K)][4 5 0 (Ds**v)][6 8 1 (Ye)][7 8 0 (ND)][9 10 0 (Js)]]
+[0]
+
+something seems to have touched them and set them apart .
+Found 12 linkages (12 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.20 LEN=19)
+[(LEFT-WALL)(something)(seems.v)(to.r)(have.v)(touched.v-d)(them)(and.j-v)(set.v-d)(them)
+(apart)(.)]
+[[0 11 4 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 7 3 (IV)][2 3 0 (TOf)][3 4 0 (Ift)]
+[4 7 2 (PP)][5 7 1 (VJlhi)][5 6 0 (Ox)][7 8 0 (VJrhi)][8 10 1 (K)][8 9 0 (Ox)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.20 LEN=28)
+[(LEFT-WALL)(something)(seems.v)(to.r)(have.v)(touched.v-d)(them)(and.j-v)(set.v-d)(them)
+(apart)(.)]
+[[0 11 5 (Xp)][0 7 4 (WV)][0 1 0 (Wd)][1 7 3 (Ss*s)][2 7 2 (VJlsi)][2 5 1 (IV)][2 3 0 (TOf)]
+[3 4 0 (Ift)][4 5 0 (PP)][5 6 0 (Ox)][7 8 0 (VJrsi)][8 10 1 (K)][8 9 0 (Ox)]]
+[0]
+
+the barrier between you is her experience of sorrow and trouble .
+Found 360 linkages (100 of 100 random linkages had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 0.40 LEN=20)
+[(LEFT-WALL)(the)(barrier.n)(between)(you)(is.v)(her)(experience.n-u)(of)(sorrow.n-u)
+(and.j-n)(trouble.n-u)(.)]
+[[0 12 3 (Xp)][0 5 2 (WV)][0 2 1 (Wd)][2 5 1 (Ss*s)][1 2 0 (Ds**c)][2 3 0 (Mp)][3 4 0 (J)]
+[5 7 1 (Osm)][6 7 0 (D*u)][7 8 0 (Mf)][8 10 1 (Ju)][9 10 0 (SJlu)][10 11 0 (SJrp)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 0.40 LEN=20)
+[(LEFT-WALL)(the)(barrier.n)(between)(you)(is.v)(her)(experience.n-u)(of)(sorrow.n-u)
+(and.j-n)(trouble.n-u)(.)]
+[[0 12 3 (Xp)][0 5 2 (WV)][0 2 1 (Wd)][2 5 1 (Ss*s)][1 2 0 (Ds**c)][2 3 0 (Mp)][3 4 0 (J)]
+[5 7 1 (Ost)][6 7 0 (D*u)][7 8 0 (Mf)][8 10 1 (Ju)][9 10 0 (SJlp)][10 11 0 (SJrp)]]
+[0]
+
+Gilbert put his arm about them .
+Found 3 linkages (3 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 1.00 LEN=10)
+[(LEFT-WALL)(Gilbert.m)(put.v-d)(his)(arm.n)(about)(them)(.)]
+[[0 7 3 (Xp)][0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 2 (Pp)][2 4 1 (Os)][3 4 0 (Ds**v)]
+[5 6 0 (J)]]
+[0]
+
+	Linkage 2, cost vector = (UNUSED=0 DIS= 4.00 LEN=9)
+[(LEFT-WALL)(Gilbert.m)(put.v-d)(his)(arm.n)(about)(them)(.)]
+[[0 7 3 (Xp)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 5 2 (Pp)][2 4 1 (Os)][3 4 0 (Ds**v)][5 6 0 (J)]]
+[0]
+
+Akela growled , dropping on his haunches .
+Found 6 linkages (6 had no P.P. violations)
+	Linkage 1, cost vector = (UNUSED=0 DIS= 2.06 LEN=6)
+[(LEFT-WALL)(Akela[!])(growled.v-d)(,)(dropping.g)(on)(his)(haunches.n)(.)]
+[[0 2 1 (WV)][0 1 0 (Wd)][1 2 0 (Ss*s)][2 4 1 (MVg)][3 4 0 (Xd)][4 8 2 (Xc)][4 5 0 (MVp)]
+[5 7 1 (Jp)][6 7 0 (Dmc)]]
+[0]
+
+Bye.

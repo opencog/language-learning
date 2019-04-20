@@ -1,6 +1,6 @@
-# language-learning/src/grammar_learner/pparser.py                      # 190410
-import logging
-import pandas as pd
+# language-learning/src/grammar_learner/pparser.py                      # 190417
+import logging, pandas as pd
+from collections import Counter
 from .corpus_stats import corpus_stats
 from .utl import kwa
 
@@ -42,10 +42,20 @@ def mst2connectors(lines, **kwargs):
 def mst2disjuncts(lines, **kwargs):
     lw = kwa('', 'left_wall', **kwargs)
     dot = kwa(False, 'period', **kwargs)
+    min_word_count = kwa(1, 'min_word_count', **kwargs)                 # 190417
+    min_link_count = kwa(1, 'min_link_count', **kwargs)
+
     if len(lines[-1]) > 0: lines.append([])
     pairs = []
     links = dict()
     words = dict()
+
+    # sl: sentences as lists of words                                   # 190417
+    sl = [x for x in [l.split() for l in lines] if len(x) > 0 and
+          not (len(x) in [4, 5] and x[0].isdigit() and x[2].isdigit())]
+    # tokens: words with counts >= min_word_count                       # 190417
+    tokens = {w: c for w, c in Counter([w for s in sl for w in s]).items()
+              if c >= min_word_count}
 
     def save_djs(words, links):
         if len(links) > 0:
@@ -70,7 +80,8 @@ def mst2disjuncts(lines, **kwargs):
         if len(line) > 1:
             if line[0].isdigit():
                 x = line.split()
-                if len(x) in [4, 5] and x[0].isdigit() and x[2].isdigit():  # 190325
+                if len(x) in [4, 5] and x[0].isdigit() and x[2].isdigit() \
+                        and x[1] in tokens and x[3] in tokens:          # 190417
                     if x[1] == '###LEFT-WALL###':
                         if lw in ['', 'none']:
                             continue
@@ -250,6 +261,7 @@ def lines2links(lines, **kwargs):                                       # 190410
             ['Average disjunct count ', avg_disjunct_count],
             ['Average disjunct length', avg_disjunct_length],
             ['Maximum disjunct length', max_disjunct_length]])
+        # TODO: re-calculate stats on df filtered in mst2words with min_word_count?
 
     elif context == 1:  # cdf - connectors DataFrame
         df = mst2connectors(lines, **kwargs)[['word', 'link', 'count']]  # cdf
@@ -285,11 +297,12 @@ def lines2links(lines, **kwargs):                                       # 190410
 
 # Notes:
 
-# 80725 POC 0.5 restructured - this module was src/space/poc05.py
-# 80802 corpus_stats ⇒ corpus_stats.py
-# 80829 files2links: Average, max disjunct lengths
-# 81024 line 24: cure case of MST parses file last line not ending with CR
-# 81231 cleanup
+# 180725 POC 0.5 restructured - this module was src/space/poc05.py
+# 180802 corpus_stats ⇒ corpus_stats.py
+# 180829 files2links: Average, max disjunct lengths
+# 181024 line 24: cure case of MST parses file last line not ending with CR
+# 181231 cleanup » release 0.7.0
 # 190217 filter_lines, lines2links
 # 190325 `== 4` » `in [4, 5]` :: allow for parses with added "statistical information"
 # 190410 lines2links: check length of filtered dataset > 0
+# 190417 mst2disjuncts: prune words with counts < min_word_count

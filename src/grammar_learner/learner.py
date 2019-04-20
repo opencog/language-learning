@@ -6,6 +6,7 @@ from shutil import copy2 as copy
 from collections import OrderedDict, Counter
 from .utl import UTC, kwa, sec2string
 from .read_files import check_dir, check_mst_files
+from .preprocessing import filter_links
 from .pparser import files2links, lines2links, filter_lines
 from .corpus_stats import corpus_stats
 from .category_learner import learn_categories, cats2list
@@ -30,7 +31,6 @@ def learn(**kwargs):
 
     # WSD: word_sense disambiguation                                    # 190408
     wsd_symbol = kwa('', 'wsd_symbol', **kwargs)
-
     # prj_dir: project directory
     if os.path.isdir(output_grammar):
         prj_dir = output_grammar
@@ -84,40 +84,11 @@ def learn(**kwargs):
 
     '''Read parses, extract links to DataFrame (2018), + filter sentences'''
 
-    if 'max_sentence_length' not in kwargs and 'max_unparsed_words' not in kwargs:
-        links, re02 = files2links(**kwargs)                       # legacy 2018
+    if 'ull_parsing' in kwargs and kwargs['ull_parsing'] == "180829":
+        links, re02 = files2links(**kwargs)
         # links: pd.DataFrame(columns=['word', 'link', 'count'])
-    else:  # filter sentences with 'max_sentence_length', 'max_unparsed_words'
-        lines = []
-        for i, file in enumerate(files):
-            with open(file, 'r') as f:
-                lines.extend(f.readlines())
-            if len(lines[-1]) > 0:  # 90211
-                lines.append('')
-        if parse_mode == 'lower':
-            lines = [' '.join([w.lower() if w != '###LEFT-WALL###'
-                               else w for w in l.split()]) for l in lines]
-        elif parse_mode == 'casefold':
-            lines = [' '.join([w.casefold() if w != '###LEFT-WALL###'
-                               else w for w in l.split()]) for l in lines]
-        # WSD:                                                          # 190408
-        if wsd_symbol != '':
-            lines = [' '.join([w[0] + w[1:-1].replace(wsd_symbol, '.') + w[-1]
-                               if len(w) > 2 else w
-                               for w in l.split()]) for l in lines]
-
-        if 'corpus_stats' in corpus_stats(lines):
-            raw_corpus_stats = corpus_stats(lines)['corpus_stats']
-            if type(raw_corpus_stats) is list:
-                log.update({'raw_corpus_stats': raw_corpus_stats})
-                list2file(raw_corpus_stats, prj_dir + '/raw_corpus_stats.txt')
-                log.update({'raw_corpus_stats_file':
-                            prj_dir + '/raw_corpus_stats.txt'})
-
-        links, re02 = lines2links(lines, **kwargs)                      # 190216
-        # Empty filtered df with 'max_sentence_length', 'max_unparsed_words'
-        if len(links) < 1:                                              # 190410
-            return {}, {'filtering error': 'empty_filtered_dataset'}
+    else:                                                               # 190417
+        links, re02 = filter_links(files, **kwargs)
 
     log.update(re02)
 

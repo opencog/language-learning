@@ -85,6 +85,10 @@ Usage:
 
     logger = logging.getLogger(app_name)
 
+    logger.warning(app_name + " ver." + __version__)
+    logger.warning("Python v." + platform.python_version())
+    logger.warning(f"Virtual environment: {os.environ['CONDA_DEFAULT_ENV']}")
+
     # Get the number of CPUs available to the current process
     cpus_available = len(os.sched_getaffinity(0))
 

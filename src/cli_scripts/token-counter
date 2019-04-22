@@ -113,16 +113,13 @@ Usage:
         print(main.__doc__)
         return 1
 
-    # If configuration file is specified all other options are ignored
-    if config_path is None:
+    if input_path is None:
+        print("Error: Input file path is not specified.")
+        print(main.__doc__)
+        return 1
 
-        if input_path is None:
-            print("Error: Input file path is not specified.")
-            print(main.__doc__)
-            return 1
-
-        if output_path is None:
-            output_path = os.environ['PWD']
+    if output_path is None:
+        output_path = os.environ['PWD']
 
     setup_logging(verbosity_level, logging_level, output_path + "/" + app_name + ".log", "w")
 
@@ -139,24 +136,14 @@ Usage:
         # logger.debug(traceback.print_exc())
         return 2
 
-    # except LGParseError as err:
-    #     logger.critical(str(err))
-    #     logger.debug(traceback.print_exc())
-    #     return 2
-    #
-    # except ParserError as err:
-    #     logger.critical(str(err))
-    #     logger.debug(traceback.print_exc())
-    #     return 2
-
     except KeyboardInterrupt:
         logger.warning("Ctrl+C triggered. User abort.")
-        return 4
+        return 3
 
     except Exception as err:
         logger.critical(str(type(err)) + ": " + str(err))
         logger.debug(traceback.print_exc())
-        return 5
+        return 4
 
     return 0
 

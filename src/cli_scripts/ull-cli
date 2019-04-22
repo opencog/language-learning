@@ -10,7 +10,8 @@ import traceback
 from json import JSONDecodeError
 from ull.common import JsonFileConfigManager, AbstractPipelineComponent, handle_path_string, setup_logging, \
     VERBOSITY_OPTIONS, strip_quotes
-from ull.pipeline import build_tree, run_tree, PipelineTreeNode2, check_config, FatalPipelineException
+from ull.pipeline import build_tree, run_tree, PipelineTreeNode2, check_config, \
+    FatalPipelineException, PipelineComponentException
 
 __version__ = "1.0.0"
 
@@ -84,6 +85,10 @@ Usage:
 
     logger = logging.getLogger(app_name)
 
+    logger.warning(app_name + " ver." + __version__)
+    logger.warning("Python v." + platform.python_version())
+    logger.warning(f"Virtual environment: {os.environ['CONDA_DEFAULT_ENV']}")
+
     # Get the number of CPUs available to the current process
     cpus_available = len(os.sched_getaffinity(0))
 
@@ -109,13 +114,20 @@ Usage:
         # Check the structure of the configuration
         check_config(config)
 
+        # Build execution tree
         execution_tree = build_tree(config, GLOBALS)
 
         logger.info("Execution tree has been built.")
 
+        # Run execution tree
         run_tree()
 
         PipelineTreeNode2.free_static_components()
+
+    except PipelineComponentException as err:
+        logger.critical(str(err))
+        logger.warning(err._traceback)
+        return 1
 
     except FatalPipelineException as err:
         logger.critical(str(err))
@@ -133,10 +145,10 @@ Usage:
         logger.warning("Ctrl+C triggered.")
         return 1
 
-    except FileNotFoundError as err:
-        logger.critical(str(err))
-        return 1
-
+    # except FileNotFoundError as err:
+    #     logger.critical(str(err))
+    #     return 1
+    #
     except Exception as err:
         logger.critical(str(type(err)) + ": " + str(err))
         logger.debug(traceback.print_exc())

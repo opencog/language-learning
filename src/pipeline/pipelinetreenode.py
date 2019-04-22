@@ -1,4 +1,5 @@
 import logging
+import traceback
 from typing import Dict, List, Any, Union, Callable
 from .pipelineexceptions import PipelineComponentException, FatalPipelineException
 
@@ -68,18 +69,24 @@ class PipelineTreeNode2:
                 job(node)
 
             except KeyError as err:
-                PipelineTreeNode2.logger.error("Fatal error: argument " + str(err) + " is missing in kwargs.")
-                return None
-                # raise FatalPipelineException("Fatal error: argument " + str(err) + " is missing in kwargs.")
+                raise PipelineComponentException("Fatal error: argument " + str(err) + " is missing in kwargs.",
+                                                 node._component_name, 0, node._environment["RUN_COUNT"], err)
 
-            except PipelineComponentException as err:
-                PipelineTreeNode2.logger.error(str(err))
-                return None
+            except FileNotFoundError as err:
+                raise PipelineComponentException(str(err), node._component_name, 0, node._environment["RUN_COUNT"], err)
 
             except Exception as err:
-                PipelineTreeNode2.logger.error("Fatal error: " + str(err))
-                return None
-                # raise FatalPipelineException("Fatal error: " + str(err))
+                raise PipelineComponentException(str(err), node._component_name, 0, node._environment["RUN_COUNT"], err,
+                                                 traceback.format_exc())
+
+            # except PipelineComponentException as err:
+            #     PipelineTreeNode2.logger.error(str(err))
+            #     return None
+            #
+            # except Exception as err:
+            #     PipelineTreeNode2.logger.error("Fatal error: " + str(err))
+            #     return None
+            #     # raise FatalPipelineException("Fatal error: " + str(err))
 
         for sibling in node._siblings:
                 PipelineTreeNode2.traverse(job, sibling)

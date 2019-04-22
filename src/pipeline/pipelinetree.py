@@ -126,10 +126,6 @@ def get_component(name: str, params: dict) -> AbstractPipelineComponent:
     except KeyError:
         raise Exception("Error: '{}' is not a valid pipeline component name.".format(name))
 
-    # except Exception as err:
-    #     logger.error(str(type(err)) + ": " + str(err))
-    #     raise err
-
 
 def single_proc_exec(node: PipelineTreeNode2) -> None:
 

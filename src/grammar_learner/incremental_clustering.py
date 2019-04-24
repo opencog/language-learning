@@ -7,6 +7,7 @@ from .utl import kwa, UTC, test_stats, sec2string
 from .read_files import check_path, check_dir, check_ull
 from .learner import learn
 from .pqa_table import params, pqa_meter
+from ..grammar_tester import test_grammar
 from .write_files import list2file
 module_path = os.path.abspath(os.path.join('..'))
 if module_path not in sys.path: sys.path.append(module_path)
@@ -152,7 +153,6 @@ def decode_cat_tree(tree, lg_dict, **kwargs):
     elif type(lg_dict) is list: kd = lg_dict
     # TODO: else raise error
 
-    #-print('kd:', kd)
     prefix = kwa('###', 'tag_prefix', **kwargs)
     suffix = kwa('###', 'tag_suffix', **kwargs)
     dct = {}
@@ -161,16 +161,12 @@ def decode_cat_tree(tree, lg_dict, **kwargs):
         if kd[i][0] == '%' and kd[i+1][-1] == ':':
             tag = prefix + kd[i].split()[1].lower() + suffix
             tokens = [x[1:-1] for x in kd[i+1][:-1].split()]
-            #-print('tag:', tag, '= tokens:', tokens)
             dct.update({tag: tokens})
-    #-print('\ndct:', dct)
     tree_lines = tree.split('\n')
     decoded_tree_lines = []
-    #-print('')
     for line in tree_lines:
         lst = line.split('\t')
         dlst = lst[:4]
-        #-print('lst:', lst, '» dlst:', dlst)
         #-decoded_cats = 'decode!'  # lst[4]      # TODO: decode
         if lst[4] in dct:
             dlst.append(' '.join(dct[lst[4]]))
@@ -179,7 +175,6 @@ def decode_cat_tree(tree, lg_dict, **kwargs):
         dlst.extend(lst[5:])
         decoded_tree_lines.append('\t'.join(dlst))
     decoded_tree = '\n'.join(decoded_tree_lines)
-    #-print('\ntree_lines:', tree_lines)
     return decoded_tree
 
 

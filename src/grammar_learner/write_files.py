@@ -112,7 +112,7 @@ def save_link_grammar(rules, output_grammar, grammar_rules = 2,
         if out_file[-1] != '/': out_file += '/'
         out_file += 'dict_'
         out_file = out_file + str(len(clusters)) + 'C_' + str(UTC())[:10]
-        if linkgrammar.__version__ == '5.4.4':  # 90128: restore LG 5.4.4 option
+        if linkgrammar.__version__ == '5.4.4':  # 190128: restore LG 5.4.4 option
             out_file = out_file + '_0006.4.0.dict'
         else: out_file = out_file + '_0007.4.0.dict'
     else:
@@ -121,13 +121,13 @@ def save_link_grammar(rules, output_grammar, grammar_rules = 2,
     if header == '':
         header = '% Grammar Learner v.0.7 ' + str(UTC()) \
                  + '\n<dictionary-version-number>: V0v0v7+;\n'
-        if linkgrammar.__version__ == '5.4.4':  # 90128: restore LG 5.4.4 option
+        if linkgrammar.__version__ == '5.4.4':  # 190128: restore LG 5.4.4 option
             header = '% Grammar Learner v.0.6 ' + str(UTC()) \
             + '\n<dictionary-version-number>: V0v0v6+;\n'
     header = header + '<dictionary-locale>: EN4us+;'
 
     unknown_word = '<UNKNOWN-WORD>: XXX+;'
-    if linkgrammar.__version__ == '5.4.4':  # 90128: restore LG 5.4.4 options
+    if linkgrammar.__version__ == '5.4.4':  # 190128: restore LG 5.4.4 options
         unknown_word = 'UNKNOWN-WORD: XXX+;'
 
     if footer == '':

@@ -56,6 +56,8 @@ def mst2disjuncts(lines, **kwargs):
     # tokens: words with counts >= min_word_count                       # 190417
     tokens = {w: c for w, c in Counter([w for s in sl for w in s]).items()
               if c >= min_word_count}
+    if lw not in ['', 'none']: tokens['###LEFT-WALL###'] = 1            # 190424
+    if dot: tokens['.'] = 1                                             # 190424
 
     def save_djs(words, links):
         if len(links) > 0:
@@ -72,8 +74,8 @@ def mst2disjuncts(lines, **kwargs):
                                                + ('+' if z > 0 else '-')
                                                for z in (l + r)])
                     pairs.append([words[k], disjunct])
-        links = dict()
-        words = dict()
+        links = {}
+        words = {}
         return words, links
 
     for line in lines:
@@ -82,29 +84,19 @@ def mst2disjuncts(lines, **kwargs):
                 x = line.split()
                 if len(x) in [4, 5] and x[0].isdigit() and x[2].isdigit() \
                         and x[1] in tokens and x[3] in tokens:          # 190417
-                    if x[1] == '###LEFT-WALL###':
-                        if lw in ['', 'none']:
-                            continue
-                        else:
-                            x[1] = lw
-                    if not dot and x[3] == '.':
-                        continue
-                    try:
+                    if x[1] == '###LEFT-WALL###': x[1] = lw             # 190424
+                    try:  # FIXME: overkill? already checked by .isdigit lin3 85
                         i = int(x[0])
                         j = int(x[2])
-                    except:
-                        continue
+                    except: continue
                     words[i] = x[1]
                     words[j] = x[3]
                     if i in links:
                         links[i].add(j)
-                    else:
-                        links[i] = set([j])
+                    else: links[i] = set([j])
                     if j in links:
                         links[j].add(-i)
-                    else:
-                        links[j] = set([-i])
-
+                    else: links[j] = set([-i])
                 else:  # sentence starting with digit = same as next else
                     words, links = save_djs(words, links)
             else:  # sentence starting with letter
@@ -306,3 +298,4 @@ def lines2links(lines, **kwargs):                                       # 190410
 # 190325 `== 4` » `in [4, 5]` :: allow for parses with added "statistical information"
 # 190410 lines2links: check length of filtered dataset > 0
 # 190417 mst2disjuncts: prune words with counts < min_word_count
+# 190424 Add '###LEFT-WALL###' and '.' to tokens - lines 59, 60

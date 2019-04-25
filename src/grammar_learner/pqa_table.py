@@ -289,7 +289,7 @@ def wide_rows(lines, out_dir, cp, rp, runs=(1, 1), **kwargs):
     header = ['Line', 'Corpus', 'Parsing', 'Space', 'Linkage', 'Affinity',
               'G12n', 'Threshold', 'Rules', 'MWC', 'NN', 'SI',
               'PA', 'PQ', 'F1']
-    if 'log+' in kwargs['verbose']:
+    if '+' in kwargs['verbose']:
         header.append('Top 5 cluster sizes')
 
     linkage = '---'

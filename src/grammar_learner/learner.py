@@ -89,8 +89,13 @@ def learn(**kwargs):
         # links: pd.DataFrame(columns=['word', 'link', 'count'])
     else:                                                               # 190417
         links, re02 = filter_links(files, **kwargs)
-
     log.update(re02)
+
+    if len(links) < 1:  # Requested by @alexei-gl, issue #209           # 190426
+        raise ValueError("Empty filtered dataset with max_sentence_length = "
+                         + str(kwa(99, 'max_sentence_length', **kwargs))
+                         + ", max_unparsed_words = "
+                         + str(kwa(0, 'max_unparsed_words', **kwargs)))
 
     if 'corpus_stats' in log:
         list2file(log['corpus_stats'], corpus_stats_file)
@@ -195,6 +200,7 @@ def learn_grammar(**kwargs):  # Backwards compatibility with legacy calls
 # 81126 def learn_grammar ⇒ def learn + decorator
 # 81204-07 test and block (snooze) data pruning with max_disjuncts, etc...
 # 81231 cleanup
-# 190221 tweak temp_dir, tmpath for Grammar Learner tutorial - FIXME line 54...
+# 190221 tweak temp_dir, tmpath for Grammar Learner tutorial - FIXME line 56...
 # 190409 Optional WSD, kwargs['wsd_symbol']
 # 190410 resolved empty filtered parses dataset issue
+# 190426 raise ValueError in case of empty filtered dataset (requested by pipeline)

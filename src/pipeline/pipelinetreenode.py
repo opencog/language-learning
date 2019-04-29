@@ -69,15 +69,13 @@ class PipelineTreeNode2:
                 job(node)
 
             except KeyError as err:
-                raise PipelineComponentException("Fatal error: argument " + str(err) + " is missing in kwargs.",
-                                                 node._component_name, 0, node._environment["RUN_COUNT"], err)
+                raise PipelineComponentException(f"Fatal error: argument {str(err)} is missing in kwargs.", node, err)
 
             except FileNotFoundError as err:
-                raise PipelineComponentException(str(err), node._component_name, 0, node._environment["RUN_COUNT"], err)
+                raise PipelineComponentException(str(err), node, err)
 
             except Exception as err:
-                raise PipelineComponentException(str(err), node._component_name, 0, node._environment["RUN_COUNT"], err,
-                                                 traceback.format_exc())
+                raise PipelineComponentException(str(err), node, err, traceback.format_exc())
 
             # except PipelineComponentException as err:
             #     PipelineTreeNode2.logger.error(str(err))

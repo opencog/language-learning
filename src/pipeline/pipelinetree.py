@@ -224,7 +224,8 @@ def prepare_parameters(parent: Optional[PipelineTreeNode2], common: dict, specif
                 or (isinstance(v, str) and v.find("/") < 0 and v.find("%") < 0)}
 
     # Get subdir path based on specific parameters if requested
-    rleaf = common.get("CMP_PREFIX", "") + get_path_from_dict(non_path, "_") if create_leaf else ""
+    sep = "_"
+    rleaf = common.get("CMP_PREFIX", "") + sep + get_path_from_dict(non_path, sep) if create_leaf else ""
 
     logger.debug("RLEAF: " + rleaf)
 

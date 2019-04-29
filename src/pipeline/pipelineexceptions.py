@@ -12,16 +12,27 @@ class PipelineComponentException(Exception):
         (both are 1-based), exception class name (exception raised from within component) and traceback dump in case of
         unhandled exception.
     """
-    def __init__(self, message: str, node: PipelineTreeNode2 = None,
+    def __init__(self, message: str, node = None,
                  t: Optional[object] = None, tb: Optional[str] = None):
         # super.__init__(self, message)
         self._message = message
-        self._node: PipelineTreeNode2 = node
+        self._node = node
         self._component = node._component_name
         self._cfg_count = node.seq_no
         self._run_count = node._environment.get("RUN_COUNT", 0)
         self._exception = t
         self._traceback = tb
+
+    # def __init__(self, message: str, node: PipelineTreeNode2 = None,
+    #              t: Optional[object] = None, tb: Optional[str] = None):
+    #     # super.__init__(self, message)
+    #     self._message = message
+    #     self._node: PipelineTreeNode2 = node
+    #     self._component = node._component_name
+    #     self._cfg_count = node.seq_no
+    #     self._run_count = node._environment.get("RUN_COUNT", 0)
+    #     self._exception = t
+    #     self._traceback = tb
 
     # @staticmethod
     # def get_exception_name(exception_obj: Optional[Exception]) -> str:

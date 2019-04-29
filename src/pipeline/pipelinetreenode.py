@@ -54,7 +54,6 @@ class PipelineTreeNode2:
     @staticmethod
     def traverse(job: Callable, node=None) -> None:
         """
-
         Traverse pipeline tree executing the job
 
         :param job:         Function/method to execute for each node.
@@ -92,7 +91,6 @@ class PipelineTreeNode2:
     @staticmethod
     def traverse_all(job: Callable) -> None:
         """
-
         Traverse all execution paths of pipeline tree
 
         :param job:         Function/method to execute for each node.
@@ -108,7 +106,6 @@ class PipelineTreeNode2:
 
     def add_sibling(self, node) -> None:
         """
-
         Add sibling to pipeline tree
 
         :param node:    Sibling node to add.

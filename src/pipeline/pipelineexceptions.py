@@ -1,6 +1,6 @@
 import re
 from typing import Optional
-from .pipelinetreenode import PipelineTreeNode2
+# from .pipelinetreenode import PipelineTreeNode2
 
 __all__ = ['PipelineComponentException', 'FatalPipelineException']
 

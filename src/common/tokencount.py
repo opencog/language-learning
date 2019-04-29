@@ -3,7 +3,7 @@ import os
 from typing import Dict
 from subprocess import Popen, PIPE
 from .dirhelper import traverse_dir_tree
-from .sedcommands import get_sed_regex
+from .sedcommands import get_sed_cmd_common_part
 
 __all__ = [
     'update_token_counts',
@@ -29,7 +29,7 @@ def update_token_counts(corpus_path: str, token_counts: Dict[str, int], options:
     :param options:         Bit mask representing parsing options.
     :return:                Total number of tokens in corpus file.
     """
-    sed_cmd = ["sed", "-e", get_sed_regex(options), corpus_path]
+    sed_cmd = get_sed_cmd_common_part(options) + [corpus_path]
 
     with Popen(sed_cmd, stdout=PIPE, stderr=PIPE) as proc_sed:
 

@@ -16,17 +16,21 @@ def clean_links(links, **kwargs):
     trash = []  # 81226 FIXME: return
     stop_words = kwa(trash, 'stop_words', **kwargs)
 
-    wdf = links.groupby('word', as_index=False).sum().sort_values(by=['count', 'word'], ascending=[False, True])
+    wdf = links.groupby('word', as_index=False).sum() \
+        .sort_values(by=['count', 'word'], ascending=[False, True])
     if 'djlen' in wdf: del wdf['djlen']
-    words = np.asarray([x for x in wdf.loc[wdf['count'] > min_word_count - 1]['word'].tolist() if x not in stop_words])
+    words = np.asarray([x for x in wdf.loc[wdf['count'] > min_word_count - 1]['word']
+                       .tolist() if x not in stop_words])
     word_idx = {word: i for i, word in enumerate(words)}
 
-    ldf = links.groupby('link', as_index=False).sum().sort_values(by=['count', 'link'], ascending=[False, True])
+    ldf = links.groupby('link', as_index=False).sum()\
+        .sort_values(by=['count', 'link'], ascending=[False, True])
     if 'djlen' in ldf: del ldf['djlen']
     ldf.index = [x for x in range(len(ldf))]
     if kwargs['context'] == 1:
-        features = np.asarray([x for x in ldf.loc[ldf['count'] > min_link_count - 1]['link'].tolist() if
-                               x[:-1] in word_idx])
+        features = np.asarray(
+            [x for x in ldf.loc[ldf['count'] > min_link_count - 1]['link']
+                .tolist() if x[:-1] in word_idx])
     else:
         features = np.asarray(ldf.loc[ldf['count'] > min_link_count - 1]['link'].tolist())
 
@@ -38,7 +42,8 @@ def clean_links(links, **kwargs):
     df['feat_id'] = df['link'].apply(lambda x: feat_idx[x] if x in feat_idx else -1)
     if 'word' in df: del df['word']
     if 'link' in df: del df['link']
-    df = df.loc[(df['word_id'] > -1) & (df['feat_id'] > -1)][['word_id', 'feat_id', 'count']]
+    df = df.loc[(df['word_id'] > -1) & (df['feat_id'] > -1)] \
+        [['word_id', 'feat_id', 'count']]
 
     return df.values, words, features  # <numpy.ndarray>
 

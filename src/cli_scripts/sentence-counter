@@ -1,0 +1,107 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import getopt
+import platform
+import traceback
+import logging
+
+from ull.common import handle_path_string, strip_quotes, setup_logging, VERBOSITY_OPTIONS, get_corpus_sentence_count
+from ull.common.optconst import *
+
+__version__ = "1.0.0"
+
+
+def main(argv):
+    """
+Usage:
+    sentence-counter -i <input_path> [OPTIONS]
+
+    input_path          Input corpus file or directory path. In case of directory the script will traverse all
+                        subdirectories, parsing each file in there and calculating statistics for the whole corpus.
+
+    OPTIONS:
+        -h  --help              Print usage info.
+        -u  --ull-input         ULL links are used as input. This option should be specified to use only sentences
+                                    and filter out link lines.
+        -v --verbosity          Verbosity level options: [none, debug, info, warning, error, critical]
+        -z --logging            File logging level options: [none, debug, info, warning, error, critical]
+    """
+    input_path      = None
+    options         = 0
+    verbosity_level = logging.WARNING
+    logging_level   = logging.NOTSET
+
+    try:
+        app_name = str(os.path.split(__file__)[1]).split(".")[0]
+
+        # hcwnuxIvzio
+        opts, args = getopt.getopt(argv, "hui:v:z:",
+                                   ["help",
+                                    "ull-input",
+                                    "input=",
+                                    "verbosity=",
+                                    "logging="])
+
+        for opt, arg in opts:
+            if opt in ("-h", "--help"):
+                print(main.__doc__)
+                return 0
+            elif opt in ("-u", "--ull-input"):
+                options |= BIT_ULL_IN
+            elif opt in ("-i", "--input"):
+                input_path = handle_path_string(arg)
+            elif opt in ("-v", "--verbosity"):
+                verb_key = strip_quotes(arg)
+
+                if verb_key not in VERBOSITY_OPTIONS.keys():
+                    raise getopt.GetoptError("Wrong verbosity argument value: ()".format(verb_key))
+
+                verbosity_level = VERBOSITY_OPTIONS[verb_key]
+            elif opt in ("-z", "--logging"):
+                log_key = strip_quotes(arg)
+
+                if log_key not in VERBOSITY_OPTIONS.keys():
+                    raise getopt.GetoptError("Wrong logging argument value: ()".format(log_key))
+
+                logging_level = VERBOSITY_OPTIONS[log_key]
+
+    except getopt.GetoptError as err:
+        print(str(err))
+        print(main.__doc__)
+        return 1
+
+    if input_path is None:
+        print(main.__doc__)
+        return 1
+
+    setup_logging(verbosity_level, logging_level, os.environ['PWD'] + "/" + app_name + ".log", "w")
+
+    logger = logging.getLogger(app_name)
+
+    logger.warning(app_name + " ver." + __version__)
+    logger.warning("Python v." + platform.python_version())
+
+    try:
+        print(f"{get_corpus_sentence_count(input_path, options)}")
+
+    # except TokenCountError as err:
+    #     logger.critical(str(err))
+    #     # logger.debug(traceback.print_exc())
+    #     return 2
+
+    except KeyboardInterrupt:
+        logger.warning("Ctrl+C triggered. User abort.")
+        return 4
+
+    except Exception as err:
+        logger.critical(str(type(err)) + ": " + str(err))
+        logger.debug(traceback.print_exc())
+        return 5
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

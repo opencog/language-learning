@@ -8,13 +8,17 @@ from .utl import UTC, kwa
 from .read_files import check_dir  # , check_mst_files
 from .hyperwords import vector_space_dim, pmisvd
 from .clustering import cluster_id, best_clusters, group_links, random_clusters
-from .sparse_word_space import \
-    clean_links, co_occurrence_matrix, categorical_distribution
+from .sparse_word_space import clean_links, \
+    co_occurrence_matrix, categorical_distribution
 from .skl_clustering import optimal_clusters
 
 
 def learn_categories(links, **kwargs):
-    # links :: pd.DataFrame(columns = ['word', 'link', 'count'])
+    """ learns word categories (clusters)
+    :param links:   pd.DataFrame(columns = ['word', 'link', 'count'])
+    :param kwargs:  disclosed below in kwa(...)
+    :return:        (categories, re)
+    """
     logger = logging.getLogger(__name__ + ".learn_categories")
     cats_file = kwa('/output', 'output_categories', **kwargs)
     tmpath = kwa('', 'tmpath', **kwargs)
@@ -83,7 +87,7 @@ def learn_categories(links, **kwargs):
         cdf = random_clusters(links, **kwargs)
         log.update({'clustering': 'random'})
 
-    if 'log+' in verbose:
+    if '+' in verbose:
         cluster_sizes = Counter([len(x) for x in cdf['cluster_words'].tolist()])
         log.update(
             {'n_clusters': len(cdf), 'cluster_sizes': dict(cluster_sizes)})
@@ -117,7 +121,11 @@ def cats2list(cats):
 
 
 def cdf2cats(clusters, **kwargs):
-    # clusters: pd.DataFrame(columns: ['cluster', 'cluster_words', 'disjuncts'])
+    """ transforms DataFrame ⇒ dict (for future hierarchical generalization)
+    :param clusters: pd.DataFrame(columns: ['cluster', 'cluster_words', 'disjuncts'])
+    :param kwargs:  ['word_space', 'clustering']
+    :return:        cats: {'cluster': [], 'words': [[str]], ...]
+    """
     cats = {}
     cats['cluster'] = ['A'] + clusters['cluster'].tolist()
     cats['parent'] = [0 for x in cats['cluster']]
@@ -158,3 +166,4 @@ def cdf2cats(clusters, **kwargs):
 # 81102 sparse wordspace agglomerative clustering
 # 81231 cleanup after upstream merge and conflicts resolution (FIXME: 2nd check)
 # 90221 tmpath defined in learn, tweaks removed here
+# 90410 empty filtered parses dataset issue

@@ -111,6 +111,30 @@ class TestStat(unittest.TestCase):
         pm = parse_metrics(['###LEFT-WALL###', '[.]', '[.]', '[.]', '[.]', '[.]', '[.]', '[.]'])
         self.assertEqual(Decimal('0.125'), pm.average_parsed_ratio)
 
+        tokens_1 = ["mom", "liked", "cake", "before", "[.]"]
+        pm = parse_metrics(tokens_1)
+        self.assertEqual(Decimal("0.8"), pm.average_parsed_ratio)
+        self.assertEqual(Decimal("0.0"), pm.completely_parsed_ratio)
+        self.assertEqual(Decimal("0.0"), pm.completely_unparsed_ratio)
+
+        tokens_2 = ["mom", "liked", "cake", "before"]
+        pm = parse_metrics(tokens_2)
+        self.assertEqual(Decimal("1.0"), pm.average_parsed_ratio)
+        self.assertEqual(Decimal("1.0"), pm.completely_parsed_ratio)
+        self.assertEqual(Decimal("0.0"), pm.completely_unparsed_ratio)
+
+        tokens_3 = ["[mom]", "[liked]", "[cake]", "[before]"]
+        pm = parse_metrics(tokens_3)
+        self.assertEqual(Decimal("0.0"), pm.average_parsed_ratio)
+        self.assertEqual(Decimal("0.0"), pm.completely_parsed_ratio)
+        self.assertEqual(Decimal("1.0"), pm.completely_unparsed_ratio)
+
+        tokens_4 = ["mom", "liked", "[cake]", "[before]"]
+        pm = parse_metrics(tokens_4)
+        self.assertEqual(Decimal("0.5"), pm.average_parsed_ratio)
+        self.assertEqual(Decimal("0.0"), pm.completely_parsed_ratio)
+        self.assertEqual(Decimal("0.0"), pm.completely_unparsed_ratio)
+
 
 if __name__ == '__main__':
     unittest.main()

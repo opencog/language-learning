@@ -1,4 +1,4 @@
-# language-learning/src/grammar_learner/skl_clustering.py               # 90118
+# language-learning/src/grammar_learner/skl_clustering.py               # 190425
 import numpy as np
 from sklearn.cluster import AgglomerativeClustering, KMeans, MeanShift, \
     estimate_bandwidth
@@ -13,6 +13,7 @@ from .clustering import cluster_id
 
 def skl_clustering(cd, n_clusters=10, **kwargs):
     # cd: ndarray(words*disjuncts)
+    nc = min(n_clusters, cd.shape[0])                           # 190425
     clustering = kwa(('agglomerative', 'ward'), 'clustering', **kwargs)
     if type(clustering) is str:
         if clustering == 'agglomerative':
@@ -59,9 +60,10 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
                 if clustering[4] is bool:
                     compute_full_tree = clustering[4]
 
-            model = AgglomerativeClustering(
-                n_clusters=n_clusters, linkage=linkage, affinity=affinity,
-                connectivity=connectivity, compute_full_tree=compute_full_tree)
+            model = AgglomerativeClustering(n_clusters=nc,
+                                            linkage=linkage, affinity=affinity,
+                                            connectivity=connectivity,
+                                            compute_full_tree=compute_full_tree)
             model.fit(cd)
             labels = model.labels_
 
@@ -76,7 +78,7 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
                 n_init = clustering[2]
             else:
                 n_init = 10
-            model = KMeans(init=init, n_clusters=n_clusters, n_init=n_init)
+            model = KMeans(init=init, n_clusters=nc, n_init=n_init)
             model.fit(cd)
             labels = model.labels_
             metrics['inertia'] = model.inertia_
@@ -98,8 +100,7 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
             centroids = np.asarray(model.cluster_centers_[:(max(labels) + 1)])
 
         else:  # TODO: random clustering?
-            model = AgglomerativeClustering(linkage='ward',
-                                            n_clusters=n_clusters)
+            model = AgglomerativeClustering(linkage='ward', n_clusters=nc)
             model.fit(cd)
             labels = model.labels_
 
@@ -121,7 +122,8 @@ def skl_clustering(cd, n_clusters=10, **kwargs):
         return labels, metrics, centroids
     except:  # else:  # FIXME
         print('except: skl_clustering error')
-        return [], {'clustering': 'skl_clustering error'}, []
+        return np.asarray(range(cd.shape[0])), \
+               {'clustering': 'skl_clustering error'}, []
 
 
 def optimal_clusters(cd, **kwargs):
@@ -198,7 +200,8 @@ def optimal_clusters(cd, **kwargs):
 
 # from sklearn.metrics import davies_bouldin_score -- next sklearn release?
     # https://github.com/scikit-learn/scikit-learn/issues/11303
-# 81107 k-means, mean_shift
-# 81203 cleanup
-# 90118 cleanup: remove debug printing
+# 181107 k-means, mean_shift
+# 181203 cleanup
+# 190118 cleanup: remove debug printing
+# 190425 fix n_clusters > n_words case
 # FIXME: try...except

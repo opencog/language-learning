@@ -128,16 +128,15 @@ def induce_grammar(categories, **kwargs):
     pruned_clusters = []
     pruned_words = []
     trace = []
-    clusters = [x for i, x in enumerate(rules['cluster']) if
-                i > 0 and x is not None]
+    clusters = [x for i, x in enumerate(rules['cluster'])
+                if i > 0 and x is not None]
     for cluster in clusters:  # 81105 added -- blocked 81205
         # rules['disjuncts'][cluster] = top_djs & rules['disjuncts'][cluster]
         # - blocked 81205 -- might create rule without disjuncts ⇒ LG error
         # FIXME: add only rules with checked len(disjuncts) > 0
         i = rules['cluster'].index(cluster)
         djs = top_djs & rules['disjuncts'][i]
-        if len(djs) > 0:
-            rules['disjuncts'][i] = djs
+        if len(djs) > 0: rules['disjuncts'][i] = djs
         else:  # TODO: pop rules[...][i]
             # rules['disjuncts'][cluster] = rules['disjuncts'][cluster]  #
             # 81205 ad-hoc

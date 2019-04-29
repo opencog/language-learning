@@ -1,4 +1,4 @@
-# language-learning/src/learner.py                                      # 90221
+# language-learning/src/learner.py                                      # 190410
 import logging
 import os, time  # pickle, numpy as np, pandas as pd
 from copy import deepcopy
@@ -6,6 +6,7 @@ from shutil import copy2 as copy
 from collections import OrderedDict, Counter
 from .utl import UTC, kwa, sec2string
 from .read_files import check_dir, check_mst_files
+from .preprocessing import filter_links
 from .pparser import files2links, lines2links, filter_lines
 from .corpus_stats import corpus_stats
 from .category_learner import learn_categories, cats2list
@@ -28,8 +29,9 @@ def learn(**kwargs):
     input_parses = handle_path_string(kwargs['input_parses'])
     output_grammar = handle_path_string(kwargs['output_grammar'])
 
-    output_categories = kwa('', 'output_categories', **kwargs)
-    output_statistics = kwa('', 'output_statistics', **kwargs)
+    # WSD: word_sense disambiguation                                    # 190408
+    wsd_symbol = kwa('', 'wsd_symbol', **kwargs)
+    # prj_dir: project directory
     if os.path.isdir(output_grammar):
         prj_dir = output_grammar
     elif os.path.isfile(output_grammar):
@@ -39,17 +41,17 @@ def learn(**kwargs):
             prj_dir = output_grammar
     log.update({'project_directory': prj_dir})
 
+    output_categories = kwa('', 'output_categories', **kwargs)
     if output_categories == '':
         output_categories = prj_dir
+    output_statistics = kwa('', 'output_statistics', **kwargs)
     if output_statistics != '':
         if os.path.isfile(output_statistics):
             corpus_stats_file = output_statistics
         elif os.path.isdir(output_statistics):
             corpus_stats_file = output_statistics + '/corpus_stats.txt'
-        else:
-            corpus_stats_file = prj_dir + '/corpus_stats.txt'
-    else:
-        corpus_stats_file = prj_dir + '/corpus_stats.txt'
+        else: corpus_stats_file = prj_dir + '/corpus_stats.txt'
+    else: corpus_stats_file = prj_dir + '/corpus_stats.txt'
 
     temp_dir = kwa('', 'temp_dir', **kwargs)  # FIXME: temp_dir/tmpath  # 90221
     tmpath = kwa('', 'tmpath', **kwargs)  # legacy
@@ -82,34 +84,18 @@ def learn(**kwargs):
 
     '''Read parses, extract links to DataFrame (2018), + filter sentences'''
 
-    if 'max_sentence_length' not in kwargs \
-            and 'max_unparsed_words' not in kwargs:
-        links, re02 = files2links(**kwargs)                       # legacy 2018
+    if 'ull_parsing' in kwargs and kwargs['ull_parsing'] == "180829":
+        links, re02 = files2links(**kwargs)
         # links: pd.DataFrame(columns=['word', 'link', 'count'])
-    else:  # filter sentences with 'max_sentence_length', 'max_unparsed_words'
-        lines = []
-        for i, file in enumerate(files):
-            with open(file, 'r') as f:
-                lines.extend(f.readlines())
-            if len(lines[-1]) > 0:  # 90211
-                lines.append('')
-        if parse_mode == 'lower':
-            lines = [' '.join([y.lower() if y != '###LEFT-WALL###'
-                               else y for y in x.split()]) for x in lines]
-        elif parse_mode == 'casefold':
-            lines = [' '.join([y.casefold() if y != '###LEFT-WALL###'
-                               else y for y in x.split()]) for x in lines]
-
-        if 'corpus_stats' in corpus_stats(lines):
-            raw_corpus_stats = corpus_stats(lines)['corpus_stats']
-            if type(raw_corpus_stats) is list:
-                log.update({'raw_corpus_stats': raw_corpus_stats})
-                list2file(raw_corpus_stats, prj_dir + '/raw_corpus_stats.txt')
-                log.update({'raw_corpus_stats_file':
-                            prj_dir + '/raw_corpus_stats.txt'})
-
-        links, re02 = lines2links(lines, **kwargs)                      # 90216
+    else:                                                               # 190417
+        links, re02 = filter_links(files, **kwargs)
     log.update(re02)
+
+    if len(links) < 1:  # Requested by @alexei-gl, issue #209           # 190426
+        raise ValueError("Empty filtered dataset with max_sentence_length = "
+                         + str(kwa(99, 'max_sentence_length', **kwargs))
+                         + ", max_unparsed_words = "
+                         + str(kwa(0, 'max_unparsed_words', **kwargs)))
 
     if 'corpus_stats' in log:
         list2file(log['corpus_stats'], corpus_stats_file)
@@ -177,14 +163,10 @@ def learn(**kwargs):
             rules, re08 = generalise_rules(rules, **kwargs)
             log.update(re08)
 
-    if 'log+' in verbose:                   # FIXME
+    if '+' in verbose:
         log['rule_sizes'] = dict(Counter(
             [len(x) for i, x in enumerate(rules['words'])
              if rules['parent'][i] == 0]))
-
-    # TODO: replace @ in words: xxx@yyy » xxx.yyy | NOT @...@
-    #  - here, not in write_files.py save_cat_tree, save_link_grammar
-    #  ?! check xx@yy & xx.yy are not in different clusters
 
     '''Save word category tree, Link Grammar files: cat_tree.txt, dict...dict'''
 
@@ -201,8 +183,7 @@ def learn(**kwargs):
     log.update({'finish': str(UTC())})
     log.update({'grammar_learn_time': sec2string(time.time() - start)})
 
-    # return log
-    return rules, log  # 81126 to count clusters in .ipynb tests  FIXME:DEL?
+    return rules, log  # 81126 + rules to count clusters in .ipynb tests  FIXME:DEL?
 
 
 def learn_grammar(**kwargs):  # Backwards compatibility with legacy calls
@@ -219,4 +200,7 @@ def learn_grammar(**kwargs):  # Backwards compatibility with legacy calls
 # 81126 def learn_grammar ⇒ def learn + decorator
 # 81204-07 test and block (snooze) data pruning with max_disjuncts, etc...
 # 81231 cleanup
-# 90221 tweak temp_dir, tmpath for Grammar Learner tutorial - FIXME line 54...
+# 190221 tweak temp_dir, tmpath for Grammar Learner tutorial - FIXME line 56...
+# 190409 Optional WSD, kwargs['wsd_symbol']
+# 190410 resolved empty filtered parses dataset issue
+# 190426 raise ValueError in case of empty filtered dataset (requested by pipeline)

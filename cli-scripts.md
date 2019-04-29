@@ -5,12 +5,14 @@ options.
 
 ## Command Line Scripts
 
-`grammar-tester` -  generated grammar test script capable of parsing multiple corpus files with
-                    multiple dictionaries. Actually, it is a wrapper over set of high level Link Grammar parse
-                    subroutines collected in `grammartest` package.
-
-`parse-evaluator` - parse quality estimation script
-
+|Name|Description|
+|----|-----------|
+|`dict-transformer`|Script, producing child dictionary file, containing subset for parent dictionary rules defined by one or more sentences|
+|`grammar-tester` |Generated grammar test script capable of parsing multiple corpus files with multiple dictionaries. Actually, it is a wrapper over set of high level Link Grammar parse subroutines collected in `grammar_tester` package.|
+|`parse-evaluator`|Parse quality estimation script|
+|`sentence-counter`|Corpus sentence counter script|
+|`token-counter`|Token apperance counter sctipt|
+|`ull-cli`|Pipeline execution script|
 
 ## Grammar Test Script In Depth Description
 

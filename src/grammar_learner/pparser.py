@@ -1,6 +1,6 @@
-# language-learning/src/grammar_learner/pparser.py                      # 190325
-import logging
-import pandas as pd
+# language-learning/src/grammar_learner/pparser.py                      # 190417
+import logging, pandas as pd
+from collections import Counter
 from .corpus_stats import corpus_stats
 from .utl import kwa
 
@@ -42,11 +42,22 @@ def mst2connectors(lines, **kwargs):
 def mst2disjuncts(lines, **kwargs):
     lw = kwa('', 'left_wall', **kwargs)
     dot = kwa(False, 'period', **kwargs)
-    if len(lines[-1]) > 0:
-        lines.append([])
+    min_word_count = kwa(1, 'min_word_count', **kwargs)                 # 190417
+    min_link_count = kwa(1, 'min_link_count', **kwargs)
+
+    if len(lines[-1]) > 0: lines.append([])
     pairs = []
     links = dict()
     words = dict()
+
+    # sl: sentences as lists of words                                   # 190417
+    sl = [x for x in [l.split() for l in lines] if len(x) > 0 and
+          not (len(x) in [4, 5] and x[0].isdigit() and x[2].isdigit())]
+    # tokens: words with counts >= min_word_count                       # 190417
+    tokens = {w: c for w, c in Counter([w for s in sl for w in s]).items()
+              if c >= min_word_count}
+    if lw not in ['', 'none']: tokens['###LEFT-WALL###'] = 1            # 190424
+    if dot: tokens['.'] = 1                                             # 190424
 
     def save_djs(words, links):
         if len(links) > 0:
@@ -63,38 +74,29 @@ def mst2disjuncts(lines, **kwargs):
                                                + ('+' if z > 0 else '-')
                                                for z in (l + r)])
                     pairs.append([words[k], disjunct])
-        links = dict()
-        words = dict()
+        links = {}
+        words = {}
         return words, links
 
     for line in lines:
         if len(line) > 1:
             if line[0].isdigit():
                 x = line.split()
-                if len(x) in [4, 5] and x[0].isdigit() and x[2].isdigit():  # 190325
-                    if x[1] == '###LEFT-WALL###':
-                        if lw in ['', 'none']:
-                            continue
-                        else:
-                            x[1] = lw
-                    if not dot and x[3] == '.':
-                        continue
-                    try:
+                if len(x) in [4, 5] and x[0].isdigit() and x[2].isdigit() \
+                        and x[1] in tokens and x[3] in tokens:          # 190417
+                    if x[1] == '###LEFT-WALL###': x[1] = lw             # 190424
+                    try:  # FIXME: overkill? already checked by .isdigit lin3 85
                         i = int(x[0])
                         j = int(x[2])
-                    except:
-                        continue
+                    except: continue
                     words[i] = x[1]
                     words[j] = x[3]
                     if i in links:
                         links[i].add(j)
-                    else:
-                        links[i] = set([j])
+                    else: links[i] = set([j])
                     if j in links:
                         links[j].add(-i)
-                    else:
-                        links[j] = set([-i])
-
+                    else: links[j] = set([-i])
                 else:  # sentence starting with digit = same as next else
                     words, links = save_djs(words, links)
             else:  # sentence starting with letter
@@ -195,8 +197,6 @@ def filter_lines(lines, **kwargs):                                      # 90216
     # TODO: logger = logging.getLogger(__name__ + ".filter_lines")
     max_sentence_length = kwa(99, 'max_sentence_length', **kwargs) + 1
     max_unparsed_words = kwa(0, 'max_unparsed_words', **kwargs) + 1
-    #-print(f'filter lines: max_sentence_length {max_sentence_length}, '
-    #-      f'max_unparsed_words {max_unparsed_words}')
     if lines[-1] != '': lines.append('')
     filtered_lines = []   # list of lines to return
     parsed_sentence = []  # list of lines: sentence + parses
@@ -220,8 +220,8 @@ def filter_lines(lines, **kwargs):                                      # 90216
             if len(x) > 0:  # else:  # new sentence:
                 parsed_sentence = [line]
                 if x[-1] == '.': x = x[:-1]
-                parsed_words = set([i+1 for i, y in enumerate(x)
-                                    if y[0] != '[' and y[-1] != ']'])
+                parsed_words = set([i+1 for i, w in enumerate(x)
+                                    if w[0] != '[' and w[-1] != ']'])
                 non_parsed_words = len(x) - len(parsed_words)
                 linked_words = set()
             else: continue
@@ -229,13 +229,16 @@ def filter_lines(lines, **kwargs):                                      # 90216
     return filtered_lines, corpus_stats(filtered_lines)
 
 
-def lines2links(lines, **kwargs):                                       # 90217
+def lines2links(lines, **kwargs):                                       # 190410
     # TODO: logger = logging.getLogger(__name__ + "lines2links")
     context = kwa(2, 'context', **kwargs)
     group = True  # always? » kwa(True, 'group', **kwargs)? FIXME:DEL?
-    #-print(f'lines2links: {len(lines)} unfiltered lines')
+
     lines, re = filter_lines(lines, **kwargs)
-    #-print(f'lines2links: {len(lines)} filtered lines')
+    if len(lines) < 1:                                                  # 190410
+        df = pd.DataFrame(columns=['word','link'])
+        return df, {'filter_lines_error': 'empty_filtered_set'}
+
     # df = pd.DataFrame(columns=['word', 'link', 'count'])
     if context > 1:  # ddf - disjuncts DataFrame
         df = mst2disjuncts(lines, **kwargs)[['word', 'link', 'count']]
@@ -250,6 +253,7 @@ def lines2links(lines, **kwargs):                                       # 90217
             ['Average disjunct count ', avg_disjunct_count],
             ['Average disjunct length', avg_disjunct_length],
             ['Maximum disjunct length', max_disjunct_length]])
+        # TODO: re-calculate stats on df filtered in mst2words with min_word_count?
 
     elif context == 1:  # cdf - connectors DataFrame
         df = mst2connectors(lines, **kwargs)[['word', 'link', 'count']]  # cdf
@@ -285,10 +289,13 @@ def lines2links(lines, **kwargs):                                       # 90217
 
 # Notes:
 
-# 80725 POC 0.5 restructured - this module was src/space/poc05.py
-# 80802 corpus_stats ⇒ corpus_stats.py
-# 80829 files2links: Average, max disjunct lengths
-# 81024 line 24: cure case of MST parses file last line not ending with CR
-# 81231 cleanup
-# 90217 filter_lines, lines2links
-# 190325 `== 4` » `in [4, 5]` :: allow for parses with addded "statistical information"
+# 180725 POC 0.5 restructured - this module was src/space/poc05.py
+# 180802 corpus_stats ⇒ corpus_stats.py
+# 180829 files2links: Average, max disjunct lengths
+# 181024 line 24: cure case of MST parses file last line not ending with CR
+# 181231 cleanup » release 0.7.0
+# 190217 filter_lines, lines2links
+# 190325 `== 4` » `in [4, 5]` :: allow for parses with added "statistical information"
+# 190410 lines2links: check length of filtered dataset > 0
+# 190417 mst2disjuncts: prune words with counts < min_word_count
+# 190424 Add '###LEFT-WALL###' and '.' to tokens - lines 59, 60

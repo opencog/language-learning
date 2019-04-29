@@ -1,10 +1,14 @@
+import os
+from typing import Optional
 from subprocess import PIPE, Popen
-from ..common.sedcommands import *
+from .sedcommands import *
+from .dirhelper import traverse_dir_tree
 
 
 __all__ = [
     'SentCountError',
-    'get_sentence_count'
+    'get_sentence_count',
+    'get_corpus_sentence_count'
 ]
 
 
@@ -12,17 +16,17 @@ class SentCountError(Exception):
     pass
 
 
-def get_sentence_count(corpus_path, options: int) -> int:
+def get_sentence_count(corpus_path: str, options: int) -> int:
     """
-    Sentence count routine
+    Count sentences in a single corpus file
 
-    :param corpus_path:     Path to the test text file.
+    :param corpus_path:     Path to a single corpus file.
     :param options:         Bit mask representing parsing options.
-    :return:                Tuple (ParseMetrics, ParseQuality).
+    :return:                Number of sentences.
     """
     sentence_count = 0
 
-    sed_cmd = ["sed", "-e", get_sed_regex(options), corpus_path]
+    sed_cmd = get_sed_cmd_common_part(options) + [corpus_path]
 
     try:
         # Get number of sentences in input file
@@ -46,7 +50,31 @@ def get_sentence_count(corpus_path, options: int) -> int:
         print("get_sentence_count(): Ctrl+C triggered.")
         raise
 
-    except SentCountError as err:
-        print("get_sentence_count(): SentCountError: " + str(type(err)) + str(err))
+    # except SentCountError as err:
+    #     print("get_sentence_count(): SentCountError: " + str(type(err)) + str(err))
+    #     raise
 
     return sentence_count
+
+
+def get_corpus_sentence_count(corpus_path: str, options: int) -> int:
+    """
+    Count total number of sentences across all corpus files
+
+    :param corpus_path:     Path to a single corpus file or to a directory with multiple files.
+    :param options:         Bit mask holding parse options.
+    :return:                Total number of sentences in the corpus.
+    """
+    total_sentences = 0
+
+    def on_sentence_count(file: str, args: Optional[list]) -> None:
+        nonlocal total_sentences
+        total_sentences += get_sentence_count(file, options)
+
+    if os.path.isdir(corpus_path):
+        traverse_dir_tree(corpus_path, "", [on_sentence_count], None, True)
+
+    else:
+        total_sentences = get_sentence_count(corpus_path, options)
+
+    return total_sentences

@@ -97,12 +97,12 @@ class TokenCounterComponent(AbstractPipelineComponent):
 
 
 PIPELINE_COMPONENTS = {
-    "path-creator": PathCreatorComponent,
-    "grammar-tester": GrammarTesterComponent,
-    "grammar-learner": GrammarLearnerComponent,
-    "text-parser": TextParserComponent,
-    "dash-board": TextFileDashboardComponent,
-    "token-counter": TokenCounterComponent
+    "path-creator": (PathCreatorComponent, ""),
+    "grammar-tester": (GrammarTesterComponent, "GT"),
+    "grammar-learner": (GrammarLearnerComponent, "GL"),
+    "text-parser": (TextParserComponent, "TP"),
+    "dash-board": (TextFileDashboardComponent, ""),
+    "token-counter": (TokenCounterComponent, "TC")
 }
 
 
@@ -115,7 +115,7 @@ def get_component(name: str, params: dict) -> AbstractPipelineComponent:
     """
     try:
         # Create an instance of specified pipeline component
-        component = PIPELINE_COMPONENTS[name](**params)
+        component = PIPELINE_COMPONENTS[name][0](**params)
 
         # Check the instance to be proper pipeline component
         if not isinstance(component, AbstractPipelineComponent):
@@ -224,7 +224,7 @@ def prepare_parameters(parent: Optional[PipelineTreeNode2], common: dict, specif
                 or (isinstance(v, str) and v.find("/") < 0 and v.find("%") < 0)}
 
     # Get subdir path based on specific parameters if requested
-    rleaf = get_path_from_dict(non_path, "_") if create_leaf else ""
+    rleaf = common.get("CMP_PREFIX", "") + get_path_from_dict(non_path, "_") if create_leaf else ""
 
     logger.debug("RLEAF: " + rleaf)
 
@@ -256,7 +256,7 @@ def build_tree(config: List, globals: dict, first_char="%") -> List[PipelineTree
 
         name = component_config.get("component", None)
         type = component_config.get("type", "dynamic")
-        comm = component_config.get("common-parameters", None)
+        comm = component_config.get("common-parameters", {})
         spec = component_config.get("specific-parameters", None)
 
         if name is None:
@@ -276,6 +276,9 @@ def build_tree(config: List, globals: dict, first_char="%") -> List[PipelineTree
             continue
 
         children = list()
+
+        # Add component prefix to 'common-parameters'
+        comm = {**comm, **{"CMP_PREFIX": PIPELINE_COMPONENTS[name][1]}}
 
         if len(parents):
             for parent in parents:

@@ -1,9 +1,9 @@
-from typing import Dict, Union
+from typing import Dict, Union, Type, Any
 
 __all__ = ['get_path_from_dict', 'subst_variables_in_str', 'subst_variables_in_dict', 'subst_variables_in_dict2']
 
 
-def get_path_from_dict(params: dict, delimiter: str="_") -> str:
+def get_path_from_dict(params: dict, delimiter: str = "_") -> str:
     """
     Return path where key/value pairs separated by colon represent a subdirectory.
 
@@ -14,11 +14,11 @@ def get_path_from_dict(params: dict, delimiter: str="_") -> str:
     if params is None or len(params) == 0:
         return ""
 
-    return delimiter.join([item[0].replace("_", "-")+":"+str(item[1])
+    return delimiter.join([item[0].replace("_", "-") + ":"+str(item[1])
                            for item in sorted(params.items(), key=lambda i: i[0])])
 
 
-def subst_variables_in_str(line: str, values: dict, start_char: str="%") -> object:
+def subst_variables_in_str(line: str, values: dict, start_char: str = "%") -> object:
     """
     Replace variables inside the specified string
 
@@ -35,9 +35,9 @@ def subst_variables_in_str(line: str, values: dict, start_char: str="%") -> obje
     return ret_val
 
 
-def get_variable_value(line, values: Dict[str, object]) -> (Union[str, None], Union[object, None]):
+def get_variable_value(line, values: Dict[str, object]) -> (Union[str, None], Union[object, None], Type):
     """
-    Find longest key match and it respective value
+    Find longest key match and return it respective value and type
 
     :param line:        Line to search in.
     :param values:      Dictionary with scope variables and their respective values.
@@ -55,9 +55,9 @@ def get_variable_value(line, values: Dict[str, object]) -> (Union[str, None], Un
             continue
 
         if line[0:key_len] == key:
-            return key, values[key]
+            return key, values[key], type(values[key])
 
-    return None, None
+    return None, None, None
 
 
 def get_referenced_variable_value(line: str, scopes: Dict[str, Dict[str, object]]):
@@ -72,43 +72,38 @@ def get_referenced_variable_value(line: str, scopes: Dict[str, Dict[str, object]
     line_len = len(line)
 
     # Check if that's a scope
-    key, values = get_variable_value(line, scopes)
+    key, values, cls = get_variable_value(line, scopes)
 
     # If the scope is not explicitly set
     if key is None:
 
         # Search the current scope
-        key, value = get_variable_value(line, scopes["THIS"])
+        key, value, cls = get_variable_value(line, scopes["THIS"])
 
         if key is not None:
-            return key, value
-
-        # print("\n\n")
-        # print(scopes["THIS"])
+            return key, value, cls
 
         # Raise exception if not found in current scope
         raise NameError("Variable '{}' is unknown within the scope.".format(line))
-        # raise NameError(__name__ + ": Error '{}' is unknown within the scope '{}'.".format(line, key))
 
     key_len = len(key)
 
     # Name of the scope without variable name is treated as 'LEAF'
     if line_len == key_len or (line_len > key_len and line[key_len] != "."):
-        return key, values["LEAF"]
+        return key, values["LEAF"], type(values["LEAF"])
 
     scope = key
 
     # Get value for variable name
-    key, value = get_variable_value(line[key_len+1:], values)
+    key, value, cls = get_variable_value(line[key_len+1:], values)
 
     if key is None:
-        # raise NameError(__name__ + ": Error: variable '{}' is unknown within the scope '{}'.".format(line[key_len+1:],
         raise NameError("Variable '{}' is unknown within the scope '{}'.".format(line[key_len + 1:], scope))
 
-    return scope + "." + key, value
+    return scope + "." + key, value, cls
 
 
-def subst_all_vars_in_str(line: str, scopes: dict, start_char: str="%") -> str:
+def subst_all_vars_in_str(line: str, scopes: dict, start_char: str = "%") -> Any:
     """
     Replace all variables with their respective values
 
@@ -118,6 +113,8 @@ def subst_all_vars_in_str(line: str, scopes: dict, start_char: str="%") -> str:
     :return:            String with replaced variables.
     """
     new_line = line
+    num_repl = 0
+    key, val, cls = None, None, None
 
     while True:
         pos = new_line.find(start_char)
@@ -125,14 +122,22 @@ def subst_all_vars_in_str(line: str, scopes: dict, start_char: str="%") -> str:
         if pos < 0:
             break
 
-        key, value = get_referenced_variable_value(new_line[pos+1:], scopes)
+        key, val, cls = get_referenced_variable_value(new_line[pos+1:], scopes)
 
-        new_line = new_line.replace(start_char+key, str(value), 1)
+        new_line = new_line.replace(start_char + key, str(val), 1)
+
+        num_repl += 1
+
+    # If the string consists of nothing but only one variable reference and its type is other than string,
+    if num_repl == 1 and cls.__name__ != "str" and len(line) == len(key) + 1:
+
+        # Convert to referenced variable value type on return.
+        return cls(new_line)
 
     return new_line
 
 
-def subst_variables_in_dict2(var_list: dict, scopes: dict, is_nested: bool=True, start_char: str="%"):
+def subst_variables_in_dict2(var_list: dict, scopes: dict, is_nested: bool = True, start_char: str = "%") -> dict:
     """
     Substitute variable names with their respected values for each value in the given dictionary
 
@@ -155,7 +160,7 @@ def subst_variables_in_dict2(var_list: dict, scopes: dict, is_nested: bool=True,
     return {k: subst_value(v) for k, v in zip(var_list.keys(), var_list.values())}
 
 
-def subst_variables_in_dict(var_list: dict, values: dict, start_char: str="%"):
+def subst_variables_in_dict(var_list: dict, values: dict, start_char: str = "%"):
     """
     Substitute variable names with their respected values for each value in the given dictionary
 

@@ -7,7 +7,7 @@ __all__ = ['PipelineComponentException', 'FatalPipelineException']
 class PipelineComponentException(Exception):
     """
     Class used to provide pipeline component exception information such as component configuration sequential number
-        in JSON configuration file, run count number related to 'specific-parameters' configuration sequential number
+        in JSON configuration file, run count number, related to 'specific-parameters' configuration sequential number
         (both are 1-based), exception class name (exception raised from within component) and traceback dump in case of
         unhandled exception.
     """

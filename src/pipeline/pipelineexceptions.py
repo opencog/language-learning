@@ -34,24 +34,24 @@ class PipelineComponentException(Exception):
     #     self._exception = t
     #     self._traceback = tb
 
-    # @staticmethod
-    # def get_exception_name(exception_obj: Optional[Exception]) -> str:
-    #     """
-    #     Get exception class name string
-    #
-    #     :param exception_obj:   Exception derived class object
-    #     :return:                Exception class name or empty string if 'exception_obj' is None
-    #     """
-    #     if exception_obj is None:
-    #         return ""
-    #
-    #     name_pattern = re.compile("<class '(\w+)'>", re.S)
-    #     result_list = re.findall(name_pattern, str(exception_obj.__class__))
-    #     return result_list[0] if len(result_list) > 0 else ""
+    @staticmethod
+    def get_exception_name(exception_obj: Optional[Exception]) -> str:
+        """
+        Get exception class name string
+
+        :param exception_obj:   Exception derived class object
+        :return:                Exception class name or empty string if 'exception_obj' is None
+        """
+        if exception_obj is None:
+            return ""
+
+        name_pattern = re.compile("<class '(\w+)'>", re.S)
+        result_list = re.findall(name_pattern, str(exception_obj.__class__))
+        return result_list[0] if len(result_list) > 0 else ""
 
     def __str__(self):
         return f"{self._component}(cfg={self._cfg_count+1}, run={self._run_count}):" \
-            f"{self._exception.__name__}:{self._message}" \
+            f"{self.get_exception_name(self._exception)}:{self._message}" \
             f"Environment:\n{self._node._environment}" \
             f"Parameters:\n{self._node._parameters}"
             # f"\n{self._traceback if self._traceback is not None else ''}"

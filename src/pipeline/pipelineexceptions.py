@@ -50,9 +50,9 @@ class PipelineComponentException(Exception):
         return result_list[0] if len(result_list) > 0 else ""
 
     def __str__(self):
-        return f"{self._component}(cfg={self._cfg_count+1}, run={self._run_count}):" \
-            f"{self.get_exception_name(self._exception)}:{self._message}" \
-            f"Environment:\n{self._node._environment}" \
+        return f"{self._component}(cfg={self._cfg_count+1}, run={self._run_count}):\n" \
+            f"{self.get_exception_name(self._exception)}: {self._message}\n" \
+            f"Environment:\n{self._node._environment}\n" \
             f"Parameters:\n{self._node._parameters}"
             # f"\n{self._traceback if self._traceback is not None else ''}"
 

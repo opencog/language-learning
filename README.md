@@ -69,13 +69,13 @@ section. To run pipeline you simply neen to type the following command:
 ```
 $ ull-cli -C <config-file.json>
 ```
-Read more on [pipeline configuration and execution](https://github.com/singnet/language-learning/pipeline.md).
+Read more on [pipeline configuration and execution](https://github.com/singnet/language-learning/blob/master/pipeline.md).
 
 ### Running command line scripts
 
 Command line scripts (which are located in `src/cli-scripts`) can be run from any location after proper installation. 
 In activated virtual environment type the name of the script you need to run. 
-Read more on [CLI scripts](https://github.com/singnet/language-learning/cli-scripts.md)
+Read more on [CLI scripts](https://github.com/singnet/language-learning/blob/master/cli-scripts.md)
 
 ### Calling Grammar Tester library functions from within your code
 

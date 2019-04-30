@@ -231,14 +231,10 @@ def prepare_parameters(parent: Optional[PipelineTreeNode2], common: dict, specif
     sep = "_"
     rleaf = common.get("CMP_PREFIX", "") + sep + get_path_from_dict(non_path, sep) if create_leaf else ""
 
-    logger.debug("RLEAF: " + rleaf)
-
     inherit_prev = all_parameters.get("inherit_prev_path", False)
 
     leaf = (environment["PREV"] + "/" + rleaf if parent is not None else rleaf) if inherit_prev \
         else environment["ROOT"] + "/" + rleaf
-
-    logger.debug("LEAF: " + leaf)
 
     new_environment = {**environment, **{"RLEAF": rleaf, "LEAF": leaf, "CREATE_LEAF": create_leaf}}
 
@@ -247,8 +243,6 @@ def prepare_parameters(parent: Optional[PipelineTreeNode2], common: dict, specif
 
     # Substitute derived path for LEAF, PREV and other variables
     all_parameters = subst_variables_in_dict2(all_parameters, scopes, True, first_char)
-
-    logger.debug("all_parameters: {}".format(all_parameters))
 
     return all_parameters, new_environment
 

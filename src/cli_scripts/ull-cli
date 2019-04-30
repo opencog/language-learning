@@ -109,8 +109,6 @@ Usage:
         # Get configuration parameters
         config = cfgman.get_config("", None)
 
-        logger.debug("config: {}".format(config))
-
         # Check the structure of the configuration
         check_config(config)
 

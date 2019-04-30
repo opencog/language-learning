@@ -382,8 +382,8 @@ class LGInprocParser(AbstractFileParserClient):
         self._min_word_count = kwargs.get("min_word_count", 0)
         self._token_counts = kwargs.get("token_counts", None)
 
-        self._logger.debug(f"self._min_word_count={self._min_word_count}")
-        self._logger.debug(f"self._token_counts={self._token_counts}")
+        # self._logger.debug(f"self._min_word_count={self._min_word_count}")
+        # self._logger.debug(f"self._token_counts={self._token_counts}")
 
         sentence_count = 0
 

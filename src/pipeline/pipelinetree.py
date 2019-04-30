@@ -3,12 +3,9 @@ from typing import Dict, List, Any, Union, Callable, NewType, Optional
 from time import time
 
 import os
-# from ..common.absclient import AbstractPipelineComponent
 from ..common.cliutils import handle_path_string
 from ..common.optconst import *
 from ..common.tokencount import *
-
-
 from ..common.absclient import AbstractPipelineComponent
 from ..grammar_tester.grammartester import GrammarTesterComponent
 from ..grammar_learner import GrammarLearnerComponent
@@ -17,7 +14,7 @@ from ..dash_board.textdashboard import TextFileDashboardComponent
 from .varhelper import get_path_from_dict, subst_variables_in_str, subst_variables_in_dict, subst_variables_in_dict2
 from .pipelinetreenode import PipelineTreeNode2
 from .pipelineexceptions import *
-# from . import PathCreatorComponent, TokenCounterComponent
+
 
 __all__ = ['build_tree', 'run_tree', 'check_config']
 
@@ -96,13 +93,15 @@ class TokenCounterComponent(AbstractPipelineComponent):
         return {}
 
 
+# Pipeline component dictionary having tuples of component class and prefix, used when automaticaly creating
+#   destination subdirectory.
 PIPELINE_COMPONENTS = {
-    "path-creator": PathCreatorComponent,
-    "grammar-tester": GrammarTesterComponent,
-    "grammar-learner": GrammarLearnerComponent,
-    "text-parser": TextParserComponent,
-    "dash-board": TextFileDashboardComponent,
-    "token-counter": TokenCounterComponent
+    "path-creator": (PathCreatorComponent, ""),
+    "grammar-tester": (GrammarTesterComponent, "GT"),
+    "grammar-learner": (GrammarLearnerComponent, "GL"),
+    "text-parser": (TextParserComponent, "TP"),
+    "dash-board": (TextFileDashboardComponent, ""),
+    "token-counter": (TokenCounterComponent, "TC")
 }
 
 
@@ -115,7 +114,7 @@ def get_component(name: str, params: dict) -> AbstractPipelineComponent:
     """
     try:
         # Create an instance of specified pipeline component
-        component = PIPELINE_COMPONENTS[name](**params)
+        component = PIPELINE_COMPONENTS[name][0](**params)
 
         # Check the instance to be proper pipeline component
         if not isinstance(component, AbstractPipelineComponent):
@@ -128,7 +127,12 @@ def get_component(name: str, params: dict) -> AbstractPipelineComponent:
 
 
 def single_proc_exec(node: PipelineTreeNode2) -> None:
+    """
+    Single process pipeline component execution routine
 
+    :param node:        Execution tree node.
+    :return:            None.
+    """
     if node is None:
         return
 
@@ -196,7 +200,7 @@ def handle_request(node: PipelineTreeNode2, req: dict) -> None:
 def prepare_parameters(parent: Optional[PipelineTreeNode2], common: dict, specific: dict, environment: dict,
                        first_char="%", create_sub_dir: bool=True) -> (dict, dict):
     """
-    Create built-in variables (PREV, RPREV, LEAF, RLEAF), substitute variables, starting with '%'
+    Create built-in variables (such as PREV, RPREV, LEAF, RLEAF), substitute variables, starting with 'first_char'
         with their real values.
 
     :param parent:          Parent node of the execution tree.
@@ -224,16 +228,13 @@ def prepare_parameters(parent: Optional[PipelineTreeNode2], common: dict, specif
                 or (isinstance(v, str) and v.find("/") < 0 and v.find("%") < 0)}
 
     # Get subdir path based on specific parameters if requested
-    rleaf = get_path_from_dict(non_path, "_") if create_leaf else ""
-
-    logger.debug("RLEAF: " + rleaf)
+    sep = "_"
+    rleaf = common.get("CMP_PREFIX", "") + sep + get_path_from_dict(non_path, sep) if create_leaf else ""
 
     inherit_prev = all_parameters.get("inherit_prev_path", False)
 
     leaf = (environment["PREV"] + "/" + rleaf if parent is not None else rleaf) if inherit_prev \
         else environment["ROOT"] + "/" + rleaf
-
-    logger.debug("LEAF: " + leaf)
 
     new_environment = {**environment, **{"RLEAF": rleaf, "LEAF": leaf, "CREATE_LEAF": create_leaf}}
 
@@ -243,20 +244,25 @@ def prepare_parameters(parent: Optional[PipelineTreeNode2], common: dict, specif
     # Substitute derived path for LEAF, PREV and other variables
     all_parameters = subst_variables_in_dict2(all_parameters, scopes, True, first_char)
 
-    logger.debug("all_parameters: {}".format(all_parameters))
-
     return all_parameters, new_environment
 
 
 def build_tree(config: List, globals: dict, first_char="%") -> List[PipelineTreeNode2]:
+    """
+    Build execution tree
 
+    :param config:          Dictionary with configuration parameters (taken from JSON configuration file).
+    :param globals:         Global variable dictionary.
+    :param first_char:      Starting character to distinguish variables from other literals.
+    :return:                Root node list to start execution from.
+    """
     parents = list()
 
     for level, component_config in enumerate(config):
 
         name = component_config.get("component", None)
         type = component_config.get("type", "dynamic")
-        comm = component_config.get("common-parameters", None)
+        comm = component_config.get("common-parameters", {})
         spec = component_config.get("specific-parameters", None)
 
         if name is None:
@@ -276,6 +282,9 @@ def build_tree(config: List, globals: dict, first_char="%") -> List[PipelineTree
             continue
 
         children = list()
+
+        # Add component prefix to 'common-parameters'
+        comm = {**comm, **{"CMP_PREFIX": PIPELINE_COMPONENTS[name][1]}}
 
         if len(parents):
             for parent in parents:
@@ -365,6 +374,12 @@ def check_config(config: List) -> None:
 
 
 def parse_time_str(parse_time) -> str:
+    """
+    Format execution time to be printed out
+
+    :param parse_time:      Timespan.
+    :return:                Formated string.
+    """
     hours = int(parse_time / 3600)
     minutes = int((parse_time - hours * 3600) / 60)
     seconds = int(parse_time % 60)
@@ -373,6 +388,11 @@ def parse_time_str(parse_time) -> str:
 
 
 def run_tree() -> None:
+    """
+    Run pipeline components traversing the execution tree
+
+    :return:
+    """
     start_time = time()
 
     PipelineTreeNode2.traverse_all(single_proc_exec)

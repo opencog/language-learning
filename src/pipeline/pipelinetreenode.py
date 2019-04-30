@@ -8,7 +8,6 @@ __all__ = ['PipelineTreeNode2']
 
 class PipelineTreeNode2:
     """
-
     Pipeline execution tree node
 
     """
@@ -23,7 +22,6 @@ class PipelineTreeNode2:
                  environment: Union[Dict[str, Any], None]=None,
                  parent=None):
         """
-
         :param seq_no:          Hierarchy level number;
         :param name:            Component name;
         :param parameters:      Configuration parameters
@@ -54,7 +52,6 @@ class PipelineTreeNode2:
     @staticmethod
     def traverse(job: Callable, node=None) -> None:
         """
-
         Traverse pipeline tree executing the job
 
         :param job:         Function/method to execute for each node.
@@ -69,15 +66,13 @@ class PipelineTreeNode2:
                 job(node)
 
             except KeyError as err:
-                raise PipelineComponentException("Fatal error: argument " + str(err) + " is missing in kwargs.",
-                                                 node._component_name, 0, node._environment["RUN_COUNT"], err)
+                raise PipelineComponentException(f"Fatal error: argument {str(err)} is missing in kwargs.", node, err)
 
             except FileNotFoundError as err:
-                raise PipelineComponentException(str(err), node._component_name, 0, node._environment["RUN_COUNT"], err)
+                raise PipelineComponentException(str(err), node, err)
 
             except Exception as err:
-                raise PipelineComponentException(str(err), node._component_name, 0, node._environment["RUN_COUNT"], err,
-                                                 traceback.format_exc())
+                raise PipelineComponentException(str(err), node, err, traceback.format_exc())
 
             # except PipelineComponentException as err:
             #     PipelineTreeNode2.logger.error(str(err))
@@ -94,7 +89,6 @@ class PipelineTreeNode2:
     @staticmethod
     def traverse_all(job: Callable) -> None:
         """
-
         Traverse all execution paths of pipeline tree
 
         :param job:         Function/method to execute for each node.
@@ -110,7 +104,6 @@ class PipelineTreeNode2:
 
     def add_sibling(self, node) -> None:
         """
-
         Add sibling to pipeline tree
 
         :param node:    Sibling node to add.

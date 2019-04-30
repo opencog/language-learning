@@ -1,3 +1,4 @@
+import sys
 import unittest
 from src.pipeline.varhelper import get_variable_value, get_referenced_variable_value, subst_all_vars_in_str, subst_variables_in_dict2
 
@@ -9,51 +10,54 @@ scopes = {
 
 class VarhelperTestCase(unittest.TestCase):
 
+    def test_subst_all_vars_in_str(self):
+        self.assertEqual(4, subst_all_vars_in_str("%PREV.row", scopes))
+
     def test_get_variable_value(self):
-        key, value = get_variable_value("row_of_the_table", {"row": 1, "row_of": 2, "row_of_the_table": 3})
-        self.assertEqual(("row_of_the_table", 3), (key, value))
+        key, value, cls = get_variable_value("row_of_the_table", {"row": 1, "row_of": 2, "row_of_the_table": 3})
+        self.assertEqual(("row_of_the_table", 3, "int"), (key, value, cls.__name__))
 
     # @unittest.skip
     def test_get_referenced_variable_value_unreferenced(self):
-        key, value = get_referenced_variable_value("PREV", scopes)
+        key, value, cls = get_referenced_variable_value("PREV", scopes)
 
-        self.assertEqual(("PREV", "path/to/parent"), (key, value))
+        self.assertEqual(("PREV", "path/to/parent", "str"), (key, value, cls.__name__))
 
     # @unittest.skip
     def test_get_referenced_variable_value_leaf(self):
-        key, value = get_referenced_variable_value("LEAF", scopes)
+        key, value, cls = get_referenced_variable_value("LEAF", scopes)
 
-        self.assertEqual(("LEAF", "path/to/child"), (key, value))
+        self.assertEqual(("LEAF", "path/to/child", "str"), (key, value, cls.__name__))
 
     # @unittest.skip
     def test_get_referenced_variable_value_partial1(self):
-        key, value = get_referenced_variable_value("PREV/some_folder", scopes)
+        key, value, cls = get_referenced_variable_value("PREV/some_folder", scopes)
 
-        self.assertEqual(("PREV", "path/to/parent"), (key, value))
+        self.assertEqual(("PREV", "path/to/parent", "str"), (key, value, cls.__name__))
 
     # @unittest.skip
     def test_get_referenced_variable_value_partial2(self):
-        key, value = get_referenced_variable_value("PREV.row/some_folder", scopes)
+        key, value, cls = get_referenced_variable_value("PREV.row/some_folder", scopes)
 
-        self.assertEqual(("PREV.row", 4), (key, value))
+        self.assertEqual(("PREV.row", 4, "int"), (key, value, cls.__name__))
 
     # @unittest.skip
     def test_get_referenced_variable_value_partial3(self):
-        key, value = get_referenced_variable_value("row/some_folder", scopes)
+        key, value, cls = get_referenced_variable_value("row/some_folder", scopes)
 
-        self.assertEqual(("row", 1), (key, value))
+        self.assertEqual(("row", 1, "int"), (key, value, cls.__name__))
 
     # @unittest.skip
     def test_get_referenced_variable_value_1(self):
-        key, value = get_referenced_variable_value("PREV.row_of_the_table", scopes)
+        key, value, cls = get_referenced_variable_value("PREV.row_of_the_table", scopes)
 
-        self.assertEqual(("PREV.row_of_the_table", 6), (key, value))
+        self.assertEqual(("PREV.row_of_the_table", 6, "int"), (key, value, cls.__name__))
 
     # @unittest.skip
     def test_get_referenced_variable_value_2(self):
-        key, value = get_referenced_variable_value("PREV.row_of", scopes)
+        key, value, cls = get_referenced_variable_value("PREV.row_of", scopes)
 
-        self.assertEqual(("PREV.row_of", 5), (key, value))
+        self.assertEqual(("PREV.row_of", 5, "int"), (key, value, cls.__name__))
 
     def test_subst_all_vars_in_str_1(self):
         self.assertEqual("path/to/parent/1", subst_all_vars_in_str("%PREV/%row", scopes))
@@ -68,6 +72,8 @@ class VarhelperTestCase(unittest.TestCase):
     def test_subst_variables_in_dict2(self):
         self.assertEqual({"x": "1 + 4", "y": "/var/tmp/1"},
                          subst_variables_in_dict2({"x": "1 + %PREV.row", "y": "/var/tmp/%row"}, scopes))
+        self.assertEqual({"x": "4 + 1", "y": "/var/tmp/1"},
+                         subst_variables_in_dict2({"x": "%PREV.row + 1", "y": "/var/tmp/%row"}, scopes))
 
     def test_subst_variables_in_dict2_nested(self):
         self.assertEqual({"SCOPE": {"x": "1 + 4", "y": "/var/tmp/1"}},

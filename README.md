@@ -39,7 +39,7 @@ The `--prune` key would force remove packages not specified in the `.yml` file.
 If you have added come packages to the environment, you would rather let them prune and add after the update. Otherwise vwrsion conflicts might occur.  
 You might need to reinstall Grammar Tester after environment update.
 
-## Grammar Tester 
+### Command Line Scripts (including pipeline)
 
 ### Installation
 
@@ -63,10 +63,19 @@ To uninstall the package type:
 $ pip uninstall opencog-ull
 ```
 
+### Running pipeline
+To be able to run pipeline make sure you properly installed command line scripts following the instructions in previous
+section. To run pipeline you simply neen to type the following command:
+```
+$ ull-cli -C <config-file.json>
+```
+Read more on [pipeline configuration and execution](https://github.com/singnet/language-learning/pipeline.md).
+
 ### Running command line scripts
 
-Command line scripts (which are located in `src/cli-scripts`) can be run from any location. In activated virtual
-environment type the name of the script you need to run.
+Command line scripts (which are located in `src/cli-scripts`) can be run from any location after proper installation. 
+In activated virtual environment type the name of the script you need to run. 
+Read more on [CLI scripts](https://github.com/singnet/language-learning/cli-scripts.md)
 
 ### Calling Grammar Tester library functions from within your code
 

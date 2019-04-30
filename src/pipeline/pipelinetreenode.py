@@ -8,7 +8,6 @@ __all__ = ['PipelineTreeNode2']
 
 class PipelineTreeNode2:
     """
-
     Pipeline execution tree node
 
     """
@@ -23,7 +22,6 @@ class PipelineTreeNode2:
                  environment: Union[Dict[str, Any], None]=None,
                  parent=None):
         """
-
         :param seq_no:          Hierarchy level number;
         :param name:            Component name;
         :param parameters:      Configuration parameters

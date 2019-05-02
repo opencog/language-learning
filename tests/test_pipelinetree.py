@@ -142,6 +142,3 @@ class PipelineTreeTestCase(unittest.TestCase):
 
         self.assertEqual(True, True)
 
-
-if __name__ == '__main__':
-    unittest.main()

@@ -1,0 +1,92 @@
+[
+  {
+    "component": "dash-board",
+    "type": "static",
+    "instance-name": "stat",
+    "parameters": {
+        "board_type": "file",
+        "file_path":  "%ROOT/%CONFIG-summary.txt",
+        "board_name": "%CONFIG",
+        "row_count": 3,
+        "col_count": 6,
+        "col_headers": [
+          [
+            {"title": "MWC"},
+            {"title": "MSL"},
+            {"title": "ALE400"},
+            {"title": "ILE400"},
+            {"title": "ALE400"},
+            {"title": "ILE400"}
+          ]
+        ]
+    }
+  },
+  {
+    "component": "grammar-learner",
+    "common-parameters": {
+	"input_parses": 	"%ROOT/data",
+        "output_categories": 	"%LEAF",
+        "output_grammar": 	"%LEAF",
+        "output_statistics": 	"%LEAF/stats.txt",
+        "tmpath": 		"/var/tmp/",
+        "verbose": 		"log+",
+        "temp_dir": 		"",
+
+	"left_wall": 		"", 
+	"period": 		false,
+	"min_word_count": 	1,
+
+	"grammar_rules": 2,
+        "clustering_metric": 	["silhouette", "cosine"],
+
+	"max_disjuncts":	1000000,
+	"stop_words":		[],
+	"top_level": 		0.01,
+
+	"cluster_range": [50]
+    },
+    "specific-parameters": [
+      { "context": 1, "word_space": "sparse",   "clustering": ["aglomerative", "ward"], "min_word_count": 1, "max_sentence_length": 99, "db_row": "1", "pa_col": "2", "f1_col": "4" },
+      { "context": 1, "word_space": "sparse",   "clustering": ["aglomerative", "ward"], "min_word_count": 1, "max_sentence_length": 3,  "db_row": "2", "pa_col": "2", "f1_col": "4" },
+      { "context": 1, "word_space": "sparse",   "clustering": ["aglomerative", "ward"], "min_word_count": 3, "max_sentence_length": 99, "db_row": "3", "pa_col": "2", "f1_col": "4" },
+      { "context": 2, "word_space": "discrete", "clustering": ["group"],                "min_word_count": 1, "max_sentence_length": 99, "db_row": "1", "pa_col": "3", "f1_col": "5" },
+      { "context": 2, "word_space": "discrete", "clustering": ["group"],                "min_word_count": 1, "max_sentence_length": 3,  "db_row": "2", "pa_col": "3", "f1_col": "5" },
+      { "context": 2, "word_space": "discrete", "clustering": ["group"],                "min_word_count": 3, "max_sentence_length": 99, "db_row": "3", "pa_col": "3", "f1_col": "5" }
+    ]
+  },
+  {
+    "component": "grammar-tester",
+    "common-parameters": {
+	"inherit_prev_path": 	true,
+	"input_grammar": 	"%PREV.output_grammar",
+	"input_corpus": 	"%PREV.input_parses",
+	"ref_path": 		"%PREV.input_parses",
+	"output_path": 		"%PREV.output_grammar",
+	"grammar_root": 	"%ROOT/dict",
+	"template_path": 	"%ROOT/dict/poc-turtle",
+	"linkage_limit": 	"1000",
+	"timeout": 		1,
+	"rm_grammar_dir": 	true,
+	"ignore_left_wall": 	true,
+	"ignore_period": 	true,
+	"store_dict_localy": 	true,
+	"calc_parse_quality": 	true,
+	"strip_suffix": 	true,
+	"ull_input": 		true,
+
+	"min_word_count":	"%PREV.min_word_count",
+	"max_sentence_len":	"%PREV.max_sentence_length"
+    },
+    "specific-parameters": [
+	{
+	  "output_format": "ull", 
+	  "post-exec-req": [
+	    {"obj": "stat.set", "row": "%PREV.db_row", "col": 		 "0", "val": "%min_word_count"},
+	    {"obj": "stat.set", "row": "%PREV.db_row", "col": 		 "1", "val": "%max_sentence_len"},
+	    {"obj": "stat.set", "row": "%PREV.db_row", "col": "%PREV.pa_col", "val": "{PA}"},
+	    {"obj": "stat.set", "row": "%PREV.db_row", "col": "%PREV.f1_col", "val": "{F1}"}
+	  ] 
+	}
+    ]
+  }
+]

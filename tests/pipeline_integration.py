@@ -1,4 +1,5 @@
 import os
+import sys
 import shutil
 import unittest
 from subprocess import PIPE, Popen
@@ -36,7 +37,7 @@ class PipelineIntegrationTestCase(unittest.TestCase):
         return ret_code
 
     @staticmethod
-    def cmp_summaries(test_path: str, ref_path: str) -> bool:
+    def _cmp_summaries(test_path: str, ref_path: str) -> bool:
         """
         Compare pipeline dash board summaries
 
@@ -63,6 +64,28 @@ class PipelineIntegrationTestCase(unittest.TestCase):
             for tt, rr in zip(t_tokens, r_tokens):
                 if tt.strip() != rr.strip():
                     return False
+
+        return True
+
+    @staticmethod
+    def _print_text_file(path: str) -> None:
+        with open(path, "r") as file:
+            text = file.read()
+            print(f"{path}:\n{text}", file=sys.stderr)
+
+    @staticmethod
+    def compare_summaries(test_path: str, ref_path: str):
+        """
+        Compare pipeline dash board summaries and print out both files in case of any differences.
+
+        :param test_path:       Path to summary file, produced during pipeline test run.
+        :param ref_path:        Path to reference summary file
+        :return:                True if summaries are identical, False otherwise.
+        """
+        if not PipelineIntegrationTestCase._cmp_summaries(test_path, ref_path):
+            PipelineIntegrationTestCase._print_text_file(test_path)
+            PipelineIntegrationTestCase._print_text_file(ref_path)
+            return False
 
         return True
 
@@ -138,7 +161,7 @@ class PipelineIntegrationTestCase(unittest.TestCase):
         self.assertTrue(os.path.isfile(summary_path))
 
         # Compare summaries
-        self.assertTrue(self.cmp_summaries(reference_path, summary_path),
+        self.assertTrue(self.compare_summaries(reference_path, summary_path),
                         f"'{summary_path}' and '{reference_path}' mismatch.")
 
         # Remove temporary directory on success

@@ -31,6 +31,7 @@ subdirectory structure.
 
 class PipelineTestCase(PipelineIntegrationTestCase):
 
+    @unittest.skip
     def test_gl_gt(self):
         """ GL+GT ALE50 test case performed on CDS-clean corpus """
         self.run_pipeline_test_case("GL-GT-ALE", "data/CDS/LG-E-clean")

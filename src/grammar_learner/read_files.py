@@ -29,7 +29,8 @@ def check_dir_files(dir_path, verbose = 'none'):
             files.append(path + filename)
             logger.info(filename)
     else:
-        logger.critical(f'No directory {dir_path}')
+        # logger.critical(f'No directory {dir_path}')
+        raise FileNotFoundError(f'No directory {dir_path}')
     return files
 
 

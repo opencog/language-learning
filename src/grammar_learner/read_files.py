@@ -11,9 +11,11 @@ def check_dir(dir_path, create = False, verbose = 'none'):
         if create:
             os.makedirs(dir_path)
             return True
-        else:
-            logger.critical(f'No directory {dir_path}')
-            return False
+        # else:
+        #     logger.critical(f'No directory {dir_path}')
+        #     return False
+
+        raise FileNotFoundError(f'No directory {dir_path}')
 
 
 def check_dir_files(dir_path, verbose = 'none'):

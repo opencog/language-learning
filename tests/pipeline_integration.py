@@ -69,9 +69,15 @@ class PipelineIntegrationTestCase(unittest.TestCase):
 
     @staticmethod
     def _print_text_file(path: str) -> None:
+        """
+        Print text file (text dash board) to stderr
+
+        :param path:        Path to the file.
+        :return:            None
+        """
         with open(path, "r") as file:
             text = file.read()
-            print(f"{path}:\n{text}", file=sys.stderr)
+            print(f"\n{path}:\n{text}", file=sys.stderr)
 
     @staticmethod
     def compare_summaries(test_path: str, ref_path: str):

@@ -155,9 +155,12 @@ def print_output(tokens: list, raw_links: list, options: int, ofl) -> None:
 
     i = 0
 
-    for token in tokens:
+    last_token_index = len(tokens) - 1
+
+    for i, token in enumerate(tokens):
         if not token.startswith("###"):
-            ofl.write(token + ' ')
+            # ofl.write(token + ' ')
+            ofl.write(token.strip() + (' ' if i < last_token_index else ''))
         else:
             if token.find("RIGHT-WALL") >= 0:
                 rwall_index = i

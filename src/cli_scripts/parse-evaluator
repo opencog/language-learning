@@ -12,7 +12,8 @@ import os
 import logging
 import traceback
 
-from ull.common import handle_path_string, strip_quotes, setup_logging, VERBOSITY_OPTIONS
+from ull.common import handle_path_string, strip_quotes, setup_logging, VERBOSITY_OPTIONS, \
+    BIT_NO_LWALL, BIT_ULL_IN, BIT_NO_PERIOD
 from ull.grammar_tester import compare_ull_files, EvalError
 from ull.parse_evaluator import Evaluate_Alternative
 
@@ -43,11 +44,12 @@ def main(argv):
         -s              evaluate sequential parses (only in alternative evaluator)
         -z              evaluate random parses (only in alternative evaluator)
         -f              filter sentences not matching in ref and test, or have internal dialogue (only in alternative)
-        -o              compare tokenization between two given parse files. Output file with diffs
+        -o              compare tokenization between two given parse files. Output file with diffs.
 
     """
     test_file = ''
     ref_file = ''
+    out_path = None
     verbose = False
     verbosity_level = logging.WARNING
     ignore_wall = False
@@ -56,21 +58,27 @@ def main(argv):
     alternative_parser = False
     filter_sentences = False
     compare_tokenization = False
+    options = 0x00000000 | BIT_ULL_IN
+    parser_type = "link-grammar-exe"
 
     try:
         app_name = str(os.path.split(__file__)[1]).split(".")[0]
 
-        opts, args = getopt.getopt(argv, "ht:r:v:iszafo", ["test=", "reference=", "verbosity=", "ignore", "sequential",
-                                                         "random", "alternative", "filter", "tokenization"])
+        opts, args = getopt.getopt(argv, "ht:r:O:v:iszafo", ["test=", "reference=", "output=", "verbosity=", "ignore",
+                                                             "sequential", "random", "alternative", "filter",
+                                                             "tokenization"])
 
         for opt, arg in opts:
             if opt == '-h':
-                print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s] [-z] [-a] [-f] [-o]")
+                print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-O <output-path>] [-v] [-i] [-s] [-z] "
+                      "[-a] [-f] [-o]")
                 sys.exit()
             elif opt in ("-t", "--test"):
                 test_file = arg
             elif opt in ("-r", "--reference"):
                 ref_file = arg
+            elif opt in ("-O", "--output"):
+                out_path = handle_path_string(arg)
             elif opt in ("-v", "--verbosity"):
                 verb_key = strip_quotes(arg)
 
@@ -81,10 +89,17 @@ def main(argv):
                 verbose = verbosity_level < logging.WARNING
             elif opt in ("-i", "--ignore"):
                 ignore_wall = True
+                options |= (BIT_NO_LWALL | BIT_NO_PERIOD)
             elif opt in ("-s", "--sequential"):
+                if random:
+                    raise getopt.GetoptError("Either '--random' or '--sequential' or none should be specified.")
                 sequential = True
+                parser_type = "sequential"
             elif opt in ("-z", "--random"):
+                if sequential:
+                    raise getopt.GetoptError("Either '--random' or '--sequential' or none should be specified.")
                 random = True
+                parser_type = "random"
             elif opt in ("-a", "--alternative"):
                 alternative_parser = True
             elif opt in ("-f", "--filter"):
@@ -95,7 +110,6 @@ def main(argv):
     except getopt.GetoptError:
         print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a] [-f] [-o]")
         sys.exit(2)
-
 
     setup_logging(verbosity_level, logging.NOTSET, os.environ["PWD"] + "/" + app_name + ".log", "w")
 
@@ -118,11 +132,18 @@ def main(argv):
             print(main.__doc__)
             raise EvalError("Error: Incorrect test_file.")
 
+        # Check if out_path points to an existing directory
+        if out_path is not None and (not os.path.isdir(out_path)):
+            raise FileNotFoundError(f"'--output' argument should point to an existing directory.")
+
+        params = {"parser_type": parser_type, "output_path": out_path}
+
         if alternative_parser:
-            Evaluate_Alternative(ref_file, test_file, verbose, ignore_wall, sequential, random, filter_sentences, compare_tokenization)
+            Evaluate_Alternative(ref_file, test_file, verbose, ignore_wall, sequential, random, filter_sentences,
+                                 compare_tokenization, **params)
 
         else:
-            compare_ull_files(test_file, ref_file, verbose, ignore_wall)
+            compare_ull_files(test_file, ref_file, options, **params)
 
     except EvalError as err:
         logger.critical(str(err))

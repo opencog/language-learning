@@ -120,11 +120,11 @@ class ParseQuality():
 
     @staticmethod
     def recall_str(stat) -> str:
-        return "{0:6.2f}%".format(stat.recall_val(stat) * Decimal("100.0"))
+        return "{0:6.4f}".format(stat.recall_val(stat))
 
     @staticmethod
     def precision_str(stat) -> str:
-        return "{0:6.2f}%".format(stat.precision_val(stat) * Decimal("100.0"))
+        return "{0:6.4f}".format(stat.precision_val(stat))
 
     @staticmethod
     def f1(stat) -> Decimal:

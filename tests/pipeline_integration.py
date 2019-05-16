@@ -127,7 +127,7 @@ class PipelineIntegrationTestCase(unittest.TestCase):
         pwd = os.environ["PWD"]
 
         if os.path.isfile(corpus_path):
-            os.mkdir("data")
+            os.mkdir(path_to_create + "/data")
             os.symlink(f"{pwd}/{corpus_path}", path_to_create + f"/data/{os.path.split(corpus_path)[1]}")
 
         elif os.path.isdir(corpus_path):

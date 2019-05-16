@@ -12,9 +12,9 @@ from ..common.parsemetrics import ParseMetrics, ParseQuality
 from ..common.fileconfman import JsonFileConfigManager
 from ..common.cliutils import handle_path_string, strip_quotes
 from ..common.textprogress import TextProgress
-from ..common.sentencecount import get_sentence_count, get_corpus_sentence_count
+from ..common.sentencecount import get_corpus_sentence_count
 from ..common.tokencount import *
-from .textfiledashb import TextFileDashboardConf  #, HTMLFileDashboard
+from .textfiledashb import TextFileDashboardConf  # , HTMLFileDashboard
 
 from .lgmisc import create_grammar_dir
 from ..common.optconst import *
@@ -36,7 +36,7 @@ CONF_REFR_PATH = "ref_path"
 CONF_GRMR_PATH = "grammar_root"
 CONF_TMPL_PATH = "template_path"
 CONF_LNK_LIMIT = "linkage_limit"
-CONF_TIMEOUT   = "timeout"
+CONF_TIMEOUT = "timeout"
 CONF_MIN_WORD_CNT = "min_word_count"
 CONF_MAX_SENT_LEN = "max_sentence_len"
 CONF_STOP_TOKENS = "stop_tokens"
@@ -63,7 +63,7 @@ DICT_ARG_REFF = 3
 class GrammarTester(AbstractGrammarTestClient):
 
     def __init__(self, grmr: str, tmpl: str, limit: int, parser: AbstractFileParserClient,
-                 evt_handler: AbstractStatEventHandler=None):
+                 evt_handler: AbstractStatEventHandler = None):
 
         if parser is None:
             raise AttributeError("'parser' argument can not be None.")
@@ -241,7 +241,7 @@ class GrammarTester(AbstractGrammarTestClient):
         self._total_dicts += 1
 
     def test(self, dict_path: str, corpus_path: str, output_path: str, reference_path: str, options: int,
-             progress: AbstractProgressClient=None, **kwargs) -> (ParseMetrics, ParseQuality):
+             progress: AbstractProgressClient = None, **kwargs) -> (ParseMetrics, ParseQuality):
         """
         Main method to initiate grammar test.
 

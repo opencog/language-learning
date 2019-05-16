@@ -124,7 +124,7 @@ def main(argv):
             raise EvalError("Error: Arguments are not properly specified.")
 
         # If reference file does not exist then there is nothing to compare.
-        if not os.path.isfile(ref_file):
+        if not os.path.isfile(ref_file) and not os.path.isdir(ref_file):
             raise EvalError("Error: File '" + ref_file + "' does not exist.")
 
         # Check if the arguments are properly specified.

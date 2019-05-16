@@ -260,7 +260,7 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
             # print("Reference file   : '" + ref_file + "'\n", file=ofile)
             print(ParseQuality.text(total_parse_quality), file=ofile)
 
-    def evaluate(test_file: str) -> None:
+    def evaluate(test_file: str, args: list=None) -> None:
         """
         Evaluation function
 
@@ -269,6 +269,8 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
         """
         nonlocal total_parse_quality
         nonlocal total_file_count
+
+        logger.debug("evaluate()")
 
         file_name = os.path.split(test_file)[1]
         dest_path = kwargs.get("output_path", os.environ["PWD"])
@@ -334,8 +336,10 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
             raise ValueError("If 'corpus_path' is a directory 'reference_path' "
                                    "should be an existing directory path too.")
 
+        logger.debug("Before traverse...")
+
         # Evaluate each file of the corpus and summarize statistics
-        traverse_dir_tree(test_path, ".ull", [evaluate, test_path], None, True)
+        traverse_dir_tree(test_path, ".ull", [evaluate], None, True)
 
     # If corpus is a single file
     else:

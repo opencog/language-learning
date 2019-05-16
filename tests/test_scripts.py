@@ -79,6 +79,25 @@ class CLIScriptsTestCase(ScriptIntegrationTestCase):
         self.assertTrue(os.path.isfile(out_seq), f"'{out_seq}' does not exist.")
         self.assertTrue(self.compare_text_files(out_seq, f"{out_seq}.expected"))
 
+    # @unittest.skip
+    def test_parse_evaluator_ord_rnd_single(self):
+        """ 'parse-evaluator' random mode integration test performed on POC-English corpus """
+        corpus_path = "tests/test-data/parses/poc-english-ref/poc_english.txt.ull"
+
+        test_dir = self.prepare_test_dir(f"{TESTS_ROOT}/parse-evaluator/ord-rnd-single", corpus_path)
+        out_file = f"{test_dir}/ord-output.txt"
+        out_stat = f"{test_dir}/poc_english.txt.ull.stat"
+        out_ull = f"{test_dir}/poc_english.txt.ull.ull"
+
+        # Run script in ordinary mode
+        self.run_script(f"parse-evaluator -t {corpus_path} -r {corpus_path} -O {test_dir} -s -i", out_file)
+
+        self.assertTrue(os.path.isfile(out_file), f"'{out_file}' does not exist.")
+        self.assertTrue(os.path.isfile(out_stat), f"'{out_stat}' does not exist.")
+        self.assertTrue(os.path.isfile(out_stat), f"'{out_ull}' does not exist.")
+        self.assertTrue(self.compare_text_files(out_ull, f"{out_ull}.expected"))
+        self.assertTrue(self.compare_text_files(out_stat, f"{out_stat}.expected"))
+
 
 if __name__ == '__main__':
     unittest.main()

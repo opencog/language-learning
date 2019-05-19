@@ -204,10 +204,12 @@ def eval_parses(test_parses: list, ref_parses: list, options: int, verbose: bool
     logger.info("-" * 75)
 
     for ref_parse, test_parse in zip(ref_parses, test_parses):
+        ref_sentence = " ".join(ref_parse[PARSE_SENTENCE].split())
+        test_sentence = " ".join(test_parse[PARSE_SENTENCE].split())
 
-        if ref_parse[PARSE_SENTENCE] != test_parse[PARSE_SENTENCE]:
+        if ref_sentence != test_sentence:
             raise EvalError("Error: Something went wrong. Sentences missmatch." +
-                            ref_parse[PARSE_SENTENCE] + "\n" + test_parse[PARSE_SENTENCE])
+                            ref_sentence + "\n" + test_sentence)
 
         test_tokens = ["###LEFT-WALL###"] + test_parse[PARSE_SENTENCE].split()
         ref_tokens = ["###LEFT-WALL###"] + ref_parse[PARSE_SENTENCE].split()

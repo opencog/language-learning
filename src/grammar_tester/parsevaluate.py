@@ -10,6 +10,8 @@ from typing import Tuple, List, Dict
 from ..common.dirhelper import traverse_dir_tree
 from ..common.parsemetrics import ParseQuality
 from ..common.optconst import *
+from ..common.absclient import AbstractPipelineComponent
+from ..common.cliutils import handle_path_string
 from .parsestat import parse_quality
 from .psparse import parse_postscript, get_link_set
 from .lgmisc import print_output
@@ -270,8 +272,6 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
         nonlocal total_parse_quality
         nonlocal total_file_count
 
-        logger.debug("evaluate()")
-
         file_name = os.path.split(test_file)[1]
         dest_path = kwargs.get("output_path", os.environ["PWD"])
         stat_file = f"{dest_path}/{file_name}.stat"
@@ -336,8 +336,6 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
             raise ValueError("If 'corpus_path' is a directory 'reference_path' "
                                    "should be an existing directory path too.")
 
-        logger.debug("Before traverse...")
-
         # Evaluate each file of the corpus and summarize statistics
         traverse_dir_tree(test_path, ".ull", [evaluate], None, True)
 
@@ -356,3 +354,59 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
     logger.info("\n" + total_parse_quality.text(total_parse_quality))
 
     return total_parse_quality
+
+
+PARAM_TST_PATH = 'input_path'
+PARAM_REF_PATH = 'ref_path'
+PARAM_OUT_PATH = 'output_path'
+
+
+class ParseEvaluatorComponent(AbstractPipelineComponent):
+    """
+    ParseEvaluatorComponent is responsible for comparing two corpora and calculate parse quality statistics.
+
+    """
+    def __init__(self, **kwargs):
+        pass
+
+    def validate_parameters(self, **kwargs):
+        """ Validate configuration parameters """
+        ret_val = True
+
+        if kwargs.get(PARAM_TST_PATH, None) is None:
+            print("Error: parameter '{}' is not specified.".format(PARAM_TST_PATH))
+            ret_val = False
+
+        if kwargs.get(PARAM_REF_PATH, None) is None:
+            print("Error: parameter '{}' is not specified.".format(PARAM_REF_PATH))
+            ret_val = False
+
+        if kwargs.get(PARAM_OUT_PATH, None) is None:
+            print("Error: parameter '{}' is not specified.".format(PARAM_OUT_PATH))
+            ret_val = False
+
+        return ret_val
+
+    def run(self, **kwargs):
+        """ Execute component code """
+
+        options = (get_options(kwargs) | BIT_ULL_IN)
+
+        input_path = kwargs.get(PARAM_TST_PATH, None)
+
+        if input_path:
+            input_path = handle_path_string(input_path)
+
+        ref_path = kwargs.get(PARAM_REF_PATH, None)
+
+        if ref_path:
+            ref_path = handle_path_string(ref_path)
+
+        output_path = kwargs.get(PARAM_OUT_PATH, None)
+
+        if output_path:
+            output_path = handle_path_string(output_path)
+
+        pq = compare_ull_files(input_path, ref_path, options, output_path=output_path)
+
+        return {"F1": pq.f1_str(pq), "recall": pq.recall_str(pq), "precision": pq.precision_str(pq)}

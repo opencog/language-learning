@@ -8,6 +8,7 @@ from ..common.optconst import *
 from ..common.tokencount import *
 from ..common.absclient import AbstractPipelineComponent
 from ..grammar_tester.grammartester import GrammarTesterComponent
+from ..grammar_tester.parsevaluate import ParseEvaluatorComponent
 from ..grammar_learner import GrammarLearnerComponent
 from ..text_parser import TextParserComponent
 from ..dash_board.textdashboard import TextFileDashboardComponent
@@ -101,7 +102,8 @@ PIPELINE_COMPONENTS = {
     "grammar-learner": (GrammarLearnerComponent, "GL"),
     "text-parser": (TextParserComponent, "TP"),
     "dash-board": (TextFileDashboardComponent, ""),
-    "token-counter": (TokenCounterComponent, "TC")
+    "token-counter": (TokenCounterComponent, "TC"),
+    "parse-evaluator": (ParseEvaluatorComponent, "PE")
 }
 
 

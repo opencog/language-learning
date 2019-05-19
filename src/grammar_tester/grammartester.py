@@ -435,6 +435,16 @@ class GrammarTesterComponent(AbstractPipelineComponent):
 
     def validate_parameters(self, **kwargs) -> bool:
         """ Validate configuration parameters """
+        grammar_root = kwargs.get(CONF_GRMR_PATH, None)
+
+        if grammar_root is not None and not os.path.isdir(grammar_root):
+            raise FileNotFoundError(f"'{CONF_GRMR_PATH}' must be an existing directory path.")
+
+        template_path = kwargs.get(CONF_TMPL_PATH, None)
+
+        if template_path is not None and not os.path.isdir(template_path):
+            raise FileNotFoundError(f"'{CONF_TMPL_PATH}' must be an existing directory path.")
+
         return True
 
     def run(self, **kwargs) -> dict:

@@ -3,6 +3,7 @@ import sys
 import shutil
 import unittest
 from subprocess import PIPE, Popen
+from typing import Union, Tuple, List
 
 # Root path where all LG dictionary subdirectories are located
 DICT_REL_PATH = "tests/test-data/dict"
@@ -37,7 +38,7 @@ class PipelineIntegrationTestCase(unittest.TestCase):
         return ret_code
 
     @staticmethod
-    def _cmp_summaries(test_path: str, ref_path: str) -> bool:
+    def _compare_text_files(test_path: str, ref_path: str) -> bool:
         """
         Compare pipeline dash board summaries
 
@@ -80,7 +81,7 @@ class PipelineIntegrationTestCase(unittest.TestCase):
             print(f"\n{path}:\n{text}", file=sys.stderr)
 
     @staticmethod
-    def compare_summaries(test_path: str, ref_path: str):
+    def compare_text_files(test_path: str, ref_path: str):
         """
         Compare pipeline dash board summaries and print out both files in case of any differences.
 
@@ -88,7 +89,7 @@ class PipelineIntegrationTestCase(unittest.TestCase):
         :param ref_path:        Path to reference summary file
         :return:                True if summaries are identical, False otherwise.
         """
-        if not PipelineIntegrationTestCase._cmp_summaries(test_path, ref_path):
+        if not PipelineIntegrationTestCase._compare_text_files(test_path, ref_path):
             PipelineIntegrationTestCase._print_text_file(test_path)
             PipelineIntegrationTestCase._print_text_file(ref_path)
             return False
@@ -96,7 +97,29 @@ class PipelineIntegrationTestCase(unittest.TestCase):
         return True
 
     @staticmethod
-    def prepare_test_dir(test_path: str, corpus_path: str) -> str:
+    def create_sym_link(data_path: str, root: str, name: str = "data"):
+        """
+        Create symbolic link for given file or directory
+
+        :param data_path:       Path to a file or directory.
+        :param root:            Root path where symbolic link is to be created.
+        :param name:            Name of the symbolic link to be created.
+        :return:
+        """
+        pwd = os.environ["PWD"]
+
+        if os.path.isfile(data_path):
+            os.mkdir(f"{root}/{name}")
+            os.symlink(f"{pwd}/{data_path}", f"{root}/{name}/{os.path.split(data_path)[1]}")
+
+        elif os.path.isdir(data_path):
+            os.symlink(f"{pwd}/{data_path}", f"{root}/{name}", True)
+
+        else:
+            raise FileNotFoundError("Corpus file/directory does not exist.")
+
+    @staticmethod
+    def prepare_test(test_path: str, data_path: Union[str, List[Tuple[str, str]]]) -> str:
         """
         Prepare pipeline test temporary directory:
             - create temporary directory;
@@ -104,7 +127,7 @@ class PipelineIntegrationTestCase(unittest.TestCase):
             - create symbol link to a corpus file/directory
 
         :param test_path:       Path to a directory where test files reside.
-        :param corpus_path:     Path to a corpus file or directory.
+        :param data_path:       Path to a corpus file or directory/List of tuples (path, link_name).
         :return:                Path to prepared test directory
         """
         if not os.path.isdir(test_path):
@@ -126,22 +149,38 @@ class PipelineIntegrationTestCase(unittest.TestCase):
 
         pwd = os.environ["PWD"]
 
-        if os.path.isfile(corpus_path):
-            os.mkdir(path_to_create + "/data")
-            os.symlink(f"{pwd}/{corpus_path}", path_to_create + f"/data/{os.path.split(corpus_path)[1]}")
+        if isinstance(data_path, str):
+            PipelineIntegrationTestCase.create_sym_link(data_path, path_to_create)
 
-        elif os.path.isdir(corpus_path):
-            os.symlink(f"{pwd}/{corpus_path}", path_to_create + f"/data", True)
-
-        else:
-            raise FileNotFoundError("Corpus file/directory does not exist.")
+        elif isinstance(data_path, list):
+            for entry in data_path:
+                PipelineIntegrationTestCase.create_sym_link(entry[0], path_to_create, entry[1])
 
         # Create 'dict' pseudo directory
         os.symlink(f"{pwd}/{DICT_REL_PATH}", path_to_create + f"/dict", True)
 
         return path_to_create
 
-    def run_pipeline_test_case(self, test_name: str, corpus_path: str) -> None:
+    def check_expectations(self, tmp_test_path: str):
+        """
+        Compare all files ending with ".expected" suffix with their respective counterparts
+
+        :param tmp_test_path:   Path to test directory
+        :return:                None
+        """
+        for file_path in os.listdir(tmp_test_path):
+            if file_path.endswith(".expected"):
+                test_path = f"{tmp_test_path}/{file_path[:-9]}"
+                ref_path = f"{tmp_test_path}/{file_path}"
+
+                # Check if there is a summary file in the directory
+                self.assertTrue(os.path.isfile(test_path))
+
+                # Compare summaries
+                self.assertTrue(self.compare_text_files(ref_path, test_path),
+                                f"'{test_path}' and '{ref_path}' mismatch.")
+
+    def run_pipeline_test_case(self, test_name: str, data_path: Union[str, List[Tuple[str, str]]]) -> None:
         """
         Execute pipeline integration test
 
@@ -151,7 +190,8 @@ class PipelineIntegrationTestCase(unittest.TestCase):
         """
         test_path = f"{TESTS_ROOT}/{test_name}"
 
-        tmp_test_path = self.prepare_test_dir(test_path, corpus_path)
+        tmp_test_path = self.prepare_test(test_path, data_path)
+        # tmp_test_path = self.prepare_test_dir(test_path, corpus_path)
 
         self.assertEqual(f"/var/tmp/{test_name}", tmp_test_path)
         self.assertTrue(os.path.isdir(tmp_test_path))
@@ -160,15 +200,8 @@ class PipelineIntegrationTestCase(unittest.TestCase):
         self.assertEqual(0, self.run_pipeline(f"{tmp_test_path}/{test_name}.json"),
                          f"Error executing pipeline. See '{tmp_test_path}/{test_name}.log' for details.")
 
-        summary_path = f"{tmp_test_path}/{test_name}-summary.txt"
-        reference_path = f"{tmp_test_path}/{test_name}-expected.txt"
-
-        # Check if there is a summary file in the directory
-        self.assertTrue(os.path.isfile(summary_path))
-
-        # Compare summaries
-        self.assertTrue(self.compare_summaries(reference_path, summary_path),
-                        f"'{summary_path}' and '{reference_path}' mismatch.")
+        # Compare all expected files with their respective test results
+        self.check_expectations(tmp_test_path)
 
         # Remove temporary directory on success
         shutil.rmtree(tmp_test_path)

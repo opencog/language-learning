@@ -1,0 +1,56 @@
+[
+  {
+    "component": "dash-board",
+    "type": "static",
+    "instance-name": "stat",
+    "parameters": {
+        "board_type": "file",
+        "file_path":  "%ROOT/%CONFIG-summary.txt",
+        "board_name": "%CONFIG",
+        "row_count": 2,
+        "col_count": 4,
+        "col_headers": [
+          [
+            {"title": "PARSES"},
+            {"title": "RECALL"},
+            {"title": "PRECISION"},
+            {"title": "F1"}
+          ]
+        ]
+    }
+  },
+  {
+    "component": "parse-evaluator",
+    "common-parameters": {
+	"-PARSES_ROOT":		"%ROOT/data",
+	"inherit_prev_path": 	true,
+	"output_path": 		"%ROOT",
+	"ignore_left_wall": 	true,
+	"ignore_period": 	true,
+	"strip_suffix": 	true,
+	"ull_input": 		true
+    },
+    "specific-parameters": [
+	{
+	  "input_path": 	"%ROOT/single",
+	  "ref_path": 		"%input_path",
+	  "post-exec-req": [
+	    {"obj": "stat.set", "row": "%RUN_COUNT", "col": "0", "val": "%input_path"},
+	    {"obj": "stat.set", "row": "%RUN_COUNT", "col": "1", "val": "{recall}"},
+	    {"obj": "stat.set", "row": "%RUN_COUNT", "col": "2", "val": "{precision}"},
+	    {"obj": "stat.set", "row": "%RUN_COUNT", "col": "3", "val": "{F1}"}
+	  ] 
+	},
+	{
+	  "input_path": 	"%ROOT/multi",
+	  "ref_path": 		"%input_path",
+	  "post-exec-req": [
+	    {"obj": "stat.set", "row": "%RUN_COUNT", "col": "0", "val": "%input_path"},
+	    {"obj": "stat.set", "row": "%RUN_COUNT", "col": "1", "val": "{recall}"},
+	    {"obj": "stat.set", "row": "%RUN_COUNT", "col": "2", "val": "{precision}"},
+	    {"obj": "stat.set", "row": "%RUN_COUNT", "col": "3", "val": "{F1}"}
+	  ] 
+	}
+    ]
+  }
+]

@@ -90,7 +90,7 @@ class CLIScriptsTestCase(ScriptIntegrationTestCase):
         out_ull = f"{test_dir}/poc_english.txt.ull.ull"
 
         # Run script in ordinary mode
-        self.run_script(f"parse-evaluator -t {corpus_path} -r {corpus_path} -O {test_dir} -s -i", out_file)
+        self.run_script(f"parse-evaluator -t {corpus_path} -r {corpus_path} -O {test_dir} -z -i", out_file)
 
         self.assertTrue(os.path.isfile(out_file), f"'{out_file}' does not exist.")
         self.assertTrue(os.path.isfile(out_stat), f"'{out_stat}' does not exist.")

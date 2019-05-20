@@ -210,7 +210,7 @@ def eval_parses(test_parses: list, ref_parses: list, options: int, verbose: bool
         test_tokens = ["###LEFT-WALL###"] + test_parse[PARSE_SENTENCE].split()
 
         ref_as_is = " ".join(ref_tokens[1:])
-        test_as_is = " ".join(test_tokens[1])
+        test_as_is = " ".join(test_tokens[1:])
 
         ref_lcase = ref_as_is.lower()
         test_lcase = test_as_is.lower()

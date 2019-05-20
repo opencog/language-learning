@@ -220,8 +220,9 @@ def eval_parses(test_parses: list, ref_parses: list, options: int, verbose: bool
 
         # Check if two sentences are the same in terms of meaning
         if ref_merged != test_merged:
-            raise EvalError("Error: Something went wrong. Sentences missmatch:\n" +
-                            ref_as_is + "\n" + test_as_is)
+            logger.error("Something went wrong. Sentences missmatch:\n{ref_as_is}\n{test_as_is}")
+            # raise EvalError("Error: Something went wrong. Sentences missmatch:\n" +
+            #                 ref_as_is + "\n" + test_as_is)
 
         # Check if two sentences are having all word letters in the same case
         if ref_as_is != test_as_is:

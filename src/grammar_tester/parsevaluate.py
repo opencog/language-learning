@@ -204,15 +204,32 @@ def eval_parses(test_parses: list, ref_parses: list, options: int, verbose: bool
     logger.info("-" * 75)
 
     for ref_parse, test_parse in zip(ref_parses, test_parses):
-        ref_sentence = " ".join(ref_parse[PARSE_SENTENCE].split())
-        test_sentence = " ".join(test_parse[PARSE_SENTENCE].split())
 
-        if ref_sentence != test_sentence:
-            raise EvalError("Error: Something went wrong. Sentences missmatch:\n" +
-                            ref_sentence + "\n" + test_sentence)
-
-        test_tokens = ["###LEFT-WALL###"] + test_parse[PARSE_SENTENCE].split()
+        # Tokenize sentences
         ref_tokens = ["###LEFT-WALL###"] + ref_parse[PARSE_SENTENCE].split()
+        test_tokens = ["###LEFT-WALL###"] + test_parse[PARSE_SENTENCE].split()
+
+        ref_as_is = " ".join(ref_tokens[1:])
+        test_as_is = " ".join(test_tokens[1])
+
+        ref_lcase = ref_as_is.lower()
+        test_lcase = test_as_is.lower()
+
+        ref_merged = ref_lcase.replace(" ", "")
+        test_merged = test_lcase.replace(" ", "")
+
+        # Check if two sentences are the same in terms of meaning
+        if ref_merged != test_merged:
+            raise EvalError("Error: Something went wrong. Sentences missmatch:\n" +
+                            ref_as_is + "\n" + test_as_is)
+
+        # Check if two sentences are having all word letters in the same case
+        if ref_as_is != test_as_is:
+            logger.warning(f"Sentences differ in letter cases:\n{ref_as_is}\n{test_as_is}")
+
+        # Check if two sentences are having the same tokenization
+        if ref_lcase != test_lcase:
+            logger.warning(f"Sentences appear to have different tokenization:\n{ref_as_is}\n{test_as_is}")
 
         test_set = get_link_set(test_tokens, test_parse[PARSE_LINK_SET], options)
         ref_set = get_link_set(ref_tokens, ref_parse[PARSE_LINK_SET], options)

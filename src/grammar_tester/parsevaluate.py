@@ -208,7 +208,7 @@ def eval_parses(test_parses: list, ref_parses: list, options: int, verbose: bool
         test_sentence = " ".join(test_parse[PARSE_SENTENCE].split())
 
         if ref_sentence != test_sentence:
-            raise EvalError("Error: Something went wrong. Sentences missmatch." +
+            raise EvalError("Error: Something went wrong. Sentences missmatch:\n" +
                             ref_sentence + "\n" + test_sentence)
 
         test_tokens = ["###LEFT-WALL###"] + test_parse[PARSE_SENTENCE].split()
@@ -244,8 +244,6 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
     total_file_count = 0
 
     stat_file = f"{kwargs.get('output_path', os.environ['PWD'])}/{os.path.split(test_path)[1]}.stat"
-
-    print(stat_file)
 
     parser_type = kwargs.get("parser_type", "link-grammar-exe")
 
@@ -311,9 +309,9 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
             total_parse_quality += file_quality
             total_file_count += 1
 
-        except IOError as err:
-            logger.critical("IOError: " + str(err))
-
+        # except IOError as err:
+        #     logger.critical("IOError: " + str(err))
+        #
         except Exception as err:
             logger.critical("evaluate(): Exception: " + str(err))
             logger.debug(traceback.print_exc())

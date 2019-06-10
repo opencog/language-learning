@@ -13,7 +13,7 @@ import logging
 import traceback
 
 from ull.common import handle_path_string, strip_quotes, setup_logging, VERBOSITY_OPTIONS, \
-    BIT_NO_LWALL, BIT_ULL_IN, BIT_NO_PERIOD
+    BIT_NO_LWALL, BIT_ULL_IN, BIT_NO_PERIOD, BIT_FILTER_DIR_SPEECH
 from ull.grammar_tester import compare_ull_files, EvalError
 from ull.parse_evaluator import Evaluate_Alternative
 
@@ -104,6 +104,7 @@ def main(argv):
                 alternative_parser = True
             elif opt in ("-f", "--filter"):
                 filter_sentences = True
+                options |= BIT_FILTER_DIR_SPEECH
             elif opt in ("-o", "--tokenization"):
                 compare_tokenization = True
 
@@ -121,22 +122,25 @@ def main(argv):
         # Check if the arguments are properly specified.
         if ref_file is None or len(ref_file) == 0:
             logger.info(main.__doc__)
-            raise EvalError("Error: Arguments are not properly specified.")
+            raise ValueError("Error: Arguments are not properly specified.")
 
         # If reference file does not exist then there is nothing to compare.
         if not os.path.isfile(ref_file) and not os.path.isdir(ref_file):
-            raise EvalError("Error: File '" + ref_file + "' does not exist.")
+            raise FileNotFoundError(f"Error: File '{ref_file}' does not exist.")
 
         # Check if the arguments are properly specified.
         if test_file is None or len(test_file) == 0:
             print(main.__doc__)
-            raise EvalError("Error: Incorrect test_file.")
+            raise ValueError("Error: Incorrect test file path.")
 
         # Check if out_path points to an existing directory
         if out_path is not None and (not os.path.isdir(out_path)):
             raise FileNotFoundError(f"'--output' argument should point to an existing directory.")
 
-        params = {"parser_type": parser_type, "output_path": out_path}
+        params = {"parser_type": parser_type}
+
+        if out_path is not None:
+            params["output_path"] = out_path
 
         if alternative_parser:
             Evaluate_Alternative(ref_file, test_file, verbose, ignore_wall, sequential, random, filter_sentences,
@@ -145,6 +149,15 @@ def main(argv):
         else:
             compare_ull_files(test_file, ref_file, options, **params)
 
+    except FileNotFoundError as err:
+        logger.critical(str(err))
+        return 1
+
+    except ValueError as err:
+        logger.critical(str(err))
+        print(main.__doc__)
+        return 1
+
     except EvalError as err:
         logger.critical(str(err))
         logger.debug(traceback.print_exc())
@@ -152,7 +165,7 @@ def main(argv):
 
     except KeyboardInterrupt:
         logger.warning("Ctrl+C triggered. User abort.")
-        logger.debug(traceback.print_exc())
+        # logger.debug(traceback.print_exc())
         return 4
 
     except Exception as err:

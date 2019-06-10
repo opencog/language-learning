@@ -14,34 +14,24 @@ from ..common.cliutils import handle_path_string, strip_quotes
 from ..common.textprogress import TextProgress
 from ..common.sentencecount import get_corpus_sentence_count
 from ..common.tokencount import *
+from ..common.optconst import *
 from .textfiledashb import TextFileDashboardConf  # , HTMLFileDashboard
 
-from .lgmisc import create_grammar_dir
-from ..common.optconst import *
+from .lgmisc import create_grammar_dir, get_output_suffix
 
 from .lginprocparser import LGInprocParser
 
 
-__all__ = ['test_grammar', 'test_grammar_cfg', 'GrammarTester', 'GrammarTestError', 'GrammarTesterComponent']
+__all__ = ['test_grammar', 'GrammarTester', 'GrammarTestError']
 
 
 class GrammarTestError(Exception):
     pass
 
-
-CONF_DICT_PATH = "input_grammar"
-CONF_CORP_PATH = "input_corpus"
-CONF_DEST_PATH = "output_path"
-CONF_REFR_PATH = "ref_path"
-CONF_GRMR_PATH = "grammar_root"
-CONF_TMPL_PATH = "template_path"
-CONF_LNK_LIMIT = "linkage_limit"
-CONF_TIMEOUT = "timeout"
 CONF_MIN_WORD_CNT = "min_word_count"
 CONF_MAX_SENT_LEN = "max_sentence_len"
 CONF_STOP_TOKENS = "stop_tokens"
 CONF_WORD_CNT_PATH = "word_count_path"
-
 
 # on_corpus_file() argument list indexes
 # [dest_path, lang_path, dict_path, corpus_path, output_path, reference_path]
@@ -139,7 +129,9 @@ class GrammarTester(AbstractGrammarTestClient):
         return create_dir(args[CORP_ARG_DEST] + corp_dir_path[len(args[CORP_ARG_CORP]):])
 
     def _get_output_file_name(self, corpus_file_path: str, args: list) -> str:
-        return args[CORP_ARG_DEST] + "/" + os.path.split(corpus_file_path)[1]  # + get_output_suffix(self._options)
+        suff = get_output_suffix(self._options)
+        return args[CORP_ARG_DEST] + "/" + os.path.split(corpus_file_path)[1] \
+               + ("" if corpus_file_path.endswith(suff) else suff)
 
     def _get_ref_file_name(self, corpus_file_path: str, args: list):
         """ Return reference file path """
@@ -377,101 +369,3 @@ def test_grammar(corpus_path: str, output_path: str, dict_path: str, grammar_pat
         pq.precision_val(pq), \
         pq.recall_val(pq)
 
-
-def test_grammar_cfg(conf_path: str) -> (Decimal, Decimal, Decimal, Decimal):
-    """
-    Test grammar using configuration(s) from a JSON file
-
-    :param conf_path:   Path to a configuration file
-    :return:            (parse-ability, F1, precision, recall)
-    """
-    pm, pq = ParseMetrics(), ParseQuality()
-
-    cfgman = JsonFileConfigManager(conf_path)
-    # dboard = HTMLFileDashboard(cfgman)
-
-    dboard = TextFileDashboardConf(cfgman) if len(cfgman.get_config("", "dash-board")) else None
-
-    parser = LGInprocParser()
-
-    # Get configuration parameters
-    config = cfgman.get_config("", "grammar-tester")
-
-    # Create GrammarTester instance
-    tester = GrammarTester(handle_path_string(config[0][CONF_GRMR_PATH]),
-                           handle_path_string(config[0][CONF_TMPL_PATH]),
-                           config[0][CONF_LNK_LIMIT], parser, dboard)
-
-    # Config file may have multiple configurations for one component
-    for cfg in config:
-
-        # Run grammar test
-        pm, pq = tester.test(handle_path_string(cfg[CONF_DICT_PATH]), handle_path_string(cfg[CONF_CORP_PATH]),
-                             handle_path_string(cfg[CONF_DEST_PATH]), handle_path_string(cfg[CONF_REFR_PATH]),
-                             get_options(cfg))
-
-    # Save dashboard data to whatever source the dashboard is bounded to
-    if dboard is not None:
-        dboard.update_dashboard()
-
-    return \
-        pm.parseability(pm), \
-        pq.f1(pq), \
-        pq.precision_val(pq), \
-        pq.recall_val(pq)
-
-
-class GrammarTesterComponent(AbstractPipelineComponent):
-
-    def __init__(self, **kwargs):
-
-        # Create parser instance
-        parser = LGInprocParser(kwargs.get(CONF_LNK_LIMIT, 100), kwargs.get(CONF_TIMEOUT, 1))
-
-        # Create GrammarTester instance
-        self.tester = GrammarTester(handle_path_string(kwargs.get(CONF_GRMR_PATH, r"~/data/dict")),
-                                    handle_path_string(kwargs.get(CONF_TMPL_PATH)),
-                                    kwargs.get(CONF_LNK_LIMIT, 100), parser)
-
-    def validate_parameters(self, **kwargs) -> bool:
-        """ Validate configuration parameters """
-        grammar_root = kwargs.get(CONF_GRMR_PATH, None)
-
-        if grammar_root is not None and not os.path.isdir(grammar_root):
-            raise FileNotFoundError(f"'{CONF_GRMR_PATH}' must be an existing directory path.")
-
-        template_path = kwargs.get(CONF_TMPL_PATH, None)
-
-        if template_path is not None and not os.path.isdir(template_path):
-            raise FileNotFoundError(f"'{CONF_TMPL_PATH}' must be an existing directory path.")
-
-        return True
-
-    def run(self, **kwargs) -> dict:
-        """ Execute component code """
-        logger = logging.getLogger("GrammarTesterComponent.run")
-
-        logger.debug(f"kwargs={kwargs}")
-
-        options = get_options(kwargs)
-
-        logger.debug(f"options=0x{hex(options)}")
-
-        dict_param = kwargs.get(CONF_DICT_PATH, None)
-
-        dict_path = "en" if dict_param is None \
-            else (handle_path_string(dict_param) if not (options & BIT_EXISTING_DICT) else strip_quotes(dict_param))
-
-        ref_path = kwargs.get(CONF_REFR_PATH, None)
-
-        if ref_path:
-            ref_path = handle_path_string(ref_path)
-
-        pa, pq = self.tester.test(dict_path,
-                         handle_path_string(kwargs.pop(CONF_CORP_PATH)),
-                         handle_path_string(kwargs.pop(CONF_DEST_PATH, os.environ['PWD'])),
-                         ref_path,
-                         options, TextProgress, **kwargs)
-
-        return {"parseability": pa.parseability_str(pa), "PA": pa.parseability_str(pa), "F1": pq.f1_str(pq),
-                "recall": pq.recall_str(pq), "precision": pq.precision_str(pq), "PT": pa.parse_time_str(pa)}

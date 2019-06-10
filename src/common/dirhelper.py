@@ -12,9 +12,9 @@ def traverse_dir_tree(root: str, file_ext: str, file_arg_list: list=None, dir_ar
 
     :param root: Root directory to start traversing from.
     :param file_ext: File extension to filter out unnecessary files.
-    :param file_arg_list: List where the first element is a callback function pointer to be envoked for each file along
+    :param file_arg_list: List where the first element is a callback function pointer to be invoked for each file along
                             the way and the rest are its additional arguments.
-    :param dir_arg_list: List where the first element is a callback function pointer to be envoke for each directory
+    :param dir_arg_list: List where the first element is a callback function pointer to be invoke for each directory
                             along the way and the rest are its additional arguments.
     :param is_recursive: Boolean value that tells the function to recursively call itself for each subdirectory.
     :return:

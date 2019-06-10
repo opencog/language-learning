@@ -92,12 +92,12 @@ def main(argv):
                 options |= (BIT_NO_LWALL | BIT_NO_PERIOD)
             elif opt in ("-s", "--sequential"):
                 if random:
-                    raise getopt.GetoptError("Either '--random' or '--sequential' or none should be specified.")
+                    raise getopt.GetoptError("'--random' and '--sequential' cannot be run together.")
                 sequential = True
                 parser_type = "sequential"
             elif opt in ("-z", "--random"):
                 if sequential:
-                    raise getopt.GetoptError("Either '--random' or '--sequential' or none should be specified.")
+                    raise getopt.GetoptError("'--random' and '--sequential' cannot be run together.")
                 random = True
                 parser_type = "random"
             elif opt in ("-a", "--alternative"):

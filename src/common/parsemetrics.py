@@ -94,12 +94,13 @@ class ParseMetrics():
 
 class ParseQuality():
     def __init__(self):
-        self.total = Decimal('0.00')
-        self.missing = Decimal('0.00')
-        self.extra = Decimal('0.00')
-        self.ignored = Decimal('0.00')
+        self.total = Decimal('0.00')        # total number of links across all sentences
+        self.missing = Decimal('0.00')      # number of missing links across all sentences
+        self.extra = Decimal('0.00')        # number of extra links across all sentences
+        self.ignored = Decimal('0.00')      # number of ignored links across all sentences
         self.quality = Decimal('0.00')
-        self.sentences = Decimal('0.00')
+        self.sentences = Decimal('0.00')    # number of sentences taken into account for F1 calculation
+        self.skipped_sentences = int(0)
 
         self.recall = Decimal("0.00")
         self.precision = Decimal("0.00")
@@ -120,11 +121,11 @@ class ParseQuality():
 
     @staticmethod
     def recall_str(stat) -> str:
-        return "{0:6.2f}%".format(stat.recall_val(stat) * Decimal("100.0"))
+        return "{0:6.4f}".format(stat.recall_val(stat))
 
     @staticmethod
     def precision_str(stat) -> str:
-        return "{0:6.2f}%".format(stat.precision_val(stat) * Decimal("100.0"))
+        return "{0:6.4f}".format(stat.precision_val(stat))
 
     @staticmethod
     def f1(stat) -> Decimal:
@@ -186,7 +187,8 @@ class ParseQuality():
                 "Recall:\t\t{}\n" \
                 "Precision:\t{}\n" \
                 "F1:\t\t{}\n\n" \
-                "Total sentences: {:2.2f}\n".format(
+                "Total sentences:\t{:2.2f}\n" \
+                "Skipped sentences:\t{:2.2f}\n".format(
                                                         stat.parse_quality_str(stat),
                                                         stat.avg_total_links(stat),
                                                         stat.avg_ignored_links(stat),
@@ -195,7 +197,8 @@ class ParseQuality():
                                                         stat.recall_str(stat),
                                                         stat.precision_str(stat),
                                                         stat.f1_str(stat),
-                                                        stat.sentences)
+                                                        stat.sentences,
+                                                        stat.skipped_sentences)
 
     def __eq__(self, other):
         return  self.quality == other.quality and \
@@ -205,7 +208,8 @@ class ParseQuality():
                 self.extra == other.extra and \
                 self.recall == other.recall and \
                 self.precision == other.precision and \
-                self.sentences == other.sentences
+                self.sentences == other.sentences and \
+                self.skipped_sentences == other.skipped_sentences
 
     def __iadd__(self, other):
         self.total += other.total
@@ -214,6 +218,7 @@ class ParseQuality():
         self.ignored += other.ignored
         self.quality += other.quality
         self.sentences += other.sentences
+        self.skipped_sentences += other.skipped_sentences
 
         self.recall += other.recall
         self.precision += other.precision

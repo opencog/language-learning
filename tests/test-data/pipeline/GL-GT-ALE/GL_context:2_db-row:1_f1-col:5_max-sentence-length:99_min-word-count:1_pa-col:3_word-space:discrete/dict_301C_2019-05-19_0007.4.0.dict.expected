@@ -1,0 +1,1211 @@
+% Grammar Learner v.0.7 2019-05-19 06:20:09 UTC
+<dictionary-version-number>: V0v0v7+;
+<dictionary-locale>: EN4us+;
+
+% AB
+"'ll":
+(EVAB- & ABBB+) or (EVAB- & ABEE+) or (EVAB- & ABGE+) or (EVAB- & ABKU+) or (MKAB- & ABCR+) or (MKAB- & ABDU+) or (MKAB- & ABEE+) or (MKAB- & ABEJ+) or (MKAB- & ABGD+) or (MKAB- & ABJM+) or (MYAB- & ABJM+) or (MYAB- & ABJW+);
+
+% AC
+"'re":
+(LEAC- & ACBQ+) or (LEAC- & ACDG+) or (LEAC- & ACDW+) or (LEAC- & ACEO+) or (LEAC- & ACJG+) or (MKAC- & ACDA+) or (MKAC- & ACEL+) or (MKAC- & ACEN+) or (MKAC- & ACKF+) or (MKAC- & MOAC- & ACDA+) or (MYAC- & ACBQ+ & ACLO+) or (MYAC- & ACCW+) or (MYAC- & ACDA+) or (MYAC- & ACEF+) or (MYAC- & ACEL+) or (MYAC- & ACEN+) or (MYAC- & ACGJ+) or (MYAC- & ACGT+) or (MYAC- & ACHH+ & ACEO+) or (MYAC- & ACHN+) or (MYAC- & ACJG+) or (MYAC- & ACJQ+);
+
+% AD
+"'s":
+(AKAD- & ADED+) or (ASAD- & ADBZ+) or (ASAD- & ADDL+) or (ASAD- & ADEQ+) or (BHAD- & ADJZ+) or (BHAD- & ADLY+) or (BMAD- & ADDL+) or (CEAD- & ADDM+) or (CEAD- & ADHO+) or (CEAD- & ADKZ+) or (CEAD- & ADLH+) or (CEAD- & AMAD- & ADKZ+) or (CLAD- & ADHG+) or (CNAD- & ADDP+) or (CNAD- & ADEY+) or (CNAD- & ADHH+ & ADEY+) or (CNAD- & ADJZ+) or (CNAD- & AQAD-) or (CUAD- & ADDO+) or (CUAD- & ADDP+) or (CUAD- & ADFH+) or (CUAD- & ADKG+) or (CVAD- & ADDH+) or (CVAD- & ADDO+) or (CVAD- & ADEQ+) or (CVAD- & ADFH+) or (CVAD- & ADFL+) or (CVAD- & ADHB+) or (CVAD- & ADHG+) or (CVAD- & ADHN+) or (CXAD- & ADKA+) or (CYAD- & ADEQ+) or (CYAD- & ADHB+) or (CYAD- & ADKA+) or (DBAD- & ADHT+) or (DDAD- & ADDO+) or (DDAD- & ADEQ+) or (DDAD- & ADGY+) or (DDAD- & ADLQ+) or (EAAD- & ADBE+) or (EVAD- & ADAR+) or (EVAD- & ADBH+) or (EVAD- & ADBU+) or (EVAD- & ADDD+) or (EVAD- & ADDL+) or (EVAD- & ADEF+) or (EVAD- & ADEM+) or (EVAD- & ADEN+) or (EVAD- & ADEP+) or (EVAD- & ADFL+) or (EVAD- & ADGE+) or (EVAD- & ADGX+) or (EVAD- & ADHD+) or (EVAD- & ADHH+ & ADEL+) or (EVAD- & ADHH+ & ADKG+) or (EVAD- & ADHM+) or (EVAD- & ADHN+) or (EVAD- & ADJD+) or (EVAD- & ADJJ+) or (EVAD- & ADKG+) or (EVAD- & ADKK+) or (EVAD- & ADKV+) or (EVAD- & BNAD- & ADFL+) or (EVAD- & JWAD- & ADGJ+) or (EYAD- & ADAP+) or (EYAD- & ADBC+) or (EYAD- & ADBE+) or (EYAD- & ADBG+) or (EYAD- & ADBH+) or (EYAD- & ADBK+) or (EYAD- & ADBX+) or (EYAD- & ADCV+) or (EYAD- & ADCX+) or (EYAD- & ADDB+) or (EYAD- & ADDX+) or (EYAD- & ADED+) or (EYAD- & ADFG+) or (EYAD- & ADFU+) or (EYAD- & ADGV+) or (EYAD- & ADHG+) or (EYAD- & ADHO+) or (EYAD- & ADJJ+) or (EYAD- & ADJR+) or (EYAD- & ADKJ+) or (EYAD- & ADKM+) or (EYAD- & ADKW+) or (EYAD- & ADNB+) or (FJAD- & ADKZ+) or (FOAD- & ADAK+ & ADMJ+) or (FOAD- & ADAP+) or (FOAD- & ADAS+) or (FOAD- & ADAV+) or (FOAD- & ADBA+) or (FOAD- & ADBE+) or (FOAD- & ADBH+) or (FOAD- & ADBK+) or (FOAD- & ADBM+) or (FOAD- & ADBO+) or (FOAD- & ADBT+) or (FOAD- & ADBY+) or (FOAD- & ADBZ+) or (FOAD- & ADCA+) or (FOAD- & ADCD+) or (FOAD- & ADCL+) or (FOAD- & ADCM+) or (FOAD- & ADCN+) or (FOAD- & ADCU+) or (FOAD- & ADCV+) or (FOAD- & ADCV+ & ADFL+) or (FOAD- & ADDB+) or (FOAD- & ADDD+) or (FOAD- & ADDF+) or (FOAD- & ADDY+) or (FOAD- & ADDZ+) or (FOAD- & ADEB+) or (FOAD- & ADEM+) or (FOAD- & ADEO+) or (FOAD- & ADFF+) or (FOAD- & ADFH+) or (FOAD- & ADFL+) or (FOAD- & ADFP+) or (FOAD- & ADFU+) or (FOAD- & ADGC+) or (FOAD- & ADGR+) or (FOAD- & ADGX+) or (FOAD- & ADHG+) or (FOAD- & ADHH+ & ADCL+) or (FOAD- & ADHH+ & ADFU+) or (FOAD- & ADHH+ & ADKG+) or (FOAD- & ADHH+ & ADLU+) or (FOAD- & ADHM+) or (FOAD- & ADHN+) or (FOAD- & ADHO+) or (FOAD- & ADHT+) or (FOAD- & ADHY+) or (FOAD- & ADJB+) or (FOAD- & ADJG+) or (FOAD- & ADJJ+) or (FOAD- & ADJQ+) or (FOAD- & ADJR+) or (FOAD- & ADLO+ & ADBK+) or (FOAD- & ADLO+ & ADCF+) or (FOAD- & ADLO+ & ADDR+) or (FOAD- & ADLW+) or (FOAD- & ADLY+ & ADLR+) or (FOAD- & ADLZ+) or (FOAD- & ADMJ+) or (FOAD- & ADMP+) or (FOAD- & LGAD- & ADED+) or (FOAD- & LGAD- & ADFU+) or (FRAD- & ADJO+) or (FUAD- & ADDP+) or (FUAD- & ADHG+) or (GSAD- & ADBK+) or (GSAD- & ADDP+) or (GSAD- & ADEN+) or (GSAD- & ADEQ+) or (GSAD- & ADEY+) or (GSAD- & ADJR+) or (GSAD- & ADJZ+) or (GSAD- & ADKA+) or (GSAD- & ADKF+) or (GSAD- & ADLQ+) or (GSAD- & LKAD-) or (GTAD- & ADEQ+) or (HOAD- & ADAH+) or (HOAD- & ADKG+) or (HOAD- & ADKZ+) or (HOAD- & ADMB+) or (HYAD- & ADDZ+) or (JKAD- & ADFH+) or (JYAD- & ADEM+) or (JYAD- & ADEP+) or (JYAD- & ADHE+) or (JYAD- & ADKA+) or (JYAD- & ADKF+) or (KQAD- & LGAD- & ADEM+) or (KZAD- & ADAK+) or (KZAD- & ADAM+) or (KZAD- & ADAS+) or (KZAD- & ADAT+) or (KZAD- & ADAV+) or (KZAD- & ADBA+) or (KZAD- & ADBC+) or (KZAD- & ADBE+) or (KZAD- & ADBH+) or (KZAD- & ADBK+) or (KZAD- & ADBM+) or (KZAD- & ADBY+) or (KZAD- & ADBZ+) or (KZAD- & ADCL+) or (KZAD- & ADCM+) or (KZAD- & ADCU+) or (KZAD- & ADCU+ & ADLR+) or (KZAD- & ADCX+) or (KZAD- & ADCY+) or (KZAD- & ADDB+) or (KZAD- & ADDF+) or (KZAD- & ADDM+) or (KZAD- & ADDP+) or (KZAD- & ADED+) or (KZAD- & ADEG+) or (KZAD- & ADEO+) or (KZAD- & ADEQ+) or (KZAD- & ADER+) or (KZAD- & ADFD+) or (KZAD- & ADFG+) or (KZAD- & ADFH+) or (KZAD- & ADFP+) or (KZAD- & ADFU+) or (KZAD- & ADGC+) or (KZAD- & ADGE+) or (KZAD- & ADGE+ & ADAR+) or (KZAD- & ADGT+) or (KZAD- & ADGX+) or (KZAD- & ADGY+) or (KZAD- & ADHD+) or (KZAD- & ADHH+ & ADAS+) or (KZAD- & ADHH+ & ADBY+) or (KZAD- & ADHH+ & ADCN+) or (KZAD- & ADHH+ & ADCU+) or (KZAD- & ADHH+ & ADFG+) or (KZAD- & ADHH+ & ADFU+) or (KZAD- & ADHH+ & ADGT+) or (KZAD- & ADHH+ & ADGU+) or (KZAD- & ADHH+ & ADLU+) or (KZAD- & ADHM+) or (KZAD- & ADHO+) or (KZAD- & ADHW+) or (KZAD- & ADHY+) or (KZAD- & ADJG+) or (KZAD- & ADJN+) or (KZAD- & ADJN+ & ADLR+) or (KZAD- & ADJQ+) or (KZAD- & ADJR+) or (KZAD- & ADJZ+) or (KZAD- & ADKJ+) or (KZAD- & ADKN+) or (KZAD- & ADKQ+) or (KZAD- & ADKW+) or (KZAD- & ADLB+) or (KZAD- & ADLO+) or (KZAD- & ADLT+) or (KZAD- & ADLZ+) or (KZAD- & ADMJ+) or (KZAD- & ADMN+) or (KZAD- & ADMP+) or (KZAD- & ADNB+) or (KZAD- & AMAD- & ADAK+) or (KZAD- & AMAD- & ADBH+) or (KZAD- & AMAD- & ADDA+) or (KZAD- & AMAD- & ADER+) or (KZAD- & AMAD- & ADJN+) or (LCAD- & ADAJ+) or (LCAD- & ADAM+) or (LCAD- & ADAS+) or (LCAD- & ADBC+) or (LCAD- & ADBE+) or (LCAD- & ADBH+) or (LCAD- & ADBM+) or (LCAD- & ADBM+ & ADFL+) or (LCAD- & ADBY+) or (LCAD- & ADCN+) or (LCAD- & ADCU+) or (LCAD- & ADCU+ & ADHN+) or (LCAD- & ADCV+) or (LCAD- & ADCV+ & ADEY+) or (LCAD- & ADCX+) or (LCAD- & ADDF+) or (LCAD- & ADGL+ & ADEY+) or (LCAD- & ADGL+ & ADEY+ & ADLO+) or (LCAD- & ADGL+ & ADLC+) or (LCAD- & ADGV+) or (LCAD- & ADHB+) or (LCAD- & ADHH+ & ADHU+ & ADLC+) or (LCAD- & ADHO+) or (LCAD- & ADHO+ & ADMU+) or (LCAD- & ADHW+) or (LCAD- & ADJN+) or (LCAD- & ADKM+ & ADFL+) or (LCAD- & ADKN+) or (LCAD- & ADKW+) or (LCAD- & ADLQ+) or (LCAD- & ADLW+) or (LCAD- & ADLZ+) or (LCAD- & AMAD- & ADAO+) or (LCAD- & AMAD- & ADBC+) or (LCAD- & AMAD- & ADBH+ & ADMU+) or (LCAD- & AMAD- & ADDB+) or (LQAD- & ADHS+) or (LZAD- & ADAT+) or (MNAD- & ADAJ+) or (MNAD- & ADAN+) or (MNAD- & ADAT+) or (MNAD- & ADBE+) or (MNAD- & ADBE+ & ADAH+) or (MNAD- & ADCA+) or (MNAD- & ADCE+) or (MNAD- & ADCV+) or (MNAD- & ADCW+) or (MNAD- & ADDF+) or (MNAD- & ADEC+) or (MNAD- & ADED+) or (MNAD- & ADEM+) or (MNAD- & ADEY+) or (MNAD- & ADFL+) or (MNAD- & ADFM+) or (MNAD- & ADFZ+) or (MNAD- & ADGC+) or (MNAD- & ADHB+) or (MNAD- & ADHN+) or (MNAD- & ADHO+) or (MNAD- & ADHT+) or (MNAD- & ADJQ+) or (MNAD- & ADJU+) or (MNAD- & ADKZ+) or (MNAD- & ADKZ+ & ADBC+) or (MNAD- & ADKZ+ & ADFL+) or (MNAD- & ADLC+) or (MNAD- & ADLH+) or (MNAD- & AMAD- & ADCW+) or (MNAD- & AMAD- & ADCW+ & ADLC+) or (MNAD- & AMAD- & ADFL+ & ADLC+) or (MNAD- & AMAD- & ADGC+) or (MNAD- & AMAD- & ADHN+) or (MNAD- & AMAD- & ADJQ+) or (MNAD- & AMAD- & ADKZ+) or (MNAD- & AMAD- & ADLH+) or (MPAD- & ADAP+) or (MPAD- & ADAS+) or (MPAD- & ADAU+) or (MPAD- & ADAV+) or (MPAD- & ADBH+) or (MPAD- & ADBK+) or (MPAD- & ADBM+) or (MPAD- & ADBO+) or (MPAD- & ADBY+) or (MPAD- & ADCB+) or (MPAD- & ADCN+) or (MPAD- & ADCU+) or (MPAD- & ADCV+) or (MPAD- & ADCY+) or (MPAD- & ADDF+) or (MPAD- & ADDH+) or (MPAD- & ADDP+) or (MPAD- & ADED+) or (MPAD- & ADEG+) or (MPAD- & ADFP+) or (MPAD- & ADFU+) or (MPAD- & ADFZ+) or (MPAD- & ADGS+) or (MPAD- & ADGY+) or (MPAD- & ADHG+) or (MPAD- & ADHW+) or (MPAD- & ADHX+) or (MPAD- & ADJF+) or (MPAD- & ADJK+) or (MPAD- & ADJN+) or (MPAD- & ADJR+) or (MPAD- & ADJZ+) or (MPAD- & ADLH+) or (MPAD- & ADLQ+) or (MPAD- & ADLZ+) or (MPAD- & BNAD- & ADKN+) or (MRAD- & ADBH+) or (MRAD- & ADEN+) or (MRAD- & ADFL+) or (MRAD- & ADFM+) or (MRAD- & ADHN+) or (MRAD- & ADJN+) or (MRAD- & ADKF+) or (MRAD- & ADKU+) or (MRAD- & ADKV+) or (MRAD- & ADKZ+) or (MRAD- & ADKZ+ & ADFL+) or (MRAD- & ADKZ+ & ADHN+) or (MRAD- & ADLC+) or (MRAD- & ADLH+) or (MRAD- & ADLH+ & ADFL+) or (MRAD- & AMAD- & ADKZ+) or (MRAD- & AMAD- & ADLH+);
+
+% AE
+"'ve":
+(MYAE- & AEEP+);
+
+% AF
+"a":
+(AFAS+) or (AFAU+) or (AFAV+) or (AFAZ+ & AFBB+) or (AFAZ+ & AFJN+) or (AFAZ+ & AFLQ+) or (AFBA+) or (AFBB+) or (AFBC+) or (AFBE+) or (AFBG+) or (AFBH+) or (AFBK+) or (AFBM+) or (AFBO+) or (AFBR+) or (AFBS+) or (AFBX+) or (AFBY+) or (AFBZ+) or (AFCA+) or (AFCF+) or (AFCL+) or (AFCM+) or (AFCN+) or (AFCU+) or (AFCV+) or (AFCX+) or (AFCY+) or (AFDB+) or (AFDD+) or (AFDF+) or (AFDY+) or (AFEB+ & AFBE+) or (AFEC+ & AFCL+) or (AFEC+ & AFCU+) or (AFEC+ & AFHY+) or (AFEG+) or (AFEO+ & AFBE+) or (AFEO+ & AFCV+) or (AFEO+ & AFEG+) or (AFEO+ & AFLT+) or (AFEO+ & AFMJ+) or (AFEQ+) or (AFER+) or (AFFD+) or (AFFG+) or (AFFH+) or (AFFT+) or (AFFU+) or (AFGC+) or (AFGG+ & AFAS+) or (AFGG+ & AFBE+) or (AFGG+ & AFBH+) or (AFGG+ & AFCY+) or (AFGG+ & AFDB+) or (AFGG+ & AFFH+) or (AFGG+ & AFFT+) or (AFGG+ & AFJF+) or (AFGG+ & AFLT+) or (AFGL+) or (AFGR+) or (AFGT+) or (AFGX+) or (AFHB+) or (AFHD+ & AFBE+) or (AFHD+ & AFCV+) or (AFHD+ & AFEG+) or (AFHD+ & AFFH+) or (AFHD+ & AFFT+) or (AFHD+ & AFHO+) or (AFHD+ & AFHY+) or (AFHD+ & AFKS+) or (AFHU+) or (AFHY+) or (AFJB+) or (AFJG+ & AFCU+) or (AFJH+) or (AFJJ+) or (AFJK+) or (AFJN+) or (AFJR+) or (AFJV+ & AFDP+) or (AFKJ+) or (AFKN+) or (AFKQ+) or (AFKS+) or (AFKW+) or (AFLT+) or (AFLU+) or (AFLW+) or (AFLZ+) or (AFMD+) or (AFNB+);
+
+% AG
+"a@l":
+(AGFN+) or (ALAG- & EUAG- & AGLC+ & AGFO+ & AGFN+) or (ALAG- & FNAG-);
+
+% AH
+"about":
+(ADAH-) or (ADAH- & AHDX+) or (FNAH-) or (FXAH-) or (JWAH- & AHBM+) or (KXAH- & AHBE+) or (KXAH- & AHFO+) or (MHAH- & AHLO+ & AHEJ+);
+
+% AJ
+"alice":
+(ADAJ-) or (AJGS+) or (AJMN+) or (EHAJ-) or (JTAJ-) or (KWAJ- & LAAJ- & HNAJ-) or (KZAJ- & ADAJ-) or (KZAJ- & ARAJ-) or (LHAJ- & ADAJ-);
+
+% AK
+"all":
+(ADAK-) or (AKDA+) or (AKDG+) or (AKDQ+) or (AKDT+) or (AKEM+) or (AKHK+ & AKLB+) or (AKHT+) or (AKJQ+) or (AKJQ+ & AKAD+) or (AKLA+) or (AKLA+ & AKGQ+) or (AKLD+ & AKLF+) or (ARAK-) or (ARAK- & AKLD+ & AKLF+) or (EHAK- & AKLA+ & AKGQ+) or (FNAK- & AKJQ+) or (FNAK- & AKLC+ & AKAQ+) or (FNAK- & AKMY+ & AKJT+) or (FXAK- & AKLD+ & AKLF+) or (JMAK- & AKLA+ & AKBD+) or (JWAK- & AKLA+ & AKAW+) or (LBAK- & ARAK-) or (LBAK- & CPAK-) or (LBAK- & EPAK-) or (LBAK- & MFAK-);
+
+% AL
+"an":
+(ALAG+) or (ALAP+) or (ALDM+);
+
+% AM
+"and":
+(AMAM- & ADAM- & AMBH+) or (AMAS+ & AMFN+) or (AMEV+ & AMEK+) or (AMEV+ & AMET+) or (AMFP+ & AMGK+) or (AMKK+) or (AMKZ+ & AMAD+) or (AMLC+ & AMAD+) or (AMLH+ & AMFN+) or (AMLJ+ & AMAQ+) or (AMMK+ & AMEJ+) or (AMMN+ & AMAD+) or (AMMN+ & AMAQ+) or (AMMN+ & AMCR+) or (AMMN+ & AMCW+) or (AMMN+ & AMDP+) or (AMMN+ & AMFN+) or (AMMN+ & AMJM+) or (AMMR+ & AMAD+) or (AMMR+ & AMAQ+) or (AMMY+ & AMCC+) or (AMMY+ & AMCR+) or (AMMY+ & AMJW+) or (AMMY+ & AMKT+) or (AMMY+ & AMMA+) or (BAAM- & MXAM- & AMLZ+) or (BHAM- & AMEG+) or (BHAM- & JWAM- & AMEG+) or (BJAM- & BVAM- & AMGA+) or (BKAM- & AMCF+) or (CFAM- & AMBK+) or (DKAM- & AMEJ+) or (EEAM- & AMJW+) or (EEAM- & CJAM- & AMEH+) or (EEAM- & GBAM- & AMEE+) or (EEAM- & LOAM- & GEAM- & AMJC+) or (EEAM- & MYAM- & AMJC+) or (EGAM- & AMEG+ & AMAM+) or (GHAM- & BVAM- & AMKX+) or (HPAM- & BVAM- & AMGA+) or (HPAM- & CZAM- & AMJW+) or (HWAM- & ADAM- & AMFP+) or (HWAM- & AMFP+) or (HWAM- & AMFP+ & AMJC+) or (HWAM- & AMFP+ & AMJT+) or (HWAM- & AMFP+ & AMLE+ & AMCR+ & AMGM+) or (HWAM- & AQAM- & AMFP+) or (HWAM- & ETAM- & AMFP+) or (HWAM- & JPAM- & AMFP+) or (HWAM- & LOAM- & AMFP+) or (KZAM- & KTAM- & AMCU+) or (LXAM- & AMEE+) or (MYAM- & MFAM- & AMCN+);
+
+% AN
+"animal":
+(AZAN- & KZAN- & ADAN-) or (AZAN- & LHAN- & ADAN-) or (AZAN- & LHAN- & ARAN-) or (GGAN- & KZAN- & ADAN-) or (HKAN-) or (LHAN- & ADAN-) or (LHAN- & MNAN- & ANFN+);
+
+% AO
+"another":
+(ADAO-) or (AOBC+) or (AOBE+) or (AOBY+) or (AOBZ+) or (AOCM+) or (AODF+) or (AOHO+) or (AOLT+) or (AOLU+);
+
+% AP
+"apple":
+(ALAP- & ADAP-) or (ALAP- & DLAP-) or (ALAP- & FNAP-) or (DZAP-) or (HAAP- & ADAP-) or (LAAP- & ARAP-);
+
+% AQ
+"are":
+(AQBD+ & AQFL+) or (AQBF+) or (AQLC+ & AQKL+) or (AQLD+ & AQDJ+) or (AQLJ+) or (AQMY+ & AQBQ+) or (AQMY+ & AQEA+) or (AQMY+ & AQEG+) or (AQMY+ & AQEL+) or (AQMY+ & AQEN+) or (AQMY+ & AQHH+ & AQLO+ & AQKU+) or (AQMY+ & AQJD+) or (AQMY+ & AQKF+) or (AQMY+ & AQKV+) or (CEAQ- & AQKA+) or (DOAQ- & AQCD+) or (EYAQ- & AQAM+) or (EYAQ- & AQGM+) or (FJAQ- & AQMY+) or (FJAQ- & AQMY+ & AQLP+) or (GOAQ- & AQLC+) or (LCAQ- & AKAQ-) or (LCAQ- & AQAW+) or (LCAQ- & AQGO+) or (LCAQ- & AQLV+) or (LDAQ- & AQAD+) or (LDAQ- & AQBD+) or (LDAQ- & AQKA+) or (LEAQ- & LCAQ-) or (LFAQ- & MNAQ-) or (LJAQ- & AMAQ-) or (LJAQ- & AMAQ- & AQDG+) or (LJAQ- & AQBD+) or (LJAQ- & AQDG+) or (LJAQ- & AQDJ+) or (LJAQ- & AQDW+) or (LJAQ- & AQDZ+) or (LJAQ- & AQJG+) or (LJAQ- & AQKA+) or (LVAQ- & AQEM+) or (MKAQ- & LCAQ-) or (MNAQ- & AMAQ- & AQLD+) or (MNAQ- & AMAQ- & AQLJ+) or (MNAQ- & AQKA+) or (MNAQ- & AQLD+) or (MNAQ- & AQLE+ & AQCW+) or (MNAQ- & AQLE+ & AQJU+) or (MNAQ- & AQLF+) or (MNAQ- & AQLJ+) or (MNAQ- & AQMY+ & AQCW+) or (MNAQ- & AQMY+ & AQEL+) or (MNAQ- & AQMY+ & AQEN+) or (MNAQ- & AQMY+ & AQGJ+) or (MPAQ- & AQBD+) or (MPAQ- & AQDO+) or (MPAQ- & AQDW+) or (MPAQ- & AQKA+) or (MPAQ- & AQMY+ & AQEL+) or (MPAQ- & AQMY+ & AQEN+) or (MRAQ- & AMAQ- & AQMY+) or (MRAQ- & AQMY+ & AQBU+) or (MRAQ- & AQMY+ & AQEL+) or (MRAQ- & AQMY+ & AQEN+) or (MRAQ- & AQMY+ & AQKV+) or (MYAQ- & AQGZ+) or (MYAQ- & EOAQ-) or (MYAQ- & EYAQ-) or (MYAQ- & LCAQ-) or (MYAQ- & LCAQ- & AQFR+);
+
+% AR
+"at":
+(ADAR- & ARFE+) or (ADAR- & ARMV+) or (CRAR- & ARBE+) or (EOAR- & ARKZ+) or (EUAR- & ARFE+) or (FNAR- & ARFE+) or (GHAR- & ARAJ+) or (GHAR- & ARAK+) or (GHAR- & ARAN+) or (GHAR- & ARAP+) or (GHAR- & ARAS+) or (GHAR- & ARBA+) or (GHAR- & ARBD+) or (GHAR- & ARBE+) or (GHAR- & ARBF+) or (GHAR- & ARBM+) or (GHAR- & ARBY+) or (GHAR- & ARCO+) or (GHAR- & ARCV+) or (GHAR- & ARCY+) or (GHAR- & ARDJ+) or (GHAR- & ARDO+) or (GHAR- & ARDP+) or (GHAR- & AREG+) or (GHAR- & ARFD+) or (GHAR- & ARFO+) or (GHAR- & ARFU+) or (GHAR- & ARGV+) or (GHAR- & ARHO+) or (GHAR- & ARHU+) or (GHAR- & ARKA+) or (GHAR- & ARKM+) or (GHAR- & ARKZ+) or (GHAR- & ARLH+) or (GHAR- & ARLQ+) or (GHAR- & ARMN+) or (GHAR- & BEAR-) or (GJAR- & ARDW+) or (KUAR- & ARAK+);
+
+% AS
+"baby":
+(AFAS- & ADAS-) or (AFAS- & FNAS-) or (ASCW+) or (GGAS- & AFAS- & ADAS-) or (LAAS- & ADAS-) or (LAAS- & AMAS- & ASFN+) or (LAAS- & ARAS-) or (LAAS- & ASAD+) or (LAAS- & EHAS-) or (LAAS- & FNAS-) or (LAAS- & HJAS- & ASAD+) or (LAAS- & KHAS-) or (MFAS-) or (MZAS- & ASAD+) or (MZAS- & MFAS-);
+
+% AT
+"back":
+(ADAT-) or (ADAT- & HNAT-) or (ATLO+) or (CGAT- & ATHT+) or (EEAT-) or (EJAT-) or (EJAT- & ATFL+) or (EJAT- & ATHS+ & ATHM+) or (EJAT- & ATLO+) or (FBAT- & ADAT-) or (FBAT- & HNAT-) or (HMAT- & ATLO+) or (JMAT-) or (KZAT- & MFAT-) or (LAAT- & FLAT-) or (LAAT- & JMAT-) or (LAAT- & JWAT- & ATHK+) or (MFAT-) or (NAAT-);
+
+% AU
+"ball":
+(AFAU- & EUAU-) or (AFAU- & FLAU-) or (AFAU- & FNAU-) or (FNAU- & CEAU-) or (LAAU- & ADAU-) or (LAAU- & MFAU-);
+
+% AV
+"balloon":
+(AFAV- & ADAV-) or (LAAV- & ADAV-);
+
+% AW
+"balloons":
+(GEAW-) or (HKAW-) or (JGAW- & LAAW- & AKAW-) or (LAAW- & AQAW-);
+
+% AX
+"be":
+(BVAX- & AXDD+) or (LOAX- & MFAX- & AXDD+) or (MEAX- & AXEA+) or (MTAX- & AXEA+) or (MTAX- & AXHD+) or (MWAX- & AXEO+) or (MYAX- & AXJG+);
+
+% AY
+"because":
+(AYEV+) or (AYLE+) or (DTAY- & AYMY+ & AYFW+);
+
+% AZ
+"big":
+(AFAZ- & AZBB+) or (AFAZ- & AZJN+) or (AFAZ- & AZLQ+) or (AZAN+) or (JGAZ- & AZCU+);
+
+% BA
+"bird":
+(AFBA- & ADBA-) or (AFBA- & BAAM+) or (KZBA- & ARBA-) or (LABA- & BACS+);
+
+% BB
+"bite":
+(ABBB- & LGBB- & BBGS+) or (AFBB- & EHBB-) or (AFBB- & KTBB-) or (AZBB- & AFBB- & KTBB-) or (BBBB+) or (BBBB- & BBBB- & BBBB-) or (ENBB- & BBMY+) or (GNBB-) or (GNBB- & BBGS+) or (LOBB- & MFBB-);
+
+% BC
+"block":
+(AFBC- & ADBC-) or (AFBC- & DZBC-) or (AFBC- & FNBC-) or (AFBC- & GEBC-) or (AOBC- & ADBC-) or (LABC- & ADBC-) or (LABC- & CPBC-) or (LABC- & EHBC-) or (LABC- & JMBC-);
+
+% BD
+"blocks":
+(AQBD-) or (BDCO+) or (BDED+) or (EUBD-) or (GOBD- & BDCR+ & BDEU+) or (GVBD- & MUBD-) or (HRBD- & MFBD-) or (JQBD- & BDFO+ & BDFN+) or (LABD- & AKBD-) or (LABD- & AQBD-) or (LABD- & ARBD-) or (LABD- & BDDT+) or (LABD- & EEBD-) or (LABD- & GEBD-) or (LABD- & LOBD-) or (LABD- & MFBD-) or (LABD- & MUBD-) or (LCBD- & AQBD-) or (LJBD- & EEBD-) or (MUBD-) or (MZBD- & MFBD-);
+
+% BE
+"book":
+(ADBE- & GEBE-) or (AFBE- & ADBE-) or (AFBE- & FNBE-) or (AFBE- & JOBE-) or (AOBE- & ADBE-) or (AOBE- & JOBE-) or (BMBE- & AFBE- & ARBE-) or (BMBE- & LABE- & HVBE-) or (DDBE- & LABE- & JPBE- & BEMK+ & BEEU+) or (EBBE- & AFBE- & MNBE-) or (EBBE- & LHBE- & ARBE-) or (EOBE- & AFBE- & ADBE-) or (EOBE- & AFBE- & FNBE-) or (EXBE- & JOBE-) or (GGBE- & AFBE-) or (HDBE- & AFBE- & ADBE-) or (HDBE- & AFBE- & GEBE-) or (HRBE- & FNBE-) or (KZBE- & ADBE-) or (KZBE- & EUBE-) or (KZBE- & GEBE-) or (KZBE- & HKBE-) or (LABE- & AHBE-) or (LABE- & ARBE-) or (LABE- & FLBE-) or (LABE- & FYBE-) or (LABE- & JOBE-) or (LABE- & JWBE-) or (LABE- & MFBE-) or (LHBE- & ADBE-) or (LHBE- & ARBE-) or (LHBE- & FLBE-) or (LHBE- & HKBE-) or (LHBE- & JOBE-) or (LHBE- & JWBE-) or (LHBE- & LKBE-) or (LHBE- & MFBE-) or (LHBE- & MNBE- & BEFN+) or (MNBE- & BEMW+ & BEAR+) or (MQBE- & BEFN+) or (MZBE- & GEBE-) or (MZBE- & JOBE-);
+
+% BF
+"books":
+(GEBF-) or (HKBF-) or (KLBF- & DUBF-) or (LABF- & ARBF-) or (LCBF- & AQBF- & BFFL+);
+
+% BG
+"box":
+(AFBG- & FLBG-) or (KZBG- & GEBG-) or (LABG- & ADBG-) or (LABG- & CCBG-) or (LABG- & FLBG-) or (LABG- & JWBG-);
+
+% BH
+"boy":
+(AFBH- & ADBH-) or (AFBH- & AMBH-) or (AFBH- & BHAM+) or (AFBH- & FNBH-) or (AFBH- & HQBH-) or (AFBH- & JWBH-) or (BHCW+) or (GGBH- & AFBH-) or (GGBH- & HOBH- & ADBH-) or (GGBH- & LABH- & JWBH-) or (GGBH- & LHBH- & MUBH-) or (HOBH- & EUBH-) or (KZBH- & FNBH- & BHDL+) or (LABH- & ADBH-) or (LABH- & BHAD+) or (LABH- & BHAM+) or (LABH- & BVBH-) or (LABH- & CSBH-) or (LABH- & FNBH-) or (LABH- & FNBH- & BHEN+) or (LABH- & GABH-) or (LABH- & GNBH-) or (LABH- & HKBH-) or (LABH- & JWBH-) or (LABH- & KBBH-);
+
+% BJ
+"bring":
+(BJFA+ & BJHT+) or (BJJZ+ & BJHT+ & BJLO+) or (BJKZ+ & BJHT+ & BJAM+) or (BVBJ- & BJKZ+ & BJLO+) or (ENBJ- & BJCV+) or (ENBJ- & BJMY+ & BJFL+) or (GBBJ- & BJLJ+ & BJHT+);
+
+% BK
+"brush":
+(ADBK- & FNBK-) or (AFBK- & ADBK-) or (AFBK- & ADBK- & BKDZ+) or (AFBK- & AMBK-) or (AFBK- & BKAM+) or (AFBK- & FNBK-) or (AFBK- & MUBK-) or (BKEQ+) or (BTBK-) or (BVBK- & BKDJ+) or (BVBK- & BKEQ+) or (CJBK- & BKEQ+) or (CJBK- & BKEQ+ & BKJE+) or (CJBK- & LGBK- & BKEQ+ & BKLR+) or (ENBK- & BKEQ+) or (EQBK- & HABK- & ADBK-) or (LABK- & BKEK+) or (LABK- & EHBK-) or (LABK- & MUBK-) or (LABK- & MXBK- & BKFN+) or (LOBK- & ADBK- & BKCU+) or (LOBK- & ADBK- & BKEQ+) or (LOBK- & MFBK- & BKFO+);
+
+% BL
+"build":
+(BVBL- & BLLT+) or (BVBL- & BLLT+ & BLMU+) or (ENBL-) or (ENBL- & BLMU+) or (LOBL- & MFBL- & BLLT+) or (MYBL- & BLFO+ & BLLN+);
+
+% BM
+"bunny":
+(AFBM- & ADBM-) or (AFBM- & FNBM-) or (BMBE+) or (BMCW+) or (LABM- & ADBM-) or (LABM- & ADBM- & BMKG+) or (LABM- & AHBM-) or (LABM- & ARBM-) or (LABM- & BMAD+) or (LABM- & DSBM-) or (LABM- & FNBM-) or (LABM- & HVBM-) or (LABM- & JHBM-) or (LABM- & LOBM-) or (LABM- & MUBM-);
+
+% BN
+"but":
+(BNEV+ & BNAD+) or (BNEV+ & BNCG+) or (BNFO+ & BNMH+) or (BNGS+ & BNMG+) or (BNMN+ & BNFN+) or (BNMP+ & BNAD+) or (BNMY+ & BNCD+);
+
+% BO
+"butterfly":
+(AFBO- & ADBO-) or (AFBO- & FNBO-) or (LABO- & ADBO-);
+
+% BP
+"button":
+(BPHY+) or (ENBP- & BPBP+) or (FBBP- & CRBP-) or (LABP- & BPBP-) or (LABP- & HNBP-) or (LABP- & MFBP-);
+
+% BQ
+"bye":
+(BQBQ+) or (BQBQ- & AQBQ-) or (BQBQ- & JTBQ-) or (BQBQ- & JUBQ- & ACBQ-) or (BQBQ- & MMBQ-) or (ELBQ- & BQBQ+) or (EOBQ- & BQCA+) or (EOBQ- & FTBQ-) or (EOBQ- & JTBQ-) or (EOBQ- & MYBQ- & KYBQ-) or (JUBQ- & ACBQ-);
+
+% BR
+"cage":
+(AFBR- & FLBR-) or (BRDB+) or (DDBR- & LABR- & HNBR-) or (FBBR- & FLBR-) or (FBBR- & FMBR-) or (HABR- & FLBR-) or (HABR- & FNBR-) or (HABR- & HKBR-) or (LABR- & FLBR-) or (LABR- & HKBR-);
+
+% BS
+"call":
+(AFBS- & EUBS-) or (BSCN+ & BSHN+) or (CZBS- & BSCN+) or (ENBS-) or (GBBS- & BSCN+ & BSHN+) or (GBBS- & BSFA+ & BSJQ+) or (GBBS- & BSHN+) or (LOBS- & ELBS- & BSHN+) or (LOBS- & GEBS- & BSFO+) or (LOBS- & GEBS- & BSHO+) or (MWBS- & MNBS- & BSCU+);
+
+% BT
+"called":
+(ADBT- & BTEQ+ & BTBK+) or (MNBT-) or (MYBT- & BTMB+ & BTCN+ & BTHN+);
+
+% BU
+"calling":
+(ADBU- & HYBU- & BUMY+) or (AQBU-) or (CNBU- & BUGP+);
+
+% BV
+"can":
+(BVBH+ & BVEE+) or (BVCA+ & BVHV+) or (BVCA+ & BVJO+) or (BVCR+) or (BVEV+ & BVEJ+) or (BVGS+ & BVEU+) or (BVGS+ & BVJM+) or (BVHX+) or (BVMK+ & BVFC+) or (BVMY+ & BVAM+) or (BVMY+ & BVAX+) or (BVMY+ & BVBJ+) or (BVMY+ & BVBK+) or (BVMY+ & BVBL+) or (BVMY+ & BVCC+) or (BVMY+ & BVCF+) or (BVMY+ & BVCK+) or (BVMY+ & BVCR+) or (BVMY+ & BVDR+) or (BVMY+ & BVDS+) or (BVMY+ & BVDU+) or (BVMY+ & BVEE+) or (BVMY+ & BVEH+) or (BVMY+ & BVES+) or (BVMY+ & BVFV+) or (BVMY+ & BVGN+) or (BVMY+ & BVHP+) or (BVMY+ & BVHV+) or (BVMY+ & BVJC+) or (BVMY+ & BVJH+) or (BVMY+ & BVJM+) or (BVMY+ & BVJO+) or (BVMY+ & BVJT+) or (BVMY+ & BVJW+) or (BVMY+ & BVKD+) or (BVMY+ & BVKE+) or (BVMY+ & BVKH+) or (BVMY+ & BVKJ+) or (BVMY+ & BVKO+) or (BVMY+ & BVKR+) or (BVMY+ & BVKT+) or (BVMY+ & BVKU+) or (BVMY+ & BVKX+) or (BVMY+ & BVLM+) or (BVMY+ & BVMA+) or (BVMY+ & BVNA+) or (DWBV- & LABV- & KHBV- & BVMY+ & BVKH+) or (EVBV- & BVEE+) or (EVBV- & BVGH+) or (EVBV- & BVJC+) or (EVBV- & BVKU+) or (FJBV- & BVMY+ & BVEE+) or (FPBV- & BVDS+) or (FPBV- & BVGH+) or (FPBV- & BVHV+) or (FPBV- & BVJC+) or (FPBV- & BVJO+) or (HJBV- & BVMY+ & BVNA+) or (HWBV- & BVJC+) or (HWBV- & BVJM+) or (HWBV- & BVKH+) or (LEBV- & BVCR+) or (MKBV- & BVDU+) or (MKBV- & BVKU+) or (MNBV- & BVMY+ & BVCR+) or (MXBV- & BVMY+ & BVBK+) or (MYBV- & BVBK+) or (MYBV- & BVCC+) or (MYBV- & BVCR+) or (MYBV- & BVDS+) or (MYBV- & BVDU+) or (MYBV- & BVEE+) or (MYBV- & BVEH+) or (MYBV- & BVGA+) or (MYBV- & BVGH+) or (MYBV- & BVGN+) or (MYBV- & BVHP+) or (MYBV- & BVHV+) or (MYBV- & BVJC+) or (MYBV- & BVJM+) or (MYBV- & BVKO+) or (MYBV- & BVKT+) or (MYBV- & BVLG+) or (MYBV- & BVLL+) or (MYBV- & BVLX+);
+
+% BW
+"can't":
+(BWGS+ & BWEU+) or (BWMY+ & BWGN+) or (EVBW- & BWCG+);
+
+% BX
+"car":
+(AFBX- & ADBX-) or (LABX- & FLBX- & BXMK+ & BXEE+) or (LABX- & JWBX-);
+
+% BY
+"cat":
+(AFBY- & ADBY-) or (AOBY- & ADBY-) or (BYCW+) or (FUBY- & AFBY- & ADBY-) or (FUBY- & AFBY- & FNBY-) or (FUBY- & LABY- & ADBY-) or (FUBY- & LABY- & CSBY-) or (LABY- & ADBY-) or (LABY- & ARBY-) or (LHBY- & FNBY- & BYKG+);
+
+% BZ
+"chair":
+(ADBZ- & FNBZ- & BZJQ+) or (AFBZ- & ADBZ-) or (AFBZ- & EUBZ-) or (AFBZ- & FLBZ-) or (AFBZ- & HNBZ-) or (AOBZ- & ADBZ-) or (BZCO+) or (GGBZ- & MZBZ- & GEBZ-) or (HKBZ-) or (LABZ- & FLBZ-) or (LABZ- & FNBZ-) or (LABZ- & HKBZ-) or (LABZ- & HNBZ-);
+
+% CA
+"cindy":
+(ADCA-) or (BQCA- & JTCA-) or (BVCA-) or (CACT+) or (DZCA-) or (GCCA- & LHCA- & ADCA-) or (HBCA- & MZCA- & ADCA-) or (JBCA- & AFCA- & FNCA-) or (KZCA- & FNCA-);
+
+% CB
+"clock":
+(LACB- & ADCB-) or (LACB- & JWCB-);
+
+% CC
+"close":
+(BVCC- & AMCC- & CCDB+) or (BVCC- & CCFO+) or (ENCC- & CCDB+) or (ENCC- & CCDB+ & CCHN+) or (HJCC- & CCBG+) or (HJCC- & CCDB+) or (KPCC-) or (LOCC- & CCDB+) or (LOCC- & MFCC- & CCDB+);
+
+% CD
+"closed":
+(ADCD- & CDMB+) or (AQCD- & JWCD-) or (MKCD- & CDDB+ & CDHN+) or (MYCD- & BNCD- & CDDB+) or (MYCD- & CDDB+);
+
+% CE
+"color":
+(KZCE- & ADCE-) or (KZCE- & FXCE-) or (MNCE- & CEAD+) or (MNCE- & CEAQ+) or (MNCE- & CEAU+) or (MNCE- & CEFN+) or (MQCE- & CECR+ & CEMF+);
+
+% CF
+"comb":
+(AFCF- & CFAM+) or (AMCF-) or (BVCF- & CFEQ+) or (CFEQ+ & CFGV+) or (CZCF- & CFEQ+) or (HMCF- & CFEQ+) or (LOCF- & ADCF- & CFEQ+) or (LOCF- & HCCF- & CFKW+) or (MTCF- & CFEQ+) or (MYCF- & CFEQ+);
+
+% CG
+"come":
+(BWCG- & BNCG- & CGMJ+ & CGHS+) or (BWCG- & CGMJ+ & CGHS+) or (CGAT+) or (CGEY+ & CGMU+) or (CSCG- & CGHS+) or (CTCG- & CGHL+) or (CTCG- & CGHS+) or (CTCG- & CGHS+ & CGFF+) or (CZCG- & CGHL+) or (GNCG- & CGDC+) or (GNCG- & CGHS+) or (KACG- & CGHL+) or (LOCG- & ETCG- & CGHS+) or (LOCG- & MFCG- & CGHS+);
+
+% CH
+"comes":
+(EVCH- & CHHS+) or (EYCH- & CHCV+);
+
+% CJ
+"could":
+(CJMY+ & CJAM+) or (CJMY+ & CJBK+) or (FJCJ- & CJMY+ & CJJM+) or (MYCJ- & CJBK+) or (MYCJ- & CJDK+) or (MYCJ- & CJEH+);
+
+% CK
+"count":
+(BVCK- & CKLB+) or (BVCK- & CKLB+ & CKDZ+) or (CPCK- & CKLB+);
+
+% CL
+"cow":
+(AFCL- & ADCL-) or (AFCL- & CLAD+) or (AFCL- & FNCL-) or (AFCL- & MHCL-) or (AFCL- & MUCL-) or (GJCL- & ECCL- & AFCL- & ADCL-) or (LACL- & CLFN+) or (LACL- & CSCL-);
+
+% CM
+"cup":
+(AFCM- & ADCM-) or (AFCM- & FLCM-) or (AFCM- & FNCM-) or (AOCM- & ADCM-);
+
+% CN
+"daddy":
+(ADCN-) or (AFCN- & FNCN-) or (AMCN-) or (BSCN-) or (BTCN-) or (CNAD+) or (CNCW+) or (CNET+) or (CNJU+) or (CNLH+) or (CPCN-) or (CSCN-) or (FNCN- & CNFL+) or (FNCN- & CNHN+) or (FNCN- & CNJU+) or (FNCN- & CNKV+) or (HACN- & FNCN- & CNBU+) or (KXCN-) or (LACN- & ADCN-) or (LOCN-);
+
+% CO
+"dale":
+(BDCO- & LACO- & ARCO-) or (BZCO- & LACO- & FLCO-) or (GYCO- & FBCO- & FLCO-) or (JRCO- & LACO- & LKCO-) or (LHCO- & ARCO-);
+
+% CP
+"did":
+(CPBC+ & CPEJ+) or (CPEV+ & CPDU+) or (CPHY+ & CPJR+) or (CPJY+ & CPEJ+) or (CPJY+ & CPJT+) or (CPLE+ & CPDQ+) or (CPMK+ & CPJW+) or (CPMY+ & CPCK+) or (CPMY+ & CPEU+) or (CPMY+ & CPFV+) or (CPMY+ & CPFX+) or (CPMY+ & CPGE+) or (CPMY+ & CPJT+) or (CPMY+ & CPJW+) or (CPMY+ & CPMA+) or (EVCP- & CPEU+) or (FOCP- & CPCQ+) or (HQCP- & CPMY+ & CPJW+) or (MKCP- & CPAK+) or (MNCP- & CPCN+ & CPJT+) or (MNCP- & CPGH+) or (MNCP- & CPJY+ & CPJT+) or (MNCP- & CPMY+ & CPCR+) or (MNCP- & CPMY+ & CPHB+) or (MNCP- & CPMY+ & CPJW+) or (MPCP- & CPCN+ & CPEJ+) or (MPCP- & CPCV+ & CPEJ+) or (MPCP- & CPEV+ & CPEJ+) or (MPCP- & CPFO+ & CPEJ+) or (MPCP- & CPGT+ & CPEJ+) or (MPCP- & CPJF+ & CPEJ+) or (MPCP- & CPJY+ & CPEJ+) or (MYCP- & CPAK+) or (MYCP- & CPFO+) or (MYCP- & MNCP- & CPLP+);
+
+% CQ
+"didn't":
+(CPCQ- & CQFO+) or (MKCQ- & CQJO+) or (MYCQ- & CQJO+) or (MYCQ- & CQJW+);
+
+% CR
+"do":
+(ABCR- & CRLH+) or (BDCR- & CRMY+ & CREU+) or (BVCR- & AMCR-) or (BVCR- & AMCR- & CRGM+) or (BVCR- & CRBP+) or (BVCR- & CREQ+) or (BVCR- & CRFO+) or (BVCR- & CRGM+) or (BVCR- & CRGM+ & CRLR+) or (BVCR- & CRGV+) or (BVCR- & CRHO+) or (BVCR- & CRKJ+) or (BVCR- & CRKM+ & CRMU+) or (BVCR- & CRKZ+) or (BVCR- & CRKZ+ & CRLR+) or (BVCR- & CRLH+) or (BVCR- & CRNB+) or (BVCR- & FKCR- & CRFO+) or (BVCR- & MNCR-) or (BVCR- & MNCR- & CRMU+) or (BVCR- & MYCR- & MNCR- & CRMU+) or (CECR- & CRMY+ & CRMF+) or (CPCR- & MNCR-) or (CPCR- & MNCR- & CREY+) or (CPCR- & MNCR- & CRLP+) or (CRCR- & MNCR- & AMCR- & CRMU+) or (CRCR- & MNCR- & CRMU+) or (CRGH+ & CRAR+) or (CRME+) or (CRMY+ & CREU+) or (CRMY+ & CRFX+) or (CRMY+ & CRGE+) or (CRMY+ & CRGH+) or (CRMY+ & CRJP+) or (CRMY+ & CRJW+) or (CRMY+ & CRKE+) or (CRMY+ & CRLG+) or (CRMY+ & CRME+) or (CRMY+ & CRMF+) or (CSCR- & MNCR-) or (ENCR- & MNCR-) or (ENCR- & MNCR- & CRHJ+) or (ENCR- & MNCR- & CRMU+) or (FJCR- & CRMK+ & CRLM+) or (FJCR- & CRMY+ & CRGE+) or (FJCR- & CRMY+ & CRGN+) or (GBCR- & CRKM+) or (GOCR- & CRMY+ & CREU+) or (HMCR- & CRMY+ & CRGE+) or (HOCR- & CRMY+ & CRMF+) or (LOCR-) or (LOCR- & MFCR- & CRFO+) or (LOCR- & MFCR- & CRFO+ & CRLR+) or (LOCR- & MJCR- & CRFO+) or (LOCR- & MNCR-) or (LOCR- & MNCR- & CRMU+) or (MECR- & MYCR- & CRCR-) or (MNCR- & CRCR+) or (MNCR- & CRLE+ & CRJM+) or (MNCR- & CRLE+ & CRJT+) or (MNCR- & CRLE+ & CRKH+) or (MNCR- & CRMF+) or (MNCR- & CRMK+ & CRCR+) or (MNCR- & CRMY+ & CRCR+) or (MNCR- & CRMY+ & CRDE+) or (MNCR- & CRMY+ & CREU+) or (MNCR- & CRMY+ & CRFX+) or (MNCR- & CRMY+ & CRJM+) or (MNCR- & CRMY+ & CRJT+) or (MNCR- & CRMY+ & CRJW+) or (MNCR- & CRMY+ & CRLG+) or (MNCR- & CRMY+ & CRMF+) or (MPCR- & CRMK+ & CRJW+) or (MPCR- & CRMY+ & CRLG+) or (MRCR- & CRMY+ & CRJW+) or (MXCR- & CRMY+ & CRJW+) or (MYCR- & CRFO+) or (MYCR- & CRFO+ & CRHJ+) or (MYCR- & CRHO+) or (MYCR- & CRKZ+) or (MYCR- & CRNB+);
+
+% CS
+"does":
+(BACS- & CSLO+) or (CSCN+ & CSEU+) or (CSCU+ & CSGE+) or (CSDD+ & CSEU+) or (CSEV+ & CSDS+) or (CSEV+ & CSEJ+) or (CSEV+ & CSEU+) or (CSEV+ & CSGE+) or (CSEV+ & CSJC+) or (CSFO+ & CSKH+) or (CSKZ+ & CSDS+) or (DDCS- & MNCS-) or (FJCS- & CSEV+ & CSCG+) or (FJCS- & CSKZ+ & CSDS+) or (GSCS- & FJCS- & CSFO+) or (KACS- & CSEV+ & CSEU+) or (MNCS- & CSBY+ & CSJT+) or (MNCS- & CSCL+ & CSEJ+) or (MNCS- & CSCN+ & CSMF+) or (MNCS- & CSCV+ & CSEU+) or (MNCS- & CSCV+ & CSJT+) or (MNCS- & CSEV+ & CSEU+) or (MNCS- & CSEV+ & CSJT+) or (MNCS- & CSFO+ & CSCR+) or (MNCS- & CSFO+ & CSGH+) or (MNCS- & CSFU+ & CSJT+) or (MNCS- & CSJY+ & CSCR+) or (MNCS- & CSJY+ & CSEU+) or (MNCS- & CSJY+ & CSJT+) or (MNCS- & CSKZ+ & CSDS+) or (MNCS- & CSLH+ & CSJT+) or (MPCS- & CSBH+ & CSEJ+) or (MPCS- & CSFO+ & CSEJ+) or (MRCS- & CSEV+ & CSGH+);
+
+% CT
+"doesn't":
+(CACT- & CTEU+) or (EVCT- & CTCG+) or (EVCT- & CTEU+) or (FOCT-) or (FOCT- & CTCG+) or (FOCT- & CTEJ+) or (FOCT- & CTEU+) or (GSCT- & CTEU+) or (JZCT- & CTCG+) or (LQCT- & CTCG+);
+
+% CU
+"dog":
+(AFCU- & ADCU-) or (AFCU- & FNCU-) or (AZCU- & AFCU- & ADCU-) or (CUFH+) or (CUKG+) or (GJCU- & ECCU- & AFCU- & MNCU-) or (KZCU- & GECU-) or (LACU- & ADCU-) or (LACU- & AMCU-) or (LACU- & BKCU-) or (LACU- & CSCU-) or (LACU- & CUAD+) or (LACU- & FNCU-) or (LACU- & GECU-) or (LACU- & JLCU-) or (LACU- & JMCU-) or (LACU- & JWCU-) or (LACU- & JWCU- & CUKZ+ & CUEK+) or (LACU- & KCCU-) or (LACU- & LOCU-) or (LACU- & MUCU-) or (LHCU- & BSCU-) or (LHCU- & DRCU-) or (LHCU- & HBCU-);
+
+% CV
+"doggie":
+(AFCV- & ADCV-) or (AFCV- & CHCV-) or (AFCV- & CVAD+) or (AFCV- & EUCV-) or (AFCV- & FNCV-) or (AFCV- & JSCV-) or (EOCV- & AFCV- & MNCV-) or (HDCV- & AFCV- & ADCV-) or (HDCV- & AFCV- & MNCV-) or (HKCV-) or (KZCV- & ADCV-) or (KZCV- & CSCV-) or (KZCV- & CVET+) or (KZCV- & GECV-) or (KZCV- & MUCV-) or (LACV- & ADCV-) or (LACV- & ADCV- & CVEN+) or (LACV- & ARCV-) or (LACV- & CPCV-) or (LACV- & CSCV-) or (LACV- & CVAD+) or (LACV- & CVGF+) or (LACV- & DKCV-) or (LACV- & DZCV-) or (LACV- & EECV-) or (LACV- & EHCV-) or (LACV- & EUCV-) or (LACV- & FNCV-) or (LACV- & GACV- & CVHS+) or (LACV- & GECV-) or (LACV- & JMCV-) or (LACV- & JWCV-) or (LACV- & KTCV-) or (LACV- & KTCV- & CVDZ+) or (LACV- & LOCV-) or (LACV- & MFCV-) or (LHCV- & CSCV-) or (MZCV- & BJCV-);
+
+% CW
+"doing":
+(ACCW- & CWML+) or (ACCW- & MNCW-) or (AQCW- & MNCW-) or (AQCW- & MNCW- & CWLO+) or (AQCW- & MNCW- & CWLP+) or (AQCW- & MNCW- & CWMU+) or (ASCW- & LACW- & ADCW-) or (BHCW- & KZCW- & ADCW-) or (BHCW- & LACW- & ADCW-) or (BMCW- & ADCW-) or (BMCW- & FNCW-) or (BMCW- & LACW- & ADCW-) or (BYCW- & KZCW- & ADCW-) or (BYCW- & LACW- & ADCW-) or (BYCW- & LHCW- & ADCW-) or (CNCW- & ADCW-) or (CNCW- & FBCW- & ADCW-) or (EGCW- & KZCW- & ADCW-) or (EGCW- & LACW- & ADCW-) or (EGCW- & LHCW- & ADCW-) or (FNCW- & MNCW-) or (FNCW- & MNCW- & AMCW-) or (FNCW- & MNCW- & CWEY+) or (FNCW- & MNCW- & CWLO+) or (FPCW- & MNCW-) or (GSCW- & EXCW- & ADCW-) or (HWCW- & ADCW-) or (HWCW- & MNCW-) or (JNCW- & MNCW-) or (LWCW- & LACW- & ADCW-) or (MHCW- & CWKZ+) or (MYCW- & MNCW-);
+
+% CX
+"doll":
+(AFCX- & FNCX-) or (EGCX- & AFCX- & CXHQ+) or (GGCX- & LHCX- & MUCX-) or (HQCX- & LHCX- & FNCX-) or (LACX- & ADCX-) or (LACX- & CXAD+) or (LACX- & EUCX-) or (LACX- & HNCX-) or (LACX- & MFCX-);
+
+% CY
+"dolly":
+(AFCY- & ADCY-) or (AFCY- & EUCY-) or (KZCY- & ARCY-) or (KZCY- & CYAD+) or (LACY- & ADCY-) or (LACY- & CYAD+) or (LACY- & DZCY-) or (LACY- & KTCY-) or (LUCY- & AFCY- & ADCY-);
+
+% CZ
+"don't":
+(CZEE+) or (CZGA+) or (CZGE+) or (CZJH+) or (CZKH+) or (CZLL+) or (CZMY+ & CZME+ & CZGH+) or (CZMY+ & CZMF+) or (LECZ- & CZCG+) or (LECZ- & CZEU+) or (LECZ- & CZHP+) or (MKCZ- & CZMF+) or (MSCZ- & CZMK+ & CZBS+) or (MSCZ- & CZMK+ & CZLX+) or (MSCZ- & CZMY+ & CZAM+) or (MSCZ- & CZMY+ & CZCF+) or (MSCZ- & CZMY+ & CZEW+) or (MSCZ- & CZMY+ & CZFY+) or (MSCZ- & CZMY+ & CZGN+) or (MSCZ- & CZMY+ & CZHP+) or (MSCZ- & CZMY+ & CZLX+) or (MYCZ- & CZDS+) or (MYCZ- & CZFX+) or (MYCZ- & CZGE+) or (MYCZ- & CZHC+) or (MYCZ- & CZJW+) or (MYCZ- & CZLG+) or (MYCZ- & CZMF+);
+
+% DA
+"done":
+(ACDA- & DAMU+) or (ADDA-) or (AKDA- & ACDA-) or (AKDA- & ACDA- & DAMU+);
+
+% DB
+"door":
+(AFDB- & ADDB-) or (BRDB- & LADB- & ADDB-) or (BRDB- & LADB- & GDDB-) or (GGDB- & AFDB- & ADDB-) or (HADB- & HPDB-) or (LADB- & ADDB-) or (LADB- & CCDB-) or (LADB- & CDDB-) or (LADB- & DUDB-) or (LADB- & FLDB-) or (LADB- & FNDB-) or (LADB- & GEDB-) or (LADB- & HFDB- & DBAD+) or (LADB- & HJDB- & DBFN+) or (LADB- & HPDB-) or (LADB- & HPDB- & DBDZ+) or (LADB- & HSDB-) or (LADB- & JLDB-) or (LADB- & MBDB-);
+
+% DC
+"down":
+(CGDC-) or (DQDC-) or (DTDC-) or (EEDC-) or (EPDC- & DCEY+) or (FODC- & DCGE+) or (FWDC-) or (JHDC-) or (JLDC-) or (JMDC-) or (JMDC- & DCEY+) or (JWDC-) or (KEDC-) or (KEDC- & DCHN+) or (KEDC- & DCJE+) or (KFDC-) or (KPDC-) or (LLDC-) or (MJDC- & DCHJ+);
+
+% DD
+"dragon":
+(AFDD- & ADDD-) or (AFDD- & FNDD-) or (DDBE+) or (DDBR+) or (DDJJ+) or (LADD- & ADDD-) or (LADD- & AXDD-) or (LADD- & CSDD-) or (LADD- & DDAD+) or (LADD- & DDEK+) or (LADD- & DDET+) or (LADD- & DDMG+) or (LADD- & DRDD-) or (LADD- & DZDD-) or (LADD- & EUDD-) or (LADD- & FLDD-) or (LADD- & FNDD-) or (LADD- & GADD-) or (LADD- & GEDD-) or (LADD- & GNDD-) or (LADD- & HNDD-) or (LADD- & LODD-) or (LADD- & MFDD-) or (LADD- & MNDD- & DDCS+) or (LADD- & MNDD- & DDGF+) or (LHDD- & JWDD-);
+
+% DE
+"drink":
+(CRDE- & MNDE- & DEFL+);
+
+% DF
+"duck":
+(ADDF-) or (AFDF- & ADDF-) or (AFDF- & DUDF-) or (AFDF- & FNDF-) or (AODF- & ADDF-) or (LADF- & ADDF-) or (LADF- & JWDF-) or (MZDF- & DFFN+);
+
+% DG
+"ducks":
+(AKDG- & ACDG-) or (AKDG- & AQDG-) or (AQDG-) or (LADG- & GEDG-) or (LADG- & KCDG-);
+
+% DH
+"ear":
+(ADDH- & ADDH-) or (ADDH- & MPDH- & DHFN+) or (FBDH- & KZDH-);
+
+% DJ
+"ears":
+(FBDJ- & AQDJ-) or (FBDJ- & BKDJ-) or (HADJ- & ARDJ-) or (HADJ- & GEDJ-);
+
+% DK
+"eat":
+(CJDK- & DKLC+ & DKLR+) or (DKFO+ & DKAM+) or (ENDK-) or (LODK-) or (LODK- & DKCV+) or (LODK- & EODK-) or (LODK- & EODK- & DKJQ+) or (LODK- & GEDK- & DKJA+) or (LODK- & GFDK-) or (LODK- & GFDK- & DKHG+) or (LODK- & KMDK-) or (LODK- & MGDK- & DKFO+) or (LODK- & MGDK- & DKLH+) or (MYDK- & DKFO+);
+
+% DL
+"eating":
+(ADDL-) or (ADDL- & DLAP+) or (ADDL- & DLDX+) or (ADDL- & MNDL-) or (BHDL-) or (DLKS+) or (FNDL-) or (FNDL- & MNDL-);
+
+% DM
+"egg":
+(ALDM- & ADDM-) or (KZDM- & ADDM-);
+
+% DN
+"else":
+(KMDN-) or (MNDN-);
+
+% DO
+"eyes":
+(ADDO- & JWDO-) or (EUDO-) or (FBDO- & AQDO-) or (FBDO- & JWDO- & DOAQ+) or (GJDO- & ECDO- & LJDO- & ARDO-);
+
+% DP
+"face":
+(ADDP- & ADDP-) or (ADDP- & FNDP-) or (EUDP- & AMDP-) or (FBDP- & ARDP-) or (GGDP- & LADP- & DSDP-) or (JVDP- & ADDP-) or (JVDP- & ADDP- & ADDP-) or (JVDP- & ADDP- & DSDP-) or (JVDP- & ADDP- & FNDP-) or (JVDP- & AFDP- & ETDP-) or (JVDP- & AFDP- & EUDP-);
+
+% DQ
+"fall":
+(AKDQ- & CPDQ- & DQDC+) or (AKDQ- & DQDC+) or (AKDQ- & LEDQ- & DQDC+) or (ENDQ-);
+
+% DR
+"feed":
+(BVDR- & DRCU+) or (BVDR- & DRFO+ & DRLO+) or (DRFO+ & DRLO+) or (GBDR- & DRFO+ & DRLO+) or (LODR-) or (LODR- & ADDR- & DRDD+) or (MYDR- & DRDD+);
+
+% DS
+"feel":
+(BVDS- & DSBM+) or (BVDS- & DSDP+) or (BVDS- & DSFO+) or (BVDS- & DSHO+) or (CSDS-) or (CSDS- & DSEC+) or (CSDS- & DSEO+) or (CSDS- & DSGE+) or (CSDS- & DSHD+) or (CZDS- & DSGE+) or (EYDS- & DSDP+) or (MYDS- & DSLH+);
+
+% DT
+"fell":
+(AKDT- & LEDT- & DTDC+) or (BDDT- & DTHT+) or (EVDT- & DTHL+) or (LEDT- & DTDC+ & DTAY+) or (LEDT- & DTHT+) or (MNDT- & DTDC+);
+
+% DU
+"find":
+(ABDU- & FGDU- & DUFG+) or (BVDU- & DUDB+ & DULO+) or (BVDU- & DUFO+) or (BVDU- & DUGP+ & DUGC+) or (BVDU- & DUGX+) or (BVDU- & DUHO+) or (BVDU- & DUHW+) or (BVDU- & FKDU- & DUDF+) or (BVDU- & FKDU- & DUDX+) or (BVDU- & FKDU- & DUKQ+) or (CPDU- & DUBF+ & DUFL+);
+
+% DV
+"finger":
+(FBDV- & JMDV-) or (MZDV- & EHDV-) or (MZDV- & JMDV-) or (MZDV- & KRDV-) or (MZDV- & MHDV- & DVFL+) or (MZDV- & MUDV-);
+
+% DW
+"flowers":
+(ACDW-) or (AQDW-) or (AQDW- & DWMY+ & DWKH+) or (DWBV+) or (JGDW- & LADW- & JWDW-) or (LADW- & AQDW-) or (LADW- & ARDW-) or (LADW- & JWDW-) or (LADW- & KHDW-) or (LADW- & MUDW-) or (LHDW- & JWDW-) or (LJDW- & KHDW-) or (MNDW-) or (MZDW- & GEDW-);
+
+% DX
+"food":
+(AHDX-) or (EODX- & FBDX- & DLDX-) or (FNDX-) or (FNDX- & DXDZ+) or (KLDX- & ADDX- & DXDZ+) or (KLDX- & DUDX-) or (MZDX- & JMDX-);
+
+% DY
+"foot":
+(AFDY- & ADDY-) or (LADY- & HNDY-) or (MZDY- & HNDY-);
+
+% DZ
+"for":
+(ADDZ- & DZCA+) or (ADDZ- & DZFR+) or (ADDZ- & DZFZ+) or (ADDZ- & DZGP+) or (AQDZ- & DZEQ+) or (BKDZ- & DZEQ+) or (CKDZ- & DZGS+) or (CVDZ- & DZMD+) or (DBDZ- & DZGP+) or (DXDZ- & DZCV+) or (DXDZ- & DZDD+) or (EJDZ- & DZMD+) or (EKDZ- & DZMD+) or (ELDZ- & DZMD+) or (ELDZ- & MNDZ-) or (FNDZ- & DZAP+) or (FNDZ- & DZCV+) or (FNDZ- & DZGP+) or (FNDZ- & DZMY+) or (FODZ- & DZMY+) or (GHDZ- & DZCY+) or (GJDZ- & DZJN+) or (GJDZ- & MNDZ-) or (GZDZ- & DZDD+) or (KMDZ- & DZMY+) or (KYDZ- & DZBC+) or (KYDZ- & DZFT+) or (KYDZ- & DZGQ+) or (KYDZ- & DZHY+) or (LJDZ- & DZGS+);
+
+% EA
+"friend":
+(HAEA- & AQEA-) or (HAEA- & AXEA-) or (MZEA- & EAAD+);
+
+% EB
+"fun":
+(AFEB- & EBBE+) or (EBBE+) or (EBLF+) or (HFEB- & ADEB- & EBKV+) or (MNEB- & EBFN+);
+
+% EC
+"funny":
+(AFEC- & ECCL+) or (AFEC- & ECCU+) or (AFEC- & ECHY+) or (DSEC-) or (ECDO+) or (KZEC- & ADEC-);
+
+% ED
+"gail":
+(ADED-) or (BDED- & LAED- & HNED-) or (EDMN+) or (FNED-) or (JTED-) or (KEED-) or (KQED- & LAED- & ADED-) or (KZED- & ADED-) or (LHED- & ADED-) or (LOED-);
+
+% EE
+"get":
+(ABEE- & BXEE- & EEFO+) or (ABEE- & EEMY+) or (ABEE- & EEMY+ & EELF+) or (AMEE- & EEHS+) or (AMEE- & EELO+) or (BVEE- & EEBD+ & EEHS+) or (BVEE- & EEFA+) or (BVEE- & EEFA+ & EEHL+) or (BVEE- & EEFA+ & EEHS+) or (BVEE- & EEFL+) or (BVEE- & EEFL+ & EELC+ & EEFK+) or (BVEE- & EEFO+) or (BVEE- & EEHS+) or (BVEE- & EEMB+) or (CZEE- & EEHG+) or (EEAT+ & EEFL+) or (EEDC+ & EEAM+) or (EEKA+ & EEAM+) or (ENEE- & EEDC+) or (ENEE- & EEDC+ & EEHM+) or (ENEE- & EELV+) or (ENEE- & EEMY+) or (GAEE- & EEFO+) or (GAEE- & EELH+) or (GBEE- & EEBD+) or (LOEE- & GEEE- & EEDC+) or (LOEE- & GEEE- & EEFO+) or (LOEE- & GEEE- & EEHK+) or (LOEE- & GEEE- & EEHS+) or (LOEE- & GEEE- & MNEE- & EEMY+ & EELN+) or (LOEE- & MFEE- & EEFO+) or (MEEE- & EEDC+ & EEAM+) or (MTEE- & EEFO+) or (MYEE- & EECV+) or (MYEE- & EEJB+ & EEHM+);
+
+% EF
+"getting":
+(ACEF- & EFEO+) or (ADEF- & EFHS+);
+
+% EG
+"girl":
+(AFEG- & ADEG-) or (AFEG- & AMEG-) or (AFEG- & EGAM+) or (AFEG- & EGHQ+) or (AFEG- & FNEG-) or (AFEG- & JWEG-) or (EGCW+) or (EGCX+) or (EOEG- & AFEG- & ADEG-) or (EOEG- & GVEG-) or (GGEG- & EGCW+) or (HDEG- & AFEG- & AQEG-) or (KZEG- & AREG-) or (LAEG- & ADEG-) or (LAEG- & AMEG-);
+
+% EH
+"give":
+(AMEH- & EHLB+ & EHLO+) or (BVEH- & EHCV+ & EHFT+) or (BVEH- & EHFO+ & EHJH+) or (BVEH- & EHGP+ & EHFT+) or (BVEH- & EHGP+ & EHKM+ & EHLO+) or (CJEH- & EHFO+ & EHLO+ & EHLR+) or (EHAJ+ & EHFT+) or (EHAS+ & EHFT+) or (EHCV+ & EHBB+) or (EHCV+ & EHKL+) or (EHGP+ & EHAK+) or (EHGP+ & EHDV+) or (EHGS+ & EHBC+) or (EHGS+ & EHBK+) or (JXEH- & MNEH- & EHCV+) or (LOEH- & GEEH- & EHFA+) or (MYEH- & EHFO+ & EHLO+);
+
+% EJ
+"go":
+(ABEJ- & EJAT+) or (AMEJ-) or (BVEJ- & EJDZ+) or (CPEJ-) or (CPEJ- & EJLO+) or (CPEJ- & EJLP+) or (CSEJ-) or (CSEJ- & EJHX+) or (CSEJ- & MNEJ-) or (CTEJ- & EJLC+) or (EJAT+) or (ENEJ-) or (ENEJ- & EJAT+) or (ENEJ- & EJDZ+) or (ENEJ- & EJLK+) or (FQEJ- & EJGE+) or (GAEJ- & LOEJ-) or (KBEJ-) or (LOEJ- & AHEJ- & EJFL+) or (LOEJ- & ETEJ- & EJFL+) or (LOEJ- & EUEJ- & EJMJ+) or (LOEJ- & MFEJ- & EJAT+) or (LOEJ- & MFEJ- & EJFM+) or (MKEJ-) or (MKEJ- & AMEJ- & EJDZ+) or (MKEJ- & MOEJ- & EJAT+) or (MYEJ-) or (MYEJ- & EJGE+);
+
+% EK
+"goes":
+(BKEK- & EKFL+) or (DDEK-) or (EVEK-) or (EVEK- & AMEK-) or (EVEK- & MJEK-) or (EVEK- & MOEK- & EKDZ+) or (FOEK- & EKMJ+) or (FOEK- & MJEK-) or (FOEK- & MPEK-) or (KZEK- & CUEK- & EKFL+) or (LHEK- & EKEY+);
+
+% EL
+"going":
+(ACEL- & ELDZ+) or (ACEL- & LGEL-) or (ADEL-) or (AQEL-) or (AQEL- & ELDZ+) or (AQEL- & ELLO+) or (AQEL- & ELLO+ & ELBS+) or (AQEL- & ELLO+ & ELGN+) or (AQEL- & ELLO+ & ELJT+) or (AQEL- & ELLO+ & ELMV+) or (ELBQ+) or (ELHE+) or (HHEL-);
+
+% EM
+"gone":
+(ADEM-) or (AKEM- & ADEM-) or (AKEM- & AQEM-);
+
+% EN
+"gonna":
+(ACEN- & ENBK+) or (ACEN- & ENBL+) or (ACEN- & ENBS+) or (ACEN- & ENCC+) or (ACEN- & ENDQ+) or (ACEN- & ENEE+) or (ACEN- & ENGN+) or (ACEN- & ENJM+) or (ACEN- & ENKC+) or (ACEN- & ENKU+) or (ACEN- & ENKX+) or (ADEN- & ENBB+) or (ADEN- & ENBJ+) or (ADEN- & ENEE+) or (ADEN- & ENEJ+) or (ADEN- & ENFT+) or (ADEN- & ENLM+) or (AQEN- & ENBP+) or (AQEN- & ENBS+) or (AQEN- & ENCR+) or (AQEN- & ENEE+) or (AQEN- & ENEJ+) or (AQEN- & ENJM+) or (AQEN- & ENJT+) or (AQEN- & ENKD+) or (AQEN- & ENKX+) or (BHEN- & ENEW+) or (CVEN- & ENJT+) or (FQEN- & ACEN- & ENDK+) or (MYEN- & ENBJ+) or (MYEN- & ENKU+) or (MYEN- & ENLY+);
+
+% EO
+"good":
+(ACEO-) or (ADEO-) or (AFEO- & EOBE+) or (AFEO- & EOCV+) or (AFEO- & EOEG+) or (AFEO- & EOLT+) or (AFEO- & EOMJ+) or (AXEO-) or (DSEO- & EOLO+) or (EOBQ+) or (EODX+) or (EOEG+) or (EOGW+) or (FJEO- & EOAQ+) or (FNEO- & EOLO+ & EODK+) or (HHEO- & ACEO- & EOAR+) or (KKEO- & ADEO- & EOLO+ & EODK+) or (MCEO- & ADEO-) or (MCEO- & EFEO-) or (MHEO-);
+
+% EP
+"got":
+(ADEP- & EPKA+ & EPHN+) or (ADEP- & MNEP- & EPFL+) or (AEEP- & EPFA+) or (AEEP- & EPLO+ & EPKP+) or (EUEP- & MNEP- & EPDC+) or (GSEP- & EPLB+) or (MKEP- & EPAK+) or (MKEP- & EPKZ+ & EPHO+) or (MKEP- & MNEP-) or (MYEP- & EPFA+) or (MYEP- & EPFO+) or (MYEP- & EPGM+) or (MYEP- & EPHG+) or (MYEP- & EPJG+) or (MYEP- & EPLQ+) or (MYEP- & EPLQ+ & EPFL+);
+
+% EQ
+"hair":
+(ADEQ- & BKEQ-) or (ADEQ- & CFEQ-) or (ADEQ- & CREQ-) or (AFEQ- & BTEQ-) or (EXEQ- & FLEQ-) or (FBEQ- & ADEQ-) or (FBEQ- & BKEQ-) or (FBEQ- & CFEQ-) or (FBEQ- & DZEQ-) or (FBEQ- & GEEQ-) or (FBEQ- & JWEQ-) or (GGEQ- & EQBK+) or (HAEQ- & BKEQ-) or (HAEQ- & CFEQ-) or (MZEQ- & BKEQ-) or (MZEQ- & CFEQ-) or (MZEQ- & DZEQ-);
+
+% ER
+"hand":
+(AFER- & ADER-) or (ERLB+ & ERLO+) or (EUER-) or (EXER- & EUER-) or (FBER- & ADER-) or (FBER- & ETER-) or (FBER- & FLER-) or (HAER- & KTER-) or (MZER- & EUER-) or (MZER- & JMER-) or (MZER- & KRER-);
+
+% ES
+"hang":
+(BVES- & ESMB+ & ESHY+) or (ESKW+ & ESMB+) or (ESMB+ & ESHY+) or (LOES- & MFES- & ESMB+ & ESHY+);
+
+% ET
+"has":
+(CNET- & ETDP+) or (CVET- & ETFH+) or (DDET- & ETLO+ & ETKP+) or (EVET- & AMET- & ETER+ & ETHN+) or (EVET- & ETKA+) or (EVET- & ETLO+ & ETCG+) or (EVET- & ETLO+ & ETEJ+) or (EVET- & ETLQ+) or (FOET- & ETAM+) or (HOET- & ETFU+);
+
+% EU
+"have":
+(BVEU- & EUCV+) or (BVEU- & EUCV+ & EUJE+) or (BWEU- & EUHO+) or (CPEU- & EUAU+) or (CPEU- & EUBS+) or (CREU- & BDEU-) or (CREU- & EUBE+ & EUAR+) or (CREU- & EUBZ+ & EUGE+) or (CREU- & EUCY+ & EUGE+) or (CREU- & EUER+ & EUFL+) or (CREU- & EUHB+) or (CREU- & EUJF+) or (CREU- & EULH+) or (CREU- & GOEU-) or (CREU- & MNEU- & EUEY+) or (CSEU- & EUDO+) or (CSEU- & EUDP+) or (CSEU- & EUKA+) or (CSEU- & EUKA+ & EUFR+) or (CSEU- & EULD+) or (CSEU- & KAEU-) or (CSEU- & MNEU-) or (CSEU- & MNEU- & EUFL+ & EUER+) or (CSEU- & MNEU- & EUHN+ & EUDP+) or (CTEU- & EUAG+) or (CTEU- & EUCV+) or (CTEU- & EUDP+) or (CTEU- & EUER+ & EUFL+) or (CTEU- & EUHO+) or (CZEU- & EUFG+) or (EUGV+) or (EULO+ & EUJH+) or (EULV+) or (LEEU- & EULV+) or (MKEU- & BEEU-) or (MKEU- & EUBH+) or (MKEU- & EUDD+) or (MKEU- & EULB+) or (MKEU- & LFEU- & EUBD+) or (MKEU- & MNEU-) or (MKEU- & MNEU- & EUEY+) or (MKEU- & MNEU- & EUFL+) or (MNEU- & EUMK+ & EUEP+) or (MYEU- & EUCX+ & EUKE+) or (MYEU- & EUHO+ & EUAR+) or (MYEU- & EUKL+) or (MYEU- & EULO+ & EUEJ+) or (MYEU- & EULO+ & EUGD+) or (MYEU- & EULO+ & EUHP+) or (MYEU- & EULO+ & EUJM+) or (MYEU- & EULO+ & EUKX+) or (MYEU- & EULO+ & EUNA+) or (MYEU- & LGEU- & EULO+ & EUJL+) or (MYEU- & MNEU-);
+
+% EV
+"he":
+(AMEV- & EVET+) or (AYEV- & EVAD+) or (BNEV- & EVAD+) or (BNEV- & EVBW+) or (BVEV-) or (CPEV-) or (CSEV-) or (EVAB+) or (EVAD+) or (EVBV+) or (EVBW+) or (EVCH+) or (EVCP+) or (EVCT+) or (EVDT+) or (EVET+) or (EVFN+) or (EVGF+) or (EVGK+) or (EVMG+) or (EYEV- & AMEV- & EVEK+) or (EYEV- & EVEK+) or (FNEV-) or (HFEV- & EVAD+) or (HFEV- & EVCT+) or (HJEV- & EVAD+) or (HMEV- & EVAB+) or (HYEV- & EVAD+) or (JWEV- & EVAD+) or (LCEV- & EVEK+) or (LCEV- & MXEV- & EVFN+) or (LGEV- & EVAB+) or (MJEV- & EVEK+) or (MNEV- & EVAD+) or (MOEV- & EVEK+) or (MXEV- & EVAB+) or (MXEV- & EVAD+);
+
+% EW
+"help":
+(CZEW-) or (ENEW-) or (GAEW- & EWMY+) or (KLEW- & HCEW-) or (KLEW- & MFEW-) or (LOEW-) or (LOEW- & MFEW- & EWMY+) or (LOEW- & MFEW- & EWNA+) or (MEEW-) or (MTEW- & EWGP+ & EWJM+) or (MTEW- & EWMY+);
+
+% EX
+"her":
+(EXBE+) or (EXCW+) or (EXEQ+) or (EXER+) or (EXGS+) or (EXHB+) or (EXKA+) or (FLEX-) or (GNEX-) or (JWEX-);
+
+% EY
+"here":
+(ADEY-) or (CGEY-) or (CREY-) or (CWEY-) or (DCEY-) or (EKEY-) or (EUEY-) or (EYAD+) or (EYAQ+) or (EYCH+) or (EYDS+) or (EYEV+) or (EYFN+) or (EYGA+) or (EYGS+) or (EYJM+) or (EYLC+) or (EYLY+) or (EYMK+) or (EYMY+) or (FLEY-) or (FNEY-) or (HKEY-) or (HMEY-) or (HNEY-) or (HTEY-) or (JQEY-) or (JWEY-) or (KHEY-) or (LVEY-) or (MBEY-);
+
+% EZ
+"hi":
+(JTEZ-);
+
+% FA
+"him":
+(BJFA-) or (BSFA-) or (EEFA-) or (EHFA-) or (EPFA-) or (FLFA-) or (FTFA-) or (GAFA-) or (GEFA-) or (GNFA-) or (JLFA-) or (JMFA-) or (JOFA-) or (JWFA-) or (KTFA-) or (KXFA-) or (LOFA-) or (MFFA-) or (MUFA-);
+
+% FB
+"his":
+(FBAT+) or (FBBP+) or (FBBR+) or (FBCO+) or (FBCW+) or (FBDJ+) or (FBDO+) or (FBDP+) or (FBDV+) or (FBDX+) or (FBEQ+) or (FBER+) or (FBFH+) or (FBGY+) or (FBHB+) or (FBHR+) or (FBJZ+) or (FBKA+) or (FBLQ+) or (HNFB-) or (KZFB- & FBDH+) or (MUFB-);
+
+% FC
+"hold":
+(BVFC- & FCFO+) or (FCHN+ & FCLO+);
+
+% FD
+"hole":
+(AFFD- & ADFD-) or (AFFD- & ARFD-) or (KZFD- & FLFD-) or (LAFD- & FLFD-) or (LAFD- & JWFD-) or (LAFD- & LKFD-);
+
+% FE
+"home":
+(ARFE-);
+
+% FF
+"honey":
+(ADFF-) or (CGFF-) or (FXFF-) or (GHFF-) or (MUFF- & FFGE+);
+
+% FG
+"horsie":
+(AFFG- & ADFG-) or (AFFG- & ADFG- & FGMK+ & FGDU+) or (AFFG- & DUFG-) or (AFFG- & EUFG-) or (LAFG- & HNFG-);
+
+% FH
+"house":
+(ADFH- & ADFH-) or (ADFH- & FNFH-) or (AFFH- & ADFH-) or (AFFH- & FLFH-) or (CUFH- & AFFH- & ADFH-) or (FBFH- & ADFH-) or (FBFH- & FLFH-) or (FBFH- & FNFH-) or (FBFH- & HKFH-) or (GGFH- & AFFH- & ADFH-) or (GGFH- & AFFH- & ETFH-) or (GGFH- & FBFH- & FLFH-) or (GGFH- & LHFH- & FMFH-) or (HAFH- & ADFH-) or (HAFH- & JMFH-) or (HDFH- & AFFH- & FNFH-) or (LAFH- & FLFH-) or (LAFH- & FMFH-) or (LAFH- & HKFH-) or (LAFH- & HNFH-) or (LHFH- & FHFN+) or (LHFH- & JWFH-);
+
+% FJ
+"how":
+(FJAD+) or (FJAQ+) or (FJBV+) or (FJCJ+) or (FJCR+) or (FJCS+) or (FJGO+) or (FXFJ- & FJGO+) or (FXFJ- & FJLO+ & FJHP+) or (FXFJ- & FJLO+ & FJJL+) or (FXFJ- & FJLO+ & FJKT+) or (JWFJ-) or (JWFJ- & FJEO+) or (JWFJ- & FJFN+) or (JWFJ- & FJGS+ & FJCS+);
+
+% FK
+"if":
+(EEFK- & FKMY+ & FKMF+) or (HPFK- & FKMY+ & FKMF+) or (JWFK- & FKLE+ & FKMF+) or (JWFK- & FKMK+ & FKDU+) or (JWFK- & FKMY+ & FKCR+) or (JWFK- & FKMY+ & FKDU+) or (JWFK- & FKMY+ & FKGD+);
+
+% FL
+"in":
+(ADFL-) or (ADFL- & FLAU+) or (ADFL- & FLBE+) or (ADFL- & FLBR+) or (ADFL- & FLER+) or (ADFL- & FLEY+) or (ADFL- & FLFH+) or (ADFL- & FLGR+) or (ADFL- & FLKZ+) or (ADFL- & FLLC+) or (ADFL- & FLLH+) or (AQFL-) or (ATFL- & FLBZ+) or (ATFL- & FLFH+) or (BFFL- & FLLC+) or (BJFL- & FLBR+) or (CNFL- & FLLC+) or (DEFL- & FLCM+) or (DUFL- & FLLC+) or (DVFL- & FLLC+) or (EEFL-) or (EEFL- & FLEY+) or (EJFL- & FLFH+) or (EJFL- & FLGY+) or (EKFL- & FLBG+) or (EKFL- & FLFO+) or (EPFL- & FLDB+) or (EPFL- & FLEQ+) or (EUFL- & FLBE+) or (EUFL- & FLEX+) or (EUFL- & FLFO+) or (EUFL- & FLLC+) or (FNFL- & FLBX+) or (FNFL- & FLLC+) or (GHFL- & FLFO+) or (GHFL- & FLGR+) or (GKFL- & FLGR+) or (JJFL- & FLLC+) or (JLFL-) or (JMFL-) or (JMFL- & FLBG+) or (JMFL- & FLBR+) or (JMFL- & FLBZ+) or (JMFL- & FLCM+) or (JMFL- & FLCO+) or (JMFL- & FLDD+) or (JMFL- & FLEY+) or (JMFL- & FLFA+) or (JMFL- & FLFD+) or (JMFL- & FLFH+) or (JMFL- & FLFO+) or (JMFL- & FLGY+) or (JMFL- & FLJJ+) or (JMFL- & FLJR+) or (JMFL- & FLLC+) or (JQFL-) or (JQFL- & FLLC+) or (JTFL- & FLLC+) or (JWFL- & FLAT+) or (JWFL- & FLGR+) or (KEFL- & FLBZ+) or (KEFL- & FLCO+) or (KFFL- & FLBZ+) or (KLFL- & FLBE+) or (KPFL- & FLLC+) or (KRFL-) or (KRFL- & FLFD+) or (KRFL- & FLLC+) or (KUFL- & FLEY+);
+
+% FM
+"inside":
+(ADFM-) or (ADFM- & FMFH+) or (ADFM- & FMGR+) or (ADFM- & FMJF+) or (EJFM-) or (JMFM-) or (JMFM- & FMLC+) or (KPFM- & FMBR+);
+
+% FN
+"is":
+(AGFN- & FNDZ+) or (ANFN- & MNFN-) or (ASFN- & AMFN- & FNDL+) or (BEFN- & FNLH+) or (BEFN- & MNFN- & FNAH+) or (BKFN- & FNFL+) or (BNFN- & FNKZ+) or (CEFN-) or (CEFN- & FNBZ+) or (CEFN- & FNFO+) or (CEFN- & FNKZ+) or (CEFN- & FNLH+) or (CLFN- & FNLS+) or (DBFN- & FNHP+) or (DFFN- & FNFL+) or (DHFN- & MPFN-) or (EBFN- & FNKZ+) or (EVFN-) or (EVFN- & EYFN-) or (EVFN- & FNFU+) or (EVFN- & HMFN-) or (EVFN- & LCFN-) or (FHFN- & FNDZ+) or (FNBH+) or (FNBY+) or (FNCN+) or (FNCX+) or (FNDP+) or (FNEV+ & FNAK+) or (FNEV+ & FNFL+) or (FNEV+ & FNHN+) or (FNEV+ & FNJD+) or (FNFO+ & FNAS+) or (FNFO+ & FNBY+) or (FNFO+ & FNCL+) or (FNFO+ & FNCN+) or (FNFO+ & FNCU+) or (FNFO+ & FNDZ+) or (FNFO+ & FNEG+) or (FNFO+ & FNEO+) or (FNFO+ & FNFL+) or (FNFO+ & FNFU+) or (FNFO+ & FNGX+) or (FNFO+ & FNHQ+) or (FNFO+ & FNJK+) or (FNFO+ & FNJZ+) or (FNFO+ & FNKM+) or (FNJY+ & FNHN+) or (FNKZ+ & FNAG+) or (FNKZ+ & FNAK+) or (FNKZ+ & FNAP+) or (FNKZ+ & FNAS+) or (FNKZ+ & FNAU+) or (FNKZ+ & FNBE+) or (FNKZ+ & FNBH+) or (FNKZ+ & FNBK+) or (FNKZ+ & FNBO+) or (FNKZ+ & FNBY+) or (FNKZ+ & FNCA+) or (FNKZ+ & FNCN+) or (FNKZ+ & FNCU+) or (FNKZ+ & FNCV+) or (FNKZ+ & FNCX+) or (FNKZ+ & FNDF+) or (FNKZ+ & FNDZ+) or (FNKZ+ & FNFH+) or (FNKZ+ & FNFU+) or (FNKZ+ & FNGS+) or (FNKZ+ & FNGY+) or (FNKZ+ & FNHO+) or (FNKZ+ & FNJB+) or (FNKZ+ & FNJR+) or (FNKZ+ & FNKG+) or (FNKZ+ & FNKN+) or (FNKZ+ & FNLT+) or (FNKZ+ & FNLW+) or (FNLC+ & FNJJ+) or (FNLH+ & FNAS+) or (FNLH+ & FNAU+) or (FNLH+ & FNBC+) or (FOFN-) or (FOFN- & AGFN-) or (FOFN- & BDFN-) or (FOFN- & EYFN-) or (FOFN- & FJFN-) or (FOFN- & FNBC+) or (FOFN- & FNBM+) or (FOFN- & FNFU+) or (FOFN- & FNHG+) or (FOFN- & FNJQ+) or (FOFN- & FNLU+) or (FOFN- & HMFN-) or (FOFN- & JQFN-) or (FOFN- & LCFN-) or (FOFN- & MNFN-) or (GCFN- & FNKZ+) or (GCFN- & MNFN-) or (GOFN- & FNKZ+) or (GOFN- & FNLH+) or (HBFN-) or (HBFN- & FNED+) or (HBFN- & FNFR+) or (HKFN- & FNFO+) or (HKFN- & FNKZ+) or (HKFN- & FNLH+) or (JYFN- & EYFN-) or (JYFN- & HMFN-) or (JYFN- & JQFN-) or (JYFN- & LCFN-) or (KKFN- & FNHO+) or (KZFN- & FNDP+) or (KZFN- & GOFN-) or (KZFN- & MNFN-) or (KZFN- & MNFN- & FNCL+) or (LCFN- & FNHG+) or (LCFN- & MNFN-) or (LHFN- & AMFN- & FNFH+) or (LHFN- & AMFN- & FNKS+) or (LHFN- & FNAG+) or (LHFN- & FNAK+) or (LHFN- & FNBC+) or (LHFN- & FNBE+) or (LHFN- & FNBE+ & FNAH+) or (LHFN- & FNBK+) or (LHFN- & FNBR+) or (LHFN- & FNBZ+) or (LHFN- & FNCM+) or (LHFN- & FNCN+) or (LHFN- & FNDB+) or (LHFN- & FNDD+) or (LHFN- & FNDX+) or (LHFN- & FNDZ+) or (LHFN- & FNFH+) or (LHFN- & FNGE+) or (LHFN- & FNGE+ & FNAR+) or (LHFN- & FNHO+) or (LHFN- & FNHW+) or (LHFN- & FNKJ+) or (LHFN- & FNMJ+) or (LHFN- & FNMN+) or (LHFN- & FNNB+) or (LHFN- & JWFN- & FNFH+) or (LHFN- & KKFN- & FNKW+) or (LHFN- & LGFN- & MNFN-) or (LHFN- & MNFN-) or (MNFN- & AMFN- & FNKZ+) or (MNFN- & FNBH+) or (MNFN- & FNBM+ & FNCW+) or (MNFN- & FNBM+ & FNJN+) or (MNFN- & FNCA+) or (MNFN- & FNCN+) or (MNFN- & FNCW+) or (MNFN- & FNEV+ & FNCW+) or (MNFN- & FNEV+ & FNDL+) or (MNFN- & FNEV+ & FNJU+) or (MNFN- & FNEY+) or (MNFN- & FNFL+) or (MNFN- & FNFO+) or (MNFN- & FNFP+) or (MNFN- & FNFU+) or (MNFN- & FNHB+) or (MNFN- & FNHN+) or (MNFN- & FNHW+) or (MNFN- & FNJQ+) or (MNFN- & FNJY+ & FNCW+) or (MNFN- & FNKZ+) or (MNFN- & FNLH+) or (MPFN- & FNAS+) or (MPFN- & FNCV+) or (MPFN- & FNEV+) or (MPFN- & FNFO+) or (MPFN- & FNJY+) or (MRFN- & FNFL+) or (MRFN- & FNFO+) or (MRFN- & FNKZ+) or (MRFN- & FNLH+);
+
+% FO
+"it":
+(AGFO- & FOFN+) or (AHFO-) or (ARFO-) or (BDFO- & FOFN+) or (BKFO-) or (BLFO-) or (BNFO- & FOMH+) or (BSFO-) or (CCFO-) or (CPFO-) or (CQFO-) or (CRFO-) or (CSFO-) or (DKFO-) or (DRFO-) or (DSFO-) or (DUFO-) or (EEFO-) or (EEFO- & FODZ+) or (EEFO- & FOHS+) or (EEFO- & FOMO+) or (EHFO-) or (EPFO-) or (FCFO-) or (FLFO-) or (FNFO-) or (FOAD+) or (FOCP+) or (FOCT+) or (FOEK+) or (FOET+) or (FOFN+) or (FVFO-) or (FWFO-) or (FYFO-) or (GEFO-) or (GNFO-) or (HFFO- & FOAD+) or (HFFO- & FOCT+) or (HFFO- & FOEK+) or (HJFO- & FOGK+) or (HNFO-) or (HPFO-) or (HZFO-) or (JHFO-) or (JHFO- & FODC+) or (JMFO-) or (JOFO-) or (JWFO-) or (KJFO-) or (KRFO-) or (LCFO- & MXFO- & FOFN+) or (LGFO- & FOAD+) or (LLFO-) or (LMFO-) or (LXFO-) or (LYFO-) or (MAFO-) or (MFFO-) or (MJFO- & FOEK+) or (MNFO- & FOFN+) or (MPFO- & FOEK+) or (MUFO-) or (MXFO- & FOAD+) or (MXFO- & FOMW+) or (NAFO-) or (NAFO- & FOMB+);
+
+% FP
+"judy":
+(ADFP-) or (AMFP-) or (AMFP- & FPGK+) or (FNFP- & FPCW+) or (FPBV+) or (FPHX+) or (HNFP-) or (MUFP-);
+
+% FQ
+"just":
+(FQEJ+) or (FQEN+) or (FQGE+) or (FQGH+) or (FQJH+) or (FQJL+) or (FQMF+) or (KLFQ- & FQGE+);
+
+% FR
+"kay":
+(AQFR-) or (EUFR-) or (FNFR-) or (FRGA+ & FRAD+) or (FRMN+) or (MYFR- & DZFR-);
+
+% FS
+"kind":
+(FSHK+);
+
+% FT
+"kiss":
+(AFFT- & EHFT-) or (AFFT- & EHFT- & FTMY+ & FTLO+) or (ENFT- & FTMY+) or (FTFA+ & FTBQ+) or (GAFT- & FTFA+) or (GGFT- & AFFT- & EHFT-) or (HDFT- & AFFT-) or (HDFT- & LAFT- & DZFT-) or (LAFT- & DZFT-) or (LOFT- & MFFT-) or (LOFT- & MGFT- & FTMY+);
+
+% FU
+"kitty":
+(AFFU- & ADFU-) or (AFFU- & ETFU-) or (AFFU- & FNFU-) or (AFFU- & FUAD+) or (AFFU- & JWFU-) or (FUBY+) or (KGFU- & AFFU- & ADFU-) or (KZFU- & JWFU-) or (LAFU- & ADFU-) or (LAFU- & CSFU-) or (LAFU- & JWFU-) or (LHFU- & ARFU-) or (MZFU- & FNFU-);
+
+% FV
+"knock":
+(BVFV- & FVLB+ & FVHT+) or (CPFV- & FVLB+ & FVHT+) or (LOFV- & MFFV- & FVLB+ & FVHT+) or (MYFV- & FVFO+ & FVHT+);
+
+% FW
+"knocked":
+(GSFW- & FWLB+ & FWDC+) or (MYFW- & AYFW- & FWLB+ & FWDC+) or (MYFW- & FWFO+ & FWHT+) or (MYFW- & FWLB+ & FWHT+);
+
+% FX
+"know":
+(CPFX- & FXKZ+) or (CRFX- & FXFJ+) or (CRFX- & FXMN+) or (CRFX- & FXMP+) or (CRFX- & MNFX-) or (CZFX-) or (CZFX- & FXMN+) or (FXFJ+) or (FXMN+) or (MYFX- & FXAH+ & FXKZ+) or (MYFX- & FXAK+) or (MYFX- & FXCE+) or (MYFX- & FXFF+) or (MYFX- & FXFJ+) or (MYFX- & FXHO+) or (MYFX- & FXMN+);
+
+% FY
+"leave":
+(CZFY- & FYKZ+ & FYHN+) or (MTFY- & FYFO+ & FYHN+) or (MYFY- & FYBE+ & FYHN+);
+
+% FZ
+"lena":
+(ADFZ-) or (KZFZ- & ADFZ-) or (LHFZ- & ADFZ-) or (MYFZ- & DZFZ-);
+
+% GA
+"let":
+(AMGA- & GAGP+ & GAHS+) or (AMGA- & GAGS+ & GAFT+) or (BVGA- & GADD+ & GAHK+) or (CZGA- & GADD+ & GAHS+) or (CZGA- & GAFA+ & GAHS+) or (EYGA- & GAGP+ & GAEE+) or (FRGA-) or (GABH+ & GAKU+) or (GAEJ+) or (GAGA- & GAGP+) or (GAGP+ & GAEE+) or (GAGP+ & GAEW+) or (GAGP+ & GAHK+) or (GAGP+ & GAJM+) or (GAGP+ & GAKC+) or (GAHS+ & GAJE+ & GAGA+) or (JEGA- & GAGP+ & GAHS+) or (LCGA- & GAGP+ & GAEE+) or (LOGA- & GAGP+ & GAHS+ & GAJE+) or (MEGA- & GACV+) or (MTGA- & GAGP+ & GAHS+);
+
+% GB
+"let's":
+(GBAM+) or (GBBJ+) or (GBBS+) or (GBCR+) or (GBDR+) or (GBEE+) or (GBGH+) or (GBJC+) or (GBJH+) or (GBJM+) or (GBJO+) or (GBJW+) or (GBKE+) or (GBLX+) or (GBLY+);
+
+% GC
+"letter":
+(AFGC- & ADGC-) or (AFGC- & DUGC-) or (GCCA+) or (KZGC- & ADGC-) or (LAGC- & ADGC-) or (LHGC- & ADGC-) or (LHGC- & MNGC- & GCFN+) or (MNGC- & GCFN+);
+
+% GD
+"lift":
+(ABGD- & GDMB+ & GDDB+) or (JWGD- & GDMB+) or (LOGD- & EUGD- & GDMB+) or (LOGD- & GDMB+) or (MYGD- & FKGD- & GDMB+) or (MYGD- & GDMB+);
+
+% GE
+"like":
+(ABGE- & GEKZ+) or (ADGE- & GEEQ+) or (ADGE- & GEGT+) or (ADGE- & GEKW+) or (CPGE- & GEBE+) or (CPGE- & GEFA+) or (CRGE- & GEAW+) or (CRGE- & GEBF+) or (CRGE- & GECU+) or (CRGE- & GEDD+ & GELN+) or (CRGE- & GEDJ+) or (CRGE- & GEFA+) or (CRGE- & GEKZ+) or (CRGE- & GELD+) or (CRGE- & GELJ+) or (CSGE- & GEDG+) or (CSGE- & GELO+ & GEDK+) or (CZGE- & GEBE+) or (CZGE- & GEFO+) or (CZGE- & GEHO+ & GEGZ+) or (CZGE- & GEKZ+) or (DCGE- & GEKZ+) or (DSGE- & GEKV+) or (DSGE- & MNGE-) or (EJGE- & GEKZ+) or (EJGE- & GELH+) or (EUGE- & GEKZ+) or (FFGE- & GEMY+) or (FNGE- & GEBE+) or (FQGE- & GEBZ+) or (FQGE- & GEKZ+) or (FQGE- & MYGE- & GELJ+ & GEGZ+) or (GEJF+) or (GHGE- & GEDW+) or (GHGE- & GEKA+) or (GHGE- & MNGE-) or (GHGE- & MRGE-) or (GKGE- & GEBE+) or (GKGE- & GEGT+) or (GKGE- & GEHO+) or (GKGE- & GEJB+) or (HFGE- & GELH+ & GEMU+) or (KHGE- & GEHW+) or (KHGE- & MNGE-) or (MBGE- & GELH+) or (MUGE- & GELB+) or (MWGE- & GEBC+) or (MWGE- & GECV+) or (MWGE- & GEFO+) or (MWGE- & GEGP+ & GELO+) or (MWGE- & GEGP+ & GELO+ & GEEE+) or (MWGE- & GEGP+ & GELO+ & GEHZ+) or (MWGE- & GEKZ+) or (MWGE- & GELO+) or (MWGE- & GELO+ & GEAM+) or (MWGE- & GELO+ & GEEE+) or (MWGE- & GELO+ & GEGH+) or (MWGE- & GELO+ & GEJC+) or (MWGE- & GELO+ & GEKE+) or (MWGE- & GELO+ & GEKU+) or (MWGE- & HKGE- & GELO+ & GEBS+) or (MWGE- & HOGE-) or (MWGE- & MNGE-) or (MWGE- & MNGE- & GEHJ+) or (MWGE- & MNGE- & GELO+ & GEBS+) or (MWGE- & MNGE- & GELO+ & GEEH+) or (MYGE- & GEBD+) or (MYGE- & GEBF+) or (MYGE- & GEBG+) or (MYGE- & GECU+) or (MYGE- & GECV+) or (MYGE- & GEDB+) or (MYGE- & GEJN+) or (MYGE- & GEKW+) or (MYGE- & GEKZ+) or (MYGE- & GELJ+) or (MYGE- & GELQ+);
+
+% GF
+"likes":
+(CVGF- & GFLO+ & GFKP+) or (DDGF- & MNGF- & GFLO+ & GFDK+) or (EVGF- & GFLO+ & GFDK+);
+
+% GG
+"little":
+(AFGG- & GGAS+) or (AFGG- & GGBE+) or (AFGG- & GGBH+) or (AFGG- & GGDB+) or (AFGG- & GGFH+) or (AFGG- & GGFT+) or (AFGG- & GGJF+) or (AFGG- & GGLT+) or (AFGG- & GGLU+) or (GGAN+) or (GGBH+) or (GGBZ+) or (GGCX+) or (GGDP+) or (GGEG+) or (GGEQ+) or (GGFH+) or (GGKW+);
+
+% GH
+"look":
+(BVGH- & GHFL+) or (BVGH- & GHHS+) or (CPGH- & GHDZ+) or (CRGH- & GHJG+) or (CSGH- & GHGE+) or (CZGH- & GHAR+) or (FQGH- & GHAR+) or (GBGH- & GHAR+) or (GBGH- & GHAR+ & GHGV+ & GHHM+) or (GBGH- & GHLK+ & GHGV+) or (GHAR+) or (GHAR+ & GHAM+) or (GHAR+ & GHHT+) or (GHFL+) or (GHHW+) or (GNGH- & GHHD+) or (HJGH- & GHFL+) or (KBGH- & GHFL+ & GHMJ+) or (LEGH- & GHGE+) or (LOGH- & GEGH- & GHAR+) or (LOGH- & MFGH- & GHAR+) or (MEGH- & MYGH- & CRGH-) or (MYGH- & GHAR+) or (MYGH- & GHFF+) or (MYGH- & GHFL+);
+
+% GJ
+"looking":
+(ACGJ- & GJDZ+) or (ADGJ- & GJAR+) or (AQGJ- & GJDZ+) or (GJCL+) or (GJCU+) or (GJDO+) or (MYGJ- & GJDZ+);
+
+% GK
+"looks":
+(EVGK- & GKHD+) or (FOGK- & GKGE+) or (FPGK- & AMGK- & GKFL+) or (GKGE+) or (LHGK- & GKGE+);
+
+% GL
+"lot":
+(AFGL- & ADGL- & GLHK+) or (AFGL- & GLHK+ & GLLJ+);
+
+% GM
+"lots":
+(AMGM- & AQGM- & GMHK+) or (CRGM- & GMHK+) or (EPGM- & GMHK+);
+
+% GN
+"make":
+(BVGN- & GNDD+ & GNCG+) or (BVGN- & GNFA+ & GNBB+) or (BVGN- & GNKM+) or (BVGN- & GNLT+) or (BVGN- & GNLT+ & GNMU+) or (BVGN- & LGGN- & GNFO+ & GNJR+) or (BWGN- & GNKZ+ & GNCG+) or (CRGN- & GNLT+) or (CZGN- & GNBH+ & GNJT+) or (ENGN- & GNDD+) or (ENGN- & GNFA+ & GNGH+) or (GNEX+ & GNKE+) or (GNFA+ & GNBB+) or (GNFA+ & GNMD+) or (JEGN- & MWGN- & GNGP+ & GNKL+) or (LOGN- & ELGN-) or (LOGN- & ELGN- & GNFA+ & GNJG+) or (LOGN- & ELGN- & MNGN- & GNGP+) or (LOGN- & MFGN- & GNFO+);
+
+% GO
+"many":
+(FJGO- & GOAQ+) or (FJGO- & GOBD+) or (FJGO- & GOCR+ & GOEU+) or (FJGO- & GOFN+) or (FJGO- & GOKA+) or (KKGO- & GOKA+) or (KKGO- & GOLV+) or (LRGO- & AQGO-);
+
+% GP
+"me":
+(BUGP-) or (DUGP-) or (DZGP-) or (EHGP-) or (EWGP-) or (GAGP-) or (GEGP-) or (GNGP-) or (GPHS+) or (JMGP-) or (JOGP-) or (KCGP-) or (KDGP-) or (KXGP-) or (LOGP-) or (MFGP-);
+
+% GQ
+"meat":
+(HAGQ- & DZGQ-) or (HKGQ-) or (LAGQ- & AKGQ-) or (LAGQ- & JMGQ-);
+
+% GR
+"mirror":
+(AFGR- & ADGR-) or (KZGR- & FLGR-) or (LAGR- & FLGR-) or (LHGR- & FMGR-);
+
+% GS
+"mommy":
+(AJGS- & GSFW+) or (BBGS-) or (BNGS- & GSMG+) or (BVGS-) or (BWGS-) or (DZGS-) or (EHGS-) or (EXGS- & FNGS-) or (EYGS- & GSMT+) or (FJGS- & GSCS+) or (GAGS-) or (GSAD+) or (GSCT+) or (GSCW+) or (GSEP+) or (GSJO+) or (GSMT+) or (HNGS-) or (KXGS-) or (LAGS- & ADGS-) or (LOGS-) or (MFGS-) or (MOGS- & GSMH+);
+
+% GT
+"monkey":
+(AFGT- & ACGT-) or (AFGT- & ADGT-) or (KZGT- & CPGT-) or (LHGT- & GTAD+) or (MZGT- & GEGT-);
+
+% GU
+"moon":
+(LAGU- & ADGU-);
+
+% GV
+"more":
+(GVHK+ & GVLJ+) or (HOGV- & ADGV-) or (HOGV- & CRGV-) or (HOGV- & GVEG+) or (KLGV- & ADGV-) or (KLGV- & ARGV- & GVHK+) or (KLGV- & CFGV-) or (KLGV- & EUGV- & GVHK+) or (KLGV- & GHGV-) or (KLGV- & GVBD+) or (KLGV- & JLGV-) or (KLGV- & MFGV-) or (MHGV-);
+
+% GW
+"morning":
+(EOGW- & JTGW-) or (LHGW- & JGGW-) or (LHGW- & JPGW-) or (LHGW- & JWGW-) or (LHGW- & MAGW-) or (LHGW- & MMGW-);
+
+% GX
+"mouse":
+(AFGX- & ADGX-) or (AFGX- & FNGX-) or (LAGX- & DUGX-) or (LAGX- & MUGX- & GXHN+);
+
+% GY
+"mouth":
+(ADGY- & ADGY-) or (FBGY- & ADGY-) or (FBGY- & FLGY-) or (FBGY- & FNGY-) or (FBGY- & HPGY-) or (GYCO+) or (MZGY- & FLGY-);
+
+% GZ
+"much":
+(KKGZ- & GEGZ-) or (KKGZ- & JQGZ- & GZDZ+) or (LRGZ- & AQGZ-) or (MCGZ- & GEGZ-);
+
+% HA
+"my":
+(HAAP+) or (HABK+) or (HABR+) or (HACN+) or (HADB+) or (HADJ+) or (HAEA+) or (HAEQ+) or (HAER+) or (HAFH+) or (HAGQ+) or (HAHB+) or (HAHG+) or (HAKA+) or (HALQ+);
+
+% HB
+"name":
+(ADHB- & ADHB-) or (AFHB- & EUHB-) or (CPHB- & MNHB- & HBCU+) or (EXHB- & ADHB-) or (FBHB- & ADHB-) or (FBHB- & FNHB-) or (HAHB- & ADHB-) or (HAHB- & HBFN+) or (HBCA+) or (MZHB- & ADHB-) or (MZHB- & HBFN+);
+
+% HC
+"need":
+(CZHC- & HCLO+ & HCCF+) or (MYHC- & HCEW+) or (MYHC- & HCJF+);
+
+% HD
+"nice":
+(ADHD-) or (AFHD- & HDBE+) or (AFHD- & HDCV+) or (AFHD- & HDEG+) or (AFHD- & HDFH+) or (AFHD- & HDFT+) or (AFHD- & HDHO+) or (AFHD- & HDJC+) or (AFHD- & HDJL+) or (AXHD-) or (DSHD-) or (GHHD-) or (GKHD- & HDHJ+) or (HDFT+) or (HDLF+) or (JGHD- & ADHD-) or (MCHD- & ADHD-);
+
+% HE
+"night":
+(HEHE+) or (HEHE- & ELHE- & ADHE-);
+
+% HF
+"no":
+(HFDB+) or (HFEB+) or (HFEV+) or (HFFO+) or (HFGE+) or (HFKZ+) or (HFLC+) or (HFLE+) or (HFLJ+) or (HFMY+);
+
+% HG
+"nose":
+(ADHG- & ADHG-) or (ADHG- & FNHG-) or (HAHG- & EEHG-) or (HAHG- & EPHG-) or (HAHG- & HNHG-) or (MZHG- & ADHG-) or (MZHG- & DKHG-);
+
+% HH
+"not":
+(ACHH- & HHEO+) or (ADHH-) or (AQHH- & HHEL+);
+
+% HJ
+"now":
+(CRHJ-) or (DCHJ-) or (GEHJ-) or (HDHJ-) or (HJAS+) or (HJBV+) or (HJCC+) or (HJDB+) or (HJEV+) or (HJFO+) or (HJGH+) or (HJHP+) or (HJJM+) or (HJJW+) or (HJLX+) or (HJMY+) or (HMHJ-) or (HSHJ-) or (JCHJ-) or (JGHJ-) or (JMHJ-) or (JQHJ-) or (KFHJ-) or (MBHJ-) or (MFHJ-);
+
+% HK
+"of":
+(AKHK- & HKLB+) or (ATHK- & HKBE+) or (FSHK- & MNHK- & HKAN+ & HKFN+) or (FSHK- & MNHK- & HKBZ+ & HKFN+) or (FSHK- & MNHK- & HKCV+ & HKMW+ & HKGE+) or (GLHK- & HKBF+) or (GLHK- & HKLF+) or (GLHK- & HKLJ+) or (GLHK- & HKLV+) or (GMHK- & HKAW+) or (GMHK- & HKLF+) or (GVHK- & HKBE+) or (GVHK- & HKBH+) or (GVHK- & HKLJ+) or (HOHK- & HKLD+) or (HOHK- & HKLJ+) or (HSHK- & EEHK- & HKBZ+) or (HSHK- & GAHK- & HKBR+) or (HSHK- & GAHK- & HKEY+) or (HSHK- & KTHK- & HKFH+) or (JAHK- & HKGQ+);
+
+% HL
+"off":
+(CGHL-) or (DTHL-) or (EEHL-) or (JHHL-) or (KTHL-) or (KTHL- & HLKA+);
+
+% HM
+"okay":
+(ADHM-) or (ADHM- & HMHJ+) or (ADHM- & HMLC+) or (ADHM- & HMLN+) or (ATHM-) or (EEHM-) or (GHHM-) or (HMAT+) or (HMCF+) or (HMCR+) or (HMEV+) or (HMEY+ & HMFN+) or (HMJM+) or (HMJX+) or (HMKO+) or (HMKZ+) or (HMME+) or (HMMK+) or (HMMN+) or (HMMW+) or (HMMY+) or (HMNA+) or (KMHM-) or (MFHM-);
+
+% HN
+"on":
+(ACHN- & HNKS+) or (ADHN- & HNAJ+) or (ADHN- & HNAT+) or (ADHN- & HNCX+) or (ADHN- & HNDY+) or (ADHN- & HNED+) or (ADHN- & HNHU+) or (ADHN- & HNHY+) or (ADHN- & HNKW+) or (ADHN- & HNKZ+) or (ADHN- & HNLC+) or (ADHN- & HNLZ+) or (BSHN- & HNHY+) or (BSHN- & HNKW+) or (BTHN- & HNHY+) or (CCHN- & HNFH+) or (CDHN- & HNHG+) or (CNHN- & HNHY+) or (DCHN- & HNBR+) or (DCHN- & HNDD+) or (EPHN-) or (ETHN- & HNFP+) or (EUHN- & HNFB+) or (FCHN-) or (FNHN- & HNHU+) or (FNHN- & HNHY+) or (FYHN-) or (GXHN- & HNFO+) or (HNLS+) or (JLHN- & HNBP+) or (JMHN-) or (JMHN- & HNGS+) or (JMHN- & HNLB+) or (JMHN- & HNMJ+) or (JWHN- & HNLC+) or (JWHN- & HNMJ+) or (KFHN- & HNBZ+) or (KFHN- & HNFG+) or (KRHN- & HNEY+) or (KRHN- & HNLC+) or (KUHN- & HNHY+) or (KUHN- & HNKW+) or (KVHN- & HNHY+) or (KVHN- & HNKW+) or (LYHN-) or (MBHN- & HNBZ+) or (MDHN- & HNKS+) or (MEHN- & HNKW+) or (MHHN- & HNAT+);
+
+% HO
+"one":
+(ADHO-) or (AOHO- & ADHO-) or (AOHO- & DUHO-) or (AOHO- & JMHO-) or (EPHO-) or (EUHO-) or (EUHO- & HOHK+) or (HDHO- & AFHO- & FNHO-) or (HDHO- & AFHO- & GEHO-) or (HOBH+) or (HOGV+) or (HRHO- & JMHO-) or (JMHO-) or (JQHO- & LAHO- & ADHO-) or (JQHO- & LAHO- & FNHO-) or (JWHO- & HOHK+) or (KZHO- & ADHO-) or (KZHO- & DSHO-) or (KZHO- & FNHO-) or (KZHO- & FXHO-) or (KZHO- & HOAD+) or (KZHO- & JMHO-) or (KZHO- & JOHO-) or (KZHO- & JWHO- & HOLP+) or (KZHO- & MFHO-) or (KZHO- & MXHO- & HOAD+) or (LAHO- & FNHO- & HOMU+) or (LHHO- & ADHO-) or (LHHO- & ARHO-) or (LHHO- & BSHO-) or (LHHO- & CRHO-) or (LHHO- & GEHO-) or (LHHO- & HOAD+) or (LHHO- & HOET+) or (LHHO- & JMHO-) or (LHHO- & MFHO-) or (LHHO- & MUHO-) or (MGHO-) or (MQHO- & HOAD+) or (MQHO- & HOCR+ & HOMF+) or (MQHO- & HOMW+ & HOGE+);
+
+% HP
+"open":
+(BVHP- & HPDB+) or (BVHP- & HPFO+) or (BVHP- & HPFO+ & HPFK+) or (BVHP- & HPGY+) or (BVHP- & HPKZ+) or (CZHP-) or (CZHP- & HPDB+) or (FNHP-) or (HJHP- & HPDB+) or (HPDB+ & HPAM+) or (HPDB+ & HPJE+) or (JXHP- & HPDB+) or (LOHP- & EUHP- & HPDB+ & HPLO+) or (LOHP- & FJHP- & HPDB+) or (LOHP- & MFHP- & HPLB+);
+
+% HQ
+"or":
+(CXHQ- & HQBH+ & HQCX+) or (EGHQ- & FNHQ- & HQBH+) or (HQCP+ & HQJW+);
+
+% HR
+"other":
+(FBHR- & HRJZ+) or (LAHR- & HRBD+) or (LAHR- & HRBE+) or (LAHR- & HRHO+);
+
+% HS
+"out":
+(ADHS-) or (ATHS-) or (CGHS-) or (CGHS- & HSDB+) or (CGHS- & HSMJ+) or (CHHS- & HSMJ+) or (CVHS- & HSHJ+) or (EEHS-) or (EFHS-) or (FOHS- & HSHJ+) or (GAHS-) or (GHHS- & HSLS+) or (GPHS- & GAHS-) or (HSHK+) or (HZHS-) or (JHHS-) or (JMHS-) or (KRHS-) or (KTHS-);
+
+% HT
+"over":
+(ADHT- & HTEY+) or (ADHT- & HTLC+) or (AKHT- & JMHT- & HTEY+) or (ATHT- & HTEY+) or (BJHT-) or (BJHT- & HTEY+) or (DTHT-) or (FVHT-) or (FWHT-) or (GHHT- & HTLC+) or (JMHT- & HTEY+) or (LYHT- & HTMJ+);
+
+% HU
+"page":
+(AFHU- & ADHU-) or (KZHU- & HNHU-) or (LAHU- & HNHU-) or (LAHU- & LYHU-) or (LHHU- & ARHU-) or (LHHU- & HNHU-) or (LHHU- & LXHU-) or (LHHU- & LYHU-);
+
+% HV
+"pat":
+(BVHV- & HVBM+) or (HVBE+) or (LOHV- & MFHV- & HVBM+) or (MYHV- & HVBM+);
+
+% HW
+"paul":
+(ADHW-) or (DUHW-) or (FNHW-) or (FNHW- & HWCW+) or (GEHW-) or (GHHW- & HWAM+) or (HWAM+) or (HWBV+) or (HWCW+) or (LOHW-) or (MUHW-);
+
+% HX
+"peekaboo":
+(ADHX-) or (EJHX-) or (JCHX-) or (JCHX- & BVHX- & FPHX- & JCHX-) or (JDHX-) or (LOHX-);
+
+% HY
+"phone":
+(AFHY- & ADHY-) or (BPHY- & JLHY- & AFHY- & ADHY-) or (ECHY- & AFHY- & ADHY-) or (LAHY- & ADHY-) or (LAHY- & CPHY-) or (LAHY- & DZHY-) or (LAHY- & ESHY-) or (LAHY- & HNHY-) or (LAHY- & HNHY- & HYEV+ & HYBU+) or (LAHY- & HYAD+) or (LHHY- & HNHY-);
+
+% HZ
+"pick":
+(LOHZ- & GEHZ- & HZLB+ & HZMB+) or (LOHZ- & MFHZ- & HZFO+ & HZMB+) or (LOHZ- & MFHZ- & HZLB+ & HZMB+) or (MYHZ- & HZFO+ & HZHS+);
+
+% JA
+"piece":
+(LHJA- & DKJA- & JAHK+);
+
+% JB
+"pig":
+(AFJB- & ADJB-) or (AFJB- & FNJB-) or (AFJB- & GEJB-) or (AFJB- & MHJB-) or (JBCA+) or (LAJB- & EEJB-);
+
+% JC
+"play":
+(AMJC- & JCMU+) or (BVJC-) or (BVJC- & JCHX+) or (BVJC- & JCHX+ & JCMU+) or (BVJC- & JCMU+) or (CSJC- & JCHX+) or (GBJC- & JCMU+) or (HDJC- & JCKS+) or (JCHX+) or (JXJC- & JCMU+ & JCHJ+) or (LOJC- & GEJC- & JCMU+) or (LOJC- & JCMU+) or (LOJC- & MFJC-) or (LOJC- & MFJC- & JCMU+) or (MEJC-) or (MYJC-) or (MYJC- & JCHX+) or (MYJC- & JCMU+);
+
+% JD
+"playing":
+(ADJD- & JDHX+) or (ADJD- & JDMU+) or (AQJD- & JDMU+) or (FNJD- & JDHX+);
+
+% JE
+"please":
+(BKJE-) or (DCJE-) or (EUJE-) or (GAJE-) or (HPJE-) or (JEGA+) or (JEGN+) or (JEJM+) or (KEJE-);
+
+% JF
+"pocketbook":
+(GGJF- & AFJF- & GEJF-) or (MZJF- & ADJF-) or (MZJF- & CPJF-) or (MZJF- & EUJF-) or (MZJF- & FMJF-) or (MZJF- & HCJF-);
+
+% JG
+"pretty":
+(ACJG-) or (ADJG-) or (AFJG- & JGAZ+) or (AQJG-) or (AXJG-) or (EPJG-) or (GHJG- & JGHJ+) or (GNJG- & JGGW+) or (JGAW+) or (JGDW+) or (JGHD+) or (KHJG-);
+
+% JH
+"pull":
+(AFJH- & EHJH-) or (BVJH- & JHFO+ & JHHS+) or (BVJH- & JHFO+ & JHMB+) or (CZJH- & JHBM+) or (CZJH- & JHFO+ & JHHL+) or (FQJH- & JHLB+ & JHHS+) or (FQJH- & JHMJ+) or (GBJH- & JHFO+) or (JHFO+ & JHMJ+) or (JHJH+) or (JHJH- & JHJH- & JHJH-) or (LOJH- & EUJH- & JHMB+) or (LOJH- & JHDC+ & JHNB+);
+
+% JJ
+"puppet":
+(AFJJ- & ADJJ-) or (AFJJ- & FNJJ- & JJFL+) or (DDJJ- & AFJJ- & ADJJ-) or (LAJJ- & FLJJ-);
+
+% JK
+"puppy":
+(AFJK- & ADJK-) or (AFJK- & FNJK-) or (LAJK- & JKAD+) or (LAJK- & JOJK-) or (LAJK- & KTJK-);
+
+% JL
+"push":
+(FQJL- & JLFA+ & JLFL+ & JLGV+) or (HDJL- & JLHY+) or (JLDB+ & JLDC+) or (JLLQ+ & JLFL+) or (LOJL- & EUJL- & JLCU+ & JLFL+ & JLGV+) or (LOJL- & FJJL-) or (MYJL- & JLHN+);
+
+% JM
+"put":
+(ABJM- & JMAK+ & JMFL+) or (ABJM- & JMFO+ & JMAT+ & JMHT+) or (ABJM- & JMLB+ & JMHT+) or (BVJM- & JMDV+ & JMLK+) or (BVJM- & JMER+ & JMFL+) or (BVJM- & JMFA+ & JMDC+) or (BVJM- & JMFA+ & JMFL+) or (BVJM- & JMHO+ & JMHN+) or (BVJM- & JMKZ+ & JMFL+) or (BVJM- & JMLB+ & JMAT+) or (BVJM- & JMLB+ & JMLS+) or (CJJM- & JMFO+ & JMFL+) or (CRJM- & MNJM- & AMJM- & JMHN+) or (CRJM- & MNJM- & JMFL+) or (ENJM- & JMCU+ & JMFL+) or (ENJM- & JMFO+ & JMAT+) or (ENJM- & JMLB+ & JMAT+) or (ENJM- & JMLB+ & JMAT+ & JMFL+) or (ENJM- & MPJM- & JMFO+) or (EWJM- & JMFO+ & JMHN+) or (EYJM- & JMCV+ & JMFL+) or (EYJM- & JMFO+ & JMHN+) or (GAJM- & JMCV+ & JMAT+ & JMFL+) or (GBJM- & JMCU+ & JMAT+ & JMFL+) or (GBJM- & JMCV+ & JMFL+) or (GBJM- & JMFA+ & JMDC+) or (HJJM- & JMER+ & JMFL+) or (HJJM- & JMFA+ & JMFL+) or (HMJM- & JMHO+ & JMAT+) or (HMJM- & JMHO+ & JMLS+) or (JEJM- & JMFH+ & JMDC+) or (JMBC+ & JMFL+) or (JMCU+ & JMFL+) or (JMCV+ & JMAT+) or (JMCV+ & JMAT+ & JMFL+) or (JMCV+ & JMFL+) or (JMDV+ & JMFL+) or (JMDV+ & JMLK+) or (JMER+ & JMFL+) or (JMER+ & JMFM+) or (JMER+ & JMJQ+) or (JMER+ & JMLC+) or (JMFA+ & JMDC+) or (JMFA+ & JMFL+) or (JMFA+ & JMFL+ & JMHJ+) or (JMFL+ & JMAT+) or (JMFO+ & JMDC+) or (JMFO+ & JMFL+) or (JMFO+ & JMLS+) or (JMGQ+ & JMFL+) or (JMHO+ & JMLS+) or (JMHS+ & JMER+) or (JMLB+ & JMAT+ & JMFL+) or (JWJM- & JMER+ & JMFL+) or (KBJM- & JMCU+ & JMAT+) or (LOJM- & EUJM- & JMFO+ & JMLK+) or (LOJM- & JMCU+ & JMFL+) or (LOJM- & MFJM- & JMFA+ & JMAT+) or (LOJM- & MFJM- & JMFO+ & JMFL+) or (LOJM- & MPJM- & JMCV+) or (MEJM- & JMCU+ & JMFL+) or (MEJM- & JMCV+ & JMFL+) or (MEJM- & JMDV+ & JMLK+) or (MEJM- & JMER+ & JMFL+) or (MEJM- & JMER+ & JMFM+) or (MEJM- & JMFA+ & JMAT+) or (MEJM- & JMFA+ & JMFL+) or (MEJM- & JMFO+ & JMAT+ & JMFL+) or (MEJM- & JMFO+ & JMDC+) or (MEJM- & JMFO+ & JMFL+) or (MEJM- & JMFO+ & JMFM+) or (MEJM- & JMFO+ & JMHN+) or (MEJM- & JMHN+ & JMLS+) or (MEJM- & JMHO+ & JMLS+) or (MEJM- & JMJR+ & JMHN+) or (MEJM- & JMKZ+ & JMFL+) or (MEJM- & JMLB+ & JMAT+) or (MEJM- & JMLD+ & JMFL+) or (MEJM- & JMLH+ & JMAT+) or (MEJM- & JMLH+ & JMHN+) or (MXJM- & JMFO+ & JMLS+) or (MYJM- & JMCV+ & JMFL+) or (MYJM- & JMDV+ & JMFL+) or (MYJM- & JMDV+ & JMLK+) or (MYJM- & JMDX+ & JMFL+) or (MYJM- & JMER+ & JMFL+) or (MYJM- & JMFA+ & JMAT+) or (MYJM- & JMFO+ & JMFM+) or (MYJM- & JMFO+ & JMLS+) or (MYJM- & JMGP+ & JMAT+ & JMFL+) or (MYJM- & JMHO+ & JMLS+) or (MYJM- & JMLQ+ & JMFL+) or (MYJM- & MPJM- & JMER+ & JMFL+);
+
+% JN
+"rabbit":
+(AFJN- & ADJN-) or (AZJN- & AFJN-) or (FNJN- & JNCW+) or (JNKG+) or (LAJN- & ADJN-) or (LAJN- & DZJN-) or (LAJN- & GEJN-) or (LHJN- & ADJN-);
+
+% JO
+"read":
+(ADJO- & JOBE+) or (BVJO- & JOBE+) or (BVJO- & JOBE+ & JOLO+) or (CQJO- & JOBE+) or (CQJO- & JOGP+ & JOBE+) or (GBJO- & JOBE+) or (GSJO- & JOBE+) or (JOGP+ & JOBE+) or (JOJK+ & JOBE+) or (JXJO- & JOBE+) or (MEJO- & JOBE+) or (MEJO- & JOHO+) or (MTJO- & JOFO+) or (MTJO- & JOGP+ & JOBE+) or (MYJO- & JOBE+) or (MYJO- & JOFA+ & JOBE+) or (MYJO- & JOFO+) or (MYJO- & JOFO+ & JOLO+);
+
+% JP
+"remember":
+(CRJP- & JPAM+) or (CRJP- & JPBE+) or (CRJP- & JPLH+) or (CRJP- & JPLJ+) or (CRJP- & JPMO+) or (JPLW+ & JPGW+);
+
+% JQ
+"right":
+(ACJQ-) or (ADJQ-) or (ADJQ- & JQLC+) or (AKJQ- & ADJQ-) or (AKJQ- & DKJQ-) or (AKJQ- & FNJQ-) or (AKJQ- & JQBD+) or (AKJQ- & JQEY+) or (AKJQ- & JQEY+ & JQFN+) or (AKJQ- & JQGZ+) or (AKJQ- & JQHJ+) or (BSJQ- & JQHJ+) or (BZJQ- & JQEY+) or (JMJQ- & JQFL+) or (JQHO+) or (JQLC+) or (JQLC+ & JQLC+ & JQFN+) or (KEJQ- & JQEY+) or (KRJQ-) or (KUJQ- & JQFL+) or (KZJQ- & ADJQ- & JQLC+) or (KZJQ- & FNJQ- & JQLC+) or (KZJQ- & JWJQ-) or (LHJQ- & ADJQ- & JQEY+);
+
+% JR
+"ring":
+(ADJR- & ADJR-) or (ADJR- & LKJR-) or (AFJR- & ADJR-) or (CPJR-) or (GNJR-) or (JRCO+) or (LAJR- & FLJR-) or (LAJR- & FNJR-) or (LAJR- & JMJR-) or (LAJR- & LKJR-) or (MZJR- & ADJR-);
+
+% JS
+"saw":
+(MYJS- & JSCV+);
+
+% JT
+"say":
+(AMJT- & JTBQ+) or (BVJT- & JTBQ+) or (BVJT- & JTEZ+) or (BVJT- & JTEZ+ & JTLO+) or (BVJT- & JTGW+) or (BVJT- & JTKA+) or (CPJT-) or (CPJT- & JTEZ+ & JTLO+) or (CPJT- & MNJT-) or (CRJT- & MNJT-) or (CRJT- & MNJT- & JTED+) or (CSJT- & MNJT-) or (CSJT- & MNJT- & JTAJ+) or (ENJT-) or (ENJT- & MNJT-) or (ENJT- & MNJT- & JTLO+) or (GNJT- & JTKM+) or (JTBQ+ & JTLO+) or (JTEZ+ & JTLO+) or (JTKY+) or (KBJT- & MNJT-) or (LEJT- & JTCA+) or (LOJT- & ELJT- & MNJT-) or (MYJT- & AKJT-) or (MYJT- & JTEZ+ & JTFL+);
+
+% JU
+"saying":
+(AQJU- & MNJU-) or (CNJU- & ADJU-) or (CNJU- & MNJU-) or (FNJU- & MNJU-) or (JUBQ+);
+
+% JV
+"scratchy":
+(AFJV- & JVDP+) or (JVDP+);
+
+% JW
+"see":
+(ABJW- & AMJW- & JWBG+) or (AMJW- & JWFK+) or (AMJW- & JWLB+) or (BVJW- & JWCU+) or (BVJW- & JWDF+) or (CPJW- & HQJW- & JWBE+ & JWEY+) or (CPJW- & JWBX+) or (CPJW- & JWDD+) or (CPJW- & JWFD+) or (CPJW- & JWFH+) or (CPJW- & JWHO+) or (CPJW- & JWLH+) or (CPJW- & JWLJ+ & JWGW+ & JWHN+ & JWEY+) or (CPJW- & MNJW-) or (CQJW- & JWBE+) or (CQJW- & JWHO+) or (CRJW-) or (CRJW- & JWBH+) or (CRJW- & JWCB+) or (CRJW- & JWCV+) or (CRJW- & JWEG+ & JWEY+) or (CRJW- & JWEX+) or (CRJW- & JWFA+ & JWEY+) or (CRJW- & JWFJ+) or (CRJW- & JWFL+) or (CRJW- & JWFO+) or (CRJW- & JWFU+) or (CRJW- & JWFU+ & JWHN+) or (CRJW- & JWKM+) or (CRJW- & JWKN+) or (CRJW- & JWLD+) or (CRJW- & JWLW+) or (CRJW- & MNJW-) or (CRJW- & MNJW- & JWDC+ & JWLC+) or (CRJW- & MNJW- & JWEY+) or (CRJW- & MNJW- & JWFL+) or (CRJW- & MNJW- & JWLC+) or (CZJW- & JWFA+) or (GBJW- & JWCU+) or (GBJW- & JWFK+) or (GBJW- & JWMN+) or (HJJW- & JWMN+) or (JWAK+) or (JWAM+) or (JWAT+) or (JWBE+ & JWAH+) or (JWBH+) or (JWDO+) or (JWDO+ & JWCD+) or (JWDW+) or (JWEQ+ & JWLC+) or (JWEV+ & JWAD+) or (JWFA+ & JWMD+) or (JWFJ+) or (JWFK+) or (JWFL+) or (JWJQ+ & JWLC+) or (JWLE+ & JWMA+) or (JWLH+ & JWDW+) or (JWLH+ & JWFN+) or (JWLQ+) or (JWMB+) or (JWMN+) or (JWMR+) or (JWMY+ & JWGD+) or (JWMY+ & JWJM+) or (LOJW- & MFJW- & JWBE+) or (LOJW- & MFJW- & JWFO+) or (LOJW- & MFJW- & JWKZ+) or (MYJW- & JWDW+) or (MYJW- & JWEX+) or (MYJW- & JWFJ+);
+
+% JX
+"shall":
+(HMJX- & JXMK+ & JXJC+) or (JXMK+ & JXHP+) or (JXMK+ & JXJO+) or (JXMK+ & JXKT+) or (JXMK+ & JXLM+) or (MNJX- & JXMK+ & JXEH+);
+
+% JY
+"she":
+(CPJY-) or (CSJY-) or (FNJY-) or (JYAD+) or (JYFN+) or (JYMM+) or (KBJY-) or (MNJY- & JYAD+);
+
+% JZ
+"shoe":
+(ADJZ- & ADJZ-) or (ADJZ- & FNJZ-) or (ADJZ- & LMJZ-) or (FBJZ- & JZCT+) or (FBJZ- & MAJZ-) or (HRJZ- & ADJZ-) or (LAJZ- & MAJZ-) or (MZJZ- & BJJZ-);
+
+% KA
+"shoes":
+(ADKA-) or (ADKA- & AQKA-) or (ADKA- & ARKA-) or (AQKA-) or (EPKA-) or (ETKA-) or (EUKA-) or (EXKA- & LMKA-) or (FBKA- & AQKA-) or (FBKA- & MAKA-) or (GOKA- & ETKA-) or (GOKA- & KACS+ & KAEU+) or (HAKA- & HLKA-) or (JTKA-) or (LAKA- & KACG+) or (LDKA- & GEKA-) or (LJKA- & AQKA-) or (MZKA- & AQKA-) or (MZKA- & EEKA-);
+
+% KB
+"should":
+(KBMK+ & KBJM+) or (MNKB- & KBBH+ & KBJT+) or (MPKB- & KBJY+ & KBEJ+) or (MYKB- & KBGH+);
+
+% KC
+"show":
+(ENKC- & KCCU+) or (ENKC- & KCCU+ & KCDG+) or (GAKC- & KCMY+ & KCKM+) or (MYKC- & KCGP+ & KCMN+);
+
+% KD
+"sing":
+(BVKD- & KDGP+) or (ENKD- & MNKD-);
+
+% KE
+"sit":
+(BVKE- & KEDC+ & KEJE+ & KEED+) or (CRKE- & KEFL+) or (EUKE- & KEJQ+) or (GBKE- & KEMB+) or (GNKE- & KEDC+) or (KEDC+) or (KEMB+) or (LOKE- & GEKE- & KEFL+) or (LOKE- & MFKE-) or (LOKE- & MFKE- & KEDC+) or (MWKE- & KEDC+) or (MYKE- & KEDC+);
+
+% KF
+"sitting":
+(ACKF- & KFFL+) or (ADKF- & KFDC+) or (ADKF- & KFHN+) or (AQKF- & KFFL+ & KFHJ+);
+
+% KG
+"sleeping":
+(ADKG-) or (BMKG-) or (BYKG-) or (CUKG- & FNKG-) or (JNKG- & FNKG-) or (KGFU+);
+
+% KH
+"smell":
+(BVKH- & KHBV+) or (BVKH- & KHDW+) or (BVKH- & KHDW+ & KHGE+) or (BVKH- & KHLB+) or (CRKH- & KHGE+) or (CSKH- & KHJG+) or (CZKH- & KHAS+) or (LEKH- & KHJG+) or (LOKH- & MFKH- & KHLB+) or (MYKH- & BVKH- & KHDW+ & KHEY+) or (MYKH- & DWKH- & KHLJ+) or (MYKH- & KHDW+) or (MYKH- & KHDW+ & KHLR+);
+
+% KJ
+"snap":
+(AFKJ- & ADKJ-) or (AFKJ- & FNKJ-) or (BVKJ- & KJFO+) or (LAKJ- & ADKJ-) or (LAKJ- & CRKJ-);
+
+% KK
+"so":
+(ADKK-) or (AMKK- & KKFN+) or (KKEO+) or (KKGO+) or (KKGZ+) or (KKLH+ & KKFN+) or (LGKK-);
+
+% KL
+"some":
+(AQKL- & KLFL+) or (EHKL-) or (EUKL- & KLFQ+) or (GNKL-) or (KLBF+) or (KLDX+) or (KLEW+) or (KLGV+) or (KLLV+);
+
+% KM
+"something":
+(ADKM- & KMDN+) or (ADKM- & KMDN+ & KMDZ+) or (ARKM- & KMDN+ & KMHM+) or (CRKM-) or (CRKM- & KMDN+ & KMHM+) or (EHKM-) or (FNKM- & KMLO+ & KMDK+) or (GNKM-) or (GNKM- & KMDN+) or (JTKM-) or (JWKM- & KMMY+ & KMMF+) or (KCKM-) or (MFKM- & KMDN+) or (MUKM- & KMDN+);
+
+% KN
+"spoon":
+(AFKN- & ADKN-) or (AFKN- & FNKN-) or (AFKN- & JWKN-) or (LAKN- & ADKN-);
+
+% KO
+"stack":
+(BVKO- & KOLB+) or (BVKO- & KOLB+ & KOMB+) or (HMKO- & KOLB+ & KOMB+);
+
+% KP
+"stay":
+(LOKP- & EPKP- & KPCC+) or (LOKP- & ETKP- & KPFM+) or (LOKP- & GFKP- & KPFL+) or (MTKP- & KPDC+);
+
+% KQ
+"steak":
+(AFKQ- & ADKQ-) or (KQED+) or (LAKQ- & DUKQ-) or (LAKQ- & LGKQ- & KQAD+);
+
+% KR
+"stick":
+(BVKR- & KRER+ & KRFL+) or (BVKR- & KRFO+ & KRHS+) or (BVKR- & KRKZ+ & KRHN+) or (KRDV+ & KRFL+) or (KRDV+ & KRFL+ & KRJQ+) or (KRER+ & KRFL+) or (KRFO+ & KRHN+) or (MYKR- & KRER+ & KRFL+);
+
+% KS
+"table":
+(DLKS- & AFKS- & HNKS-) or (JCKS- & AFKS- & FNKS-) or (LAKS- & HNKS-);
+
+% KT
+"take":
+(BVKT- & AMKT- & KTBB+) or (BVKT- & KTBB+) or (BVKT- & KTFA+ & KTHS+) or (BVKT- & KTLB+ & KTHL+) or (JXKT- & KTJK+ & KTHK+) or (KTAM+ & KTLR+) or (KTBB+) or (KTCV+) or (KTCV+ & KTHS+) or (KTCY+ & KTHS+) or (KTFA+ & KTHK+) or (KTHL+) or (LOKT- & FJKT- & KTFA+ & KTHS+) or (LOKT- & MFKT- & KTER+ & KTHS+) or (LOKT- & MFKT- & KTFA+ & KTHS+);
+
+% KU
+"talk":
+(ABKU- & KUJQ+) or (ADKU-) or (BVKU-) or (BVKU- & KULO+) or (ENKU-) or (ENKU- & KUHN+) or (GAKU- & KUHN+) or (LOKU- & AQKU- & KUAR+) or (LOKU- & GEKU- & KULO+) or (LOKU- & KUFL+) or (LOKU- & MFKU-) or (LOKU- & MFKU- & KUHN+) or (LOKU- & MFKU- & KULO+) or (MEKU-) or (MYKU- & KULO+);
+
+% KV
+"talking":
+(ADKV- & KVHN+) or (ADKV- & KVLO+) or (AQKV- & KVHN+) or (AQKV- & KVLO+) or (CNKV- & KVLO+) or (EBKV- & KVHN+) or (GEKV-) or (MYKV- & KVHN+);
+
+% KW
+"telephone":
+(AFKW- & ADKW-) or (AFKW- & FNKW-) or (GGKW- & KZKW- & ESKW-) or (KWAJ+) or (LAKW- & ADKW-) or (LAKW- & CFKW-) or (LAKW- & GEKW-) or (LAKW- & HNKW-) or (MZKW- & GEKW-);
+
+% KX
+"tell":
+(AMKX- & KXMN+) or (BVKX- & KXGP+) or (BVKX- & KXGP+ & KXAH+) or (BVKX- & KXGP+ & KXMN+) or (ENKX- & KXFA+ & KXMN+) or (ENKX- & MNKX- & KXFA+) or (KXCN+ & KXMN+) or (KXCN+ & KXMP+) or (KXFA+ & KXMN+) or (KXGP+ & KXMN+) or (KXGS+ & KXMN+) or (LOKX- & EUKX- & KXGP+);
+
+% KY
+"thank":
+(JTKY- & KYMY+ & KYDZ+) or (KYBQ+) or (KYMY+ & KYDZ+);
+
+% KZ
+"that":
+(ADKZ-) or (AMKZ- & KZAD+) or (ARKZ-) or (BJKZ-) or (CRKZ-) or (CSKZ-) or (CUKZ- & KZEK+) or (CWKZ-) or (EPKZ-) or (FLKZ-) or (FNKZ-) or (FXKZ-) or (FYKZ-) or (GEKZ-) or (GNKZ-) or (HFKZ- & KZAD+) or (HMKZ- & KZAD+) or (HNKZ-) or (HPKZ-) or (JMKZ-) or (JWKZ-) or (KRKZ-) or (KZAD+) or (KZAJ+) or (KZAM+) or (KZAN+) or (KZAT+) or (KZBA+) or (KZBE+) or (KZBG+) or (KZBH+) or (KZCA+) or (KZCE+) or (KZCU+) or (KZCV+) or (KZCW+) or (KZCY+) or (KZDM+) or (KZEC+) or (KZED+) or (KZEG+) or (KZFB+ & KZDH+) or (KZFD+) or (KZFN+) or (KZFU+) or (KZFZ+) or (KZGC+) or (KZGR+) or (KZGT+) or (KZHO+) or (KZHU+) or (KZJQ+) or (KZKW+) or (KZLQ+) or (KZMB+) or (KZMH+) or (KZMJ+) or (KZMT+) or (LOKZ-) or (MFKZ-) or (MHKZ-) or (MNKZ- & KZFN+) or (MUKZ-) or (MXKZ- & KZAD+) or (MXKZ- & MOKZ- & KZAD+);
+
+% LA
+"the":
+(AKLA- & LAAW+) or (AKLA- & LABD+) or (AKLA- & LAGQ+) or (AKLA- & LAMJ+) or (LAAJ+) or (LAAP+) or (LAAS+) or (LAAT+) or (LAAU+) or (LAAV+) or (LAAW+) or (LABA+) or (LABC+) or (LABD+) or (LABE+) or (LABF+) or (LABG+) or (LABH+) or (LABK+) or (LABM+) or (LABO+) or (LABP+) or (LABR+) or (LABV+) or (LABX+) or (LABY+) or (LABZ+) or (LACB+) or (LACL+) or (LACN+) or (LACO+) or (LACU+) or (LACV+) or (LACW+) or (LACX+) or (LACY+) or (LADB+) or (LADD+) or (LADF+) or (LADG+) or (LADP+) or (LADW+) or (LADY+) or (LAED+) or (LAEG+) or (LAFD+) or (LAFG+) or (LAFH+) or (LAFT+) or (LAFU+) or (LAGC+) or (LAGQ+) or (LAGR+) or (LAGS+) or (LAGU+) or (LAGX+) or (LAHO+) or (LAHR+) or (LAHU+) or (LAHY+) or (LAJB+) or (LAJJ+) or (LAJK+) or (LAJN+) or (LAJR+) or (LAJZ+) or (LAKA+) or (LAKJ+) or (LAKN+) or (LAKQ+) or (LAKS+) or (LAKW+) or (LALS+) or (LALV+) or (LALW+) or (LALZ+) or (LAMJ+) or (LANB+);
+
+% LB
+"them":
+(CKLB-) or (EHLB-) or (ERLB-) or (FVLB-) or (FWLB-) or (GELB-) or (HKLB- & AKLB- & ADLB-) or (HKLB- & AKLB- & CKLB-) or (HKLB- & AKLB- & EPLB-) or (HKLB- & AKLB- & EULB-) or (HNLB-) or (HPLB-) or (HZLB-) or (JHLB-) or (JMLB-) or (JWLB-) or (KHLB-) or (KOLB-) or (KTLB-) or (LBAK+) or (LXLB-) or (MULB-);
+
+% LC
+"there":
+(ADLC-) or (AGLC-) or (AKLC- & LCAQ+) or (AMLC- & LCAD+) or (AQLC-) or (DKLC-) or (EELC-) or (EJLC-) or (EYLC- & LCAD+) or (FLLC-) or (FMLC-) or (FNLC-) or (HFLC- & LCMH+) or (HMLC-) or (HNLC-) or (HTLC-) or (JMLC-) or (JQLC-) or (JQLC- & LCFN+) or (JWLC-) or (LCAD+) or (LCAQ+) or (LCBD+) or (LCBF+) or (LCEV+) or (LCFN+) or (LCFO+) or (LCGA+) or (LCMK+) or (LCMY+) or (LKLC-) or (MNLC- & LCFN+) or (MXLC- & LCAD+);
+
+% LD
+"these":
+(AKLD- & LDLF+) or (AQLD-) or (EULD-) or (GELD-) or (HKLD-) or (JMLD-) or (JWLD-) or (LDAQ+) or (LDKA+) or (LDLF+) or (LDLV+) or (MULD-);
+
+% LE
+"they":
+(AMLE- & LEBV+) or (AQLE-) or (AYLE- & LEKH+) or (CPLE-) or (CRLE-) or (FKLE- & LEMF+) or (HFLE- & LEDQ+) or (JWLE- & LEMA+) or (LEAC+) or (LEAQ+) or (LEBV+) or (LECZ+) or (LEDT+) or (LEEU+) or (LEGH+) or (LEJT+) or (LEKH+) or (MXLE- & LEAC+);
+
+% LF
+"things":
+(EBLF- & HKLF-) or (EBLF- & LDLF- & AKLF-) or (HDLF- & LDLF- & AKLF- & LFMK+ & LFEU+) or (HKLF-) or (LDLF- & AKLF-) or (LDLF- & AQLF-) or (LDLF- & MNLF- & LFAQ+) or (LJLF- & EELF-);
+
+% LG
+"think":
+(BVLG- & LGFO+ & LGAD+) or (CRLG- & LGFO+ & LGAD+) or (CRLG- & LGKQ+ & LGAD+) or (CRLG- & LGLH+ & LGFN+) or (CRLG- & LGMY+ & LGEL+) or (CRLG- & MNLG-) or (CZLG- & LGKK+) or (LGMY+ & LGBK+) or (LGMY+ & LGEU+) or (LGMY+ & LGGN+) or (MYLG- & LGEV+ & LGBB+);
+
+% LH
+"this":
+(ADLH-) or (AMLH- & LHFN+) or (ARLH-) or (CNLH- & LHFN+) or (CRLH-) or (CSLH-) or (DKLH-) or (DSLH-) or (EELH-) or (EULH-) or (FLLH-) or (FNLH-) or (GELH-) or (JMLH-) or (JPLH-) or (JWLH-) or (JWLH- & LHDW+) or (JWLH- & LHFN+) or (KKLH- & LHFN+) or (LGLH- & LHFN+) or (LHAJ+) or (LHAN+) or (LHBE+) or (LHBH+) or (LHBY+) or (LHCA+) or (LHCO+) or (LHCU+) or (LHCV+) or (LHCW+) or (LHCX+) or (LHDD+) or (LHED+) or (LHEK+) or (LHFH+) or (LHFN+) or (LHFU+) or (LHFZ+) or (LHGC+) or (LHGK+) or (LHGR+) or (LHGT+) or (LHGW+) or (LHHO+) or (LHHU+) or (LHHY+) or (LHJA+) or (LHJN+) or (LHJQ+) or (LHLN+) or (LHLU+) or (LHMB+) or (LHMJ+) or (LXLH-) or (MALH-) or (MFLH-) or (MNLH- & LHFN+) or (MULH-);
+
+% LJ
+"those":
+(AMLJ- & LJAQ+) or (AQLJ-) or (AQLJ- & LJDZ+) or (BJLJ-) or (GELJ-) or (HFLJ- & LJAQ+) or (HKLJ-) or (HKLJ- & GLLJ- & JWLJ-) or (HKLJ- & GVLJ- & MFLJ-) or (JPLJ-) or (KHLJ-) or (LJAQ+) or (LJBD+) or (LJDO+) or (LJDW+) or (LJKA+) or (LJLF+) or (LLLJ-) or (MULJ-) or (MXLJ- & AMLJ- & LJAQ+) or (MXLJ- & LJAQ+);
+
+% LK
+"through":
+(EJLK-) or (GHLK- & LKBE+) or (JMLK- & LKAD+) or (JMLK- & LKCO+) or (JMLK- & LKFD+) or (JMLK- & LKJR+) or (JMLK- & LKLC+);
+
+% LL
+"throw":
+(BVLL- & LLLJ+ & LLLR+) or (CZLL- & LLFO+ & LLDC+) or (LLFO+ & LLLO+);
+
+% LM
+"tie":
+(BVLM- & LMFO+) or (CRLM- & LMFO+) or (ENLM- & LMFO+) or (JXLM- & LMFO+) or (JXLM- & LMKA+) or (LMJZ+);
+
+% LN
+"time":
+(LHLN- & BLLN-) or (LHLN- & EELN-) or (LHLN- & GELN-) or (LHLN- & HMLN-);
+
+% LO
+"to":
+(ACLO- & LOCU+) or (ADLO- & LOBK+) or (ADLO- & LOCF+) or (ADLO- & LOCR+) or (ADLO- & LODR+) or (AHLO- & LOEJ+) or (AQLO- & LOKU+) or (ATLO- & LOBD+) or (ATLO- & LOHX+) or (ATLO- & LOKZ+) or (BJLO- & LOGS+) or (CSLO- & LOLZ+) or (CWLO- & LOBM+) or (CWLO- & LOHW+) or (DRLO- & LOCU+) or (DRLO- & LOCV+) or (DULO- & LOGA+) or (EELO- & LOLV+) or (EHLO- & LOCV+) or (EHLO- & LODK+) or (EHLO- & LOGS+) or (EJLO- & LOMV+) or (ELLO- & LOBS+) or (ELLO- & LOCR+) or (ELLO- & LOGN+) or (ELLO- & LOJT+) or (ELLO- & LOMV+) or (EOLO- & LODK+) or (EOLO- & LOLQ+) or (EPLO- & LOKP+) or (ERLO- & LOMY+) or (ETLO- & LOCG+) or (ETLO- & LOEJ+) or (ETLO- & LOKP+) or (EULO- & LOEJ+) or (EULO- & LOGD+) or (EULO- & LOHP+) or (EULO- & LOJH+) or (EULO- & LOJL+) or (EULO- & LOJM+) or (EULO- & LOKX+) or (EULO- & LONA+) or (FCLO- & LONB+) or (FJLO- & LOHP+) or (FJLO- & LOJL+) or (FJLO- & LOKT+) or (GELO-) or (GELO- & LOAM+) or (GELO- & LOBS+) or (GELO- & LOCR+) or (GELO- & LODK+) or (GELO- & LOEE+) or (GELO- & LOEH+) or (GELO- & LOGH+) or (GELO- & LOHZ+) or (GELO- & LOJC+) or (GELO- & LOJM+) or (GELO- & LOKE+) or (GELO- & LOKU+) or (GFLO- & LODK+) or (GFLO- & LOKP+) or (HCLO- & LOCF+) or (HPLO- & LOJM+) or (JOLO- & LOGP+) or (JOLO- & LOGS+) or (JTLO- & LOAM+) or (JTLO- & LOCN+) or (JTLO- & LODD+) or (JTLO- & LOFA+) or (JTLO- & LOMY+) or (KMLO- & LODK+) or (KULO- & LOCN+) or (KULO- & LOED+) or (KULO- & LOMY+) or (KVLO- & LOMY+) or (KVLO- & MRLO-) or (LLLO- & LOGS+) or (LOCC+) or (LODK+) or (LOGD+) or (LOJH+) or (LOKU+) or (LVLO- & LOJC+) or (MFLO-) or (MFLO- & FTLO-) or (MFLO- & LOAX+) or (MFLO- & LOBB+) or (MFLO- & LOBK+) or (MFLO- & LOBL+) or (MFLO- & LOCC+) or (MFLO- & LOCG+) or (MFLO- & LOCR+) or (MFLO- & LOEE+) or (MFLO- & LOEJ+) or (MFLO- & LOES+) or (MFLO- & LOEW+) or (MFLO- & LOFT+) or (MFLO- & LOFV+) or (MFLO- & LOGH+) or (MFLO- & LOGN+) or (MFLO- & LOHP+) or (MFLO- & LOHV+) or (MFLO- & LOHZ+) or (MFLO- & LOJC+) or (MFLO- & LOJM+) or (MFLO- & LOJW+) or (MFLO- & LOKE+) or (MFLO- & LOKH+) or (MFLO- & LOKT+) or (MFLO- & LOKU+) or (MGLO- & LODK+) or (MGLO- & LOFT+) or (MJLO- & LOCR+) or (MNLO- & LOCR+);
+
+% LP
+"today":
+(AQLP-) or (CPLP-) or (CRLP-) or (CWLP-) or (EJLP-) or (HOLP-) or (MVLP-);
+
+% LQ
+"tongue":
+(ADLQ- & ADLQ-) or (ADLQ- & JWLQ-) or (AZLQ- & AFLQ- & ETLQ-) or (FBLQ- & ADLQ-) or (FBLQ- & EPLQ-) or (FBLQ- & GELQ-) or (FBLQ- & JLLQ-) or (FBLQ- & LQAD+) or (FBLQ- & LQCT+) or (HALQ- & ADLQ-) or (HALQ- & EPLQ-) or (KZLQ- & ARLQ-) or (MZLQ- & ADLQ-) or (MZLQ- & JMLQ-) or (MZLQ- & LOLQ-);
+
+% LR
+"too":
+(ADLR-) or (BKLR-) or (CRLR-) or (DKLR-) or (EHLR-) or (KHLR-) or (KTLR-) or (LLLR-) or (LRGO+) or (LRGZ+);
+
+% LS
+"top":
+(HNLS- & FNLS-) or (HNLS- & JMLS-) or (LALS- & HSLS-) or (LALS- & JMLS-);
+
+% LT
+"tower":
+(AFLT- & ADLT-) or (AFLT- & BLLT-) or (AFLT- & GNLT-) or (AOLT- & BLLT-) or (EOLT- & AFLT- & ADLT-) or (GGLT- & AFLT- & FNLT-);
+
+% LU
+"toy":
+(AFLU- & ADLU-) or (AFLU- & FNLU-) or (AOLU- & MULU-) or (GGLU- & LUCY+) or (LHLU- & MULU-);
+
+% LV
+"toys":
+(GOLV- & AQLV-) or (GOLV- & EULV-) or (HKLV-) or (KLLV- & EELV-) or (LALV- & MULV-) or (LDLV- & EULV- & LVEY+ & LVLO+ & LVMU+) or (LDLV- & LOLV-) or (LVAQ+) or (MULV-);
+
+% LW
+"truck":
+(AFLW- & ADLW-) or (AFLW- & FNLW-) or (LALW- & JPLW-) or (LALW- & JWLW-) or (LWCW+);
+
+% LX
+"try":
+(BVLX- & LXFO+) or (CZLX- & LXLB+) or (CZLX- & LXLH+) or (GBLX- & LXHU+) or (HJLX- & LXAM+) or (MYLX- & LXFO+);
+
+% LY
+"turn":
+(ADLY-) or (ADLY- & ADLY-) or (ENLY- & LYHU+) or (EYLY- & LYFO+ & LYHN+) or (GBLY- & LYHU+) or (LYFO+ & LYMJ+) or (LYHU+ & LYHT+) or (MXLY- & LYHU+);
+
+% LZ
+"turtle":
+(AFLZ- & ADLZ-) or (AFLZ- & AMLZ-) or (LALZ- & ADLZ-) or (LALZ- & HNLZ-) or (LALZ- & LOLZ-) or (LALZ- & LZAD+);
+
+% MA
+"untie":
+(BVMA- & MAJZ+ & MAGW+) or (BVMA- & MALH+) or (CPMA- & MAJZ+) or (CPMA- & MAKA+) or (LEMA- & JWMA-) or (MYMA- & AMMA- & MAFO+);
+
+% MB
+"up":
+(ADMB-) or (BTMB-) or (CDMB-) or (EEMB-) or (ESMB-) or (FOMB- & MBHJ+) or (GDMB-) or (HZMB-) or (JHMB-) or (JWMB- & MBDB+) or (KEMB- & MBEY+) or (KEMB- & MBHN+) or (KOMB-) or (KZMB- & GDMB-) or (LHMB- & GDMB-) or (LHMB- & GDMB- & MBGE+) or (NAMB-);
+
+% MC
+"very":
+(MCEO+) or (MCGZ+) or (MCHD+) or (MCML+);
+
+% MD
+"walk":
+(AFMD- & DZMD-) or (GNMD- & MDHN+) or (JWMD- & MDHN+);
+
+% ME
+"wanna":
+(CRME- & MEEW+) or (CRME- & MEJC+ & MEMU+) or (CRME- & MEJM+) or (CZME-) or (HMME- & MEJM+) or (MEAX+) or (MECR+) or (MEEE+) or (MEGA+) or (MEGH+) or (MEJC+ & MEMU+) or (MEJM+) or (MEJO+) or (MEKU+ & MEHN+) or (MYME- & MEJC+ & MEMU+) or (MYME- & MEJM+) or (MYME- & MEJO+);
+
+% MF
+"want":
+(CRMF- & CEMF-) or (CRMF- & HOMF-) or (CRMF- & HOMF- & MFHJ+) or (CRMF- & MFBE+ & MFAT+) or (CRMF- & MFEW+) or (CRMF- & MFFO+) or (CRMF- & MFGP+) or (CRMF- & MFGP+ & MFLO+ & MFBL+) or (CRMF- & MFGP+ & MFLO+ & MFCR+) or (CRMF- & MFLH+) or (CRMF- & MFLO+ & MFAX+) or (CRMF- & MFLO+ & MFEJ+) or (CRMF- & MFLO+ & MFKU+) or (CRMF- & MNMF-) or (CRMF- & MNMF- & MFLO+ & MFMU+) or (CSMF- & MNMF-) or (CZMF- & MFHO+) or (CZMF- & MFLH+) or (CZMF- & MFLO+) or (CZMF- & MFLO+ & MFFV+) or (CZMF- & MFLO+ & MFJC+) or (FQMF- & MYMF- & MFLO+ & MFFT+) or (LEMF- & FKMF- & MFLO+ & MFJC+) or (MFAK+ & MFAT+) or (MFAS+ & MFAT+) or (MFBD+) or (MFBD+ & MFAT+) or (MFFA+ & MFLO+ & MFKE+) or (MFGP+ & MFLO+ & MFAS+) or (MFGP+ & MFLO+ & MFCC+) or (MFGP+ & MFLO+ & MFCR+) or (MFGP+ & MFLO+ & MFEE+) or (MFGP+ & MFLO+ & MFEW+) or (MFLJ+) or (MFLO+ & MFBK+) or (MFLO+ & MFJM+) or (MYMF- & CRMF-) or (MYMF- & FKMF-) or (MYMF- & KMMF-) or (MYMF- & MFAM+ & MFLO+ & MFCR+) or (MYMF- & MFAS+ & MFAT+) or (MYMF- & MFAT+) or (MYMF- & MFAU+) or (MYMF- & MFBD+) or (MYMF- & MFBE+) or (MYMF- & MFBP+) or (MYMF- & MFCV+ & MFLO+ & MFHV+) or (MYMF- & MFCX+) or (MYMF- & MFDD+ & MFAT+) or (MYMF- & MFDD+ & MFLO+ & MFCG+) or (MYMF- & MFEW+) or (MYMF- & MFFA+) or (MYMF- & MFFA+ & MFLO+ & MFBB+) or (MYMF- & MFFA+ & MFLO+ & MFKE+) or (MYMF- & MFGP+ & MFLO+ & MFCR+) or (MYMF- & MFGP+ & MFLO+ & MFEJ+) or (MYMF- & MFGP+ & MFLO+ & MFES+) or (MYMF- & MFGP+ & MFLO+ & MFEW+) or (MYMF- & MFGP+ & MFLO+ & MFHM+) or (MYMF- & MFGP+ & MFLO+ & MFHP+) or (MYMF- & MFGP+ & MFLO+ & MFJM+) or (MYMF- & MFGP+ & MFLO+ & MFKT+) or (MYMF- & MFGP+ & MFLO+ & MFKU+) or (MYMF- & MFGS+ & MFLO+ & MFCG+) or (MYMF- & MFGS+ & MFLO+ & MFCR+) or (MYMF- & MFGS+ & MFLO+ & MFHZ+) or (MYMF- & MFGS+ & MFLO+ & MFKT+) or (MYMF- & MFGS+ & MFLO+ & MFKU+) or (MYMF- & MFGV+) or (MYMF- & MFHO+) or (MYMF- & MFKM+) or (MYMF- & MFKZ+) or (MYMF- & MFLH+) or (MYMF- & MFLO+) or (MYMF- & MFLO+ & MFGH+) or (MYMF- & MFLO+ & MFGN+) or (MYMF- & MFLO+ & MFHZ+) or (MYMF- & MFLO+ & MFJC+) or (MYMF- & MFLO+ & MFJW+) or (MYMF- & MFLO+ & MFKH+) or (MYMF- & MFLO+ & MFKU+) or (MYMF- & MNMF-);
+
+% MG
+"wants":
+(DDMG- & MGLO+ & MGFT+) or (EVMG- & MGLO+ & MGDK+) or (GSMG- & BNMG- & MGHO+);
+
+% MH
+"was":
+(FOMH- & BNMH- & MHHN+) or (GSMH- & MOMH- & MHCW+) or (KZMH- & MHAH+) or (KZMH- & MHCL+) or (KZMH- & MHEO+) or (LCMH- & MHGV+) or (MHDV+) or (MHKZ+ & MHJB+) or (MNMH- & MHKZ+);
+
+% MJ
+"way":
+(EOMJ- & AFMJ- & ADMJ- & MJLO+ & MJCR+) or (KZMJ- & HNMJ-) or (KZMJ- & HSMJ-) or (LAMJ- & ADMJ- & MJDC+) or (LAMJ- & ADMJ- & MJFO+ & MJEK+) or (LAMJ- & CGMJ-) or (LAMJ- & FNMJ- & MJEV+ & MJEK+) or (LAMJ- & HNMJ-) or (LHMJ- & EJMJ-) or (LHMJ- & EKMJ-) or (LHMJ- & GHMJ-) or (LHMJ- & HSMJ-) or (LHMJ- & HTMJ-) or (LHMJ- & JHMJ-) or (LHMJ- & LYMJ-) or (MZMJ- & JHMJ-);
+
+% MK
+"we":
+(AMMK- & MKEJ+) or (BEMK- & MKEU+) or (BVMK-) or (BXMK- & MKAB+) or (CPMK-) or (CRMK-) or (CZMK-) or (EUMK-) or (EYMK- & MKEJ+) or (FGMK- & MKAB+) or (FKMK- & MKBV+) or (HMMK- & MKAB+) or (JXMK-) or (KBMK-) or (LCMK- & MKEJ+) or (LCMK- & MKEP+) or (LFMK- & MKEU+) or (MKAB+) or (MKAC+) or (MKAQ+) or (MKBV+) or (MKCD+) or (MKCP+) or (MKCQ+) or (MKCZ+) or (MKEP+) or (MKEU+) or (MNMK- & MKEP+) or (MNMK- & MKEU+) or (MOMK- & MKAB+) or (MOMK- & MKAC+) or (MOMK- & MKEJ+);
+
+% ML
+"well":
+(MCML- & CWML-) or (MLMY+);
+
+% MM
+"went":
+(JYMM- & MMBQ+) or (MYMM- & MPMM- & MMGW+);
+
+% MN
+"what":
+(ADMN- & MNAD+) or (ADMN- & MNFO+ & MNFN+) or (AJMN- & MNAD+) or (AMMN- & MNAD+) or (AMMN- & MNAQ+) or (AMMN- & MNCE+) or (AMMN- & MNCR+ & MNJM+) or (AMMN- & MNCS+ & MNEU+) or (AMMN- & MNDN+ & MNCR+ & MNCR+) or (AMMN- & MNFN+) or (AMMN- & MNFN+ & MNCW+) or (ARMN- & MNJY+ & MNEP+) or (ARMN- & MNMY+ & MNCR+) or (BNMN-) or (EDMN- & MNAD+) or (FNMN- & MNDD+ & MNGF+) or (FRMN- & MNAD+) or (FXMN-) or (FXMN- & MNAD+) or (FXMN- & MNAN+ & MNFN+) or (FXMN- & MNBE+ & MNFN+) or (FXMN- & MNEV+ & MNDL+) or (FXMN- & MNFO+ & MNFN+) or (FXMN- & MNGC+ & MNFN+) or (FXMN- & MNKZ+ & MNFN+) or (FXMN- & MNLF+ & MNAQ+) or (FXMN- & MNLH+ & MNFN+) or (FXMN- & MNLO+ & MNCR+) or (FXMN- & MNMY+ & MNCR+) or (HMMN- & MNAD+) or (JWMN- & MNDD+ & MNCS+) or (JWMN- & MNDN+ & MNFN+) or (JWMN- & MNDN+ & MNLC+ & MNFN+) or (JWMN- & MNDN+ & MNMK+ & MNEU+) or (JWMN- & MNMK+ & MNEP+) or (KCMN- & MNCR+) or (KXMN- & MNKZ+ & MNFN+) or (KXMN- & MNLH+ & MNFN+) or (KXMN- & MNMY+ & MNCP+) or (KXMN- & MNMY+ & MNCW+) or (KXMN- & MNMY+ & MNMF+) or (MNAD+) or (MNAD+ & MNBT+) or (MNAD+ & MNDW+) or (MNAQ+) or (MNAQ+ & MNCR+) or (MNAQ+ & MNCW+) or (MNAQ+ & MNDZ+) or (MNAQ+ & MNGN+) or (MNAQ+ & MNJT+) or (MNAQ+ & MNJU+) or (MNAQ+ & MNKD+) or (MNAQ+ & MNKX+) or (MNBE+) or (MNBV+ & MNCR+) or (MNCE+) or (MNCP+) or (MNCP+ & MNCR+) or (MNCP+ & MNHB+) or (MNCP+ & MNJT+) or (MNCR+) or (MNCR+ & MNCR+) or (MNCR+ & MNDE+) or (MNCR+ & MNEU+) or (MNCR+ & MNFN+) or (MNCR+ & MNFX+) or (MNCR+ & MNGE+) or (MNCR+ & MNJM+) or (MNCR+ & MNJT+) or (MNCR+ & MNJW+) or (MNCR+ & MNLG+) or (MNCR+ & MNMF+) or (MNCS+ & MNCR+) or (MNCS+ & MNEJ+) or (MNCS+ & MNEU+) or (MNCS+ & MNGE+) or (MNCS+ & MNJT+) or (MNCS+ & MNMF+) or (MNCU+) or (MNCV+) or (MNDN+ & MNCP+ & MNCR+) or (MNDN+ & MNCP+ & MNJW+) or (MNDN+ & MNCR+ & MNJW+) or (MNDN+ & MNCR+ & MNMF+) or (MNDN+ & MNCS+ & MNEU+) or (MNDN+ & MNCS+ & MNJT+) or (MNDN+ & MNEU+ & MNEP+) or (MNDN+ & MNFN+) or (MNDN+ & MNMW+ & MNGE+) or (MNDN+ & MNMW+ & MNMU+) or (MNDT+) or (MNEB+) or (MNFN+) or (MNFN+ & MNCW+) or (MNFN+ & MNDL+) or (MNFN+ & MNJU+) or (MNGC+) or (MNHK+) or (MNJX+ & MNEH+) or (MNKB+ & MNJT+) or (MNMH+) or (MNMW+ & MNBS+) or (MNMW+ & MNCR+) or (MNMW+ & MNEE+) or (MNMW+ & MNGE+) or (MUMN- & MNMY+ & MNEU+) or (MXMN- & MNAD+ & MNAD+);
+
+% MO
+"when":
+(FOMO- & MOMK+ & MOEJ+) or (JPMO- & MOGS+ & MOMH+) or (MOEV+ & MOEK+ & MOKZ+) or (MOMK+ & MOAC+ & MOMK+);
+
+% MP
+"where":
+(ADMP- & MPFO+ & MPEK+) or (ADMP- & MPMY+ & MPJM+) or (BNMP- & MPAD+) or (FXMP- & MPDH+ & MPFN+) or (KXMP- & MPMY+ & MPMM+) or (MPAD+) or (MPAQ+) or (MPAQ+ & MPJM+) or (MPCP+) or (MPCR+) or (MPCS+) or (MPFN+) or (MPKB+) or (MPMW+ & MPJM+);
+
+% MQ
+"which":
+(MQBE+) or (MQCE+) or (MQHO+);
+
+% MR
+"who":
+(AMMR- & MRAD+) or (AMMR- & MRAQ+) or (JWMR- & MRAD+) or (MRAD+) or (MRAQ+) or (MRAQ+ & MRLO+) or (MRCR+) or (MRCS+ & MRGE+) or (MRFN+);
+
+% MS
+"why":
+(MSCZ+);
+
+% MT
+"will":
+(GSMT- & MTEE+) or (GSMT- & MTEW+) or (GSMT- & MTFY+) or (GSMT- & MTJO+) or (KZMT- & MTAX+) or (KZMT- & MTKP+) or (MTGA+) or (MTMY+ & MTAX+) or (MTMY+ & MTCF+) or (MTMY+ & MTEW+) or (MTMY+ & MTGA+) or (MTMY+ & MTJO+);
+
+% MU
+"with":
+(ADMU- & MUCL+) or (ADMU- & MUFB+) or (BLMU- & MUBD+) or (CGMU- & MUCV+) or (CRMU- & MUBD+) or (CRMU- & MUBK+) or (CRMU- & MUDW+) or (CRMU- & MUFA+) or (CRMU- & MUFO+) or (CRMU- & MUKZ+) or (CRMU- & MULB+) or (CRMU- & MULD+) or (CRMU- & MULH+) or (CRMU- & MULJ+) or (CWMU- & MUFO+) or (DAMU- & MUBD+) or (DAMU- & MUFA+) or (DAMU- & MUHO+) or (DAMU- & MUKZ+) or (DAMU- & MULH+) or (GEMU- & MUDV+) or (GNMU- & MUMN+) or (HOMU- & MUGX+) or (JCMU- & LVMU-) or (JCMU- & MNMU-) or (JCMU- & MUBH+) or (JCMU- & MUBM+) or (JCMU- & MUCU+) or (JCMU- & MUCX+) or (JCMU- & MUHW+) or (JCMU- & MUKM+) or (JCMU- & MULB+) or (JCMU- & MULH+) or (JCMU- & MULU+) or (JCMU- & MULV+) or (JCMU- & MUMY+) or (JDMU- & MUFP+) or (JDMU- & MULV+) or (MEMU- & MUBD+) or (MEMU- & MUFO+) or (MEMU- & MUKM+) or (MEMU- & MUKZ+) or (MFMU- & MUKZ+) or (MUFF+ & MUGE+);
+
+% MV
+"work":
+(ARMV-) or (LOMV-) or (LOMV- & ELMV- & MVLP+);
+
+% MW
+"would":
+(BEMW- & MWMY+ & MWGE+) or (FOMW- & MWAX+) or (HKMW- & MWMY+ & MWGE+) or (HMMW- & MWMY+ & MWGE+) or (HOMW- & MWMY+ & MWGE+) or (MNMW- & MWMY+ & MWBS+) or (MNMW- & MWMY+ & MWGE+) or (MPMW- & MWMY+ & MWGE+) or (MWMY+ & MWGE+) or (MWMY+ & MWGN+) or (MWMY+ & MWKE+);
+
+% MX
+"yeah":
+(MXAM+) or (MXBK+) or (MXBV+) or (MXCR+) or (MXEV+) or (MXFO+) or (MXHO+) or (MXJM+) or (MXKZ+) or (MXLC+) or (MXLE+) or (MXLJ+) or (MXLY+) or (MXMN+) or (MXMY+);
+
+% MY
+"you":
+(AKMY- & MYJT+) or (AMMY- & MYAB+) or (AMMY- & MYBV+) or (AMMY- & MYMA+) or (AQMY-) or (AYMY- & MYFW+) or (BBMY-) or (BJMY-) or (BNMY- & MYCD+) or (BUMY-) or (BVMY-) or (BVMY- & MYKH+) or (BWMY-) or (CJMY-) or (CPMY-) or (CRMY-) or (CZMY-) or (DWMY- & MYKH+) or (DZMY-) or (EEMY-) or (EWMY-) or (EYMY- & MYEJ+) or (FKMY- & MYBV+) or (FKMY- & MYGD+) or (FKMY- & MYMF+) or (FTMY-) or (FTMY- & MYMF+) or (GEMY-) or (HFMY- & MYCZ+) or (HFMY- & MYFX+) or (HFMY- & MYFY+) or (HJMY- & MYAC+) or (HJMY- & MYBV+) or (HJMY- & MYCR+) or (HJMY- & MYGH+) or (HJMY- & MYHV+) or (HJMY- & MYJC+) or (HJMY- & MYJM+) or (HJMY- & MYJO+) or (HMMY- & HMMY- & MYEP+) or (HMMY- & MYBV+) or (HMMY- & MYEP+) or (HMMY- & MYJO+) or (HMMY- & MYME+) or (JWMY-) or (KCMY-) or (KMMY- & MYMF+) or (KYMY-) or (LCMY- & MYEJ+) or (LGMY- & MYAC+) or (LGMY- & MYBV+) or (LGMY- & MYCJ+) or (LGMY- & MYEU+) or (LOMY-) or (MLMY- & MYKC+) or (MNMY- & MYAC+) or (MNMY- & MYBV+) or (MNMY- & MYCP+) or (MNMY- & MYCW+) or (MNMY- & MYEU+) or (MNMY- & MYMF+) or (MPMY- & MYJM+) or (MPMY- & MYMM+) or (MTMY-) or (MUMY-) or (MWMY-) or (MXMY- & MYBV+) or (MXMY- & MYCF+) or (MXMY- & MYCJ+) or (MXMY- & MYGE+) or (MXMY- & MYJM+) or (MYAB+) or (MYAC+) or (MYAE+) or (MYAM+) or (MYAQ+) or (MYAX+) or (MYBL+) or (MYBQ+) or (MYBT+) or (MYBV+) or (MYCD+) or (MYCJ+) or (MYCP+) or (MYCQ+) or (MYCR+) or (MYCZ+) or (MYDK+) or (MYDR+) or (MYDS+) or (MYEE+) or (MYEH+) or (MYEJ+) or (MYEN+) or (MYEP+) or (MYEU+) or (MYFR+) or (MYFV+) or (MYFW+) or (MYFX+) or (MYFZ+) or (MYGD+) or (MYGE+) or (MYGH+) or (MYGJ+) or (MYHC+) or (MYHV+) or (MYHZ+) or (MYJC+) or (MYJL+) or (MYJM+) or (MYJO+) or (MYJS+) or (MYJT+) or (MYJW+) or (MYKB+) or (MYKE+) or (MYKH+) or (MYKR+) or (MYKU+) or (MYKV+) or (MYLG+) or (MYLX+) or (MYME+) or (MYMF+);
+
+% MZ
+"your":
+(MZAS+) or (MZBD+) or (MZBE+) or (MZBZ+) or (MZCA+) or (MZCV+) or (MZDF+) or (MZDV+) or (MZDW+) or (MZDX+) or (MZDY+) or (MZEA+) or (MZEQ+) or (MZER+) or (MZFU+) or (MZGT+) or (MZGY+) or (MZHB+) or (MZHG+) or (MZJF+) or (MZJR+) or (MZJZ+) or (MZKA+) or (MZKW+) or (MZLQ+) or (MZMJ+);
+
+% NA
+"zip":
+(BVNA- & NAFO+ & NAMB+) or (BVNA- & NANB+ & NAAT+) or (EWNA- & NAFO+) or (HMNA- & NAFO+ & NAMB+) or (LONA- & EUNA- & NAFO+ & NAAT+ & NAMB+) or (NAFO+);
+
+% NB
+"zipper":
+(AFNB- & ADNB-) or (AFNB- & FNNB-) or (LANB- & ADNB-) or (LANB- & CRNB-) or (LANB- & JHNB-) or (LANB- & LONB-) or (LANB- & NANB-);
+
+<UNKNOWN-WORD>: XXX+;
+
+% 301 word clusters, 301 Link Grammar rules.

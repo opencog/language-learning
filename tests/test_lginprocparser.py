@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from src.common.optconst import *
@@ -150,6 +151,12 @@ Found 2 linkages (2 had no P.P. violations)
 
 
 class LGInprocParserTestCase(unittest.TestCase):
+    def setUp(self) -> None:
+        self.tmp_dir = "/var/tmp/parse"
+
+        if not os.path.isdir(self.tmp_dir):
+            os.mkdir(self.tmp_dir)
+
     # @unittest.skip
     def test_parse_batch_ps_output_explosion_merged_sentences(self):
         # """ Test postscript parsing for total number of parsed sentences """
@@ -216,7 +223,7 @@ class LGInprocParserTestCase(unittest.TestCase):
         pr = LGInprocParser()
         bar = TextProgress(total=12, desc="Overal progress")
         pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
-                 "/var/tmp/parse", None, 0, bar)
+                 f"{self.tmp_dir}/poc-turtle.txt.ull", None, 0, bar)
         self.assertEqual(12, 12)
 
     def test_load_ull_file_not_found(self):
@@ -238,24 +245,15 @@ class LGInprocParserTestCase(unittest.TestCase):
         with self.assertRaises(FileNotFoundError) as ctx:
             pr = LGInprocParser()
             pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
-                     "/var/tmp/parse", "tests/test-data/corpora/poc-turtle/poc-horse.txt", BIT_PARSE_QUALITY)
-
-        # self.assertEqual("list index out of range", str(ctx.exception))
+                     f"{self.tmp_dir}/poc-turtle.txt.ull", "tests/test-data/corpora/poc-turtle/poc-horse.txt", BIT_PARSE_QUALITY)
 
     # @unittest.skip
     def test_parse_invalid_file_format(self):
 
-        # from subprocess import Popen, PIPE
-        #
-        # with Popen(["conda", "env", "list"], stdout=PIPE, stderr=PIPE) as wh:
-        #
-        #     raw, err = wh.communicate()
-        #     print(raw.decode("utf-8-sig"))
-
         with self.assertRaises(LGParseError) as ctx:
             pr = LGInprocParser()
             pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
-                 "/var/tmp/parse", "tests/test-data/corpora/poc-turtle/poc-turtle.txt", BIT_PARSE_QUALITY)
+                 f"{self.tmp_dir}/poc-turtle-01.txt.ull", "tests/test-data/corpora/poc-turtle/poc-turtle.txt", BIT_PARSE_QUALITY)
 
         # self.assertEqual("list index out of range", str(ctx.exception))
 
@@ -265,28 +263,28 @@ class LGInprocParserTestCase(unittest.TestCase):
         with self.assertRaises(LGParseError) as ctx:
             pr = LGInprocParser()
             pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-english/poc_english.txt",
-                     "/var/tmp/parse", "tests/test-data/parses/poc-turtle-mst/poc-turtle-parses-expected.txt",
+                     f"{self.tmp_dir}/poc_english.txt.ull", "tests/test-data/parses/poc-turtle-mst/poc-turtle-parses-expected.txt",
                      BIT_PARSE_QUALITY)
 
     # @unittest.skip
     def test_stop_tokens(self):
         pr = LGInprocParser()
         pm, pq = pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
-                 "/var/tmp/parse", "tests/test-data/parses/poc-turtle-mst/poc-turtle-parses-expected.txt",
+                 f"{self.tmp_dir}/poc-turtle-02.txt.ull", "tests/test-data/parses/poc-turtle-mst/poc-turtle-parses-expected.txt",
                  BIT_PARSE_QUALITY | BIT_EXISTING_DICT | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP)
 
         self.assertEqual(12, pm.sentences)
         self.assertEqual(0, pm.skipped_sentences)
 
         pm, pq = pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
-                 "/var/tmp/parse", "tests/test-data/parses/poc-turtle-mst/poc-turtle-parses-expected.txt",
+                 f"{self.tmp_dir}/poc-turtle-03.txt.ull", "tests/test-data/parses/poc-turtle-mst/poc-turtle-parses-expected.txt",
                  BIT_PARSE_QUALITY | BIT_EXISTING_DICT | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP, stop_tokens="isa")
 
         self.assertEqual(6, pm.sentences)
         self.assertEqual(6, pm.skipped_sentences)
 
         pm, pq = pr.parse("tests/test-data/dict/poc-turtle", "tests/test-data/corpora/poc-turtle/poc-turtle.txt",
-                 "/var/tmp/parse", "tests/test-data/parses/poc-turtle-mst/poc-turtle-parses-expected.txt",
+                 f"{self.tmp_dir}/poc-turtle-04.txt.ull", "tests/test-data/parses/poc-turtle-mst/poc-turtle-parses-expected.txt",
                  BIT_PARSE_QUALITY | BIT_EXISTING_DICT | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP, stop_tokens="tuna herring")
 
         self.assertEqual(8, pm.sentences)
@@ -295,7 +293,7 @@ class LGInprocParserTestCase(unittest.TestCase):
     # @unittest.skip
     def test_max_sentence_len(self):
         pr = LGInprocParser()
-        pm, pq = pr.parse("en", "tests/test-data/sentence-skip-test/issue-184.txt", "/var/tmp/parse", None,
+        pm, pq = pr.parse("en", "tests/test-data/sentence-skip-test/issue-184.txt", f"{self.tmp_dir}/issue-184.ull", None,
                           BIT_EXISTING_DICT | BIT_NO_LWALL | BIT_NO_PERIOD | BIT_STRIP, max_sentence_len=3)
 
         self.assertEqual(2, pm.sentences)
@@ -317,13 +315,15 @@ class LGInprocParserTestCase(unittest.TestCase):
 
         pr = LGInprocParser()
         pm, pq = pr.parse("tests/test-data/dict/poc-turtle", corpus_file_path,
-                          "/var/tmp/parse", None, options, min_word_count=1, token_counts=token_counts)
+                          f"{self.tmp_dir}/{os.path.split(corpus_file_path)[1]}", None, options,
+                          min_word_count=1, token_counts=token_counts)
 
         self.assertEqual(12, pm.sentences)
         self.assertEqual(0, pm.skipped_sentences)
 
         pm, pq = pr.parse("tests/test-data/dict/poc-turtle", corpus_file_path,
-                          "/var/tmp/parse", None, options, min_word_count=2, token_counts=token_counts)
+                          f"{self.tmp_dir}/{os.path.split(corpus_file_path)[1]}", None, options,
+                          min_word_count=2, token_counts=token_counts)
 
         self.assertEqual(10, pm.sentences)
         self.assertEqual(2, pm.skipped_sentences)

@@ -8,7 +8,7 @@ import traceback
 import logging
 
 from ull.common import handle_path_string, strip_quotes, setup_logging, VERBOSITY_OPTIONS
-from ull.grammar_tester import test_grammar, test_grammar_cfg, GrammarTestError, LG_DICT_PATH, LGParseError, ParserError
+from ull.grammar_tester import test_grammar, GrammarTestError, LG_DICT_PATH, LGParseError, ParserError
 from ull.common.optconst import *
 
 __version__ = "3.0.0"

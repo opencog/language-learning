@@ -1,0 +1,9 @@
+jack can't sleep at night .
+0 ###LEFT-WALL### 1 jack
+0 ###LEFT-WALL### 3 sleep
+0 ###LEFT-WALL### 6 .
+1 jack 2 can't
+2 can't 3 sleep
+3 sleep 4 at
+4 at 5 night
+

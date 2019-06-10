@@ -7,7 +7,8 @@ from ..common.cliutils import handle_path_string
 from ..common.optconst import *
 from ..common.tokencount import *
 from ..common.absclient import AbstractPipelineComponent
-from ..grammar_tester.grammartester import GrammarTesterComponent
+from ..grammar_tester.gt_component import GrammarTesterComponent
+from ..grammar_tester.parsevaluate import ParseEvaluatorComponent
 from ..grammar_learner import GrammarLearnerComponent
 from ..text_parser import TextParserComponent
 from ..dash_board.textdashboard import TextFileDashboardComponent
@@ -101,7 +102,8 @@ PIPELINE_COMPONENTS = {
     "grammar-learner": (GrammarLearnerComponent, "GL"),
     "text-parser": (TextParserComponent, "TP"),
     "dash-board": (TextFileDashboardComponent, ""),
-    "token-counter": (TokenCounterComponent, "TC")
+    "token-counter": (TokenCounterComponent, "TC"),
+    "parse-evaluator": (ParseEvaluatorComponent, "PE")
 }
 
 
@@ -152,11 +154,19 @@ def single_proc_exec(node: PipelineTreeNode2) -> None:
         for req in pre_exec:
             result = handle_request(node, req)
 
+    start_time = time()
+
     # Create component instance
     component = get_component(node._component_name, parameters)
 
     # Execute component
     result = component.run(**{**parameters, **result})
+
+    # Calculate execution time and format it in a string
+    time_span_str = format_time_str(time() - start_time)
+
+    # Make execution time available for post processing
+    result.update(exec_time = time_span_str)
 
     post_exec = parameters.get("post-exec-req", None)
 
@@ -165,7 +175,7 @@ def single_proc_exec(node: PipelineTreeNode2) -> None:
             handle_request(node, {**req, **result})
 
     # Just for debug purposes
-    logger.debug(node._component_name + ": successfull execution")
+    logger.debug(f"{node._component_name} execution time: {time_span_str}")
 
 
 def handle_request(node: PipelineTreeNode2, req: dict) -> None:
@@ -233,8 +243,11 @@ def prepare_parameters(parent: Optional[PipelineTreeNode2], common: dict, specif
 
     inherit_prev = all_parameters.get("inherit_prev_path", False)
 
-    leaf = (environment["PREV"] + "/" + rleaf if parent is not None else rleaf) if inherit_prev \
+    leaf = (environment["PREV"] + "/" + rleaf if parent is not None else rleaf) if inherit_prev and parent is not None \
         else environment["ROOT"] + "/" + rleaf
+
+    # leaf = (environment["PREV"] + "/" + rleaf if parent is not None else rleaf) if inherit_prev \
+    #     else environment["ROOT"] + "/" + rleaf
 
     new_environment = {**environment, **{"RLEAF": rleaf, "LEAF": leaf, "CREATE_LEAF": create_leaf}}
 
@@ -373,7 +386,7 @@ def check_config(config: List) -> None:
         raise FatalPipelineException("Configuration error(s) found.")
 
 
-def parse_time_str(parse_time) -> str:
+def format_time_str(parse_time) -> str:
     """
     Format execution time to be printed out
 
@@ -397,4 +410,4 @@ def run_tree() -> None:
 
     PipelineTreeNode2.traverse_all(single_proc_exec)
 
-    logger.warning("Overal pipeline execution time: " + parse_time_str(time() - start_time))
+    logger.warning("Overal pipeline execution time: " + format_time_str(time() - start_time))

@@ -12,7 +12,8 @@ import os
 import logging
 import traceback
 
-from ull.common import handle_path_string, strip_quotes, setup_logging, VERBOSITY_OPTIONS
+from ull.common import handle_path_string, strip_quotes, setup_logging, VERBOSITY_OPTIONS, \
+    BIT_NO_LWALL, BIT_ULL_IN, BIT_NO_PERIOD, BIT_FILTER_DIR_SPEECH
 from ull.grammar_tester import compare_ull_files, EvalError
 from ull.parse_evaluator import Evaluate_Alternative
 
@@ -43,11 +44,12 @@ def main(argv):
         -s              evaluate sequential parses (only in alternative evaluator)
         -z              evaluate random parses (only in alternative evaluator)
         -f              filter sentences not matching in ref and test, or have internal dialogue (only in alternative)
-        -o              compare tokenization between two given parse files. Output file with diffs
+        -o              compare tokenization between two given parse files. Output file with diffs.
 
     """
     test_file = ''
     ref_file = ''
+    out_path = None
     verbose = False
     verbosity_level = logging.WARNING
     ignore_wall = False
@@ -56,21 +58,27 @@ def main(argv):
     alternative_parser = False
     filter_sentences = False
     compare_tokenization = False
+    options = 0x00000000 | BIT_ULL_IN
+    parser_type = "link-grammar-exe"
 
     try:
         app_name = str(os.path.split(__file__)[1]).split(".")[0]
 
-        opts, args = getopt.getopt(argv, "ht:r:v:iszafo", ["test=", "reference=", "verbosity=", "ignore", "sequential",
-                                                         "random", "alternative", "filter", "tokenization"])
+        opts, args = getopt.getopt(argv, "ht:r:O:v:iszafo", ["test=", "reference=", "output=", "verbosity=", "ignore",
+                                                             "sequential", "random", "alternative", "filter",
+                                                             "tokenization"])
 
         for opt, arg in opts:
             if opt == '-h':
-                print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-v] [-i] [-s] [-z] [-a] [-f] [-o]")
+                print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-O <output-path>] [-v] [-i] [-s] [-z] "
+                      "[-a] [-f] [-o]")
                 sys.exit()
             elif opt in ("-t", "--test"):
                 test_file = arg
             elif opt in ("-r", "--reference"):
                 ref_file = arg
+            elif opt in ("-O", "--output"):
+                out_path = handle_path_string(arg)
             elif opt in ("-v", "--verbosity"):
                 verb_key = strip_quotes(arg)
 
@@ -81,21 +89,28 @@ def main(argv):
                 verbose = verbosity_level < logging.WARNING
             elif opt in ("-i", "--ignore"):
                 ignore_wall = True
+                options |= (BIT_NO_LWALL | BIT_NO_PERIOD)
             elif opt in ("-s", "--sequential"):
+                if random:
+                    raise getopt.GetoptError("Either '--random' or '--sequential' or none should be specified.")
                 sequential = True
+                parser_type = "sequential"
             elif opt in ("-z", "--random"):
+                if sequential:
+                    raise getopt.GetoptError("Either '--random' or '--sequential' or none should be specified.")
                 random = True
+                parser_type = "random"
             elif opt in ("-a", "--alternative"):
                 alternative_parser = True
             elif opt in ("-f", "--filter"):
                 filter_sentences = True
+                options |= BIT_FILTER_DIR_SPEECH
             elif opt in ("-o", "--tokenization"):
                 compare_tokenization = True
 
     except getopt.GetoptError:
         print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a] [-f] [-o]")
         sys.exit(2)
-
 
     setup_logging(verbosity_level, logging.NOTSET, os.environ["PWD"] + "/" + app_name + ".log", "w")
 
@@ -107,22 +122,41 @@ def main(argv):
         # Check if the arguments are properly specified.
         if ref_file is None or len(ref_file) == 0:
             logger.info(main.__doc__)
-            raise EvalError("Error: Arguments are not properly specified.")
+            raise ValueError("Error: Arguments are not properly specified.")
 
         # If reference file does not exist then there is nothing to compare.
-        if not os.path.isfile(ref_file):
-            raise EvalError("Error: File '" + ref_file + "' does not exist.")
+        if not os.path.isfile(ref_file) and not os.path.isdir(ref_file):
+            raise FileNotFoundError(f"Error: File '{ref_file}' does not exist.")
 
         # Check if the arguments are properly specified.
         if test_file is None or len(test_file) == 0:
             print(main.__doc__)
-            raise EvalError("Error: Incorrect test_file.")
+            raise ValueError("Error: Incorrect test file path.")
+
+        # Check if out_path points to an existing directory
+        if out_path is not None and (not os.path.isdir(out_path)):
+            raise FileNotFoundError(f"'--output' argument should point to an existing directory.")
+
+        params = {"parser_type": parser_type}
+
+        if out_path is not None:
+            params["output_path"] = out_path
 
         if alternative_parser:
-            Evaluate_Alternative(ref_file, test_file, verbose, ignore_wall, sequential, random, filter_sentences, compare_tokenization)
+            Evaluate_Alternative(ref_file, test_file, verbose, ignore_wall, sequential, random, filter_sentences,
+                                 compare_tokenization, **params)
 
         else:
-            compare_ull_files(test_file, ref_file, verbose, ignore_wall)
+            compare_ull_files(test_file, ref_file, options, **params)
+
+    except FileNotFoundError as err:
+        logger.critical(str(err))
+        return 1
+
+    except ValueError as err:
+        logger.critical(str(err))
+        print(main.__doc__)
+        return 1
 
     except EvalError as err:
         logger.critical(str(err))
@@ -131,7 +165,7 @@ def main(argv):
 
     except KeyboardInterrupt:
         logger.warning("Ctrl+C triggered. User abort.")
-        logger.debug(traceback.print_exc())
+        # logger.debug(traceback.print_exc())
         return 4
 
     except Exception as err:

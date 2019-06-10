@@ -1,0 +1,21 @@
+Total sentences parsed in full:		100.00%
+Total sentences not parsed at all:	  0.00%
+Average sentence parse:			100.00%
+Total sentences:			3037.00
+Skipped sentences:			0.00
+Parse time:				0h 0m 3s 543ms
+
+Parse quality:	 99.71%
+
+Average total links:	3.64
+Average ignored links:	0.00
+Average missing links:	0.01
+Average extra links:	0.05
+
+Recall:		0.9971
+Precision:	0.9917
+F1:		0.9944
+
+Total sentences:	3037.00
+Skipped sentences:	0.00
+

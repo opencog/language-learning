@@ -1,0 +1,339 @@
+% Grammar Learner v.0.7 2019-05-19 06:20:11 UTC
+<dictionary-version-number>: V0v0v7+;
+<dictionary-locale>: EN4us+;
+
+% AB
+"'re":
+(CZAB- & ABBC+) or (CZAB- & ABBG+) or (CZAB- & ABCL+) or (DJAB- & ABCN+);
+
+% AC
+"'s":
+(AQAC- & ACBL+) or (BJAC- & ACAE+) or (BJAC- & ACCC+) or (BLAC- & ACAE+) or (BPAC- & ACCV+) or (BRAC- & ACAE+) or (BRAC- & ACAQ+) or (BRAC- & ACBG+) or (BRAC- & ACBO+) or (BRAC- & ACBS+) or (BRAC- & ACCL+) or (BZAC- & ACBL+) or (CQAC- & ACAE+) or (CQAC- & ACCR+) or (CVAC- & ACAE+) or (CVAC- & ACAF+) or (CVAC- & ACBG+) or (CVAC- & ACBS+) or (CVAC- & ACCC+) or (CVAC- & ACCH+) or (CVAC- & ACCL+) or (CVAC- & ACCN+) or (CXAC- & ACAE+) or (CXAC- & ACCH+) or (DGAC- & ACAE+) or (DGAC- & ACBL+) or (DGAC- & ACCV+) or (DGAC- & ACCX+) or (DGAC- & ACDA+) or (DHAC- & ACAE+) or (DHAC- & ACAQ+) or (DHAC- & ACBS+) or (DHAC- & ACCH+) or (DHAC- & ACCJ+) or (DHAC- & ACCU+) or (DHAC- & ACCV+) or (DHAC- & ACCX+) or (DHAC- & ACDA+);
+
+% AD
+"a":
+(ADAK+ & ADCM+) or (ADBW+ & ADAM+) or (ADCC+ & ADBT+);
+
+% AE
+"alice" "cindy" "duck" "eating" "gail" "gone" "inside" "lena" "okay" "one" "sleeping" "so":
+(ACAE-);
+
+% AF
+"all":
+(ACAF-) or (AFAZ+) or (AFCW+ & AFBY+);
+
+% AG
+"and":
+(AGDB+ & AGAH+);
+
+% AH
+"are":
+(BPAH- & AHDJ+) or (CYAH- & AHAL+) or (CZAH- & CXAH-) or (DBAH- & AGAH-) or (DBAH- & AHAL+) or (DBAH- & AHBC+) or (DFAH- & CXAH-) or (DGAH- & AHCY+) or (DGAH- & AHDB+) or (DJAH- & BLAH-) or (DJAH- & CXAH-);
+
+% AJ
+"be":
+(DJAJ- & AJCL+);
+
+% AK
+"big":
+(ADAK- & AKCM+);
+
+% AL
+"blocks" "ducks":
+(AHAL-);
+
+% AM
+"book" "boy":
+(BWAM- & ADAM-);
+
+% AN
+"books":
+(BVAN-);
+
+% AO
+"can":
+(BSAO- & AOCK+) or (DFAO- & AOCU+);
+
+% AP
+"color":
+(DGAP- & APBQ+);
+
+% AQ
+"daddy":
+(ACAQ-) or (AQAC+);
+
+% AR
+"did":
+(ARDJ+ & ARCO+) or (DJAR- & ARBR+);
+
+% AS
+"do":
+(DJAS- & ASBR+) or (DJAS- & ASCV+);
+
+% AT
+"doesn't":
+(BRAT-);
+
+% AU
+"don't":
+(CZAU- & AUCG+) or (DJAU- & AUBU+);
+
+% AV
+"down":
+(AZAV-) or (BBAV-) or (CSAV-);
+
+% AW
+"dragon":
+(CWAW- & AWBF+);
+
+% AX
+"ear":
+(BNAX- & CVAX-);
+
+% AY
+"eat" "got" "read" "try":
+(DJAY- & AYBR+);
+
+% AZ
+"fall":
+(AFAZ- & AZAV+);
+
+% BA
+"feel":
+(DJBA- & BADA+);
+
+% BB
+"fell":
+(BJBB- & BBCF+) or (CZBB- & BBCF+) or (DGBB- & BBAV+);
+
+% BC
+"flowers":
+(ABBC-) or (AHBC-) or (DABC- & CPBC-);
+
+% BD
+"food":
+(BQBD-);
+
+% BE
+"go":
+(DFBE-) or (DJBE-);
+
+% BF
+"goes":
+(AWBF-) or (BJBF-) or (DABF- & BFBL+);
+
+% BG
+"good":
+(ABBG-) or (ACBG-) or (DEBG-);
+
+% BH
+"has":
+(BJBH- & BHCR+);
+
+% BJ
+"he":
+(BJAC+) or (BJBB+) or (BJBH+) or (BJBQ+) or (BLBJ- & BJBF+) or (BQBJ-) or (CXBJ- & BJBF+);
+
+% BK
+"her":
+(CPBK-);
+
+% BL
+"here":
+(ACBL-) or (BFBL-) or (BLAC+) or (BLAH+) or (BLBJ+) or (BLBQ+) or (BLDF+) or (BLDJ+);
+
+% BM
+"him" "to":
+(DDBM-);
+
+% BN
+"his":
+(CVBN- & BNAX+);
+
+% BO
+"honey":
+(ACBO-) or (BUBO-) or (BXBO-);
+
+% BP
+"how":
+(BPAC+) or (BPAH+);
+
+% BQ
+"is":
+(APBQ-) or (BJBQ- & BLBQ-) or (BJBQ- & CXBQ-) or (BRBQ- & BLBQ-) or (BRBQ- & CXBQ-) or (CBBQ-) or (CQBQ- & BLBQ-) or (CQBQ- & CXBQ-) or (DABQ- & BQBD+) or (DABQ- & BQCH+) or (DGBQ- & BQBR+) or (DGBQ- & BQCV+) or (DGBQ- & BQDA+) or (DHBQ- & BQBJ+) or (DHBQ- & BQBR+) or (DHBQ- & BQCQ+) or (DHBQ- & BQCV+) or (DHBQ- & BQDA+);
+
+% BR
+"it":
+(ARBR-) or (ASBR-) or (AYBR-) or (BQBR-) or (BRAC+) or (BRBQ+) or (CDBR- & BRAT+);
+
+% BS
+"judy":
+(ACBS-) or (BSAO+);
+
+% BT
+"kiss":
+(CCBT- & ADBT-);
+
+% BU
+"know":
+(AUBU-) or (DJBU- & BUBO+);
+
+% BV
+"like":
+(DJBV- & BVAN+) or (DJBV- & BVCV+) or (DJBV- & BVDB+);
+
+% BW
+"little":
+(ADBW- & BWAM+);
+
+% BX
+"look":
+(DJBX- & BXBO+);
+
+% BY
+"meat":
+(CWBY- & AFBY-);
+
+% BZ
+"mommy":
+(BZAC+);
+
+% CA
+"my":
+(CACB+);
+
+% CB
+"name":
+(CACB- & CBBQ+);
+
+% CC
+"nice":
+(ACCC-) or (ADCC- & CCBT+);
+
+% CD
+"no":
+(CDBR+);
+
+% CE
+"now":
+(CEDJ+);
+
+% CF
+"off" "over":
+(BBCF-);
+
+% CG
+"open":
+(AUCG-);
+
+% CH
+"paul":
+(ACCH-) or (BQCH-);
+
+% CJ
+"peekaboo":
+(ACCJ-) or (CKCJ-);
+
+% CK
+"play":
+(AOCK-) or (DJCK-) or (DJCK- & CKCJ+);
+
+% CL
+"pretty":
+(ABCL-) or (ACCL-) or (AJCL-) or (CTCL-);
+
+% CM
+"rabbit":
+(AKCM- & ADCM-);
+
+% CN
+"right":
+(ABCN-) or (ACCN-);
+
+% CO
+"say":
+(ARCO-);
+
+% CP
+"see":
+(CPCZ+ & CPDC+) or (CPDA+ & CPBC+) or (DJCP- & CPBK+);
+
+% CQ
+"she":
+(BQCQ-) or (CQAC+) or (CQBQ+);
+
+% CR
+"shoes":
+(ACCR-) or (BHCR-);
+
+% CS
+"sit":
+(DJCS- & CSAV+);
+
+% CT
+"smell":
+(CZCT- & CTCL+);
+
+% CU
+"talk":
+(ACCU-) or (AOCU-);
+
+% CV
+"that":
+(ACCV-) or (ASCV-) or (BQCV-) or (BVCV-) or (CVAC+) or (CVBN+ & CVAX+) or (CVDE+) or (DDCV-) or (DECV-);
+
+% CW
+"the":
+(AFCW- & CWBY+) or (CWAW+);
+
+% CX
+"there":
+(ACCX-) or (CXAC+) or (CXAH+) or (CXBJ+) or (CXBQ+) or (CXDF+) or (CXDJ+);
+
+% CY
+"these":
+(AHCY-) or (CYAH+);
+
+% CZ
+"they":
+(CPCZ- & CZDC+) or (CZAB+) or (CZAH+) or (CZAU+) or (CZBB+) or (CZCT+);
+
+% DA
+"this":
+(ACDA-) or (BADA-) or (BQDA-) or (CPDA- & DABC+) or (DABF+) or (DABQ+) or (DDDA-);
+
+% DB
+"those":
+(AGDB- & DBAH+) or (AHDB-) or (BVDB-) or (DBAH+);
+
+% DC
+"untie":
+(CZDC- & CPDC-);
+
+% DD
+"want":
+(DJDD- & DDBM+) or (DJDD- & DDCV+) or (DJDD- & DDDA+);
+
+% DE
+"was":
+(CVDE- & DEBG+) or (DGDE- & DECV+);
+
+% DF
+"we":
+(BLDF- & DFBE+) or (CXDF- & DFBE+) or (DFAH+) or (DFAO+);
+
+% DG
+"what":
+(DGAC+) or (DGAH+) or (DGAP+) or (DGBB+) or (DGBQ+) or (DGDE+);
+
+% DH
+"where" "who":
+(DHAC+) or (DHBQ+);
+
+% DJ
+"you":
+(AHDJ-) or (ARDJ-) or (BLDJ- & DJBE+) or (CEDJ- & DJCK+) or (CXDJ- & DJBE+) or (DJAB+) or (DJAH+) or (DJAJ+) or (DJAR+) or (DJAS+) or (DJAU+) or (DJAY+) or (DJBA+) or (DJBU+) or (DJBV+) or (DJBX+) or (DJCK+) or (DJCP+) or (DJCS+) or (DJDD+);
+
+<UNKNOWN-WORD>: XXX+;
+
+% 83 word clusters, 83 Link Grammar rules.

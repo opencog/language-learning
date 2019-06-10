@@ -18,7 +18,7 @@ def get_sed_regex(options: int) -> str:
 
     # Otherwise sed removes only empty lines.
     else:
-        return r"/^$/d;s/.*/\L\0/g" if options & BIT_INPUT_TO_LCASE else r"/^$/d"
+        return r'/^$/d;s/.*/\L\0/g' if options & BIT_INPUT_TO_LCASE else r'/^$/d'
 
 
 def get_sed_cmd_common_part(options: int) -> list:

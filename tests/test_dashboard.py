@@ -1,3 +1,4 @@
+import os
 import unittest
 from src.dash_board.textdashboard import TextFileDashboard, TextFileDashboardComponent
 from src.pipeline.pipelinetree import get_component
@@ -87,6 +88,11 @@ more_headers =   {
 
 
 class DashboardTestCase(unittest.TestCase):
+    def setUp(self) -> None:
+        self.tmp_dir = "/var/tmp/dash-board"
+
+        if not os.path.isdir(self.tmp_dir):
+            os.mkdir(self.tmp_dir)
 
     def test_something(self):
         should_be = "A\tB\tC\tD\n" \
@@ -97,7 +103,7 @@ class DashboardTestCase(unittest.TestCase):
 
         board = TextFileDashboard({
             "board_type": "file",
-            "file_path":  "/var/tmp/board.txt",
+            "file_path":  f"{self.tmp_dir}/board.txt",
             "board_name": "TestBoard",
             "row_count": 4,
             "col_count": 4,

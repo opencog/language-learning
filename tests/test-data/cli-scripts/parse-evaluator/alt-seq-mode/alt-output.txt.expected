@@ -1,0 +1,11 @@
+Finished loading
+writing parses file to '/var/tmp/alt-seq-mode/sequential_parses.ull'
+Finished writing parses file
+
+Avg Precision: 67.70%
+Avg Recall: 67.37%
+Avg Fscore: 67.53%
+
+A total of 0 sentences filtered, 0.00% of reference file
+A total of 88 parses evaluated, 100.00% of reference file
+3.00 ignored links per evaluated parse

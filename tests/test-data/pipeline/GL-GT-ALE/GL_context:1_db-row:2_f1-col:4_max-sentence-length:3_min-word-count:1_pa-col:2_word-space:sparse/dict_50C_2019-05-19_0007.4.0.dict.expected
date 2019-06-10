@@ -1,0 +1,207 @@
+% Grammar Learner v.0.7 2019-05-19 06:20:00 UTC
+<dictionary-version-number>: V0v0v7+;
+<dictionary-locale>: EN4us+;
+
+% AB
+"dragon" "fall" "meat":
+(ABAC+) or (ALAB-) or (ARAB- & ABAH+) or (ARAB- & BJAB- & ABAH+) or (ARAB- & BZAB- & ABAH+) or (BFAB- & BBAB-) or (BFAB- & BHAB-) or (BOAB- & APAB-) or (BQAB-) or (BQAB- & ABAW+) or (BQAB- & ABBC+) or (BQAB- & ABBH+) or (BQAB- & AFAB-) or (BQAB- & ARAB-) or (BQAB- & BAAB-) or (BQAB- & BBAB-) or (BQAB- & BDAB-) or (BQAB- & BHAB-) or (BQAB- & BNAB-) or (BQAB- & BSAB-);
+
+% AC
+"big" "book" "boy" "kiss" "rabbit":
+(ABAC- & BQAC- & ACBW+) or (ACAC- & BFAC-) or (ACAJ+) or (ACBA+) or (ACBB+) or (ACBE+) or (ADAC-) or (ADAC- & BFAC- & BBAC-) or (ADAC- & BFAC- & BHAC-) or (AEAC- & AQAC-) or (AJAC-) or (AQAC-) or (AXAC- & AJAC- & BHAC-) or (AXAC- & BFAC-) or (AXAC- & BOAC-) or (AXAC- & BQAC- & APAC-) or (AYAC- & BFAC-) or (AYAC- & BFAC- & BHAC-) or (AYAC- & BFAC- & BNAC-) or (AYAC- & BQAC-) or (BAAC- & ACBE+) or (BAAC- & BSAC-) or (BBAC-) or (BDAC-) or (BFAC-) or (BFAC- & ACAC+) or (BFAC- & ACAM+) or (BFAC- & ACBE+ & ACBA+) or (BFAC- & AMAC-) or (BFAC- & APAC-) or (BFAC- & AQAC-) or (BFAC- & BBAC-) or (BFAC- & BDAC-) or (BFAC- & BHAC-) or (BHAC-) or (BHAC- & BNAC-) or (BNAC-) or (BOAC-) or (BOAC- & APAC-) or (BOAC- & AQAC-) or (BOAC- & BDAC- & ACBB+) or (BOAC- & BHAC-) or (BOAC- & BSAC-) or (BQAC-) or (BQAC- & ACAM+) or (BQAC- & ACBH+) or (BQAC- & APAC-) or (BQAC- & AQAC-) or (BQAC- & BBAC-) or (BQAC- & BHAC-) or (BQAC- & BNAC-) or (BQAC- & BSAC-) or (BQAC- & CAAC-) or (BYAC-) or (BYAC- & BBAC- & ACAJ+) or (BYAC- & BHAC-) or (BYAC- & BNAC-);
+
+% AD
+"good" "pretty" "right":
+(ADAJ+) or (ADAL+) or (ADAU+) or (ADAY+) or (ADBG+) or (ADBR+) or (ADBR+ & ADBR+ & ADBB+) or (AEAD-) or (AFAD-) or (AFAD- & ADBA+) or (AFAD- & ADBR+) or (AJAD-) or (AJAD- & BHAD- & ADBA+ & ADAQ+) or (AKAD- & ADAL+) or (AQAD-) or (ARAD-) or (ARAD- & ADAL+) or (ARAD- & ADAN+) or (ARAD- & ADBR+) or (ARAD- & ADBR+ & ADBB+) or (ARAD- & AQAD-) or (ARAD- & BBAD-) or (ARAD- & BHAD-) or (ASAD- & ADBM+) or (BBAD- & ADBA+ & ADAQ+) or (BFAD-) or (BFAD- & ADAC+) or (BHAD-) or (BHAD- & ADBR+) or (BMAD-) or (BOAD- & BHAD- & ADBR+) or (BPAD-) or (BVAD-) or (BYAD- & APAD-) or (BYAD- & BBAD- & ADBR+) or (BYAD- & BHAD- & ADBR+);
+
+% AE
+"her" "smell" "untie":
+(AEAC+) or (AEAD+) or (AEAJ+) or (AEAO+) or (AEAS+) or (APAE-) or (AQAE- & AEBN+) or (BAAE- & BSAE-) or (BEAE- & AEBG+) or (BEAE- & AMAE- & AEBK+) or (BEAE- & BGAE- & AEBX+) or (BEAE- & CAAE- & AEBG+ & AEBR+) or (BJAE- & AEAD+) or (BJAE- & APAE-) or (BLAE-) or (BZAE-) or (BZAE- & AEAJ+) or (CAAE-) or (CAAE- & AEBG+) or (CAAE- & AEBG+ & AEBN+) or (CAAE- & AEBO+) or (CAAE- & AECA+);
+
+% AF
+"be" "feel" "go" "sit":
+(AFAD+) or (AFAH+) or (AFAJ+) or (AFAY+) or (AFBN+) or (ALAF- & AFBR+) or (AMAF-) or (AQAF-) or (BAAF-) or (BAAF- & AWAF-) or (BAAF- & BNAF-) or (BAAF- & BSAF-) or (BAAF- & BSAF- & AFAB+) or (BAAF- & BSAF- & AFAH+) or (BAAF- & BSAF- & AFAJ+) or (BDAF-) or (BEAF-) or (BEAF- & AFAD+) or (BEAF- & AFAH+) or (BEAF- & AFBN+) or (BEAF- & AFBO+) or (BLAF- & AFBN+) or (BRAF-) or (BWAF-) or (BWAF- & AMAF-) or (BZAF-) or (BZAF- & AFBA+) or (CAAF-) or (CAAF- & AFAB+) or (CAAF- & AFAH+ & AFAJ+) or (CAAF- & AFAJ+) or (CAAF- & AFBK+);
+
+% AG
+"ear" "his":
+(AGAG- & BYAG-) or (AGAJ+) or (AGAO+) or (AGAU+) or (BHAG- & AVAG- & AGBB+) or (BHAG- & BHAG-) or (BYAG- & AGAG+);
+
+% AH
+"down" "off" "over":
+(ABAH-) or (AFAH-) or (AHAJ+) or (AHAL+) or (AHBR+) or (AKAH- & AHBR+) or (APAH-) or (AQAH- & AHBR+) or (ARAH- & AHBR+) or (ATAH-) or (BHAH- & AHBR+) or (BKAH- & AHBN+);
+
+% AJ
+"alice" "cindy" "duck" "eating" "gail" "gone" "inside" "judy" "lena" "okay" "one" "peekaboo" "shoes" "sleeping" "so" "talk":
+(ACAJ-) or (ACAJ- & BBAJ-) or (ADAJ- & BQAJ- & BBAJ-) or (ADAJ- & BQAJ- & BHAJ-) or (AEAJ-) or (AFAJ-) or (AGAJ- & AEAJ-) or (AGAJ- & BMAJ-) or (AJAC+) or (AJAD+) or (AJAJ+) or (AJAL+) or (AJAQ+) or (AJAQ+ & AJBS+) or (AJAS+) or (AJBB+) or (AJBD+) or (AJBE+) or (AJBH+) or (AJBN+) or (AJBO+ & AJBB+) or (AJBR+) or (AJBR+ & AJBB+) or (AJBU+) or (AJBW+) or (AJBY+) or (AJCA+) or (AKAJ-) or (ALAJ-) or (ALAJ- & AHAJ-) or (AMAJ-) or (AMAJ- & AJBB+) or (ANAJ- & BNAJ-) or (ANAJ- & BQAJ-) or (AOAJ- & BHAJ-) or (APAJ-) or (AQAJ-) or (ARAJ- & BHAJ-) or (ARAJ- & BMAJ-) or (AWAJ-) or (AYAJ- & BFAJ- & BBAJ-) or (AYAJ- & BFAJ- & BNAJ-) or (AZAJ-) or (AZAJ- & CAAJ- & AJAJ- & AZAJ-) or (BAAJ-) or (BAAJ- & BMAJ-) or (BAAJ- & BNAJ- & AJBA+) or (BAAJ- & BSAJ-) or (BAAJ- & BSAJ- & AJBA+) or (BBAJ-) or (BBAJ- & BDAJ-) or (BEAJ-) or (BEAJ- & AJBA+) or (BFAJ-) or (BFAJ- & BBAJ-) or (BFAJ- & BHAJ-) or (BHAJ-) or (BHAJ- & AJAL+) or (BHAJ- & AJAU+) or (BHAJ- & AJBR+) or (BHAJ- & BDAJ-) or (BHAJ- & BMAJ-) or (BMAJ-) or (BOAJ-) or (BOAJ- & AJAW+) or (BOAJ- & AJBH+) or (BOAJ- & AQAJ-) or (BOAJ- & BHAJ-) or (BOAJ- & BNAJ-) or (BOAJ- & BSAJ-) or (BQAJ-) or (BQAJ- & APAJ-) or (BQAJ- & BBAJ-) or (BQAJ- & BHAJ-) or (BSAJ-) or (BXAJ- & BMAJ-) or (BYAJ-) or (BYAJ- & AFAJ-) or (BYAJ- & AJBH+) or (BYAJ- & AKAJ-) or (BYAJ- & APAJ-) or (BYAJ- & AQAJ-) or (BYAJ- & BBAJ-) or (BYAJ- & BHAJ-) or (BYAJ- & BSAJ-) or (CAAJ-) or (CAAJ- & AJBA+);
+
+% AK
+"know" "look":
+(AKAH+) or (AKAJ+) or (AKAM+) or (AKAS+) or (AKAU+) or (AKAY+) or (AKBD+) or (AKBN+) or (ALAK-) or (AQAK- & AKAD+) or (AQAK- & AKAS+) or (AQAK- & AKAV+) or (AQAK- & AKBD+) or (AQAK- & BDAK-) or (BAAK- & BNAK-) or (BAAK- & BSAK-) or (BEAK-) or (BEAK- & AKAJ+) or (BEAK- & AKAO+) or (BEAK- & AKAR+) or (BEAK- & AKAS+) or (BEAK- & AKBD+) or (BEAK- & AKBT+) or (BEAK- & AKBY+) or (BEAK- & AQAK-) or (BJAK- & AKBN+) or (BLAK-) or (BLAK- & AKBD+) or (BZAK-) or (BZAK- & AKBY+) or (CAAK-);
+
+% AL
+"books" "doesn't" "my" "now" "open" "say":
+(ADAL-) or (AHAL-) or (AJAL-) or (ALAB+) or (ALAJ+) or (ALAK+) or (ALAL+) or (ALAL-) or (ALAM+) or (ALAO+) or (ALAP+) or (ALAQ+) or (ALAS+) or (ALBA+) or (ALBE+) or (ALBK+) or (ALBU+) or (ALCA+) or (AMAL-) or (AQAL-) or (AQAL- & BDAL-) or (AQAL- & BDAL- & ALAJ+) or (ASAL-) or (AYAL-) or (AZAL-) or (BAAL- & ALBA+) or (BAAL- & ASAL-) or (BAAL- & BDAL-) or (BAAL- & BSAL-) or (BBAL-) or (BDAL-) or (BDAL- & ALAJ+) or (BDAL- & ALBA+) or (BEAL-) or (BEAL- & ARAL-) or (BJAL- & ALAJ+) or (BKAL-) or (BKAL- & ALAF+) or (BLAL-) or (BNAL-) or (BQAL-) or (BRAL- & BMAL-) or (BSAL-) or (BUAL-) or (BZAL-) or (BZAL- & ALBA+) or (BZAL- & BDAL-) or (CAAL-) or (CAAL- & ALAJ+) or (CAAL- & ALBA+) or (CAAL- & ALBK+) or (CAAL- & ALBY+);
+
+% AM
+"and":
+(ACAM-) or (ACAM- & APAM-) or (AKAM- & CAAM-) or (ALAM- & BLAM- & AMAP+) or (ALAM- & CAAM-) or (AMAJ+) or (AMAM+) or (AMAM- & BHAM- & AMAC+) or (AMAP+) or (AMAV+ & AMBH+) or (AMAV+ & AMBM+) or (AMBB+) or (AMBD+) or (AMBD+ & AMAQ+) or (AMBD+ & AMBB+) or (AMBD+ & AMBH+) or (AMBD+ & AMBM+) or (AMBE+) or (AMBE+ & AMAE+) or (AMBE+ & AMAP+) or (AMBE+ & AMAQ+) or (AMBO+ & AMBB+) or (AMBR+ & AMBH+) or (AMBU+ & AMAW+) or (AMBU+ & AMBC+) or (AMBW+ & AMAF+) or (AMBX+ & AMBM+) or (AMBY+ & AMBH+) or (AQAM-) or (AQAM- & AMAF+) or (AUAM- & AMAJ+) or (AUAM- & AMAJ+ & AMAL+) or (AUAM- & AMAJ+ & AMAZ+) or (AUAM- & AMAJ+ & AMBJ+ & AMAQ+) or (AUAM- & AWAM- & AMAJ+) or (AUAM- & BAAM- & AMAJ+) or (AUAM- & BHAM- & AMAJ+) or (AUAM- & BMAM- & AMAJ+) or (BAAM- & BNAM- & AMAZ+) or (BEAM- & AMAZ+) or (BEAM- & BSAM- & AMAS+) or (BYAM-) or (CAAM-);
+
+% AN
+"blocks" "ducks" "these":
+(ADAN- & ANBK+ & ANBB+) or (ANAJ+) or (ANAQ+) or (ANBM+) or (APAN-) or (ARAN-) or (ARAN- & BMAN-) or (ARAN- & BVAN-) or (BMAN-) or (BNAN-) or (BQAN-) or (BQAN- & ANAT+) or (BQAN- & ARAN-) or (BQAN- & BAAN-) or (BQAN- & BMAN-) or (BQAN- & BNAN-) or (BQAN- & BSAN-) or (BRAN- & BMAN-) or (BSAN-) or (BXAN-);
+
+% AO
+"color" "name":
+(AEAO- & BHAO-) or (AGAO- & BBAO-) or (AGAO- & BHAO-) or (ALAO- & AOBB+) or (ALAO- & BHAO-) or (AOAJ+) or (AOAQ+ & AOBS+) or (AOBB+) or (BDAO-) or (BDAO- & AOBB+) or (BDAO- & AOBH+) or (BDAO- & AOBM+) or (BFAO-) or (BHAO-) or (BHAO- & BHAO-) or (BYAO- & AKAO-) or (BYAO- & BHAO-) or (BZAO- & BDAO-);
+
+% AP
+"see":
+(ALAP- & APBD+) or (AMAP-) or (APAC+) or (APAD+ & APBR+) or (APAJ+) or (APAM+) or (APAR+) or (APAS+) or (APAV+) or (APBA+) or (APBD+) or (APBE+) or (APBG+) or (APBJ+ & APAE+) or (APBO+ & APBB+) or (APBO+ & APBG+) or (APBR+) or (APBU+ & APBH+) or (AQAP-) or (AQAP- & APAC+) or (AQAP- & APAE+) or (AQAP- & APAN+) or (AQAP- & APAS+) or (AQAP- & APBA+ & APBR+) or (AQAP- & APBK+) or (AQAP- & APBR+) or (AQAP- & BDAP-) or (AQAP- & BDAP- & APAH+ & APBR+) or (AQAP- & BDAP- & APBR+) or (BAAP- & BSAP- & APAC+) or (BAAP- & BSAP- & APBK+) or (BAAP- & BSAP- & APBY+) or (BEAP- & APAE+) or (BEAP- & APAS+) or (BEAP- & APBG+) or (BLAP- & APBA+) or (BZAP-) or (BZAP- & APAB+) or (BZAP- & APAC+ & APBR+) or (BZAP- & APAJ+) or (BZAP- & APBO+) or (BZAP- & APBX+ & APBR+) or (BZAP- & BDAP-) or (CAAP-) or (CAAP- & APAJ+);
+
+% AQ
+"do" "eat" "got" "no" "read" "try":
+(AJAQ- & AQBE+ & AQBN+) or (AJAQ- & AQBE+ & AQBS+) or (ALAQ- & AQAM+) or (ANAQ- & AQBE+) or (AOAQ- & AQBE+ & AQBS+) or (AQAC+) or (AQAJ+) or (AQAK+) or (AQAQ- & BDAQ-) or (AQAQ- & BDAQ- & AMAQ-) or (AQBA+) or (AQBE+) or (AQBE+ & AQAF+) or (AQBE+ & AQAK+) or (AQBE+ & AQAP+) or (AQBE+ & AQBN+) or (AQBE+ & AQBS+) or (AQBJ+) or (AQBK+) or (AQBK+ & AQAM+) or (AQBN+) or (AQBO+) or (AQBR+) or (AQBU+) or (AQBX+) or (AQBY+) or (ASAQ-) or (ASAQ- & AQAC+) or (ASAQ- & AQBE+) or (ASAQ- & AQBE+ & AQBN+) or (ASAQ- & AQBW+) or (AVAQ- & AQBE+) or (AVAQ- & AQBE+ & AQAP+) or (AVAQ- & AQBW+ & AQAP+) or (BAAQ-) or (BAAQ- & ADAQ-) or (BAAQ- & ADAQ- & AQAD+) or (BAAQ- & AQBK+) or (BAAQ- & AQBO+) or (BAAQ- & BDAQ-) or (BAAQ- & BNAQ-) or (BAAQ- & BSAQ- & AQBK+) or (BDAQ-) or (BDAQ- & AQAH+) or (BDAQ- & AQAL+) or (BDAQ- & AQAQ+) or (BDAQ- & AQBE+) or (BDAQ- & AQBE+ & AQAK+) or (BDAQ- & AQBE+ & AQAL+) or (BDAQ- & AQBE+ & AQAP+) or (BDAQ- & AQBE+ & AQAQ+) or (BDAQ- & AQBE+ & AQBS+) or (BDAQ- & AQBJ+) or (BDAQ- & AQBJ+ & AQAE+) or (BDAQ- & AQBJ+ & AQAL+) or (BDAQ- & AQBS+) or (BDAQ- & AQBW+ & AQAQ+) or (BEAQ-) or (BEAQ- & AQAC+) or (BEAQ- & AQAD+) or (BEAQ- & AQAJ+) or (BEAQ- & AQAQ-) or (BEAQ- & AQBA+) or (BEAQ- & AQBA+ & AQAC+) or (BEAQ- & AQBK+) or (BEAQ- & AQBK+ & AQAL+) or (BEAQ- & AQBK+ & AQBA+) or (BEAQ- & AQBY+) or (BHAQ- & AQAC+) or (BHAQ- & AQAJ+) or (BHAQ- & BDAQ-) or (BLAQ-) or (BLAQ- & AQBO+) or (BWAQ- & AQAR+) or (BWAQ- & AQBY+ & AQAJ+) or (BWAQ- & BDAQ-) or (BZAQ- & BDAQ-) or (BZAQ- & BDAQ- & AQBR+) or (CAAQ-) or (CAAQ- & AMAQ-) or (CAAQ- & AQAC+) or (CAAQ- & AQAC+ & AQBA+) or (CAAQ- & AQAJ+) or (CAAQ- & AQBK+) or (CAAQ- & AQBO+) or (CAAQ- & AQBY+) or (CAAQ- & BDAQ-) or (CAAQ- & BEAQ- & BDAQ-);
+
+% AR
+"all":
+(AKAR- & ARAN+) or (APAR- & ARBQ+) or (AQAR-) or (ARAB+) or (ARAD+) or (ARAD+ & ARBH+) or (ARAH+) or (ARAJ+) or (ARAN+) or (ARAT+) or (ARBQ+) or (ARBQ+ & ARAB+) or (ARBQ+ & ARAN+) or (BBAR- & ARAD+) or (BBAR- & ARBE+ & ARAL+) or (BBAR- & ARBR+ & ARBM+) or (BHAR-) or (BSAR-) or (BZAR-);
+
+% AS
+"daddy" "how" "mommy":
+(AEAS- & BBAS-) or (AJAS-) or (AKAS-) or (AKAS- & ASBA+) or (AKAS- & ASBA+ & ASAL+) or (ALAS- & BBAS-) or (AMAS-) or (APAS-) or (APAS- & ASAD+) or (APAS- & ASAS+) or (APAS- & ASBB+) or (ASAL+) or (ASAQ+) or (ASAS-) or (ASAW+) or (ASBH+) or (ASBM+) or (ASBO+) or (ASBP+) or (ASCA+) or (BAAS-) or (BBAS-) or (BFAS- & BBAS-) or (BHAS-) or (BQAS- & BHAS-) or (BRAS-) or (BSAS-) or (BZAS-) or (CAAS-);
+
+% AT
+"fell":
+(ANAT- & ATAH+) or (ARAT- & BJAT- & ATAH+) or (BDAT- & ATAH+) or (BJAT- & ATAH+) or (BUAT- & ATAH+);
+
+% AU
+"food" "paul":
+(ADAU- & AGAU- & AJAU-) or (AKAU- & AUAM+) or (AUAM+) or (AUCA+) or (BAAU-) or (BBAU-) or (BHAU-) or (BNAU-);
+
+% AV
+"she" "where" "who":
+(AKAV- & AVAG+ & AVBB+) or (AMAV- & AVBH+) or (AMAV- & AVBM+) or (APAV- & AVBH+) or (AVAQ+) or (AVBB+) or (AVBE+) or (AVBH+) or (AVBM+) or (AVBM+ & AVBA+) or (AVBN+) or (AVBZ+) or (BBAV-) or (BDAV- & AVBH+) or (BHAV- & AVBE+) or (BHAV- & AVBK+ & AVBC+) or (BZAV-);
+
+% AW
+"has":
+(ABAW- & AWBA+) or (AJAW-) or (ASAW-) or (BKAW- & AWAM+) or (BUAW-) or (BUAW- & AMAW-) or (BUAW- & AWAJ+) or (BUAW- & AWBA+) or (BUAW- & AWBA+ & AWAF+);
+
+% AX
+"little":
+(AXAC+) or (BFAX-) or (BFAX- & AXAC+);
+
+% AY
+"nice":
+(ADAY- & BHAY-) or (AFAY-) or (AKAY-) or (AYAC+) or (AYAL+) or (BFAY-) or (BFAY- & AYAC+) or (BFAY- & AYAJ+) or (BFAY- & AYAZ+) or (BHAY-);
+
+% AZ
+"play":
+(AMAZ-) or (AYAZ-) or (AZAJ+) or (AZAL+) or (BAAZ-) or (BAAZ- & BNAZ-) or (BAAZ- & BSAZ-) or (BEAZ-) or (BEAZ- & AZAJ+) or (CAAZ-) or (CAAZ- & AZAJ+);
+
+% BA
+"him" "to":
+(ACBA-) or (ADBA-) or (ADBA- & BAAQ+) or (AFBA-) or (AJBA- & BAAJ+) or (AJBA- & BAAS+) or (AJBA- & BABE+) or (ALBA-) or (ALBA- & BAAB+) or (ALBA- & BAAM+) or (ALBA- & BAAS+) or (ALBA- & BABA+) or (ALBA- & BABE+) or (APBA-) or (AQBA-) or (AQBA- & BAAS+) or (ASBA-) or (ASBA- & BAAL+) or (AVBA-) or (AWBA-) or (AWBA- & BAAF+) or (BAAC+) or (BAAF+) or (BAAJ+) or (BAAL+) or (BAAN+) or (BAAQ+) or (BAAS+) or (BAAU+) or (BAAZ+) or (BABA-) or (BABE+) or (BABY+) or (BDBA- & BAAQ+) or (BHBA-) or (BHBA- & BAAQ+) or (BMBA- & BAAJ+) or (BNBA-) or (BNBA- & BAAF+) or (BNBA- & BAAJ+) or (BNBA- & BAAK+) or (BNBA- & BAAM+) or (BNBA- & BAAQ+) or (BNBA- & BAAZ+) or (BSBA-) or (BSBA- & ACBA-) or (BSBA- & BAAC+) or (BSBA- & BAAE+) or (BSBA- & BAAF+) or (BSBA- & BAAJ+) or (BSBA- & BAAK+) or (BSBA- & BAAL+) or (BSBA- & BAAP+) or (BSBA- & BAAQ+) or (BSBA- & BAAZ+) or (BVBA-);
+
+% BB
+"is":
+(ACBB- & BBBO+) or (ACBB- & BDBB-) or (AGBB- & AVBB-) or (AJBB-) or (AJBB- & BBAJ+) or (AMBB- & BBAJ+) or (AOBB-) or (AOBB- & BBAJ+) or (AOBB- & BBBK+) or (AOBB- & BBBO+) or (AOBB- & BBBY+) or (AVBB-) or (AVBB- & ADBB-) or (AVBB- & AJBB-) or (AVBB- & BBAV+) or (AVBB- & BBBK+) or (AVBB- & BBBO+) or (AVBB- & BBBU+) or (AVBB- & BBBY+) or (AVBB- & BRBB-) or (BBAC+) or (BBAL+) or (BBAS+) or (BBAV+) or (BBBK+) or (BBBK+ & BBAD+) or (BBBK+ & BBAS+) or (BBBO+) or (BBBR+) or (BBBU+) or (BBBU+ & BBAR+) or (BBBY+) or (BBBY+ & BBAC+) or (BBBY+ & BBAJ+) or (BBBY+ & BBAR+) or (BBBY+ & BBAS+) or (BDBB-) or (BDBB- & AMBB- & BBBY+) or (BDBB- & BBAC+) or (BDBB- & BBAD+) or (BDBB- & BBAJ+) or (BDBB- & BBAO+) or (BDBB- & BBAS+) or (BDBB- & BBAU+) or (BDBB- & BBAV+) or (BDBB- & BBBK+) or (BDBB- & BBBO+) or (BDBB- & BBBR+) or (BDBB- & BBBU+) or (BDBB- & BBBU+ & BBAJ+) or (BDBB- & BBBY+) or (BKBB-) or (BKBB- & ADBB-) or (BKBB- & AJBB-) or (BKBB- & ANBB-) or (BKBB- & ASBB-) or (BKBB- & BBAD+) or (BKBB- & BDBB-) or (BKBB- & BRBB-) or (BOBB-) or (BOBB- & AJBB-) or (BOBB- & AMBB-) or (BOBB- & APBB-) or (BOBB- & BBAB+) or (BOBB- & BBAC+) or (BOBB- & BBAJ+) or (BOBB- & BBAR+) or (BOBB- & BBAS+) or (BOBB- & BBAU+) or (BOBB- & BBBD+) or (BOBB- & BBBN+) or (BOBB- & BDBB-) or (BRBB-) or (BRBB- & BDBB-) or (BUBB-) or (BUBB- & AJBB-) or (BUBB- & BRBB-) or (BYBB-) or (BYBB- & BDBB-);
+
+% BC
+"goes":
+(ABBC-) or (BKBC-) or (BKBC- & AVBC-) or (BOBC- & BCBR+) or (BUBC-) or (BUBC- & AMBC-) or (BYBC-);
+
+% BD
+"what":
+(AJBD- & BDBH+) or (AKBD-) or (AKBD- & BDAC+ & BDBB+) or (AKBD- & BDBA+ & BDAQ+) or (AKBD- & BDBB+) or (AKBD- & BDBE+ & BDAQ+) or (AKBD- & BDBH+) or (AKBD- & BDBK+ & BDBB+) or (AKBD- & BDBM+) or (AKBD- & BDBO+ & BDBB+) or (AKBD- & BDBU+ & BDAJ+) or (AKBD- & BDBY+ & BDBB+) or (AMBD-) or (AMBD- & BDAO+) or (AMBD- & BDAQ+) or (AMBD- & BDAQ+ & BDAQ+) or (AMBD- & BDBB+) or (AMBD- & BDBH+) or (AMBD- & BDBM+) or (APBD- & BDAB+) or (APBD- & BDBB+) or (APBD- & BDBR+ & BDBB+) or (APBD- & BDBW+) or (APBD- & BDBW+ & BDAQ+) or (BBBD- & BDAB+) or (BDAC+) or (BDAF+) or (BDAL+) or (BDAO+) or (BDAQ+) or (BDAQ+ & BDAK+) or (BDAQ+ & BDAL+) or (BDAQ+ & BDAP+) or (BDAQ+ & BDAQ+) or (BDAQ+ & BDBB+) or (BDAQ+ & BDBN+) or (BDAQ+ & BDBS+) or (BDAT+) or (BDAV+ & BDAQ+) or (BDBB+) or (BDBB+ & BDAJ+) or (BDBE+) or (BDBE+ & BDAQ+) or (BDBE+ & BDBS+) or (BDBE+ & BDBZ+) or (BDBH+) or (BDBH+ & BDBG+) or (BDBH+ & BDBH+) or (BDBM+) or (BDBM+ & BDAL+) or (BDBM+ & BDAQ+) or (BDBN+) or (BDBO+ & BDBB+) or (BDBP+) or (BDBS+) or (BDBY+ & BDBB+) or (BDBZ+) or (BDBZ+ & BDAL+) or (BDBZ+ & BDAO+) or (BDBZ+ & BDAP+) or (BDBZ+ & BDAQ+) or (BDCA+ & BDAQ+) or (BHBD- & BDBH+) or (BHBD- & BDBK+ & BDBB+);
+
+% BE
+"you":
+(ACBE-) or (ACBE- & BEBS+) or (AJBE-) or (AJBE- & AJBE- & BEAQ+) or (AJBE- & BEAQ+) or (AJBE- & BECA+) or (ALBE-) or (ALBE- & BEAK+) or (ALBE- & BEAQ+) or (ALBE- & BEAZ+) or (ALBE- & BEBV+) or (ALBE- & BECA+) or (AMBE-) or (AMBE- & BEAE+) or (AMBE- & BECA+) or (APBE-) or (AQBE-) or (AQBE- & BEAK+) or (AQBE- & BEBL+) or (ARBE- & BEAL+) or (AVBE-) or (BABE-) or (BDBE-) or (BDBE- & BEBS+) or (BDBE- & BEBV+) or (BDBE- & BEBZ+) or (BDBE- & BECA+) or (BEAE+) or (BEAF+) or (BEAJ+) or (BEAK+) or (BEAL+) or (BEAM+) or (BEAP+) or (BEAQ+) or (BEAZ+) or (BEBL+) or (BEBM+) or (BEBN+) or (BEBS+) or (BEBV+) or (BEBZ+) or (BECA+) or (BGBE- & BEAE+) or (BLBE-) or (BMBE-) or (BNBE-) or (BRBE- & BEAF+) or (BZBE-) or (CABE-) or (CABE- & BEAE+);
+
+% BF
+"a":
+(BFAB+) or (BFAC+) or (BFAC+ & BFAC+) or (BFAD+) or (BFAD+ & BFAC+) or (BFAJ+) or (BFAO+) or (BFAS+) or (BFAX+) or (BFAX+ & BFAC+) or (BFAY+) or (BFAY+ & BFAC+) or (BFAY+ & BFAJ+);
+
+% BG
+"flowers":
+(ADBG- & BQBG- & APBG-) or (BDBG-) or (BGCA+) or (BMBG-) or (BMBG- & BGBE+ & BGAE+) or (BNBG-) or (BOBG- & APBG-) or (BQBG-) or (BQBG- & AEBG-) or (BQBG- & APBG-) or (BQBG- & BMBG-) or (BVBG-) or (BXBG- & AEBG-);
+
+% BH
+"'s":
+(ABBH-) or (ACBH-) or (AJBH-) or (AJBH- & BHAJ+) or (AJBH- & BHBY+) or (AOBH-) or (AOBH- & AMBH- & BHBY+) or (AOBH- & BHAJ+) or (AOBH- & BHBO+) or (AOBH- & BHBY+) or (ARBH- & BHAJ+) or (ASBH-) or (ASBH- & BHAJ+) or (ASBH- & BHBR+) or (ASBH- & BHBY+) or (ASBH- & BMBH-) or (AVBH-) or (AVBH- & AMBH- & BHBO+) or (AVBH- & AMBH- & BHBY+) or (AVBH- & BHAC+) or (AVBH- & BHAG+) or (AVBH- & BHAJ+) or (AVBH- & BHAQ+) or (AVBH- & BHAS+) or (AVBH- & BHAU+) or (AVBH- & BHBO+) or (AVBH- & BHBR+) or (AVBH- & BHBY+) or (BDBH-) or (BDBH- & AMBH-) or (BDBH- & AMBH- & BHAD+) or (BDBH- & AMBH- & BHBO+) or (BDBH- & AMBH- & BHBR+) or (BDBH- & AMBH- & BHBY+) or (BDBH- & BHAC+) or (BDBH- & BHAD+) or (BDBH- & BHAH+) or (BDBH- & BHAJ+) or (BDBH- & BHAO+) or (BDBH- & BHBO+) or (BDBH- & BHBR+) or (BDBH- & BHBY+) or (BHAC+) or (BHAG+) or (BHAH+) or (BHAJ+) or (BHAO+) or (BHAQ+) or (BKBH-) or (BKBH- & BHAB+) or (BKBH- & BHAC+) or (BKBH- & BHAD+) or (BKBH- & BHAH+) or (BKBH- & BHAJ+) or (BKBH- & BHAR+) or (BKBH- & BHAS+) or (BKBH- & BHAV+) or (BKBH- & BHBA+) or (BKBH- & BHBT+) or (BRBH-) or (BRBH- & AMBH-) or (BRBH- & AMBH- & BHAC+) or (BRBH- & BHAC+) or (BRBH- & BHAJ+) or (BRBH- & BHAM+) or (BRBH- & BHAO+) or (BRBH- & BHAS+) or (BRBH- & BHAU+) or (BRBH- & BHBR+) or (BRBH- & BHBR+ & BHBA+) or (BUBH-) or (BUBH- & APBH-) or (BUBH- & BHAB+) or (BUBH- & BHAC+) or (BUBH- & BHAJ+) or (BUBH- & BHAQ+) or (BUBH- & BHAY+) or (BUBH- & BHBN+) or (BYBH-) or (BYBH- & AMBH-) or (BYBH- & AMBH- & BHAC+) or (BYBH- & AMBH- & BHAR+) or (BYBH- & BHAC+) or (BYBH- & BHAD+) or (BYBH- & BHAJ+) or (BYBH- & BHAM+) or (BYBH- & BHAR+) or (BYBH- & BHAS+) or (BYBH- & BHAU+) or (BYBH- & BHAV+) or (BYBH- & BHAY+) or (BYBH- & BHBA+) or (BYBH- & BHBD+) or (BYBH- & BHBN+);
+
+% BJ
+"they":
+(AMBJ- & BJCA+) or (APBJ- & BJAE+) or (AQBJ-) or (AQBJ- & BJAB+) or (BJAE+) or (BJAK+) or (BJAL+) or (BJAT+) or (BJBL+) or (BJBM+) or (BJBS+) or (BJBV+) or (BJCA+) or (BMBJ-) or (BZBJ-);
+
+% BK
+"it":
+(AEBK-) or (AFBK-) or (ALBK-) or (ANBK- & BKBB+) or (APBK-) or (AQBK-) or (AQBK- & BKAL+) or (AQBK- & BKBC+) or (AQBK- & BKBH+) or (AVBK- & BKBC+) or (BBBK-) or (BDBK- & BKBB+) or (BKAH+) or (BKAL+) or (BKAW+) or (BKBB+) or (BKBC+) or (BKBH+) or (BKBP+) or (BKBZ+) or (BNBK-) or (BRBK- & BKBB+) or (BSBK-) or (BZBK-);
+
+% BL
+"don't":
+(BEBL-) or (BEBL- & BLAF+) or (BEBL- & BLAK+) or (BEBL- & BLAP+) or (BEBL- & BLBN+) or (BEBL- & BLBS+) or (BJBL-) or (BJBL- & BLAL+) or (BLAE+) or (BLBE+) or (BLBE+ & BLAK+) or (BLBE+ & BLAL+) or (BLBE+ & BLAM+) or (BLBE+ & BLAQ+) or (BLBE+ & BLBS+) or (BLBN+) or (BLBW+) or (BLBW+ & BLAQ+) or (BWBL- & BLBS+);
+
+% BM
+"are":
+(ANBM- & BMAJ+) or (ANBM- & BMAN+) or (ANBM- & BMBH+) or (AOBM- & BMAJ+) or (ASBM- & BMBE+) or (AVBM-) or (AVBM- & AMBM- & BMBE+) or (AVBM- & BMAJ+) or (AVBM- & BMAN+) or (AVBM- & BMBE+) or (AVBM- & BMBG+) or (BDBM-) or (BDBM- & AMBM- & BMAN+) or (BDBM- & AMBM- & BMBX+) or (BDBM- & BMAJ+) or (BDBM- & BMAN+) or (BDBM- & BMBE+) or (BDBM- & BMBJ+) or (BDBM- & BMBX+) or (BEBM-) or (BEBM- & ADBM-) or (BEBM- & BRBM-) or (BJBM- & BRBM-) or (BMAJ+) or (BMAL+) or (BMAN+) or (BMBE+) or (BMBE+ & BMBA+ & BMAJ+) or (BMBR+) or (BMBX+) or (BRBM-) or (BRBM- & ARBM-) or (BRBM- & BMAM+) or (BWBM- & BRBM-) or (BXBM-) or (BXBM- & AMBM-) or (BXBM- & AMBM- & BMAN+) or (BXBM- & BMAD+) or (BXBM- & BMAJ+) or (BXBM- & BMAN+) or (BXBM- & BMBG+);
+
+% BN
+"like":
+(AEBN- & BDBN-) or (AEBN- & BNAU+) or (AFBN-) or (AFBN- & BDBN-) or (AFBN- & BNBO+) or (AFBN- & BNBY+) or (AHBN- & BNBY+) or (AJBN-) or (AKBN- & AVBN-) or (AKBN- & BDBN-) or (AKBN- & BNAJ+) or (AKBN- & BNBG+) or (AQBN-) or (AQBN- & BNAB+) or (AQBN- & BNAL+) or (AQBN- & BNAN+) or (AQBN- & BNBA+) or (AQBN- & BNBO+) or (AQBN- & BNBX+) or (AQBN- & BNBY+) or (BBBN- & BNAC+) or (BDBN-) or (BDBN- & BNAL+) or (BDBN- & BNBA+) or (BEBN-) or (BEBN- & BNAC+) or (BEBN- & BNAL+) or (BEBN- & BNAN+) or (BEBN- & BNBX+) or (BEBN- & BNBY+) or (BHBN-) or (BLBN- & BNAC+) or (BLBN- & BNAJ+) or (BLBN- & BNBK+) or (BLBN- & BNBY+) or (BNAC+) or (BNAJ+) or (BNAN+) or (BNBA+) or (BNBA+ & BNAF+) or (BNBA+ & BNAJ+) or (BNBA+ & BNAK+) or (BNBA+ & BNAM+) or (BNBA+ & BNAQ+) or (BNBA+ & BNAZ+) or (BNBK+) or (BNBO+) or (BNBY+) or (BTBN- & BNBE+) or (BZBN- & BNAC+) or (BZBN- & BNBA+);
+
+% BO
+"this":
+(AEBO-) or (AFBO-) or (AJBO- & BOBB+) or (AMBO- & BOBB+) or (APBO-) or (APBO- & BOBB+) or (APBO- & BOBG+) or (AQBO-) or (ASBO- & BOBB+) or (BBBO-) or (BDBO- & BOBB+) or (BHBO-) or (BNBO-) or (BOAB+) or (BOAC+) or (BOAD+) or (BOAJ+) or (BOBB+) or (BOBC+) or (BSBO-);
+
+% BP
+"was":
+(ASBP-) or (BDBP- & BPBY+) or (BKBP-) or (BPBY+) or (BRBP-) or (BYBP-) or (BYBP- & BPAD+);
+
+% BQ
+"the":
+(ARBQ-) or (ARBQ- & BQAB+) or (ARBQ- & BQAN+) or (BQAB+) or (BQAC+) or (BQAJ+) or (BQAL+) or (BQAN+) or (BQAS+) or (BQBG+) or (BQCA+);
+
+% BR
+"here" "there":
+(ADBR-) or (ADBR- & BRBB+) or (AEBR-) or (AFBR-) or (AHBR-) or (AJBR-) or (AMBR- & BRBH+) or (APBR-) or (AQBR-) or (AQBR- & BRBP+) or (ARBR- & BRBM+) or (BBBR-) or (BCBR-) or (BDBR- & BRBB+) or (BHBR-) or (BMBR-) or (BRAF+) or (BRAL+) or (BRAN+) or (BRAS+) or (BRBB+) or (BRBE+) or (BRBH+) or (BRBK+) or (BRBM+) or (BRBR+) or (BRBR- & BRBH+) or (BRBU+) or (BRBW+);
+
+% BS
+"want":
+(AQBS-) or (AQBS- & AJBS-) or (AQBS- & AJBS- & BSAL+) or (AQBS- & AOBS-) or (AQBS- & BDBS-) or (AQBS- & BDBS- & BSBA+) or (AQBS- & BSAC+) or (AQBS- & BSBA+) or (AQBS- & BSBA+ & BSAF+) or (AQBS- & BSBA+ & BSAJ+) or (AQBS- & BSBA+ & BSAQ+) or (AQBS- & BSBK+) or (AQBS- & BSBO+) or (BDBS-) or (BEBS-) or (BEBS- & AQBS-) or (BEBS- & BDBS-) or (BEBS- & BSAB+) or (BEBS- & BSAB+ & BSBA+) or (BEBS- & BSAC+) or (BEBS- & BSAJ+) or (BEBS- & BSAM+ & BSBA+ & BSAQ+) or (BEBS- & BSAN+) or (BEBS- & BSAS+ & BSBA+) or (BEBS- & BSAS+ & BSBA+ & BSAJ+) or (BEBS- & BSAS+ & BSBA+ & BSAQ+) or (BEBS- & BSBA+) or (BEBS- & BSBA+ & BSAC+) or (BEBS- & BSBA+ & BSAE+) or (BEBS- & BSBA+ & BSAF+) or (BEBS- & BSBA+ & BSAJ+) or (BEBS- & BSBA+ & BSAK+) or (BEBS- & BSBA+ & BSAL+) or (BEBS- & BSBA+ & BSAP+) or (BEBS- & BSBA+ & BSAQ+) or (BEBS- & BSBA+ & BSAZ+) or (BEBS- & BSBA+ & BSBA+) or (BEBS- & BSBA+ & BSBA+ & BSAF+) or (BEBS- & BSBO+) or (BEBS- & BSBY+) or (BJBS- & BSBA+ & BSAZ+) or (BLBS- & BSAJ+) or (BLBS- & BSBA+) or (BLBS- & BSBA+ & BSAZ+) or (BLBS- & BSBO+) or (BSAN+) or (BSAR+) or (BSBA+) or (BSBA+ & BSAQ+) or (BSBA+ & BSBA+ & BSAF+) or (BSBX+);
+
+% BT
+"honey":
+(AKBT-) or (BHBT-) or (BTBN+);
+
+% BU
+"he":
+(AJBU-) or (ALBU- & BUBH+) or (AMBU- & BUAW+) or (APBU- & BUBH+) or (AQBU- & BUAL+) or (AQBU- & BUBH+) or (BBBU-) or (BDBU- & BUBH+) or (BRBU- & AMBU- & BUBC+) or (BRBU- & BUBB+) or (BRBU- & BUBC+) or (BUAL+) or (BUAT+) or (BUAW+) or (BUBB+) or (BUBC+) or (BUBH+) or (BUBZ+) or (BUCA+) or (BZBU-) or (CABU-);
+
+% BV
+"'re":
+(BEBV-) or (BEBV- & BVAD+) or (BEBV- & BVBA+) or (BJBV-) or (BJBV- & BVAD+) or (BJBV- & BVAN+) or (BJBV- & BVBG+) or (BWBV-);
+
+% BW
+"we":
+(ACBW-) or (AJBW-) or (AMBW- & BWAF+) or (AQBW-) or (BDBW-) or (BDBW- & BWAQ+) or (BLBW-) or (BRBW- & BWAF+) or (BRBW- & BWAQ+) or (BWAF+) or (BWAQ+) or (BWBL+) or (BWBM+) or (BWBV+) or (BWBZ+) or (BWCA+) or (BZBW-) or (CABW-);
+
+% BX
+"those":
+(AEBX-) or (AMBX- & BXBM+) or (APBX-) or (AQBX- & BXBM+) or (BMBX-) or (BNBX-) or (BSBX-) or (BXAJ+) or (BXAN+) or (BXBG+) or (BXBM+);
+
+% BY
+"that":
+(AJBY- & BYBH+) or (AKBY-) or (ALBY-) or (AMBY- & BYBH+) or (APBY-) or (AQBY-) or (AQBY- & BYBH+) or (BABY-) or (BBBY-) or (BDBY- & BYBB+) or (BHBY-) or (BNBY-) or (BPBY-) or (BSBY-) or (BYAC+) or (BYAD+) or (BYAG+ & BYAG+) or (BYAJ+) or (BYAM+) or (BYAO+) or (BYBB+) or (BYBC+) or (BYBH+) or (BYBP+);
+
+% BZ
+"did":
+(AVBZ- & BZAF+) or (AVBZ- & BZAS+ & BZAF+) or (AVBZ- & BZAV+ & BZAF+) or (AVBZ- & BZBK+ & BZAF+) or (AVBZ- & BZBU+ & BZAF+) or (BDBZ- & BZAK+) or (BDBZ- & BZAS+ & BZAL+) or (BDBZ- & BZAV+ & BZAL+) or (BDBZ- & BZBE+ & BZAO+) or (BDBZ- & BZBE+ & BZAP+) or (BDBZ- & BZBE+ & BZAQ+) or (BEBZ- & BDBZ-) or (BEBZ- & BZAR+) or (BEBZ- & BZBK+) or (BKBZ-) or (BUBZ-) or (BWBZ- & BZAR+) or (BZAF+) or (BZAV+ & BZAF+) or (BZAV+ & BZAL+) or (BZBE+) or (BZBE+ & BZAE+) or (BZBE+ & BZAK+) or (BZBE+ & BZAL+) or (BZBE+ & BZAP+) or (BZBE+ & BZBN+) or (BZBJ+ & BZAB+) or (BZBU+) or (BZBW+ & BZAP+);
+
+% CA
+"can":
+(AJCA-) or (AJCA- & CAAF+) or (AJCA- & CAAK+) or (AJCA- & CAAQ+) or (AJCA- & CAAZ+) or (ALCA- & CABE+) or (ASCA- & CABE+) or (AUCA-) or (AUCA- & CAAE+) or (AUCA- & CAAZ+) or (BDCA- & CABE+ & CAAQ+) or (BECA-) or (BECA- & CAAF+) or (BECA- & CAAK+) or (BECA- & CAAL+) or (BECA- & CAAQ+) or (BECA- & CAAZ+) or (BGCA- & BQCA- & AECA- & CABE+ & CAAE+) or (BJCA- & CAAQ+) or (BUCA-) or (BUCA- & CAAJ+) or (BUCA- & CAAK+) or (BUCA- & CAAZ+) or (BWCA-) or (BWCA- & CAAJ+) or (CAAC+) or (CAAJ+) or (CAAJ+ & CAAQ+) or (CAAQ+) or (CAAS+) or (CABE+) or (CABE+ & CAAE+) or (CABE+ & CAAF+) or (CABE+ & CAAJ+) or (CABE+ & CAAL+) or (CABE+ & CAAM+) or (CABE+ & CAAP+) or (CABE+ & CAAQ+) or (CABE+ & CAAZ+) or (CABU+ & CAAF+) or (CABW+);
+
+<UNKNOWN-WORD>: XXX+;
+
+% 50 word clusters, 50 Link Grammar rules.

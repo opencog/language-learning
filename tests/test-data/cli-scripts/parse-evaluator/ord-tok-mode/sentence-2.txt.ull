@@ -1,0 +1,9 @@
+jack can ['] [t] sleep at night .
+0 ###LEFT-WALL### 1 jack
+0 ###LEFT-WALL### 8 .
+1 jack 5 sleep
+1 jack 6 at
+2 can 5 sleep
+5 sleep 6 at
+6 at 7 night
+

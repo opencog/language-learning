@@ -1,0 +1,30 @@
+[
+  {
+    "component": "text-parser",
+    "common-parameters": {
+	"inherit_prev_path": 	true,
+	"input_grammar": 	"en",
+	"existing_dict_dir":	true,
+	"input_corpus": 	"%ROOT/data",
+	"ref_path": 		"%ROOT/data",
+	"output_path": 		"%LEAF",
+	"grammar_root": 	"%ROOT/dict",
+	"template_path": 	"%ROOT/dict/poc-turtle",
+	"linkage_limit": 	"1000",
+	"timeout": 		1,
+	"rm_grammar_dir": 	true,
+	"ignore_left_wall": 	true,
+	"ignore_period": 	true,
+	"store_dict_localy": 	true,
+	"calc_parse_quality": 	true,
+	"strip_suffix": 	true,
+	"ull_input": 		true,
+	"output_format":	"ull"
+    },
+    "specific-parameters": [
+	{ "parser_type": "link-grammar-exe" },
+	{ "parser_type": "sequential" },
+	{ "parser_type": "random" }
+    ]
+  }
+]

@@ -1,0 +1,5550 @@
+[produced] [by] Ron Burkey
+0 ###LEFT-WALL### 4 Burkey
+3 Ron 4 Burkey
+
+PETER PAN IN KENSINGTON GARDENS
+0 ###LEFT-WALL### 5 GARDENS
+1 PETER 2 PAN
+2 PAN 3 IN
+3 IN 4 KENSINGTON
+4 KENSINGTON 5 GARDENS
+
+[by] J M Barrie
+0 ###LEFT-WALL### 4 Barrie
+2 J 3 M
+3 M 4 Barrie
+
+Peter Pan The Thrush 's Nest The Little House Lock-Out Time
+0 ###LEFT-WALL### 11 Time
+1 Peter 2 Pan
+2 Pan 3 The
+3 The 4 Thrush
+4 Thrush 5 's
+5 's 11 Time
+6 Nest 7 The
+7 The 8 Little
+8 Little 9 House
+9 House 10 Lock-Out
+10 Lock-Out 11 Time
+
+Peter Pan
+0 ###LEFT-WALL### 2 Pan
+1 Peter 2 Pan
+
+perhaps she has forgotten , just as she sometimes forgets your name and calls you Mildred , which is your mother 's name .
+0 ###LEFT-WALL### 2 she
+0 ###LEFT-WALL### 4 forgotten
+0 ###LEFT-WALL### 24 .
+1 perhaps 2 she
+2 she 3 has
+3 has 4 forgotten
+4 forgotten 7 as
+4 forgotten 18 which
+5 , 7 as
+6 just 7 as
+7 as 8 she
+7 as 13 and
+7 as 17 ,
+8 she 13 and
+9 sometimes 10 forgets
+10 forgets 12 name
+10 forgets 13 and
+11 your 12 name
+13 and 14 calls
+14 calls 15 you
+14 calls 16 Mildred
+18 which 19 is
+19 is 23 name
+20 your 21 mother
+21 mother 22 's
+22 's 23 name
+
+still , she could hardly forget such an important thing as the goat .
+0 ###LEFT-WALL### 3 she
+0 ###LEFT-WALL### 6 forget
+0 ###LEFT-WALL### 14 .
+1 still 2 ,
+1 still 3 she
+3 she 4 could
+4 could 6 forget
+5 hardly 6 forget
+6 forget 10 thing
+6 forget 11 as
+7 such 8 an
+8 an 9 important
+8 an 10 thing
+9 important 10 thing
+11 as 13 goat
+12 the 13 goat
+
+therefore there was no goat when your grandmother was a little girl .
+0 ###LEFT-WALL### 2 there
+0 ###LEFT-WALL### 3 was
+0 ###LEFT-WALL### 13 .
+1 therefore 2 there
+2 there 3 was
+3 was 5 goat
+4 no 5 goat
+5 goat 6 when
+6 when 8 grandmother
+6 when 9 was
+7 your 8 grandmother
+8 grandmother 9 was
+9 was 12 girl
+10 a 11 little
+10 a 12 girl
+11 little 12 girl
+
+if you think he was the only baby who ever wanted to escape , it shows how completely you have forgotten your own young days .
+0 ###LEFT-WALL### 15 it
+0 ###LEFT-WALL### 16 shows
+0 ###LEFT-WALL### 26 .
+1 if 2 you
+1 if 3 think
+1 if 14 ,
+1 if 15 it
+2 you 3 think
+3 think 4 he
+3 think 5 was
+4 he 5 was
+5 was 8 baby
+6 the 7 only
+6 the 8 baby
+8 baby 9 who
+8 baby 11 wanted
+9 who 11 wanted
+10 ever 11 wanted
+11 wanted 12 to
+11 wanted 14 ,
+12 to 13 escape
+15 it 16 shows
+16 shows 17 how
+17 how 18 completely
+18 completely 19 you
+18 completely 21 forgotten
+19 you 20 have
+20 have 21 forgotten
+21 forgotten 25 days
+22 your 23 own
+22 your 25 days
+24 young 25 days
+
+so David tells me .
+0 ###LEFT-WALL### 3 tells
+1 so 2 David
+1 so 3 tells
+2 David 3 tells
+3 tells 4 me
+3 tells 5 .
+
+well , Peter Pan got out by the window , which had no bars .
+0 ###LEFT-WALL### 1 well
+0 ###LEFT-WALL### 2 ,
+0 ###LEFT-WALL### 15 .
+2 , 4 Pan
+2 , 5 got
+2 , 10 ,
+3 Peter 4 Pan
+4 Pan 5 got
+5 got 6 out
+6 out 7 by
+7 by 9 window
+8 the 9 window
+10 , 11 which
+10 , 12 had
+11 which 12 had
+12 had 14 bars
+13 no 14 bars
+
+at first he found some difficulty in balancing himself on a branch , but presently he remembered the way , and fell asleep .
+0 ###LEFT-WALL### 3 he
+0 ###LEFT-WALL### 4 found
+0 ###LEFT-WALL### 14 but
+0 ###LEFT-WALL### 24 .
+1 at 2 first
+2 first 3 he
+3 he 4 found
+4 found 6 difficulty
+4 found 7 in
+5 some 6 difficulty
+6 difficulty 7 in
+7 in 8 balancing
+8 balancing 9 himself
+8 balancing 10 on
+10 on 12 branch
+11 a 12 branch
+13 , 14 but
+14 but 16 he
+14 but 21 and
+15 presently 16 he
+16 he 21 and
+17 remembered 19 way
+17 remembered 21 and
+18 the 19 way
+20 , 21 and
+21 and 22 fell
+21 and 23 asleep
+
+there was something he wanted very much , but , though he knew he wanted it , he could not think what it was .
+0 ###LEFT-WALL### 1 there
+0 ###LEFT-WALL### 5 wanted
+0 ###LEFT-WALL### 9 but
+0 ###LEFT-WALL### 25 .
+1 there 2 was
+2 was 3 something
+3 something 4 he
+3 something 5 wanted
+4 he 5 wanted
+5 wanted 7 much
+6 very 7 much
+8 , 9 but
+9 but 18 he
+9 but 21 think
+10 , 11 though
+11 though 12 he
+11 though 13 knew
+11 though 17 ,
+11 though 18 he
+12 he 13 knew
+13 knew 14 he
+13 knew 15 wanted
+14 he 15 wanted
+15 wanted 16 it
+18 he 19 could
+19 could 20 not
+19 could 21 think
+21 think 22 what
+22 what 23 it
+22 what 24 was
+23 it 24 was
+
+they are reputed to know a good deal .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 3 reputed
+0 ###LEFT-WALL### 9 .
+1 they 2 are
+2 are 3 reputed
+3 reputed 4 to
+4 to 5 know
+5 know 8 deal
+6 a 7 good
+6 a 8 deal
+7 good 8 deal
+
+to Peter 's bewilderment he discovered that every fairy he met fled from him .
+0 ###LEFT-WALL### 5 he
+0 ###LEFT-WALL### 6 discovered
+0 ###LEFT-WALL### 15 .
+1 to 4 bewilderment
+1 to 5 he
+2 Peter 3 's
+3 's 4 bewilderment
+5 he 6 discovered
+6 discovered 7 that
+7 that 9 fairy
+7 that 12 fled
+8 every 9 fairy
+9 fairy 10 he
+9 fairy 11 met
+9 fairy 12 fled
+10 he 11 met
+12 fled 13 from
+13 from 14 him
+
+a band of workmen , who were sawing down a toadstool , rushed away , leaving their tools behind them .
+0 ###LEFT-WALL### 2 band
+0 ###LEFT-WALL### 12 ,
+1 a 2 band
+2 band 3 of
+2 band 12 ,
+3 of 5 ,
+4 workmen 5 ,
+5 , 6 who
+7 were 8 sawing
+7 were 12 ,
+8 sawing 9 down
+8 sawing 11 toadstool
+10 a 11 toadstool
+12 , 13 rushed
+12 , 16 leaving
+13 rushed 14 away
+15 , 16 leaving
+16 leaving 18 tools
+16 leaving 19 behind
+16 leaving 21 .
+17 their 18 tools
+18 tools 19 behind
+19 behind 20 them
+
+a milkmaid turned her pail upside down and hid in it .
+0 ###LEFT-WALL### 2 milkmaid
+0 ###LEFT-WALL### 8 and
+0 ###LEFT-WALL### 12 .
+1 a 2 milkmaid
+2 milkmaid 8 and
+3 turned 5 pail
+3 turned 7 down
+3 turned 8 and
+4 her 5 pail
+6 upside 7 down
+8 and 9 hid
+8 and 10 in
+10 in 11 it
+
+soon the Gardens were in an uproar .
+0 ###LEFT-WALL### 3 Gardens
+0 ###LEFT-WALL### 4 were
+0 ###LEFT-WALL### 8 .
+1 soon 3 Gardens
+2 the 3 Gardens
+3 Gardens 4 were
+4 were 5 in
+5 in 7 uproar
+6 an 7 uproar
+
+a regiment of Lancers came charging down the Broad Walk , armed with holly-leaves [,] with which they jog the enemy horribly in passing .
+0 ###LEFT-WALL### 2 regiment
+0 ###LEFT-WALL### 11 ,
+0 ###LEFT-WALL### 25 .
+1 a 2 regiment
+2 regiment 3 of
+2 regiment 11 ,
+3 of 4 Lancers
+5 came 6 charging
+5 came 11 ,
+6 charging 7 down
+6 charging 10 Walk
+8 the 10 Walk
+9 Broad 10 Walk
+11 , 12 armed
+12 armed 13 with
+12 armed 21 enemy
+12 armed 22 horribly
+12 armed 23 in
+13 with 14 holly-leaves
+14 holly-leaves 16 with
+16 with 17 which
+16 with 18 they
+16 with 19 jog
+18 they 19 jog
+20 the 21 enemy
+23 in 24 passing
+
+every living thing was shunning him .
+0 ###LEFT-WALL### 3 thing
+0 ###LEFT-WALL### 4 was
+0 ###LEFT-WALL### 7 .
+1 every 3 thing
+2 living 3 thing
+3 thing 4 was
+4 was 5 shunning
+5 shunning 6 him
+
+the reason birds can fly and we can't is [simply] that they have perfect faith , for to have faith is to have wings .
+0 ###LEFT-WALL### 3 birds
+0 ###LEFT-WALL### 5 fly
+0 ###LEFT-WALL### 6 and
+0 ###LEFT-WALL### 23 have
+0 ###LEFT-WALL### 25 .
+1 the 3 birds
+2 reason 3 birds
+3 birds 4 can
+4 can 5 fly
+6 and 9 is
+6 and 13 have
+7 we 8 can't
+8 can't 9 is
+9 is 11 that
+12 they 13 have
+13 have 15 faith
+13 have 17 for
+14 perfect 15 faith
+16 , 17 for
+17 for 18 to
+18 to 19 have
+18 to 21 is
+19 have 20 faith
+21 is 22 to
+22 to 23 have
+23 have 24 wings
+
+not one of them wore anything .
+0 ###LEFT-WALL### 4 them
+0 ###LEFT-WALL### 5 wore
+0 ###LEFT-WALL### 7 .
+1 not 2 one
+2 one 3 of
+2 one 4 them
+3 of 4 them
+4 them 5 wore
+5 wore 6 anything
+
+the shock was so great that it drove away his cold .
+0 ###LEFT-WALL### 2 shock
+0 ###LEFT-WALL### 3 was
+0 ###LEFT-WALL### 12 .
+1 the 2 shock
+2 shock 3 was
+3 was 5 great
+4 so 5 great
+5 great 6 that
+6 that 7 it
+6 that 8 drove
+7 it 8 drove
+8 drove 9 away
+8 drove 11 cold
+10 his 11 cold
+
+but Peter hesitated .
+0 ###LEFT-WALL### 1 but
+0 ###LEFT-WALL### 3 hesitated
+1 but 2 Peter
+1 but 3 hesitated
+2 Peter 3 hesitated
+3 hesitated 4 .
+
+you see , he had lost faith .
+0 ###LEFT-WALL### 1 you
+0 ###LEFT-WALL### 2 see
+0 ###LEFT-WALL### 3 ,
+0 ###LEFT-WALL### 8 .
+1 you 2 see
+3 , 4 he
+3 , 6 lost
+4 he 5 had
+5 had 6 lost
+6 lost 7 faith
+
+Peter asked tragically .
+0 ###LEFT-WALL### 1 Peter
+0 ###LEFT-WALL### 2 asked
+0 ###LEFT-WALL### 4 .
+1 Peter 2 asked
+2 asked 3 tragically
+
+Peter asked .
+0 ###LEFT-WALL### 1 Peter
+0 ###LEFT-WALL### 2 asked
+0 ###LEFT-WALL### 3 .
+1 Peter 2 asked
+
+the birds on the island never got [used] to him .
+0 ###LEFT-WALL### 2 birds
+0 ###LEFT-WALL### 7 got
+0 ###LEFT-WALL### 11 .
+1 the 2 birds
+2 birds 3 on
+2 birds 7 got
+3 on 5 island
+4 the 5 island
+6 never 7 got
+7 got 9 to
+9 to 10 him
+
+his oddities tickled them every day , as if they were quite new , though it was really the birds that were new .
+0 ###LEFT-WALL### 2 oddities
+0 ###LEFT-WALL### 3 tickled
+0 ###LEFT-WALL### 24 .
+1 his 2 oddities
+2 oddities 3 tickled
+3 tickled 4 them
+3 tickled 6 day
+3 tickled 9 if
+3 tickled 15 though
+5 every 6 day
+7 , 9 if
+8 as 9 if
+9 if 10 they
+9 if 11 were
+9 if 14 ,
+10 they 11 were
+11 were 13 new
+12 quite 13 new
+15 though 16 it
+15 though 17 was
+16 it 17 was
+17 was 18 really
+17 was 20 birds
+19 the 20 birds
+20 birds 21 that
+20 birds 22 were
+21 that 22 were
+22 were 23 new
+
+all his food was brought to him from the Gardens at Solomon 's orders by the birds .
+0 ###LEFT-WALL### 1 all
+0 ###LEFT-WALL### 5 brought
+0 ###LEFT-WALL### 18 .
+1 all 2 his
+1 all 3 food
+1 all 4 was
+2 his 3 food
+4 was 5 brought
+5 brought 6 to
+5 brought 8 from
+5 brought 11 at
+5 brought 15 by
+6 to 7 him
+8 from 10 Gardens
+9 the 10 Gardens
+10 Gardens 11 at
+11 at 14 orders
+12 Solomon 13 's
+13 's 14 orders
+14 orders 15 by
+15 by 17 birds
+16 the 17 birds
+
+he would not eat worms or insects ( which they thought [very] [silly] of [him] ) , so they brought him bread in their beaks .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 4 eat
+0 ###LEFT-WALL### 26 .
+1 he 2 would
+2 would 3 not
+2 would 4 eat
+4 eat 6 or
+4 eat 23 in
+5 worms 6 or
+6 or 7 insects
+6 or 9 which
+8 ( 9 which
+9 which 14 of
+9 which 16 )
+10 they 11 thought
+11 thought 14 of
+17 , 18 so
+18 so 19 they
+18 so 20 brought
+19 they 20 brought
+20 brought 21 him
+20 brought 22 bread
+22 bread 23 in
+23 in 25 beaks
+24 their 25 beaks
+
+Peter wore no night-gown now .
+0 ###LEFT-WALL### 1 Peter
+0 ###LEFT-WALL### 2 wore
+0 ###LEFT-WALL### 6 .
+1 Peter 2 wore
+2 wore 4 night-gown
+2 wore 5 now
+3 no 4 night-gown
+4 night-gown 5 now
+
+but , though he was now quite naked , you must not think that he was cold or unhappy .
+0 ###LEFT-WALL### 1 but
+0 ###LEFT-WALL### 20 .
+1 but 2 ,
+1 but 10 you
+1 but 13 think
+2 , 3 though
+3 though 4 he
+3 though 5 was
+3 though 9 ,
+3 though 10 you
+4 he 5 was
+5 was 6 now
+5 was 8 naked
+7 quite 8 naked
+10 you 11 must
+11 must 12 not
+11 must 13 think
+12 not 13 think
+13 think 14 that
+14 that 15 he
+14 that 16 was
+15 he 16 was
+16 was 18 or
+17 cold 18 or
+18 or 19 unhappy
+
+but the best thing Solomon had done was to teach him to have a glad heart .
+0 ###LEFT-WALL### 1 but
+0 ###LEFT-WALL### 10 teach
+0 ###LEFT-WALL### 17 .
+1 but 4 thing
+1 but 8 was
+2 the 3 best
+2 the 4 thing
+4 thing 5 Solomon
+4 thing 7 done
+4 thing 8 was
+5 Solomon 6 had
+6 had 7 done
+8 was 9 to
+9 to 10 teach
+10 teach 11 him
+10 teach 12 to
+10 teach 13 have
+12 to 13 have
+13 have 16 heart
+14 a 15 glad
+14 a 16 heart
+15 glad 16 heart
+
+the birds brought him news of how boys and girls play , and wistful tears started in Peter 's eyes .
+0 ###LEFT-WALL### 2 birds
+0 ###LEFT-WALL### 3 brought
+0 ###LEFT-WALL### 21 .
+1 the 2 birds
+2 birds 3 brought
+3 brought 4 him
+3 brought 5 news
+3 brought 13 and
+3 brought 17 in
+5 news 6 of
+6 of 7 how
+7 how 9 and
+7 how 11 play
+8 boys 9 and
+9 and 10 girls
+9 and 11 play
+12 , 13 and
+13 and 15 tears
+14 wistful 15 tears
+15 tears 16 started
+15 tears 17 in
+17 in 20 eyes
+18 Peter 19 's
+19 's 20 eyes
+
+perhaps you wonder why he did not swim across .
+0 ###LEFT-WALL### 2 you
+0 ###LEFT-WALL### 3 wonder
+0 ###LEFT-WALL### 10 .
+1 perhaps 2 you
+2 you 3 wonder
+3 wonder 4 why
+4 why 5 he
+4 why 8 swim
+5 he 6 did
+6 did 7 not
+6 did 8 swim
+7 not 8 swim
+8 swim 9 across
+
+the reason was that he could not swim .
+0 ###LEFT-WALL### 8 swim
+0 ###LEFT-WALL### 9 .
+1 the 2 reason
+2 reason 3 was
+3 was 4 that
+4 that 5 he
+4 that 6 could
+5 he 6 could
+6 could 7 not
+7 not 8 swim
+
+Peter tried it often , but always before he could kick out he sank .
+0 ###LEFT-WALL### 1 Peter
+0 ###LEFT-WALL### 2 tried
+0 ###LEFT-WALL### 6 but
+0 ###LEFT-WALL### 15 .
+1 Peter 2 tried
+2 tried 3 it
+2 tried 4 often
+5 , 6 but
+6 but 7 always
+6 but 13 he
+6 but 14 sank
+8 before 9 he
+8 before 11 kick
+8 before 13 he
+9 he 10 could
+10 could 11 kick
+11 kick 12 out
+13 he 14 sank
+
+once he really thought he had discovered a way of reaching the Gardens .
+0 ###LEFT-WALL### 2 he
+0 ###LEFT-WALL### 4 thought
+0 ###LEFT-WALL### 7 discovered
+1 once 2 he
+2 he 4 thought
+3 really 4 thought
+4 thought 5 he
+4 thought 7 discovered
+5 he 6 had
+6 had 7 discovered
+7 discovered 9 way
+7 discovered 14 .
+8 a 9 way
+9 way 10 of
+10 of 11 reaching
+11 reaching 13 Gardens
+12 the 13 Gardens
+
+after this the birds said that they would help him no more in his mad enterprise .
+0 ###LEFT-WALL### 4 birds
+0 ###LEFT-WALL### 5 said
+0 ###LEFT-WALL### 17 .
+1 after 2 this
+1 after 4 birds
+3 the 4 birds
+4 birds 5 said
+5 said 6 that
+6 that 7 they
+6 that 9 help
+7 they 8 would
+8 would 9 help
+9 help 10 him
+9 help 12 more
+9 help 13 in
+11 no 12 more
+13 in 16 enterprise
+14 his 16 enterprise
+15 mad 16 enterprise
+
+nevertheless , Peter did reach the Gardens at last by the help of Shelley 's boat , as I am now to tell you .
+0 ###LEFT-WALL### 3 Peter
+0 ###LEFT-WALL### 23 tell
+0 ###LEFT-WALL### 25 .
+1 nevertheless 2 ,
+1 nevertheless 3 Peter
+3 Peter 4 did
+4 did 5 reach
+5 reach 7 Gardens
+5 reach 18 as
+6 the 7 Gardens
+7 Gardens 8 at
+7 Gardens 10 by
+7 Gardens 13 of
+8 at 9 last
+10 by 12 help
+11 the 12 help
+13 of 16 boat
+14 Shelley 15 's
+15 's 16 boat
+17 , 18 as
+18 as 19 I
+18 as 20 am
+19 I 20 am
+20 am 21 now
+20 am 22 to
+22 to 23 tell
+23 tell 24 you
+
+the Thrush 's Nest
+0 ###LEFT-WALL### 4 Nest
+1 the 2 Thrush
+2 Thrush 3 's
+3 's 4 Nest
+
+Shelley was a young gentleman [and] as grown-up as [he] need ever expect to be .
+0 ###LEFT-WALL### 1 Shelley
+0 ###LEFT-WALL### 13 expect
+0 ###LEFT-WALL### 16 .
+1 Shelley 2 was
+2 was 5 gentleman
+2 was 13 expect
+3 a 4 young
+3 a 5 gentleman
+4 young 5 gentleman
+5 gentleman 8 grown-up
+7 as 8 grown-up
+8 grown-up 9 as
+9 as 11 need
+12 ever 13 expect
+13 expect 14 to
+13 expect 15 be
+14 to 15 be
+
+he was a poet ; and they are never exactly grown-up .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 5 ;
+0 ###LEFT-WALL### 12 .
+1 he 2 was
+2 was 4 poet
+3 a 4 poet
+5 ; 6 and
+6 and 7 they
+6 and 8 are
+7 they 8 are
+8 are 9 never
+8 are 10 exactly
+8 are 11 grown-up
+
+they are people who despise money except what you need for to-day , and he had all that and [five] pounds over .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 2 are
+0 ###LEFT-WALL### 14 and
+0 ###LEFT-WALL### 23 .
+1 they 2 are
+2 are 3 people
+3 people 4 who
+3 people 5 despise
+4 who 5 despise
+5 despise 6 money
+5 despise 11 for
+6 money 7 except
+6 money 11 for
+7 except 8 what
+7 except 9 you
+7 except 10 need
+9 you 10 need
+11 for 12 to-day
+13 , 14 and
+14 and 15 he
+14 and 19 and
+15 he 19 and
+16 had 18 that
+16 had 19 and
+17 all 18 that
+19 and 21 pounds
+21 pounds 22 over
+
+and [whether] you are a lady or only a little boy who wants a baby-sister , always take pains to write your address clearly .
+0 ###LEFT-WALL### 1 and
+0 ###LEFT-WALL### 7 or
+0 ###LEFT-WALL### 25 .
+1 and 3 you
+1 and 4 are
+3 you 4 are
+4 are 6 lady
+5 a 6 lady
+7 or 8 only
+7 or 11 boy
+7 or 19 pains
+9 a 10 little
+9 a 11 boy
+10 little 11 boy
+11 boy 12 who
+11 boy 16 ,
+11 boy 19 pains
+12 who 16 ,
+13 wants 15 baby-sister
+13 wants 16 ,
+14 a 15 baby-sister
+16 , 18 take
+17 always 18 take
+19 pains 20 to
+19 pains 23 address
+19 pains 24 clearly
+20 to 21 write
+22 your 23 address
+
+you can't think what a lot of babies Solomon has sent to the wrong house .
+0 ###LEFT-WALL### 1 you
+0 ###LEFT-WALL### 3 think
+0 ###LEFT-WALL### 16 .
+1 you 2 can't
+2 can't 3 think
+3 think 4 what
+4 what 8 babies
+4 what 11 sent
+5 a 6 lot
+6 lot 7 of
+6 lot 8 babies
+7 of 8 babies
+8 babies 9 Solomon
+8 babies 10 has
+8 babies 11 sent
+9 Solomon 10 has
+11 sent 12 to
+12 to 15 house
+13 the 15 house
+14 wrong 15 house
+
+they thought this [because] [there] was [a] [large] five printed on it .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 2 thought
+0 ###LEFT-WALL### 13 .
+1 they 2 thought
+2 thought 3 this
+2 thought 6 was
+3 this 6 was
+6 was 9 five
+6 was 11 on
+9 five 10 printed
+11 on 12 it
+
+nor was this all that Peter did to pin the powerful old fellow 's good will .
+0 ###LEFT-WALL### 1 nor
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 17 .
+1 nor 2 was
+2 was 3 this
+2 was 5 that
+4 all 5 that
+5 that 6 Peter
+5 that 7 did
+6 Peter 7 did
+7 did 8 to
+8 to 9 pin
+9 pin 16 will
+10 the 13 fellow
+11 powerful 13 fellow
+12 old 13 fellow
+13 fellow 14 's
+14 's 16 will
+15 good 16 will
+
+you must know that Solomon had no intention of remaining in office all his life .
+0 ###LEFT-WALL### 1 you
+0 ###LEFT-WALL### 3 know
+0 ###LEFT-WALL### 16 .
+1 you 2 must
+2 must 3 know
+3 know 4 that
+4 that 5 Solomon
+4 that 6 had
+5 Solomon 6 had
+6 had 8 intention
+7 no 8 intention
+8 intention 9 of
+9 of 10 remaining
+10 remaining 12 office
+10 remaining 13 all
+11 in 12 office
+13 all 14 his
+13 all 15 life
+14 his 15 life
+
+when his stocking was full , Solomon calculated that he would be able to retire on a competency .
+0 ###LEFT-WALL### 7 Solomon
+0 ###LEFT-WALL### 8 calculated
+0 ###LEFT-WALL### 19 .
+1 when 3 stocking
+1 when 4 was
+1 when 6 ,
+1 when 7 Solomon
+2 his 3 stocking
+3 stocking 4 was
+4 was 5 full
+7 Solomon 8 calculated
+8 calculated 9 that
+9 that 10 he
+9 that 12 be
+10 he 11 would
+11 would 12 be
+12 be 13 able
+13 able 14 to
+13 able 15 retire
+14 to 15 retire
+15 retire 16 on
+16 on 18 competency
+17 a 18 competency
+
+Peter now gave him a pound .
+0 ###LEFT-WALL### 1 Peter
+0 ###LEFT-WALL### 3 gave
+0 ###LEFT-WALL### 7 .
+1 Peter 3 gave
+2 now 3 gave
+3 gave 4 him
+3 gave 6 pound
+5 a 6 pound
+
+he cut it off his bank-note with a sharp stick .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 2 cut
+0 ###LEFT-WALL### 11 .
+1 he 2 cut
+2 cut 3 it
+2 cut 4 off
+2 cut 7 with
+3 it 4 off
+4 off 6 bank-note
+5 his 6 bank-note
+6 bank-note 7 with
+7 with 10 stick
+8 a 9 sharp
+8 a 10 stick
+9 sharp 10 stick
+
+this made Solomon his friend for ever , and after the two had consulted together they called a meeting of the thrushes .
+0 ###LEFT-WALL### 1 this
+0 ###LEFT-WALL### 2 made
+0 ###LEFT-WALL### 9 and
+0 ###LEFT-WALL### 23 .
+1 this 2 made
+2 made 3 Solomon
+2 made 5 friend
+2 made 7 ever
+4 his 5 friend
+6 for 7 ever
+8 , 9 and
+9 and 16 they
+9 and 17 called
+10 after 12 two
+10 after 14 consulted
+10 after 16 they
+11 the 12 two
+12 two 13 had
+13 had 14 consulted
+14 consulted 15 together
+16 they 17 called
+17 called 19 meeting
+18 a 19 meeting
+19 meeting 20 of
+20 of 22 thrushes
+21 the 22 thrushes
+
+you will see presently why thrushes only were invited .
+0 ###LEFT-WALL### 1 you
+0 ###LEFT-WALL### 3 see
+0 ###LEFT-WALL### 10 .
+1 you 2 will
+2 will 3 see
+3 see 4 presently
+3 see 5 why
+5 why 6 thrushes
+5 why 9 invited
+6 thrushes 8 were
+7 only 8 were
+8 were 9 invited
+
+other birds , said Solomon , omitted to line their nests with mud , and as a result they did not hold water .
+0 ###LEFT-WALL### 2 birds
+0 ###LEFT-WALL### 4 said
+0 ###LEFT-WALL### 15 and
+0 ###LEFT-WALL### 24 .
+1 other 2 birds
+3 , 4 said
+4 said 5 Solomon
+4 said 14 ,
+5 Solomon 7 omitted
+6 , 7 omitted
+7 omitted 8 to
+7 omitted 14 ,
+8 to 9 line
+9 line 11 nests
+9 line 12 with
+10 their 11 nests
+11 nests 12 with
+12 with 13 mud
+14 , 15 and
+15 and 19 they
+15 and 22 hold
+16 as 18 result
+16 as 19 they
+17 a 18 result
+19 they 20 did
+20 did 21 not
+20 did 22 hold
+21 not 22 hold
+22 hold 23 water
+
+the thrushes begged Solomon with a look to say something crushing in reply to this , but again he was perplexed .
+0 ###LEFT-WALL### 2 thrushes
+0 ###LEFT-WALL### 3 begged
+0 ###LEFT-WALL### 17 but
+0 ###LEFT-WALL### 22 .
+1 the 2 thrushes
+2 thrushes 3 begged
+3 begged 4 Solomon
+3 begged 5 with
+3 begged 8 to
+5 with 7 look
+6 a 7 look
+8 to 9 say
+9 say 10 something
+9 say 14 to
+10 something 11 crushing
+10 something 14 to
+11 crushing 13 reply
+12 in 13 reply
+14 to 15 this
+16 , 17 but
+17 but 19 he
+17 but 20 was
+18 again 19 he
+19 he 20 was
+20 was 21 perplexed
+
+Kate was her name , and all Kates are saucy .
+0 ###LEFT-WALL### 1 Kate
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 6 and
+0 ###LEFT-WALL### 11 .
+1 Kate 2 was
+2 was 4 name
+3 her 4 name
+5 , 6 and
+6 and 8 Kates
+6 and 9 are
+7 all 8 Kates
+8 Kates 9 are
+9 are 10 saucy
+
+Solomon did try another drink , and it inspired him .
+0 ###LEFT-WALL### 1 Solomon
+0 ###LEFT-WALL### 3 try
+0 ###LEFT-WALL### 7 and
+0 ###LEFT-WALL### 11 .
+1 Solomon 2 did
+2 did 3 try
+3 try 5 drink
+4 another 5 drink
+6 , 7 and
+7 and 8 it
+7 and 9 inspired
+8 it 9 inspired
+9 inspired 10 him
+
+[how] the thrushes applauded !
+0 ###LEFT-WALL### 3 thrushes
+0 ###LEFT-WALL### 4 applauded
+0 ###LEFT-WALL### 5 !
+2 the 3 thrushes
+3 thrushes 4 applauded
+
+after this it was most orderly .
+0 ###LEFT-WALL### 1 after
+0 ###LEFT-WALL### 4 was
+0 ###LEFT-WALL### 7 .
+1 after 2 this
+1 after 4 was
+3 it 4 was
+4 was 6 orderly
+5 most 6 orderly
+
+at this the thrushes began to fidget , which made Peter tremble for his scheme .
+0 ###LEFT-WALL### 4 thrushes
+0 ###LEFT-WALL### 5 began
+0 ###LEFT-WALL### 8 ,
+0 ###LEFT-WALL### 16 .
+1 at 2 this
+1 at 4 thrushes
+3 the 4 thrushes
+4 thrushes 5 began
+5 began 6 to
+5 began 7 fidget
+6 to 7 fidget
+8 , 9 which
+8 , 10 made
+9 which 10 made
+10 made 11 Peter
+10 made 12 tremble
+12 tremble 13 for
+13 for 15 scheme
+14 his 15 scheme
+
+but still , to Peter 's agony , the thrushes were sulky .
+0 ###LEFT-WALL### 10 thrushes
+0 ###LEFT-WALL### 11 were
+0 ###LEFT-WALL### 13 .
+1 but 2 still
+1 but 3 ,
+1 but 10 thrushes
+3 , 4 to
+4 to 7 agony
+4 to 8 ,
+4 to 10 thrushes
+5 Peter 6 's
+6 's 7 agony
+9 the 10 thrushes
+10 thrushes 11 were
+11 were 12 sulky
+
+you must remember that he is now in comfortable circumstances , and he will pay you such wages as you have never been paid before .
+0 ###LEFT-WALL### 1 you
+0 ###LEFT-WALL### 12 and
+0 ###LEFT-WALL### 26 .
+1 you 12 and
+2 must 3 remember
+2 must 12 and
+3 remember 4 that
+4 that 5 he
+4 that 6 is
+5 he 6 is
+6 is 7 now
+6 is 8 in
+8 in 10 circumstances
+9 comfortable 10 circumstances
+11 , 12 and
+12 and 15 pay
+13 he 14 will
+14 will 15 pay
+15 pay 16 you
+15 pay 18 wages
+15 pay 19 as
+17 such 18 wages
+19 as 20 you
+19 as 24 paid
+20 you 21 have
+21 have 23 been
+22 never 23 been
+23 been 24 paid
+24 paid 25 before
+
+then all the thrushes hopped for joy , and that [very] day was begun the celebrated Building of the Boat .
+0 ###LEFT-WALL### 2 all
+0 ###LEFT-WALL### 5 hopped
+0 ###LEFT-WALL### 21 .
+1 then 2 all
+2 all 3 the
+2 all 4 thrushes
+2 all 5 hopped
+3 the 4 thrushes
+5 hopped 6 for
+5 hopped 17 Building
+6 for 9 and
+7 joy 9 and
+8 , 9 and
+9 and 10 that
+9 and 12 day
+9 and 13 was
+9 and 14 begun
+12 day 13 was
+15 the 17 Building
+16 celebrated 17 Building
+17 Building 18 of
+18 of 20 Boat
+19 the 20 Boat
+
+all their ordinary business fell into arrears .
+0 ###LEFT-WALL### 1 all
+0 ###LEFT-WALL### 5 fell
+0 ###LEFT-WALL### 8 .
+1 all 2 their
+1 all 4 business
+1 all 5 fell
+2 their 4 business
+3 ordinary 4 business
+5 fell 6 into
+6 into 7 arrears
+
+[what] do you think Solomon did ?
+0 ###LEFT-WALL### 2 do
+0 ###LEFT-WALL### 7 ?
+2 do 3 you
+2 do 4 think
+4 think 5 Solomon
+4 think 6 did
+5 Solomon 6 did
+
+you ask them .
+0 ###LEFT-WALL### 1 you
+0 ###LEFT-WALL### 2 ask
+0 ###LEFT-WALL### 4 .
+1 you 2 ask
+2 ask 3 them
+
+Peter was a just master , and paid his work-people every evening .
+0 ###LEFT-WALL### 1 Peter
+0 ###LEFT-WALL### 7 and
+0 ###LEFT-WALL### 13 .
+1 Peter 7 and
+2 was 5 master
+2 was 7 and
+3 a 4 just
+3 a 5 master
+4 just 5 master
+6 , 7 and
+7 and 8 paid
+8 paid 10 work-people
+8 paid 12 evening
+9 his 10 work-people
+11 every 12 evening
+
+it must have been a fine sight .
+0 ###LEFT-WALL### 1 it
+0 ###LEFT-WALL### 4 been
+0 ###LEFT-WALL### 8 .
+1 it 2 must
+2 must 3 have
+3 have 4 been
+4 been 7 sight
+5 a 6 fine
+5 a 7 sight
+6 fine 7 sight
+
+and at last , after months of labor , the boat was finished .
+0 ###LEFT-WALL### 1 and
+0 ###LEFT-WALL### 14 .
+1 and 11 boat
+1 and 12 was
+2 at 3 last
+2 at 4 ,
+2 at 11 boat
+4 , 5 after
+5 after 6 months
+5 after 9 ,
+5 after 11 boat
+6 months 7 of
+7 of 8 labor
+10 the 11 boat
+11 boat 12 was
+12 was 13 finished
+
+oh , the deportment of Peter [as] [he] saw it growing more and more like a great thrush 's nest !
+0 ###LEFT-WALL### 1 oh
+0 ###LEFT-WALL### 2 ,
+0 ###LEFT-WALL### 21 !
+2 , 4 deportment
+2 , 9 saw
+3 the 4 deportment
+4 deportment 5 of
+4 deportment 9 saw
+5 of 6 Peter
+9 saw 10 it
+9 saw 15 like
+10 it 11 growing
+10 it 15 like
+11 growing 13 and
+12 more 13 and
+13 and 14 more
+15 like 20 nest
+16 a 17 great
+16 a 18 thrush
+17 great 18 thrush
+18 thrush 19 's
+19 's 20 nest
+
+there are also a few feathers here and there , which came off the thrushes while they were building .
+0 ###LEFT-WALL### 1 there
+0 ###LEFT-WALL### 2 are
+0 ###LEFT-WALL### 10 ,
+0 ###LEFT-WALL### 20 .
+1 there 2 are
+2 are 3 also
+2 are 6 feathers
+4 a 5 few
+5 few 6 feathers
+6 feathers 8 and
+7 here 8 and
+8 and 9 there
+10 , 11 which
+10 , 12 came
+11 which 12 came
+12 came 13 off
+12 came 16 while
+13 off 15 thrushes
+14 the 15 thrushes
+16 while 17 they
+16 while 18 were
+17 they 18 were
+18 were 19 building
+
+his face was flushed , but [he] never looked back ; there was [an] exultation in his little breast that drove out fear .
+0 ###LEFT-WALL### 2 face
+0 ###LEFT-WALL### 6 but
+0 ###LEFT-WALL### 11 ;
+0 ###LEFT-WALL### 24 .
+1 his 2 face
+2 face 6 but
+3 was 4 flushed
+3 was 6 but
+5 , 6 but
+6 but 9 looked
+8 never 9 looked
+9 looked 10 back
+11 ; 12 there
+11 ; 13 was
+12 there 13 was
+13 was 15 exultation
+15 exultation 16 in
+16 in 19 breast
+17 his 19 breast
+18 little 19 breast
+19 breast 20 that
+19 breast 21 drove
+20 that 21 drove
+21 drove 22 out
+21 drove 23 fear
+
+was Peter the least gallant of the English mariners who have sailed westward to meet the Unknown ?
+0 ###LEFT-WALL### 1 was
+0 ###LEFT-WALL### 18 ?
+1 was 2 Peter
+1 was 5 gallant
+3 the 5 gallant
+4 least 5 gallant
+5 gallant 6 of
+6 of 9 mariners
+7 the 9 mariners
+8 English 9 mariners
+9 mariners 10 who
+9 mariners 11 have
+10 who 11 have
+11 have 12 sailed
+12 sailed 13 westward
+12 sailed 14 to
+14 to 15 meet
+15 meet 17 Unknown
+16 the 17 Unknown
+
+[which] , [having] avoided , he passed under the bridge and came , to his great rejoicing , within full sight of the delectable Gardens .
+0 ###LEFT-WALL### 6 he
+0 ###LEFT-WALL### 11 and
+0 ###LEFT-WALL### 26 .
+2 , 4 avoided
+4 avoided 5 ,
+4 avoided 6 he
+6 he 11 and
+7 passed 8 under
+7 passed 11 and
+8 under 10 bridge
+9 the 10 bridge
+11 and 12 came
+11 and 14 to
+11 and 19 within
+13 , 14 to
+14 to 17 rejoicing
+14 to 18 ,
+15 his 17 rejoicing
+16 great 17 rejoicing
+19 within 21 sight
+20 full 21 sight
+21 sight 22 of
+22 of 25 Gardens
+23 the 25 Gardens
+24 delectable 25 Gardens
+
+having escaped the danger of which , he was mercifully carried into a small bay , where his boat rode at peace .
+0 ###LEFT-WALL### 8 he
+0 ###LEFT-WALL### 11 carried
+1 having 2 escaped
+1 having 7 ,
+1 having 8 he
+2 escaped 4 danger
+3 the 4 danger
+4 danger 5 of
+5 of 6 which
+8 he 9 was
+9 was 11 carried
+10 mercifully 11 carried
+11 carried 12 into
+12 into 15 bay
+13 a 14 small
+13 a 15 bay
+14 small 15 bay
+15 bay 17 where
+16 , 17 where
+17 where 19 boat
+17 where 20 rode
+17 where 23 .
+18 his 19 boat
+19 boat 20 rode
+20 rode 21 at
+21 at 22 peace
+
+when he sails , he sits down , but he stands up to paddle .
+0 ###LEFT-WALL### 5 he
+0 ###LEFT-WALL### 6 sits
+0 ###LEFT-WALL### 9 but
+0 ###LEFT-WALL### 15 .
+1 when 2 he
+1 when 3 sails
+1 when 4 ,
+1 when 5 he
+2 he 3 sails
+5 he 6 sits
+6 sits 7 down
+8 , 9 but
+9 but 10 he
+9 but 11 stands
+10 he 11 stands
+11 stands 12 up
+12 up 13 to
+12 up 14 paddle
+13 to 14 paddle
+
+I shall tell you presently how he got his paddle .
+0 ###LEFT-WALL### 1 I
+0 ###LEFT-WALL### 3 tell
+0 ###LEFT-WALL### 11 .
+1 I 2 shall
+2 shall 3 tell
+3 tell 4 you
+3 tell 5 presently
+3 tell 6 how
+6 how 7 he
+6 how 8 got
+7 he 8 got
+8 got 10 paddle
+9 his 10 paddle
+
+at least he thinks so , and it is one of the pathetic things about him that he often plays quite wrongly .
+0 ###LEFT-WALL### 3 he
+0 ###LEFT-WALL### 4 thinks
+0 ###LEFT-WALL### 7 and
+0 ###LEFT-WALL### 23 .
+1 at 2 least
+2 least 3 he
+3 he 4 thinks
+4 thinks 5 so
+5 so 6 ,
+7 and 8 it
+7 and 9 is
+8 it 9 is
+9 is 10 one
+9 is 15 about
+9 is 17 that
+10 one 11 of
+11 of 14 things
+12 the 14 things
+13 pathetic 14 things
+14 things 15 about
+15 about 16 him
+17 that 18 he
+17 that 20 plays
+18 he 20 plays
+19 often 20 plays
+20 plays 22 wrongly
+21 quite 22 wrongly
+
+every night the ducks have forgotten all the events of the day , except the number of pieces of cake thrown to them .
+0 ###LEFT-WALL### 4 ducks
+0 ###LEFT-WALL### 6 forgotten
+1 every 2 night
+2 night 4 ducks
+3 the 4 ducks
+4 ducks 5 have
+5 have 6 forgotten
+6 forgotten 7 all
+7 all 8 the
+7 all 9 events
+8 the 9 events
+9 events 10 of
+10 of 12 day
+11 the 12 day
+12 day 14 except
+13 , 14 except
+14 except 18 pieces
+14 except 24 .
+15 the 16 number
+16 number 17 of
+16 number 18 pieces
+17 of 18 pieces
+18 pieces 19 of
+18 pieces 21 thrown
+19 of 20 cake
+21 thrown 22 to
+22 to 23 them
+
+they are gloomy creatures , and say that cake is not what it was in their young days .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 2 are
+0 ###LEFT-WALL### 6 and
+0 ###LEFT-WALL### 19 .
+1 they 2 are
+2 are 4 creatures
+3 gloomy 4 creatures
+5 , 6 and
+6 and 9 cake
+6 and 10 is
+7 say 9 cake
+8 that 9 cake
+9 cake 10 is
+10 is 11 not
+10 is 12 what
+12 what 13 it
+12 what 14 was
+13 it 14 was
+14 was 15 in
+15 in 18 days
+16 their 18 days
+17 young 18 days
+
+so Peter had to find out many things for himself .
+0 ###LEFT-WALL### 1 so
+0 ###LEFT-WALL### 5 find
+0 ###LEFT-WALL### 11 .
+1 so 2 Peter
+1 so 3 had
+2 Peter 3 had
+3 had 4 to
+4 to 5 find
+5 find 6 out
+5 find 8 things
+7 many 8 things
+8 things 9 for
+9 for 10 himself
+
+he often played ships at the Round Pond , but his ship was only a hoop which he had found on the grass .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 3 played
+0 ###LEFT-WALL### 10 but
+0 ###LEFT-WALL### 24 .
+1 he 3 played
+2 often 3 played
+3 played 4 ships
+3 played 5 at
+4 ships 5 at
+5 at 8 Pond
+6 the 8 Pond
+7 Round 8 Pond
+9 , 10 but
+10 but 12 ship
+10 but 13 was
+11 his 12 ship
+12 ship 13 was
+13 was 14 only
+13 was 16 hoop
+15 a 16 hoop
+16 hoop 17 which
+16 hoop 20 found
+17 which 18 he
+17 which 20 found
+18 he 19 had
+19 had 20 found
+20 found 21 on
+21 on 23 grass
+22 the 23 grass
+
+also he found a balloon .
+0 ###LEFT-WALL### 2 he
+0 ###LEFT-WALL### 3 found
+0 ###LEFT-WALL### 6 .
+1 also 2 he
+2 he 3 found
+3 found 5 balloon
+4 a 5 balloon
+
+perhaps the most surprising thing he found was a perambulator .
+0 ###LEFT-WALL### 5 thing
+0 ###LEFT-WALL### 8 was
+0 ###LEFT-WALL### 11 .
+1 perhaps 5 thing
+2 the 5 thing
+3 most 4 surprising
+4 surprising 5 thing
+5 thing 6 he
+5 thing 7 found
+5 thing 8 was
+6 he 7 found
+8 was 10 perambulator
+9 a 10 perambulator
+
+I have promised to tell you also about his paddle .
+0 ###LEFT-WALL### 1 I
+0 ###LEFT-WALL### 3 promised
+0 ###LEFT-WALL### 11 .
+1 I 2 have
+2 have 3 promised
+3 promised 4 to
+3 promised 5 tell
+4 to 5 tell
+5 tell 6 you
+5 tell 7 also
+5 tell 8 about
+8 about 10 paddle
+9 his 10 paddle
+
+it was a child 's spade which he had found near St Govor 's Well , and he thought it was a paddle .
+0 ###LEFT-WALL### 1 it
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 17 and
+0 ###LEFT-WALL### 24 .
+1 it 2 was
+2 was 6 spade
+2 was 11 near
+3 a 4 child
+4 child 5 's
+5 's 6 spade
+6 spade 7 which
+6 spade 10 found
+7 which 8 he
+7 which 10 found
+8 he 9 had
+9 had 10 found
+11 near 15 Well
+12 St 13 Govor
+13 Govor 14 's
+14 's 15 Well
+16 , 17 and
+17 and 18 he
+17 and 19 thought
+18 he 19 thought
+19 thought 20 it
+19 thought 21 was
+20 it 21 was
+21 was 23 paddle
+22 a 23 paddle
+
+do you pity Peter Pan for making these mistakes ?
+0 ###LEFT-WALL### 1 do
+0 ###LEFT-WALL### 10 ?
+1 do 2 you
+1 do 3 pity
+3 pity 5 Pan
+3 pity 6 for
+4 Peter 5 Pan
+6 for 7 making
+7 making 9 mistakes
+8 these 9 mistakes
+
+if so , I think it [rather] [silly] of you .
+0 ###LEFT-WALL### 4 I
+0 ###LEFT-WALL### 5 think
+0 ###LEFT-WALL### 11 .
+1 if 2 so
+2 so 3 ,
+2 so 4 I
+4 I 5 think
+5 think 6 it
+6 it 9 of
+9 of 10 you
+
+he played without ceasing , while you often waste time by being mad-dog or Mary-Annish .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 2 played
+1 he 2 played
+2 played 3 without
+2 played 6 while
+3 without 4 ceasing
+5 , 6 while
+6 while 7 you
+6 while 9 waste
+6 while 16 .
+7 you 9 waste
+8 often 9 waste
+9 waste 10 time
+9 waste 14 or
+11 by 12 being
+11 by 14 or
+12 being 13 mad-dog
+14 or 15 Mary-Annish
+
+oh , he was merry .
+0 ###LEFT-WALL### 1 oh
+0 ###LEFT-WALL### 2 ,
+0 ###LEFT-WALL### 6 .
+2 , 3 he
+2 , 4 was
+3 he 4 was
+4 was 5 merry
+
+he was as much merrier than you , for instance , as you are merrier than your father .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 19 .
+1 he 2 was
+2 was 5 merrier
+3 as 4 much
+4 much 5 merrier
+5 merrier 6 than
+5 merrier 10 instance
+5 merrier 12 as
+6 than 7 you
+8 , 10 instance
+9 for 10 instance
+10 instance 11 ,
+12 as 13 you
+12 as 14 are
+13 you 14 are
+14 are 15 merrier
+15 merrier 16 than
+16 than 18 father
+17 your 18 father
+
+sometimes he fell , like a spinning-top , from sheer merriment .
+0 ###LEFT-WALL### 2 he
+0 ###LEFT-WALL### 3 fell
+0 ###LEFT-WALL### 12 .
+1 sometimes 2 he
+2 he 3 fell
+3 fell 5 like
+3 fell 9 from
+4 , 5 like
+5 like 7 spinning-top
+5 like 8 ,
+6 a 7 spinning-top
+9 from 11 merriment
+10 sheer 11 merriment
+
+have you seen a greyhound leaping the fences of the Gardens ?
+0 ###LEFT-WALL### 1 have
+0 ###LEFT-WALL### 12 ?
+1 have 2 you
+1 have 3 seen
+3 seen 5 greyhound
+4 a 5 greyhound
+5 greyhound 6 leaping
+6 leaping 8 fences
+7 the 8 fences
+8 fences 9 of
+9 of 11 Gardens
+10 the 11 Gardens
+
+that is how Peter leaps them .
+0 ###LEFT-WALL### 1 that
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 7 .
+1 that 2 is
+2 is 3 how
+3 how 4 Peter
+3 how 5 leaps
+4 Peter 5 leaps
+5 leaps 6 them
+
+[and] think of the music of his pipe .
+0 ###LEFT-WALL### 2 think
+0 ###LEFT-WALL### 9 .
+2 think 3 of
+3 of 5 music
+4 the 5 music
+5 music 6 of
+6 of 8 pipe
+7 his 8 pipe
+
+of course , he had no mother at least , what use was she to him ?
+0 ###LEFT-WALL### 4 he
+0 ###LEFT-WALL### 5 had
+0 ###LEFT-WALL### 10 ,
+0 ###LEFT-WALL### 17 ?
+1 of 2 course
+2 course 3 ,
+2 course 4 he
+4 he 5 had
+5 had 7 mother
+5 had 9 least
+6 no 7 mother
+8 at 9 least
+10 , 11 what
+10 , 13 was
+11 what 12 use
+12 use 13 was
+13 was 14 she
+13 was 15 to
+15 to 16 him
+
+it was the fairies who gave him the chance .
+0 ###LEFT-WALL### 1 it
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 10 .
+1 it 2 was
+2 was 4 fairies
+3 the 4 fairies
+4 fairies 5 who
+4 fairies 6 gave
+5 who 6 gave
+6 gave 7 him
+6 gave 9 chance
+8 the 9 chance
+
+the Little House
+0 ###LEFT-WALL### 3 House
+1 the 3 House
+2 Little 3 House
+
+this is because it is not there when you lie down , but it is there when you wake up and step outside .
+0 ###LEFT-WALL### 1 this
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 13 but
+0 ###LEFT-WALL### 24 .
+1 this 2 is
+2 is 3 because
+2 is 11 down
+3 because 4 it
+3 because 5 is
+4 it 5 is
+5 is 6 not
+5 is 7 there
+5 is 8 when
+8 when 9 you
+8 when 10 lie
+9 you 10 lie
+12 , 13 but
+13 but 14 it
+13 but 15 is
+14 it 15 is
+15 is 16 there
+15 is 17 when
+15 is 23 outside
+17 when 18 you
+17 when 21 and
+18 you 21 and
+19 wake 20 up
+19 wake 21 and
+21 and 22 step
+
+you see the light after Lock-out Time .
+0 ###LEFT-WALL### 1 you
+0 ###LEFT-WALL### 2 see
+0 ###LEFT-WALL### 8 .
+1 you 2 see
+2 see 4 light
+2 see 5 after
+3 the 4 light
+4 light 5 after
+5 after 7 Time
+6 Lock-out 7 Time
+
+but if it was the same one , it was Peter Pan 's light .
+0 ###LEFT-WALL### 1 but
+0 ###LEFT-WALL### 15 .
+1 but 9 it
+1 but 10 was
+2 if 3 it
+2 if 4 was
+2 if 8 ,
+2 if 9 it
+3 it 4 was
+4 was 7 one
+5 the 6 same
+6 same 7 one
+9 it 10 was
+10 was 14 light
+11 Peter 12 Pan
+12 Pan 13 's
+13 's 14 light
+
+heaps of children have seen the fight , so that is nothing .
+0 ###LEFT-WALL### 3 children
+0 ###LEFT-WALL### 5 seen
+0 ###LEFT-WALL### 9 so
+0 ###LEFT-WALL### 13 .
+1 heaps 2 of
+1 heaps 3 children
+2 of 3 children
+3 children 4 have
+4 have 5 seen
+5 seen 7 fight
+5 seen 9 so
+6 the 7 fight
+8 , 9 so
+9 so 10 that
+9 so 11 is
+10 that 11 is
+11 is 12 nothing
+
+but Maimie Mannering was the famous one for whom the house was first built .
+0 ###LEFT-WALL### 3 Mannering
+0 ###LEFT-WALL### 4 was
+0 ###LEFT-WALL### 15 .
+1 but 2 Maimie
+1 but 3 Mannering
+3 Mannering 4 was
+4 was 7 one
+5 the 7 one
+6 famous 7 one
+7 one 8 for
+7 one 14 built
+8 for 9 whom
+8 for 11 house
+8 for 12 was
+10 the 11 house
+11 house 12 was
+13 first 14 built
+
+Maimie was always rather a strange girl , and it was at night that she was strange .
+0 ###LEFT-WALL### 1 Maimie
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 9 and
+0 ###LEFT-WALL### 18 .
+1 Maimie 2 was
+2 was 3 always
+2 was 4 rather
+2 was 7 girl
+5 a 6 strange
+5 a 7 girl
+6 strange 7 girl
+8 , 9 and
+9 and 10 it
+9 and 11 was
+10 it 11 was
+11 was 12 at
+12 at 13 night
+13 night 14 that
+14 that 15 she
+14 that 16 was
+15 she 16 was
+16 was 17 strange
+
+she was four years of age , and in the daytime she was the ordinary kind .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 8 and
+0 ###LEFT-WALL### 17 .
+1 she 2 was
+2 was 4 years
+3 four 4 years
+4 years 5 of
+5 of 6 age
+7 , 8 and
+8 and 12 she
+8 and 13 was
+9 in 11 daytime
+9 in 12 she
+10 the 11 daytime
+12 she 13 was
+13 was 16 kind
+14 the 16 kind
+15 ordinary 16 kind
+
+she was [quite] the ordinary kind in the daytime .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 10 .
+1 she 2 was
+2 was 6 kind
+2 was 7 in
+4 the 6 kind
+5 ordinary 6 kind
+6 kind 7 in
+7 in 9 daytime
+8 the 9 daytime
+
+it was also a serene look that contrasted grandly with Tony 's uneasy glances .
+0 ###LEFT-WALL### 1 it
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 15 .
+1 it 2 was
+2 was 3 also
+2 was 6 look
+4 a 5 serene
+4 a 6 look
+5 serene 6 look
+6 look 7 that
+6 look 8 contrasted
+7 that 8 contrasted
+8 contrasted 9 grandly
+8 contrasted 10 with
+10 with 14 glances
+11 Tony 12 's
+12 's 14 glances
+13 uneasy 14 glances
+
+it was then that Maimie was terrible .
+0 ###LEFT-WALL### 1 it
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 8 .
+1 it 2 was
+2 was 3 then
+2 was 4 that
+4 that 5 Maimie
+4 that 6 was
+5 Maimie 6 was
+6 was 7 terrible
+
+Tony beseeches her !
+0 ###LEFT-WALL### 1 Tony
+0 ###LEFT-WALL### 2 beseeches
+0 ###LEFT-WALL### 4 !
+1 Tony 2 beseeches
+2 beseeches 3 her
+
+but of course it was [daytime] when they were in the Gardens , and then Tony did most of the talking .
+0 ###LEFT-WALL### 1 but
+0 ###LEFT-WALL### 14 and
+0 ###LEFT-WALL### 22 .
+1 but 4 it
+1 but 5 was
+2 of 3 course
+3 course 4 it
+4 it 5 was
+5 was 7 when
+7 when 8 they
+7 when 9 were
+8 they 9 were
+9 were 10 in
+10 in 12 Gardens
+11 the 12 Gardens
+13 , 14 and
+14 and 16 Tony
+14 and 17 did
+15 then 16 Tony
+16 Tony 17 did
+17 did 18 most
+18 most 19 of
+19 of 21 talking
+20 the 21 talking
+
+you could gather from his talk that he was a very brave boy , and no one was so proud of it as Maimie .
+0 ###LEFT-WALL### 1 you
+0 ###LEFT-WALL### 3 gather
+0 ###LEFT-WALL### 15 and
+0 ###LEFT-WALL### 25 .
+1 you 2 could
+2 could 3 gather
+3 gather 4 from
+3 gather 13 boy
+4 from 6 talk
+5 his 6 talk
+6 talk 7 that
+6 talk 9 was
+7 that 8 he
+7 that 9 was
+8 he 9 was
+10 a 11 very
+10 a 13 boy
+11 very 12 brave
+12 brave 13 boy
+14 , 15 and
+15 and 17 one
+15 and 18 was
+16 no 17 one
+17 one 18 was
+18 was 20 proud
+19 so 20 proud
+20 proud 21 of
+20 proud 23 as
+21 of 22 it
+23 as 24 Maimie
+
+she would have loved to have a ticket on her saying that she was his sister .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 4 loved
+0 ###LEFT-WALL### 17 .
+1 she 2 would
+2 would 3 have
+3 have 4 loved
+4 loved 5 to
+4 loved 6 have
+5 to 6 have
+6 have 8 ticket
+6 have 9 on
+7 a 8 ticket
+8 ticket 9 on
+9 on 11 saying
+10 her 11 saying
+11 saying 12 that
+12 that 13 she
+12 that 14 was
+13 she 14 was
+14 was 16 sister
+15 his 16 sister
+
+so she saw that he was waiting for a real good chance .
+0 ###LEFT-WALL### 1 so
+0 ###LEFT-WALL### 13 .
+1 so 2 she
+1 so 3 saw
+2 she 3 saw
+3 saw 4 that
+4 that 5 he
+4 that 6 was
+5 he 6 was
+6 was 7 waiting
+6 was 8 for
+7 waiting 8 for
+8 for 12 chance
+9 a 10 real
+9 a 12 chance
+10 real 12 chance
+11 good 12 chance
+
+it read half-past five .
+0 ###LEFT-WALL### 1 it
+0 ###LEFT-WALL### 2 read
+0 ###LEFT-WALL### 5 .
+1 it 2 read
+2 read 3 half-past
+3 half-past 4 five
+
+you see the chance had come [of] seeing a fairy ball .
+0 ###LEFT-WALL### 1 you
+0 ###LEFT-WALL### 2 see
+0 ###LEFT-WALL### 12 .
+1 you 2 see
+2 see 4 chance
+2 see 6 come
+3 the 4 chance
+4 chance 5 had
+5 had 6 come
+6 come 8 seeing
+8 seeing 11 ball
+9 a 11 ball
+10 fairy 11 ball
+
+never , Tony felt , could he hope for a better chance .
+0 ###LEFT-WALL### 1 never
+0 ###LEFT-WALL### 2 ,
+0 ###LEFT-WALL### 13 .
+2 , 3 Tony
+2 , 4 felt
+2 , 5 ,
+3 Tony 4 felt
+5 , 6 could
+6 could 7 he
+6 could 8 hope
+8 hope 9 for
+9 for 12 chance
+10 a 12 chance
+11 better 12 chance
+
+he had to feel this , for Maimie so plainly felt it for him .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 2 had
+0 ###LEFT-WALL### 15 .
+1 he 2 had
+2 had 3 to
+2 had 11 felt
+3 to 4 feel
+4 feel 5 this
+4 feel 7 for
+6 , 7 for
+7 for 8 Maimie
+8 Maimie 11 felt
+9 so 10 plainly
+10 plainly 11 felt
+11 felt 12 it
+11 felt 13 for
+12 it 13 for
+13 for 14 him
+
+Maimie slipped her hand into Tony 's , and hers was hot , but [his] was cold .
+0 ###LEFT-WALL### 1 Maimie
+0 ###LEFT-WALL### 2 slipped
+0 ###LEFT-WALL### 9 and
+0 ###LEFT-WALL### 18 .
+1 Maimie 2 slipped
+2 slipped 4 hand
+2 slipped 5 into
+3 her 4 hand
+4 hand 5 into
+5 into 7 's
+6 Tony 7 's
+8 , 9 and
+9 and 10 hers
+9 and 14 but
+10 hers 14 but
+11 was 12 hot
+11 was 14 but
+13 , 14 but
+14 but 16 was
+16 was 17 cold
+
+she did a very kind thing ; she took off her scarf and gave it to him !
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 2 did
+0 ###LEFT-WALL### 7 ;
+0 ###LEFT-WALL### 18 !
+1 she 2 did
+2 did 6 thing
+3 a 4 very
+3 a 6 thing
+4 very 5 kind
+5 kind 6 thing
+7 ; 8 she
+7 ; 13 and
+8 she 13 and
+9 took 10 off
+9 took 13 and
+10 off 12 scarf
+11 her 12 scarf
+13 and 14 gave
+14 gave 15 it
+14 gave 16 to
+15 it 16 to
+16 to 17 him
+
+her face was aglow , but Tony 's was very gloomy .
+0 ###LEFT-WALL### 2 face
+0 ###LEFT-WALL### 3 was
+0 ###LEFT-WALL### 6 but
+0 ###LEFT-WALL### 12 .
+1 her 2 face
+2 face 3 was
+3 was 4 aglow
+5 , 6 but
+6 but 8 's
+6 but 9 was
+7 Tony 8 's
+8 's 9 was
+9 was 11 gloomy
+10 very 11 gloomy
+
+when the ayah reached the gate and saw Tony far in front she thought her other charge was with him and passed out .
+0 ###LEFT-WALL### 13 she
+0 ###LEFT-WALL### 14 thought
+0 ###LEFT-WALL### 24 .
+1 when 3 ayah
+1 when 7 and
+1 when 13 she
+2 the 3 ayah
+3 ayah 7 and
+4 reached 6 gate
+4 reached 7 and
+5 the 6 gate
+7 and 8 saw
+8 saw 9 Tony
+8 saw 10 far
+8 saw 12 front
+11 in 12 front
+13 she 14 thought
+14 thought 17 charge
+14 thought 21 and
+15 her 16 other
+16 other 17 charge
+17 charge 21 and
+18 was 19 with
+18 was 21 and
+19 with 20 him
+21 and 22 passed
+22 passed 23 out
+
+she had shut her eyes tight and glued them with passionate tears .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 7 and
+0 ###LEFT-WALL### 13 .
+1 she 2 had
+2 had 7 and
+3 shut 5 eyes
+3 shut 6 tight
+3 shut 7 and
+4 her 5 eyes
+7 and 8 glued
+8 glued 9 them
+8 glued 10 with
+10 with 12 tears
+11 passionate 12 tears
+
+when she opened them something very cold ran up her legs and up her arms and dropped into her heart .
+0 ###LEFT-WALL### 5 something
+0 ###LEFT-WALL### 16 and
+0 ###LEFT-WALL### 21 .
+1 when 2 she
+1 when 3 opened
+1 when 5 something
+2 she 3 opened
+3 opened 4 them
+5 something 7 cold
+5 something 16 and
+6 very 7 cold
+8 ran 9 up
+8 ran 15 arms
+8 ran 16 and
+9 up 12 and
+10 her 11 legs
+11 legs 12 and
+12 and 13 up
+14 her 15 arms
+16 and 17 dropped
+16 and 18 into
+18 into 20 heart
+19 her 20 heart
+
+it was the stillness of the Gardens .
+0 ###LEFT-WALL### 1 it
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 8 .
+1 it 2 was
+2 was 4 stillness
+3 the 4 stillness
+4 stillness 5 of
+5 of 7 Gardens
+6 the 7 Gardens
+
+then she heard [clang] , then from another part clang , then clang , clang far away .
+0 ###LEFT-WALL### 2 she
+0 ###LEFT-WALL### 3 heard
+0 ###LEFT-WALL### 11 ,
+0 ###LEFT-WALL### 18 .
+1 then 2 she
+2 she 3 heard
+3 heard 7 from
+5 , 6 then
+5 , 7 from
+7 from 10 clang
+7 from 11 ,
+8 another 10 clang
+9 part 10 clang
+11 , 14 ,
+12 then 13 clang
+13 clang 14 ,
+14 , 15 clang
+15 clang 16 far
+15 clang 17 away
+
+it was the Closing of the Gates .
+0 ###LEFT-WALL### 1 it
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 8 .
+1 it 2 was
+2 was 4 Closing
+3 the 4 Closing
+4 Closing 5 of
+5 of 7 Gates
+6 the 7 Gates
+
+she was not in the least cold .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 8 .
+1 she 2 was
+2 was 3 not
+2 was 4 in
+3 not 4 in
+4 in 7 cold
+5 the 7 cold
+6 least 7 cold
+
+the rest of her real self was hidden far away inside so many warm garments that in shape she seemed rather like a ball .
+0 ###LEFT-WALL### 2 rest
+0 ###LEFT-WALL### 8 hidden
+0 ###LEFT-WALL### 25 .
+1 the 2 rest
+2 rest 3 of
+2 rest 7 was
+3 of 6 self
+4 her 6 self
+5 real 6 self
+7 was 8 hidden
+8 hidden 9 far
+8 hidden 10 away
+8 hidden 11 inside
+8 hidden 16 that
+11 inside 15 garments
+12 so 13 many
+13 many 15 garments
+14 warm 15 garments
+16 that 19 she
+16 that 20 seemed
+17 in 18 shape
+17 in 19 she
+19 she 20 seemed
+20 seemed 22 like
+21 rather 22 like
+22 like 24 ball
+23 a 24 ball
+
+she was about [forty] [round] the waist .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 8 .
+1 she 2 was
+2 was 3 about
+3 about 7 waist
+6 the 7 waist
+
+they moved in a jerky sort of way [certainly] , but that was because they used crutches .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 2 moved
+0 ###LEFT-WALL### 11 but
+0 ###LEFT-WALL### 18 .
+1 they 2 moved
+2 moved 3 in
+3 in 7 of
+4 a 5 jerky
+4 a 7 of
+5 jerky 7 of
+6 sort 7 of
+7 of 8 way
+10 , 11 but
+11 but 12 that
+11 but 13 was
+12 that 13 was
+13 was 14 because
+14 because 15 they
+14 because 16 used
+15 they 16 used
+16 used 17 crutches
+
+an elderberry hobbled across the walk , and [stood] chatting with some young quinces , and they all had crutches .
+0 ###LEFT-WALL### 2 elderberry
+0 ###LEFT-WALL### 19 had
+0 ###LEFT-WALL### 21 .
+1 an 2 elderberry
+2 elderberry 3 hobbled
+2 elderberry 11 with
+2 elderberry 19 had
+3 hobbled 4 across
+4 across 8 and
+5 the 6 walk
+6 walk 8 and
+7 , 8 and
+8 and 10 chatting
+11 with 16 and
+12 some 14 quinces
+13 young 14 quinces
+14 quinces 16 and
+15 , 16 and
+16 and 17 they
+18 all 19 had
+19 had 20 crutches
+
+the crutches were the sticks that are tied to young trees and shrubs .
+0 ###LEFT-WALL### 2 crutches
+0 ###LEFT-WALL### 3 were
+0 ###LEFT-WALL### 14 .
+1 the 2 crutches
+2 crutches 3 were
+3 were 5 sticks
+4 the 5 sticks
+5 sticks 6 that
+5 sticks 7 are
+6 that 7 are
+7 are 8 tied
+8 tied 9 to
+9 to 12 and
+10 young 11 trees
+11 trees 12 and
+12 and 13 shrubs
+
+they were quite familiar objects to Maimie , but she had never known what they were for until to-night .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 2 were
+0 ###LEFT-WALL### 9 but
+0 ###LEFT-WALL### 20 .
+1 they 2 were
+2 were 5 objects
+2 were 6 to
+3 quite 4 familiar
+4 familiar 5 objects
+5 objects 6 to
+6 to 7 Maimie
+8 , 9 but
+9 but 10 she
+9 but 13 known
+10 she 11 had
+11 had 13 known
+12 never 13 known
+13 known 14 what
+13 known 18 until
+14 what 15 they
+14 what 17 for
+15 they 16 were
+16 were 17 for
+18 until 19 to-night
+
+she peeped up the walk and saw her first fairy .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 6 and
+0 ###LEFT-WALL### 11 .
+1 she 6 and
+2 peeped 3 up
+2 peeped 6 and
+3 up 5 walk
+4 the 5 walk
+6 and 7 saw
+7 saw 10 fairy
+8 her 10 fairy
+9 first 10 fairy
+
+he was a street boy fairy who was running up the walk closing the weeping trees .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 17 .
+1 he 2 was
+2 was 6 fairy
+2 was 10 up
+3 a 6 fairy
+4 street 6 fairy
+5 boy 6 fairy
+6 fairy 7 who
+6 fairy 8 was
+7 who 8 was
+8 was 9 running
+10 up 12 walk
+11 the 12 walk
+12 walk 13 closing
+13 closing 16 trees
+14 the 16 trees
+15 weeping 16 trees
+
+Maimie cried indignantly , for she knew what it was to have a dripping umbrella about your ears .
+0 ###LEFT-WALL### 1 Maimie
+0 ###LEFT-WALL### 2 cried
+0 ###LEFT-WALL### 4 ,
+0 ###LEFT-WALL### 12 have
+0 ###LEFT-WALL### 19 .
+1 Maimie 2 cried
+2 cried 3 indignantly
+4 , 5 for
+4 , 7 knew
+5 for 6 she
+6 she 7 knew
+7 knew 8 what
+7 knew 11 to
+8 what 9 it
+8 what 10 was
+9 it 10 was
+11 to 12 have
+12 have 15 umbrella
+12 have 16 about
+13 a 15 umbrella
+14 dripping 15 umbrella
+15 umbrella 16 about
+16 about 18 ears
+17 your 18 ears
+
+then the whole vegetable kingdom was rather [puzzled] what to do .
+0 ###LEFT-WALL### 5 kingdom
+0 ###LEFT-WALL### 6 was
+0 ###LEFT-WALL### 12 .
+1 then 5 kingdom
+2 the 5 kingdom
+3 whole 4 vegetable
+4 vegetable 5 kingdom
+5 kingdom 6 was
+6 was 7 rather
+6 was 9 what
+9 what 10 to
+9 what 11 do
+10 to 11 do
+
+so much walking tired her and she was anxious to be off to the ball , but she no longer felt afraid .
+0 ###LEFT-WALL### 1 so
+0 ###LEFT-WALL### 17 but
+0 ###LEFT-WALL### 23 .
+1 so 6 and
+1 so 8 was
+2 much 3 walking
+2 much 4 tired
+2 much 6 and
+4 tired 5 her
+6 and 7 she
+7 she 8 was
+8 was 9 anxious
+9 anxious 10 to
+10 to 11 be
+11 be 12 off
+11 be 13 to
+13 to 15 ball
+14 the 15 ball
+16 , 17 but
+17 but 18 she
+17 but 21 felt
+18 she 21 felt
+19 no 20 longer
+20 longer 21 felt
+21 felt 22 afraid
+
+as they said this they looked with affected pity at an evergreen oak , for in winter they are very envious of the evergreens .
+0 ###LEFT-WALL### 5 they
+0 ###LEFT-WALL### 6 looked
+0 ###LEFT-WALL### 14 ,
+0 ###LEFT-WALL### 25 .
+1 as 2 they
+1 as 3 said
+1 as 5 they
+2 they 3 said
+3 said 4 this
+5 they 6 looked
+6 looked 7 with
+6 looked 10 at
+7 with 9 pity
+8 affected 9 pity
+9 pity 10 at
+10 at 13 oak
+11 an 12 evergreen
+11 an 13 oak
+12 evergreen 13 oak
+14 , 15 for
+14 , 19 are
+15 for 16 in
+16 in 17 winter
+16 in 19 are
+18 they 19 are
+19 are 21 envious
+20 very 21 envious
+21 envious 22 of
+22 of 24 evergreens
+23 the 24 evergreens
+
+Maimie cried , and away she ran to look for them very recklessly , for the Cupids hate to be laughed at .
+0 ###LEFT-WALL### 1 Maimie
+0 ###LEFT-WALL### 2 cried
+0 ###LEFT-WALL### 3 ,
+0 ###LEFT-WALL### 23 .
+1 Maimie 2 cried
+3 , 4 and
+3 , 18 hate
+4 and 6 she
+4 and 7 ran
+5 away 6 she
+6 she 7 ran
+7 ran 8 to
+8 to 9 look
+9 look 10 for
+9 look 13 recklessly
+9 look 15 for
+10 for 11 them
+12 very 13 recklessly
+14 , 15 for
+15 for 17 Cupids
+16 the 17 Cupids
+17 Cupids 18 hate
+18 hate 19 to
+18 hate 22 at
+19 to 20 be
+20 be 22 at
+21 laughed 22 at
+
+this night the ribbons were red and looked very pretty on the snow .
+0 ###LEFT-WALL### 4 ribbons
+0 ###LEFT-WALL### 7 and
+0 ###LEFT-WALL### 14 .
+1 this 2 night
+2 night 4 ribbons
+3 the 4 ribbons
+4 ribbons 7 and
+5 were 6 red
+5 were 7 and
+7 and 8 looked
+8 looked 10 pretty
+9 very 10 pretty
+10 pretty 11 on
+11 on 13 snow
+12 the 13 snow
+
+Maimie walked alongside one of them for some distance without meeting anybody , but at last she saw a fairy cavalcade approaching .
+0 ###LEFT-WALL### 1 Maimie
+0 ###LEFT-WALL### 2 walked
+0 ###LEFT-WALL### 23 .
+1 Maimie 2 walked
+2 walked 3 alongside
+2 walked 7 for
+3 alongside 4 one
+4 one 5 of
+4 one 7 for
+5 of 6 them
+7 for 9 distance
+8 some 9 distance
+9 distance 14 but
+9 distance 22 approaching
+10 without 11 meeting
+10 without 14 but
+11 meeting 12 anybody
+13 , 14 but
+14 but 15 at
+15 at 16 last
+17 she 18 saw
+18 saw 21 cavalcade
+18 saw 22 approaching
+19 a 21 cavalcade
+20 fairy 21 cavalcade
+21 cavalcade 22 approaching
+
+it was difficult to know what to reply .
+0 ###LEFT-WALL### 1 it
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 9 .
+1 it 2 was
+2 was 3 difficult
+3 difficult 4 to
+3 difficult 5 know
+4 to 5 know
+5 know 6 what
+5 know 7 to
+7 to 8 reply
+
+fortunately she remembered about her father and the bazaar .
+0 ###LEFT-WALL### 2 she
+0 ###LEFT-WALL### 3 remembered
+1 fortunately 2 she
+2 she 3 remembered
+3 remembered 4 about
+3 remembered 10 .
+4 about 7 and
+5 her 6 father
+6 father 7 and
+7 and 9 bazaar
+8 the 9 bazaar
+
+Maimie repeated this story , and it fortified Brownie tremendously , indeed [she] had no longer the slightest doubt that the Duke would choose her .
+0 ###LEFT-WALL### 1 Maimie
+0 ###LEFT-WALL### 2 repeated
+0 ###LEFT-WALL### 6 and
+0 ###LEFT-WALL### 26 .
+1 Maimie 2 repeated
+2 repeated 4 story
+3 this 4 story
+5 , 6 and
+6 and 7 it
+6 and 11 ,
+7 it 11 ,
+8 fortified 9 Brownie
+8 fortified 10 tremendously
+8 fortified 11 ,
+11 , 14 had
+12 indeed 14 had
+14 had 16 longer
+14 had 19 doubt
+15 no 16 longer
+17 the 18 slightest
+17 the 19 doubt
+19 doubt 20 that
+20 that 22 Duke
+20 that 24 choose
+21 the 22 Duke
+22 Duke 23 would
+23 would 24 choose
+24 choose 25 her
+
+so she scudded away up the ribbon , calling out to Maimie not to follow lest the Queen should mischief [her] .
+0 ###LEFT-WALL### 1 so
+0 ###LEFT-WALL### 3 scudded
+0 ###LEFT-WALL### 22 .
+1 so 2 she
+2 she 3 scudded
+3 scudded 4 away
+3 scudded 5 up
+3 scudded 20 mischief
+5 up 8 ,
+6 the 7 ribbon
+7 ribbon 8 ,
+8 , 9 calling
+9 calling 10 out
+10 out 11 to
+10 out 14 to
+10 out 16 lest
+11 to 12 Maimie
+13 not 14 to
+14 to 15 follow
+16 lest 18 Queen
+16 lest 19 should
+17 the 18 Queen
+18 Queen 19 should
+
+but Maimie 's curiosity tugged her forward , and presently at the seven Spanish chestnuts , she saw a wonderful light .
+0 ###LEFT-WALL### 1 but
+0 ###LEFT-WALL### 9 and
+0 ###LEFT-WALL### 22 .
+1 but 4 curiosity
+1 but 5 tugged
+2 Maimie 3 's
+3 's 4 curiosity
+4 curiosity 5 tugged
+5 tugged 6 her
+5 tugged 7 forward
+8 , 9 and
+9 and 17 she
+9 and 18 saw
+10 presently 17 she
+11 at 15 chestnuts
+11 at 16 ,
+11 at 17 she
+12 the 13 seven
+13 seven 15 chestnuts
+14 Spanish 15 chestnuts
+17 she 18 saw
+18 saw 21 light
+19 a 20 wonderful
+19 a 21 light
+20 wonderful 21 light
+
+she crept forward until she was quite near it , and then she peeped from behind a tree .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 2 crept
+0 ###LEFT-WALL### 11 and
+0 ###LEFT-WALL### 19 .
+1 she 2 crept
+2 crept 3 forward
+2 crept 4 until
+4 until 5 she
+4 until 6 was
+5 she 6 was
+6 was 8 near
+7 quite 8 near
+8 near 9 it
+10 , 11 and
+11 and 12 then
+11 and 13 she
+11 and 14 peeped
+13 she 14 peeped
+14 peeped 15 from
+15 from 16 behind
+16 behind 18 tree
+17 a 18 tree
+
+she was disappointed not to see Peter Pan , and I may as well tell you now why he was so late that night .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 25 .
+1 she 2 was
+2 was 3 disappointed
+3 disappointed 5 to
+4 not 5 to
+5 to 6 see
+6 see 10 and
+6 see 15 tell
+7 Peter 8 Pan
+8 Pan 10 and
+9 , 10 and
+10 and 11 I
+10 and 12 may
+12 may 15 tell
+13 as 14 well
+14 well 15 tell
+15 tell 16 you
+15 tell 17 now
+15 tell 18 why
+18 why 19 he
+18 why 20 was
+19 he 20 was
+20 was 22 late
+21 so 22 late
+22 late 24 night
+23 that 24 night
+
+the fairies had as yet scarcely missed him , for they could not dance , so heavy were their hearts .
+0 ###LEFT-WALL### 2 fairies
+0 ###LEFT-WALL### 3 had
+0 ###LEFT-WALL### 16 so
+0 ###LEFT-WALL### 18 were
+0 ###LEFT-WALL### 21 .
+1 the 2 fairies
+2 fairies 3 had
+3 had 4 as
+4 as 7 missed
+4 as 14 dance
+5 yet 7 missed
+6 scarcely 7 missed
+7 missed 8 him
+7 missed 10 for
+9 , 10 for
+10 for 11 they
+11 they 12 could
+12 could 13 not
+12 could 14 dance
+13 not 14 dance
+14 dance 16 so
+15 , 16 so
+16 so 17 heavy
+16 so 18 were
+17 heavy 18 were
+18 were 20 hearts
+19 their 20 hearts
+
+they forget all the steps when they are sad and remember them again when they are merry .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 10 and
+0 ###LEFT-WALL### 18 .
+1 they 10 and
+2 forget 3 all
+2 forget 10 and
+3 all 4 the
+3 all 5 steps
+4 the 5 steps
+5 steps 6 when
+6 when 7 they
+6 when 8 are
+7 they 8 are
+8 are 9 sad
+10 and 11 remember
+11 remember 12 them
+11 remember 13 again
+11 remember 14 when
+14 when 15 they
+14 when 16 are
+15 they 16 are
+16 are 17 merry
+
+everybody stared breathlessly at the Duke , who was very much startled and looked as if he would like to run away .
+0 ###LEFT-WALL### 1 everybody
+0 ###LEFT-WALL### 9 was
+0 ###LEFT-WALL### 23 .
+1 everybody 2 stared
+1 everybody 9 was
+2 stared 3 breathlessly
+2 stared 4 at
+4 at 7 ,
+5 the 6 Duke
+6 Duke 7 ,
+7 , 8 who
+9 was 13 and
+10 very 11 much
+11 much 12 startled
+12 startled 13 and
+13 and 14 looked
+13 and 22 away
+14 looked 16 if
+15 as 16 if
+16 if 17 he
+16 if 19 like
+17 he 18 would
+18 would 19 like
+19 like 20 to
+19 like 21 run
+20 to 21 run
+
+the suspense was awful !
+0 ###LEFT-WALL### 2 suspense
+0 ###LEFT-WALL### 3 was
+0 ###LEFT-WALL### 5 !
+1 the 2 suspense
+2 suspense 3 was
+3 was 4 awful
+
+you can't conceive the effect of it .
+0 ###LEFT-WALL### 1 you
+0 ###LEFT-WALL### 3 conceive
+0 ###LEFT-WALL### 8 .
+1 you 2 can't
+2 can't 3 conceive
+3 conceive 5 effect
+4 the 5 effect
+5 effect 6 of
+6 of 7 it
+
+thus in a single moment about fifty marriages took place , for if you leap into each other 's arms it is a fairy wedding .
+0 ###LEFT-WALL### 8 marriages
+0 ###LEFT-WALL### 10 place
+0 ###LEFT-WALL### 11 ,
+0 ###LEFT-WALL### 26 .
+1 thus 8 marriages
+2 in 5 moment
+2 in 8 marriages
+3 a 4 single
+3 a 5 moment
+4 single 5 moment
+6 about 7 fifty
+7 fifty 8 marriages
+8 marriages 10 place
+9 took 10 place
+11 , 12 for
+11 , 22 is
+12 for 21 it
+13 if 14 you
+13 if 15 leap
+13 if 21 it
+14 you 15 leap
+15 leap 16 into
+16 into 20 arms
+17 each 18 other
+18 other 19 's
+19 's 20 arms
+21 it 22 is
+22 is 24 fairy
+23 a 24 fairy
+24 fairy 25 wedding
+
+of course a clergyman has to be present .
+0 ###LEFT-WALL### 4 clergyman
+0 ###LEFT-WALL### 5 has
+0 ###LEFT-WALL### 9 .
+1 of 2 course
+2 course 4 clergyman
+3 a 4 clergyman
+4 clergyman 5 has
+5 has 6 to
+5 has 7 be
+6 to 7 be
+7 be 8 present
+
+[how] the crowd cheered and leapt !
+0 ###LEFT-WALL### 3 crowd
+0 ###LEFT-WALL### 5 and
+0 ###LEFT-WALL### 7 !
+2 the 3 crowd
+3 crowd 5 and
+4 cheered 5 and
+5 and 6 leapt
+
+most gladsome sight of all , the Cupids plucked the [hated] fools ' caps from their heads and cast them high in the air .
+0 ###LEFT-WALL### 3 sight
+0 ###LEFT-WALL### 18 and
+0 ###LEFT-WALL### 25 .
+1 most 2 gladsome
+2 gladsome 3 sight
+3 sight 4 of
+3 sight 18 and
+4 of 6 ,
+5 all 6 ,
+6 , 8 Cupids
+7 the 8 Cupids
+9 plucked 14 caps
+9 plucked 18 and
+10 the 12 fools
+12 fools 13 '
+13 ' 14 caps
+14 caps 15 from
+15 from 17 heads
+16 their 17 heads
+18 and 19 cast
+18 and 22 in
+19 cast 20 them
+19 cast 21 high
+22 in 24 air
+23 the 24 air
+
+and then Maimie went and spoiled everything .
+0 ###LEFT-WALL### 1 and
+0 ###LEFT-WALL### 8 .
+1 and 3 Maimie
+1 and 5 and
+2 then 3 Maimie
+3 Maimie 5 and
+4 went 5 and
+5 and 6 spoiled
+6 spoiled 7 everything
+
+she couldn't help it .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 3 help
+0 ###LEFT-WALL### 5 .
+1 she 2 couldn't
+2 couldn't 3 help
+3 help 4 it
+
+[how] she ran ! and all the time her eyes were starting out of her head .
+0 ###LEFT-WALL### 2 she
+0 ###LEFT-WALL### 3 ran
+0 ###LEFT-WALL### 4 !
+2 she 3 ran
+4 ! 5 and
+4 ! 17 .
+5 and 6 all
+5 and 16 head
+6 all 7 the
+6 all 8 time
+6 all 16 head
+7 the 8 time
+8 time 10 eyes
+8 time 11 were
+9 her 10 eyes
+10 eyes 11 were
+11 were 12 starting
+11 were 14 of
+12 starting 14 of
+13 out 14 of
+14 of 15 her
+
+many times she lay down , and then quickly jumped up and ran on again .
+0 ###LEFT-WALL### 3 she
+0 ###LEFT-WALL### 7 and
+0 ###LEFT-WALL### 16 .
+1 many 2 times
+2 times 3 she
+3 she 7 and
+4 lay 5 down
+4 lay 7 and
+6 , 7 and
+7 and 12 and
+8 then 10 jumped
+9 quickly 10 jumped
+10 jumped 11 up
+10 jumped 12 and
+12 and 13 ran
+13 ran 14 on
+13 ran 15 again
+
+her little mind was so entangled in terrors that she no longer knew she was in the Gardens .
+0 ###LEFT-WALL### 3 mind
+0 ###LEFT-WALL### 6 entangled
+0 ###LEFT-WALL### 19 .
+1 her 3 mind
+2 little 3 mind
+3 mind 4 was
+4 was 6 entangled
+5 so 6 entangled
+6 entangled 7 in
+7 in 8 terrors
+8 terrors 9 that
+8 terrors 15 was
+9 that 10 she
+9 that 13 knew
+10 she 13 knew
+11 no 12 longer
+12 longer 13 knew
+13 knew 14 she
+13 knew 15 was
+14 she 15 was
+15 was 16 in
+16 in 18 Gardens
+17 the 18 Gardens
+
+she thought the snowflakes falling on her face were her mother kissing her good-night .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 2 thought
+0 ###LEFT-WALL### 15 .
+1 she 2 thought
+2 thought 4 snowflakes
+2 thought 9 were
+3 the 4 snowflakes
+4 snowflakes 5 falling
+4 snowflakes 9 were
+5 falling 6 on
+6 on 8 face
+7 her 8 face
+9 were 11 mother
+10 her 11 mother
+11 mother 12 kissing
+12 kissing 13 her
+12 kissing 14 good-night
+
+she thought her coverlet of snow was a warm blanket , and tried to pull it over her head .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 12 and
+0 ###LEFT-WALL### 20 .
+1 she 12 and
+2 thought 4 coverlet
+2 thought 7 was
+2 thought 12 and
+3 her 4 coverlet
+4 coverlet 5 of
+4 coverlet 7 was
+5 of 6 snow
+7 was 10 blanket
+8 a 10 blanket
+9 warm 10 blanket
+11 , 12 and
+12 and 13 tried
+13 tried 14 to
+13 tried 15 pull
+14 to 15 pull
+15 pull 16 it
+15 pull 17 over
+16 it 17 over
+17 over 19 head
+18 her 19 head
+
+but it was the fairies .
+0 ###LEFT-WALL### 1 but
+0 ###LEFT-WALL### 6 .
+1 but 2 it
+1 but 3 was
+2 it 3 was
+3 was 5 fairies
+4 the 5 fairies
+
+I am very glad to be able to say that they no longer desired to mischief [her] .
+0 ###LEFT-WALL### 1 I
+0 ###LEFT-WALL### 2 am
+0 ###LEFT-WALL### 14 desired
+1 I 2 am
+2 am 4 glad
+3 very 4 glad
+4 glad 5 to
+4 glad 6 be
+5 to 6 be
+6 be 7 able
+7 able 8 to
+7 able 9 say
+8 to 9 say
+9 say 10 that
+10 that 11 they
+10 that 14 desired
+11 they 14 desired
+12 no 13 longer
+13 longer 14 desired
+14 desired 15 to
+14 desired 18 .
+15 to 16 mischief
+
+every bride has a right to a boon , and what she asked for was Maimie 's life .
+0 ###LEFT-WALL### 2 bride
+0 ###LEFT-WALL### 3 has
+0 ###LEFT-WALL### 10 and
+0 ###LEFT-WALL### 15 was
+0 ###LEFT-WALL### 19 .
+1 every 2 bride
+2 bride 3 has
+3 has 5 right
+3 has 6 to
+4 a 5 right
+5 right 6 to
+6 to 8 boon
+7 a 8 boon
+9 , 10 and
+10 and 11 what
+10 and 13 asked
+12 she 13 asked
+13 asked 14 for
+14 for 15 was
+15 was 18 life
+16 Maimie 17 's
+17 's 18 life
+
+they traced Maimie easily by her footprints in the snow .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 2 traced
+0 ###LEFT-WALL### 11 .
+1 they 2 traced
+2 traced 3 Maimie
+2 traced 4 easily
+2 traced 5 by
+2 traced 8 in
+5 by 7 footprints
+6 her 7 footprints
+7 footprints 8 in
+8 in 10 snow
+9 the 10 snow
+
+but though they found her deep in snow in the Figs , it seemed impossible to thank Maimie , for they could not waken her .
+0 ###LEFT-WALL### 1 but
+0 ###LEFT-WALL### 14 seemed
+0 ###LEFT-WALL### 19 ,
+0 ###LEFT-WALL### 26 .
+1 but 13 it
+1 but 14 seemed
+2 though 3 they
+2 though 4 found
+2 though 12 ,
+2 though 13 it
+3 they 4 found
+4 found 5 her
+4 found 6 deep
+6 deep 7 in
+6 deep 9 in
+7 in 8 snow
+8 snow 9 in
+9 in 11 Figs
+10 the 11 Figs
+13 it 14 seemed
+14 seemed 15 impossible
+15 impossible 16 to
+15 impossible 17 thank
+16 to 17 thank
+17 thank 18 Maimie
+19 , 20 for
+19 , 24 waken
+20 for 21 they
+21 they 22 could
+22 could 23 not
+22 could 24 waken
+24 waken 25 her
+
+a magnificent attempt was made to carry her to a sheltered spot , but though there were so many of them she was too heavy .
+0 ###LEFT-WALL### 3 attempt
+0 ###LEFT-WALL### 5 made
+0 ###LEFT-WALL### 14 but
+0 ###LEFT-WALL### 26 .
+1 a 2 magnificent
+1 a 3 attempt
+2 magnificent 3 attempt
+3 attempt 4 was
+4 was 5 made
+5 made 6 to
+5 made 9 to
+6 to 7 carry
+7 carry 8 her
+9 to 12 spot
+10 a 12 spot
+11 sheltered 12 spot
+13 , 14 but
+14 but 22 she
+14 but 23 was
+15 though 16 there
+15 though 17 were
+15 though 22 she
+16 there 17 were
+17 were 19 many
+18 so 19 many
+19 many 20 of
+20 of 21 them
+22 she 23 was
+23 was 24 too
+23 was 25 heavy
+
+by this time all the ladies were crying in their handkerchiefs , but presently the Cupids had a lovely idea .
+0 ###LEFT-WALL### 4 all
+0 ###LEFT-WALL### 7 were
+0 ###LEFT-WALL### 13 but
+0 ###LEFT-WALL### 21 .
+1 by 3 time
+1 by 4 all
+2 this 3 time
+4 all 5 the
+4 all 6 ladies
+4 all 7 were
+5 the 6 ladies
+7 were 8 crying
+7 were 9 in
+8 crying 9 in
+9 in 11 handkerchiefs
+10 their 11 handkerchiefs
+12 , 13 but
+13 but 16 Cupids
+13 but 17 had
+14 presently 16 Cupids
+15 the 16 Cupids
+16 Cupids 17 had
+17 had 20 idea
+18 a 19 lovely
+18 a 20 idea
+19 lovely 20 idea
+
+the house was exactly the size of Maimie and perfectly lovely .
+0 ###LEFT-WALL### 2 house
+0 ###LEFT-WALL### 3 was
+0 ###LEFT-WALL### 12 .
+1 the 2 house
+2 house 3 was
+3 was 4 exactly
+3 was 9 and
+5 the 6 size
+6 size 7 of
+6 size 9 and
+7 of 8 Maimie
+9 and 11 lovely
+10 perfectly 11 lovely
+
+so they gave it ever so many little extra touches , and even then they added more extra touches .
+0 ###LEFT-WALL### 1 so
+0 ###LEFT-WALL### 6 so
+2 they 3 gave
+3 gave 4 it
+3 gave 5 ever
+3 gave 6 so
+6 so 10 touches
+6 so 12 and
+6 so 20 .
+7 many 10 touches
+8 little 9 extra
+9 extra 10 touches
+11 , 12 and
+12 and 13 even
+12 and 15 they
+12 and 16 added
+14 then 15 they
+15 they 16 added
+16 added 19 touches
+17 more 19 touches
+18 extra 19 touches
+
+for instance , two of them ran up a ladder and put on a chimney .
+0 ###LEFT-WALL### 4 two
+0 ###LEFT-WALL### 11 and
+0 ###LEFT-WALL### 16 .
+1 for 2 instance
+2 instance 3 ,
+2 instance 4 two
+4 two 5 of
+4 two 11 and
+5 of 6 them
+7 ran 8 up
+7 ran 10 ladder
+7 ran 11 and
+9 a 10 ladder
+11 and 12 put
+11 and 13 on
+13 on 15 chimney
+14 a 15 chimney
+
+but no , for another two ran up the ladder , and tied some smoke to the chimney .
+0 ###LEFT-WALL### 1 but
+0 ###LEFT-WALL### 19 .
+1 but 6 two
+1 but 12 and
+2 no 3 ,
+2 no 6 two
+4 for 5 another
+4 for 6 two
+6 two 7 ran
+6 two 12 and
+8 up 10 ladder
+8 up 12 and
+9 the 10 ladder
+11 , 12 and
+12 and 13 tied
+13 tied 15 smoke
+13 tied 16 to
+14 some 15 smoke
+15 smoke 16 to
+16 to 18 chimney
+17 the 18 chimney
+
+now alas , it was absolutely finished .
+0 ###LEFT-WALL### 2 alas
+0 ###LEFT-WALL### 3 ,
+0 ###LEFT-WALL### 8 .
+1 now 2 alas
+3 , 4 it
+3 , 5 was
+4 it 5 was
+5 was 7 finished
+6 absolutely 7 finished
+
+oh , dear no !
+0 ###LEFT-WALL### 1 oh
+0 ###LEFT-WALL### 2 ,
+0 ###LEFT-WALL### 5 !
+2 , 3 dear
+3 dear 4 no
+
+an ironmonger added a scraper and an old lady ran up with a door-mat .
+0 ###LEFT-WALL### 2 ironmonger
+0 ###LEFT-WALL### 3 added
+0 ###LEFT-WALL### 15 .
+1 an 2 ironmonger
+2 ironmonger 3 added
+3 added 6 and
+3 added 10 ran
+4 a 5 scraper
+5 scraper 6 and
+6 and 9 lady
+6 and 10 ran
+7 an 8 old
+7 an 9 lady
+8 old 9 lady
+10 ran 11 up
+11 up 12 with
+12 with 14 door-mat
+13 a 14 door-mat
+
+carpenters arrived with a water-butt , and the painters insisted on painting it .
+0 ###LEFT-WALL### 1 carpenters
+0 ###LEFT-WALL### 2 arrived
+0 ###LEFT-WALL### 7 and
+0 ###LEFT-WALL### 14 .
+1 carpenters 2 arrived
+2 arrived 3 with
+3 with 5 water-butt
+4 a 5 water-butt
+6 , 7 and
+7 and 9 painters
+7 and 10 insisted
+8 the 9 painters
+9 painters 10 insisted
+10 insisted 11 on
+11 on 12 painting
+12 painting 13 it
+
+oh , [how] beautiful the little house was now !
+0 ###LEFT-WALL### 1 oh
+0 ###LEFT-WALL### 2 ,
+0 ###LEFT-WALL### 10 !
+2 , 4 beautiful
+2 , 8 was
+4 beautiful 8 was
+5 the 7 house
+6 little 7 house
+7 house 8 was
+8 was 9 now
+
+but it was at last finished true as true , and they had to leave it and return to the dance .
+0 ###LEFT-WALL### 1 but
+0 ###LEFT-WALL### 22 .
+1 but 2 it
+1 but 3 was
+2 it 3 was
+3 was 4 at
+3 was 6 finished
+4 at 5 last
+6 finished 19 to
+7 true 15 leave
+8 as 11 and
+8 as 13 had
+9 true 11 and
+10 , 11 and
+11 and 12 they
+11 and 13 had
+13 had 14 to
+13 had 15 leave
+14 to 15 leave
+15 leave 17 and
+16 it 17 and
+17 and 18 return
+18 return 19 to
+19 to 21 dance
+20 the 21 dance
+
+they all kissed their hands to it as they went away , and the last to go was Brownie .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 3 kissed
+0 ###LEFT-WALL### 13 and
+0 ###LEFT-WALL### 20 .
+1 they 3 kissed
+2 all 3 kissed
+3 kissed 5 hands
+3 kissed 6 to
+3 kissed 8 as
+4 their 5 hands
+5 hands 6 to
+6 to 7 it
+8 as 9 they
+8 as 10 went
+9 they 10 went
+10 went 11 away
+12 , 13 and
+13 and 15 last
+13 and 18 was
+14 the 15 last
+15 last 16 to
+15 last 17 go
+15 last 18 was
+16 to 17 go
+18 was 19 Brownie
+
+she stayed a moment behind the others to drop a pleasant dream down the chimney .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 2 stayed
+0 ###LEFT-WALL### 16 .
+1 she 2 stayed
+2 stayed 4 moment
+2 stayed 5 behind
+2 stayed 8 to
+3 a 4 moment
+4 moment 5 behind
+5 behind 7 others
+6 the 7 others
+8 to 9 drop
+9 drop 12 dream
+9 drop 13 down
+10 a 11 pleasant
+10 a 12 dream
+11 pleasant 12 dream
+13 down 15 chimney
+14 the 15 chimney
+
+[all] through the night the exquisite little house stood there in the Figs taking care of Maimie , and she never knew .
+0 ###LEFT-WALL### 8 house
+0 ###LEFT-WALL### 9 stood
+0 ###LEFT-WALL### 19 and
+0 ###LEFT-WALL### 23 .
+2 through 4 night
+2 through 8 house
+3 the 4 night
+5 the 8 house
+6 exquisite 8 house
+7 little 8 house
+8 house 9 stood
+9 stood 10 there
+9 stood 11 in
+9 stood 16 of
+11 in 14 taking
+12 the 14 taking
+13 Figs 14 taking
+15 care 16 of
+16 of 17 Maimie
+18 , 19 and
+19 and 20 she
+19 and 22 knew
+20 she 22 knew
+21 never 22 knew
+
+it so [entranced] [her] [that] [she] could think of nothing else .
+0 ###LEFT-WALL### 1 it
+0 ###LEFT-WALL### 8 think
+0 ###LEFT-WALL### 12 .
+1 it 7 could
+2 so 7 could
+7 could 8 think
+8 think 9 of
+9 of 10 nothing
+10 nothing 11 else
+
+the glow-worm fight was waning too , but it was still there .
+0 ###LEFT-WALL### 3 fight
+0 ###LEFT-WALL### 4 was
+0 ###LEFT-WALL### 8 but
+0 ###LEFT-WALL### 13 .
+1 the 3 fight
+2 glow-worm 3 fight
+3 fight 4 was
+4 was 5 waning
+5 waning 6 too
+7 , 8 but
+8 but 9 it
+8 but 10 was
+9 it 10 was
+10 was 11 still
+10 was 12 there
+11 still 12 there
+
+she knew at once that he must be Peter Pan .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 2 knew
+0 ###LEFT-WALL### 11 .
+1 she 2 knew
+2 knew 4 once
+2 knew 5 that
+3 at 4 once
+5 that 6 he
+5 that 8 be
+6 he 7 must
+7 must 8 be
+8 be 10 Pan
+9 Peter 10 Pan
+
+Lock-out Time
+0 ###LEFT-WALL### 2 Time
+1 Lock-out 2 Time
+
+they are not a bit cunning after Lock-out , but until Lock-out , my word !
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 2 are
+1 they 2 are
+2 are 3 not
+2 are 6 cunning
+3 not 5 bit
+4 a 5 bit
+5 bit 6 cunning
+6 cunning 7 after
+7 after 8 Lock-out
+8 Lock-out 10 but
+9 , 10 but
+10 but 11 until
+10 but 16 !
+11 until 13 ,
+12 Lock-out 13 ,
+13 , 15 word
+14 my 15 word
+
+very likely if they said this in the Kensington Gardens , they were standing looking at a fairy all the time .
+0 ###LEFT-WALL### 12 they
+0 ###LEFT-WALL### 13 were
+0 ###LEFT-WALL### 22 .
+1 very 2 likely
+2 likely 3 if
+2 likely 11 ,
+2 likely 12 they
+3 if 4 they
+3 if 5 said
+4 they 5 said
+5 said 6 this
+5 said 7 in
+7 in 10 Gardens
+8 the 10 Gardens
+9 Kensington 10 Gardens
+12 they 13 were
+13 were 14 standing
+14 standing 15 looking
+14 standing 16 at
+14 standing 21 time
+15 looking 16 at
+16 at 18 fairy
+17 a 18 fairy
+19 all 20 the
+20 the 21 time
+
+the reason they were cheated was that she pretended to be something else .
+0 ###LEFT-WALL### 2 reason
+0 ###LEFT-WALL### 11 be
+0 ###LEFT-WALL### 14 .
+1 the 2 reason
+2 reason 3 they
+2 reason 5 cheated
+2 reason 6 was
+3 they 4 were
+4 were 5 cheated
+6 was 7 that
+7 that 8 she
+7 that 9 pretended
+8 she 9 pretended
+9 pretended 10 to
+10 to 11 be
+11 be 12 something
+12 something 13 else
+
+this is one of their best tricks .
+0 ###LEFT-WALL### 1 this
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 8 .
+1 this 2 is
+2 is 3 one
+3 one 4 of
+4 of 7 tricks
+5 their 6 best
+5 their 7 tricks
+
+most of them really are flowers , but some of them are fairies .
+0 ###LEFT-WALL### 3 them
+0 ###LEFT-WALL### 5 are
+0 ###LEFT-WALL### 8 but
+0 ###LEFT-WALL### 14 .
+1 most 2 of
+1 most 3 them
+2 of 3 them
+3 them 5 are
+4 really 5 are
+5 are 6 flowers
+7 , 8 but
+8 but 11 them
+8 but 12 are
+9 some 10 of
+9 some 11 them
+10 of 11 them
+11 them 12 are
+12 are 13 fairies
+
+another good plan , which David and I sometimes follow , is to stare them down .
+0 ###LEFT-WALL### 3 plan
+0 ###LEFT-WALL### 12 is
+0 ###LEFT-WALL### 17 .
+1 another 3 plan
+2 good 3 plan
+3 plan 5 which
+3 plan 12 is
+4 , 5 which
+5 which 10 follow
+5 which 11 ,
+6 David 7 and
+7 and 8 I
+7 and 10 follow
+9 sometimes 10 follow
+12 is 13 to
+12 is 16 down
+13 to 14 stare
+14 stare 15 them
+
+after a long time they can't help winking , and then you know for certain that they are fairies .
+0 ###LEFT-WALL### 5 they
+0 ###LEFT-WALL### 7 help
+0 ###LEFT-WALL### 10 and
+0 ###LEFT-WALL### 20 .
+1 after 4 time
+1 after 5 they
+2 a 3 long
+2 a 4 time
+3 long 4 time
+5 they 6 can't
+6 can't 7 help
+7 help 8 winking
+9 , 10 and
+10 and 11 then
+10 and 12 you
+10 and 13 know
+12 you 13 know
+13 know 15 certain
+13 know 16 that
+14 for 15 certain
+16 that 17 they
+16 that 18 are
+17 they 18 are
+18 are 19 fairies
+
+there are also numbers of them along the Baby Walk , which is a famous gentle place , as spots frequented by fairies are called .
+0 ###LEFT-WALL### 1 there
+0 ###LEFT-WALL### 2 are
+0 ###LEFT-WALL### 26 .
+1 there 2 are
+2 are 3 also
+2 are 4 numbers
+2 are 19 as
+4 numbers 5 of
+4 numbers 7 along
+5 of 6 them
+7 along 10 Walk
+8 the 10 Walk
+9 Baby 10 Walk
+10 Walk 12 which
+11 , 12 which
+12 which 13 is
+12 which 18 ,
+13 is 17 place
+14 a 17 place
+15 famous 17 place
+16 gentle 17 place
+19 as 20 spots
+19 as 25 called
+20 spots 21 frequented
+20 spots 22 by
+20 spots 24 are
+22 by 23 fairies
+24 are 25 called
+
+once twenty-four of them had an extraordinary adventure .
+0 ###LEFT-WALL### 2 twenty-four
+0 ###LEFT-WALL### 5 had
+0 ###LEFT-WALL### 9 .
+1 once 2 twenty-four
+2 twenty-four 3 of
+2 twenty-four 5 had
+3 of 4 them
+5 had 8 adventure
+6 an 7 extraordinary
+6 an 8 adventure
+7 extraordinary 8 adventure
+
+unfortunately , what the governess had heard was two gardeners coming to plant new flowers in that [very] bed .
+0 ###LEFT-WALL### 3 what
+0 ###LEFT-WALL### 13 plant
+0 ###LEFT-WALL### 20 .
+1 unfortunately 2 ,
+1 unfortunately 3 what
+3 what 5 governess
+3 what 7 heard
+3 what 8 was
+4 the 5 governess
+5 governess 6 had
+6 had 7 heard
+8 was 10 gardeners
+8 was 12 to
+9 two 10 gardeners
+10 gardeners 11 coming
+12 to 13 plant
+13 plant 15 flowers
+13 plant 16 in
+14 new 15 flowers
+15 flowers 16 in
+16 in 19 bed
+17 that 19 bed
+
+they were wheeling a handcart with flowers in it , and were quite surprised to find the bed occupied .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 11 and
+0 ###LEFT-WALL### 20 .
+1 they 11 and
+2 were 3 wheeling
+2 were 11 and
+3 wheeling 5 handcart
+3 wheeling 6 with
+3 wheeling 8 in
+4 a 5 handcart
+5 handcart 6 with
+6 with 7 flowers
+7 flowers 8 in
+8 in 9 it
+10 , 11 and
+11 and 12 were
+12 were 14 surprised
+13 quite 14 surprised
+14 surprised 15 to
+14 surprised 16 find
+15 to 16 find
+16 find 18 bed
+17 the 18 bed
+18 bed 19 occupied
+
+as for their houses , it is no use looking for them , because they are the exact opposite of our houses .
+0 ###LEFT-WALL### 6 it
+0 ###LEFT-WALL### 7 is
+1 as 2 for
+1 as 5 ,
+1 as 6 it
+2 for 4 houses
+3 their 4 houses
+6 it 7 is
+7 is 9 use
+7 is 11 for
+7 is 14 because
+8 no 9 use
+9 use 10 looking
+9 use 11 for
+11 for 12 them
+13 , 14 because
+14 because 15 they
+14 because 16 are
+14 because 23 .
+15 they 16 are
+16 are 19 opposite
+17 the 19 opposite
+18 exact 19 opposite
+19 opposite 20 of
+20 of 22 houses
+21 our 22 houses
+
+you can see our houses by day but you can't see them [by] [dark] .
+0 ###LEFT-WALL### 1 you
+0 ###LEFT-WALL### 8 but
+0 ###LEFT-WALL### 15 .
+1 you 2 can
+2 can 8 but
+3 see 5 houses
+3 see 6 by
+3 see 8 but
+4 our 5 houses
+5 houses 6 by
+6 by 7 day
+8 but 11 see
+9 you 10 can't
+10 can't 11 see
+11 see 12 them
+
+this does not mean that they are black , for night has its colours just as day [has] , but ever so much brighter .
+0 ###LEFT-WALL### 1 this
+0 ###LEFT-WALL### 4 mean
+0 ###LEFT-WALL### 9 ,
+0 ###LEFT-WALL### 25 .
+1 this 2 does
+2 does 3 not
+2 does 4 mean
+4 mean 5 that
+5 that 6 they
+5 that 7 are
+6 they 7 are
+7 are 8 black
+9 , 10 for
+9 , 12 has
+10 for 11 night
+11 night 12 has
+12 has 14 colours
+12 has 20 but
+13 its 14 colours
+15 just 16 as
+15 just 20 but
+16 as 17 day
+19 , 20 but
+20 but 21 ever
+20 but 24 brighter
+22 so 23 much
+23 much 24 brighter
+
+their blues [and] reds and greens are like ours with a light behind them .
+0 ###LEFT-WALL### 2 blues
+0 ###LEFT-WALL### 7 are
+0 ###LEFT-WALL### 15 .
+1 their 2 blues
+2 blues 5 and
+2 blues 7 are
+4 reds 5 and
+5 and 6 greens
+7 are 8 like
+7 are 10 with
+7 are 13 behind
+8 like 9 ours
+10 with 12 light
+11 a 12 light
+12 light 13 behind
+13 behind 14 them
+
+they are very inquisitive [folk] , [and] press quite hard against the glass , and that is why their noses are mostly snubby .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 2 are
+0 ###LEFT-WALL### 6 ,
+0 ###LEFT-WALL### 24 .
+1 they 2 are
+2 are 4 inquisitive
+3 very 4 inquisitive
+6 , 8 press
+6 , 15 and
+8 press 10 hard
+8 press 11 against
+9 quite 10 hard
+11 against 13 glass
+12 the 13 glass
+14 , 15 and
+15 and 17 is
+15 and 20 noses
+15 and 21 are
+16 that 17 is
+18 why 20 noses
+19 their 20 noses
+20 noses 21 are
+21 are 22 mostly
+21 are 23 snubby
+
+the streets are miles long and very twisty , [and] have paths on each side made of bright worsted .
+0 ###LEFT-WALL### 2 streets
+0 ###LEFT-WALL### 3 are
+0 ###LEFT-WALL### 9 ,
+0 ###LEFT-WALL### 11 have
+0 ###LEFT-WALL### 20 .
+1 the 2 streets
+2 streets 3 are
+3 are 4 miles
+3 are 6 and
+5 long 6 and
+6 and 8 twisty
+7 very 8 twisty
+9 , 11 have
+11 have 12 paths
+11 have 13 on
+12 paths 13 on
+13 on 15 side
+14 each 15 side
+15 side 16 made
+15 side 17 of
+17 of 19 worsted
+18 bright 19 worsted
+
+the birds used to steal the worsted for their nests , but a policeman has been appointed to hold on at the other end .
+0 ###LEFT-WALL### 2 birds
+0 ###LEFT-WALL### 3 used
+0 ###LEFT-WALL### 12 but
+0 ###LEFT-WALL### 25 .
+1 the 2 birds
+2 birds 3 used
+3 used 4 to
+3 used 5 steal
+4 to 5 steal
+5 steal 7 worsted
+5 steal 8 for
+6 the 7 worsted
+7 worsted 8 for
+8 for 10 nests
+9 their 10 nests
+11 , 12 but
+12 but 14 policeman
+12 but 17 appointed
+13 a 14 policeman
+14 policeman 15 has
+15 has 16 been
+16 been 17 appointed
+17 appointed 18 to
+17 appointed 19 hold
+18 to 19 hold
+19 hold 20 on
+19 hold 21 at
+21 at 24 end
+22 the 23 other
+23 other 24 end
+
+one of the great differences between the fairies and us is [that] [they] never do anything useful .
+0 ###LEFT-WALL### 1 one
+0 ###LEFT-WALL### 15 do
+0 ###LEFT-WALL### 18 .
+1 one 2 of
+1 one 11 is
+2 of 5 differences
+3 the 5 differences
+4 great 5 differences
+5 differences 6 between
+6 between 9 and
+7 the 8 fairies
+8 fairies 9 and
+9 and 10 us
+11 is 15 do
+14 never 15 do
+15 do 16 anything
+16 anything 17 useful
+
+when the first baby laughed for the first time , his laugh broke into a million pieces , and they all went skipping about .
+0 ###LEFT-WALL### 12 laugh
+0 ###LEFT-WALL### 13 broke
+0 ###LEFT-WALL### 19 and
+0 ###LEFT-WALL### 25 .
+1 when 4 baby
+1 when 5 laughed
+1 when 12 laugh
+2 the 4 baby
+3 first 4 baby
+4 baby 5 laughed
+6 for 9 time
+6 for 10 ,
+6 for 12 laugh
+7 the 8 first
+7 the 9 time
+11 his 12 laugh
+12 laugh 13 broke
+13 broke 14 into
+14 into 17 pieces
+15 a 16 million
+16 million 17 pieces
+18 , 19 and
+19 and 20 they
+19 and 22 went
+20 they 22 went
+21 all 22 went
+22 went 23 skipping
+23 skipping 24 about
+
+that was the beginning of fairies .
+0 ###LEFT-WALL### 1 that
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 7 .
+1 that 2 was
+2 was 4 beginning
+3 the 4 beginning
+4 beginning 5 of
+5 of 6 fairies
+
+they are frightfully ignorant , and everything they do is make-believe .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 2 are
+0 ###LEFT-WALL### 6 and
+0 ###LEFT-WALL### 12 .
+1 they 2 are
+2 are 4 ignorant
+3 frightfully 4 ignorant
+5 , 6 and
+6 and 7 everything
+6 and 10 is
+7 everything 9 do
+7 everything 10 is
+8 they 9 do
+10 is 11 make-believe
+
+she is talking [fairy] .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 5 .
+1 she 2 is
+2 is 3 talking
+
+they hold their great balls in the open air , in what is called a fairy-ring .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 2 hold
+1 they 2 hold
+2 hold 5 balls
+2 hold 6 in
+3 their 5 balls
+4 great 5 balls
+5 balls 6 in
+6 in 9 air
+7 the 9 air
+8 open 9 air
+9 air 11 in
+10 , 11 in
+11 in 12 what
+11 in 17 .
+12 what 13 is
+13 is 14 called
+14 called 16 fairy-ring
+15 a 16 fairy-ring
+
+for weeks afterward you can see the ring on the grass .
+0 ###LEFT-WALL### 4 you
+0 ###LEFT-WALL### 6 see
+0 ###LEFT-WALL### 12 .
+1 for 2 weeks
+1 for 4 you
+3 afterward 4 you
+4 you 5 can
+5 can 6 see
+6 see 8 ring
+6 see 9 on
+7 the 8 ring
+8 ring 9 on
+9 on 11 grass
+10 the 11 grass
+
+it is not there when they begin , but they make it by waltzing round and round .
+0 ###LEFT-WALL### 1 it
+0 ###LEFT-WALL### 2 is
+0 ###LEFT-WALL### 18 .
+1 it 2 is
+2 is 3 not
+2 is 4 there
+2 is 5 when
+5 when 6 they
+5 when 9 but
+6 they 9 but
+7 begin 9 but
+8 , 9 but
+9 but 16 and
+10 they 11 make
+11 make 12 it
+11 make 13 by
+11 make 16 and
+12 it 13 by
+13 by 14 waltzing
+15 round 16 and
+16 and 17 round
+
+sometimes you will find mushrooms inside the ring , and these are fairy chairs that the servants have forgotten to clear away .
+0 ###LEFT-WALL### 2 you
+0 ###LEFT-WALL### 4 find
+0 ###LEFT-WALL### 10 and
+0 ###LEFT-WALL### 23 .
+1 sometimes 2 you
+2 you 3 will
+3 will 4 find
+4 find 5 mushrooms
+4 find 6 inside
+6 inside 8 ring
+7 the 8 ring
+9 , 10 and
+10 and 11 these
+10 and 12 are
+11 these 12 are
+12 are 14 chairs
+12 are 22 away
+13 fairy 14 chairs
+14 chairs 15 that
+14 chairs 21 clear
+15 that 17 servants
+15 that 19 forgotten
+16 the 17 servants
+17 servants 18 have
+18 have 19 forgotten
+19 forgotten 20 to
+19 forgotten 21 clear
+20 to 21 clear
+
+David and I once found a fairy-ring quite warm .
+0 ###LEFT-WALL### 2 and
+0 ###LEFT-WALL### 5 found
+0 ###LEFT-WALL### 10 .
+1 David 2 and
+2 and 3 I
+2 and 5 found
+4 once 5 found
+5 found 7 fairy-ring
+5 found 9 warm
+6 a 7 fairy-ring
+8 quite 9 warm
+
+but there is also a way of finding out about the ball before it takes place .
+0 ###LEFT-WALL### 14 it
+0 ###LEFT-WALL### 15 takes
+0 ###LEFT-WALL### 17 .
+1 but 10 about
+1 but 14 it
+2 there 3 is
+3 is 4 also
+3 is 6 way
+5 a 6 way
+6 way 7 of
+6 way 10 about
+7 of 9 out
+8 finding 9 out
+10 about 12 ball
+11 the 12 ball
+12 ball 13 before
+14 it 15 takes
+15 takes 16 place
+
+you know the boards which tell at what time the Gardens are to close to-day .
+0 ###LEFT-WALL### 1 you
+0 ###LEFT-WALL### 2 know
+0 ###LEFT-WALL### 16 .
+1 you 2 know
+2 know 4 boards
+3 the 4 boards
+4 boards 5 which
+4 boards 6 tell
+4 boards 7 at
+5 which 6 tell
+7 at 8 what
+7 at 9 time
+7 at 11 Gardens
+7 at 12 are
+8 what 9 time
+10 the 11 Gardens
+11 Gardens 12 are
+12 are 13 to
+13 to 15 to-day
+14 close 15 to-day
+
+this enables them to get [begun] half an hour earlier .
+0 ###LEFT-WALL### 1 this
+0 ###LEFT-WALL### 2 enables
+0 ###LEFT-WALL### 11 .
+1 this 2 enables
+2 enables 3 them
+2 enables 4 to
+2 enables 5 get
+4 to 5 get
+5 get 10 earlier
+7 half 9 hour
+8 an 9 hour
+9 hour 10 earlier
+
+the table-cloth varies according to the seasons , and in May it is made of chestnut-blossom .
+0 ###LEFT-WALL### 2 table-cloth
+0 ###LEFT-WALL### 3 varies
+0 ###LEFT-WALL### 9 and
+0 ###LEFT-WALL### 17 .
+1 the 2 table-cloth
+2 table-cloth 3 varies
+3 varies 5 to
+4 according 5 to
+5 to 7 seasons
+6 the 7 seasons
+8 , 9 and
+9 and 12 it
+9 and 15 of
+10 in 11 May
+10 in 12 it
+12 it 13 is
+13 is 15 of
+14 made 15 of
+15 of 16 chestnut-blossom
+
+Wall-flower juice is good for reviving dancers who fall to the ground in a fit , and Solomon 's Seals juice is for bruises .
+0 ###LEFT-WALL### 2 juice
+0 ###LEFT-WALL### 3 is
+0 ###LEFT-WALL### 17 and
+0 ###LEFT-WALL### 25 .
+1 Wall-flower 2 juice
+2 juice 3 is
+3 is 4 good
+4 good 5 for
+5 for 6 reviving
+6 reviving 7 dancers
+7 dancers 8 who
+7 dancers 9 fall
+8 who 9 fall
+9 fall 10 to
+9 fall 13 in
+10 to 12 ground
+11 the 12 ground
+12 ground 13 in
+13 in 15 fit
+14 a 15 fit
+16 , 17 and
+17 and 21 juice
+17 and 22 is
+18 Solomon 19 's
+19 's 21 juice
+20 Seals 21 juice
+21 juice 22 is
+22 is 23 for
+23 for 24 bruises
+
+they bruise very easily and when Peter plays faster and faster they foot it till they fall down in fits .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 2 bruise
+0 ###LEFT-WALL### 5 and
+0 ###LEFT-WALL### 21 .
+1 they 2 bruise
+2 bruise 4 easily
+3 very 4 easily
+5 and 12 they
+5 and 13 foot
+6 when 7 Peter
+6 when 8 plays
+6 when 12 they
+7 Peter 8 plays
+8 plays 10 and
+9 faster 10 and
+10 and 11 faster
+12 they 13 foot
+13 foot 14 it
+13 foot 15 till
+15 till 16 they
+15 till 17 fall
+16 they 17 fall
+17 fall 18 down
+17 fall 19 in
+19 in 20 fits
+
+for , as you know without my telling you , Peter Pan is the fairies ' orchestra .
+0 ###LEFT-WALL### 1 for
+0 ###LEFT-WALL### 13 is
+0 ###LEFT-WALL### 18 .
+1 for 12 Pan
+2 , 3 as
+3 as 5 know
+3 as 10 ,
+3 as 12 Pan
+4 you 5 know
+5 know 6 without
+6 without 8 telling
+7 my 8 telling
+8 telling 9 you
+11 Peter 12 Pan
+12 Pan 13 is
+13 is 17 orchestra
+14 the 15 fairies
+15 fairies 16 '
+16 ' 17 orchestra
+
+he sits in the middle of the ring , and they would never dream of having a smart dance nowadays without him .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 2 sits
+0 ###LEFT-WALL### 10 and
+0 ###LEFT-WALL### 23 .
+1 he 2 sits
+2 sits 3 in
+3 in 5 middle
+4 the 5 middle
+5 middle 6 of
+6 of 8 ring
+7 the 8 ring
+9 , 10 and
+10 and 11 they
+10 and 16 having
+11 they 12 would
+12 would 14 dream
+13 never 14 dream
+14 dream 15 of
+15 of 16 having
+16 having 19 dance
+16 having 20 nowadays
+16 having 21 without
+17 a 18 smart
+17 a 19 dance
+18 smart 19 dance
+21 without 22 him
+
+the way it was done was this .
+0 ###LEFT-WALL### 2 way
+0 ###LEFT-WALL### 6 was
+0 ###LEFT-WALL### 8 .
+1 the 2 way
+2 way 3 it
+2 way 4 was
+2 way 6 was
+3 it 4 was
+4 was 5 done
+6 was 7 this
+
+the Queen ordered him to kneel , and then said that for playing so beautifully she would give him the wish of his heart .
+0 ###LEFT-WALL### 2 Queen
+0 ###LEFT-WALL### 8 and
+0 ###LEFT-WALL### 25 .
+1 the 2 Queen
+2 Queen 8 and
+3 ordered 4 him
+3 ordered 5 to
+3 ordered 6 kneel
+3 ordered 8 and
+5 to 6 kneel
+7 , 8 and
+8 and 10 said
+9 then 10 said
+10 said 11 that
+11 that 16 she
+11 that 18 give
+12 for 13 playing
+12 for 16 she
+13 playing 14 so
+13 playing 15 beautifully
+16 she 17 would
+17 would 18 give
+18 give 19 him
+18 give 21 wish
+20 the 21 wish
+21 wish 22 of
+22 of 24 heart
+23 his 24 heart
+
+she measured it off [on] her skirt and it was a very handsome length .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 2 measured
+0 ###LEFT-WALL### 8 and
+0 ###LEFT-WALL### 15 .
+1 she 2 measured
+2 measured 3 it
+2 measured 4 off
+3 it 4 off
+4 off 7 skirt
+6 her 7 skirt
+8 and 9 it
+8 and 10 was
+9 it 10 was
+10 was 14 length
+11 a 12 very
+11 a 14 length
+12 very 13 handsome
+13 handsome 14 length
+
+his second wish he would hold in reserve .
+0 ###LEFT-WALL### 2 second
+0 ###LEFT-WALL### 3 wish
+0 ###LEFT-WALL### 9 .
+1 his 2 second
+2 second 3 wish
+3 wish 4 he
+3 wish 6 hold
+4 he 5 would
+5 would 6 hold
+6 hold 7 in
+7 in 8 reserve
+
+they tried to dissuade him , and even put obstacles in the way .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 7 and
+0 ###LEFT-WALL### 14 .
+1 they 7 and
+2 tried 3 to
+2 tried 4 dissuade
+2 tried 7 and
+3 to 4 dissuade
+4 dissuade 5 him
+6 , 7 and
+7 and 9 put
+8 even 9 put
+9 put 10 obstacles
+9 put 11 in
+11 in 13 way
+12 the 13 way
+
+so as he persisted in his wish , they had to grant it .
+0 ###LEFT-WALL### 1 so
+0 ###LEFT-WALL### 12 grant
+0 ###LEFT-WALL### 14 .
+1 so 9 they
+1 so 10 had
+2 as 3 he
+2 as 4 persisted
+2 as 9 they
+3 he 4 persisted
+5 in 7 wish
+5 in 8 ,
+5 in 9 they
+6 his 7 wish
+9 they 10 had
+10 had 11 to
+11 to 12 grant
+12 grant 13 it
+
+Peter alighted softly on the wooden rail at the foot of the bed and had a good look at her .
+0 ###LEFT-WALL### 1 Peter
+0 ###LEFT-WALL### 14 and
+0 ###LEFT-WALL### 21 .
+1 Peter 14 and
+2 alighted 3 softly
+2 alighted 4 on
+2 alighted 8 at
+2 alighted 14 and
+4 on 7 rail
+5 the 7 rail
+6 wooden 7 rail
+7 rail 8 at
+8 at 10 foot
+9 the 10 foot
+10 foot 11 of
+11 of 13 bed
+12 the 13 bed
+14 and 15 had
+15 had 18 look
+15 had 19 at
+16 a 17 good
+16 a 18 look
+17 good 18 look
+18 look 19 at
+19 at 20 her
+
+she lay with her head on her hand , and the hollow in the pillow was like a nest lined with her brown wavy hair .
+0 ###LEFT-WALL### 1 she
+0 ###LEFT-WALL### 2 lay
+0 ###LEFT-WALL### 26 .
+1 she 2 lay
+2 lay 3 with
+2 lay 6 on
+3 with 5 head
+4 her 5 head
+5 head 6 on
+6 on 10 and
+7 her 8 hand
+8 hand 10 and
+9 , 10 and
+10 and 12 hollow
+10 and 13 in
+11 the 12 hollow
+13 in 25 hair
+14 the 15 pillow
+15 pillow 16 was
+16 was 17 like
+16 was 20 lined
+17 like 19 nest
+18 a 19 nest
+20 lined 21 with
+21 with 25 hair
+22 her 25 hair
+23 brown 25 hair
+24 wavy 25 hair
+
+he remembered , though he had long forgotten it , that she always gave her hair a holiday at night .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 2 remembered
+0 ###LEFT-WALL### 21 .
+1 he 2 remembered
+2 remembered 4 though
+2 remembered 11 that
+3 , 4 though
+4 though 5 he
+4 though 8 forgotten
+4 though 10 ,
+5 he 6 had
+6 had 8 forgotten
+7 long 8 forgotten
+8 forgotten 9 it
+11 that 12 she
+11 that 14 gave
+12 she 14 gave
+13 always 14 gave
+14 gave 16 hair
+14 gave 18 holiday
+14 gave 19 at
+15 her 16 hair
+17 a 18 holiday
+18 holiday 19 at
+19 at 20 night
+
+[how] sweet the frills of her night-gown were .
+0 ###LEFT-WALL### 2 sweet
+0 ###LEFT-WALL### 8 were
+0 ###LEFT-WALL### 9 .
+2 sweet 8 were
+3 the 4 frills
+4 frills 5 of
+4 frills 8 were
+5 of 7 night-gown
+6 her 7 night-gown
+
+he was very glad she was such a pretty mother .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 11 .
+1 he 2 was
+2 was 4 glad
+3 very 4 glad
+4 glad 5 she
+4 glad 6 was
+5 she 6 was
+6 was 10 mother
+7 such 8 a
+8 a 9 pretty
+8 a 10 mother
+9 pretty 10 mother
+
+but she looked sad , and he knew why she looked sad .
+0 ###LEFT-WALL### 1 but
+0 ###LEFT-WALL### 6 and
+0 ###LEFT-WALL### 13 .
+1 but 2 she
+1 but 3 looked
+2 she 3 looked
+3 looked 4 sad
+5 , 6 and
+6 and 7 he
+6 and 8 knew
+7 he 8 knew
+8 knew 9 why
+9 why 10 she
+9 why 11 looked
+10 she 11 looked
+11 looked 12 sad
+
+one of her arms moved as if it wanted to go round something , and he knew what it wanted to go round .
+0 ###LEFT-WALL### 1 one
+0 ###LEFT-WALL### 23 round
+0 ###LEFT-WALL### 24 .
+1 one 2 of
+1 one 5 moved
+2 of 4 arms
+3 her 4 arms
+5 moved 6 as
+6 as 19 it
+6 as 20 wanted
+7 if 15 and
+7 if 17 knew
+7 if 19 it
+8 it 9 wanted
+8 it 15 and
+9 wanted 10 to
+9 wanted 14 ,
+10 to 11 go
+11 go 12 round
+12 round 13 something
+15 and 16 he
+16 he 17 knew
+17 knew 18 what
+19 it 20 wanted
+20 wanted 21 to
+20 wanted 22 go
+21 to 22 go
+22 go 23 round
+
+very gently he patted the little mound that her feet made , and he could see by her face that she liked it .
+0 ###LEFT-WALL### 3 he
+0 ###LEFT-WALL### 4 patted
+0 ###LEFT-WALL### 13 and
+0 ###LEFT-WALL### 24 .
+1 very 2 gently
+2 gently 3 he
+3 he 4 patted
+4 patted 7 mound
+5 the 7 mound
+6 little 7 mound
+7 mound 8 that
+7 mound 11 made
+8 that 10 feet
+8 that 11 made
+9 her 10 feet
+10 feet 11 made
+12 , 13 and
+13 and 14 he
+13 and 16 see
+14 he 15 could
+15 could 16 see
+16 see 17 by
+16 see 20 that
+17 by 19 face
+18 her 19 face
+20 that 21 she
+20 that 22 liked
+21 she 22 liked
+22 liked 23 it
+
+they always wake up [at] once if it is you that says their name .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 3 wake
+0 ###LEFT-WALL### 15 .
+1 they 3 wake
+2 always 3 wake
+3 wake 4 up
+3 wake 6 once
+6 once 11 that
+6 once 12 says
+7 if 8 it
+7 if 9 is
+7 if 11 that
+8 it 9 is
+9 is 10 you
+11 that 12 says
+12 says 14 name
+13 their 14 name
+
+then she would give such a joyous cry and squeeze him tight .
+0 ###LEFT-WALL### 2 she
+0 ###LEFT-WALL### 9 and
+0 ###LEFT-WALL### 13 .
+1 then 2 she
+2 she 3 would
+3 would 9 and
+4 give 8 cry
+4 give 9 and
+5 such 6 a
+6 a 7 joyous
+6 a 8 cry
+7 joyous 8 cry
+9 and 10 squeeze
+10 squeeze 11 him
+10 squeeze 12 tight
+
+[how] nice that would be to him , but oh , how exquisitely [delicious] it would be to her .
+0 ###LEFT-WALL### 2 nice
+0 ###LEFT-WALL### 8 ,
+0 ###LEFT-WALL### 20 .
+2 nice 5 be
+2 nice 6 to
+3 that 4 would
+4 would 5 be
+6 to 7 him
+8 , 15 it
+8 , 17 be
+9 but 11 ,
+9 but 15 it
+10 oh 11 ,
+11 , 12 how
+13 exquisitely 15 it
+15 it 16 would
+16 would 17 be
+17 be 18 to
+18 to 19 her
+
+[that] I am afraid [is] [how] Peter regarded it .
+0 ###LEFT-WALL### 2 I
+0 ###LEFT-WALL### 3 am
+0 ###LEFT-WALL### 10 .
+2 I 3 am
+3 am 4 afraid
+4 afraid 7 Peter
+4 afraid 8 regarded
+7 Peter 8 regarded
+8 regarded 9 it
+
+in returning to his mother he never doubted that he was giving her the greatest treat a woman can have .
+0 ###LEFT-WALL### 6 he
+0 ###LEFT-WALL### 8 doubted
+0 ###LEFT-WALL### 21 .
+1 in 2 returning
+1 in 6 he
+2 returning 3 to
+3 to 5 mother
+4 his 5 mother
+6 he 8 doubted
+7 never 8 doubted
+8 doubted 9 that
+9 that 10 he
+9 that 11 was
+10 he 11 was
+11 was 12 giving
+12 giving 13 her
+12 giving 16 treat
+14 the 15 greatest
+14 the 16 treat
+16 treat 18 woman
+16 treat 20 have
+17 a 18 woman
+18 woman 19 can
+19 can 20 have
+
+nothing can be more splendid , he thought , than to have a little boy of your own .
+0 ###LEFT-WALL### 1 nothing
+0 ###LEFT-WALL### 3 be
+0 ###LEFT-WALL### 6 ,
+1 nothing 2 can
+2 can 3 be
+3 be 5 splendid
+4 more 5 splendid
+6 , 7 he
+6 , 8 thought
+7 he 8 thought
+8 thought 9 ,
+8 thought 11 to
+8 thought 12 have
+8 thought 19 .
+10 than 11 to
+11 to 12 have
+12 have 15 boy
+13 a 14 little
+13 a 15 boy
+14 little 15 boy
+15 boy 16 of
+16 of 18 own
+17 your 18 own
+
+[how] proud of him they are ; [and] very right and proper , [too] .
+0 ###LEFT-WALL### 2 proud
+0 ###LEFT-WALL### 6 are
+0 ###LEFT-WALL### 7 ;
+0 ###LEFT-WALL### 15 .
+2 proud 3 of
+2 proud 6 are
+3 of 4 him
+5 they 6 are
+7 ; 11 and
+9 very 10 right
+10 right 11 and
+11 and 12 proper
+11 and 13 ,
+
+but why does Peter sit so long on the rail , why does he [not] tell his mother that he has come back ?
+0 ###LEFT-WALL### 1 but
+0 ###LEFT-WALL### 11 ,
+0 ###LEFT-WALL### 24 ?
+1 but 2 why
+1 but 5 sit
+2 why 3 does
+3 does 4 Peter
+3 does 5 sit
+5 sit 6 so
+5 sit 7 long
+5 sit 8 on
+8 on 10 rail
+9 the 10 rail
+11 , 12 why
+12 why 13 does
+13 does 14 he
+13 does 16 tell
+16 tell 18 mother
+17 his 18 mother
+18 mother 19 that
+18 mother 22 come
+19 that 20 he
+19 that 22 come
+20 he 21 has
+21 has 22 come
+22 come 23 back
+
+I quite shrink from the truth , which [is] that [he] sat there in two minds .
+0 ###LEFT-WALL### 1 I
+0 ###LEFT-WALL### 3 shrink
+1 I 3 shrink
+2 quite 3 shrink
+3 shrink 4 from
+4 from 6 truth
+5 the 6 truth
+6 truth 8 which
+7 , 8 which
+8 which 12 sat
+8 which 17 .
+10 that 12 sat
+12 sat 13 there
+12 sat 14 in
+14 in 16 minds
+15 two 16 minds
+
+sometimes he looked longingly at his mother , and sometimes he looked longingly at the window .
+0 ###LEFT-WALL### 2 he
+0 ###LEFT-WALL### 3 looked
+0 ###LEFT-WALL### 9 and
+0 ###LEFT-WALL### 17 .
+1 sometimes 2 he
+2 he 3 looked
+3 looked 4 longingly
+3 looked 5 at
+5 at 7 mother
+6 his 7 mother
+8 , 9 and
+9 and 10 sometimes
+9 and 11 he
+9 and 12 looked
+11 he 12 looked
+12 looked 13 longingly
+12 looked 14 at
+14 at 16 window
+15 the 16 window
+
+was he so sure that he would enjoy wearing clothes again ?
+0 ###LEFT-WALL### 1 was
+0 ###LEFT-WALL### 12 ?
+1 was 2 he
+1 was 4 sure
+3 so 4 sure
+4 sure 5 that
+5 that 6 he
+5 that 8 enjoy
+6 he 7 would
+7 would 8 enjoy
+8 enjoy 9 wearing
+9 wearing 10 clothes
+9 wearing 11 again
+
+he popped off the bed and opened some drawers to have a look at his old garments .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 6 and
+0 ###LEFT-WALL### 18 .
+1 he 6 and
+2 popped 3 off
+2 popped 6 and
+3 off 5 bed
+4 the 5 bed
+6 and 7 opened
+7 opened 9 drawers
+7 opened 10 to
+8 some 9 drawers
+10 to 11 have
+11 have 13 look
+11 have 14 at
+12 a 13 look
+13 look 14 at
+14 at 17 garments
+15 his 17 garments
+16 old 17 garments
+
+they were still there , but he could not remember how you put them on .
+0 ###LEFT-WALL### 1 they
+0 ###LEFT-WALL### 6 but
+0 ###LEFT-WALL### 16 .
+1 they 6 but
+2 were 3 still
+2 were 4 there
+2 were 6 but
+3 still 4 there
+5 , 6 but
+6 but 10 remember
+7 he 8 could
+8 could 9 not
+8 could 10 remember
+9 not 10 remember
+10 remember 11 how
+11 how 12 you
+11 how 13 put
+12 you 13 put
+13 put 14 them
+13 put 15 on
+
+the socks , for instance , were they [worn] on the hands or on the feet ?
+0 ###LEFT-WALL### 2 socks
+0 ###LEFT-WALL### 7 were
+0 ###LEFT-WALL### 17 ?
+1 the 2 socks
+2 socks 7 were
+3 , 5 instance
+4 for 5 instance
+5 instance 6 ,
+5 instance 7 were
+7 were 8 they
+7 were 13 or
+10 on 12 hands
+10 on 13 or
+11 the 12 hands
+13 or 14 on
+14 on 16 feet
+15 the 16 feet
+
+he was about to try one of them on his hand , when he had a great adventure .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 2 was
+1 he 2 was
+2 was 3 about
+3 about 4 to
+3 about 5 try
+4 to 5 try
+5 try 6 one
+5 try 9 on
+5 try 13 when
+6 one 7 of
+6 one 9 on
+7 of 8 them
+9 on 11 hand
+10 his 11 hand
+12 , 13 when
+13 when 14 he
+13 when 15 had
+13 when 19 .
+14 he 15 had
+15 had 18 adventure
+16 a 17 great
+16 a 18 adventure
+17 great 18 adventure
+
+he remained sitting on the floor and held his breath , wondering how she knew that he had come back .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 7 and
+1 he 7 and
+2 remained 3 sitting
+2 remained 4 on
+2 remained 7 and
+3 sitting 4 on
+4 on 6 floor
+5 the 6 floor
+7 and 8 held
+8 held 10 breath
+9 his 10 breath
+10 breath 12 wondering
+11 , 12 wondering
+12 wondering 13 how
+12 wondering 21 .
+13 how 14 she
+13 how 15 knew
+14 she 15 knew
+15 knew 16 that
+16 that 17 he
+16 that 19 come
+17 he 18 had
+18 had 19 come
+19 come 20 back
+
+it made Peter very miserable , and what do you think was the first thing he did ?
+0 ###LEFT-WALL### 1 it
+0 ###LEFT-WALL### 2 made
+0 ###LEFT-WALL### 7 and
+0 ###LEFT-WALL### 18 ?
+1 it 2 made
+2 made 3 Peter
+2 made 5 miserable
+4 very 5 miserable
+6 , 7 and
+7 and 8 what
+7 and 12 was
+8 what 9 do
+8 what 12 was
+9 do 10 you
+9 do 11 think
+11 think 12 was
+12 was 15 thing
+13 the 15 thing
+14 first 15 thing
+15 thing 16 he
+15 thing 17 did
+16 he 17 did
+
+sitting on the rail at the foot of the bed , he played a beautiful lullaby to his mother on his pipe .
+0 ###LEFT-WALL### 12 he
+0 ###LEFT-WALL### 13 played
+0 ###LEFT-WALL### 23 .
+1 sitting 2 on
+1 sitting 5 at
+1 sitting 11 ,
+1 sitting 12 he
+2 on 4 rail
+3 the 4 rail
+4 rail 5 at
+5 at 7 foot
+6 the 7 foot
+7 foot 8 of
+8 of 10 bed
+9 the 10 bed
+12 he 13 played
+13 played 16 lullaby
+13 played 17 to
+13 played 20 on
+14 a 16 lullaby
+15 beautiful 16 lullaby
+16 lullaby 17 to
+17 to 19 mother
+18 his 19 mother
+19 mother 20 on
+20 on 22 pipe
+21 his 22 pipe
+
+however , as she now seemed comfortable , he again cast looks at the window .
+0 ###LEFT-WALL### 9 he
+0 ###LEFT-WALL### 11 cast
+0 ###LEFT-WALL### 16 .
+1 however 2 ,
+1 however 9 he
+2 , 3 as
+3 as 4 she
+3 as 6 seemed
+3 as 8 ,
+3 as 9 he
+4 she 6 seemed
+5 now 6 seemed
+6 seemed 7 comfortable
+9 he 11 cast
+10 again 11 cast
+11 cast 12 looks
+11 cast 13 at
+12 looks 13 at
+13 at 15 window
+14 the 15 window
+
+you must not think that he meditated flying away and never coming back .
+0 ###LEFT-WALL### 1 you
+0 ###LEFT-WALL### 4 think
+0 ###LEFT-WALL### 14 .
+1 you 2 must
+2 must 3 not
+2 must 4 think
+3 not 4 think
+4 think 5 that
+5 that 6 he
+5 that 10 and
+6 he 10 and
+7 meditated 8 flying
+7 meditated 10 and
+8 flying 9 away
+10 and 12 coming
+10 and 13 back
+11 never 12 coming
+
+he had quite decided to be his mother 's boy , but hesitated about beginning to-night .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 12 but
+0 ###LEFT-WALL### 17 .
+1 he 12 but
+2 had 4 decided
+2 had 12 but
+3 quite 4 decided
+4 decided 5 to
+4 decided 6 be
+5 to 6 be
+6 be 10 boy
+7 his 8 mother
+8 mother 9 's
+9 's 10 boy
+11 , 12 but
+12 but 13 hesitated
+13 hesitated 14 about
+14 about 15 beginning
+15 beginning 16 to-night
+
+it was the second wish which troubled him .
+0 ###LEFT-WALL### 1 it
+0 ###LEFT-WALL### 2 was
+0 ###LEFT-WALL### 9 .
+1 it 2 was
+2 was 5 wish
+3 the 5 wish
+4 second 5 wish
+5 wish 6 which
+5 wish 7 troubled
+6 which 7 troubled
+7 troubled 8 him
+
+also , if he put off asking for his wish too long it might go bad .
+0 ###LEFT-WALL### 13 it
+0 ###LEFT-WALL### 15 go
+0 ###LEFT-WALL### 17 .
+1 also 2 ,
+1 also 13 it
+3 if 4 he
+3 if 5 put
+3 if 13 it
+4 he 5 put
+5 put 6 off
+5 put 7 asking
+5 put 8 for
+5 put 12 long
+7 asking 8 for
+8 for 10 wish
+9 his 10 wish
+11 too 12 long
+13 it 14 might
+14 might 15 go
+15 go 16 bad
+
+he asked himself if he had not been hard-hearted to fly away without saying good-bye to Solomon .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 2 asked
+0 ###LEFT-WALL### 18 .
+1 he 2 asked
+2 asked 3 himself
+2 asked 4 if
+4 if 5 he
+4 if 11 fly
+5 he 6 had
+6 had 7 not
+6 had 8 been
+7 not 8 been
+8 been 9 hard-hearted
+9 hard-hearted 10 to
+10 to 11 fly
+11 fly 12 away
+11 fly 13 without
+13 without 14 saying
+14 saying 15 good-bye
+14 saying 16 to
+15 good-bye 16 to
+16 to 17 Solomon
+
+he quite argued with her as if she could hear him .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 3 argued
+0 ###LEFT-WALL### 12 .
+1 he 3 argued
+2 quite 3 argued
+3 argued 4 with
+3 argued 7 if
+4 with 5 her
+6 as 7 if
+7 if 8 she
+7 if 10 hear
+8 she 9 could
+9 could 10 hear
+10 hear 11 him
+
+and in the end , you know , he flew away .
+0 ###LEFT-WALL### 1 and
+0 ###LEFT-WALL### 8 ,
+0 ###LEFT-WALL### 12 .
+1 and 6 you
+1 and 7 know
+2 in 4 end
+2 in 5 ,
+2 in 6 you
+3 the 4 end
+6 you 7 know
+8 , 9 he
+8 , 10 flew
+9 he 10 flew
+10 flew 11 away
+
+one reason was that he had so many good-byes to say , not only to his particular friends , but to a hundred favourite spots .
+0 ###LEFT-WALL### 2 reason
+0 ###LEFT-WALL### 26 .
+1 one 2 reason
+2 reason 3 was
+3 was 4 that
+4 that 5 he
+4 that 6 had
+5 he 6 had
+6 had 9 good-byes
+6 had 10 to
+6 had 14 only
+7 so 8 many
+8 many 9 good-byes
+10 to 11 say
+11 say 12 ,
+11 say 13 not
+14 only 20 but
+15 to 18 friends
+15 to 20 but
+16 his 18 friends
+17 particular 18 friends
+19 , 20 but
+20 but 21 to
+21 to 25 spots
+22 a 23 hundred
+23 hundred 25 spots
+24 favourite 25 spots
+
+then he had his last sail , and his very last sail , and his last sail of all , and so on .
+0 ###LEFT-WALL### 2 he
+0 ###LEFT-WALL### 3 had
+0 ###LEFT-WALL### 24 .
+1 then 2 he
+2 he 3 had
+3 had 14 and
+4 his 5 last
+4 his 6 sail
+6 sail 8 and
+7 , 8 and
+8 and 12 sail
+8 and 14 and
+9 his 10 very
+9 his 12 sail
+11 last 12 sail
+13 , 14 and
+14 and 17 sail
+14 and 18 of
+15 his 16 last
+15 his 17 sail
+18 of 21 and
+19 all 21 and
+20 , 21 and
+21 and 23 on
+22 so 23 on
+
+this last reason displeased old Solomon , for it was an encouragement to the birds to procrastinate .
+0 ###LEFT-WALL### 3 reason
+0 ###LEFT-WALL### 4 displeased
+0 ###LEFT-WALL### 7 ,
+0 ###LEFT-WALL### 18 .
+1 this 3 reason
+2 last 3 reason
+3 reason 4 displeased
+4 displeased 6 Solomon
+5 old 6 Solomon
+7 , 8 for
+7 , 10 was
+8 for 9 it
+9 it 10 was
+10 was 12 encouragement
+10 was 13 to
+10 was 16 to
+11 an 12 encouragement
+12 encouragement 13 to
+13 to 15 birds
+14 the 15 birds
+16 to 17 procrastinate
+
+the birds pointed this out to each other , and fell into lazy habits .
+0 ###LEFT-WALL### 2 birds
+0 ###LEFT-WALL### 10 and
+0 ###LEFT-WALL### 15 .
+1 the 2 birds
+2 birds 10 and
+3 pointed 4 this
+3 pointed 5 out
+3 pointed 6 to
+3 pointed 10 and
+6 to 8 other
+7 each 8 other
+9 , 10 and
+10 and 11 fell
+10 and 12 into
+12 into 14 habits
+13 lazy 14 habits
+
+but [,] mind [you] , though Peter was so slow in going back to his mother , he was quite decided to go back .
+0 ###LEFT-WALL### 7 Peter
+0 ###LEFT-WALL### 8 was
+0 ###LEFT-WALL### 9 so
+1 but 3 mind
+1 but 5 ,
+1 but 7 Peter
+6 though 7 Peter
+7 Peter 8 was
+8 was 9 so
+9 so 18 he
+9 so 23 go
+9 so 25 .
+10 slow 11 in
+10 slow 13 back
+10 slow 17 ,
+10 slow 18 he
+11 in 12 going
+13 back 14 to
+14 to 16 mother
+15 his 16 mother
+18 he 19 was
+19 was 21 decided
+20 quite 21 decided
+21 decided 22 to
+22 to 23 go
+23 go 24 back
+
+the best proof of this was his caution with the fairies .
+0 ###LEFT-WALL### 3 proof
+0 ###LEFT-WALL### 6 was
+0 ###LEFT-WALL### 12 .
+1 the 2 best
+1 the 3 proof
+3 proof 4 of
+3 proof 6 was
+4 of 5 this
+6 was 8 caution
+6 was 9 with
+7 his 8 caution
+8 caution 9 with
+9 with 11 fairies
+10 the 11 fairies
+
+then they would have said that this was his second wish .
+0 ###LEFT-WALL### 2 they
+0 ###LEFT-WALL### 5 said
+0 ###LEFT-WALL### 12 .
+1 then 2 they
+2 they 3 would
+3 would 4 have
+4 have 5 said
+5 said 6 that
+6 that 7 this
+6 that 8 was
+7 this 8 was
+8 was 11 wish
+9 his 11 wish
+10 second 11 wish
+
+he had to fly back , sobbing , to the Gardens , and he never saw his dear again .
+0 ###LEFT-WALL### 1 he
+0 ###LEFT-WALL### 2 had
+0 ###LEFT-WALL### 13 and
+0 ###LEFT-WALL### 20 .
+1 he 2 had
+2 had 3 to
+2 had 4 fly
+3 to 4 fly
+4 fly 5 back
+4 fly 7 sobbing
+4 fly 9 to
+6 , 7 sobbing
+7 sobbing 8 ,
+8 , 9 to
+9 to 11 Gardens
+9 to 12 ,
+10 the 11 Gardens
+12 , 13 and
+13 and 14 he
+13 and 16 saw
+14 he 16 saw
+15 never 16 saw
+16 saw 18 dear
+16 saw 19 again
+17 his 18 dear
+
+what a glorious boy he had meant to be to her .
+0 ###LEFT-WALL### 1 what
+0 ###LEFT-WALL### 12 .
+1 what 4 boy
+2 a 3 glorious
+2 a 4 boy
+3 glorious 4 boy
+4 boy 5 he
+4 boy 7 meant
+5 he 6 had
+6 had 7 meant
+7 meant 8 to
+8 to 9 be
+9 be 10 to
+10 to 11 her
+
+ah , Peter , we [who] have made the great mistake , how differently [we] should all act at the second chance .
+0 ###LEFT-WALL### 5 we
+0 ###LEFT-WALL### 8 made
+0 ###LEFT-WALL### 12 ,
+0 ###LEFT-WALL### 23 .
+1 ah 2 ,
+1 ah 5 we
+2 , 3 Peter
+3 Peter 4 ,
+3 Peter 5 we
+5 we 7 have
+7 have 8 made
+8 made 11 mistake
+9 the 11 mistake
+10 great 11 mistake
+12 , 13 how
+12 , 18 act
+13 how 16 should
+14 differently 16 should
+16 should 17 all
+16 should 18 act
+18 act 19 at
+19 at 22 chance
+20 the 21 second
+20 the 22 chance
+
+but Solomon was right ; there is no second chance , not for most of us .
+0 ###LEFT-WALL### 1 but
+0 ###LEFT-WALL### 5 ;
+1 but 2 Solomon
+1 but 3 was
+2 Solomon 3 was
+3 was 4 right
+5 ; 6 there
+5 ; 7 is
+6 there 7 is
+7 is 10 chance
+8 no 10 chance
+9 second 10 chance
+10 chance 13 for
+11 , 12 not
+11 , 13 for
+13 for 14 most
+13 for 17 .
+14 most 15 of
+15 of 16 us
+
+when we reach the window it is Lock-out Time .
+0 ###LEFT-WALL### 6 it
+0 ###LEFT-WALL### 7 is
+0 ###LEFT-WALL### 10 .
+1 when 2 we
+1 when 3 reach
+1 when 6 it
+2 we 3 reach
+3 reach 5 window
+4 the 5 window
+6 it 7 is
+7 is 9 Time
+8 Lock-out 9 Time
+
+the iron bars are up for life .
+0 ###LEFT-WALL### 3 bars
+0 ###LEFT-WALL### 4 are
+0 ###LEFT-WALL### 8 .
+1 the 3 bars
+2 iron 3 bars
+3 bars 4 are
+4 are 5 up
+5 up 6 for
+6 for 7 life
+
+End of Project Gutenberg 's Peter Pan in Kensington Gardens , by J M Barrie
+0 ###LEFT-WALL### 1 End
+0 ###LEFT-WALL### 5 's
+1 End 2 of
+1 End 5 's
+2 of 4 Gutenberg
+3 Project 4 Gutenberg
+5 's 7 Pan
+5 's 8 in
+6 Peter 7 Pan
+8 in 10 Gardens
+9 Kensington 10 Gardens
+10 Gardens 12 by
+11 , 12 by
+12 by 15 Barrie
+13 J 14 M
+14 M 15 Barrie
+

@@ -100,10 +100,11 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
     ignored_links = 0   # ignored links from ref, if ignore is active
     sum_precision = 0
     sum_recall = 0
+    output_path = kwargs.get("output_path", os.environ["PWD"])
 
     # if filter, we'll print to file accepted ref parses
     if filter:
-        fa = open("./accepted_parses.ull", "w")
+        fa = open(f"{output_path}/accepted_parses.ull", "w")
 
     for ref_parse, test_parse, ref_sent, test_sent in zip(ref_parses, test_parses, ref_sents, test_sents):
 
@@ -256,7 +257,7 @@ def Compare_Tokenization(ref_sentences, test_sentences, **kwargs):
             if new_ref != new_test:
                 set_ref = set(new_ref)
                 set_test = set(new_test)
-                ft.write("Sentence Differs:\n{}\nin tokens:{}<--->{}\n".format(" ".join(ref_sent), set_ref - set_test, set_test - set_ref))
+                ft.write("Sentence Differs:\n{}\nin tokens:{}<--->{}\n".format(" ".join(ref_sent), sorted(list(set_ref - set_test)), sorted(list(set_test - set_ref))))
 
 def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag, filter_sentences, compare_tokenization, **kwargs):
 
@@ -272,9 +273,9 @@ def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, 
         test_data = Load_File(test_file)
         test_parses, test_sents = Get_Parses(test_data) 
     if len(test_parses) != len(ref_parses):
-        sys.exit("ERROR: Number of parses differs in files: ", len(test_parses), ", ", len(ref_parses))
+        sys.exit(f"ERROR: Number of parses differs in files: {len(test_parses)}, {len(ref_parses)}")
     if compare_tokenization:
         print("Comparing tokenization only...")
-        Compare_Tokenization(ref_sents, test_sents)
+        Compare_Tokenization(ref_sents, test_sents, **kwargs)
         return # exit
     Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore_WALL, filter_sentences, **kwargs)

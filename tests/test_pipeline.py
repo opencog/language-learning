@@ -16,7 +16,7 @@ In order to create additional test one should complete the following steps:
 3. Make subdirectory in pipeline integration test directory (tests/test-data/pipeline) having the followind structure:
     <test-name>
         <test-name>.json
-        <test-file>.expected.txt
+        <test-file>.expected
 4. Create one more class method down in this file as follows:
     def test_<test-name>(self):
         self.run_pipeline_test_case("<test-name>", "<corpus-path>")
@@ -43,6 +43,18 @@ class PipelineTestCase(PipelineIntegrationTestCase):
                                     [
                                         ("tests/test-data/parses/poc-english-ref/poc_english.txt.ull", "single"),
                                         ("tests/test-data/parses/poc-english-multi-ref", "multi")
+                                    ] )
+
+    # @unittest.skip
+    def test_tp(self):
+        """ TP test case performed on CDS-clean corpus (parses) """
+        self.run_pipeline_test_case("TP", "data/CDS/LG-E-clean")
+
+    def test_tp_text_corpus(self):
+        """ TP test case performed on CDS-clean corpus (text) """
+        self.run_pipeline_test_case("TP-TXT-CORPUS",
+                                    [
+                                        ("data/CDS/LG-E-clean", "ref")
                                     ] )
 
 if __name__ == '__main__':

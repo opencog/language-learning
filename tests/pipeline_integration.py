@@ -1,18 +1,17 @@
 import os
 import sys
 import shutil
+import datetime
 import unittest
 from subprocess import PIPE, Popen
-from typing import Union, Tuple, List
+from typing import Union, Tuple, List, Optional
+from src.common.dirhelper import traverse_dir_tree
 
 # Root path where all LG dictionary subdirectories are located
 DICT_REL_PATH = "tests/test-data/dict"
 
-# Root path for all pipeline integration tests
-TESTS_ROOT = "tests/test-data/pipeline"
 
-
-class PipelineIntegrationTestCase(unittest.TestCase):
+class PipelineIntegrationBaseTestCase(unittest.TestCase):
     """
     Pipeline integration test base class
 
@@ -32,6 +31,33 @@ class PipelineIntegrationTestCase(unittest.TestCase):
 
         with Popen([ull_cli, "-C", config_path, "--logging=debug"], stdout=PIPE) as proc:
             proc.communicate()
+
+            ret_code = proc.returncode
+
+        return ret_code
+
+    @staticmethod
+    def run_script(cmd_line: str, output_path: Optional[str]):
+        """
+        Run CLI script
+
+        :param cmd_line:        Command line including name of the script and all arguments.
+        :param output_path:     File path to save 'stdout' output to.
+        :return:                OS error level.
+        """
+        arg_list = cmd_line.split()
+
+        cmd = shutil.which(arg_list[0])
+
+        if cmd is None:
+            raise FileNotFoundError(f"'{cmd}' is not found.")
+
+        with Popen([cmd, *arg_list[1:]], stdout=PIPE) as proc:
+            raw, err = proc.communicate()
+
+            if output_path is not None:
+                with open(output_path, "w") as out_file:
+                    out_file.write(raw.decode("utf-8-sig"))
 
             ret_code = proc.returncode
 
@@ -119,7 +145,7 @@ class PipelineIntegrationTestCase(unittest.TestCase):
             raise FileNotFoundError("Corpus file/directory does not exist.")
 
     @staticmethod
-    def prepare_test(test_path: str, data_path: Union[str, List[Tuple[str, str]]]) -> str:
+    def prepare_test(test_path: str, data_path: Union[str, List[Tuple[str, str]], None] = None) -> str:
         """
         Prepare pipeline test temporary directory:
             - create temporary directory;
@@ -161,6 +187,83 @@ class PipelineIntegrationTestCase(unittest.TestCase):
 
         return path_to_create
 
+    @staticmethod
+    def compare_dict_files(tst_dict_path: str, ref_dict_path: str) -> bool:
+        """
+        Compare .dict files line by line leaving out comments.
+
+        :param tst_dict_path:   Test dictionary file path.
+        :param ref_dict_path:   Reference dictionary file path.
+        :return:                True if all lines match, Fales otherwise.
+        """
+        with open(tst_dict_path, "r") as tst_handle, open(ref_dict_path, "r") as ref_handle:
+            test_lines = tst_handle.readlines()
+            ref_lines = ref_handle.readlines()
+
+        if len(test_lines) != len(ref_lines):
+            return False
+
+        for t, r in zip(test_lines, ref_lines):
+            t, r = t.strip(), r.strip()
+
+            if len(t) and t[0] == "%":
+                continue
+
+            if t.strip() != r.strip():
+                return False
+
+        return True
+
+    @staticmethod
+    def _compare_stat_files(tst_stat_path: str, ref_stat_path: str) -> bool:
+        """
+        Compare .stat files ignoring "Parse time"
+
+        :param tst_stat_path:   Test statistics file path.
+        :param ref_stat_path:   Reference statistics file path.
+        :return:                True if all "comparable" fields match.
+        """
+        with open(tst_stat_path, "r") as tst_handle, open(ref_stat_path, "r") as ref_handle:
+            test_lines = tst_handle.readlines()
+            ref_lines = ref_handle.readlines()
+
+        if len(test_lines) != len(ref_lines):
+            return False
+
+        for t, r in zip(test_lines, ref_lines):
+            t, r = t.strip(), r.strip()
+
+            if len(t) < 1 or t.startswith("Parse time"):
+                continue
+
+            t_param, r_param = t.split(":"), r.split(":")
+
+            if len(t_param) != 2 or len(r_param) != 2:
+                return False
+
+            t_name, r_name = t_param[0].strip(), r_param[0].strip()
+
+            if t_name != r_name or t_param[1].strip() != r_param[1].strip():
+                return False
+
+        return True
+
+    @staticmethod
+    def compare_stat_files(tst_stat_path: str, ref_stat_path: str) -> bool:
+        """
+        Compare .stat files ignoring "Parse time"
+
+        :param tst_stat_path:   Test statistics file path.
+        :param ref_stat_path:   Reference statistics file path.
+        :return:                True if all "comparable" fields match.
+        """
+        if not PipelineIntegrationTestCase._compare_stat_files(tst_stat_path, ref_stat_path):
+            PipelineIntegrationTestCase._print_text_file(tst_stat_path)
+            PipelineIntegrationTestCase._print_text_file(ref_stat_path)
+            return False
+
+        return True
+
     def check_expectations(self, tmp_test_path: str):
         """
         Compare all files ending with ".expected" suffix with their respective counterparts
@@ -168,33 +271,86 @@ class PipelineIntegrationTestCase(unittest.TestCase):
         :param tmp_test_path:   Path to test directory
         :return:                None
         """
-        for file_path in os.listdir(tmp_test_path):
-            if file_path.endswith(".expected"):
-                test_path = f"{tmp_test_path}/{file_path[:-9]}"
-                ref_path = f"{tmp_test_path}/{file_path}"
+        def on_file(ref_path: str, args: List[str]) -> None:
+            """
+            Comparison callback function
 
-                # Check if there is a summary file in the directory
-                self.assertTrue(os.path.isfile(test_path))
+            :param ref_path:    Reference file path.
+            :param args:        Extra arguments, if any.
+            :return:            None.
+            """
+            # Get test file name by trimming of '.expected' suffix
+            test_path = f"{ref_path[:-9]}"
 
+            # Check if there is a summary file in the directory
+            self.assertTrue(os.path.isfile(test_path), f"File '{test_path}' is not found.")
+
+            if test_path.endswith(".dict"):
+                self.assertTrue(self.compare_dict_files(test_path, ref_path),
+                                f"'{test_path}' and '{ref_path}' mismatch.")
+
+            elif test_path.endswith(".stat"):
+                self.assertTrue(self.compare_stat_files(test_path, ref_path),
+                                f"'{test_path}' and '{ref_path}' mismatch.")
+            else:
                 # Compare summaries
                 self.assertTrue(self.compare_text_files(ref_path, test_path),
                                 f"'{test_path}' and '{ref_path}' mismatch.")
+
+        traverse_dir_tree(tmp_test_path, ".expected", [on_file], None, True)
+
+    @staticmethod
+    def shift_dict_expectations(tmp_test_path: str):
+        """
+        Rename dictionary files to match the current date
+
+        :param tmp_test_path:   Temporary test path.
+        :return:                None.
+        """
+        def on_dict(dict_path: str, args: List[str]) -> None:
+            # Split path into a path itself and file name
+            file_path, file_name = os.path.split(dict_path)
+
+            # Split file name into dictionary parameters
+            splitted = file_name.split("_")
+
+            # Replace date with the current date
+            splitted[2] = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+
+            # Join parameters to make a new file path
+            updated_path = os.path.join(file_path, f"{'_'.join(splitted)}")
+
+            # Rename dictionary file with a newly made name
+            os.rename(dict_path, updated_path)
+
+        traverse_dir_tree(tmp_test_path, ".dict.expected", [on_dict], None, True)
+
+
+class PipelineIntegrationTestCase(PipelineIntegrationBaseTestCase):
+    """
+    Pipeline integration test class
+
+    """
+    # Root path for all pipeline integration tests
+    TESTS_ROOT = "tests/test-data/pipeline"
 
     def run_pipeline_test_case(self, test_name: str, data_path: Union[str, List[Tuple[str, str]]]) -> None:
         """
         Execute pipeline integration test
 
         :param test_name:       Test test/subdirectory name.
-        :param corpus_path:     Path to a corpus file/directory.
+        :param data_path:       Path to a corpus file/directory.
         :return:                None
         """
-        test_path = f"{TESTS_ROOT}/{test_name}"
+        test_path = f"{self.TESTS_ROOT}/{test_name}"
 
         tmp_test_path = self.prepare_test(test_path, data_path)
-        # tmp_test_path = self.prepare_test_dir(test_path, corpus_path)
 
         self.assertEqual(f"/var/tmp/{test_name}", tmp_test_path)
         self.assertTrue(os.path.isdir(tmp_test_path))
+
+        # Rename '.dict.expected' files to match current date
+        self.shift_dict_expectations(tmp_test_path)
 
         # Run pipeline
         self.assertEqual(0, self.run_pipeline(f"{tmp_test_path}/{test_name}.json"),
@@ -204,4 +360,40 @@ class PipelineIntegrationTestCase(unittest.TestCase):
         self.check_expectations(tmp_test_path)
 
         # Remove temporary directory on success
-        shutil.rmtree(tmp_test_path)
+        # shutil.rmtree(tmp_test_path)
+
+
+class ScriptIntegrationTestCase(PipelineIntegrationBaseTestCase):
+    """
+    General CLI script integration test case
+
+    """
+    # Root path for all CLI-scripts integration tests
+    TESTS_ROOT = "tests/test-data/cli-scripts"
+
+    @staticmethod
+    def run_script(cmd_line: str, output_path: Optional[str]):
+        """
+        Run CLI script
+
+        :param cmd_line:        Command line including name of the script and all arguments.
+        :param output_path:     File path to save 'stdout' output to.
+        :return:                OS error level.
+        """
+        arg_list = cmd_line.split()
+
+        cmd = shutil.which(arg_list[0])
+
+        if cmd is None:
+            raise FileNotFoundError(f"'{cmd}' is not found.")
+
+        with Popen([cmd, *arg_list[1:]], stdout=PIPE) as proc:
+            raw, err = proc.communicate()
+
+            if output_path is not None:
+                with open(output_path, "w") as out_file:
+                    out_file.write(raw.decode("utf-8-sig"))
+
+            ret_code = proc.returncode
+
+        return ret_code

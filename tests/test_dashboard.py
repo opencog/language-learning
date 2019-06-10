@@ -9,7 +9,7 @@ conf =   {
     "instance-name": "stat",
     "parameters": {
         "board_type": "file",
-        "file_path":  "/var/tmp/AGI-2018.txt",
+        "file_path":  "/var/tmp/dash-board/AGI-2018.txt",
         "board_name": "AGI-2018",
         "row_count": 17,
         "col_count": 10,
@@ -37,7 +37,7 @@ less_headers =   {
     "instance-name": "stat",
     "parameters": {
         "board_type": "file",
-        "file_path":  "/var/tmp/AGI-2018.txt",
+        "file_path":  "/var/tmp/dash-board/AGI-2018.txt",
         "board_name": "AGI-2018",
         "row_count": 17,
         "col_count": 10,
@@ -62,7 +62,7 @@ more_headers =   {
     "instance-name": "stat",
     "parameters": {
         "board_type": "file",
-        "file_path":  "/var/tmp/AGI-2018.txt",
+        "file_path":  "/var/tmp/dash-board/AGI-2018.txt",
         "board_name": "AGI-2018",
         "row_count": 17,
         "col_count": 10,

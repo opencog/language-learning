@@ -95,13 +95,11 @@ def main(argv):
                     raise getopt.GetoptError("'--random' and '--sequential' cannot be run together.")
                 sequential = True
                 parser_type = "sequential"
-                test_file = ref_file # only set test file to avoide error, won't use it at all
             elif opt in ("-z", "--random"):
                 if sequential:
                     raise getopt.GetoptError("'--random' and '--sequential' cannot be run together.")
                 random = True
                 parser_type = "random"
-                test_file = ref_file # only set test file to avoide error, won't use it at all
             elif opt in ("-a", "--alternative"):
                 alternative_parser = True
             elif opt in ("-f", "--filter"):

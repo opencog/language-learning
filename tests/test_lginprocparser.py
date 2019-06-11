@@ -2,10 +2,10 @@ import os
 import unittest
 
 from src.common.optconst import *
-from src.grammar_tester.lginprocparser import LGInprocParser
 from src.common.textprogress import TextProgress
+from src.grammar_tester.lginprocparser import LGInprocParser
 from src.grammar_tester import load_ull_file
-from src.grammar_tester.lgmisc import LGParseError
+from src.grammar_tester.lgmisc import LGParseError, get_dir_name
 from src.common.tokencount import update_token_counts
 
 lg_post_output = """
@@ -338,6 +338,15 @@ class LGInprocParserTestCase(unittest.TestCase):
         sentenses = lg_parser._parse_batch_ps_output(raw, options)
 
         self.assertEqual(229, len(sentenses))
+
+    def test_get_dir_name(self):
+        file_path = "/home/user/data/tests/GCB-FULL-GLGT-MWC[2..5]-2019-06-11/grammar/ALE500/MWC:2/abs/dict_500C_2019-06-11_0007.4.0.dict"
+        # file_path = "/home/user/data/tests/GCB-FULL-GLGT-MWC-2019-06-11/grammar/ALE500/MWC2/abs/dict_500C_2019-06-11_0007.4.0.dict"
+
+        path, name = get_dir_name(file_path)
+
+        # self.assertEqual("/home/user/data/tests/GCB-FULL-GLGT-MWC[2..5]-2019-06-11/grammar/ALE500/MWC:2/abs", path)
+        self.assertEqual("dict_500C_2019-06-11_0007", name)
 
 
 if __name__ == '__main__':

@@ -152,8 +152,8 @@ def main(argv):
 
         else:
             compare_ull_files(test_file, ref_file, options, **params)
+            print(f"Evaluation complete. Results available in *.stat file(s)")
 
-        print(f"Evaluation complete. Results available in *.stat file(s)")
 
     except FileNotFoundError as err:
         logger.critical(str(err))

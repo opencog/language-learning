@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
 # ASuMa, Mar 2018
-# Read parse data in MST-parser format, from reference and test files
-# and evaluate the accuracy of the test parses.
+# Evaluate parses against reference parses, both in ULL format.
 # See main() documentation below for usage details
 
 import platform
@@ -20,11 +19,15 @@ from ull.parse_evaluator import Evaluate_Alternative
 
 def main(argv):
     """
-        Evaluates parses compared to given gold standard (GS).
-        For each parse, loops through all links in GS and checks if those
-        2 word-instances are also connected in parse to evaluate.
+        Evaluates test parses against given reference parses.
+        Alternatively, can generate its own sequential or random parses
+        to evaluate against reference parses.
+        For each sentence-parse, loops through all links in reference and 
+        checks if those 2 word-instances are also connected in test parse.
 
         Parses must be in format:
+
+        -----------------------------------------------------------------------
         Sentence to evaluate
         # word1 # word2
         # word2 # word3
@@ -34,16 +37,17 @@ def main(argv):
         # word1 # word2
         ...
 
+        -----------------------------------------------------------------------
         Usage: parse_evaluator -r <reffile> -t <testfile> [-v] [-i] [-s] [-z] [-a] [-o]
 
-        testfile        file with parses to evaluate
-        reffile         file with reference (gold standard) parses
+        testfile        file with parses to evaluate, or to store sequential/random parses
+        reffile         file with reference parses
         -v              Verbosity level options: [none, debug, info, warning, error, critical]
         -i              ignore LEFT-WALL and end-of-sentence dot, if any
         -a              use alternative parse_evaluator
-        -s              evaluate sequential parses (only in alternative evaluator)
-        -z              evaluate random parses (only in alternative evaluator)
-        -f              filter sentences not matching in ref and test, or have internal dialogue (only in alternative)
+        -s              generate sequential parses in <testfile> and evaluate 
+        -z              generate random parses in <testfile> and evaluate 
+        -f              filter sentences not matching in ref and test, or have internal dialogue
         -o              compare tokenization between two given parse files. Output file with diffs.
 
     """
@@ -92,12 +96,12 @@ def main(argv):
                 options |= (BIT_NO_LWALL | BIT_NO_PERIOD)
             elif opt in ("-s", "--sequential"):
                 if random:
-                    raise getopt.GetoptError("Either '--random' or '--sequential' or none should be specified.")
+                    raise getopt.GetoptError("'--random' and '--sequential' cannot be run together.")
                 sequential = True
                 parser_type = "sequential"
             elif opt in ("-z", "--random"):
                 if sequential:
-                    raise getopt.GetoptError("Either '--random' or '--sequential' or none should be specified.")
+                    raise getopt.GetoptError("'--random' and '--sequential' cannot be run together.")
                 random = True
                 parser_type = "random"
             elif opt in ("-a", "--alternative"):
@@ -148,6 +152,8 @@ def main(argv):
 
         else:
             compare_ull_files(test_file, ref_file, options, **params)
+            print(f"Evaluation complete. Results available in *.stat file(s)")
+
 
     except FileNotFoundError as err:
         logger.critical(str(err))

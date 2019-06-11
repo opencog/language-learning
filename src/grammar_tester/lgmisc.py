@@ -42,7 +42,7 @@ def get_dir_name(file_name: str) -> (str, str):
     :return: tuple (template_grammar_directory_name, grammar_directory_name)
     """
     p = re.compile(
-        '(/?([+._:\w\d=~-]*/)*)(([a-zA-Z-]+)_[0-9]{1,6}C_[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9A-F]{4})\.(4\.0\.dict)')
+        '(/?([+._:\w\d\[\]=~-]*/)*)(([a-zA-Z-]+)_[0-9]{1,6}C_[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9A-F]{4})\.(4\.0\.dict)')
     m = p.match(file_name)
 
     return (None, None) if m is None else (m.group(4), m.group(3))

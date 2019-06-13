@@ -4,7 +4,7 @@ import unittest
 from src.common.optconst import *
 from src.common.textprogress import TextProgress
 from src.grammar_tester.lginprocparser import LGInprocParser
-from src.grammar_tester import load_ull_file
+from src.grammar_tester import load_parses
 from src.grammar_tester.lgmisc import LGParseError, get_dir_name
 from src.common.tokencount import update_token_counts
 
@@ -229,14 +229,14 @@ class LGInprocParserTestCase(unittest.TestCase):
     def test_load_ull_file_not_found(self):
 
         with self.assertRaises(FileNotFoundError) as ctx:
-            data = load_ull_file("/var/tmp/something.txt")
+            data = load_parses("/var/tmp/something.txt")
 
         # self.assertEqual("list index out of range", str(ctx.exception))
 
     def test_load_ull_file_access_denied(self):
 
         with self.assertRaises(PermissionError) as ctx:
-            data = load_ull_file("/root/something.txt")
+            data = load_parses("/root/something.txt")
 
         # self.assertEqual("list index out of range", str(ctx.exception))
 

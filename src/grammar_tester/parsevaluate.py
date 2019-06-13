@@ -18,7 +18,7 @@ from .lgmisc import print_output, get_output_suffix
 from linkgrammar import ParseOptions, Dictionary, Sentence, Linkage
 
 
-__all__ = ['load_ull_file', 'get_parses', 'eval_parses', 'compare_ull_files', 'EvalError',
+__all__ = ['load_parses', 'eval_parses', 'compare_ull_files', 'EvalError',
            'make_random', 'make_sequential', 'save_parses', 'tokenize_sentence', 'unbox_tokens']
 
 
@@ -29,21 +29,22 @@ PARSE_IGNORED = 2
 logger = logging.getLogger(__name__)
 
 
-class EvalError(Exception):
+class SentenceError(Exception):
     pass
 
 
-def load_ull_file(filename: str):
-    """
-        Loads a data file
-    """
-    with open(filename, "r", encoding="utf-8-sig") as file:
-        data = file.read()
+class EvalError(Exception):
 
-    return data
+    def __init__(self, msg: str, file: str):
+        super().__init__(msg)
+        self._msg = msg
+        self._file = file
+
+    def __str__(self):
+        return f"{self._file}: {self._msg}"
 
 
-def get_parses(data) -> List[Tuple[str, set]]:
+def load_parses(filename: str) -> List[Tuple[str, set]]:
     """
         Separates parses from data into format:
         [
@@ -55,38 +56,38 @@ def get_parses(data) -> List[Tuple[str, set]]:
 
         Each list is splitted into tokens using space.
     """
-    # parses = []
+    with open(filename, "r", encoding="utf-8-sig") as file:
+        data = file.read()
+
     parses: List[Tuple[str, set]] = []
-    index: int = 0
+
+    parse_index: int = 0            # index of the newly created parse
+    line_index: int = 0             # file line index
 
     for bulk in data.split("\n\n"):
 
         if not len(bulk):
             continue
 
-        # parse = []
-        line_count = 0
+        line_count = line_index
 
-        for line in bulk.split("\n"):
+        for line_index, line in enumerate(bulk.split("\n"), line_index):
 
-            if line_count == 0:
+            if line_index == line_count:
                 parses.append(((line.replace("\n", "")).strip(), set()))
-                # parse.append((line.replace("\n", "")).strip())
-                # parse.append(set())
+                continue
 
-            elif len(line):
+            if len(line):
                 link = line.split()
 
                 if len(link) not in [4, 5]:
-                    raise EvalError(f"The line appears not to be a link: '{line}'")
+                    raise EvalError(f"Line #{line_index + 1} appears not to be a link: '{line}'", filename)
 
                 # Only token indexes are added to the set
-                parses[index][PARSE_LINK_SET].add((int(link[0]), int(link[2])))
+                parses[parse_index][PARSE_LINK_SET].add((int(link[0]), int(link[2])))
 
-            line_count += 1
-
-        index += 1
-        # parses.append(parse)
+        line_index += 2
+        parse_index += 1
 
     return parses
 
@@ -228,8 +229,7 @@ def eval_parses(test_parses: list, ref_parses: list, options: int) \
     total_parse_quality = ParseQuality()
 
     if len(ref_parses) != len(test_parses):
-        raise EvalError("Error: files don't contain same parses. "
-                        "Number of sentences missmatch. Ref={}, Test={}".format(len(ref_parses), len(test_parses)))
+        raise SentenceError("Number of sentences missmatch. Ref={len(ref_parses}, Test={len(test_parses)}")
 
     logger.info("\nTest Set\tReference Set\tIntersection\tRecall\tPrecision\tF1")
     logger.info("-" * 75)
@@ -254,8 +254,10 @@ def eval_parses(test_parses: list, ref_parses: list, options: int) \
 
         # Check if two sentences are the same in terms of meaning
         if ref_merged != test_merged:
-            # logger.error("Something went wrong. Sentences mismatch:\n{ref_as_is}\n{test_as_is}")
-            raise EvalError(f"Sentences mismatch:\n{ref_as_is}\n{test_as_is}")
+            if (options & BIT_IGNORE_SENT_MISMATCH):
+                logger.warning(f"Sentences mismatch:\n{ref_as_is}\n{test_as_is}")
+            else:
+                raise SentenceError(f"Sentences mismatch:\n{ref_as_is}\n{test_as_is}")
 
         # Check if two sentences are having all word letters in the same case
         if ref_as_is != test_as_is:
@@ -274,6 +276,10 @@ def eval_parses(test_parses: list, ref_parses: list, options: int) \
             warning = f"Sentence appear to have different tokenization:\n{ref_lcase}\n" \
                 f"in tokens:{sorted(list(ref_token_set - test_token_set))}" \
                 f"<--->{sorted(list(test_token_set - ref_token_set))}\n"
+
+            if (options & BIT_STRICT_TOKENIZATION):
+                raise SentenceError(warning)
+
             tokenization_discrepancies += warning
 
         # Filter sentences containing direct speech (any sentetence with double quotes) if the flag is set
@@ -312,7 +318,7 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
     total_parse_quality = ParseQuality()
     total_file_count = 0
 
-    stat_file = f"{kwargs.get('output_path', os.environ['PWD'])}/{os.path.split(test_path)[1]}.stat"
+    stat_file = f"{kwargs.get('output_path', os.environ['PWD'])}/{os.path.split(handle_path_string(test_path))[1]}.stat"
 
     parser_type = kwargs.get("parser_type", "link-grammar-exe")
 
@@ -371,11 +377,11 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
         logger.info(f"Result file      : '{stat_file}'")
 
         try:
-            ref_parses = get_parses(load_ull_file(ref_file))
+            ref_parses = load_parses(ref_file)
 
             # Load parse file if simple evaluation is expected.
             if operation is None:
-                test_parses = get_parses(load_ull_file(test_file))
+                test_parses = load_parses(test_file)
 
             # Perform parsing and saving if random or sequential parses are expected.
             else:
@@ -399,10 +405,8 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
             if (options & BIT_FILTER_DIR_SPEECH) and len(accepted):
                 save_parses(accepted, flt_file, options)
 
-        except Exception as err:
-            logger.critical("evaluate(): Exception: " + str(err))
-            logger.debug(traceback.print_exc())
-            raise
+        except SentenceError as err:
+            raise EvalError(str(err), file_name)
 
     if not (os.path.isfile(test_path) or os.path.isdir(test_path)):
         raise FileNotFoundError("Path '" + test_path + "' does not exist.")
@@ -415,7 +419,7 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
     if output_path is None or not os.path.isdir(output_path):
         raise FileNotFoundError(f"Path '{output_path}' does not exist.")
 
-    # If corpus is a directory with multiple filese
+    # If corpus is a directory with multiple files
     if os.path.isdir(test_path):
         if not os.path.isdir(ref_path):
             raise ValueError("If 'corpus_path' is a directory 'reference_path' "

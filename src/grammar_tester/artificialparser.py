@@ -3,7 +3,7 @@ from typing import Tuple, List, Callable
 from ..common.absclient import AbstractProgressClient, AbstractFileParserClient
 from ..common.parsemetrics import ParseQuality, ParseMetrics
 from ..common.optconst import *
-from .parsevaluate import get_parses, load_ull_file, save_parses, eval_parses, \
+from .parsevaluate import load_parses, save_parses, eval_parses, \
     make_sequential, make_random
 
 
@@ -30,7 +30,7 @@ class ArtificialParser(AbstractFileParserClient):
 
         pm: ParseMetrics = ParseMetrics()
 
-        ref_parses = get_parses(load_ull_file(ref_file))
+        ref_parses = load_parses(ref_file)
         test_parses = self.operation(ref_parses, options, **self.kwargs)
         save_parses(test_parses, output_path, options)
 

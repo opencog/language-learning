@@ -10,7 +10,7 @@ from .psparse import *
 from .parsestat import *
 from ..common.parsemetrics import *
 from .lgmisc import *
-from .parsevaluate import get_parses, load_ull_file, tokenize_sentence, unbox_tokens, EvalError
+from .parsevaluate import load_parses, tokenize_sentence, unbox_tokens, EvalError
 from .lgpcommands import *
 from .linkgrammarver import get_lg_version, get_lg_dict_version
 
@@ -157,13 +157,7 @@ class LGInprocParser(AbstractFileParserClient):
         if not (options & BIT_OUTPUT):
 
             if options & BIT_PARSE_QUALITY and ref_path is not None:
-                data = load_ull_file(ref_path)
-
-                try:
-                    ref_parses = get_parses(data)
-
-                except AssertionError as err:
-                    raise LGParseError(str(err) + "\n\tMake sure '{}' has proper .ull file format.".format(ref_path))
+                ref_parses = load_parses(ref_path)
 
             # Parse output into sentences and assotiate a list of linkages for each one of them.
             sentences = self._parse_batch_ps_output(text, options)

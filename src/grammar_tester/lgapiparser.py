@@ -8,7 +8,7 @@ from .parsestat import parse_metrics, parse_quality
 from .psparse import parse_postscript, prepare_tokens, get_link_set
 from .lgmisc import get_output_suffix, print_output
 from ..common.absclient import AbstractFileParserClient
-from .parsevaluate import load_ull_file, get_parses
+from .parsevaluate import load_parses
 
 
 __all__ = ['LGApiParser']
@@ -51,12 +51,7 @@ class LGApiParser(AbstractFileParserClient):
 
         try:
             if options & BIT_PARSE_QUALITY and ref_path is not None:
-                try:
-                    data = load_ull_file(ref_path)
-                    ref_parses = get_parses(data, (options & BIT_NO_LWALL) == BIT_NO_LWALL, False)
-
-                except Exception as err:
-                    print("Exception: " + str(err))
+                ref_parses = load_parses(ref_path)
 
             link_line = re.compile(r"\A[0-9].+")
 

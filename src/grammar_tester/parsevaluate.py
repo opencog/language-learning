@@ -29,7 +29,12 @@ PARSE_IGNORED = 2
 logger = logging.getLogger(__name__)
 
 
+class SentenceError(Exception):
+    pass
+
+
 class EvalError(Exception):
+
     def __init__(self, msg: str, file: str):
         super().__init__(msg)
         self._msg = msg
@@ -224,8 +229,7 @@ def eval_parses(test_parses: list, ref_parses: list, options: int) \
     total_parse_quality = ParseQuality()
 
     if len(ref_parses) != len(test_parses):
-        raise EvalError("Error: files don't contain same parses. "
-                        "Number of sentences missmatch. Ref={}, Test={}".format(len(ref_parses), len(test_parses)))
+        raise SentenceError("Number of sentences missmatch. Ref={len(ref_parses}, Test={len(test_parses)}")
 
     logger.info("\nTest Set\tReference Set\tIntersection\tRecall\tPrecision\tF1")
     logger.info("-" * 75)
@@ -253,7 +257,7 @@ def eval_parses(test_parses: list, ref_parses: list, options: int) \
             if (options & BIT_IGNORE_SENT_MISMATCH):
                 logger.warning(f"Sentences mismatch:\n{ref_as_is}\n{test_as_is}")
             else:
-                raise EvalError(f"Sentences mismatch:\n{ref_as_is}\n{test_as_is}")
+                raise SentenceError(f"Sentences mismatch:\n{ref_as_is}\n{test_as_is}")
 
         # Check if two sentences are having all word letters in the same case
         if ref_as_is != test_as_is:
@@ -274,7 +278,7 @@ def eval_parses(test_parses: list, ref_parses: list, options: int) \
                 f"<--->{sorted(list(test_token_set - ref_token_set))}\n"
 
             if (options & BIT_STRICT_TOKENIZATION):
-                raise EvalError(warning)
+                raise SentenceError(warning)
 
             tokenization_discrepancies += warning
 
@@ -401,12 +405,13 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
             if (options & BIT_FILTER_DIR_SPEECH) and len(accepted):
                 save_parses(accepted, flt_file, options)
 
-        # except EvalError as err:
-        #     raise EvalError(str(err), )
-        except Exception as err:
-            logger.critical("evaluate(): Exception: " + str(err))
-            logger.debug(traceback.print_exc())
-            raise
+        except SentenceError as err:
+            raise EvalError(str(err), file_name)
+
+        # except Exception as err:
+        #     logger.critical("evaluate(): Exception: " + str(err))
+        #     logger.debug(traceback.print_exc())
+        #     raise
 
     if not (os.path.isfile(test_path) or os.path.isdir(test_path)):
         raise FileNotFoundError("Path '" + test_path + "' does not exist.")

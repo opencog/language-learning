@@ -13,7 +13,8 @@ import logging
 import traceback
 
 from ull.common import handle_path_string, strip_quotes, setup_logging, VERBOSITY_OPTIONS, \
-    BIT_NO_LWALL, BIT_ULL_IN, BIT_NO_PERIOD, BIT_FILTER_DIR_SPEECH
+    BIT_NO_LWALL, BIT_ULL_IN, BIT_NO_PERIOD, BIT_FILTER_DIR_SPEECH, BIT_STRICT_TOKENIZATION, \
+    BIT_IGNORE_SENT_MISMATCH
 from ull.grammar_tester import compare_ull_files, EvalError
 from ull.parse_evaluator import Evaluate_Alternative
 
@@ -45,7 +46,9 @@ def main(argv):
         -z              evaluate random parses (only in alternative evaluator)
         -f              filter sentences not matching in ref and test, or have internal dialogue (only in alternative)
         -o              compare tokenization between two given parse files. Output file with diffs.
-
+        -O              output directory path
+        -T              strict tokenization
+        -S              ignore sentences mismatch
     """
     test_file = ''
     ref_file = ''
@@ -64,14 +67,16 @@ def main(argv):
     try:
         app_name = str(os.path.split(__file__)[1]).split(".")[0]
 
-        opts, args = getopt.getopt(argv, "ht:r:O:v:iszafo", ["test=", "reference=", "output=", "verbosity=", "ignore",
+        opts, args = getopt.getopt(argv, "ht:r:O:v:iszafoTS", ["test=", "reference=", "output=", "verbosity=", "ignore",
                                                              "sequential", "random", "alternative", "filter",
-                                                             "tokenization"])
+                                                             "tokenization", "strict-tokenization",
+                                                             "ignore-sent-mismatch"])
 
         for opt, arg in opts:
             if opt == '-h':
-                print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-O <output-path>] [-v] [-i] [-s] [-z] "
-                      "[-a] [-f] [-o]")
+                # print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-O <output-path>] [-v] [-i] [-s] [-z] "
+                #       "[-a] [-f] [-o]")
+                print(main.__doc__)
                 sys.exit()
             elif opt in ("-t", "--test"):
                 test_file = arg
@@ -107,6 +112,10 @@ def main(argv):
                 options |= BIT_FILTER_DIR_SPEECH
             elif opt in ("-o", "--tokenization"):
                 compare_tokenization = True
+            elif opt in ("-T", "--strict-tokenization"):
+                options |= BIT_STRICT_TOKENIZATION
+            elif opt in ("-S", "--ignore-sent-mismatch"):
+                options |= BIT_IGNORE_SENT_MISMATCH
 
     except getopt.GetoptError:
         print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a] [-f] [-o]")

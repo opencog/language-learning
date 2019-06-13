@@ -40,6 +40,7 @@ def main(argv):
         testfile        file with parses to evaluate
         reffile         file with reference (gold standard) parses
         -v              Verbosity level options: [none, debug, info, warning, error, critical]
+        -z              File logging level options: [none, debug, info, warning, error, critical]
         -i              ignore LEFT-WALL and end-of-sentence dot, if any
         -a              use alternative parse_evaluator
         -s              evaluate sequential parses (only in alternative evaluator)
@@ -55,6 +56,7 @@ def main(argv):
     out_path = None
     verbose = False
     verbosity_level = logging.WARNING
+    logging_level   = logging.NOTSET
     ignore_wall = False
     sequential = False
     random = False
@@ -67,15 +69,13 @@ def main(argv):
     try:
         app_name = str(os.path.split(__file__)[1]).split(".")[0]
 
-        opts, args = getopt.getopt(argv, "ht:r:O:v:iszafoTS", ["test=", "reference=", "output=", "verbosity=", "ignore",
+        opts, args = getopt.getopt(argv, "ht:r:O:v:iszafoTSw:", ["test=", "reference=", "output=", "verbosity=", "ignore",
                                                              "sequential", "random", "alternative", "filter",
                                                              "tokenization", "strict-tokenization",
-                                                             "ignore-sent-mismatch"])
+                                                             "ignore-sent-mismatch", "logging"])
 
         for opt, arg in opts:
             if opt == '-h':
-                # print("Usage: ./parse_evaluator.py -r <reffile> -t <testfile> [-O <output-path>] [-v] [-i] [-s] [-z] "
-                #       "[-a] [-f] [-o]")
                 print(main.__doc__)
                 sys.exit()
             elif opt in ("-t", "--test"):
@@ -92,6 +92,13 @@ def main(argv):
 
                 verbosity_level = VERBOSITY_OPTIONS[verb_key]
                 verbose = verbosity_level < logging.WARNING
+            elif opt in ("-w", "--logging"):
+                log_key = strip_quotes(arg)
+
+                if log_key not in VERBOSITY_OPTIONS.keys():
+                    raise getopt.GetoptError("Wrong logging argument value: ()".format(log_key))
+
+                logging_level = VERBOSITY_OPTIONS[log_key]
             elif opt in ("-i", "--ignore"):
                 ignore_wall = True
                 options |= (BIT_NO_LWALL | BIT_NO_PERIOD)
@@ -118,10 +125,10 @@ def main(argv):
                 options |= BIT_IGNORE_SENT_MISMATCH
 
     except getopt.GetoptError:
-        print("Usage: ./parse_evaluator.py -r <reffile> [-t <testfile>] [-v] [-i] [-s] [-z] [-a] [-f] [-o]")
+        print(main.__doc__)
         sys.exit(2)
 
-    setup_logging(verbosity_level, logging.NOTSET, os.environ["PWD"] + "/" + app_name + ".log", "w")
+    setup_logging(verbosity_level, logging_level, f"{os.environ['PWD']}/{app_name}.log", "w")
 
     logger = logging.getLogger(app_name)
 
@@ -169,7 +176,7 @@ def main(argv):
 
     except EvalError as err:
         logger.critical(str(err))
-        logger.debug(traceback.print_exc())
+        # logger.debug(traceback.print_exc())
         return 3
 
     except KeyboardInterrupt:

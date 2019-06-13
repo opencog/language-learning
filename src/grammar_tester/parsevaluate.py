@@ -318,7 +318,7 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
     total_parse_quality = ParseQuality()
     total_file_count = 0
 
-    stat_file = f"{kwargs.get('output_path', os.environ['PWD'])}/{os.path.split(test_path)[1]}.stat"
+    stat_file = f"{kwargs.get('output_path', os.environ['PWD'])}/{os.path.split(handle_path_string(test_path))[1]}.stat"
 
     parser_type = kwargs.get("parser_type", "link-grammar-exe")
 
@@ -408,11 +408,6 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
         except SentenceError as err:
             raise EvalError(str(err), file_name)
 
-        # except Exception as err:
-        #     logger.critical("evaluate(): Exception: " + str(err))
-        #     logger.debug(traceback.print_exc())
-        #     raise
-
     if not (os.path.isfile(test_path) or os.path.isdir(test_path)):
         raise FileNotFoundError("Path '" + test_path + "' does not exist.")
 
@@ -424,7 +419,7 @@ def compare_ull_files(test_path, ref_path, options: int, **kwargs) -> ParseQuali
     if output_path is None or not os.path.isdir(output_path):
         raise FileNotFoundError(f"Path '{output_path}' does not exist.")
 
-    # If corpus is a directory with multiple filese
+    # If corpus is a directory with multiple files
     if os.path.isdir(test_path):
         if not os.path.isdir(ref_path):
             raise ValueError("If 'corpus_path' is a directory 'reference_path' "

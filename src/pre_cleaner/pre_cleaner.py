@@ -8,6 +8,8 @@ import sys, getopt, os
 import re
 from html.parser import HTMLParser
 
+__all__ = ['Remove_Caps']
+
 def main(argv):
 	"""
 		Pre_cleaner takes two mandatory arguments and several optional ones:
@@ -259,8 +261,8 @@ def Char_Tokenizer(sentence, boundary_chars, tokenized_chars):
 	tok_sentence = sentence
 	# separates boundary chars from word when they're found at word boundary
 	for curr_char in boundary_chars:
-		tok_sentence = re.sub(r"(?:(\s|^))("+curr_char+"+)", r" \2 ", tok_sentence);
-		tok_sentence = re.sub(r"("+curr_char+"+)(?:(\s|$))", r" \1 ", tok_sentence);
+		tok_sentence = re.sub(r"(\s|^)("+curr_char+"+)", r"\1 \2 ", tok_sentence);
+		tok_sentence = re.sub(r"("+curr_char+"+)(\s|$)", r" \1 \2", tok_sentence);
 
 	# tokenizes all tokenized_chars
 	trans_table = dict((ord(char), " " + char + " ") for char in tokenized_chars)

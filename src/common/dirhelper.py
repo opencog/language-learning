@@ -7,7 +7,7 @@ __all__ = ['traverse_dir', 'create_dir', 'traverse_dir_tree']
 def traverse_dir_tree(root: str, file_ext: str, file_arg_list: list=None, dir_arg_list: list=None,
                            is_recursive: bool=False):
     """
-    Perform argument check and if all the arguments are properly specified call `traverse_directory` which actualy
+    Perform argument check and if all the arguments are properly specified call `traverse_directory` which actually
         does the job.
 
     :param root: Root directory to start traversing from.

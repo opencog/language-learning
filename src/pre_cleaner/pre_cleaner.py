@@ -8,7 +8,7 @@ import sys, getopt, os
 import re
 from html.parser import HTMLParser
 
-__all__ = ['Remove_Caps', 'Ignore_Long_Sentence', 'Remove_Long_Tokens']
+__all__ = ['Remove_Caps', 'Ignore_Long_Sentence', 'Remove_Long_Tokens', 'Normalize_Sentence']
 
 def main(argv):
 	"""
@@ -348,11 +348,11 @@ def Normalize_Sentence(sentence, separate_contractions):
 		Also separates contractions if separete_contractions
 	"""
 
-		# Normalize apostrophes, dashes and quotes obtained from Wikipedia 
+	# Normalize apostrophes, dashes and quotes obtained from Wikipedia 
 	# Apostrophe page
 	sentence = re.sub(r"`|’|‘", "'", sentence)
-	sentence = re.sub(r"‑|‐", "-", sentence)
 	# some dashes look the same, but they are different
+	sentence = re.sub(r"‑|‐", "-", sentence)
 	sentence = re.sub(r"-{2,}|―|—|–|‒", "—", sentence) 
 	sentence = re.sub(r"''|“|”", '"', sentence)
 	# remove underscores completely, so they are token-splitters

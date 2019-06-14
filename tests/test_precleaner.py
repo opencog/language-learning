@@ -53,6 +53,11 @@ class PreCleanerTestCase(unittest.TestCase):
 		mixed_ref = '" \' - — "'
 		self.assertEqual(mixed_ref, Normalize_Sentence(mixed, False))
 
+	def test_Forbidden_Symbols(self):
+		invalid_chars = 'aeiou'
+		sentence = "This is a normal sentence"
+		sentence_ref = "Ths s  nrml sntnc"
+		self.assertEqual(sentence_ref, Clean_Sentence(sentence, invalid_chars, []))
 
 if __name__ == '__main__':
 	unittest.main()

@@ -8,7 +8,8 @@ import sys, getopt, os
 import re
 from html.parser import HTMLParser
 
-__all__ = ['Remove_Caps', 'Ignore_Long_Sentence', 'Remove_Long_Tokens', 'Normalize_Sentence']
+__all__ = ['Remove_Caps', 'Ignore_Long_Sentence', 'Remove_Long_Tokens', 'Normalize_Sentence',
+			'Clean_Sentence']
 
 def main(argv):
 	"""
@@ -165,8 +166,6 @@ def main(argv):
 			add_splitters = False
 			filename_suffix += 'S'
 
-	translate_table = dict((ord(char), None) for char in invalid_chars)
-
 	os.chdir(inputdir)
 	for inputfile in os.listdir("."):
 		print("Processing: ", os.path.basename(inputfile))
@@ -194,7 +193,7 @@ def main(argv):
 				temp_sentence = Substitute_Percent(temp_sentence)
 			if convert_numbers_to_tokens == True:
 				temp_sentence = Substitute_Numbers(temp_sentence)
-			temp_sentence = Clean_Sentence(temp_sentence, translate_table, new_suffix_list)
+			temp_sentence = Clean_Sentence(temp_sentence, invalid_chars, new_suffix_list)
 			tokenized_sentence = Char_Tokenizer(temp_sentence, boundary_chars, tokenized_chars)
 			tokenized_sentence = Naive_Tokenizer(tokenized_sentence)
 			if Ignore_Long_Sentence(tokenized_sentence, max_tokens) == True:
@@ -325,10 +324,11 @@ def Ignore_Invalid_Sentence(tokenized_sentence, invalidating_symbols, invalidati
 
 	return False
 
-def Clean_Sentence(sentence, translate_table, new_suffix_list):
+def Clean_Sentence(sentence, invalid_chars, new_suffix_list):
 	"""
 		Cleans sentence from invalid chars
 	"""
+	translate_table = dict((ord(char), None) for char in invalid_chars)
 	# remove unaccepted characters
 	temp_sentence = sentence.translate(translate_table)
 	# remove asterisk, so they are token-splitters

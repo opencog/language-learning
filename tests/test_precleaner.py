@@ -16,5 +16,12 @@ class PreCleanerTestCase(unittest.TestCase):
 
 		self.assertEqual(lower_sent1, test_sent)
 
+	def test_Ignore_Long_Sentence(self):
+		max_tokens = 5
+		list_long = list(range(max_tokens + 1))
+		list_short = list(range(max_tokens))
+		self.assertTrue(Ignore_Long_Sentence(list_long, max_tokens))
+		self.assertTrue(not Ignore_Long_Sentence(list_short, max_tokens))
+
 if __name__ == '__main__':
 	unittest.main()

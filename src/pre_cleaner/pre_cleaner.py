@@ -8,7 +8,7 @@ import sys, getopt, os
 import re
 from html.parser import HTMLParser
 
-__all__ = ['Remove_Caps']
+__all__ = ['Remove_Caps', 'Ignore_Long_Sentence']
 
 def main(argv):
 	"""

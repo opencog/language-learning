@@ -9,7 +9,7 @@ import re
 from html.parser import HTMLParser
 
 __all__ = ['Remove_Caps', 'Ignore_Long_Sentence', 'Remove_Long_Tokens', 'Normalize_Sentence',
-			'Clean_Sentence']
+			'Clean_Sentence', 'Char_Tokenizer']
 
 def main(argv):
 	"""

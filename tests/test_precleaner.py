@@ -81,12 +81,16 @@ class PreCleanerTestCase(unittest.TestCase):
 		sentence_ref = "A . test !  sentence ?  . "
 		self.assertEqual(sentence_ref, Char_Tokenizer(sentence, "", tokenized_chars))
 
-	def test_Token_Invalidating_Symbols(self):
-		token_symbols = "ai"
+	def test_Remove_Invalid_Tokens(self):
+		invalid_token_symbols = "ai"
 		tok_list = ["This", "is", "a", "test", "sentence"]
 		tok_list_ref = ["test", "sentence"]
-		self.assertEqual(tok_list_ref, Remove_Invalid_Tokens(tok_list, token_symbols))
+		self.assertEqual(tok_list_ref, Remove_Invalid_Tokens(tok_list, invalid_token_symbols))
 
+	def test_Symbol_Invalidate_Sentence(self):
+		invalid_sent_symbols = "ai"
+		tok_list = ["This", "is", "a", "test", "sentence"]
+		self.assertTrue(Ignore_Invalid_Sentence(tok_list, invalid_sent_symbols, []))
 
 if __name__ == '__main__':
 	unittest.main()

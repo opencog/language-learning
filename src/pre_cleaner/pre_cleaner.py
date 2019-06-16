@@ -328,13 +328,15 @@ def Clean_Sentence(sentence, invalid_chars, new_suffix_list):
 	"""
 		Cleans sentence from invalid chars
 	"""
-	translate_table = dict((ord(char), None) for char in invalid_chars)
 	# remove unaccepted characters
+	translate_table = dict((ord(char), None) for char in invalid_chars)
 	temp_sentence = sentence.translate(translate_table)
 	# remove asterisk, so they are token-splitters
 	temp_sentence = re.sub(r"\*", " ", temp_sentence)
 	# remove long-dashes completely, so they are token-splitters
 	temp_sentence = re.sub(r"—", " ", temp_sentence)
+	# remove underscores completely, so they are token-splitters
+	temp_sentence = re.sub(r"_", " ", temp_sentence)
 	temp_sentence = Remove_Suffixes(temp_sentence, new_suffix_list)
 
 	return temp_sentence
@@ -356,7 +358,7 @@ def Normalize_Sentence(sentence, separate_contractions):
 	sentence = re.sub(r"-{2,}|―|—|–|‒", "—", sentence) 
 	sentence = re.sub(r"''|“|”", '"', sentence)
 	# remove underscores completely, so they are token-splitters
-	sentence = re.sub(r"_", " ", sentence)
+	# sentence = re.sub(r"_", " ", sentence)
 	if separate_contractions == True:
 		# separate contractions (e.g. They're -> They 're)
 		sentence = re.sub(r"(?<=[a-zA-Z])'(?=[a-zA-Z])", " '", sentence)

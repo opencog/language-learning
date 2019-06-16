@@ -70,6 +70,11 @@ class PreCleanerTestCase(unittest.TestCase):
 		sentence2_ref = "We're testin ' another .  \" sentence\" ."
 		#self.assertEqual(sentence2_ref, Char_Tokenizer(sentence2, boundary_chars, ""))
 
+	def test_Splitter_Symbols(self):
+		sentence = "This_is a t*est sen—tence—."
+		sentence_ref = "This is a t est sen tence ."
+		self.assertEqual(sentence_ref, Clean_Sentence(sentence, "", []))
+
 
 if __name__ == '__main__':
 	unittest.main()

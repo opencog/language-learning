@@ -81,6 +81,11 @@ class PreCleanerTestCase(unittest.TestCase):
 		sentence_ref = "A . test !  sentence ?  . "
 		self.assertEqual(sentence_ref, Char_Tokenizer(sentence, "", tokenized_chars))
 
+	def test_Token_Invalidating_Symbols(self):
+		token_symbols = "ai"
+		tok_list = ["This", "is", "a", "test", "sentence"]
+		tok_list_ref = ["test", "sentence"]
+		self.assertEqual(tok_list_ref, Remove_Invalid_Tokens(tok_list, token_symbols))
 
 
 if __name__ == '__main__':

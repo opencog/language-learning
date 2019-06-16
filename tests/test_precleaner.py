@@ -88,9 +88,18 @@ class PreCleanerTestCase(unittest.TestCase):
 		self.assertEqual(tok_list_ref, Remove_Invalid_Tokens(tok_list, invalid_token_symbols))
 
 	def test_Symbol_Invalidate_Sentence(self):
-		invalid_sent_symbols = "ai"
+		invalid_sent_symbols = "a"
 		tok_list = ["This", "is", "a", "test", "sentence"]
+		tok_list2 = ["Shorter", "test", "sentence"]
 		self.assertTrue(Ignore_Invalid_Sentence(tok_list, invalid_sent_symbols, []))
+		self.assertTrue(not Ignore_Invalid_Sentence(tok_list2, invalid_sent_symbols, []))
+
+	def test_Token_Invalidate_Sentence(self):
+		invalid_sent_tokens = ["is", "evil"]
+		tok_list = ["This", "is", "a", "test", "sentence"]
+		tok_list2 = ["This", "is", "an", "evil", "test", "sentence"]
+		tok_list3 = ["This", "is", "an", "evil", "test", "sentence"]
+		self.assertTrue(Ignore_Invalid_Sentence(tok_list, invalid_sent_tokens, []))
 
 if __name__ == '__main__':
 	unittest.main()

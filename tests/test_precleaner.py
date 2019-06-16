@@ -75,6 +75,13 @@ class PreCleanerTestCase(unittest.TestCase):
 		sentence_ref = "This is a t est sen tence ."
 		self.assertEqual(sentence_ref, Clean_Sentence(sentence, "", []))
 
+	def test_Tokenized_Chars(self):
+		tokenized_chars = ".?!"
+		sentence = "A.test! sentence?."
+		sentence_ref = "A . test !  sentence ?  . "
+		self.assertEqual(sentence_ref, Char_Tokenizer(sentence, "", tokenized_chars))
+
+
 
 if __name__ == '__main__':
 	unittest.main()

@@ -59,5 +59,17 @@ class PreCleanerTestCase(unittest.TestCase):
 		sentence_ref = "Ths s  nrml sntnc"
 		self.assertEqual(sentence_ref, Clean_Sentence(sentence, invalid_chars, []))
 
+	def test_Boundary_Chars(self):
+		boundary_chars = 'aeiou'
+		sentence = "This is unusual for a sentence"
+		sentence_ref = "This  i s  u nusual for  a  sentenc e"
+		self.assertEqual(sentence_ref, Char_Tokenizer(sentence, boundary_chars, ""))
+
+		boundary_chars = u"\"'."
+		sentence2 = "We're testin' another. \"sentence\"."
+		sentence2_ref = "We're testin ' another .  \" sentence\" ."
+		#self.assertEqual(sentence2_ref, Char_Tokenizer(sentence2, boundary_chars, ""))
+
+
 if __name__ == '__main__':
 	unittest.main()

@@ -254,14 +254,14 @@ def Remove_Caps(sentence):
 
 def Char_Tokenizer(sentence, boundary_chars, tokenized_chars):
 	"""
-		Separates chars either from the boundary of a word or 
-		from any part of the string
+		Separates boundary_chars from the boundary of a word 
+		and tokenized_chars from any part of the string
 	"""
 	tok_sentence = sentence
-	# separates boundary chars from word when they're found at word boundary
+	# separates boundary_chars when they're found at word boundary
 	for curr_char in boundary_chars:
-		tok_sentence = re.sub(r"(\s|^)("+curr_char+"+)", r"\1 \2 ", tok_sentence);
-		tok_sentence = re.sub(r"("+curr_char+"+)(\s|$)", r" \1 \2", tok_sentence);
+		tok_sentence = re.sub(r"(\s|^)("+curr_char+"+)", r"\1\2 ", tok_sentence);
+		tok_sentence = re.sub(r"("+curr_char+"+)(\s|$)", r" \1\2", tok_sentence);
 
 	# tokenizes all tokenized_chars
 	trans_table = dict((ord(char), " " + char + " ") for char in tokenized_chars)

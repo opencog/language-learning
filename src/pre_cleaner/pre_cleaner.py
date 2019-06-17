@@ -32,7 +32,8 @@ def main(argv):
 		boundary_chars		Characters tokenized if token boundaries, only inside.
 							Given as chars separated by space, e.g. "\" ' \."
 							Default: apostrophe, double quote, dot
-		tokenized_chars		Characters tokenized everywhere.
+		tokenized_chars		Characters tokenized everywhere. Given as a string without spaces between 
+							characters, e.g. "$%^&"
 							Default: brackets, parenthesis, braces, comma, colon, semicolon, slash,
 							currency signs, #, &, +, -
 		suffixes 			Suffixes to eliminate in text (default: none). They need to come in a string
@@ -41,15 +42,15 @@ def main(argv):
 							As suffixes, they need to come at the end of a word to be eliminated
 		sentence_length		Maximum sentence length accepted (default: 25). Sentences with more are deleted
 		token_length 		Maximum token lenght accepted (default: 25). Tokens with more are deleted
-		sentences_symbols	Symbols invalidating sentences (default: none). They need to be given as a
-							string without spaces between the characters, e.g. "$%^&" would eliminate
+		sentence_symbols	Symbols invalidating sentences (default: none). 
+							Given as chars separated by space, e.g. "$ % ^ &" would eliminate
 							all sentences that have those 4 characters.
 		sentence_tokens 	Tokens invalidating sentences (default: none). They need to be given as a 
 							string separated by spaces, e.g. "three invalid tokens" would eliminate all
 							sentences including either "three", "invalid" or "tokens"
-		token_symbols 		Symbols invalidating tokens (default: none). They need to be given as a
-							string without spaces between the characters, e.g. "$%^&" would eliminate
-							all tokens that have those 4 characters.
+		token_symbols 		Symbols invalidating tokens (default: none).
+							Given as chars separated by space, e.g. "$ % ^ &" would eliminate
+							all sentences that have those 4 characters.
 		-U 					Keep uppercase letters (default: convert to lowercase)
 		-j 					Separate contractions (default: keep them together)
 		-n 					Keep numbers (default: converts them to @number@ token)
@@ -69,9 +70,9 @@ def main(argv):
 	new_suffix_list = []
 	max_tokens = 25
 	max_chars = 25
-	sentence_invalid_symbols = []
+	sentence_invalid_symbols = u""
 	sentence_invalid_tokens = []
-	token_invalid_symbols = []
+	token_invalid_symbols = u""
 	convert_lowercase = True
 	separate_contractions = False
 	convert_percent_to_tokens = True
@@ -301,7 +302,7 @@ def Remove_Invalid_Tokens(tokenized_sentence, invalidating_symbols):
 	"""
 	valid_tokens_sentence = [] + tokenized_sentence # forcing a copy, avoid pass by reference
 	for token in tokenized_sentence:
-		for invalid_symbol in invalidating_symbols:
+		for invalid_symbol in invalidating_symbols.split():
 			if invalid_symbol in token:
 				valid_tokens_sentence.remove(token)
 

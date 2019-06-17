@@ -149,5 +149,12 @@ class PreCleanerTestCase(unittest.TestCase):
 		percent_test2_ref = "Any number works  @percent@  or  @percent@ , not 12 %"
 		self.assertEqual(Substitute_Percent(percent_test2), percent_test2_ref)
 
+	def test_Remove_Suffixes(self):
+		suffixes = "'re g"
+		suffix_test1 = "They're coming tonight"
+		suffix_test1_ref = "They comin tonight"
+		new_suffixes = Prepare_Suffix_List(suffixes.split())
+		self.assertEqual(Remove_Suffixes(suffix_test1, new_suffixes), suffix_test1_ref)
+
 if __name__ == '__main__':
 	unittest.main()

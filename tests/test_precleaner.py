@@ -103,5 +103,17 @@ class PreCleanerTestCase(unittest.TestCase):
 		self.assertTrue(Ignore_Invalid_Sentence(tok_list2, "", invalid_sent_tokens))
 		self.assertTrue(not Ignore_Invalid_Sentence(tok_list3, "", invalid_sent_tokens))
 
+	def test_Substitute_Numbers(self):
+		num_test1 = "Those 3 dogs ate -4.1 hot dogs"
+		num_test1_ref = "Those @number@ dogs ate @number@ hot dogs"
+		self.assertEqual(Substitute_Numbers(num_test1), num_test1_ref)
+		num_test2 = "Adding 0,000,000 to 17;311.13 is -useless"
+		num_test2_ref = "Adding @number@ to @number@ is -useless"
+		self.assertEqual(Substitute_Numbers(num_test2), num_test2_ref)
+		num_test3 = "Notatio.n: -51,123123 and 884'432'211 are 3cky"
+		num_test3_ref = "Notatio.n: @number@ and @number@ are 3cky"
+		self.assertEqual(Substitute_Numbers(num_test3), num_test3_ref)
+
+
 if __name__ == '__main__':
 	unittest.main()

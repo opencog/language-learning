@@ -114,6 +114,20 @@ class PreCleanerTestCase(unittest.TestCase):
 		num_test3_ref = "Notatio.n: @number@ and @number@ are 3cky"
 		self.assertEqual(Substitute_Numbers(num_test3), num_test3_ref)
 
+	def test_Substitute_Dates(self):
+		date_test1 = "On 5/13, meaning 5/13/2018, also written as 2018/5/13."
+		date_test1_ref = "On  @date@ , meaning  @date@ , also written as  @date@ ."
+		self.assertEqual(Substitute_Dates(date_test1), date_test1_ref)
+		date_test2 = "Can't write as 5/2018/13, but 18-5-13 or 13.5.18"
+		date_test2_ref = "Can't write as 5/2018/13, but  @date@  or  @date@ "
+		self.assertEqual(Substitute_Dates(date_test2), date_test2_ref)
+		date_test3 = "Try May 2018, or May 2018, specifically May 13th, 2018."
+		date_test3_ref = "Try  @date@ , or  @date@ , specifically  @date@ ."
+		self.assertEqual(Substitute_Dates(date_test3), date_test3_ref)
+		date_test4 = "It was May-05-2018. Or 2018-May-13, but not 2018-XXX-13"
+		date_test4_ref = "It was  @date@ . Or  @date@ , but not 2018-XXX-13"
+		self.assertEqual(Substitute_Dates(date_test4), date_test4_ref)
+
 
 if __name__ == '__main__':
 	unittest.main()

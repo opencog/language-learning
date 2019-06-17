@@ -30,7 +30,8 @@ def main(argv):
 							string without spaces between the characters, e.g. "$%^&" would eliminate
 							only those 4 characters from appearances in the text.
 		boundary_chars		Characters tokenized if token boundaries, only inside.
-							Default: apostrophe, double quote.
+							Given as chars separated by space, e.g. "\" ' \."
+							Default: apostrophe, double quote, dot
 		tokenized_chars		Characters tokenized everywhere.
 							Default: brackets, parenthesis, braces, comma, colon, semicolon, slash,
 							currency signs, #, &, +, -
@@ -63,7 +64,7 @@ def main(argv):
 	inputdir = ''
 	outputdir = ''
 	invalid_chars = u""
-	boundary_chars = u'\'"'
+	boundary_chars = u'\' " \.'
 	tokenized_chars = u"[](){}<>,:;/\$#&+=?!¡¿"
 	new_suffix_list = []
 	max_tokens = 25
@@ -255,9 +256,9 @@ def Char_Tokenizer(sentence, boundary_chars, tokenized_chars):
 	"""
 	tok_sentence = sentence
 	# separates boundary_chars when they're found at word boundary
-	for curr_char in boundary_chars:
-		tok_sentence = re.sub(r"(\s|^)("+curr_char+"+)", r"\1\2 ", tok_sentence);
-		tok_sentence = re.sub(r"("+curr_char+"+)(\s|$)", r" \1\2", tok_sentence);
+	for curr_char in boundary_chars.split():
+		tok_sentence = re.sub(r"(\s|^)(" + curr_char + r"+)", r"\1\2 ", tok_sentence);
+		tok_sentence = re.sub(r"(" + curr_char + r"+)(\s|$)", r" \1\2", tok_sentence);
 
 	# tokenizes all tokenized_chars
 	trans_table = dict((ord(char), " " + char + " ") for char in tokenized_chars)

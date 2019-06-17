@@ -144,5 +144,10 @@ class PreCleanerTestCase(unittest.TestCase):
 		link_test2_ref = " @url@  installs malware."
 		self.assertEqual(Substitute_Links(link_test2), link_test2_ref)
 
+	def test_Substitute_Percent(self):
+		percent_test2 = "Any number works 43.1% or -17,199%, not 12 %"
+		percent_test2_ref = "Any number works  @percent@  or  @percent@ , not 12 %"
+		self.assertEqual(Substitute_Percent(percent_test2), percent_test2_ref)
+
 if __name__ == '__main__':
 	unittest.main()

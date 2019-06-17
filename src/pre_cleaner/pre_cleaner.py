@@ -11,7 +11,7 @@ from html.parser import HTMLParser
 __all__ = ['Remove_Caps', 'Ignore_Long_Sentence', 'Remove_Long_Tokens', 'Normalize_Sentence',
 			'Clean_Sentence', 'Char_Tokenizer', 'Remove_Invalid_Tokens',
 			'Ignore_Invalid_Sentence', 'Substitute_Numbers', 'Substitute_Dates',
-			'Substitute_Times', 'Substitute_Links']
+			'Substitute_Times', 'Substitute_Links', 'Substitute_Percent']
 
 def main(argv):
 	"""
@@ -191,10 +191,10 @@ def main(argv):
 				temp_sentence = Substitute_Dates(temp_sentence)
 			if convert_times_to_tokens == True:
 				temp_sentence = Substitute_Times(temp_sentence)
-			if convert_numbers_to_tokens == True:
-				temp_sentence = Substitute_Numbers(temp_sentence)
 			if convert_percent_to_tokens == True:
 				temp_sentence = Substitute_Percent(temp_sentence)
+			if convert_numbers_to_tokens == True:
+				temp_sentence = Substitute_Numbers(temp_sentence)
 			temp_sentence = Clean_Sentence(temp_sentence, invalid_chars, new_suffix_list)
 			tokenized_sentence = Char_Tokenizer(temp_sentence, boundary_chars, tokenized_chars)
 			tokenized_sentence = Naive_Tokenizer(tokenized_sentence)
@@ -442,8 +442,8 @@ def Substitute_Percent(sentence):
 		Substitutes percents with special token
 	"""
 	# handles @number@ followed by a "%"" sign
-	sentence = re.sub(r"@number ?%", 
-		               '@percent@', sentence)
+	sentence = re.sub(r'''(?<![^\s"'[(])[+-]?[.,;]?(\d+[.,;']?)+%(?![^\s.,;!?'")\]])''', 
+' @percent@ ', sentence)
 	return sentence
 
 

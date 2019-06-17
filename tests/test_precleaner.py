@@ -128,6 +128,13 @@ class PreCleanerTestCase(unittest.TestCase):
 		date_test4_ref = "It was  @date@ . Or  @date@ , but not 2018-XXX-13"
 		self.assertEqual(Substitute_Dates(date_test4), date_test4_ref)
 
+	def test_Substitute_Times(self):
+		time_test1 = "It's 4 am, woke up at 3:54AM, or 3:54:18am exactly"
+		time_test1_ref = "It's  @time@ , woke up at  @time@ , or  @time@  exactly"
+		self.assertEqual(Substitute_Times(time_test1), time_test1_ref)
+		time_test2 = "Tomorrow at 16:10CEST, not 34:10"
+		time_test2_ref = "Tomorrow at  @time@ , not 34:10"
+		self.assertEqual(Substitute_Times(time_test2), time_test2_ref)
 
 if __name__ == '__main__':
 	unittest.main()

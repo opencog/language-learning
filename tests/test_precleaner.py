@@ -136,5 +136,13 @@ class PreCleanerTestCase(unittest.TestCase):
 		time_test2_ref = "Tomorrow at  @time@ , not 34:10"
 		self.assertEqual(Substitute_Times(time_test2), time_test2_ref)
 
+	def test_Substitute_Links(self):
+		link_test1 = "Send me an email to not_my-address@666.com.uk"
+		link_test1_ref = "Send me an email to  @email@ "
+		self.assertEqual(Substitute_Links(link_test1), link_test1_ref)
+		link_test2 = "https://any>thing?goes^*(-.!@here.#fsd_&.com installs malware."
+		link_test2_ref = " @url@  installs malware."
+		self.assertEqual(Substitute_Links(link_test2), link_test2_ref)
+
 if __name__ == '__main__':
 	unittest.main()

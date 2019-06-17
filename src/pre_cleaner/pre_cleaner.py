@@ -20,13 +20,13 @@ def main(argv):
 
 		"Usage: pre_cleaner.py -i <inputdir> -o <outputdir> [-c <chars_invalid>] [-b <bounday_chars>] 
 		[-a <tokenized_chars>][-s <suffixes>] [-l <sentence_length>] [-t <token_length>] 
-		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-q] [-n] [-d] [-T] [-H] [-e]"
+		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-n] [-d] [-T] [-H] [-e]"
 
 		inputdir 			Directory with files to be processed.
 							Can contain subdirectories.
 		outputdir			Directory to output processed files
 		[
-		chars_invalid		Characters to delete from text (default = none). They need to be given as a
+		chars_invalid		Characters to delete from text (default: none). They need to be given as a
 							string without spaces between the characters, e.g. "$%^&" would eliminate
 							only those 4 characters from appearances in the text.
 		boundary_chars		Characters tokenized if token boundaries, only inside.
@@ -34,29 +34,28 @@ def main(argv):
 		tokenized_chars		Characters tokenized everywhere.
 							Default: brackets, parenthesis, braces, comma, colon, semicolon, slash,
 							currency signs, #, &, +, -
-		suffixes 			Suffixes to eliminate in text (default = none). They need to come in a string
+		suffixes 			Suffixes to eliminate in text (default: none). They need to come in a string
 							separated by spaces.
 							For example, -s "'s 'd n't" would eliminate all suffixes 's, 'd, n't
-							Of course, as suffixes, they need to come at the end of a word to be eliminated
-		sentence_length		Maximum sentence length accepted (default = 16. Sentences with more are deleted)
-		token_length 		Maximum token lenght accepted (default = 25. Tokens with more are deleted)
-		sentences_symbols	Symbols invalidating sentences (default = none). They need to be given as a
+							As suffixes, they need to come at the end of a word to be eliminated
+		sentence_length		Maximum sentence length accepted (default: 25). Sentences with more are deleted
+		token_length 		Maximum token lenght accepted (default: 25). Tokens with more are deleted
+		sentences_symbols	Symbols invalidating sentences (default: none). They need to be given as a
 							string without spaces between the characters, e.g. "$%^&" would eliminate
 							all sentences that have those 4 characters.
-		sentence_tokens 	Tokens invalidating sentences (default = none). They need to be given as a 
+		sentence_tokens 	Tokens invalidating sentences (default: none). They need to be given as a 
 							string separated by spaces, e.g. "three invalid tokens" would eliminate all
 							sentences including either "three", "invalid" or "tokens"
-		token_symbols 		Symbols invalidating tokens (default = none). They need to be given as a
+		token_symbols 		Symbols invalidating tokens (default: none). They need to be given as a
 							string without spaces between the characters, e.g. "$%^&" would eliminate
 							all tokens that have those 4 characters.
-		-U 					Keep uppercase letters (default is to convert to lowercase)
-		-q 					Pad quotes with spaces (default is to keep them as is)
-		-j 					Separate contractions (default is to keep them together)
-		-n 					Keep numbers (default converts them to @number@ token)
-		-d 					Keep dates (default converts them to @date@ token)
-		-T 					Keep times (default converts them to @time@ token)
-		-H 					Keep hyperlinks/emails (default converts them to @url@/@email@ token)
-		-e 					Keep escaped HTML and UniCode symbols (default decodes them)
+		-U 					Keep uppercase letters (default: convert to lowercase)
+		-j 					Separate contractions (default: keep them together)
+		-n 					Keep numbers (default: converts them to @number@ token)
+		-d 					Keep dates (default: converts them to @date@ token)
+		-T 					Keep times (default: converts them to @time@ token)
+		-H 					Keep hyperlinks/emails (default: converts them to @url@/@email@ token)
+		-e 					Keep escaped HTML and UniCode symbols (default: decodes them)
 		-S 					Don't add sentence splitter mark to be recognized by
 							split_sentences.pl, even if text is lowercased (they're added by default)
 		]
@@ -73,7 +72,6 @@ def main(argv):
 	sentence_invalid_tokens = []
 	token_invalid_symbols = []
 	convert_lowercase = True
-	dont_pad_quotes = True
 	separate_contractions = False
 	convert_percent_to_tokens = True
 	convert_numbers_to_tokens = True
@@ -96,7 +94,7 @@ def main(argv):
 		    [-c <chars_invalid>] [-b <boundary_chars>] [-a <tokenized_chars>] 
 		    [-s <suffixes>] [-l <sentence_length] 
 		    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
-		    [-z <token_symbols>] [-U] [-q] [-j] [-p] [-n] [-d] [-T] [-H] [-e] [-S]''')
+		    [-z <token_symbols>] [-U] [-j] [-p] [-n] [-d] [-T] [-H] [-e] [-S]''')
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt == '-h':
@@ -104,7 +102,7 @@ def main(argv):
 			    [-c <chars_invalid>] [-b <boundary_chars>] [-a <tokenized_chars>] 
 			    [-s <suffixes>] [-l <sentence_length] 
 			    [-t <token_length>] [-x <sentence_symbols>] [-y <sentence_tokens>]
-			    [-z <token_symbols>] [-U] [-q] [-j] [-p] [-n] [-d] [-T] [-H] [-e] [-S]''')
+			    [-z <token_symbols>] [-U] [-j] [-p] [-n] [-d] [-T] [-H] [-e] [-S]''')
 			sys.exit()
 		elif opt in ("-i", "--idir"):
 			inputdir = arg
@@ -141,9 +139,6 @@ def main(argv):
 		elif opt in ("-U", "--Uppercase"):
 			convert_lowercase = False
 			filename_suffix += 'U'
-		elif opt in ("-q", "--quotes"):
-			dont_pad_quotes = False
-			filename_suffix += 'q'
 		elif opt in ("-j", "--contractions"):
 			separate_contractions = True
 			filename_suffix += 'j'
@@ -186,8 +181,6 @@ def main(argv):
 			if decode_escaped == True:
 				temp_sentence = Decode_Escaped(temp_sentence)
 			temp_sentence = Normalize_Sentence(temp_sentence, separate_contractions)
-			if dont_pad_quotes == False:
-				temp_sentence = Pad_quotes(temp_sentence)
 			if convert_dates_to_tokens == True:
 				temp_sentence = Substitute_Dates(temp_sentence)
 			if convert_times_to_tokens == True:
@@ -366,13 +359,6 @@ def Normalize_Sentence(sentence, separate_contractions):
 		# separate contractions (e.g. They're -> They 're)
 		sentence = re.sub(r"(?<=[a-zA-Z])'(?=[a-zA-Z])", " '", sentence)
 	return sentence
-
-def Pad_quotes(sentence):
-	# sentence splitter escapes double quotes, as needed by guile
-	sentence = re.sub(r'"', ' " ', sentence)
-	sentence = re.sub(r"'", " ' ", sentence)
-	return sentence
-
 
 def Substitute_Links(sentence):
 	"""

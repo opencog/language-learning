@@ -8,7 +8,7 @@ import sys, getopt, os
 import re
 from html.parser import HTMLParser
 
-__all__ = ['Remove_Caps', 'Ignore_Long_Sentence', 'Remove_Long_Tokens', 'Normalize_Sentence',
+__all__ = ['Ignore_Long_Sentence', 'Remove_Long_Tokens', 'Normalize_Sentence',
 			'Clean_Sentence', 'Char_Tokenizer', 'Remove_Invalid_Tokens',
 			'Ignore_Invalid_Sentence', 'Substitute_Numbers', 'Substitute_Dates',
 			'Substitute_Times', 'Substitute_Links', 'Substitute_Percent',
@@ -243,12 +243,6 @@ def Decode_Escaped(sentence):
 	decode_sentence = h.unescape(sentence)
 
 	return decode_sentence
-
-def Remove_Caps(sentence):
-    """
-        Converts all capital letters in "data" into small caps
-    """
-    return sentence.lower()
 
 def Char_Tokenizer(sentence, boundary_chars, tokenized_chars):
 	"""

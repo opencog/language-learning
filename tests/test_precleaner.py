@@ -153,7 +153,7 @@ class PreCleanerTestCase(unittest.TestCase):
 		suffixes = "'re g"
 		suffix_test1 = "They're coming tonight"
 		suffix_test1_ref = "They comin tonight"
-		new_suffixes = Prepare_Suffix_List(suffixes.split())
+		new_suffixes = Prepare_Suffix_List(suffixes)
 		self.assertEqual(Remove_Suffixes(suffix_test1, new_suffixes), suffix_test1_ref)
 
 	def test_Separate_Contractions(self):

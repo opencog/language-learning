@@ -120,7 +120,7 @@ def main(argv):
 			tokenized_chars = arg
 			filename_suffix += 'a'
 		elif opt in ("-s", "--suffixes"):
-			suffix_list = arg.split()
+			suffix_list = arg
 			new_suffix_list = Prepare_Suffix_List(suffix_list)
 			filename_suffix += 's'
 		elif opt in ("-l", "--sen_length"):
@@ -450,7 +450,7 @@ def Prepare_Suffix_List(suffix_list):
 		Adds regular expression parts to given suffixes
 	"""
 	new_suffix_list = []
-	for suffix in suffix_list:
+	for suffix in suffix_list.split():
 		regex_suffix = r"(?<=\w)" + suffix + r"(?=\s)"
 		new_suffix_list = new_suffix_list + [regex_suffix]
 	return new_suffix_list

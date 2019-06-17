@@ -82,11 +82,11 @@ def main(argv):
 	add_splitters = True
 	filename_suffix = ''
 	try:
-		opts, args = getopt.getopt(argv,"hi:o:c:b:a:s:l:t:x:y:z:UqjpndTHeS",["idir=",
+		opts, args = getopt.getopt(argv,"hi:o:c:b:a:s:l:t:x:y:z:UjpndTHeS",["idir=",
 			"odir=", "chars_invalid=", "boundary_chars=","tokenized_chars=", 
 			"suffixes=", "sen_length=", 
 			"token_length=", "sentence_symbols=", "sentence_tokens=", 
-			"token_symbols=" "Uppercase", "quotes", "contractions", "percent",
+			"token_symbols=" "Uppercase", "contractions", "percent",
 			"numbers", "dates", 
 			"Times", "Hyperlinks", "escaped", "Splits"])
 	except getopt.GetoptError:
@@ -357,7 +357,7 @@ def Normalize_Sentence(sentence, separate_contractions):
 	# sentence = re.sub(r"_", " ", sentence)
 	if separate_contractions == True:
 		# separate contractions (e.g. They're -> They 're)
-		sentence = re.sub(r"(?<=[a-zA-Z])'(?=[a-zA-Z])", " '", sentence)
+		sentence = re.sub(r"(?<=[a-zA-Z])(n'|')(?=[a-zA-Z])", r" \1", sentence)
 	return sentence
 
 def Substitute_Links(sentence):

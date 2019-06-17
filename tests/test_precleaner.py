@@ -156,5 +156,10 @@ class PreCleanerTestCase(unittest.TestCase):
 		new_suffixes = Prepare_Suffix_List(suffixes.split())
 		self.assertEqual(Remove_Suffixes(suffix_test1, new_suffixes), suffix_test1_ref)
 
+	def test_Separate_Contractions(self):
+		test_sent = "I've haven't they're it's isn't some other's friends'"
+		test_sent_ref = "I 've have n't they 're it 's is n't some other 's friends'"
+		self.assertEqual(Normalize_Sentence(test_sent, True), test_sent_ref)
+
 if __name__ == '__main__':
 	unittest.main()

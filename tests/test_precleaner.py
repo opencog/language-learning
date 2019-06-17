@@ -8,13 +8,6 @@ from src.pre_cleaner.pre_cleaner import *
 
 class PreCleanerTestCase(unittest.TestCase):
 
-	def test_Remove_Caps(self):
-		caps_sent1 = "Some CAPitalizEd letterS."
-		lower_sent1 = "some capitalized letters."
-
-		test_sent = Remove_Caps(caps_sent1)
-		self.assertEqual(lower_sent1, test_sent)
-
 	def test_Remove_Long_Tokens(self):
 		max_chars = 5
 		token_list = ["a" * (max_chars - 1), "a" * max_chars, "a" * (max_chars + 1)]

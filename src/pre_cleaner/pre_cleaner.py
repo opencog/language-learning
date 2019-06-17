@@ -192,8 +192,8 @@ def main(argv):
 			if convert_numbers_to_tokens == True:
 				temp_sentence = Substitute_Numbers(temp_sentence)
 			temp_sentence = Clean_Sentence(temp_sentence, invalid_chars, new_suffix_list)
-			tokenized_sentence = Char_Tokenizer(temp_sentence, boundary_chars, tokenized_chars)
-			tokenized_sentence = Naive_Tokenizer(tokenized_sentence)
+			temp_sentence = Char_Tokenizer(temp_sentence, boundary_chars, tokenized_chars)
+			tokenized_sentence = Naive_Tokenizer(temp_sentence)
 			if Ignore_Long_Sentence(tokenized_sentence, max_tokens) == True:
 				continue
 			tokenized_sentence = Remove_Long_Tokens(tokenized_sentence, max_chars)
@@ -261,7 +261,7 @@ def Char_Tokenizer(sentence, boundary_chars, tokenized_chars):
 		tok_sentence = re.sub(r"(\s|^)(" + curr_char + r"+)", r"\1\2 ", tok_sentence);
 		tok_sentence = re.sub(r"(" + curr_char + r"+)(\s|$)", r" \1\2", tok_sentence);
 
-	# tokenizes all tokenized_chars
+	# separates all tokenized_chars
 	trans_table = dict((ord(char), " " + char + " ") for char in tokenized_chars)
 	tok_sentence = tok_sentence.translate(trans_table)
 

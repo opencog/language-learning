@@ -55,12 +55,12 @@ class PreCleanerTestCase(unittest.TestCase):
 	def test_Boundary_Chars(self):
 		boundary_chars = 'a e i o u'
 		sentence = "This is unusual for a sentence"
-		sentence_ref = "This  i s  u nusual for  a  sentenc e"
+		sentence_ref = "This  i s  u nusual for a sentenc e "
 		self.assertEqual(Char_Tokenizer(sentence, boundary_chars, ""), sentence_ref)
 
 		boundary_chars = "\" ' \."
 		sentence2 = "We're testin' another. \"sentence\"."
-		sentence2_ref = "We're testin ' another .  \" sentence\" ."
+		sentence2_ref = "We're testin '  another .   \" sentence \" ."
 		self.assertEqual(Char_Tokenizer(sentence2, boundary_chars, ""), sentence2_ref)
 
 	def test_Splitter_Symbols(self):

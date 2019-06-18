@@ -252,8 +252,8 @@ def Char_Tokenizer(sentence, boundary_chars, tokenized_chars):
 	tok_sentence = sentence
 	# separates boundary_chars when they're found at word boundary
 	for curr_char in boundary_chars.split():
-		tok_sentence = re.sub(r"(\s|^)(" + curr_char + r"+)", r"\1\2 ", tok_sentence);
-		tok_sentence = re.sub(r"(" + curr_char + r"+)(\s|$)", r" \1\2", tok_sentence);
+		tok_sentence = re.sub(r"(\W|^)(" + curr_char + r"+)(\w)", r"\1 \2 \3", tok_sentence)
+		tok_sentence = re.sub(r"(\w)(" + curr_char + r"+)(\W|$)", r"\1 \2 \3", tok_sentence)
 
 	# separates all tokenized_chars
 	trans_table = dict((ord(char), " " + char + " ") for char in tokenized_chars)
@@ -424,7 +424,6 @@ def Substitute_Percent(sentence):
 	"""
 		Substitutes percents with special token
 	"""
-	# handles @number@ followed by a "%"" sign
 	sentence = re.sub(r'''(?<![^\s"'[(])[+-]?[.,;]?(\d+[.,;']?)+%(?![^\s.,;!?'")\]])''', 
 ' @percent@ ', sentence)
 	return sentence

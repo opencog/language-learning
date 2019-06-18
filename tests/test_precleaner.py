@@ -1,6 +1,7 @@
 # !/usr/bin/env python3
 import os, sys
 import unittest
+import filecmp
 
 module_path = os.path.abspath(os.path.join('.'))
 if module_path not in sys.path: sys.path.append(module_path)
@@ -153,6 +154,22 @@ class PreCleanerTestCase(unittest.TestCase):
 		test_sent = "I've haven't they're it's isn't some other's friends'"
 		test_sent_ref = "I 've have n't they 're it 's is n't some other 's friends'"
 		self.assertEqual(Normalize_Sentence(test_sent, True), test_sent_ref)
+
+	def test_Execute_Precleaner(self):
+		filename = "pg9212.txt"
+		raw_dirpath = "tests/test-data/pre-cleaner/split-books/"
+		cleaned_dirpath = "tests/test-data/pre-cleaner/cleaned-books/"
+		cleaned_filepath = cleaned_dirpath + filename + "_default"
+		expected_filepath = "tests/test-data/pre-cleaner/expected-books/" + filename + "_default"
+		os.remove(cleaned_filepath) # make sure file is recreated
+		# Execute pre-cleaner with default parameters
+		Execute_Precleaner(raw_dirpath, cleaned_dirpath)
+
+		self.assertTrue(filecmp.cmp(expected_filepath, cleaned_filepath))
+
+
+
+
 
 if __name__ == '__main__':
 	unittest.main()

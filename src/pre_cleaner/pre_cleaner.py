@@ -163,15 +163,15 @@ def Execute_Precleaner(inputdir: str, outputdir: str, invalid_chars: str = "",
 	Pre-cleaner pipeline, calling the different transformation modules in the appropriate
 	order to achieve desired cleanup
 	'''
-	os.chdir(inputdir)
-	for inputfile in os.listdir("."):
-		print("Processing: ", os.path.basename(inputfile))
-		sentences = Load_Files(inputfile)
+	for inputfile in os.listdir(inputdir):
+		print("Processing: {}/{}".format(inputdir, inputfile))
+		sentences = Load_Files(inputdir + "/" + inputfile)
 
 		if filename_suffix == '':
 			filename_suffix = 'default'
-		outputfile = "../" + outputdir + "/" + inputfile + '_' + filename_suffix
+		outputfile = outputdir + "/" + inputfile + '_' + filename_suffix
 
+		print(os.getcwd())
 		fo = open(outputfile, "w")
 		for sentence in sentences:
 			temp_sentence = sentence

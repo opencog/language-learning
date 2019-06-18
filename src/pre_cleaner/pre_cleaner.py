@@ -8,8 +8,8 @@ import sys, getopt, os
 import re
 from html.parser import HTMLParser
 
-__all__ = ['Ignore_Long_Sentence', 'Remove_Long_Tokens', 'Normalize_Sentence',
-			'Clean_Sentence', 'Char_Tokenizer', 'Remove_Invalid_Tokens',
+__all__ = ['Execute_Precleaner', 'Ignore_Long_Sentence', 'Remove_Long_Tokens',
+			'Normalize_Sentence', 'Clean_Sentence', 'Char_Tokenizer', 'Remove_Invalid_Tokens',
 			'Ignore_Invalid_Sentence', 'Substitute_Numbers', 'Substitute_Dates',
 			'Substitute_Times', 'Substitute_Links', 'Substitute_Percent',
 			'Prepare_Suffix_List', 'Remove_Suffixes']
@@ -20,7 +20,7 @@ def main(argv):
 
 		"Usage: pre_cleaner.py -i <inputdir> -o <outputdir> [-c <chars_invalid>] [-b <bounday_chars>] 
 		[-a <tokenized_chars>][-s <suffixes>] [-l <sentence_length>] [-t <token_length>] 
-		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-n] [-d] [-T] [-H] [-e]"
+		[-x <sentence_symbols>] [-y <sentence_tokens>] [-z <token_symbols>] [-U] [-j] [-p] [-n] [-d] [-T] [-H] [-e] [-S]"
 
 		inputdir 			Directory with files to be processed.
 							Can contain subdirectories.
@@ -53,6 +53,7 @@ def main(argv):
 							all sentences that have those 4 characters.
 		-U 					Keep uppercase letters (default: convert to lowercase)
 		-j 					Separate contractions (default: keep them together)
+		-p 					Keep percentages (default: converts them to @percent@ token)
 		-n 					Keep numbers (default: converts them to @number@ token)
 		-d 					Keep dates (default: converts them to @date@ token)
 		-T 					Keep times (default: converts them to @time@ token)
@@ -62,27 +63,8 @@ def main(argv):
 							split_sentences.pl, even if text is lowercased (they're added by default)
 		]
 	"""
-	inputdir = ''
-	outputdir = ''
-	invalid_chars = u""
-	boundary_chars = u'\' " \.'
-	tokenized_chars = u"[](){}<>,:;/\$#&+=?!¡¿"
-	new_suffix_list = []
-	max_tokens = 25
-	max_chars = 25
-	sentence_invalid_symbols = u""
-	sentence_invalid_tokens = []
-	token_invalid_symbols = u""
-	convert_lowercase = True
-	separate_contractions = False
-	convert_percent_to_tokens = True
-	convert_numbers_to_tokens = True
-	convert_dates_to_tokens = True
-	convert_times_to_tokens = True
-	convert_links_to_tokens = True
-	decode_escaped = True
-	add_splitters = True
 	filename_suffix = ''
+	kwargs = {}
 	try:
 		opts, args = getopt.getopt(argv,"hi:o:c:b:a:s:l:t:x:y:z:UjpndTHeS",["idir=",
 			"odir=", "chars_invalid=", "boundary_chars=","tokenized_chars=", 
@@ -111,61 +93,76 @@ def main(argv):
 		elif opt in ("-o", "--odir"):
 			outputdir = arg
 		elif opt in ("-c", "--chars_invalid"):
-			invalid_chars = arg
+			kwargs['invalid_chars'] = arg
 			filename_suffix += 'c'
 		elif opt in ("-b", "--boundary_chars"):
-			boundary_chars = arg
+			kwargs['boundary_chars'] = arg
 			filename_suffix += 'b'
 		elif opt in ("-a", "--tokenized_chars"):
-			tokenized_chars = arg
+			kwargs['tokenized_chars'] = arg
 			filename_suffix += 'a'
 		elif opt in ("-s", "--suffixes"):
-			suffix_list = arg
-			new_suffix_list = Prepare_Suffix_List(suffix_list)
+			kwargs['suffix_list'] = arg
 			filename_suffix += 's'
 		elif opt in ("-l", "--sen_length"):
-			max_tokens = int(arg)
+			kwargs['max_tokens'] = int(arg)
 			filename_suffix += 'l'
 		elif opt in ("-t", "--token_length"):
-			max_chars = int(arg)
+			kwargs['token_length'] = int(arg)
 			filename_suffix += 't'
 		elif opt in ("-x", "--sentence_symbols"):
-			sentence_invalid_symbols = arg
+			kwargs['sentence_invalid_symbols'] = arg
 			filename_suffix += 'x'
 		elif opt in ("-y", "--sentence_tokens"):
-			sentence_invalid_tokens = arg
+			kwargs['sentence_invalid_tokens'] = arg
 			filename_suffix += 'y'
 		elif opt in ("-z", "--token_symbols"):
-			token_invalid_symbols = arg
+			kwargs['token_invalid_symbols'] = arg
 			filename_suffix += 'z'
 		elif opt in ("-U", "--Uppercase"):
-			convert_lowercase = False
+			kwargs['convert_lowercase'] = False
 			filename_suffix += 'U'
 		elif opt in ("-j", "--contractions"):
-			separate_contractions = True
+			kwargs['separate_contractions'] = True
 			filename_suffix += 'j'
 		elif opt in ("-p", "--percent"):
-			convert_percent_to_tokens = False
+			kwargs['convert_percent_to_tokens'] = False
 			filename_suffix += 'p'
 		elif opt in ("-n", "--numbers"):
-			convert_numbers_to_tokens = False
+			kwargs['convert_numbers_to_tokens'] = False
 			filename_suffix += 'n'
 		elif opt in ("-d", "--dates"):
-			convert_dates_to_tokens = False
+			kwargs['convert_dates_to_tokens'] = False
 			filename_suffix += 'd'
 		elif opt in ("-T", "--Times"):
-			convert_times_to_tokens = False
+			kwargs['convert_times_to_tokens'] = False
 			filename_suffix += 'T'
 		elif opt in ("-H", "--Hyperlinks"):
-			convert_links_to_tokens = False
+			kwargs['convert_links_to_tokens'] = False
 			filename_suffix += 'H'
 		elif opt in ("-e", "--escaped"):
-			decode_escaped = False
+			kwargs['decode_escaped'] = False
 			filename_suffix += 'e'
 		elif opt in ("-S", "--Splits"):
-			add_splitters = False
+			kwargs['add_splitters'] = False
 			filename_suffix += 'S'
 
+	Execute_Precleaner(inputdir, outputdir, **kwargs)
+
+def Execute_Precleaner(inputdir: str, outputdir: str, invalid_chars: str = "",
+						boundary_chars: str = u'\' " \.', tokenized_chars: str = u"[](){}<>,:;/\$#&+=?!¡¿",
+						suffix_list: str = "", max_tokens: int = 25, max_chars: int = 25, 
+						sentence_invalid_symbols: str = "",	sentence_invalid_tokens: list = [],
+						token_invalid_symbols: str = "", convert_lowercase: bool = True,
+						separate_contractions: bool = False, convert_percent_to_tokens: bool = True,
+						convert_numbers_to_tokens: bool = True, convert_dates_to_tokens: bool = True,
+						convert_times_to_tokens: bool = True, convert_links_to_tokens: bool = True,
+						decode_escaped: bool = True, add_splitters: bool = True, 
+						filename_suffix: str = ""):
+	'''
+	Pre-cleaner pipeline, calling the different transformation modules in the appropriate
+	order to achieve desired cleanup
+	'''
 	os.chdir(inputdir)
 	for inputfile in os.listdir("."):
 		print("Processing: ", os.path.basename(inputfile))
@@ -191,6 +188,7 @@ def main(argv):
 				temp_sentence = Substitute_Percent(temp_sentence)
 			if convert_numbers_to_tokens == True:
 				temp_sentence = Substitute_Numbers(temp_sentence)
+			new_suffix_list = Prepare_Suffix_List(suffix_list)
 			temp_sentence = Clean_Sentence(temp_sentence, invalid_chars, new_suffix_list)
 			temp_sentence = Char_Tokenizer(temp_sentence, boundary_chars, tokenized_chars)
 			tokenized_sentence = Naive_Tokenizer(temp_sentence)

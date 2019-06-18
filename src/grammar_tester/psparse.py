@@ -439,7 +439,7 @@ def get_linkage_cost(text: str):  # -> Optional[int, Tuple[int, str, int]]:
     if data is None or len(data) < 1:
         return None
 
-    if len(data) > 1:
-        raise LGParseError(f"Found more than one linkage in: {text}")
+    # if len(data) > 1:
+    #     raise LGParseError(f"Found more than one linkage in: {text}")
 
     return int(data[0][0]), (int(data[0][1]), Decimal(data[0][2]), int(data[0][3]))

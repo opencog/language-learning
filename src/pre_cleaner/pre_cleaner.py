@@ -434,8 +434,8 @@ def Substitute_Numbers(sentence):
 		Substitutes numbers with special token
 	"""
 	# handles trailing/leading decimal mark
-	sentence = re.sub(r'''(?<![^\s"'[(])[#+-]?[.,;]?(\d+[.,;']?)+(?![^\s.,;!?'")\]])''',
-	 			       '@number@', sentence)
+	sentence = re.sub(r'''(?<![^\s"'[(])[#+-]?[.,;]?(\d+[.,;']?)*(\d+[.,;]?)(?![^\s!?'")\]])''',
+	 			       ' @number@ ' , sentence)
 	return sentence
 
 def Prepare_Suffix_List(suffix_list):

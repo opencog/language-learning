@@ -1,4 +1,10 @@
 # !/usr/bin/env python3
+'''Pre-cleaner unittests and complete module test.
+Run test:
+cd language-learning
+python tests/test_precleaner.py
+'''
+
 import os, sys
 import unittest
 import filecmp

@@ -309,6 +309,50 @@ Found 2 linkages (2 had no P.P. violations)
 [0]
 """
 
+two_linkages_ps = \
+"""
+the old beast was whinnying on his shoulder .
+No complete linkages found.
+Found 3 linkages (3 had no P.P. violations) at null count 2
+        Linkage 1, cost vector = (UNUSED=2 DIS= 0.00 LEN=6)
+[(the)([old])(beast)(was)([whinnying])(on)(his)(shoulder)(.)]
+[[0 2 0 (SYER)][2 7 1 (EREF)][6 7 0 (ODEF)][5 6 0 (LLOD)][3 5 0 (LXLL)][7 8 0 (EFAT)]]
+[0]
+
+        Linkage 2, cost vector = (UNUSED=2 DIS= 0.00 LEN=6)
+[(the)([old])(beast)(was)([whinnying])(on)(his)(shoulder)(..y)]
+[[0 2 0 (SYER)][2 7 1 (EREF)][6 7 0 (ODEF)][5 6 0 (LLOD)][3 5 0 (LXLL)][7 8 0 (EFAT)]]
+[0]
+"""
+
+
+# two_linkages_ps = \
+# """
+# the old beast was whinnying on his shoulder .
+# No complete linkages found.
+# Found 3 linkages (3 had no P.P. violations) at null count 2
+#         Linkage 1, cost vector = (UNUSED=2 DIS= 0.00 LEN=6)
+# [(the)([old])(beast)(was)([whinnying])(on)(his)(shoulder)(.)]
+# [[0 2 0 (SYER)][2 7 1 (EREF)][6 7 0 (ODEF)][5 6 0 (LLOD)][3 5 0 (LXLL)][7 8 0 (EFAT)]]
+# [0]
+#
+#         Linkage 2, cost vector = (UNUSED=2 DIS= 0.00 LEN=6)
+# [(the)([old])(beast)(was)([whinnying])(on)(his)(shoulder)(..y)]
+# [[0 2 0 (SYER)][2 7 1 (EREF)][6 7 0 (ODEF)][5 6 0 (LLOD)][3 5 0 (LXLL)][7 8 0 (EFAT)]]
+# [0]
+#
+# Jims lifted his miserable eyes .
+# Found 2 linkages (2 had no P.P. violations)
+#         Linkage 1, cost vector = (UNUSED=0 DIS= 0.00 LEN=5)
+# [(jims)(lifted)(his)(miserable)(eyes)(.)]
+# [[0 1 0 (BFAS)][1 5 2 (ASAT)][1 4 1 (ASOR)][1 2 0 (ASOD)][3 4 0 (CCOR)]]
+# [0]
+#
+#         Linkage 2, cost vector = (UNUSED=0 DIS= 0.00 LEN=5)
+# [(jims)(lifted)(his)(miserable)(eyes)(..y)]
+# [[0 1 0 (BFAS)][1 5 2 (ASAT)][1 4 1 (ASOR)][1 2 0 (ASOD)][3 4 0 (CCOR)]]
+# [0]
+# """
 
 
 
@@ -571,6 +615,16 @@ class TestPSParse(unittest.TestCase):
 
         self.assertEqual('Mahbub Ali was hard upon boys who knew , or thought they knew , too much .',
                          get_sentence_text(parses[1]))
+
+        parses = split_ps_parses(two_linkages_ps)
+        self.assertEqual(1, len(parses))
+
+        self.assertEqual('the old beast was whinnying on his shoulder .',
+                         get_sentence_text(parses[0]))
+        #
+        # self.assertEqual('Jims lifted his miserable eyes .',
+        #                  get_sentence_text(parses[1]))
+
 
     @staticmethod
     def cmp_lists(list1: [], list2: []) -> bool:

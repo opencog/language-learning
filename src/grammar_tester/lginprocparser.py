@@ -1,5 +1,6 @@
 import sys
 import os
+import re
 import logging
 from subprocess import PIPE, Popen
 
@@ -74,8 +75,10 @@ class LGInprocParser(AbstractFileParserClient):
 
         prev_sent = None
 
+        pattern = re.compile(r"\n\n[^\s]", re.M)
+
         # Parse output to get sentences and linkages in postscript notation
-        for block in text[pos:end].split("\n\n"):
+        for block in re.split(pattern, text[pos:end]):  # text[pos:end].split("\n\n"):
 
             block = block.strip()
 

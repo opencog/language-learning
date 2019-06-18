@@ -435,7 +435,7 @@ def Substitute_Numbers(sentence):
 		Substitutes numbers with special token
 	"""
 	# handles trailing/leading decimal mark
-	sentence = re.sub(r'''(?<![^\s"'[(])[+-]?[.,;]?(\d+[.,;']?)+(?![^\s.,;!?'")\]])''',
+	sentence = re.sub(r'''(?<![^\s"'[(])[#+-]?[.,;]?(\d+[.,;']?)+(?![^\s.,;!?'")\]])''',
 	 			       '@number@', sentence)
 	return sentence
 

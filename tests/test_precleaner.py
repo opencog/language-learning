@@ -100,8 +100,8 @@ class PreCleanerTestCase(unittest.TestCase):
 		num_test1 = "Those 3 dogs ate -4.1 hot dogs"
 		num_test1_ref = "Those @number@ dogs ate @number@ hot dogs"
 		self.assertEqual(Substitute_Numbers(num_test1), num_test1_ref)
-		num_test2 = "Adding 0,000,000 to 17;311.13 is -useless"
-		num_test2_ref = "Adding @number@ to @number@ is -useless"
+		num_test2 = "Adding 0,000,000 to 17;311.13 is -useless; it's #1 nonesense"
+		num_test2_ref = "Adding @number@ to @number@ is -useless; it's @number@ nonesense"
 		self.assertEqual(Substitute_Numbers(num_test2), num_test2_ref)
 		num_test3 = "Notatio.n: -51,123123 and 884'432'211 are 3cky"
 		num_test3_ref = "Notatio.n: @number@ and @number@ are 3cky"

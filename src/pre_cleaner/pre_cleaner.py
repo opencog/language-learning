@@ -148,8 +148,9 @@ def Execute_Precleaner(inputdir: str, outputdir: str, invalid_chars: str = "",
 		sentences = Load_Files(inputdir + "/" + inputfile)
 
 		outputfile = outputdir + "/" + inputfile
+		if not os.path.exists(outputdir):
+		    os.makedirs(outputdir)
 
-		print(os.getcwd())
 		fo = open(outputfile, "w")
 		for sentence in sentences:
 			temp_sentence = sentence

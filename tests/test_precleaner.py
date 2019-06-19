@@ -165,8 +165,8 @@ class PreCleanerTestCase(unittest.TestCase):
 		filename = "pg9212.txt"
 		raw_dirpath = "tests/test-data/pre-cleaner/split-books/"
 		cleaned_dirpath = "tests/test-data/pre-cleaner/cleaned-books/"
-		cleaned_filepath = cleaned_dirpath + filename + "_default"
-		expected_filepath = "tests/test-data/pre-cleaner/expected-books/" + filename + "_default"
+		cleaned_filepath = cleaned_dirpath + filename
+		expected_filepath = "tests/test-data/pre-cleaner/expected-books/" + filename
 		os.remove(cleaned_filepath) # make sure file is recreated
 		# Execute pre-cleaner with default parameters
 		Execute_Precleaner(raw_dirpath, cleaned_dirpath)

@@ -30,7 +30,7 @@ def get_sentence_count(corpus_path: str, options: int) -> int:
 
     try:
         # Get number of sentences in input file
-        with Popen(sed_cmd, stdout=PIPE) as proc_sed, \
+        with Popen(sed_cmd + ";/^\x0d$/d", stdout=PIPE) as proc_sed, \
              Popen(["wc", "-l"], stdin=proc_sed.stdout, stdout=PIPE, stderr=PIPE) as proc_wcl:
 
             # Closing grep output stream will terminate it's process.

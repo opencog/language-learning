@@ -625,22 +625,6 @@ class TestPSParse(unittest.TestCase):
         # self.assertEqual('Jims lifted his miserable eyes .',
         #                  get_sentence_text(parses[1]))
 
-    def test_raw_split(self):
-
-        with open(r"tests/test-data/raw/GC_LGEnglish_noQuotes_manual.ull.raw.1lnkg", "r") as fd:
-            data: str = fd.read()
-
-        import re
-
-        pattern = re.compile(r"\n\n(?=[^\s])", re.M)
-
-        batches = re.split(pattern, data)
-
-        print(f"len={len(batches)}")
-
-        for i in range(3):
-            print(batches[i], file=sys.stderr)
-            print("-" * 30, file=sys.stderr)
 
 
     @staticmethod

@@ -63,7 +63,6 @@ def main(argv):
 							split_sentences.pl, even if text is lowercased (they're added by default)
 		]
 	"""
-	filename_suffix = ''
 	kwargs = {}
 	try:
 		opts, args = getopt.getopt(argv,"hi:o:c:b:a:s:l:t:x:y:z:UjpndTHeS",["idir=",
@@ -94,58 +93,40 @@ def main(argv):
 			outputdir = arg
 		elif opt in ("-c", "--chars_invalid"):
 			kwargs['invalid_chars'] = arg
-			filename_suffix += 'c'
 		elif opt in ("-b", "--boundary_chars"):
 			kwargs['boundary_chars'] = arg
-			filename_suffix += 'b'
 		elif opt in ("-a", "--tokenized_chars"):
 			kwargs['tokenized_chars'] = arg
-			filename_suffix += 'a'
 		elif opt in ("-s", "--suffixes"):
 			kwargs['suffix_list'] = arg
-			filename_suffix += 's'
 		elif opt in ("-l", "--sen_length"):
 			kwargs['max_tokens'] = int(arg)
-			filename_suffix += 'l'
 		elif opt in ("-t", "--token_length"):
 			kwargs['token_length'] = int(arg)
-			filename_suffix += 't'
 		elif opt in ("-x", "--sentence_symbols"):
 			kwargs['sentence_invalid_symbols'] = arg
-			filename_suffix += 'x'
 		elif opt in ("-y", "--sentence_tokens"):
 			kwargs['sentence_invalid_tokens'] = arg
-			filename_suffix += 'y'
 		elif opt in ("-z", "--token_symbols"):
 			kwargs['token_invalid_symbols'] = arg
-			filename_suffix += 'z'
 		elif opt in ("-U", "--Uppercase"):
 			kwargs['convert_lowercase'] = False
-			filename_suffix += 'U'
 		elif opt in ("-j", "--contractions"):
 			kwargs['separate_contractions'] = True
-			filename_suffix += 'j'
 		elif opt in ("-p", "--percent"):
 			kwargs['convert_percent_to_tokens'] = False
-			filename_suffix += 'p'
 		elif opt in ("-n", "--numbers"):
 			kwargs['convert_numbers_to_tokens'] = False
-			filename_suffix += 'n'
 		elif opt in ("-d", "--dates"):
 			kwargs['convert_dates_to_tokens'] = False
-			filename_suffix += 'd'
 		elif opt in ("-T", "--Times"):
 			kwargs['convert_times_to_tokens'] = False
-			filename_suffix += 'T'
 		elif opt in ("-H", "--Hyperlinks"):
 			kwargs['convert_links_to_tokens'] = False
-			filename_suffix += 'H'
 		elif opt in ("-e", "--escaped"):
 			kwargs['decode_escaped'] = False
-			filename_suffix += 'e'
 		elif opt in ("-S", "--Splits"):
 			kwargs['add_splitters'] = False
-			filename_suffix += 'S'
 
 	Execute_Precleaner(inputdir, outputdir, **kwargs)
 
@@ -157,8 +138,7 @@ def Execute_Precleaner(inputdir: str, outputdir: str, invalid_chars: str = "",
 						separate_contractions: bool = False, convert_percent_to_tokens: bool = True,
 						convert_numbers_to_tokens: bool = True, convert_dates_to_tokens: bool = True,
 						convert_times_to_tokens: bool = True, convert_links_to_tokens: bool = True,
-						decode_escaped: bool = True, add_splitters: bool = True, 
-						filename_suffix: str = ""):
+						decode_escaped: bool = True, add_splitters: bool = True):
 	'''
 	Pre-cleaner pipeline, calling the different transformation modules in the appropriate
 	order to achieve desired cleanup
@@ -167,9 +147,7 @@ def Execute_Precleaner(inputdir: str, outputdir: str, invalid_chars: str = "",
 		print("Processing: {}/{}".format(inputdir, inputfile))
 		sentences = Load_Files(inputdir + "/" + inputfile)
 
-		if filename_suffix == '':
-			filename_suffix = 'default'
-		outputfile = outputdir + "/" + inputfile + '_' + filename_suffix
+		outputfile = outputdir + "/" + inputfile
 
 		print(os.getcwd())
 		fo = open(outputfile, "w")

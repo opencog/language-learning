@@ -420,10 +420,8 @@ def get_sentence_text(text: str) -> Optional[str]:
     if match:
         return text[:match.start()].replace("\n", "")
 
-    # raise LGParseError(f"Unable to find echoed sentence in postscript parse:\n{text}")
-
-    logging.getLogger(__name__ + "get_sentence_text").debug(f"Unable to find echoed sentence in postscript "
-                                                            f"parse:\n{text}")
+    logging.getLogger(__name__ + ".get_sentence_text").debug(f"Unable to find echoed sentence in postscript "
+                                                             f"parse:\n{text}")
 
     return None
 
@@ -441,9 +439,7 @@ def get_linkage_cost(text: str):  # -> Optional[int, Tuple[int, str, int]]:
     if data is None or len(data) < 1:
         return None
 
-    if len(data) > 1:
-        raise LGParseError(f"Found more than one linkage in: {text}")
-
-    # print(data if data is not None else "No matches found")
+    # if len(data) > 1:
+    #     raise LGParseError(f"Found more than one linkage in: {text}")
 
     return int(data[0][0]), (int(data[0][1]), Decimal(data[0][2]), int(data[0][3]))

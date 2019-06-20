@@ -27,6 +27,7 @@ def get_sentence_count(corpus_path: str, options: int) -> int:
     sentence_count = 0
 
     sed_cmd = get_sed_cmd_common_part(options) + [corpus_path]
+    # sed_cmd[2] = sed_cmd[2] + ";/^\x0d$/d"
 
     try:
         # Get number of sentences in input file

@@ -1,5 +1,6 @@
 import re
 from typing import Optional
+# from .pipelinetreenode import PipelineTreeNode2
 
 __all__ = ['PipelineComponentException', 'FatalPipelineException']
 
@@ -7,17 +8,18 @@ __all__ = ['PipelineComponentException', 'FatalPipelineException']
 class PipelineComponentException(Exception):
     """
     Class used to provide pipeline component exception information such as component configuration sequential number
-        in JSON configuration file, run count number related to 'specific-parameters' configuration sequential number
+        in JSON configuration file, run count number, related to 'specific-parameters' configuration sequential number
         (both are 1-based), exception class name (exception raised from within component) and traceback dump in case of
         unhandled exception.
     """
-    def __init__(self, message: str, component: str="", config_count: int=0, run_count: int=0,
-                 t: Optional[object]=None, tb: Optional[str]=None):
+    def __init__(self, message: str, node = None,
+                 t: Optional[object] = None, tb: Optional[str] = None):
         # super.__init__(self, message)
         self._message = message
-        self._component = component
-        self._cfg_count = config_count
-        self._run_count = run_count
+        self._node = node
+        self._component = node._component_name
+        self._cfg_count = node.seq_no
+        self._run_count = node._environment.get("RUN_COUNT", 0)
         self._exception = t
         self._traceback = tb
 
@@ -37,9 +39,10 @@ class PipelineComponentException(Exception):
         return result_list[0] if len(result_list) > 0 else ""
 
     def __str__(self):
-        return f"{self._component}(cfg={self._cfg_count+1}, run={self._run_count}):" \
-            f"{self.get_exception_name(self._exception)}:{self._message}"
-            # f"\n{self._traceback if self._traceback is not None else ''}"
+        return f"{self._component}(cfg={self._cfg_count+1}, run={self._run_count}):\n" \
+            f"{self.get_exception_name(self._exception)}: {self._message}\n" \
+            f"Environment:\n{self._node._environment}\n" \
+            f"Parameters:\n{self._node._parameters}"
 
 
 class FatalPipelineException(Exception):

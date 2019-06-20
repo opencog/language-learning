@@ -109,13 +109,11 @@ Usage:
         # Get configuration parameters
         config = cfgman.get_config("", None)
 
-        logger.debug("config: {}".format(config))
-
         # Check the structure of the configuration
         check_config(config)
 
         # Build execution tree
-        execution_tree = build_tree(config, GLOBALS)
+        build_tree(config, GLOBALS)
 
         logger.info("Execution tree has been built.")
 

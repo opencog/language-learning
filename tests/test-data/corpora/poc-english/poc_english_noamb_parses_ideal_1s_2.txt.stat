@@ -3660,3 +3660,99 @@ F1:		  0.50
 
 Total sentences: 2.00
 
+File being tested: 'tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt'
+Reference file   : 'tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt'
+
+Parse quality:	 50.00%
+
+Average total links:	2.00
+Average ignored links:	1.50
+Average missing links:	0.00
+Average extra links:	0.00
+
+Recall:		 50.00%
+Precision:	 50.00%
+F1:		  0.50
+
+Total sentences: 2.00
+
+File being tested: 'tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt'
+Reference file   : 'tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt'
+
+Parse quality:	 50.00%
+
+Average total links:	3.50
+Average ignored links:	0.00
+Average missing links:	0.00
+Average extra links:	0.00
+
+Recall:		 50.00%
+Precision:	 50.00%
+F1:		  0.50
+
+Total sentences: 2.00
+
+File being tested: 'tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt'
+Reference file   : 'tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt'
+
+Parse quality:	 50.00%
+
+Average total links:	2.00
+Average ignored links:	1.50
+Average missing links:	0.00
+Average extra links:	0.00
+
+Recall:		 50.00%
+Precision:	 50.00%
+F1:		  0.50
+
+Total sentences: 2.00
+
+File being tested: 'tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt'
+Reference file   : 'tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt'
+
+Parse quality:	 50.00%
+
+Average total links:	3.50
+Average ignored links:	0.00
+Average missing links:	0.00
+Average extra links:	0.00
+
+Recall:		 50.00%
+Precision:	 50.00%
+F1:		  0.50
+
+Total sentences: 2.00
+
+File being tested: 'tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt'
+Reference file   : 'tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt'
+
+Parse quality:	 50.00%
+
+Average total links:	2.00
+Average ignored links:	1.50
+Average missing links:	0.00
+Average extra links:	0.00
+
+Recall:		 50.00%
+Precision:	 50.00%
+F1:		0.5000
+
+Total sentences: 2.00
+
+File being tested: 'tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt'
+Reference file   : 'tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt'
+
+Parse quality:	 50.00%
+
+Average total links:	3.50
+Average ignored links:	0.00
+Average missing links:	0.00
+Average extra links:	0.00
+
+Recall:		 50.00%
+Precision:	 50.00%
+F1:		0.5000
+
+Total sentences: 2.00
+

@@ -108,7 +108,7 @@ class PipelineTreeTestCase(unittest.TestCase):
 
         self.assertEqual(p["path_to_somewhere"], "~/data/2018-09-01/abc")
         self.assertEqual(p["path_to_elsewhere"], "~/data/2018-09-01/efg")
-        self.assertEqual(e["LEAF"], "~/data/2018-09-01/X:xx_n:1")
+        self.assertEqual(e["LEAF"], "~/data/2018-09-01/_X:xx_n:1")
 
     # @unittest.skip
     def test_build_tree(self):
@@ -142,6 +142,3 @@ class PipelineTreeTestCase(unittest.TestCase):
 
         self.assertEqual(True, True)
 
-
-if __name__ == '__main__':
-    unittest.main()

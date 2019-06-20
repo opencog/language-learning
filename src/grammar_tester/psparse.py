@@ -2,7 +2,7 @@ import re
 import logging
 from ..common.optconst import *
 from .lgmisc import LGParseError
-from typing import List, Optional, Tuple
+from typing import List, Optional, Union, Tuple
 from decimal import Decimal
 
 """
@@ -20,8 +20,9 @@ __version__ = "1.0.0"
 def strip_token(token) -> str:
     """
     Strip off suffix substring
-    :param token: token string
-    :return: stripped token if a suffix found, the same token otherwise
+
+    :param token:       token string
+    :return:            stripped token if a suffix found, the same token otherwise
     """
     if token.startswith("["):
         return token
@@ -81,10 +82,11 @@ def parse_tokens(txt, opt) -> (list, int):
     After several iterations it became obvious that all tokens should be kept in the original list in order to
     avoid issues with links. All filtering necessary for ULL output is now done in print_output(). All filtering
     necessary for parseability statistics estimation is done in prepare_tokens().
-    :param txt: string token line extracted from postfix notation output string returned by Linkage.postfix()
-            method.
-    :param opt: bit mask option value (see parse_test() description for more details)
-    :return: list of tokens
+
+    :param txt:         String token line extracted from postfix notation output string returned by Linkage.postfix()
+                        method.
+    :param opt:         Bit mask option value (see parse_test() description for more details).
+    :return:            List of tokens.
     """
     tokens = []
     offset = 0
@@ -139,9 +141,9 @@ def prepare_tokens(tokens: list, options: int) -> list:
     """
     Prepare (filter) list of tokens according to the options flags for statistics calculation.
 
-    :param tokens: Initial list of tokens obtained from parse_tokens().
-    :param options: Bit flags.
-    :return: Filtered list of tokens.
+    :param tokens:      Initial list of tokens obtained from parse_tokens().
+    :param options:     Bit flags.
+    :return:            Filtered list of tokens.
     """
     token_count = len(tokens)
     first_token = 0
@@ -237,7 +239,7 @@ def parse_postscript(text: str, options: int) -> ([], []):
     raise LGParseError(f"parse_postscript(): regex does not match for:\n{text}")
 
 
-def get_link_set(tokens: list, links: list, options: int) -> set:
+def get_link_set(tokens: list, links: Union[list, set], options: int) -> set:
     """
     Create link set from link list filtering out unnecessary links according to options bit flags.
 
@@ -246,7 +248,7 @@ def get_link_set(tokens: list, links: list, options: int) -> set:
     :param options:     Integer bit mask variable.
     :return:            Filtered set of links.
     """
-    all_link_set = set(links)
+    all_link_set = set(links) if isinstance(links, list) else links
     exc_link_set = set()
 
     token_count = len(tokens)
@@ -297,8 +299,8 @@ def skip_command_response(text: str) -> int:
     """
      Skip specified number of lines from the beginning of a text string.
 
-    :param text:            Text string with zero or many '\n' in.
-    :return:                Return position of the first character after the command response is skipped.
+    :param text:        Text string with zero or many '\n' in.
+    :return:            Return position of the first character after the command response is skipped.
     """
     l = len(text)
 
@@ -418,10 +420,8 @@ def get_sentence_text(text: str) -> Optional[str]:
     if match:
         return text[:match.start()].replace("\n", "")
 
-    # raise LGParseError(f"Unable to find echoed sentence in postscript parse:\n{text}")
-
-    logging.getLogger(__name__ + "get_sentence_text").debug(f"Unable to find echoed sentence in postscript "
-                                                            f"parse:\n{text}")
+    logging.getLogger(__name__ + ".get_sentence_text").debug(f"Unable to find echoed sentence in postscript "
+                                                             f"parse:\n{text}")
 
     return None
 
@@ -439,9 +439,7 @@ def get_linkage_cost(text: str):  # -> Optional[int, Tuple[int, str, int]]:
     if data is None or len(data) < 1:
         return None
 
-    if len(data) > 1:
-        raise LGParseError(f"Found more than one linkage in: {text}")
-
-    # print(data if data is not None else "No matches found")
+    # if len(data) > 1:
+    #     raise LGParseError(f"Found more than one linkage in: {text}")
 
     return int(data[0][0]), (int(data[0][1]), Decimal(data[0][2]), int(data[0][3]))

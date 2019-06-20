@@ -1,0 +1,14 @@
+Parse quality:	 67.37%
+
+Average total links:	4.56
+Average ignored links:	2.00
+Average missing links:	1.55
+Average extra links:	1.50
+
+Recall:		0.6737
+Precision:	0.6770
+F1:		0.6753
+
+Total sentences:	88.00
+Skipped sentences:	0.00
+

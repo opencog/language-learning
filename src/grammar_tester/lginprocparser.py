@@ -1,5 +1,6 @@
 import sys
 import os
+import re
 import logging
 from subprocess import PIPE, Popen
 
@@ -10,7 +11,7 @@ from .psparse import *
 from .parsestat import *
 from ..common.parsemetrics import *
 from .lgmisc import *
-from .parsevaluate import get_parses, load_ull_file
+from .parsevaluate import load_parses, tokenize_sentence, unbox_tokens, EvalError
 from .lgpcommands import *
 from .linkgrammarver import get_lg_version, get_lg_dict_version
 
@@ -37,7 +38,7 @@ class LGInprocParser(AbstractFileParserClient):
 
     MAX_SENTENCE_LENGTH = 99999
 
-    def __init__(self, limit: int=100, timeout=1, verbosity=1):
+    def __init__(self, limit: int = 100, timeout=1, verbosity=1):
         self._logger = logging.getLogger("LGInprocParser")
         self._linkage_limit = limit
         self._timeout = timeout
@@ -74,8 +75,10 @@ class LGInprocParser(AbstractFileParserClient):
 
         prev_sent = None
 
+        pattern = re.compile(r"\n\n[^\s]", re.M)
+
         # Parse output to get sentences and linkages in postscript notation
-        for block in text[pos:end].split("\n\n"):
+        for block in re.split(pattern, text[pos:end]):  # text[pos:end].split("\n\n"):
 
             block = block.strip()
 
@@ -157,13 +160,7 @@ class LGInprocParser(AbstractFileParserClient):
         if not (options & BIT_OUTPUT):
 
             if options & BIT_PARSE_QUALITY and ref_path is not None:
-                data = load_ull_file(ref_path)
-
-                try:
-                    ref_parses = get_parses(data, (options & BIT_NO_LWALL) == BIT_NO_LWALL, False)
-
-                except AssertionError as err:
-                    raise LGParseError(str(err) + "\n\tMake sure '{}' has proper .ull file format.".format(ref_path))
+                ref_parses = load_parses(ref_path)
 
             # Parse output into sentences and assotiate a list of linkages for each one of them.
             sentences = self._parse_batch_ps_output(text, options)
@@ -191,7 +188,7 @@ class LGInprocParser(AbstractFileParserClient):
                 if not len(tokens):
                     raise LGParseError(f"No tokens for sentence: '{sent.linkages[0].text}'")
 
-                # Calculate parseability statistics
+                # Filter tokens to match parse options
                 prepared = prepare_tokens(tokens, options)
 
                 # Strip suffixes, convert to lower case and make a set out of token list
@@ -215,19 +212,17 @@ class LGInprocParser(AbstractFileParserClient):
                 # Calculate parse ability etc.
                 total_metrics += parse_metrics(prepared)
 
-                # self._logger.debug(prepared)
-
                 # Calculate parse quality if the option is set
                 if (options & BIT_PARSE_QUALITY) and len(ref_parses):
-                    total_quality += parse_quality(get_link_set(tokens, links, options),
-                                                  ref_parses[sentence_count][1])
+                    ref_set = get_link_set(unbox_tokens(tokenize_sentence(ref_parses[sentence_count][0])),
+                                           ref_parses[sentence_count][1], options)
+                    total_quality += parse_quality(get_link_set(tokens, links, options), ref_set)
 
         # If output format is other than ull then simply write text to the output stream.
         else:
             print(text, file=out_stream)
 
         return total_metrics, total_quality
-
 
     # def _handle_stream_output(self, text: str, options: int, out_stream, ref_path: str) -> (ParseMetrics, ParseQuality):
     #     """
@@ -336,8 +331,7 @@ class LGInprocParser(AbstractFileParserClient):
     #     return total_metrics, total_quality
 
     def parse(self, dict_path: str, corpus_path: str, output_path: str, ref_file: str, options: int,
-              progress: AbstractProgressClient=None, **kwargs) \
-            -> (ParseMetrics, ParseQuality):
+              progress: AbstractProgressClient = None, **kwargs) -> (ParseMetrics, ParseQuality):
         """
         Link parser invocation routine. Runs link-parser executable in a separate process.
 
@@ -362,16 +356,11 @@ class LGInprocParser(AbstractFileParserClient):
                     self._lg_version >= "5.5.0" and dict_ver < "5.5.0"):
                 raise LGParseError(f"Wrong dictionary version: {dict_ver}, expected: {self._lg_version}")
 
-        # self._logger.debug(kwargs)
-
         # Issue #184 modifications
         stop_tokens = kwargs.get("stop_tokens", None)
 
         self._stop_tokens_set = set([token.strip() for token in stop_tokens.split(" ")]) if stop_tokens is not None \
             else None
-
-        # if stop_tokens is not None:
-        #     print(self._stop_tokens_set)
 
         self._max_sentence_len = kwargs.get("max_sentence_len", LGInprocParser.MAX_SENTENCE_LENGTH)
 
@@ -382,24 +371,21 @@ class LGInprocParser(AbstractFileParserClient):
         self._min_word_count = kwargs.get("min_word_count", 0)
         self._token_counts = kwargs.get("token_counts", None)
 
-        self._logger.debug(f"self._min_word_count={self._min_word_count}")
-        self._logger.debug(f"self._token_counts={self._token_counts}")
-
         sentence_count = 0
 
         bar = None
 
         if progress is None:
-            self._logger.info("Parsing a corpus file: '" + corpus_path + "'")
-            self._logger.info("Using dictionary: '" + dict_path + "'")
+            self._logger.info(f"Parsing a corpus file: '{corpus_path}'")
+            self._logger.info(f"Using dictionary: '{dict_path}'")
 
             if output_path is not None:
-                self._logger.info("Parses are saved in: '" + output_path+get_output_suffix(options) + "'")
+                self._logger.info(f"Parses are saved in: '{output_path}'")
             else:
                 self._logger.info("Output file name is not specified. Parses are redirected to 'stdout'.")
 
             if ref_file is not None:
-                self._logger.info("Reference file: '" + ref_file + "'")
+                self._logger.info(f"Reference file: '{ref_file}'")
             else:
                 self._logger.info("Reference file name is not specified. Parse quality is not calculated.")
 
@@ -420,14 +406,14 @@ class LGInprocParser(AbstractFileParserClient):
                 bar = progress_type(total=sentence_count, desc=os.path.split(corpus_path)[1],
                                     unit="sentences", leave=True)
             else:
-                self._logger.info("Number of sentences: {}".format(sentence_count))
+                self._logger.info(f"Number of sentences: {sentence_count}")
 
             lgp_cmd = get_linkparser_command(options, dict_path, self._linkage_limit, self._timeout, self._lg_verbosity)
 
             self._logger.debug(str(lgp_cmd))
 
             out_stream = sys.stdout if output_path is None \
-                else open(output_path+get_output_suffix(options), "w", encoding="utf-8")
+                else open(output_path, "w", encoding="utf-8")
 
             with Popen(sed_cmd, stdout=PIPE) as proc_grep, \
                  Popen(lgp_cmd, stdin=proc_grep.stdout, stdout=PIPE, stderr=PIPE) as proc_pars:
@@ -440,9 +426,8 @@ class LGInprocParser(AbstractFileParserClient):
 
                 # Check return code to make sure the process completed successfully.
                 if proc_pars.returncode != 0:
-                    raise ParserError("Process '{0}' terminated with exit code: {1} "
-                                       "and error message:\n'{2}'.".format(lgp_cmd[0], proc_pars.returncode,
-                                                                           err_stream.decode()))
+                    raise ParserError(f"Process '{lgp_cmd[0]}' terminated with exit code: {proc_pars.returncode} "
+                                      "and error message:\n'{err_stream.decode()}'.")
 
                 # Take an action depending on the output format specified by 'options'
                 ret_metrics, ret_quality = self._handle_stream_output(raw_stream.decode("utf-8-sig"), options,
@@ -465,7 +450,7 @@ class LGInprocParser(AbstractFileParserClient):
                                                                   corpus_path if path_len < 31
                                                                                 else "..." + corpus_path[path_len-27:]))
 
-        except LGParseError as err:
+        except LGParseError:
             self._logger.debug(err_stream.decode("utf-8-sig"))
 
             with open(output_path + ".raw", "w") as r:
@@ -476,8 +461,8 @@ class LGInprocParser(AbstractFileParserClient):
 
             raise
 
-        except AssertionError as err:
-            raise ParserError("Invalid statistics result. " + str(err))
+        except EvalError as err:
+            raise LGParseError(err)
 
         finally:
             if bar is not None:

@@ -2,7 +2,7 @@ import unittest
 import os
 from decimal import Decimal
 
-from src.grammar_tester.grammartester import GrammarTester, test_grammar, test_grammar_cfg
+from src.grammar_tester.grammartester import GrammarTester, test_grammar  # , test_grammar_cfg
 from src.grammar_tester.lginprocparser import LGInprocParser
 from src.common.optconst import *
 

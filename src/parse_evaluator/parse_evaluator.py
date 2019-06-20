@@ -1,3 +1,4 @@
+import os
 import sys
 import random
 
@@ -89,7 +90,7 @@ def MakeSets(parse, sent_len, ignore_WALL):
     links_set = set(map(frozenset, link_list))
     return links_set, current_ignored
 
-def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore, filter):
+def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore, filter, **kwargs):
     """
         Compares test_parses against ref_parses link by link,
         counting errors, 
@@ -99,10 +100,11 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
     ignored_links = 0   # ignored links from ref, if ignore is active
     sum_precision = 0
     sum_recall = 0
+    output_path = kwargs.get("output_path", os.environ["PWD"])
 
     # if filter, we'll print to file accepted ref parses
     if filter:
-        fa = open("./accepted_parses.ull", "w")
+        fa = open(f"{output_path}/accepted_parses.ull", "w")
 
     for ref_parse, test_parse, ref_sent, test_sent in zip(ref_parses, test_parses, ref_sents, test_sents):
 
@@ -170,11 +172,13 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
     if filter:
         fa.close() # close output file if opened
     
-def Make_Sequential(sents):
+def Make_Sequential(sents, **kwargs):
     """
         Make sequential parses (each word simply linked to the next one), 
         to use as baseline
     """
+    output_path = kwargs.get("output_path", os.environ["PWD"])
+
     sequential_parses = []
     for sent in sents:
         parse = [["0", "###LEFT-WALL###", "1", sent[0]]] # include left-wall
@@ -183,14 +187,16 @@ def Make_Sequential(sents):
         #parse.append([str(i), sent[i - 1], str(i + 1), sent[i]] for i in range(1, len(sent)))
         sequential_parses.append(parse)
 
-    Print_parses(sents, sequential_parses, "sequential_parses.ull")
+    Print_parses(sents, sequential_parses, f"{output_path}/sequential_parses.ull")
 
     return sequential_parses
 
-def Make_Random(sents):
+def Make_Random(sents, **kwargs):
     """
         Make random parses (from LG-parser "any"), to use as baseline
     """
+    output_path = kwargs.get("output_path", os.environ["PWD"])
+
     any_dict = Dictionary('any') # Opens dictionary only once
     po = ParseOptions(min_null_count=0, max_null_count=999)
     po.linkage_limit = 100
@@ -221,18 +227,20 @@ def Make_Random(sents):
 
             random_parses.append(curr_parse)
 
-    Print_parses(sents, random_parses, "random_parses.ull")
+    Print_parses(sents, random_parses, f"{output_path}/random_parses.ull")
 
     return random_parses
 
-def Compare_Tokenization(ref_sentences, test_sentences):
+def Compare_Tokenization(ref_sentences, test_sentences, **kwargs):
     """
         Compares tokenization differences between parse files. Ignores caps
         and LG-unparsed (bracketed) tokens.
         Writes tok_diff.txt file with sentences that have different tokenization, and
         shows the different tokens
     """
-    with open("tok_diff.txt", "w") as ft:
+    output_path = kwargs.get("output_path", os.environ["PWD"])
+
+    with open(f"{output_path}/tok_diff.txt", "w") as ft:
         for ref_sent, test_sent in zip(ref_sentences, test_sentences):
             new_ref = []
             new_test = []
@@ -249,25 +257,25 @@ def Compare_Tokenization(ref_sentences, test_sentences):
             if new_ref != new_test:
                 set_ref = set(new_ref)
                 set_test = set(new_test)
-                ft.write("Sentence Differs:\n{}\nin tokens:{}<--->{}\n".format(" ".join(ref_sent), set_ref - set_test, set_test - set_ref))
+                ft.write("Sentence Differs:\n{}\nin tokens:{}<--->{}\n".format(" ".join(ref_sent), sorted(list(set_ref - set_test)), sorted(list(set_test - set_ref))))
 
-def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag, filter_sentences, compare_tokenization):
+def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag, filter_sentences, compare_tokenization, **kwargs):
 
     ref_data = Load_File(ref_file)
     ref_parses, ref_sents = Get_Parses(ref_data) 
     if sequential:
-        test_parses = Make_Sequential(ref_sents)
+        test_parses = Make_Sequential(ref_sents, **kwargs)
         test_sents = ref_sents
     elif random_flag:
-        test_parses = Make_Random(ref_sents)
+        test_parses = Make_Random(ref_sents, **kwargs)
         test_sents = ref_sents
     else:
         test_data = Load_File(test_file)
         test_parses, test_sents = Get_Parses(test_data) 
     if len(test_parses) != len(ref_parses):
-        sys.exit("ERROR: Number of parses differs in files: ", len(test_parses), ", ", len(ref_parses))
+        sys.exit(f"ERROR: Number of parses differs in files: {len(test_parses)}, {len(ref_parses)}")
     if compare_tokenization:
         print("Comparing tokenization only...")
-        Compare_Tokenization(ref_sents, test_sents)
+        Compare_Tokenization(ref_sents, test_sents, **kwargs)
         return # exit
-    Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore_WALL, filter_sentences)
+    Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore_WALL, filter_sentences, **kwargs)

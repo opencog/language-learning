@@ -1,11 +1,11 @@
 
 __all__ = [
-    # 'LG_DICT_PATH',
     'BIT_CAPS', 'BIT_RWALL', 'BIT_STRIP', 'BIT_OUTPUT', 'BIT_ULL_IN', 'BIT_RM_DIR',
     'BIT_OUTPUT_DIAGRAM', 'BIT_OUTPUT_POSTSCRIPT', 'BIT_OUTPUT_CONST_TREE', 'BIT_OUTPUT_ALL',
     'BIT_LG_GR_NAME', 'BIT_DPATH_CREATE', 'BIT_LG_EXE', 'BIT_NO_LWALL', 'BIT_SEP_STAT', 'BIT_LOC_LANG',
     'BIT_PARSE_QUALITY', 'BIT_NO_PERIOD', 'BIT_ULL_NO_LWALL', 'BIT_GRSUBDIR_CREATE', 'BIT_INPUT_TO_LCASE',
-    'BIT_EXISTING_DICT', 'BIT_EXCLUDE_TIMEOUTED', 'BIT_EXCLUDE_PANICED', 'BIT_EXCLUDE_EXPLOSION', 'get_options'
+    'BIT_EXISTING_DICT', 'BIT_EXCLUDE_TIMEOUTED', 'BIT_EXCLUDE_PANICED', 'BIT_EXCLUDE_EXPLOSION',
+    'BIT_FILTER_DIR_SPEECH', 'BIT_STRICT_TOKENIZATION', 'BIT_IGNORE_SENT_MISMATCH', 'get_options'
 ]
 
 # Link Grammar output format constants. If no bits set, ULL defacto format is used.
@@ -40,6 +40,9 @@ BIT_EXCLUDE_TIMEOUTED   = (1<<20)           # Exclude linkage(s) from statistics
 BIT_EXCLUDE_PANICED     = (1<<21)           # Exclude linkage(s) from statistics estimation if LG 'panic' is detected
 BIT_EXCLUDE_EXPLOSION   = (1<<22)           # Exclude linkage(s) from statistics estimation if LG combinatorial
                                             #   explosion is detected.
+BIT_FILTER_DIR_SPEECH   = (1<<23)           # Filter out direct speech.
+BIT_STRICT_TOKENIZATION = (1<<24)           # Ignore tokenization discrepancies when comparing parses
+BIT_IGNORE_SENT_MISMATCH= (1<<25)           # Ignore sentences mismatch when comparing parses
 
 config_options = {
     "keep_caps": (BIT_CAPS, False),
@@ -60,7 +63,9 @@ config_options = {
     "existing_dict_dir": (BIT_EXISTING_DICT, False),
     "exclude_timeouted": (BIT_EXCLUDE_TIMEOUTED, False),
     "exclude_paniced": (BIT_EXCLUDE_PANICED, False),
-    "exclude_explosion": (BIT_EXCLUDE_EXPLOSION, False)
+    "exclude_explosion": (BIT_EXCLUDE_EXPLOSION, False),
+    "strict_tokenization": (BIT_STRICT_TOKENIZATION, False),
+    "ignore_sentence_mismatch": (BIT_IGNORE_SENT_MISMATCH, False)
 }
 
 output_format = {

@@ -181,7 +181,7 @@ def save_category_tree(category_list, tree_file, verbose = 'none'):
 def save_cat_tree(cats, output_categories, verbose = 'none'):
     # cats: {'cluster':[], 'words':[], ...}
     tree_file = output_categories
-    if '.' not in tree_file:  # received directory ⇒ auto file name
+    if os.path.isdir(tree_file):  # received directory ⇒ auto file name
         if tree_file[-1] != '/': tree_file += '/'
         n_cats = len([x for i, x in enumerate(cats['cluster'])
                       if i > 0 and x is not None])

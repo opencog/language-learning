@@ -1,6 +1,7 @@
 import unittest
 import sys
 from src.grammar_tester.parsevaluate import *
+from src.common.optconst import *
 
 
 parse_no_wall = """tuna isa fish . 
@@ -28,25 +29,33 @@ class TestEvalMethods(unittest.TestCase):
     # @unittest.skip
     def test_get_parses(self):
         """ Test evaluation """
-        ref_data = load_ull_file("tests/test-data/parses/poc-turtle-mst/one-parse-expected.txt")
-        test_data = load_ull_file("tests/test-data/parses/poc-turtle-mst/one-parse-expected-mi.txt")
-        # test_data = Load_File("test-data/parses/poc-turtle-mst/one-parse-no-wall.txt")
-        print("ref_data='", ref_data, "'", file=sys.stderr)
-        print("test_data='", test_data, "'", file=sys.stderr)
-        ref_parses = get_parses(ref_data, True)
-        test_parses = get_parses(test_data, True)
-        eval_parses(test_parses, ref_parses, False, sys.stderr)
+        ref_parses = load_parses("tests/test-data/parses/poc-turtle-mst/one-parse-expected.txt")
+        test_parses = load_parses("tests/test-data/parses/poc-turtle-mst/one-parse-expected-mi.txt")
+        eval_parses(test_parses, ref_parses, 0x00000000 | BIT_ULL_IN | BIT_NO_LWALL | BIT_NO_PERIOD)
         self.assertEqual(ref_parses, test_parses)
 
+    # # @unittest.skip
+    # def test_get_parses(self):
+    #     """ Test evaluation """
+    #     ref_data = load_ull_file("tests/test-data/parses/poc-turtle-mst/one-parse-expected.txt")
+    #     test_data = load_ull_file("tests/test-data/parses/poc-turtle-mst/one-parse-expected-mi.txt")
+    #     # print("ref_data='", ref_data, "'", file=sys.stderr)
+    #     # print("test_data='", test_data, "'", file=sys.stderr)
+    #     ref_parses = get_parses(ref_data)
+    #     test_parses = get_parses(test_data)
+    #     eval_parses(test_parses, ref_parses, 0x00000000 | BIT_ULL_IN | BIT_NO_LWALL | BIT_NO_PERIOD)
+    #     self.assertEqual(ref_parses, test_parses)
+
+    @unittest.skip
     def test_get_parses_bug(self):
         """ Test for found bug in get_parses() """
         test_data = load_ull_file("tests/test-data/corpora/poc-english/poc_english_noamb_parses_1s_2.txt")
-        test_parses = get_parses(test_data, True)
+        test_parses = get_parses(test_data)
         # print(test_parses, file=sys.stderr)
         self.assertEqual(2, len(test_parses[0][1]))
 
         ref_data = load_ull_file("tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt")
-        ref_parses = get_parses(ref_data, True)
+        ref_parses = get_parses(ref_data)
         # print(ref_parses, file=sys.stderr)
         self.assertEqual(4, len(ref_parses[0][1]))
 
@@ -54,7 +63,7 @@ class TestEvalMethods(unittest.TestCase):
         """ Test for proper comparison of parses with LW """
         pq1 = compare_ull_files("tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt",
                                 "tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt",
-                                False, False)
+                                0x00000000 | BIT_ULL_IN)
 
         # print(pq1.text(pq1), file=sys.stderr)
 
@@ -68,7 +77,7 @@ class TestEvalMethods(unittest.TestCase):
         """ Test for proper comparison of parses without LW """
         pq1 = compare_ull_files("tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt",
                                 "tests/test-data/corpora/poc-english/poc_english_noamb_parses_ideal_1s_2.txt",
-                                False, True)
+                                0x00000000 | BIT_ULL_IN | BIT_NO_LWALL | BIT_NO_PERIOD)
 
         # print(pq1.text(pq1), file=sys.stderr)
 
@@ -81,14 +90,22 @@ class TestEvalMethods(unittest.TestCase):
     # @unittest.skip
     def test_get_parses_start_from_digit(self):
         """ Test evaluation """
-        ref_data = load_ull_file("tests/test-data/parses/start-from-digit/start-from-digit.ull")
-        test_data = load_ull_file("tests/test-data/parses/start-from-digit/start-from-digit.ull")
-        print("ref_data='", ref_data, "'", file=sys.stderr)
-        print("test_data='", test_data, "'", file=sys.stderr)
-        ref_parses = get_parses(ref_data, True)
-        test_parses = get_parses(test_data, True)
+        ref_parses = load_parses("tests/test-data/parses/start-from-digit/start-from-digit.ull")
+        test_parses = load_parses("tests/test-data/parses/start-from-digit/start-from-digit.ull")
         # eval_parses(test_parses, ref_parses, False, sys.stderr)
         self.assertEqual(ref_parses, test_parses)
+
+    # # @unittest.skip
+    # def test_get_parses_start_from_digit(self):
+    #     """ Test evaluation """
+    #     ref_data = load_ull_file("tests/test-data/parses/start-from-digit/start-from-digit.ull")
+    #     test_data = load_ull_file("tests/test-data/parses/start-from-digit/start-from-digit.ull")
+    #     # print("ref_data='", ref_data, "'", file=sys.stderr)
+    #     # print("test_data='", test_data, "'", file=sys.stderr)
+    #     ref_parses = get_parses(ref_data)
+    #     test_parses = get_parses(test_data)
+    #     # eval_parses(test_parses, ref_parses, False, sys.stderr)
+    #     self.assertEqual(ref_parses, test_parses)
 
 
 if __name__ == '__main__':

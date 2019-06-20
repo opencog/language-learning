@@ -8,7 +8,7 @@ from .parsestat import parse_metrics, parse_quality
 from .psparse import parse_postscript, prepare_tokens, get_link_set
 from .lgmisc import get_output_suffix, print_output
 from ..common.absclient import AbstractFileParserClient
-from .parsevaluate import load_ull_file, get_parses
+from .parsevaluate import load_parses
 
 
 __all__ = ['LGApiParser']
@@ -45,18 +45,13 @@ class LGApiParser(AbstractFileParserClient):
         print("Info: Using dictionary: '" + dict_path + "'")
 
         if output_path is not None:
-            print("Info: Parses are saved in: '" + output_path+get_output_suffix(options) + "'")
+            print(f"Info: Parses are saved in: '{output_path}'")
         else:
             print("Info: Output file name is not specified. Parses are redirected to 'stdout'.")
 
         try:
             if options & BIT_PARSE_QUALITY and ref_path is not None:
-                try:
-                    data = load_ull_file(ref_path)
-                    ref_parses = get_parses(data, (options & BIT_NO_LWALL) == BIT_NO_LWALL, False)
-
-                except Exception as err:
-                    print("Exception: " + str(err))
+                ref_parses = load_parses(ref_path)
 
             link_line = re.compile(r"\A[0-9].+")
 
@@ -67,7 +62,7 @@ class LGApiParser(AbstractFileParserClient):
 
             input_file_handle = open(corpus_path)
             output_file_handle = sys.stdout if output_path is None \
-                                            else open(output_path+get_output_suffix(options), "w")
+                                            else open(output_path, "w")
 
             for line in input_file_handle:
 

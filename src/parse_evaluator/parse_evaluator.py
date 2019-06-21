@@ -79,7 +79,17 @@ def MakeSets(parse, sent_len, ignore_WALL):
     """
     current_ignored = 0
     link_list = []
+    content_words = 1 #### TEMP for testing
+    if content_words:
+        print(os.environ["PWD"])
+        print("Content-word-only parse evaluation!")
+        with open("/home/andres/MyOpenCogSources/language-learning/src/parse_evaluator/func_words.txt", 'r') as ff:
+            func_words = ff.readlines()[0].split()
     for link in parse:
+        if content_words:
+            if (link[1] in func_words or link[3] in func_words):
+                current_ignored += 1
+                continue
         if ignore_WALL:
             if (link[0] == '0') or (link[2] == str(sent_len) and link[3] == "."):
                 current_ignored += 1

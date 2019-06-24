@@ -29,7 +29,8 @@ setup(name='opencog-ull',
                'src/cli_scripts/ull-cli',
                'src/cli_scripts/dict-transformer',
                'src/cli_scripts/token-counter',
-               'src/cli_scripts/sentence-counter'
+               'src/cli_scripts/sentence-counter',
+               'src/cli_scripts/word-counter'
                ],
       platform='any',
       license='MIT',

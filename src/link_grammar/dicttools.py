@@ -1,9 +1,11 @@
 import re
+import sys
 import logging
 from typing import Dict, List, Union, Set
 
 
-__all__ = ['DictRule', 'LGDictionaryRuleSpace', 'read_dict_rules', 'save_dict_rules', 'rule_subset_dict']
+__all__ = ['DictRule', 'LGDictionaryRuleSpace', 'read_dict_rules', 'save_dict_rules', 'rule_subset_dict',
+           'count_germs_in_dict']
 
 
 class DictRule:
@@ -267,3 +269,27 @@ def rule_subset_dict(sent: Union[str, List[str]], src_dict_path: str, dst_dict_p
     save_dict_rules(dst_dict_path, dict_space.wordspace_intersection_rules(word_set))
 
     logger.warning(f"New dictionary file is saved at: {dst_dict_path}")
+
+
+def count_germs_in_dict(dict_path: str) -> (int, int):
+    """
+    Count all germs in all rules
+
+    :param dict_path:       Path to dictionary file.
+    :return:                Number of germs in all rules and number of rules.
+    """
+    reDictRule = re.compile(r'^(?:\n*\s*)([^"].+?):(?:\n|\r\n?)*(.+?);(?:\n)', re.M)
+
+    # Read the whole file at once
+    with open(dict_path, "r") as dict:
+        file_data = dict.read()
+
+    rules = [parse[0] for parse in re.findall(reDictRule, file_data)]
+
+    word_count = 0
+
+    for rule in rules:
+        print(rule, file= sys.stderr)
+        word_count += len(rule.split())
+
+    return word_count, len(rules)

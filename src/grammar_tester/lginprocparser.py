@@ -427,7 +427,7 @@ class LGInprocParser(AbstractFileParserClient):
                 # Check return code to make sure the process completed successfully.
                 if proc_pars.returncode != 0:
                     raise ParserError(f"Process '{lgp_cmd[0]}' terminated with exit code: {proc_pars.returncode} "
-                                      "and error message:\n'{err_stream.decode()}'.")
+                                      f"and error message:\n'{err_stream.decode()}'.")
 
                 # Take an action depending on the output format specified by 'options'
                 ret_metrics, ret_quality = self._handle_stream_output(raw_stream.decode("utf-8-sig"), options,

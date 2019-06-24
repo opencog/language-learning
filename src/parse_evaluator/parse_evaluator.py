@@ -72,14 +72,13 @@ def Get_Parses(data):
 
     return parses, sentences
 
-def MakeSets(parse, sent_len, ignore_WALL):
+def MakeSets(parse, sent_len, ignore_WALL, content_words):
     """
         Gets a list with links and its sentence's length and returns a
         set of sets for each link's ids, ignoring WALL and dot if requested
     """
     current_ignored = 0
     link_list = []
-    content_words = 1 #### TEMP for testing
     if content_words:
         with open("/home/andres/MyOpenCogSources/language-learning/src/parse_evaluator/func_words.txt", 'r') as ff:
             func_words = ff.readlines()[0].split()
@@ -132,7 +131,7 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
                 continue
 
         # using sets to ignore link directions
-        ref_sets, current_ignored = MakeSets(ref_parse, len(ref_sent), ignore)
+        ref_sets, current_ignored = MakeSets(ref_parse, len(ref_sent), ignore, content)
 
         # if no links are left after ignore, skip parse
         if len(ref_sets) == 0:
@@ -140,7 +139,7 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
         else:
             evaluated_parses += 1
 
-        test_sets, dummy = MakeSets(test_parse, len(ref_sent), ignore)
+        test_sets, dummy = MakeSets(test_parse, len(ref_sent), ignore, content)
 
         # if test_sets has no links left, precision and recall are zero
         if len(test_sets) == 0:
@@ -267,7 +266,7 @@ def Compare_Tokenization(ref_sentences, test_sentences, **kwargs):
                 set_test = set(new_test)
                 ft.write("Sentence Differs:\n{}\nin tokens:{}<--->{}\n".format(" ".join(ref_sent), sorted(list(set_ref - set_test)), sorted(list(set_test - set_ref))))
 
-def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag, filter_sentences, compare_tokenization, **kwargs):
+def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, random_flag, filter_sentences, compare_tokenization, content, **kwargs):
 
     ref_data = Load_File(ref_file)
     ref_parses, ref_sents = Get_Parses(ref_data) 
@@ -286,4 +285,4 @@ def Evaluate_Alternative(ref_file, test_file, verbose, ignore_WALL, sequential, 
         print("Comparing tokenization only...")
         Compare_Tokenization(ref_sents, test_sents, **kwargs)
         return # exit
-    Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore_WALL, filter_sentences, **kwargs)
+    Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore_WALL, filter_sentences, content, **kwargs)

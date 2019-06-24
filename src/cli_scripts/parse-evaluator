@@ -39,13 +39,14 @@ def main(argv):
         ...
 
         -----------------------------------------------------------------------
-        Usage: parse_evaluator -r <reffile> -t <testfile> [-v] [-i] [-s] [-z] [-a] [-o]
+        Usage: parse_evaluator -r <reffile> -t <testfile> [-v] [-w] [-i] [-c] [-a] [-s] [-z] [-f] [-o] [-O] [-T] [-S]
 
         testfile        file with parses to evaluate, or to store sequential/random parses
         reffile         file with reference parses
         -v              Verbosity level options: [none, debug, info, warning, error, critical]
-        -z              File logging level options: [none, debug, info, warning, error, critical]
+        -w              File logging level options: [none, debug, info, warning, error, critical]
         -i              ignore LEFT-WALL and end-of-sentence dot, if any
+        -c              ignore function words in evaluation (only take content-words)
         -a              use alternative parse_evaluator
         -s              generate sequential parses in <testfile> and evaluate 
         -z              generate random parses in <testfile> and evaluate 
@@ -62,6 +63,7 @@ def main(argv):
     verbosity_level = logging.WARNING
     logging_level   = logging.NOTSET
     ignore_wall = False
+    content = False
     sequential = False
     random = False
     alternative_parser = False
@@ -106,6 +108,8 @@ def main(argv):
             elif opt in ("-i", "--ignore"):
                 ignore_wall = True
                 options |= (BIT_NO_LWALL | BIT_NO_PERIOD)
+            elif opt in ("-c", "--content"):
+                content = True
             elif opt in ("-s", "--sequential"):
                 if random:
                     raise getopt.GetoptError("'--random' and '--sequential' cannot be run together.")

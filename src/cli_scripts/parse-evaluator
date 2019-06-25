@@ -46,7 +46,7 @@ def main(argv):
         -v              Verbosity level options: [none, debug, info, warning, error, critical]
         -w              File logging level options: [none, debug, info, warning, error, critical]
         -i              ignore LEFT-WALL and end-of-sentence dot, if any
-        -c              ignore function words in evaluation (only take content-words)
+        -c              ignore function words in evaluation (only take content-words, only in alternative evaluator)
         -a              use alternative parse_evaluator
         -s              generate sequential parses in <testfile> and evaluate 
         -z              generate random parses in <testfile> and evaluate 
@@ -168,7 +168,7 @@ def main(argv):
 
         if alternative_parser:
             Evaluate_Alternative(ref_file, test_file, verbose, ignore_wall, sequential, random, filter_sentences,
-                                 compare_tokenization, **params)
+                                 compare_tokenization, content, **params)
 
         else:
             compare_ull_files(test_file, ref_file, options, **params)

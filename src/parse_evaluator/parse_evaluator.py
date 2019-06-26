@@ -141,19 +141,19 @@ def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ign
 
         test_sets, dummy = MakeSets(test_parse, len(ref_sent), ignore, content)
 
-        # if test_sets has no links left, precision and recall are zero
-        if len(test_sets) == 0:
-            continue
+        ignored_links += current_ignored
 
         # count current parse guesses
         true_pos = len(ref_sets.intersection(test_sets))
         false_neg = len(ref_sets) - true_pos
         false_pos = len(test_sets) - true_pos
 
-        # update global counts
-        ignored_links += current_ignored
-        sum_precision += true_pos / (true_pos + false_pos)  # add parse's precision
-        sum_recall += true_pos / (true_pos + false_neg)  # add parse's recall
+        # only update precision and recall if test_sets has links left,
+        # otherwise they are not counted (they are zero)
+        if len(test_sets) != 0:
+            # update global counts
+            sum_precision += true_pos / (true_pos + false_pos)  # add parse's precision
+            sum_recall += true_pos / (true_pos + false_neg)  # add parse's recall
 
         if verbose:
             print("Sentence: {}".format(" ".join(ref_sent)))

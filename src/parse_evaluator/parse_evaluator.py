@@ -97,7 +97,7 @@ def MakeSets(parse, sent_len, ignore_WALL, content_words):
     links_set = set(map(frozenset, link_list))
     return links_set, current_ignored
 
-def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore, filter, **kwargs):
+def Evaluate_Parses(test_parses, test_sents, ref_parses, ref_sents, verbose, ignore, filter, content, **kwargs):
     """
         Compares test_parses against ref_parses link by link,
         counting errors, 

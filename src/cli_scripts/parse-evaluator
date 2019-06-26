@@ -75,9 +75,9 @@ def main(argv):
     try:
         app_name = str(os.path.split(__file__)[1]).split(".")[0]
 
-        opts, args = getopt.getopt(argv, "ht:r:O:v:iszafoTSw:", ["test=", "reference=", "output=", "verbosity=", "ignore",
-                                                             "sequential", "random", "alternative", "filter",
-                                                             "tokenization", "strict-tokenization",
+        opts, args = getopt.getopt(argv, "ht:r:O:v:iszcafoTSw:", ["test=", "reference=", "output=", "verbosity=", "ignore",
+                                                             "sequential", "random", "content", "alternative", 
+                                                             "filter", "tokenization", "strict-tokenization",
                                                              "ignore-sent-mismatch", "logging"])
 
         for opt, arg in opts:

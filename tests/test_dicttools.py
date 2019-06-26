@@ -37,6 +37,14 @@ class LGDictToolsTestCase(unittest.TestCase):
 
         self.assertEqual(rule.get_disjunct_list(), ["AAABBB+", "BBBCCC- & AAACCC+"])
 
+    def test_count_germs_in_dict(self):
+        file = "tests/test-data/dict/poc-turtle/4.0.dict"
+
+        words, rules = count_germs_in_dict(file)
+
+        self.assertEqual(words, 17)
+        self.assertEqual(rules, 15)
+
 
 if __name__ == '__main__':
     unittest.main()

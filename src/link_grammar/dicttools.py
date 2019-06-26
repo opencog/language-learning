@@ -278,18 +278,33 @@ def count_germs_in_dict(dict_path: str) -> (int, int):
     :param dict_path:       Path to dictionary file.
     :return:                Number of germs in all rules and number of rules.
     """
-    reDictRule = re.compile(r'^(?:\n*\s*)([^"].+?):(?:\n|\r\n?)*(.+?);(?:\n)', re.M)
+    re_dict_rule = re.compile(r'^([^<%\n].+?):(.+?);(?:\s*)$', re.M | re.S)
 
     # Read the whole file at once
     with open(dict_path, "r") as dict:
         file_data = dict.read()
 
-    rules = [parse[0] for parse in re.findall(reDictRule, file_data)]
+    rules = [parse[0] for parse in re.findall(re_dict_rule, file_data)]
 
     word_count = 0
 
     for rule in rules:
-        print(rule, file= sys.stderr)
+        # print(rule, file= sys.stderr)
         word_count += len(rule.split())
 
     return word_count, len(rules)
+
+
+# def count_words_and_rules(text: str) -> (int, int):
+#
+#     re_dict_rule = re.compile(r'^([^<%\n].+?):(.+?);(?:\s*)$', re.M | re.S)
+#
+#     rules = [parse[0] for parse in re.findall(re_dict_rule, text)]
+#
+#     word_count = 0
+#
+#     for rule in rules:
+#         print(rule, file=sys.stderr)
+#         word_count += len(rule.split(" "))
+#
+#     return word_count, len(rules)

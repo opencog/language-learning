@@ -84,7 +84,7 @@ def MakeSets(parse, sent_len, ignore_WALL, content_words):
             func_words = ff.readlines()[0].split()
     for link in parse:
         if content_words:
-            if (link[1] in func_words or link[3] in func_words):
+            if (link[1].lower() in func_words or link[3].lower() in func_words):
                 current_ignored += 1
                 continue
         if ignore_WALL:

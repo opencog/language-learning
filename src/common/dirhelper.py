@@ -68,7 +68,7 @@ def traverse_directory(root: str, file_ext: str, file_arg_list: list=None, dir_a
                 if is_traversing:
                     traverse_directory(entry.path, file_ext, file_arg_list, dir_arg_list, True)
 
-            elif entry.is_file() and (len(file_ext) < 1 or (len(file_ext) and entry.path.endswith(file_ext))):
+            elif entry.is_file() and (len(file_ext) < 1 or (len(file_ext) and entry.path.find(file_ext) > -1)):
                 if file_arg_list is not None:
                     file_arg_list[0](entry.path, file_arg_list[1:])
 

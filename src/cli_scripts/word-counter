@@ -76,10 +76,10 @@ Usage:
     try:
         words, rules = count_germs_in_dict(src_dict_path)
 
-        print(f"No of rules:\t{rules}\nNo of words:\t{words}")
+        print(f"Number of rules:\t{rules}\nNumber of words:\t{words}")
 
         if count_rule_len:
-            print(f"")
+            print(f"Maximum rule length: {count_max_rule_bytes_in_dict(src_dict_path)} bytes")
 
     except IsADirectoryError as err:
         logger.critical(str(err))

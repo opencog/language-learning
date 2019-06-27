@@ -278,6 +278,10 @@ def count_germs_in_dict(dict_path: str) -> (int, int):
     :param dict_path:       Path to dictionary file.
     :return:                Number of germs in all rules and number of rules.
     """
+    logger = logging.getLogger(__name__ + ".count_germs_in_dict")
+
+    logger.debug(dict_path)
+
     re_dict_rule = re.compile(r'^([^<%\n].+?):(.+?);(?:\s*)$', re.M | re.S)
 
     # Read the whole file at once

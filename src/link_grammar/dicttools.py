@@ -5,7 +5,7 @@ from typing import Dict, List, Union, Set
 
 
 __all__ = ['DictRule', 'LGDictionaryRuleSpace', 'read_dict_rules', 'save_dict_rules', 'rule_subset_dict',
-           'count_germs_in_dict']
+           'count_germs_in_dict', 'count_max_rule_bytes_in_dict']
 
 
 class DictRule:
@@ -293,22 +293,36 @@ def count_germs_in_dict(dict_path: str) -> (int, int):
     word_count = 0
 
     for rule in rules:
-        # print(rule, file= sys.stderr)
         word_count += len(rule.split())
 
     return word_count, len(rules)
 
 
-# def count_words_and_rules(text: str) -> (int, int):
-#
-#     re_dict_rule = re.compile(r'^([^<%\n].+?):(.+?);(?:\s*)$', re.M | re.S)
-#
-#     rules = [parse[0] for parse in re.findall(re_dict_rule, text)]
-#
-#     word_count = 0
-#
-#     for rule in rules:
-#         print(rule, file=sys.stderr)
-#         word_count += len(rule.split(" "))
-#
-#     return word_count, len(rules)
+def count_max_rule_bytes_in_dict(dict_path: str) -> (int, int):
+    """
+    Count all germs in all rules
+
+    :param dict_path:       Path to dictionary file.
+    :return:                Number of germs in all rules and number of rules.
+    """
+    logger = logging.getLogger(__name__ + ".count_max_rule_bytes_in_dict")
+
+    logger.debug(dict_path)
+
+    max_rule_bytes = 0
+
+    re_dict_rule = re.compile(r'^([^<%\n].+?:.+?;\s*)$', re.M | re.S)
+
+    # Read the whole file at once
+    with open(dict_path, "r") as dict:
+        file_data = dict.read()
+
+    rules = [parse[0] for parse in re.findall(re_dict_rule, file_data)]
+
+    for rule in rules:
+        str_len = len(bytes(rule))
+
+        if str_len > max_rule_bytes:
+            max_rule_bytes = str_len
+
+    return max_rule_bytes

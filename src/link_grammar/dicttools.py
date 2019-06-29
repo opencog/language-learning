@@ -298,18 +298,16 @@ def count_germs_in_dict(dict_path: str) -> (int, int):
     return word_count, len(rules)
 
 
-def count_max_rule_bytes_in_dict(dict_path: str) -> (int, int):
+def count_max_rule_bytes_in_dict(dict_path: str) -> int:
     """
     Count all germs in all rules
 
     :param dict_path:       Path to dictionary file.
-    :return:                Number of germs in all rules and number of rules.
+    :return:                Length in bytes of the longest rule in the dictionary.
     """
     logger = logging.getLogger(__name__ + ".count_max_rule_bytes_in_dict")
 
     logger.debug(dict_path)
-
-    max_rule_bytes = 0
 
     re_dict_rule = re.compile(r'^([^<%\n].+?:.+?;\s*)$', re.M | re.S)
 
@@ -317,12 +315,9 @@ def count_max_rule_bytes_in_dict(dict_path: str) -> (int, int):
     with open(dict_path, "r") as dict:
         file_data = dict.read()
 
-    rules = [parse[0] for parse in re.findall(re_dict_rule, file_data)]
+    max_rule_bytes = -1
 
-    for rule in rules:
-        str_len = len(bytes(rule))
-
-        if str_len > max_rule_bytes:
-            max_rule_bytes = str_len
+    for rule in re.findall(re_dict_rule, file_data):
+        max_rule_bytes = max(len(rule.encode("utf-8")), max_rule_bytes)
 
     return max_rule_bytes

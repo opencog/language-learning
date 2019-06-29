@@ -1,3 +1,4 @@
+import sys
 import unittest
 from src.link_grammar.dicttools import *
 
@@ -44,6 +45,22 @@ class LGDictToolsTestCase(unittest.TestCase):
 
         self.assertEqual(words, 17)
         self.assertEqual(rules, 15)
+
+    # def test_count_count_rule_length_in_dict(self):
+    #     file = "tests/test-data/dict/poc-turtle/4.0.dict"
+    #
+    #     length = count_max_rule_bytes_in_dict(file)
+    #
+    #     self.assertEqual(length, 17)
+
+    def test_count_max_rule_bytes_in_dict(self):
+        file = "tests/test-data/dict/poc-turtle/4.0.dict"
+
+        max_length = count_max_rule_bytes_in_dict(file)
+
+        print(max_length, file=sys.stderr)
+
+        # self.assertEqual(25, max_length)
 
 
 if __name__ == '__main__':

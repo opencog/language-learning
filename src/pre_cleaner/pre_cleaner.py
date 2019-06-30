@@ -205,7 +205,8 @@ def Write_Output_Sentence(fo, sentence):
 	"""
 		writes sentence to the output file
 	"""
-	fo.write(sentence)
+	if not re.search(r"^\s*$", sentence):
+		fo.write(sentence)
 
 def Decode_Escaped(sentence):
 	"""
@@ -315,7 +316,6 @@ def Normalize_Sentence(sentence, separate_contractions):
 		Converts all different apostrophes, double quotes and dashes to 
 		standard symbols.
 		Also removes underscores (commonly used as underline markup).
-		Also converts asterisks to space
 		Also separates contractions if separete_contractions
 	"""
 

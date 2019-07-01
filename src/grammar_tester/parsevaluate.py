@@ -12,6 +12,7 @@ from ..common.parsemetrics import ParseQuality, ParseMetrics
 from ..common.optconst import *
 from ..common.absclient import AbstractPipelineComponent
 from ..common.cliutils import handle_path_string
+from ..common.tokencount import unbox_tokens
 from .parsestat import parse_quality
 from .psparse import parse_postscript, get_link_set, prepare_tokens
 from .lgmisc import print_output, get_output_suffix
@@ -19,7 +20,7 @@ from linkgrammar import ParseOptions, Dictionary, Sentence, Linkage
 
 
 __all__ = ['load_parses', 'eval_parses', 'compare_ull_files', 'EvalError',
-           'make_random', 'make_sequential', 'save_parses', 'tokenize_sentence', 'unbox_tokens']
+           'make_random', 'make_sequential', 'save_parses', 'tokenize_sentence']
 
 
 PARSE_SENTENCE = 0
@@ -203,16 +204,6 @@ def tokenize_sentence(sentence: str) -> List[str]:
     tokens = sentence.split()
 
     return ["###LEFT-WALL###"] + tokens if tokens[0] != r"###LEFT-WALL###" else tokens
-
-
-def unbox_tokens(tokens: List[str]) -> List[str]:
-    """
-    Remove square brackets around tokens if any.
-
-    :param tokens:          List of tokens.
-    :return:                List of "unboxed" tokens
-    """
-    return [t[1:-1] if t[0] == "[" and t[-1] == "]" else t for t in tokens]
 
 
 def eval_parses(test_parses: list, ref_parses: list, options: int) \

@@ -79,7 +79,8 @@ Usage:
         print(f"Number of rules:\t{rules}\nNumber of words:\t{words}")
 
         if count_rule_len:
-            print(f"Maximum rule length: {count_max_rule_bytes_in_dict(src_dict_path)} bytes")
+            len_bytes = count_max_rule_bytes_in_dict(src_dict_path)
+            print(f"Maximum rule length:\t{len_bytes} bytes ({len_bytes/1024:2.2f} Kbytes)")
 
     except IsADirectoryError as err:
         logger.critical(str(err))

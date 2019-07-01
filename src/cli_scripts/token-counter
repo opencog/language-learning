@@ -38,8 +38,8 @@ Usage:
                                     and filter out link lines.
         -x  --no-left-wall      Exclude LEFT-WALL and period from statistics estimation.
         -I  --input-to-lcase    Convert input stream characters to lower case.
-        -v --verbosity          Verbosity level options: [none, debug, info, warning, error, critical]
-        -z --logging            File logging level options: [none, debug, info, warning, error, critical]
+        -v  --verbosity         Verbosity level options: [none, debug, info, warning, error, critical]
+        -z  --logging           File logging level options: [none, debug, info, warning, error, critical]
     """
     dict_path       = None
     input_path      = None

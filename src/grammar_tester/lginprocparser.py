@@ -7,6 +7,7 @@ from subprocess import PIPE, Popen
 from ..common.absclient import AbstractFileParserClient, AbstractProgressClient
 from ..common.sentencecount import get_sentence_count
 from ..common.sedcommands import get_sed_cmd_common_part
+from ..common.tokencount import unbox_tokens
 from .psparse import *
 from .parsestat import *
 from ..common.parsemetrics import *
@@ -135,7 +136,7 @@ class LGInprocParser(AbstractFileParserClient):
             return True
 
         # The sentence is considered invalid if any of the sentence tokens appears less then 'min_word_count' times.
-        for token in tokens:
+        for token in unbox_tokens(tokens):
             if not token.startswith(r"###") and self._token_counts.get(token, 0) < self._min_word_count:
                 # self._logger.debug(f"{token}")
                 return False

@@ -94,6 +94,10 @@ Usage:
         logger.warning("Ctrl+C triggered.")
         return 1
 
+    except PermissionError as err:
+        logger.critical(str(err))
+        return 1
+
     except FileNotFoundError as err:
         logger.critical(str(err))
         return 1

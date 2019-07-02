@@ -91,13 +91,13 @@ def get_lg_dict_version(dict_path: str) -> str:
     :return:
     """
 
-    if os.path.isdir(dict_path):
-        dict_path += "/4.0.dict"
-
-    # In case it's a binary file, returns generic db version
+    # In case dict is a binary file, returns special "version"
     f = os.popen('file -bi ' + dict_path, 'r')
     if not f.read().startswith('text'):
         return "sql-dict"
+
+    if os.path.isdir(dict_path):
+        dict_path += "/4.0.dict"
 
     with open(dict_path, "r") as file:
         text = file.read()

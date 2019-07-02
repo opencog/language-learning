@@ -123,8 +123,11 @@ def create_grammar_dir(dict_file_path: str, grammar_path: str, template_path: st
         shutil.copytree(template_path, dict_path)
         logger.info("Directory '" + dict_path + "' with template files has been created.")
 
-        # Replace dictionary file '4.0.dict' with a new one
-        shutil.copy(dict_file_path, dict_path + "/4.0.dict")
+        # Replace dictionary file with a new one
+        if dict_file_path.endswith("db"):
+            shutil.copy(dict_file_path, dict_path + "/dict.db")
+        else:
+            shutil.copy(dict_file_path, dict_path + "/4.0.dict")
         logger.info("Dictionary file has been replaced with '" + dict_file_path + "'.")
 
     return dict_path

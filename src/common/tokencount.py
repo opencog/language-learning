@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import Dict
+from typing import Dict, List
 from subprocess import Popen, PIPE
 from .dirhelper import traverse_dir_tree
 from .sedcommands import get_sed_cmd_common_part
@@ -11,12 +11,23 @@ __all__ = [
     'load_token_counts',
     'save_token_counts',
     'dump_token_counts',
+    'unbox_tokens',
     'TokenCountError'
 ]
 
 
 class TokenCountError(Exception):
     pass
+
+
+def unbox_tokens(tokens: List[str]) -> List[str]:
+    """
+    Remove square brackets around tokens if any.
+
+    :param tokens:          List of tokens.
+    :return:                List of "unboxed" tokens
+    """
+    return [t[1:-1] if t[0] == "[" and t[-1] == "]" else t for t in tokens]
 
 
 def update_token_counts(corpus_path: str, token_counts: Dict[str, int], options: int) -> int:
@@ -38,20 +49,19 @@ def update_token_counts(corpus_path: str, token_counts: Dict[str, int], options:
 
         # Check return code to make sure the process completed successfully.
         if proc_sed.returncode != 0:
-            raise TokenCountError("Process '{0}' terminated with exit code: {1} "
-                          "and error message:\n'{2}'.".format(sed_cmd[0], proc_sed.returncode, err_stream.decode()))
+            raise TokenCountError(f"Process '{sed_cmd[0]}' terminated with exit code: {proc_sed.returncode} "
+                                  f"and error message:\n'{err_stream.decode()}'")
 
     total_count = 0
 
     for line in raw_stream.decode().split("\n"):
 
-        for token in line.split():
-            token = token.strip()
+        for token in unbox_tokens([t.strip() for t in line.split()]):
 
             # Increment token count
             token_counts[token] = token_counts.get(token, 0) + 1
 
-            # Count total number of tokens appearences
+            # Count total number of tokens appearances
             total_count += 1
 
     return total_count

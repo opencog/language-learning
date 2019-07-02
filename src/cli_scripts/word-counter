@@ -9,7 +9,7 @@ import logging
 import traceback
 
 from ull.common import handle_path_string, setup_logging, VERBOSITY_OPTIONS, strip_quotes
-from ull.link_grammar.dicttools import count_germs_in_dict
+from ull.link_grammar.dicttools import count_germs_in_dict, count_max_rule_bytes_in_dict
 
 __version__ = "1.0.0"
 
@@ -21,8 +21,9 @@ Usage:
 
     destination_dict_file   Destination Link Grammar dictionary file path.
     """
-    sentence_text   = None
     src_dict_path   = None
+    count_rule_len : bool = False
+
     verbosity_level = logging.WARNING
     logging_level   = logging.ERROR
 
@@ -32,12 +33,15 @@ Usage:
         # print(app_name + " ver." + __version__)
         # print("Python v." + platform.python_version())
 
-        opts, args = getopt.getopt(argv, "hd:v:l:", ["help", "dictionary=", "verbosity=", "logging="])
+        opts, args = getopt.getopt(argv, "hrd:v:l:", ["help", "rule-len", "dictionary=", "verbosity=", "logging="])
 
         for opt, arg in opts:
             if opt in ("-h", "--help"):
                 print(main.__doc__)
                 return 0
+
+            if opt in ("-r", "--rule-len"):
+                count_rule_len = True
 
             elif opt in ("-d", "--dictionary"):
                 src_dict_path = handle_path_string(arg)
@@ -72,7 +76,11 @@ Usage:
     try:
         words, rules = count_germs_in_dict(src_dict_path)
 
-        print(f"No of rules:\t{rules}\nNo of words:\t{words}")
+        print(f"Number of rules:\t{rules}\nNumber of words:\t{words}")
+
+        if count_rule_len:
+            len_bytes = count_max_rule_bytes_in_dict(src_dict_path)
+            print(f"Maximum rule length:\t{len_bytes} bytes ({len_bytes/1024:2.2f} Kbytes)")
 
     except IsADirectoryError as err:
         logger.critical(str(err))
@@ -84,6 +92,10 @@ Usage:
 
     except KeyboardInterrupt:
         logger.warning("Ctrl+C triggered.")
+        return 1
+
+    except PermissionError as err:
+        logger.critical(str(err))
         return 1
 
     except FileNotFoundError as err:

@@ -27,7 +27,10 @@ def get_dir_name(file_name: str) -> (str, str):
     """
     Extract template grammar directory name and a name for new grammar directory
 
-    :param file_name: Grammar file name. It should have the following notation:
+    :param file_name: Grammar file name. 
+
+        If grammar is in sql format, the database file should end in ".db"
+        If grammar is in text format, it should have the following notation:
 
                 '<grammar-name>_<N>C_<yyyy-MM-dd>_<hhhh>.4.0.dict' (e.g. poc-turtle_8C_2018-03-03_0A10.4.0.dict)
 
@@ -41,11 +44,19 @@ def get_dir_name(file_name: str) -> (str, str):
 
     :return: tuple (template_grammar_directory_name, grammar_directory_name)
     """
-    p = re.compile(
+    if file_name.endswith(".db"):
+        p = re.compile(
+        '(/?([+._:\w\d\[\]=~-]*/)*)((\S+))\.db')
+    else:
+        p = re.compile(
         '(/?([+._:\w\d\[\]=~-]*/)*)(([a-zA-Z-]+)_[0-9]{1,6}C_[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9A-F]{4})\.(4\.0\.dict)')
-    m = p.match(file_name)
 
-    return (None, None) if m is None else (m.group(4), m.group(3))
+    m = p.match(file_name)
+    if m is not None:
+        temp_dict_name = m.group(4)
+        dict_name = m.group(3)
+
+    return (None, None) (temp_dict_name, dict_name)
 
 
 def create_grammar_dir(dict_file_path: str, grammar_path: str, template_path: str, options: int) -> str:

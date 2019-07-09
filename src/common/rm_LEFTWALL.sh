@@ -8,8 +8,8 @@
 
 # usage: rm_LEFTWALL.sh <file or dir>
 
-newdir=$1"-0LW";
-echo $newdir
+newdir="${1%/}-0LW";
+echo "Results written in folder $newdir:"
 mkdir -p $newdir;
 
 if [ -d "$1" ]
@@ -18,7 +18,7 @@ then
 	do
 	    filename=$(basename -- "$file");
 	    echo $filename;
-		uniq $filename | awk -v RS='\n\n' 'sub("^" $1 FS, _) {print $0 "\n"}' > $newdir/$filename;
+		uniq $file | awk -v RS='\n\n' 'sub("^" $1 FS, _) {print $0 "\n"}' > $newdir/$filename;
 	done
 elif [ -f "$1" ]
 then

@@ -1,10 +1,9 @@
 #!/bin/bash
-# Outputs to file the same blocks, but removing
-# first field at the beginning of it.
-# Useful for cleaning ull files by DNN with initial LEFT-WALL
+# Removes first field at the beginning of every block in passed file(s).
+# Useful for cleaning ull files by DNN with initial LEFT-WALL.
 
-# takes one argument: file or directory with files to remove LW
-# outputs processed files in directory with same name, appened by "-OLW"
+# Takes one argument: file or directory with files to remove LW
+# Outputs processed files in directory with same name, appended by "-OLW"
 
 # usage: rm_LEFTWALL.sh <file or dir>
 

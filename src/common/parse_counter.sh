@@ -11,15 +11,15 @@ if [ -d "$1" ]
 then 
 	for file in $1/*
 	do
-	    echo "Counts for $file"
-	    uniq $file | grep -cvP '\S'
+	    echo "Counts for $file";
+	    uniq $file | grep -cvP '\S';
 	done
-	echo "Counts for whole directory:"
-	cat $1/* | uniq | grep -cvP '\S'
+	echo "Counts for whole directory:";
+	cat $1/* | uniq | grep -cvP '\S';
 elif [ -f "$1" ]
 then 
-	echo "Counts for $1"
+	echo "Counts for $1";
 	uniq $1 | grep -cvP '\S';
 else echo "$1 is not valid";
-	exit 1
+	exit 1;
 fi

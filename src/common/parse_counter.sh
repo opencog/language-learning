@@ -1,11 +1,11 @@
 #!/bin/bash
-# counts number of parses in file, based on newlines
-# takes one arguments: file to count parses
+# Counts number of parses in files, based on newlines.
+# Takes one arguments: file to count parses, or directory containing
+# files to count parses.
+# If directory is given as argument, it counts parses for each
+# individual file inside the directory, and also gives a grand total.
 
-# usage: parse_counter.sh file
-
-# To count all parses in all files inside some folder, run in command line:
-# cat FOLDER/* | parse_counter.sh
+# usage: parse_counter.sh <file or dir>
 
 if [ -d "$1" ]
 then 

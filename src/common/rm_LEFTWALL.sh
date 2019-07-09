@@ -21,6 +21,7 @@ then
 	done
 elif [ -f "$1" ]
 then
+	echo $1
 	uniq $1 | awk -v RS='\n\n' 'sub("^" $1 FS, _) {print $0 "\n"}' > $newdir/$1;
 else echo "$1 is not valid";
 	exit 1;

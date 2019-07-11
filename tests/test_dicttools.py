@@ -1,3 +1,4 @@
+import sys
 import unittest
 from src.link_grammar.dicttools import *
 
@@ -36,6 +37,23 @@ class LGDictToolsTestCase(unittest.TestCase):
         rule: DictRule = DictRule("AAA", '"tuna"', "(AAABBB+) or (BBBCCC- & AAACCC+)")
 
         self.assertEqual(rule.get_disjunct_list(), ["AAABBB+", "BBBCCC- & AAACCC+"])
+
+    def test_count_germs_in_dict(self):
+        file = "tests/test-data/dict/poc-turtle/4.0.dict"
+
+        words, rules = count_germs_in_dict(file)
+
+        self.assertEqual(words, 17)
+        self.assertEqual(rules, 15)
+
+    def test_count_max_rule_bytes_in_dict(self):
+        file = "tests/test-data/dict/poc-turtle/4.0.dict"
+
+        max_length = count_max_rule_bytes_in_dict(file)
+
+        # print(max_length, file=sys.stderr)
+
+        self.assertEqual(116, max_length)
 
 
 if __name__ == '__main__':

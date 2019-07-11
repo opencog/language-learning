@@ -12,6 +12,7 @@ from ..common.parsemetrics import ParseQuality, ParseMetrics
 from ..common.optconst import *
 from ..common.absclient import AbstractPipelineComponent
 from ..common.cliutils import handle_path_string
+from ..common.tokencount import unbox_tokens
 from .parsestat import parse_quality
 from .psparse import parse_postscript, get_link_set, prepare_tokens
 from .lgmisc import print_output, get_output_suffix
@@ -19,7 +20,7 @@ from linkgrammar import ParseOptions, Dictionary, Sentence, Linkage
 
 
 __all__ = ['load_parses', 'eval_parses', 'compare_ull_files', 'EvalError',
-           'make_random', 'make_sequential', 'save_parses', 'tokenize_sentence', 'unbox_tokens']
+           'make_random', 'make_sequential', 'save_parses', 'tokenize_sentence', 'extract_parses']
 
 
 PARSE_SENTENCE = 0
@@ -44,7 +45,7 @@ class EvalError(Exception):
         return f"{self._file}: {self._msg}"
 
 
-def load_parses(filename: str) -> List[Tuple[str, set]]:
+def extract_parses(data) -> List[Tuple[str, set]]:
     """
         Separates parses from data into format:
         [
@@ -56,9 +57,6 @@ def load_parses(filename: str) -> List[Tuple[str, set]]:
 
         Each list is splitted into tokens using space.
     """
-    with open(filename, "r", encoding="utf-8-sig") as file:
-        data = file.read()
-
     parses: List[Tuple[str, set]] = []
 
     parse_index: int = 0            # index of the newly created parse
@@ -81,13 +79,27 @@ def load_parses(filename: str) -> List[Tuple[str, set]]:
                 link = line.split()
 
                 if len(link) not in [4, 5]:
-                    raise EvalError(f"Line #{line_index + 1} appears not to be a link: '{line}'", filename)
+                    raise SentenceError(f"Line #{line_index + 1} appears not to be a link: '{line}'")
 
                 # Only token indexes are added to the set
                 parses[parse_index][PARSE_LINK_SET].add((int(link[0]), int(link[2])))
 
         line_index += 2
         parse_index += 1
+
+    return parses
+
+
+def load_parses(file_name: str) -> List[Tuple[str, set]]:
+
+    with open(file_name, "r", encoding="utf-8-sig") as file:
+        data = file.read()
+
+    try:
+        parses = extract_parses(data)
+
+    except SentenceError as err:
+        raise EvalError(str(err), file_name)
 
     return parses
 
@@ -203,16 +215,6 @@ def tokenize_sentence(sentence: str) -> List[str]:
     tokens = sentence.split()
 
     return ["###LEFT-WALL###"] + tokens if tokens[0] != r"###LEFT-WALL###" else tokens
-
-
-def unbox_tokens(tokens: List[str]) -> List[str]:
-    """
-    Remove square brackets around tokens if any.
-
-    :param tokens:          List of tokens.
-    :return:                List of "unboxed" tokens
-    """
-    return [t[1:-1] if t[0] == "[" and t[-1] == "]" else t for t in tokens]
 
 
 def eval_parses(test_parses: list, ref_parses: list, options: int) \

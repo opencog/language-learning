@@ -1,9 +1,11 @@
 import re
+import sys
 import logging
 from typing import Dict, List, Union, Set
 
 
-__all__ = ['DictRule', 'LGDictionaryRuleSpace', 'read_dict_rules', 'save_dict_rules', 'rule_subset_dict']
+__all__ = ['DictRule', 'LGDictionaryRuleSpace', 'read_dict_rules', 'save_dict_rules', 'rule_subset_dict',
+           'count_germs_in_dict', 'count_max_rule_bytes_in_dict']
 
 
 class DictRule:
@@ -267,3 +269,55 @@ def rule_subset_dict(sent: Union[str, List[str]], src_dict_path: str, dst_dict_p
     save_dict_rules(dst_dict_path, dict_space.wordspace_intersection_rules(word_set))
 
     logger.warning(f"New dictionary file is saved at: {dst_dict_path}")
+
+
+def count_germs_in_dict(dict_path: str) -> (int, int):
+    """
+    Count all germs in all rules
+
+    :param dict_path:       Path to dictionary file.
+    :return:                Number of germs in all rules and number of rules.
+    """
+    logger = logging.getLogger(__name__ + ".count_germs_in_dict")
+
+    logger.debug(dict_path)
+
+    re_dict_rule = re.compile(r'^([^<%\n].+?):(.+?);(?:\s*)$', re.M | re.S)
+
+    # Read the whole file at once
+    with open(dict_path, "r") as dict:
+        file_data = dict.read()
+
+    rules = [parse[0] for parse in re.findall(re_dict_rule, file_data)]
+
+    word_count = 0
+
+    for rule in rules:
+        word_count += len(rule.split())
+
+    return word_count, len(rules)
+
+
+def count_max_rule_bytes_in_dict(dict_path: str) -> int:
+    """
+    Count all germs in all rules
+
+    :param dict_path:       Path to dictionary file.
+    :return:                Length in bytes of the longest rule in the dictionary.
+    """
+    logger = logging.getLogger(__name__ + ".count_max_rule_bytes_in_dict")
+
+    logger.debug(dict_path)
+
+    re_dict_rule = re.compile(r'^([^<%\n].+?:.+?;\s*)$', re.M | re.S)
+
+    # Read the whole file at once
+    with open(dict_path, "r") as dict:
+        file_data = dict.read()
+
+    max_rule_bytes = -1
+
+    for rule in re.findall(re_dict_rule, file_data):
+        max_rule_bytes = max(len(rule.encode("utf-8")), max_rule_bytes)
+
+    return max_rule_bytes

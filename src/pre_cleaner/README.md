@@ -1,6 +1,11 @@
 #ASuMa, Feb 2018. Updated, Apr 2018.
 
 Directory for pre_cleaner tools.
+Contents:
+
+###########################
+nonbreaking_prefixes directory.
+Contains language-specific files used by split-sentences.pl to know when to break sentences.
 
 ###########################
 
